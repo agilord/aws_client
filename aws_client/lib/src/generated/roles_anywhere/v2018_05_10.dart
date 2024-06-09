@@ -216,7 +216,7 @@ class IamRolesAnywhere {
     List<String>? specifiers,
   }) async {
     final $query = <String, List<String>>{
-      'certificateField': [certificateField.toValue()],
+      'certificateField': [certificateField.value],
       if (specifiers != null) 'specifiers': specifiers,
     };
     final response = await _protocol.send(
@@ -742,7 +742,7 @@ class IamRolesAnywhere {
     required String profileId,
   }) async {
     final $payload = <String, dynamic>{
-      'certificateField': certificateField.toValue(),
+      'certificateField': certificateField.value,
       'mappingRules': mappingRules,
     };
     final response = await _protocol.send(
@@ -1037,8 +1037,8 @@ class AttributeMapping {
 
   factory AttributeMapping.fromJson(Map<String, dynamic> json) {
     return AttributeMapping(
-      certificateField:
-          (json['certificateField'] as String?)?.toCertificateField(),
+      certificateField: (json['certificateField'] as String?)
+          ?.let(CertificateField.fromString),
       mappingRules: (json['mappingRules'] as List?)
           ?.whereNotNull()
           .map((e) => MappingRule.fromJson(e as Map<String, dynamic>))
@@ -1050,44 +1050,26 @@ class AttributeMapping {
     final certificateField = this.certificateField;
     final mappingRules = this.mappingRules;
     return {
-      if (certificateField != null)
-        'certificateField': certificateField.toValue(),
+      if (certificateField != null) 'certificateField': certificateField.value,
       if (mappingRules != null) 'mappingRules': mappingRules,
     };
   }
 }
 
 enum CertificateField {
-  x509Subject,
-  x509Issuer,
-  x509san,
-}
+  x509Subject('x509Subject'),
+  x509Issuer('x509Issuer'),
+  x509san('x509SAN'),
+  ;
 
-extension CertificateFieldValueExtension on CertificateField {
-  String toValue() {
-    switch (this) {
-      case CertificateField.x509Subject:
-        return 'x509Subject';
-      case CertificateField.x509Issuer:
-        return 'x509Issuer';
-      case CertificateField.x509san:
-        return 'x509SAN';
-    }
-  }
-}
+  final String value;
 
-extension CertificateFieldFromString on String {
-  CertificateField toCertificateField() {
-    switch (this) {
-      case 'x509Subject':
-        return CertificateField.x509Subject;
-      case 'x509Issuer':
-        return CertificateField.x509Issuer;
-      case 'x509SAN':
-        return CertificateField.x509san;
-    }
-    throw Exception('$this is not known in enum CertificateField');
-  }
+  const CertificateField(this.value);
+
+  static CertificateField fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CertificateField'));
 }
 
 /// A record of a presented X509 credential from a temporary credential request.
@@ -1499,54 +1481,32 @@ class MappingRule {
 }
 
 enum NotificationChannel {
-  all,
-}
+  all('ALL'),
+  ;
 
-extension NotificationChannelValueExtension on NotificationChannel {
-  String toValue() {
-    switch (this) {
-      case NotificationChannel.all:
-        return 'ALL';
-    }
-  }
-}
+  final String value;
 
-extension NotificationChannelFromString on String {
-  NotificationChannel toNotificationChannel() {
-    switch (this) {
-      case 'ALL':
-        return NotificationChannel.all;
-    }
-    throw Exception('$this is not known in enum NotificationChannel');
-  }
+  const NotificationChannel(this.value);
+
+  static NotificationChannel fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum NotificationChannel'));
 }
 
 enum NotificationEvent {
-  caCertificateExpiry,
-  endEntityCertificateExpiry,
-}
+  caCertificateExpiry('CA_CERTIFICATE_EXPIRY'),
+  endEntityCertificateExpiry('END_ENTITY_CERTIFICATE_EXPIRY'),
+  ;
 
-extension NotificationEventValueExtension on NotificationEvent {
-  String toValue() {
-    switch (this) {
-      case NotificationEvent.caCertificateExpiry:
-        return 'CA_CERTIFICATE_EXPIRY';
-      case NotificationEvent.endEntityCertificateExpiry:
-        return 'END_ENTITY_CERTIFICATE_EXPIRY';
-    }
-  }
-}
+  final String value;
 
-extension NotificationEventFromString on String {
-  NotificationEvent toNotificationEvent() {
-    switch (this) {
-      case 'CA_CERTIFICATE_EXPIRY':
-        return NotificationEvent.caCertificateExpiry;
-      case 'END_ENTITY_CERTIFICATE_EXPIRY':
-        return NotificationEvent.endEntityCertificateExpiry;
-    }
-    throw Exception('$this is not known in enum NotificationEvent');
-  }
+  const NotificationEvent(this.value);
+
+  static NotificationEvent fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum NotificationEvent'));
 }
 
 /// Customizable notification settings that will be applied to notification
@@ -1585,8 +1545,8 @@ class NotificationSetting {
     final threshold = this.threshold;
     return {
       'enabled': enabled,
-      'event': event.toValue(),
-      if (channel != null) 'channel': channel.toValue(),
+      'event': event.value,
+      if (channel != null) 'channel': channel.value,
       if (threshold != null) 'threshold': threshold,
     };
   }
@@ -1631,8 +1591,9 @@ class NotificationSettingDetail {
   factory NotificationSettingDetail.fromJson(Map<String, dynamic> json) {
     return NotificationSettingDetail(
       enabled: json['enabled'] as bool,
-      event: (json['event'] as String).toNotificationEvent(),
-      channel: (json['channel'] as String?)?.toNotificationChannel(),
+      event: NotificationEvent.fromString((json['event'] as String)),
+      channel:
+          (json['channel'] as String?)?.let(NotificationChannel.fromString),
       configuredBy: json['configuredBy'] as String?,
       threshold: json['threshold'] as int?,
     );
@@ -1646,8 +1607,8 @@ class NotificationSettingDetail {
     final threshold = this.threshold;
     return {
       'enabled': enabled,
-      'event': event.toValue(),
-      if (channel != null) 'channel': channel.toValue(),
+      'event': event.value,
+      if (channel != null) 'channel': channel.value,
       if (configuredBy != null) 'configuredBy': configuredBy,
       if (threshold != null) 'threshold': threshold,
     };
@@ -1672,8 +1633,8 @@ class NotificationSettingKey {
     final event = this.event;
     final channel = this.channel;
     return {
-      'event': event.toValue(),
-      if (channel != null) 'channel': channel.toValue(),
+      'event': event.value,
+      if (channel != null) 'channel': channel.value,
     };
   }
 }
@@ -1911,7 +1872,8 @@ class Source {
       sourceData: json['sourceData'] != null
           ? SourceData.fromJson(json['sourceData'] as Map<String, dynamic>)
           : null,
-      sourceType: (json['sourceType'] as String?)?.toTrustAnchorType(),
+      sourceType:
+          (json['sourceType'] as String?)?.let(TrustAnchorType.fromString),
     );
   }
 
@@ -1920,7 +1882,7 @@ class Source {
     final sourceType = this.sourceType;
     return {
       if (sourceData != null) 'sourceData': sourceData,
-      if (sourceType != null) 'sourceType': sourceType.toValue(),
+      if (sourceType != null) 'sourceType': sourceType.value,
     };
   }
 }
@@ -2282,36 +2244,19 @@ class TrustAnchorDetailResponse {
 }
 
 enum TrustAnchorType {
-  awsAcmPca,
-  certificateBundle,
-  selfSignedRepository,
-}
+  awsAcmPca('AWS_ACM_PCA'),
+  certificateBundle('CERTIFICATE_BUNDLE'),
+  selfSignedRepository('SELF_SIGNED_REPOSITORY'),
+  ;
 
-extension TrustAnchorTypeValueExtension on TrustAnchorType {
-  String toValue() {
-    switch (this) {
-      case TrustAnchorType.awsAcmPca:
-        return 'AWS_ACM_PCA';
-      case TrustAnchorType.certificateBundle:
-        return 'CERTIFICATE_BUNDLE';
-      case TrustAnchorType.selfSignedRepository:
-        return 'SELF_SIGNED_REPOSITORY';
-    }
-  }
-}
+  final String value;
 
-extension TrustAnchorTypeFromString on String {
-  TrustAnchorType toTrustAnchorType() {
-    switch (this) {
-      case 'AWS_ACM_PCA':
-        return TrustAnchorType.awsAcmPca;
-      case 'CERTIFICATE_BUNDLE':
-        return TrustAnchorType.certificateBundle;
-      case 'SELF_SIGNED_REPOSITORY':
-        return TrustAnchorType.selfSignedRepository;
-    }
-    throw Exception('$this is not known in enum TrustAnchorType');
-  }
+  const TrustAnchorType(this.value);
+
+  static TrustAnchorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TrustAnchorType'));
 }
 
 class UntagResourceResponse {

@@ -124,7 +124,7 @@ class EventBridgePipes {
       'Source': source,
       'Target': target,
       if (description != null) 'Description': description,
-      if (desiredState != null) 'DesiredState': desiredState.toValue(),
+      if (desiredState != null) 'DesiredState': desiredState.value,
       if (enrichment != null) 'Enrichment': enrichment,
       if (enrichmentParameters != null)
         'EnrichmentParameters': enrichmentParameters,
@@ -242,8 +242,8 @@ class EventBridgePipes {
       100,
     );
     final $query = <String, List<String>>{
-      if (currentState != null) 'CurrentState': [currentState.toValue()],
-      if (desiredState != null) 'DesiredState': [desiredState.toValue()],
+      if (currentState != null) 'CurrentState': [currentState.value],
+      if (desiredState != null) 'DesiredState': [desiredState.value],
       if (limit != null) 'Limit': [limit.toString()],
       if (namePrefix != null) 'NamePrefix': [namePrefix],
       if (nextToken != null) 'NextToken': [nextToken],
@@ -462,7 +462,7 @@ class EventBridgePipes {
     final $payload = <String, dynamic>{
       'RoleArn': roleArn,
       if (description != null) 'Description': description,
-      if (desiredState != null) 'DesiredState': desiredState.toValue(),
+      if (desiredState != null) 'DesiredState': desiredState.value,
       if (enrichment != null) 'Enrichment': enrichment,
       if (enrichmentParameters != null)
         'EnrichmentParameters': enrichmentParameters,
@@ -482,31 +482,18 @@ class EventBridgePipes {
 }
 
 enum AssignPublicIp {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension AssignPublicIpValueExtension on AssignPublicIp {
-  String toValue() {
-    switch (this) {
-      case AssignPublicIp.enabled:
-        return 'ENABLED';
-      case AssignPublicIp.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension AssignPublicIpFromString on String {
-  AssignPublicIp toAssignPublicIp() {
-    switch (this) {
-      case 'ENABLED':
-        return AssignPublicIp.enabled;
-      case 'DISABLED':
-        return AssignPublicIp.disabled;
-    }
-    throw Exception('$this is not known in enum AssignPublicIp');
-  }
+  const AssignPublicIp(this.value);
+
+  static AssignPublicIp fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AssignPublicIp'));
 }
 
 /// This structure specifies the VPC subnets and security groups for the task,
@@ -541,7 +528,8 @@ class AwsVpcConfiguration {
           .whereNotNull()
           .map((e) => e as String)
           .toList(),
-      assignPublicIp: (json['AssignPublicIp'] as String?)?.toAssignPublicIp(),
+      assignPublicIp:
+          (json['AssignPublicIp'] as String?)?.let(AssignPublicIp.fromString),
       securityGroups: (json['SecurityGroups'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -555,7 +543,7 @@ class AwsVpcConfiguration {
     final securityGroups = this.securityGroups;
     return {
       'Subnets': subnets,
-      if (assignPublicIp != null) 'AssignPublicIp': assignPublicIp.toValue(),
+      if (assignPublicIp != null) 'AssignPublicIp': assignPublicIp.value,
       if (securityGroups != null) 'SecurityGroups': securityGroups,
     };
   }
@@ -712,7 +700,7 @@ class BatchJobDependency {
   factory BatchJobDependency.fromJson(Map<String, dynamic> json) {
     return BatchJobDependency(
       jobId: json['JobId'] as String?,
-      type: (json['Type'] as String?)?.toBatchJobDependencyType(),
+      type: (json['Type'] as String?)?.let(BatchJobDependencyType.fromString),
     );
   }
 
@@ -721,37 +709,24 @@ class BatchJobDependency {
     final type = this.type;
     return {
       if (jobId != null) 'JobId': jobId,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum BatchJobDependencyType {
-  nToN,
-  sequential,
-}
+  nToN('N_TO_N'),
+  sequential('SEQUENTIAL'),
+  ;
 
-extension BatchJobDependencyTypeValueExtension on BatchJobDependencyType {
-  String toValue() {
-    switch (this) {
-      case BatchJobDependencyType.nToN:
-        return 'N_TO_N';
-      case BatchJobDependencyType.sequential:
-        return 'SEQUENTIAL';
-    }
-  }
-}
+  final String value;
 
-extension BatchJobDependencyTypeFromString on String {
-  BatchJobDependencyType toBatchJobDependencyType() {
-    switch (this) {
-      case 'N_TO_N':
-        return BatchJobDependencyType.nToN;
-      case 'SEQUENTIAL':
-        return BatchJobDependencyType.sequential;
-    }
-    throw Exception('$this is not known in enum BatchJobDependencyType');
-  }
+  const BatchJobDependencyType(this.value);
+
+  static BatchJobDependencyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum BatchJobDependencyType'));
 }
 
 /// The type and amount of a resource to assign to a container. The supported
@@ -881,7 +856,7 @@ class BatchResourceRequirement {
 
   factory BatchResourceRequirement.fromJson(Map<String, dynamic> json) {
     return BatchResourceRequirement(
-      type: (json['Type'] as String).toBatchResourceRequirementType(),
+      type: BatchResourceRequirementType.fromString((json['Type'] as String)),
       value: json['Value'] as String,
     );
   }
@@ -890,44 +865,26 @@ class BatchResourceRequirement {
     final type = this.type;
     final value = this.value;
     return {
-      'Type': type.toValue(),
+      'Type': type.value,
       'Value': value,
     };
   }
 }
 
 enum BatchResourceRequirementType {
-  gpu,
-  memory,
-  vcpu,
-}
+  gpu('GPU'),
+  memory('MEMORY'),
+  vcpu('VCPU'),
+  ;
 
-extension BatchResourceRequirementTypeValueExtension
-    on BatchResourceRequirementType {
-  String toValue() {
-    switch (this) {
-      case BatchResourceRequirementType.gpu:
-        return 'GPU';
-      case BatchResourceRequirementType.memory:
-        return 'MEMORY';
-      case BatchResourceRequirementType.vcpu:
-        return 'VCPU';
-    }
-  }
-}
+  final String value;
 
-extension BatchResourceRequirementTypeFromString on String {
-  BatchResourceRequirementType toBatchResourceRequirementType() {
-    switch (this) {
-      case 'GPU':
-        return BatchResourceRequirementType.gpu;
-      case 'MEMORY':
-        return BatchResourceRequirementType.memory;
-      case 'VCPU':
-        return BatchResourceRequirementType.vcpu;
-    }
-    throw Exception('$this is not known in enum BatchResourceRequirementType');
-  }
+  const BatchResourceRequirementType(this.value);
+
+  static BatchResourceRequirementType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum BatchResourceRequirementType'));
 }
 
 /// The retry strategy that's associated with a job. For more information, see
@@ -1079,8 +1036,10 @@ class CreatePipeResponse {
     return CreatePipeResponse(
       arn: json['Arn'] as String?,
       creationTime: timeStampFromJson(json['CreationTime']),
-      currentState: (json['CurrentState'] as String?)?.toPipeState(),
-      desiredState: (json['DesiredState'] as String?)?.toRequestedPipeState(),
+      currentState:
+          (json['CurrentState'] as String?)?.let(PipeState.fromString),
+      desiredState:
+          (json['DesiredState'] as String?)?.let(RequestedPipeState.fromString),
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       name: json['Name'] as String?,
     );
@@ -1097,8 +1056,8 @@ class CreatePipeResponse {
       if (arn != null) 'Arn': arn,
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
-      if (currentState != null) 'CurrentState': currentState.toValue(),
-      if (desiredState != null) 'DesiredState': desiredState.toValue(),
+      if (currentState != null) 'CurrentState': currentState.value,
+      if (desiredState != null) 'DesiredState': desiredState.value,
       if (lastModifiedTime != null)
         'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (name != null) 'Name': name,
@@ -1167,9 +1126,10 @@ class DeletePipeResponse {
     return DeletePipeResponse(
       arn: json['Arn'] as String?,
       creationTime: timeStampFromJson(json['CreationTime']),
-      currentState: (json['CurrentState'] as String?)?.toPipeState(),
+      currentState:
+          (json['CurrentState'] as String?)?.let(PipeState.fromString),
       desiredState: (json['DesiredState'] as String?)
-          ?.toRequestedPipeStateDescribeResponse(),
+          ?.let(RequestedPipeStateDescribeResponse.fromString),
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       name: json['Name'] as String?,
     );
@@ -1186,8 +1146,8 @@ class DeletePipeResponse {
       if (arn != null) 'Arn': arn,
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
-      if (currentState != null) 'CurrentState': currentState.toValue(),
-      if (desiredState != null) 'DesiredState': desiredState.toValue(),
+      if (currentState != null) 'CurrentState': currentState.value,
+      if (desiredState != null) 'DesiredState': desiredState.value,
       if (lastModifiedTime != null)
         'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (name != null) 'Name': name,
@@ -1278,10 +1238,11 @@ class DescribePipeResponse {
     return DescribePipeResponse(
       arn: json['Arn'] as String?,
       creationTime: timeStampFromJson(json['CreationTime']),
-      currentState: (json['CurrentState'] as String?)?.toPipeState(),
+      currentState:
+          (json['CurrentState'] as String?)?.let(PipeState.fromString),
       description: json['Description'] as String?,
       desiredState: (json['DesiredState'] as String?)
-          ?.toRequestedPipeStateDescribeResponse(),
+          ?.let(RequestedPipeStateDescribeResponse.fromString),
       enrichment: json['Enrichment'] as String?,
       enrichmentParameters: json['EnrichmentParameters'] != null
           ? PipeEnrichmentParameters.fromJson(
@@ -1332,9 +1293,9 @@ class DescribePipeResponse {
       if (arn != null) 'Arn': arn,
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
-      if (currentState != null) 'CurrentState': currentState.toValue(),
+      if (currentState != null) 'CurrentState': currentState.value,
       if (description != null) 'Description': description,
-      if (desiredState != null) 'DesiredState': desiredState.toValue(),
+      if (desiredState != null) 'DesiredState': desiredState.value,
       if (enrichment != null) 'Enrichment': enrichment,
       if (enrichmentParameters != null)
         'EnrichmentParameters': enrichmentParameters,
@@ -1382,7 +1343,7 @@ class DimensionMapping {
       dimensionName: json['DimensionName'] as String,
       dimensionValue: json['DimensionValue'] as String,
       dimensionValueType:
-          (json['DimensionValueType'] as String).toDimensionValueType(),
+          DimensionValueType.fromString((json['DimensionValueType'] as String)),
     );
   }
 
@@ -1393,61 +1354,38 @@ class DimensionMapping {
     return {
       'DimensionName': dimensionName,
       'DimensionValue': dimensionValue,
-      'DimensionValueType': dimensionValueType.toValue(),
+      'DimensionValueType': dimensionValueType.value,
     };
   }
 }
 
 enum DimensionValueType {
-  varchar,
-}
+  varchar('VARCHAR'),
+  ;
 
-extension DimensionValueTypeValueExtension on DimensionValueType {
-  String toValue() {
-    switch (this) {
-      case DimensionValueType.varchar:
-        return 'VARCHAR';
-    }
-  }
-}
+  final String value;
 
-extension DimensionValueTypeFromString on String {
-  DimensionValueType toDimensionValueType() {
-    switch (this) {
-      case 'VARCHAR':
-        return DimensionValueType.varchar;
-    }
-    throw Exception('$this is not known in enum DimensionValueType');
-  }
+  const DimensionValueType(this.value);
+
+  static DimensionValueType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DimensionValueType'));
 }
 
 enum DynamoDBStreamStartPosition {
-  trimHorizon,
-  latest,
-}
+  trimHorizon('TRIM_HORIZON'),
+  latest('LATEST'),
+  ;
 
-extension DynamoDBStreamStartPositionValueExtension
-    on DynamoDBStreamStartPosition {
-  String toValue() {
-    switch (this) {
-      case DynamoDBStreamStartPosition.trimHorizon:
-        return 'TRIM_HORIZON';
-      case DynamoDBStreamStartPosition.latest:
-        return 'LATEST';
-    }
-  }
-}
+  final String value;
 
-extension DynamoDBStreamStartPositionFromString on String {
-  DynamoDBStreamStartPosition toDynamoDBStreamStartPosition() {
-    switch (this) {
-      case 'TRIM_HORIZON':
-        return DynamoDBStreamStartPosition.trimHorizon;
-      case 'LATEST':
-        return DynamoDBStreamStartPosition.latest;
-    }
-    throw Exception('$this is not known in enum DynamoDBStreamStartPosition');
-  }
+  const DynamoDBStreamStartPosition(this.value);
+
+  static DynamoDBStreamStartPosition fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DynamoDBStreamStartPosition'));
 }
 
 /// The overrides that are sent to a container. An empty container override can
@@ -1601,7 +1539,7 @@ class EcsEnvironmentFile {
 
   factory EcsEnvironmentFile.fromJson(Map<String, dynamic> json) {
     return EcsEnvironmentFile(
-      type: (json['type'] as String).toEcsEnvironmentFileType(),
+      type: EcsEnvironmentFileType.fromString((json['type'] as String)),
       value: json['value'] as String,
     );
   }
@@ -1610,33 +1548,24 @@ class EcsEnvironmentFile {
     final type = this.type;
     final value = this.value;
     return {
-      'type': type.toValue(),
+      'type': type.value,
       'value': value,
     };
   }
 }
 
 enum EcsEnvironmentFileType {
-  s3,
-}
+  s3('s3'),
+  ;
 
-extension EcsEnvironmentFileTypeValueExtension on EcsEnvironmentFileType {
-  String toValue() {
-    switch (this) {
-      case EcsEnvironmentFileType.s3:
-        return 's3';
-    }
-  }
-}
+  final String value;
 
-extension EcsEnvironmentFileTypeFromString on String {
-  EcsEnvironmentFileType toEcsEnvironmentFileType() {
-    switch (this) {
-      case 's3':
-        return EcsEnvironmentFileType.s3;
-    }
-    throw Exception('$this is not known in enum EcsEnvironmentFileType');
-  }
+  const EcsEnvironmentFileType(this.value);
+
+  static EcsEnvironmentFileType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum EcsEnvironmentFileType'));
 }
 
 /// The environment variables to send to the container. You can add new
@@ -1778,7 +1707,7 @@ class EcsResourceRequirement {
 
   factory EcsResourceRequirement.fromJson(Map<String, dynamic> json) {
     return EcsResourceRequirement(
-      type: (json['type'] as String).toEcsResourceRequirementType(),
+      type: EcsResourceRequirementType.fromString((json['type'] as String)),
       value: json['value'] as String,
     );
   }
@@ -1787,39 +1716,25 @@ class EcsResourceRequirement {
     final type = this.type;
     final value = this.value;
     return {
-      'type': type.toValue(),
+      'type': type.value,
       'value': value,
     };
   }
 }
 
 enum EcsResourceRequirementType {
-  gpu,
-  inferenceAccelerator,
-}
+  gpu('GPU'),
+  inferenceAccelerator('InferenceAccelerator'),
+  ;
 
-extension EcsResourceRequirementTypeValueExtension
-    on EcsResourceRequirementType {
-  String toValue() {
-    switch (this) {
-      case EcsResourceRequirementType.gpu:
-        return 'GPU';
-      case EcsResourceRequirementType.inferenceAccelerator:
-        return 'InferenceAccelerator';
-    }
-  }
-}
+  final String value;
 
-extension EcsResourceRequirementTypeFromString on String {
-  EcsResourceRequirementType toEcsResourceRequirementType() {
-    switch (this) {
-      case 'GPU':
-        return EcsResourceRequirementType.gpu;
-      case 'InferenceAccelerator':
-        return EcsResourceRequirementType.inferenceAccelerator;
-    }
-    throw Exception('$this is not known in enum EcsResourceRequirementType');
-  }
+  const EcsResourceRequirementType(this.value);
+
+  static EcsResourceRequirementType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum EcsResourceRequirementType'));
 }
 
 /// The overrides that are associated with a task.
@@ -1921,41 +1836,20 @@ class EcsTaskOverride {
 }
 
 enum EpochTimeUnit {
-  milliseconds,
-  seconds,
-  microseconds,
-  nanoseconds,
-}
+  milliseconds('MILLISECONDS'),
+  seconds('SECONDS'),
+  microseconds('MICROSECONDS'),
+  nanoseconds('NANOSECONDS'),
+  ;
 
-extension EpochTimeUnitValueExtension on EpochTimeUnit {
-  String toValue() {
-    switch (this) {
-      case EpochTimeUnit.milliseconds:
-        return 'MILLISECONDS';
-      case EpochTimeUnit.seconds:
-        return 'SECONDS';
-      case EpochTimeUnit.microseconds:
-        return 'MICROSECONDS';
-      case EpochTimeUnit.nanoseconds:
-        return 'NANOSECONDS';
-    }
-  }
-}
+  final String value;
 
-extension EpochTimeUnitFromString on String {
-  EpochTimeUnit toEpochTimeUnit() {
-    switch (this) {
-      case 'MILLISECONDS':
-        return EpochTimeUnit.milliseconds;
-      case 'SECONDS':
-        return EpochTimeUnit.seconds;
-      case 'MICROSECONDS':
-        return EpochTimeUnit.microseconds;
-      case 'NANOSECONDS':
-        return EpochTimeUnit.nanoseconds;
-    }
-    throw Exception('$this is not known in enum EpochTimeUnit');
-  }
+  const EpochTimeUnit(this.value);
+
+  static EpochTimeUnit fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EpochTimeUnit'));
 }
 
 /// Filter events using an event pattern. For more information, see <a
@@ -2059,94 +1953,48 @@ class FirehoseLogDestinationParameters {
 }
 
 enum IncludeExecutionDataOption {
-  all,
-}
+  all('ALL'),
+  ;
 
-extension IncludeExecutionDataOptionValueExtension
-    on IncludeExecutionDataOption {
-  String toValue() {
-    switch (this) {
-      case IncludeExecutionDataOption.all:
-        return 'ALL';
-    }
-  }
-}
+  final String value;
 
-extension IncludeExecutionDataOptionFromString on String {
-  IncludeExecutionDataOption toIncludeExecutionDataOption() {
-    switch (this) {
-      case 'ALL':
-        return IncludeExecutionDataOption.all;
-    }
-    throw Exception('$this is not known in enum IncludeExecutionDataOption');
-  }
+  const IncludeExecutionDataOption(this.value);
+
+  static IncludeExecutionDataOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum IncludeExecutionDataOption'));
 }
 
 enum KinesisStreamStartPosition {
-  trimHorizon,
-  latest,
-  atTimestamp,
-}
+  trimHorizon('TRIM_HORIZON'),
+  latest('LATEST'),
+  atTimestamp('AT_TIMESTAMP'),
+  ;
 
-extension KinesisStreamStartPositionValueExtension
-    on KinesisStreamStartPosition {
-  String toValue() {
-    switch (this) {
-      case KinesisStreamStartPosition.trimHorizon:
-        return 'TRIM_HORIZON';
-      case KinesisStreamStartPosition.latest:
-        return 'LATEST';
-      case KinesisStreamStartPosition.atTimestamp:
-        return 'AT_TIMESTAMP';
-    }
-  }
-}
+  final String value;
 
-extension KinesisStreamStartPositionFromString on String {
-  KinesisStreamStartPosition toKinesisStreamStartPosition() {
-    switch (this) {
-      case 'TRIM_HORIZON':
-        return KinesisStreamStartPosition.trimHorizon;
-      case 'LATEST':
-        return KinesisStreamStartPosition.latest;
-      case 'AT_TIMESTAMP':
-        return KinesisStreamStartPosition.atTimestamp;
-    }
-    throw Exception('$this is not known in enum KinesisStreamStartPosition');
-  }
+  const KinesisStreamStartPosition(this.value);
+
+  static KinesisStreamStartPosition fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum KinesisStreamStartPosition'));
 }
 
 enum LaunchType {
-  ec2,
-  fargate,
-  external,
-}
+  ec2('EC2'),
+  fargate('FARGATE'),
+  external('EXTERNAL'),
+  ;
 
-extension LaunchTypeValueExtension on LaunchType {
-  String toValue() {
-    switch (this) {
-      case LaunchType.ec2:
-        return 'EC2';
-      case LaunchType.fargate:
-        return 'FARGATE';
-      case LaunchType.external:
-        return 'EXTERNAL';
-    }
-  }
-}
+  final String value;
 
-extension LaunchTypeFromString on String {
-  LaunchType toLaunchType() {
-    switch (this) {
-      case 'EC2':
-        return LaunchType.ec2;
-      case 'FARGATE':
-        return LaunchType.fargate;
-      case 'EXTERNAL':
-        return LaunchType.external;
-    }
-    throw Exception('$this is not known in enum LaunchType');
-  }
+  const LaunchType(this.value);
+
+  static LaunchType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum LaunchType'));
 }
 
 class ListPipesResponse {
@@ -2210,41 +2058,19 @@ class ListTagsForResourceResponse {
 }
 
 enum LogLevel {
-  off,
-  error,
-  info,
-  trace,
-}
+  off('OFF'),
+  error('ERROR'),
+  info('INFO'),
+  trace('TRACE'),
+  ;
 
-extension LogLevelValueExtension on LogLevel {
-  String toValue() {
-    switch (this) {
-      case LogLevel.off:
-        return 'OFF';
-      case LogLevel.error:
-        return 'ERROR';
-      case LogLevel.info:
-        return 'INFO';
-      case LogLevel.trace:
-        return 'TRACE';
-    }
-  }
-}
+  final String value;
 
-extension LogLevelFromString on String {
-  LogLevel toLogLevel() {
-    switch (this) {
-      case 'OFF':
-        return LogLevel.off;
-      case 'ERROR':
-        return LogLevel.error;
-      case 'INFO':
-        return LogLevel.info;
-      case 'TRACE':
-        return LogLevel.trace;
-    }
-    throw Exception('$this is not known in enum LogLevel');
-  }
+  const LogLevel(this.value);
+
+  static LogLevel fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum LogLevel'));
 }
 
 /// The Secrets Manager secret that stores your broker credentials.
@@ -2302,74 +2128,36 @@ class MSKAccessCredentials {
 }
 
 enum MSKStartPosition {
-  trimHorizon,
-  latest,
-}
+  trimHorizon('TRIM_HORIZON'),
+  latest('LATEST'),
+  ;
 
-extension MSKStartPositionValueExtension on MSKStartPosition {
-  String toValue() {
-    switch (this) {
-      case MSKStartPosition.trimHorizon:
-        return 'TRIM_HORIZON';
-      case MSKStartPosition.latest:
-        return 'LATEST';
-    }
-  }
-}
+  final String value;
 
-extension MSKStartPositionFromString on String {
-  MSKStartPosition toMSKStartPosition() {
-    switch (this) {
-      case 'TRIM_HORIZON':
-        return MSKStartPosition.trimHorizon;
-      case 'LATEST':
-        return MSKStartPosition.latest;
-    }
-    throw Exception('$this is not known in enum MSKStartPosition');
-  }
+  const MSKStartPosition(this.value);
+
+  static MSKStartPosition fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MSKStartPosition'));
 }
 
 enum MeasureValueType {
-  double,
-  bigint,
-  varchar,
-  boolean,
-  timestamp,
-}
+  double('DOUBLE'),
+  bigint('BIGINT'),
+  varchar('VARCHAR'),
+  boolean('BOOLEAN'),
+  timestamp('TIMESTAMP'),
+  ;
 
-extension MeasureValueTypeValueExtension on MeasureValueType {
-  String toValue() {
-    switch (this) {
-      case MeasureValueType.double:
-        return 'DOUBLE';
-      case MeasureValueType.bigint:
-        return 'BIGINT';
-      case MeasureValueType.varchar:
-        return 'VARCHAR';
-      case MeasureValueType.boolean:
-        return 'BOOLEAN';
-      case MeasureValueType.timestamp:
-        return 'TIMESTAMP';
-    }
-  }
-}
+  final String value;
 
-extension MeasureValueTypeFromString on String {
-  MeasureValueType toMeasureValueType() {
-    switch (this) {
-      case 'DOUBLE':
-        return MeasureValueType.double;
-      case 'BIGINT':
-        return MeasureValueType.bigint;
-      case 'VARCHAR':
-        return MeasureValueType.varchar;
-      case 'BOOLEAN':
-        return MeasureValueType.boolean;
-      case 'TIMESTAMP':
-        return MeasureValueType.timestamp;
-    }
-    throw Exception('$this is not known in enum MeasureValueType');
-  }
+  const MeasureValueType(this.value);
+
+  static MeasureValueType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MeasureValueType'));
 }
 
 /// A mapping of a source event data field to a measure in a Timestream for
@@ -2394,7 +2182,7 @@ class MultiMeasureAttributeMapping {
     return MultiMeasureAttributeMapping(
       measureValue: json['MeasureValue'] as String,
       measureValueType:
-          (json['MeasureValueType'] as String).toMeasureValueType(),
+          MeasureValueType.fromString((json['MeasureValueType'] as String)),
       multiMeasureAttributeName: json['MultiMeasureAttributeName'] as String,
     );
   }
@@ -2405,7 +2193,7 @@ class MultiMeasureAttributeMapping {
     final multiMeasureAttributeName = this.multiMeasureAttributeName;
     return {
       'MeasureValue': measureValue,
-      'MeasureValueType': measureValueType.toValue(),
+      'MeasureValueType': measureValueType.value,
       'MultiMeasureAttributeName': multiMeasureAttributeName,
     };
   }
@@ -2482,28 +2270,17 @@ class NetworkConfiguration {
 }
 
 enum OnPartialBatchItemFailureStreams {
-  automaticBisect,
-}
+  automaticBisect('AUTOMATIC_BISECT'),
+  ;
 
-extension OnPartialBatchItemFailureStreamsValueExtension
-    on OnPartialBatchItemFailureStreams {
-  String toValue() {
-    switch (this) {
-      case OnPartialBatchItemFailureStreams.automaticBisect:
-        return 'AUTOMATIC_BISECT';
-    }
-  }
-}
+  final String value;
 
-extension OnPartialBatchItemFailureStreamsFromString on String {
-  OnPartialBatchItemFailureStreams toOnPartialBatchItemFailureStreams() {
-    switch (this) {
-      case 'AUTOMATIC_BISECT':
-        return OnPartialBatchItemFailureStreams.automaticBisect;
-    }
-    throw Exception(
-        '$this is not known in enum OnPartialBatchItemFailureStreams');
-  }
+  const OnPartialBatchItemFailureStreams(this.value);
+
+  static OnPartialBatchItemFailureStreams fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum OnPartialBatchItemFailureStreams'));
 }
 
 /// An object that represents a pipe. Amazon EventBridgePipes connect event
@@ -2559,8 +2336,10 @@ class Pipe {
     return Pipe(
       arn: json['Arn'] as String?,
       creationTime: timeStampFromJson(json['CreationTime']),
-      currentState: (json['CurrentState'] as String?)?.toPipeState(),
-      desiredState: (json['DesiredState'] as String?)?.toRequestedPipeState(),
+      currentState:
+          (json['CurrentState'] as String?)?.let(PipeState.fromString),
+      desiredState:
+          (json['DesiredState'] as String?)?.let(RequestedPipeState.fromString),
       enrichment: json['Enrichment'] as String?,
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       name: json['Name'] as String?,
@@ -2585,8 +2364,8 @@ class Pipe {
       if (arn != null) 'Arn': arn,
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
-      if (currentState != null) 'CurrentState': currentState.toValue(),
-      if (desiredState != null) 'DesiredState': desiredState.toValue(),
+      if (currentState != null) 'CurrentState': currentState.value,
+      if (desiredState != null) 'DesiredState': desiredState.value,
       if (enrichment != null) 'Enrichment': enrichment,
       if (lastModifiedTime != null)
         'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
@@ -2741,9 +2520,9 @@ class PipeLogConfiguration {
           : null,
       includeExecutionData: (json['IncludeExecutionData'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toIncludeExecutionDataOption())
+          .map((e) => IncludeExecutionDataOption.fromString((e as String)))
           .toList(),
-      level: (json['Level'] as String?)?.toLogLevel(),
+      level: (json['Level'] as String?)?.let(LogLevel.fromString),
       s3LogDestination: json['S3LogDestination'] != null
           ? S3LogDestination.fromJson(
               json['S3LogDestination'] as Map<String, dynamic>)
@@ -2764,8 +2543,8 @@ class PipeLogConfiguration {
         'FirehoseLogDestination': firehoseLogDestination,
       if (includeExecutionData != null)
         'IncludeExecutionData':
-            includeExecutionData.map((e) => e.toValue()).toList(),
-      if (level != null) 'Level': level.toValue(),
+            includeExecutionData.map((e) => e.value).toList(),
+      if (level != null) 'Level': level.value,
       if (s3LogDestination != null) 'S3LogDestination': s3LogDestination,
     };
   }
@@ -2839,14 +2618,14 @@ class PipeLogConfigurationParameters {
     final includeExecutionData = this.includeExecutionData;
     final s3LogDestination = this.s3LogDestination;
     return {
-      'Level': level.toValue(),
+      'Level': level.value,
       if (cloudwatchLogsLogDestination != null)
         'CloudwatchLogsLogDestination': cloudwatchLogsLogDestination,
       if (firehoseLogDestination != null)
         'FirehoseLogDestination': firehoseLogDestination,
       if (includeExecutionData != null)
         'IncludeExecutionData':
-            includeExecutionData.map((e) => e.toValue()).toList(),
+            includeExecutionData.map((e) => e.value).toList(),
       if (s3LogDestination != null) 'S3LogDestination': s3LogDestination,
     };
   }
@@ -2949,8 +2728,8 @@ class PipeSourceDynamoDBStreamParameters {
   factory PipeSourceDynamoDBStreamParameters.fromJson(
       Map<String, dynamic> json) {
     return PipeSourceDynamoDBStreamParameters(
-      startingPosition:
-          (json['StartingPosition'] as String).toDynamoDBStreamStartPosition(),
+      startingPosition: DynamoDBStreamStartPosition.fromString(
+          (json['StartingPosition'] as String)),
       batchSize: json['BatchSize'] as int?,
       deadLetterConfig: json['DeadLetterConfig'] != null
           ? DeadLetterConfig.fromJson(
@@ -2961,7 +2740,7 @@ class PipeSourceDynamoDBStreamParameters {
       maximumRecordAgeInSeconds: json['MaximumRecordAgeInSeconds'] as int?,
       maximumRetryAttempts: json['MaximumRetryAttempts'] as int?,
       onPartialBatchItemFailure: (json['OnPartialBatchItemFailure'] as String?)
-          ?.toOnPartialBatchItemFailureStreams(),
+          ?.let(OnPartialBatchItemFailureStreams.fromString),
       parallelizationFactor: json['ParallelizationFactor'] as int?,
     );
   }
@@ -2976,7 +2755,7 @@ class PipeSourceDynamoDBStreamParameters {
     final onPartialBatchItemFailure = this.onPartialBatchItemFailure;
     final parallelizationFactor = this.parallelizationFactor;
     return {
-      'StartingPosition': startingPosition.toValue(),
+      'StartingPosition': startingPosition.value,
       if (batchSize != null) 'BatchSize': batchSize,
       if (deadLetterConfig != null) 'DeadLetterConfig': deadLetterConfig,
       if (maximumBatchingWindowInSeconds != null)
@@ -2986,7 +2765,7 @@ class PipeSourceDynamoDBStreamParameters {
       if (maximumRetryAttempts != null)
         'MaximumRetryAttempts': maximumRetryAttempts,
       if (onPartialBatchItemFailure != null)
-        'OnPartialBatchItemFailure': onPartialBatchItemFailure.toValue(),
+        'OnPartialBatchItemFailure': onPartialBatchItemFailure.value,
       if (parallelizationFactor != null)
         'ParallelizationFactor': parallelizationFactor,
     };
@@ -3047,8 +2826,8 @@ class PipeSourceKinesisStreamParameters {
   factory PipeSourceKinesisStreamParameters.fromJson(
       Map<String, dynamic> json) {
     return PipeSourceKinesisStreamParameters(
-      startingPosition:
-          (json['StartingPosition'] as String).toKinesisStreamStartPosition(),
+      startingPosition: KinesisStreamStartPosition.fromString(
+          (json['StartingPosition'] as String)),
       batchSize: json['BatchSize'] as int?,
       deadLetterConfig: json['DeadLetterConfig'] != null
           ? DeadLetterConfig.fromJson(
@@ -3059,7 +2838,7 @@ class PipeSourceKinesisStreamParameters {
       maximumRecordAgeInSeconds: json['MaximumRecordAgeInSeconds'] as int?,
       maximumRetryAttempts: json['MaximumRetryAttempts'] as int?,
       onPartialBatchItemFailure: (json['OnPartialBatchItemFailure'] as String?)
-          ?.toOnPartialBatchItemFailureStreams(),
+          ?.let(OnPartialBatchItemFailureStreams.fromString),
       parallelizationFactor: json['ParallelizationFactor'] as int?,
       startingPositionTimestamp:
           timeStampFromJson(json['StartingPositionTimestamp']),
@@ -3077,7 +2856,7 @@ class PipeSourceKinesisStreamParameters {
     final parallelizationFactor = this.parallelizationFactor;
     final startingPositionTimestamp = this.startingPositionTimestamp;
     return {
-      'StartingPosition': startingPosition.toValue(),
+      'StartingPosition': startingPosition.value,
       if (batchSize != null) 'BatchSize': batchSize,
       if (deadLetterConfig != null) 'DeadLetterConfig': deadLetterConfig,
       if (maximumBatchingWindowInSeconds != null)
@@ -3087,7 +2866,7 @@ class PipeSourceKinesisStreamParameters {
       if (maximumRetryAttempts != null)
         'MaximumRetryAttempts': maximumRetryAttempts,
       if (onPartialBatchItemFailure != null)
-        'OnPartialBatchItemFailure': onPartialBatchItemFailure.toValue(),
+        'OnPartialBatchItemFailure': onPartialBatchItemFailure.value,
       if (parallelizationFactor != null)
         'ParallelizationFactor': parallelizationFactor,
       if (startingPositionTimestamp != null)
@@ -3138,8 +2917,8 @@ class PipeSourceManagedStreamingKafkaParameters {
           : null,
       maximumBatchingWindowInSeconds:
           json['MaximumBatchingWindowInSeconds'] as int?,
-      startingPosition:
-          (json['StartingPosition'] as String?)?.toMSKStartPosition(),
+      startingPosition: (json['StartingPosition'] as String?)
+          ?.let(MSKStartPosition.fromString),
     );
   }
 
@@ -3157,8 +2936,7 @@ class PipeSourceManagedStreamingKafkaParameters {
       if (credentials != null) 'Credentials': credentials,
       if (maximumBatchingWindowInSeconds != null)
         'MaximumBatchingWindowInSeconds': maximumBatchingWindowInSeconds,
-      if (startingPosition != null)
-        'StartingPosition': startingPosition.toValue(),
+      if (startingPosition != null) 'StartingPosition': startingPosition.value,
     };
   }
 }
@@ -3409,7 +3187,7 @@ class PipeSourceSelfManagedKafkaParameters {
           json['MaximumBatchingWindowInSeconds'] as int?,
       serverRootCaCertificate: json['ServerRootCaCertificate'] as String?,
       startingPosition: (json['StartingPosition'] as String?)
-          ?.toSelfManagedKafkaStartPosition(),
+          ?.let(SelfManagedKafkaStartPosition.fromString),
       vpc: json['Vpc'] != null
           ? SelfManagedKafkaAccessConfigurationVpc.fromJson(
               json['Vpc'] as Map<String, dynamic>)
@@ -3438,8 +3216,7 @@ class PipeSourceSelfManagedKafkaParameters {
         'MaximumBatchingWindowInSeconds': maximumBatchingWindowInSeconds,
       if (serverRootCaCertificate != null)
         'ServerRootCaCertificate': serverRootCaCertificate,
-      if (startingPosition != null)
-        'StartingPosition': startingPosition.toValue(),
+      if (startingPosition != null) 'StartingPosition': startingPosition.value,
       if (vpc != null) 'Vpc': vpc,
     };
   }
@@ -3478,96 +3255,30 @@ class PipeSourceSqsQueueParameters {
 }
 
 enum PipeState {
-  running,
-  stopped,
-  creating,
-  updating,
-  deleting,
-  starting,
-  stopping,
-  createFailed,
-  updateFailed,
-  startFailed,
-  stopFailed,
-  deleteFailed,
-  createRollbackFailed,
-  deleteRollbackFailed,
-  updateRollbackFailed,
-}
+  running('RUNNING'),
+  stopped('STOPPED'),
+  creating('CREATING'),
+  updating('UPDATING'),
+  deleting('DELETING'),
+  starting('STARTING'),
+  stopping('STOPPING'),
+  createFailed('CREATE_FAILED'),
+  updateFailed('UPDATE_FAILED'),
+  startFailed('START_FAILED'),
+  stopFailed('STOP_FAILED'),
+  deleteFailed('DELETE_FAILED'),
+  createRollbackFailed('CREATE_ROLLBACK_FAILED'),
+  deleteRollbackFailed('DELETE_ROLLBACK_FAILED'),
+  updateRollbackFailed('UPDATE_ROLLBACK_FAILED'),
+  ;
 
-extension PipeStateValueExtension on PipeState {
-  String toValue() {
-    switch (this) {
-      case PipeState.running:
-        return 'RUNNING';
-      case PipeState.stopped:
-        return 'STOPPED';
-      case PipeState.creating:
-        return 'CREATING';
-      case PipeState.updating:
-        return 'UPDATING';
-      case PipeState.deleting:
-        return 'DELETING';
-      case PipeState.starting:
-        return 'STARTING';
-      case PipeState.stopping:
-        return 'STOPPING';
-      case PipeState.createFailed:
-        return 'CREATE_FAILED';
-      case PipeState.updateFailed:
-        return 'UPDATE_FAILED';
-      case PipeState.startFailed:
-        return 'START_FAILED';
-      case PipeState.stopFailed:
-        return 'STOP_FAILED';
-      case PipeState.deleteFailed:
-        return 'DELETE_FAILED';
-      case PipeState.createRollbackFailed:
-        return 'CREATE_ROLLBACK_FAILED';
-      case PipeState.deleteRollbackFailed:
-        return 'DELETE_ROLLBACK_FAILED';
-      case PipeState.updateRollbackFailed:
-        return 'UPDATE_ROLLBACK_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension PipeStateFromString on String {
-  PipeState toPipeState() {
-    switch (this) {
-      case 'RUNNING':
-        return PipeState.running;
-      case 'STOPPED':
-        return PipeState.stopped;
-      case 'CREATING':
-        return PipeState.creating;
-      case 'UPDATING':
-        return PipeState.updating;
-      case 'DELETING':
-        return PipeState.deleting;
-      case 'STARTING':
-        return PipeState.starting;
-      case 'STOPPING':
-        return PipeState.stopping;
-      case 'CREATE_FAILED':
-        return PipeState.createFailed;
-      case 'UPDATE_FAILED':
-        return PipeState.updateFailed;
-      case 'START_FAILED':
-        return PipeState.startFailed;
-      case 'STOP_FAILED':
-        return PipeState.stopFailed;
-      case 'DELETE_FAILED':
-        return PipeState.deleteFailed;
-      case 'CREATE_ROLLBACK_FAILED':
-        return PipeState.createRollbackFailed;
-      case 'DELETE_ROLLBACK_FAILED':
-        return PipeState.deleteRollbackFailed;
-      case 'UPDATE_ROLLBACK_FAILED':
-        return PipeState.updateRollbackFailed;
-    }
-    throw Exception('$this is not known in enum PipeState');
-  }
+  const PipeState(this.value);
+
+  static PipeState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum PipeState'));
 }
 
 /// The parameters for using an Batch job as a target.
@@ -3822,7 +3533,7 @@ class PipeTargetEcsTaskParameters {
       enableECSManagedTags: json['EnableECSManagedTags'] as bool?,
       enableExecuteCommand: json['EnableExecuteCommand'] as bool?,
       group: json['Group'] as String?,
-      launchType: (json['LaunchType'] as String?)?.toLaunchType(),
+      launchType: (json['LaunchType'] as String?)?.let(LaunchType.fromString),
       networkConfiguration: json['NetworkConfiguration'] != null
           ? NetworkConfiguration.fromJson(
               json['NetworkConfiguration'] as Map<String, dynamic>)
@@ -3839,7 +3550,8 @@ class PipeTargetEcsTaskParameters {
           .map((e) => PlacementStrategy.fromJson(e as Map<String, dynamic>))
           .toList(),
       platformVersion: json['PlatformVersion'] as String?,
-      propagateTags: (json['PropagateTags'] as String?)?.toPropagateTags(),
+      propagateTags:
+          (json['PropagateTags'] as String?)?.let(PropagateTags.fromString),
       referenceId: json['ReferenceId'] as String?,
       tags: (json['Tags'] as List?)
           ?.whereNotNull()
@@ -3874,7 +3586,7 @@ class PipeTargetEcsTaskParameters {
       if (enableExecuteCommand != null)
         'EnableExecuteCommand': enableExecuteCommand,
       if (group != null) 'Group': group,
-      if (launchType != null) 'LaunchType': launchType.toValue(),
+      if (launchType != null) 'LaunchType': launchType.value,
       if (networkConfiguration != null)
         'NetworkConfiguration': networkConfiguration,
       if (overrides != null) 'Overrides': overrides,
@@ -3882,7 +3594,7 @@ class PipeTargetEcsTaskParameters {
         'PlacementConstraints': placementConstraints,
       if (placementStrategy != null) 'PlacementStrategy': placementStrategy,
       if (platformVersion != null) 'PlatformVersion': platformVersion,
-      if (propagateTags != null) 'PropagateTags': propagateTags.toValue(),
+      if (propagateTags != null) 'PropagateTags': propagateTags.value,
       if (referenceId != null) 'ReferenceId': referenceId,
       if (tags != null) 'Tags': tags,
       if (taskCount != null) 'TaskCount': taskCount,
@@ -4004,31 +3716,18 @@ class PipeTargetHttpParameters {
 }
 
 enum PipeTargetInvocationType {
-  requestResponse,
-  fireAndForget,
-}
+  requestResponse('REQUEST_RESPONSE'),
+  fireAndForget('FIRE_AND_FORGET'),
+  ;
 
-extension PipeTargetInvocationTypeValueExtension on PipeTargetInvocationType {
-  String toValue() {
-    switch (this) {
-      case PipeTargetInvocationType.requestResponse:
-        return 'REQUEST_RESPONSE';
-      case PipeTargetInvocationType.fireAndForget:
-        return 'FIRE_AND_FORGET';
-    }
-  }
-}
+  final String value;
 
-extension PipeTargetInvocationTypeFromString on String {
-  PipeTargetInvocationType toPipeTargetInvocationType() {
-    switch (this) {
-      case 'REQUEST_RESPONSE':
-        return PipeTargetInvocationType.requestResponse;
-      case 'FIRE_AND_FORGET':
-        return PipeTargetInvocationType.fireAndForget;
-    }
-    throw Exception('$this is not known in enum PipeTargetInvocationType');
-  }
+  const PipeTargetInvocationType(this.value);
+
+  static PipeTargetInvocationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PipeTargetInvocationType'));
 }
 
 /// The parameters for using a Kinesis stream as a target.
@@ -4094,15 +3793,15 @@ class PipeTargetLambdaFunctionParameters {
   factory PipeTargetLambdaFunctionParameters.fromJson(
       Map<String, dynamic> json) {
     return PipeTargetLambdaFunctionParameters(
-      invocationType:
-          (json['InvocationType'] as String?)?.toPipeTargetInvocationType(),
+      invocationType: (json['InvocationType'] as String?)
+          ?.let(PipeTargetInvocationType.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final invocationType = this.invocationType;
     return {
-      if (invocationType != null) 'InvocationType': invocationType.toValue(),
+      if (invocationType != null) 'InvocationType': invocationType.value,
     };
   }
 }
@@ -4438,15 +4137,15 @@ class PipeTargetStateMachineParameters {
 
   factory PipeTargetStateMachineParameters.fromJson(Map<String, dynamic> json) {
     return PipeTargetStateMachineParameters(
-      invocationType:
-          (json['InvocationType'] as String?)?.toPipeTargetInvocationType(),
+      invocationType: (json['InvocationType'] as String?)
+          ?.let(PipeTargetInvocationType.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final invocationType = this.invocationType;
     return {
-      if (invocationType != null) 'InvocationType': invocationType.toValue(),
+      if (invocationType != null) 'InvocationType': invocationType.value,
     };
   }
 }
@@ -4532,7 +4231,8 @@ class PipeTargetTimestreamParameters {
           .toList(),
       timeValue: json['TimeValue'] as String,
       versionValue: json['VersionValue'] as String,
-      epochTimeUnit: (json['EpochTimeUnit'] as String?)?.toEpochTimeUnit(),
+      epochTimeUnit:
+          (json['EpochTimeUnit'] as String?)?.let(EpochTimeUnit.fromString),
       multiMeasureMappings: (json['MultiMeasureMappings'] as List?)
           ?.whereNotNull()
           .map((e) => MultiMeasureMapping.fromJson(e as Map<String, dynamic>))
@@ -4541,7 +4241,8 @@ class PipeTargetTimestreamParameters {
           ?.whereNotNull()
           .map((e) => SingleMeasureMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
-      timeFieldType: (json['TimeFieldType'] as String?)?.toTimeFieldType(),
+      timeFieldType:
+          (json['TimeFieldType'] as String?)?.let(TimeFieldType.fromString),
       timestampFormat: json['TimestampFormat'] as String?,
     );
   }
@@ -4559,12 +4260,12 @@ class PipeTargetTimestreamParameters {
       'DimensionMappings': dimensionMappings,
       'TimeValue': timeValue,
       'VersionValue': versionValue,
-      if (epochTimeUnit != null) 'EpochTimeUnit': epochTimeUnit.toValue(),
+      if (epochTimeUnit != null) 'EpochTimeUnit': epochTimeUnit.value,
       if (multiMeasureMappings != null)
         'MultiMeasureMappings': multiMeasureMappings,
       if (singleMeasureMappings != null)
         'SingleMeasureMappings': singleMeasureMappings,
-      if (timeFieldType != null) 'TimeFieldType': timeFieldType.toValue(),
+      if (timeFieldType != null) 'TimeFieldType': timeFieldType.value,
       if (timestampFormat != null) 'TimestampFormat': timestampFormat,
     };
   }
@@ -4595,7 +4296,7 @@ class PlacementConstraint {
   factory PlacementConstraint.fromJson(Map<String, dynamic> json) {
     return PlacementConstraint(
       expression: json['expression'] as String?,
-      type: (json['type'] as String?)?.toPlacementConstraintType(),
+      type: (json['type'] as String?)?.let(PlacementConstraintType.fromString),
     );
   }
 
@@ -4604,37 +4305,24 @@ class PlacementConstraint {
     final type = this.type;
     return {
       if (expression != null) 'expression': expression,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
 
 enum PlacementConstraintType {
-  distinctInstance,
-  memberOf,
-}
+  distinctInstance('distinctInstance'),
+  memberOf('memberOf'),
+  ;
 
-extension PlacementConstraintTypeValueExtension on PlacementConstraintType {
-  String toValue() {
-    switch (this) {
-      case PlacementConstraintType.distinctInstance:
-        return 'distinctInstance';
-      case PlacementConstraintType.memberOf:
-        return 'memberOf';
-    }
-  }
-}
+  final String value;
 
-extension PlacementConstraintTypeFromString on String {
-  PlacementConstraintType toPlacementConstraintType() {
-    switch (this) {
-      case 'distinctInstance':
-        return PlacementConstraintType.distinctInstance;
-      case 'memberOf':
-        return PlacementConstraintType.memberOf;
-    }
-    throw Exception('$this is not known in enum PlacementConstraintType');
-  }
+  const PlacementConstraintType(this.value);
+
+  static PlacementConstraintType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PlacementConstraintType'));
 }
 
 /// The task placement strategy for a task or service. To learn more, see <a
@@ -4668,7 +4356,7 @@ class PlacementStrategy {
   factory PlacementStrategy.fromJson(Map<String, dynamic> json) {
     return PlacementStrategy(
       field: json['field'] as String?,
-      type: (json['type'] as String?)?.toPlacementStrategyType(),
+      type: (json['type'] as String?)?.let(PlacementStrategyType.fromString),
     );
   }
 
@@ -4677,128 +4365,70 @@ class PlacementStrategy {
     final type = this.type;
     return {
       if (field != null) 'field': field,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
 
 enum PlacementStrategyType {
-  random,
-  spread,
-  binpack,
-}
+  random('random'),
+  spread('spread'),
+  binpack('binpack'),
+  ;
 
-extension PlacementStrategyTypeValueExtension on PlacementStrategyType {
-  String toValue() {
-    switch (this) {
-      case PlacementStrategyType.random:
-        return 'random';
-      case PlacementStrategyType.spread:
-        return 'spread';
-      case PlacementStrategyType.binpack:
-        return 'binpack';
-    }
-  }
-}
+  final String value;
 
-extension PlacementStrategyTypeFromString on String {
-  PlacementStrategyType toPlacementStrategyType() {
-    switch (this) {
-      case 'random':
-        return PlacementStrategyType.random;
-      case 'spread':
-        return PlacementStrategyType.spread;
-      case 'binpack':
-        return PlacementStrategyType.binpack;
-    }
-    throw Exception('$this is not known in enum PlacementStrategyType');
-  }
+  const PlacementStrategyType(this.value);
+
+  static PlacementStrategyType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum PlacementStrategyType'));
 }
 
 enum PropagateTags {
-  taskDefinition,
-}
+  taskDefinition('TASK_DEFINITION'),
+  ;
 
-extension PropagateTagsValueExtension on PropagateTags {
-  String toValue() {
-    switch (this) {
-      case PropagateTags.taskDefinition:
-        return 'TASK_DEFINITION';
-    }
-  }
-}
+  final String value;
 
-extension PropagateTagsFromString on String {
-  PropagateTags toPropagateTags() {
-    switch (this) {
-      case 'TASK_DEFINITION':
-        return PropagateTags.taskDefinition;
-    }
-    throw Exception('$this is not known in enum PropagateTags');
-  }
+  const PropagateTags(this.value);
+
+  static PropagateTags fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PropagateTags'));
 }
 
 enum RequestedPipeState {
-  running,
-  stopped,
-}
+  running('RUNNING'),
+  stopped('STOPPED'),
+  ;
 
-extension RequestedPipeStateValueExtension on RequestedPipeState {
-  String toValue() {
-    switch (this) {
-      case RequestedPipeState.running:
-        return 'RUNNING';
-      case RequestedPipeState.stopped:
-        return 'STOPPED';
-    }
-  }
-}
+  final String value;
 
-extension RequestedPipeStateFromString on String {
-  RequestedPipeState toRequestedPipeState() {
-    switch (this) {
-      case 'RUNNING':
-        return RequestedPipeState.running;
-      case 'STOPPED':
-        return RequestedPipeState.stopped;
-    }
-    throw Exception('$this is not known in enum RequestedPipeState');
-  }
+  const RequestedPipeState(this.value);
+
+  static RequestedPipeState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RequestedPipeState'));
 }
 
 enum RequestedPipeStateDescribeResponse {
-  running,
-  stopped,
-  deleted,
-}
+  running('RUNNING'),
+  stopped('STOPPED'),
+  deleted('DELETED'),
+  ;
 
-extension RequestedPipeStateDescribeResponseValueExtension
-    on RequestedPipeStateDescribeResponse {
-  String toValue() {
-    switch (this) {
-      case RequestedPipeStateDescribeResponse.running:
-        return 'RUNNING';
-      case RequestedPipeStateDescribeResponse.stopped:
-        return 'STOPPED';
-      case RequestedPipeStateDescribeResponse.deleted:
-        return 'DELETED';
-    }
-  }
-}
+  final String value;
 
-extension RequestedPipeStateDescribeResponseFromString on String {
-  RequestedPipeStateDescribeResponse toRequestedPipeStateDescribeResponse() {
-    switch (this) {
-      case 'RUNNING':
-        return RequestedPipeStateDescribeResponse.running;
-      case 'STOPPED':
-        return RequestedPipeStateDescribeResponse.stopped;
-      case 'DELETED':
-        return RequestedPipeStateDescribeResponse.deleted;
-    }
-    throw Exception(
-        '$this is not known in enum RequestedPipeStateDescribeResponse');
-  }
+  const RequestedPipeStateDescribeResponse(this.value);
+
+  static RequestedPipeStateDescribeResponse fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RequestedPipeStateDescribeResponse'));
 }
 
 /// The Amazon S3 logging configuration settings for the pipe.
@@ -4846,7 +4476,8 @@ class S3LogDestination {
     return S3LogDestination(
       bucketName: json['BucketName'] as String?,
       bucketOwner: json['BucketOwner'] as String?,
-      outputFormat: (json['OutputFormat'] as String?)?.toS3OutputFormat(),
+      outputFormat:
+          (json['OutputFormat'] as String?)?.let(S3OutputFormat.fromString),
       prefix: json['Prefix'] as String?,
     );
   }
@@ -4859,7 +4490,7 @@ class S3LogDestination {
     return {
       if (bucketName != null) 'BucketName': bucketName,
       if (bucketOwner != null) 'BucketOwner': bucketOwner,
-      if (outputFormat != null) 'OutputFormat': outputFormat.toValue(),
+      if (outputFormat != null) 'OutputFormat': outputFormat.value,
       if (prefix != null) 'Prefix': prefix,
     };
   }
@@ -4917,43 +4548,26 @@ class S3LogDestinationParameters {
     return {
       'BucketName': bucketName,
       'BucketOwner': bucketOwner,
-      if (outputFormat != null) 'OutputFormat': outputFormat.toValue(),
+      if (outputFormat != null) 'OutputFormat': outputFormat.value,
       if (prefix != null) 'Prefix': prefix,
     };
   }
 }
 
 enum S3OutputFormat {
-  json,
-  plain,
-  w3c,
-}
+  json('json'),
+  plain('plain'),
+  w3c('w3c'),
+  ;
 
-extension S3OutputFormatValueExtension on S3OutputFormat {
-  String toValue() {
-    switch (this) {
-      case S3OutputFormat.json:
-        return 'json';
-      case S3OutputFormat.plain:
-        return 'plain';
-      case S3OutputFormat.w3c:
-        return 'w3c';
-    }
-  }
-}
+  final String value;
 
-extension S3OutputFormatFromString on String {
-  S3OutputFormat toS3OutputFormat() {
-    switch (this) {
-      case 'json':
-        return S3OutputFormat.json;
-      case 'plain':
-        return S3OutputFormat.plain;
-      case 'w3c':
-        return S3OutputFormat.w3c;
-    }
-    throw Exception('$this is not known in enum S3OutputFormat');
-  }
+  const S3OutputFormat(this.value);
+
+  static S3OutputFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum S3OutputFormat'));
 }
 
 /// Name/Value pair of a parameter to start execution of a SageMaker Model
@@ -5077,32 +4691,18 @@ class SelfManagedKafkaAccessConfigurationVpc {
 }
 
 enum SelfManagedKafkaStartPosition {
-  trimHorizon,
-  latest,
-}
+  trimHorizon('TRIM_HORIZON'),
+  latest('LATEST'),
+  ;
 
-extension SelfManagedKafkaStartPositionValueExtension
-    on SelfManagedKafkaStartPosition {
-  String toValue() {
-    switch (this) {
-      case SelfManagedKafkaStartPosition.trimHorizon:
-        return 'TRIM_HORIZON';
-      case SelfManagedKafkaStartPosition.latest:
-        return 'LATEST';
-    }
-  }
-}
+  final String value;
 
-extension SelfManagedKafkaStartPositionFromString on String {
-  SelfManagedKafkaStartPosition toSelfManagedKafkaStartPosition() {
-    switch (this) {
-      case 'TRIM_HORIZON':
-        return SelfManagedKafkaStartPosition.trimHorizon;
-      case 'LATEST':
-        return SelfManagedKafkaStartPosition.latest;
-    }
-    throw Exception('$this is not known in enum SelfManagedKafkaStartPosition');
-  }
+  const SelfManagedKafkaStartPosition(this.value);
+
+  static SelfManagedKafkaStartPosition fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SelfManagedKafkaStartPosition'));
 }
 
 /// Maps a single source data field to a single record in the specified
@@ -5132,7 +4732,7 @@ class SingleMeasureMapping {
       measureName: json['MeasureName'] as String,
       measureValue: json['MeasureValue'] as String,
       measureValueType:
-          (json['MeasureValueType'] as String).toMeasureValueType(),
+          MeasureValueType.fromString((json['MeasureValueType'] as String)),
     );
   }
 
@@ -5143,7 +4743,7 @@ class SingleMeasureMapping {
     return {
       'MeasureName': measureName,
       'MeasureValue': measureValue,
-      'MeasureValueType': measureValueType.toValue(),
+      'MeasureValueType': measureValueType.value,
     };
   }
 }
@@ -5182,8 +4782,10 @@ class StartPipeResponse {
     return StartPipeResponse(
       arn: json['Arn'] as String?,
       creationTime: timeStampFromJson(json['CreationTime']),
-      currentState: (json['CurrentState'] as String?)?.toPipeState(),
-      desiredState: (json['DesiredState'] as String?)?.toRequestedPipeState(),
+      currentState:
+          (json['CurrentState'] as String?)?.let(PipeState.fromString),
+      desiredState:
+          (json['DesiredState'] as String?)?.let(RequestedPipeState.fromString),
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       name: json['Name'] as String?,
     );
@@ -5200,8 +4802,8 @@ class StartPipeResponse {
       if (arn != null) 'Arn': arn,
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
-      if (currentState != null) 'CurrentState': currentState.toValue(),
-      if (desiredState != null) 'DesiredState': desiredState.toValue(),
+      if (currentState != null) 'CurrentState': currentState.value,
+      if (desiredState != null) 'DesiredState': desiredState.value,
       if (lastModifiedTime != null)
         'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (name != null) 'Name': name,
@@ -5243,8 +4845,10 @@ class StopPipeResponse {
     return StopPipeResponse(
       arn: json['Arn'] as String?,
       creationTime: timeStampFromJson(json['CreationTime']),
-      currentState: (json['CurrentState'] as String?)?.toPipeState(),
-      desiredState: (json['DesiredState'] as String?)?.toRequestedPipeState(),
+      currentState:
+          (json['CurrentState'] as String?)?.let(PipeState.fromString),
+      desiredState:
+          (json['DesiredState'] as String?)?.let(RequestedPipeState.fromString),
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       name: json['Name'] as String?,
     );
@@ -5261,8 +4865,8 @@ class StopPipeResponse {
       if (arn != null) 'Arn': arn,
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
-      if (currentState != null) 'CurrentState': currentState.toValue(),
-      if (desiredState != null) 'DesiredState': desiredState.toValue(),
+      if (currentState != null) 'CurrentState': currentState.value,
+      if (desiredState != null) 'DesiredState': desiredState.value,
       if (lastModifiedTime != null)
         'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (name != null) 'Name': name,
@@ -5315,31 +4919,18 @@ class TagResourceResponse {
 }
 
 enum TimeFieldType {
-  epoch,
-  timestampFormat,
-}
+  epoch('EPOCH'),
+  timestampFormat('TIMESTAMP_FORMAT'),
+  ;
 
-extension TimeFieldTypeValueExtension on TimeFieldType {
-  String toValue() {
-    switch (this) {
-      case TimeFieldType.epoch:
-        return 'EPOCH';
-      case TimeFieldType.timestampFormat:
-        return 'TIMESTAMP_FORMAT';
-    }
-  }
-}
+  final String value;
 
-extension TimeFieldTypeFromString on String {
-  TimeFieldType toTimeFieldType() {
-    switch (this) {
-      case 'EPOCH':
-        return TimeFieldType.epoch;
-      case 'TIMESTAMP_FORMAT':
-        return TimeFieldType.timestampFormat;
-    }
-    throw Exception('$this is not known in enum TimeFieldType');
-  }
+  const TimeFieldType(this.value);
+
+  static TimeFieldType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TimeFieldType'));
 }
 
 class UntagResourceResponse {
@@ -5388,8 +4979,10 @@ class UpdatePipeResponse {
     return UpdatePipeResponse(
       arn: json['Arn'] as String?,
       creationTime: timeStampFromJson(json['CreationTime']),
-      currentState: (json['CurrentState'] as String?)?.toPipeState(),
-      desiredState: (json['DesiredState'] as String?)?.toRequestedPipeState(),
+      currentState:
+          (json['CurrentState'] as String?)?.let(PipeState.fromString),
+      desiredState:
+          (json['DesiredState'] as String?)?.let(RequestedPipeState.fromString),
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       name: json['Name'] as String?,
     );
@@ -5406,8 +4999,8 @@ class UpdatePipeResponse {
       if (arn != null) 'Arn': arn,
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
-      if (currentState != null) 'CurrentState': currentState.toValue(),
-      if (desiredState != null) 'DesiredState': desiredState.toValue(),
+      if (currentState != null) 'CurrentState': currentState.value,
+      if (desiredState != null) 'DesiredState': desiredState.value,
       if (lastModifiedTime != null)
         'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (name != null) 'Name': name,
@@ -5505,7 +5098,7 @@ class UpdatePipeSourceDynamoDBStreamParameters {
       if (maximumRetryAttempts != null)
         'MaximumRetryAttempts': maximumRetryAttempts,
       if (onPartialBatchItemFailure != null)
-        'OnPartialBatchItemFailure': onPartialBatchItemFailure.toValue(),
+        'OnPartialBatchItemFailure': onPartialBatchItemFailure.value,
       if (parallelizationFactor != null)
         'ParallelizationFactor': parallelizationFactor,
     };
@@ -5572,7 +5165,7 @@ class UpdatePipeSourceKinesisStreamParameters {
       if (maximumRetryAttempts != null)
         'MaximumRetryAttempts': maximumRetryAttempts,
       if (onPartialBatchItemFailure != null)
-        'OnPartialBatchItemFailure': onPartialBatchItemFailure.toValue(),
+        'OnPartialBatchItemFailure': onPartialBatchItemFailure.value,
       if (parallelizationFactor != null)
         'ParallelizationFactor': parallelizationFactor,
     };

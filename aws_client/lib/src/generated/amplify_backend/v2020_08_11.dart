@@ -416,7 +416,7 @@ class AmplifyBackend {
   }) async {
     final $payload = <String, dynamic>{
       'resourceName': resourceName,
-      'serviceName': serviceName.toValue(),
+      'serviceName': serviceName.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -783,7 +783,7 @@ class AmplifyBackend {
     String? bucketName,
   }) async {
     final $payload = <String, dynamic>{
-      'serviceName': serviceName.toValue(),
+      'serviceName': serviceName.value,
       if (bucketName != null) 'bucketName': bucketName,
     };
     final response = await _protocol.send(
@@ -1119,31 +1119,18 @@ class AmplifyBackend {
 }
 
 enum AuthResources {
-  userPoolOnly,
-  identityPoolAndUserPool,
-}
+  userPoolOnly('USER_POOL_ONLY'),
+  identityPoolAndUserPool('IDENTITY_POOL_AND_USER_POOL'),
+  ;
 
-extension AuthResourcesValueExtension on AuthResources {
-  String toValue() {
-    switch (this) {
-      case AuthResources.userPoolOnly:
-        return 'USER_POOL_ONLY';
-      case AuthResources.identityPoolAndUserPool:
-        return 'IDENTITY_POOL_AND_USER_POOL';
-    }
-  }
-}
+  final String value;
 
-extension AuthResourcesFromString on String {
-  AuthResources toAuthResources() {
-    switch (this) {
-      case 'USER_POOL_ONLY':
-        return AuthResources.userPoolOnly;
-      case 'IDENTITY_POOL_AND_USER_POOL':
-        return AuthResources.identityPoolAndUserPool;
-    }
-    throw Exception('$this is not known in enum AuthResources');
-  }
+  const AuthResources(this.value);
+
+  static AuthResources fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AuthResources'));
 }
 
 /// The authentication settings for accessing provisioned data models in your
@@ -1240,7 +1227,7 @@ class BackendAPIAuthType {
 
   factory BackendAPIAuthType.fromJson(Map<String, dynamic> json) {
     return BackendAPIAuthType(
-      mode: (json['mode'] as String?)?.toMode(),
+      mode: (json['mode'] as String?)?.let(Mode.fromString),
       settings: json['settings'] != null
           ? BackendAPIAppSyncAuthSettings.fromJson(
               json['settings'] as Map<String, dynamic>)
@@ -1252,7 +1239,7 @@ class BackendAPIAuthType {
     final mode = this.mode;
     final settings = this.settings;
     return {
-      if (mode != null) 'mode': mode.toValue(),
+      if (mode != null) 'mode': mode.value,
       if (settings != null) 'settings': settings,
     };
   }
@@ -1270,8 +1257,8 @@ class BackendAPIConflictResolution {
 
   factory BackendAPIConflictResolution.fromJson(Map<String, dynamic> json) {
     return BackendAPIConflictResolution(
-      resolutionStrategy:
-          (json['resolutionStrategy'] as String?)?.toResolutionStrategy(),
+      resolutionStrategy: (json['resolutionStrategy'] as String?)
+          ?.let(ResolutionStrategy.fromString),
     );
   }
 
@@ -1279,7 +1266,7 @@ class BackendAPIConflictResolution {
     final resolutionStrategy = this.resolutionStrategy;
     return {
       if (resolutionStrategy != null)
-        'resolutionStrategy': resolutionStrategy.toValue(),
+        'resolutionStrategy': resolutionStrategy.value,
     };
   }
 }
@@ -1526,11 +1513,11 @@ class BackendStoragePermissions {
     return BackendStoragePermissions(
       authenticated: (json['authenticated'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toAuthenticatedElement())
+          .map((e) => AuthenticatedElement.fromString((e as String)))
           .toList(),
       unAuthenticated: (json['unAuthenticated'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toUnAuthenticatedElement())
+          .map((e) => UnAuthenticatedElement.fromString((e as String)))
           .toList(),
     );
   }
@@ -1539,9 +1526,9 @@ class BackendStoragePermissions {
     final authenticated = this.authenticated;
     final unAuthenticated = this.unAuthenticated;
     return {
-      'authenticated': authenticated.map((e) => e.toValue()).toList(),
+      'authenticated': authenticated.map((e) => e.value).toList(),
       if (unAuthenticated != null)
-        'unAuthenticated': unAuthenticated.map((e) => e.toValue()).toList(),
+        'unAuthenticated': unAuthenticated.map((e) => e.value).toList(),
     };
   }
 }
@@ -1686,7 +1673,8 @@ class CreateBackendAuthForgotPasswordConfig {
   factory CreateBackendAuthForgotPasswordConfig.fromJson(
       Map<String, dynamic> json) {
     return CreateBackendAuthForgotPasswordConfig(
-      deliveryMethod: (json['deliveryMethod'] as String).toDeliveryMethod(),
+      deliveryMethod:
+          DeliveryMethod.fromString((json['deliveryMethod'] as String)),
       emailSettings: json['emailSettings'] != null
           ? EmailSettings.fromJson(
               json['emailSettings'] as Map<String, dynamic>)
@@ -1702,7 +1690,7 @@ class CreateBackendAuthForgotPasswordConfig {
     final emailSettings = this.emailSettings;
     final smsSettings = this.smsSettings;
     return {
-      'deliveryMethod': deliveryMethod.toValue(),
+      'deliveryMethod': deliveryMethod.value,
       if (emailSettings != null) 'emailSettings': emailSettings,
       if (smsSettings != null) 'smsSettings': smsSettings,
     };
@@ -1760,7 +1748,7 @@ class CreateBackendAuthMFAConfig {
 
   factory CreateBackendAuthMFAConfig.fromJson(Map<String, dynamic> json) {
     return CreateBackendAuthMFAConfig(
-      mFAMode: (json['MFAMode'] as String).toMFAMode(),
+      mFAMode: MFAMode.fromString((json['MFAMode'] as String)),
       settings: json['settings'] != null
           ? Settings.fromJson(json['settings'] as Map<String, dynamic>)
           : null,
@@ -1771,7 +1759,7 @@ class CreateBackendAuthMFAConfig {
     final mFAMode = this.mFAMode;
     final settings = this.settings;
     return {
-      'MFAMode': mFAMode.toValue(),
+      'MFAMode': mFAMode.value,
       if (settings != null) 'settings': settings,
     };
   }
@@ -1810,10 +1798,11 @@ class CreateBackendAuthOAuthConfig {
 
   factory CreateBackendAuthOAuthConfig.fromJson(Map<String, dynamic> json) {
     return CreateBackendAuthOAuthConfig(
-      oAuthGrantType: (json['oAuthGrantType'] as String).toOAuthGrantType(),
+      oAuthGrantType:
+          OAuthGrantType.fromString((json['oAuthGrantType'] as String)),
       oAuthScopes: (json['oAuthScopes'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toOAuthScopesElement())
+          .map((e) => OAuthScopesElement.fromString((e as String)))
           .toList(),
       redirectSignInURIs: (json['redirectSignInURIs'] as List)
           .whereNotNull()
@@ -1839,8 +1828,8 @@ class CreateBackendAuthOAuthConfig {
     final domainPrefix = this.domainPrefix;
     final socialProviderSettings = this.socialProviderSettings;
     return {
-      'oAuthGrantType': oAuthGrantType.toValue(),
-      'oAuthScopes': oAuthScopes.map((e) => e.toValue()).toList(),
+      'oAuthGrantType': oAuthGrantType.value,
+      'oAuthScopes': oAuthScopes.map((e) => e.value).toList(),
       'redirectSignInURIs': redirectSignInURIs,
       'redirectSignOutURIs': redirectSignOutURIs,
       if (domainPrefix != null) 'domainPrefix': domainPrefix,
@@ -1871,7 +1860,7 @@ class CreateBackendAuthPasswordPolicyConfig {
       minimumLength: json['minimumLength'] as double,
       additionalConstraints: (json['additionalConstraints'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toAdditionalConstraintsElement())
+          .map((e) => AdditionalConstraintsElement.fromString((e as String)))
           .toList(),
     );
   }
@@ -1883,7 +1872,7 @@ class CreateBackendAuthPasswordPolicyConfig {
       'minimumLength': minimumLength,
       if (additionalConstraints != null)
         'additionalConstraints':
-            additionalConstraints.map((e) => e.toValue()).toList(),
+            additionalConstraints.map((e) => e.value).toList(),
     };
   }
 }
@@ -1916,8 +1905,9 @@ class CreateBackendAuthResourceConfig {
 
   factory CreateBackendAuthResourceConfig.fromJson(Map<String, dynamic> json) {
     return CreateBackendAuthResourceConfig(
-      authResources: (json['authResources'] as String).toAuthResources(),
-      service: (json['service'] as String).toService(),
+      authResources:
+          AuthResources.fromString((json['authResources'] as String)),
+      service: Service.fromString((json['service'] as String)),
       userPoolConfigs: CreateBackendAuthUserPoolConfig.fromJson(
           json['userPoolConfigs'] as Map<String, dynamic>),
       identityPoolConfigs: json['identityPoolConfigs'] != null
@@ -1933,8 +1923,8 @@ class CreateBackendAuthResourceConfig {
     final userPoolConfigs = this.userPoolConfigs;
     final identityPoolConfigs = this.identityPoolConfigs;
     return {
-      'authResources': authResources.toValue(),
-      'service': service.toValue(),
+      'authResources': authResources.value,
+      'service': service.value,
       'userPoolConfigs': userPoolConfigs,
       if (identityPoolConfigs != null)
         'identityPoolConfigs': identityPoolConfigs,
@@ -2049,9 +2039,9 @@ class CreateBackendAuthUserPoolConfig {
     return CreateBackendAuthUserPoolConfig(
       requiredSignUpAttributes: (json['requiredSignUpAttributes'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toRequiredSignUpAttributesElement())
+          .map((e) => RequiredSignUpAttributesElement.fromString((e as String)))
           .toList(),
-      signInMethod: (json['signInMethod'] as String).toSignInMethod(),
+      signInMethod: SignInMethod.fromString((json['signInMethod'] as String)),
       userPoolName: json['userPoolName'] as String,
       forgotPassword: json['forgotPassword'] != null
           ? CreateBackendAuthForgotPasswordConfig.fromJson(
@@ -2087,8 +2077,8 @@ class CreateBackendAuthUserPoolConfig {
     final verificationMessage = this.verificationMessage;
     return {
       'requiredSignUpAttributes':
-          requiredSignUpAttributes.map((e) => e.toValue()).toList(),
-      'signInMethod': signInMethod.toValue(),
+          requiredSignUpAttributes.map((e) => e.value).toList(),
+      'signInMethod': signInMethod.value,
       'userPoolName': userPoolName,
       if (forgotPassword != null) 'forgotPassword': forgotPassword,
       if (mfa != null) 'mfa': mfa,
@@ -2121,7 +2111,8 @@ class CreateBackendAuthVerificationMessageConfig {
   factory CreateBackendAuthVerificationMessageConfig.fromJson(
       Map<String, dynamic> json) {
     return CreateBackendAuthVerificationMessageConfig(
-      deliveryMethod: (json['deliveryMethod'] as String).toDeliveryMethod(),
+      deliveryMethod:
+          DeliveryMethod.fromString((json['deliveryMethod'] as String)),
       emailSettings: json['emailSettings'] != null
           ? EmailSettings.fromJson(
               json['emailSettings'] as Map<String, dynamic>)
@@ -2137,7 +2128,7 @@ class CreateBackendAuthVerificationMessageConfig {
     final emailSettings = this.emailSettings;
     final smsSettings = this.smsSettings;
     return {
-      'deliveryMethod': deliveryMethod.toValue(),
+      'deliveryMethod': deliveryMethod.value,
       if (emailSettings != null) 'emailSettings': emailSettings,
       if (smsSettings != null) 'smsSettings': smsSettings,
     };
@@ -2269,7 +2260,7 @@ class CreateBackendStorageResourceConfig {
     final bucketName = this.bucketName;
     return {
       'permissions': permissions,
-      'serviceName': serviceName.toValue(),
+      'serviceName': serviceName.value,
       if (bucketName != null) 'bucketName': bucketName,
     };
   }
@@ -2604,31 +2595,18 @@ class DeleteTokenResponse {
 
 /// The type of verification message to send.
 enum DeliveryMethod {
-  email,
-  sms,
-}
+  email('EMAIL'),
+  sms('SMS'),
+  ;
 
-extension DeliveryMethodValueExtension on DeliveryMethod {
-  String toValue() {
-    switch (this) {
-      case DeliveryMethod.email:
-        return 'EMAIL';
-      case DeliveryMethod.sms:
-        return 'SMS';
-    }
-  }
-}
+  final String value;
 
-extension DeliveryMethodFromString on String {
-  DeliveryMethod toDeliveryMethod() {
-    switch (this) {
-      case 'EMAIL':
-        return DeliveryMethod.email;
-      case 'SMS':
-        return DeliveryMethod.sms;
-    }
-    throw Exception('$this is not known in enum DeliveryMethod');
-  }
+  const DeliveryMethod(this.value);
+
+  static DeliveryMethod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DeliveryMethod'));
 }
 
 /// The configuration for the email sent when an app user forgets their
@@ -2741,7 +2719,7 @@ class GetBackendAPIModelsResponse {
     return GetBackendAPIModelsResponse(
       modelIntrospectionSchema: json['modelIntrospectionSchema'] as String?,
       models: json['models'] as String?,
-      status: (json['status'] as String?)?.toStatus(),
+      status: (json['status'] as String?)?.let(Status.fromString),
     );
   }
 
@@ -2753,7 +2731,7 @@ class GetBackendAPIModelsResponse {
       if (modelIntrospectionSchema != null)
         'modelIntrospectionSchema': modelIntrospectionSchema,
       if (models != null) 'models': models,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -3033,7 +3011,7 @@ class GetBackendStorageResourceConfig {
   factory GetBackendStorageResourceConfig.fromJson(Map<String, dynamic> json) {
     return GetBackendStorageResourceConfig(
       imported: json['imported'] as bool,
-      serviceName: (json['serviceName'] as String).toServiceName(),
+      serviceName: ServiceName.fromString((json['serviceName'] as String)),
       bucketName: json['bucketName'] as String?,
       permissions: json['permissions'] != null
           ? BackendStoragePermissions.fromJson(
@@ -3049,7 +3027,7 @@ class GetBackendStorageResourceConfig {
     final permissions = this.permissions;
     return {
       'imported': imported,
-      'serviceName': serviceName.toValue(),
+      'serviceName': serviceName.value,
       if (bucketName != null) 'bucketName': bucketName,
       if (permissions != null) 'permissions': permissions,
     };
@@ -3361,102 +3339,49 @@ class LoginAuthConfigReqObj {
 }
 
 enum MFAMode {
-  on,
-  off,
-  optional,
-}
+  on('ON'),
+  off('OFF'),
+  optional('OPTIONAL'),
+  ;
 
-extension MFAModeValueExtension on MFAMode {
-  String toValue() {
-    switch (this) {
-      case MFAMode.on:
-        return 'ON';
-      case MFAMode.off:
-        return 'OFF';
-      case MFAMode.optional:
-        return 'OPTIONAL';
-    }
-  }
-}
+  final String value;
 
-extension MFAModeFromString on String {
-  MFAMode toMFAMode() {
-    switch (this) {
-      case 'ON':
-        return MFAMode.on;
-      case 'OFF':
-        return MFAMode.off;
-      case 'OPTIONAL':
-        return MFAMode.optional;
-    }
-    throw Exception('$this is not known in enum MFAMode');
-  }
+  const MFAMode(this.value);
+
+  static MFAMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum MFAMode'));
 }
 
 enum Mode {
-  apiKey,
-  awsIam,
-  amazonCognitoUserPools,
-  openidConnect,
-}
+  apiKey('API_KEY'),
+  awsIam('AWS_IAM'),
+  amazonCognitoUserPools('AMAZON_COGNITO_USER_POOLS'),
+  openidConnect('OPENID_CONNECT'),
+  ;
 
-extension ModeValueExtension on Mode {
-  String toValue() {
-    switch (this) {
-      case Mode.apiKey:
-        return 'API_KEY';
-      case Mode.awsIam:
-        return 'AWS_IAM';
-      case Mode.amazonCognitoUserPools:
-        return 'AMAZON_COGNITO_USER_POOLS';
-      case Mode.openidConnect:
-        return 'OPENID_CONNECT';
-    }
-  }
-}
+  final String value;
 
-extension ModeFromString on String {
-  Mode toMode() {
-    switch (this) {
-      case 'API_KEY':
-        return Mode.apiKey;
-      case 'AWS_IAM':
-        return Mode.awsIam;
-      case 'AMAZON_COGNITO_USER_POOLS':
-        return Mode.amazonCognitoUserPools;
-      case 'OPENID_CONNECT':
-        return Mode.openidConnect;
-    }
-    throw Exception('$this is not known in enum Mode');
-  }
+  const Mode(this.value);
+
+  static Mode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Mode'));
 }
 
 enum OAuthGrantType {
-  code,
-  implicit,
-}
+  code('CODE'),
+  implicit('IMPLICIT'),
+  ;
 
-extension OAuthGrantTypeValueExtension on OAuthGrantType {
-  String toValue() {
-    switch (this) {
-      case OAuthGrantType.code:
-        return 'CODE';
-      case OAuthGrantType.implicit:
-        return 'IMPLICIT';
-    }
-  }
-}
+  final String value;
 
-extension OAuthGrantTypeFromString on String {
-  OAuthGrantType toOAuthGrantType() {
-    switch (this) {
-      case 'CODE':
-        return OAuthGrantType.code;
-      case 'IMPLICIT':
-        return OAuthGrantType.implicit;
-    }
-    throw Exception('$this is not known in enum OAuthGrantType');
-  }
+  const OAuthGrantType(this.value);
+
+  static OAuthGrantType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OAuthGrantType'));
 }
 
 class RemoveAllBackendsResponse {
@@ -3532,41 +3457,20 @@ class RemoveBackendConfigResponse {
 }
 
 enum ResolutionStrategy {
-  optimisticConcurrency,
-  lambda,
-  automerge,
-  none,
-}
+  optimisticConcurrency('OPTIMISTIC_CONCURRENCY'),
+  lambda('LAMBDA'),
+  automerge('AUTOMERGE'),
+  none('NONE'),
+  ;
 
-extension ResolutionStrategyValueExtension on ResolutionStrategy {
-  String toValue() {
-    switch (this) {
-      case ResolutionStrategy.optimisticConcurrency:
-        return 'OPTIMISTIC_CONCURRENCY';
-      case ResolutionStrategy.lambda:
-        return 'LAMBDA';
-      case ResolutionStrategy.automerge:
-        return 'AUTOMERGE';
-      case ResolutionStrategy.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension ResolutionStrategyFromString on String {
-  ResolutionStrategy toResolutionStrategy() {
-    switch (this) {
-      case 'OPTIMISTIC_CONCURRENCY':
-        return ResolutionStrategy.optimisticConcurrency;
-      case 'LAMBDA':
-        return ResolutionStrategy.lambda;
-      case 'AUTOMERGE':
-        return ResolutionStrategy.automerge;
-      case 'NONE':
-        return ResolutionStrategy.none;
-    }
-    throw Exception('$this is not known in enum ResolutionStrategy');
-  }
+  const ResolutionStrategy(this.value);
+
+  static ResolutionStrategy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ResolutionStrategy'));
 }
 
 /// Defines the resource configuration for the data model in your Amplify
@@ -3610,49 +3514,29 @@ class S3BucketInfo {
 }
 
 enum Service {
-  cognito,
-}
+  cognito('COGNITO'),
+  ;
 
-extension ServiceValueExtension on Service {
-  String toValue() {
-    switch (this) {
-      case Service.cognito:
-        return 'COGNITO';
-    }
-  }
-}
+  final String value;
 
-extension ServiceFromString on String {
-  Service toService() {
-    switch (this) {
-      case 'COGNITO':
-        return Service.cognito;
-    }
-    throw Exception('$this is not known in enum Service');
-  }
+  const Service(this.value);
+
+  static Service fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Service'));
 }
 
 enum ServiceName {
-  s3,
-}
+  s3('S3'),
+  ;
 
-extension ServiceNameValueExtension on ServiceName {
-  String toValue() {
-    switch (this) {
-      case ServiceName.s3:
-        return 'S3';
-    }
-  }
-}
+  final String value;
 
-extension ServiceNameFromString on String {
-  ServiceName toServiceName() {
-    switch (this) {
-      case 'S3':
-        return ServiceName.s3;
-    }
-    throw Exception('$this is not known in enum ServiceName');
-  }
+  const ServiceName(this.value);
+
+  static ServiceName fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ServiceName'));
 }
 
 /// The settings of your MFA configuration for the backend of your Amplify
@@ -3673,7 +3557,7 @@ class Settings {
     return Settings(
       mfaTypes: (json['mfaTypes'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toMfaTypesElement())
+          .map((e) => MfaTypesElement.fromString((e as String)))
           .toList(),
       smsMessage: json['smsMessage'] as String?,
     );
@@ -3683,49 +3567,27 @@ class Settings {
     final mfaTypes = this.mfaTypes;
     final smsMessage = this.smsMessage;
     return {
-      if (mfaTypes != null)
-        'mfaTypes': mfaTypes.map((e) => e.toValue()).toList(),
+      if (mfaTypes != null) 'mfaTypes': mfaTypes.map((e) => e.value).toList(),
       if (smsMessage != null) 'smsMessage': smsMessage,
     };
   }
 }
 
 enum SignInMethod {
-  email,
-  emailAndPhoneNumber,
-  phoneNumber,
-  username,
-}
+  email('EMAIL'),
+  emailAndPhoneNumber('EMAIL_AND_PHONE_NUMBER'),
+  phoneNumber('PHONE_NUMBER'),
+  username('USERNAME'),
+  ;
 
-extension SignInMethodValueExtension on SignInMethod {
-  String toValue() {
-    switch (this) {
-      case SignInMethod.email:
-        return 'EMAIL';
-      case SignInMethod.emailAndPhoneNumber:
-        return 'EMAIL_AND_PHONE_NUMBER';
-      case SignInMethod.phoneNumber:
-        return 'PHONE_NUMBER';
-      case SignInMethod.username:
-        return 'USERNAME';
-    }
-  }
-}
+  final String value;
 
-extension SignInMethodFromString on String {
-  SignInMethod toSignInMethod() {
-    switch (this) {
-      case 'EMAIL':
-        return SignInMethod.email;
-      case 'EMAIL_AND_PHONE_NUMBER':
-        return SignInMethod.emailAndPhoneNumber;
-      case 'PHONE_NUMBER':
-        return SignInMethod.phoneNumber;
-      case 'USERNAME':
-        return SignInMethod.username;
-    }
-    throw Exception('$this is not known in enum SignInMethod');
-  }
+  const SignInMethod(this.value);
+
+  static SignInMethod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SignInMethod'));
 }
 
 /// SMS settings for authentication.
@@ -3802,31 +3664,17 @@ class SocialProviderSettings {
 }
 
 enum Status {
-  latest,
-  stale,
-}
+  latest('LATEST'),
+  stale('STALE'),
+  ;
 
-extension StatusValueExtension on Status {
-  String toValue() {
-    switch (this) {
-      case Status.latest:
-        return 'LATEST';
-      case Status.stale:
-        return 'STALE';
-    }
-  }
-}
+  final String value;
 
-extension StatusFromString on String {
-  Status toStatus() {
-    switch (this) {
-      case 'LATEST':
-        return Status.latest;
-      case 'STALE':
-        return Status.stale;
-    }
-    throw Exception('$this is not known in enum Status');
-  }
+  const Status(this.value);
+
+  static Status fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Status'));
 }
 
 class UpdateBackendAPIResponse {
@@ -3913,7 +3761,7 @@ class UpdateBackendAuthForgotPasswordConfig {
     final emailSettings = this.emailSettings;
     final smsSettings = this.smsSettings;
     return {
-      if (deliveryMethod != null) 'deliveryMethod': deliveryMethod.toValue(),
+      if (deliveryMethod != null) 'deliveryMethod': deliveryMethod.value,
       if (emailSettings != null) 'emailSettings': emailSettings,
       if (smsSettings != null) 'smsSettings': smsSettings,
     };
@@ -3959,7 +3807,7 @@ class UpdateBackendAuthMFAConfig {
     final mFAMode = this.mFAMode;
     final settings = this.settings;
     return {
-      if (mFAMode != null) 'MFAMode': mFAMode.toValue(),
+      if (mFAMode != null) 'MFAMode': mFAMode.value,
       if (settings != null) 'settings': settings,
     };
   }
@@ -4007,9 +3855,9 @@ class UpdateBackendAuthOAuthConfig {
     final socialProviderSettings = this.socialProviderSettings;
     return {
       if (domainPrefix != null) 'domainPrefix': domainPrefix,
-      if (oAuthGrantType != null) 'oAuthGrantType': oAuthGrantType.toValue(),
+      if (oAuthGrantType != null) 'oAuthGrantType': oAuthGrantType.value,
       if (oAuthScopes != null)
-        'oAuthScopes': oAuthScopes.map((e) => e.toValue()).toList(),
+        'oAuthScopes': oAuthScopes.map((e) => e.value).toList(),
       if (redirectSignInURIs != null) 'redirectSignInURIs': redirectSignInURIs,
       if (redirectSignOutURIs != null)
         'redirectSignOutURIs': redirectSignOutURIs,
@@ -4041,7 +3889,7 @@ class UpdateBackendAuthPasswordPolicyConfig {
     return {
       if (additionalConstraints != null)
         'additionalConstraints':
-            additionalConstraints.map((e) => e.toValue()).toList(),
+            additionalConstraints.map((e) => e.value).toList(),
       if (minimumLength != null) 'minimumLength': minimumLength,
     };
   }
@@ -4079,8 +3927,8 @@ class UpdateBackendAuthResourceConfig {
     final userPoolConfigs = this.userPoolConfigs;
     final identityPoolConfigs = this.identityPoolConfigs;
     return {
-      'authResources': authResources.toValue(),
-      'service': service.toValue(),
+      'authResources': authResources.value,
+      'service': service.value,
       'userPoolConfigs': userPoolConfigs,
       if (identityPoolConfigs != null)
         'identityPoolConfigs': identityPoolConfigs,
@@ -4217,7 +4065,7 @@ class UpdateBackendAuthVerificationMessageConfig {
     final emailSettings = this.emailSettings;
     final smsSettings = this.smsSettings;
     return {
-      'deliveryMethod': deliveryMethod.toValue(),
+      'deliveryMethod': deliveryMethod.value,
       if (emailSettings != null) 'emailSettings': emailSettings,
       if (smsSettings != null) 'smsSettings': smsSettings,
     };
@@ -4362,7 +4210,7 @@ class UpdateBackendStorageResourceConfig {
     final serviceName = this.serviceName;
     return {
       'permissions': permissions,
-      'serviceName': serviceName.toValue(),
+      'serviceName': serviceName.value,
     };
   }
 }
@@ -4412,284 +4260,115 @@ class UpdateBackendStorageResponse {
 }
 
 enum AdditionalConstraintsElement {
-  requireDigit,
-  requireLowercase,
-  requireSymbol,
-  requireUppercase,
-}
+  requireDigit('REQUIRE_DIGIT'),
+  requireLowercase('REQUIRE_LOWERCASE'),
+  requireSymbol('REQUIRE_SYMBOL'),
+  requireUppercase('REQUIRE_UPPERCASE'),
+  ;
 
-extension AdditionalConstraintsElementValueExtension
-    on AdditionalConstraintsElement {
-  String toValue() {
-    switch (this) {
-      case AdditionalConstraintsElement.requireDigit:
-        return 'REQUIRE_DIGIT';
-      case AdditionalConstraintsElement.requireLowercase:
-        return 'REQUIRE_LOWERCASE';
-      case AdditionalConstraintsElement.requireSymbol:
-        return 'REQUIRE_SYMBOL';
-      case AdditionalConstraintsElement.requireUppercase:
-        return 'REQUIRE_UPPERCASE';
-    }
-  }
-}
+  final String value;
 
-extension AdditionalConstraintsElementFromString on String {
-  AdditionalConstraintsElement toAdditionalConstraintsElement() {
-    switch (this) {
-      case 'REQUIRE_DIGIT':
-        return AdditionalConstraintsElement.requireDigit;
-      case 'REQUIRE_LOWERCASE':
-        return AdditionalConstraintsElement.requireLowercase;
-      case 'REQUIRE_SYMBOL':
-        return AdditionalConstraintsElement.requireSymbol;
-      case 'REQUIRE_UPPERCASE':
-        return AdditionalConstraintsElement.requireUppercase;
-    }
-    throw Exception('$this is not known in enum AdditionalConstraintsElement');
-  }
+  const AdditionalConstraintsElement(this.value);
+
+  static AdditionalConstraintsElement fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AdditionalConstraintsElement'));
 }
 
 enum AuthenticatedElement {
-  read,
-  createAndUpdate,
-  delete,
-}
+  read('READ'),
+  createAndUpdate('CREATE_AND_UPDATE'),
+  delete('DELETE'),
+  ;
 
-extension AuthenticatedElementValueExtension on AuthenticatedElement {
-  String toValue() {
-    switch (this) {
-      case AuthenticatedElement.read:
-        return 'READ';
-      case AuthenticatedElement.createAndUpdate:
-        return 'CREATE_AND_UPDATE';
-      case AuthenticatedElement.delete:
-        return 'DELETE';
-    }
-  }
-}
+  final String value;
 
-extension AuthenticatedElementFromString on String {
-  AuthenticatedElement toAuthenticatedElement() {
-    switch (this) {
-      case 'READ':
-        return AuthenticatedElement.read;
-      case 'CREATE_AND_UPDATE':
-        return AuthenticatedElement.createAndUpdate;
-      case 'DELETE':
-        return AuthenticatedElement.delete;
-    }
-    throw Exception('$this is not known in enum AuthenticatedElement');
-  }
+  const AuthenticatedElement(this.value);
+
+  static AuthenticatedElement fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AuthenticatedElement'));
 }
 
 enum MfaTypesElement {
-  sms,
-  totp,
-}
+  sms('SMS'),
+  totp('TOTP'),
+  ;
 
-extension MfaTypesElementValueExtension on MfaTypesElement {
-  String toValue() {
-    switch (this) {
-      case MfaTypesElement.sms:
-        return 'SMS';
-      case MfaTypesElement.totp:
-        return 'TOTP';
-    }
-  }
-}
+  final String value;
 
-extension MfaTypesElementFromString on String {
-  MfaTypesElement toMfaTypesElement() {
-    switch (this) {
-      case 'SMS':
-        return MfaTypesElement.sms;
-      case 'TOTP':
-        return MfaTypesElement.totp;
-    }
-    throw Exception('$this is not known in enum MfaTypesElement');
-  }
+  const MfaTypesElement(this.value);
+
+  static MfaTypesElement fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MfaTypesElement'));
 }
 
 enum OAuthScopesElement {
-  phone,
-  email,
-  openid,
-  profile,
-  awsCognitoSigninUserAdmin,
-}
+  phone('PHONE'),
+  email('EMAIL'),
+  openid('OPENID'),
+  profile('PROFILE'),
+  awsCognitoSigninUserAdmin('AWS_COGNITO_SIGNIN_USER_ADMIN'),
+  ;
 
-extension OAuthScopesElementValueExtension on OAuthScopesElement {
-  String toValue() {
-    switch (this) {
-      case OAuthScopesElement.phone:
-        return 'PHONE';
-      case OAuthScopesElement.email:
-        return 'EMAIL';
-      case OAuthScopesElement.openid:
-        return 'OPENID';
-      case OAuthScopesElement.profile:
-        return 'PROFILE';
-      case OAuthScopesElement.awsCognitoSigninUserAdmin:
-        return 'AWS_COGNITO_SIGNIN_USER_ADMIN';
-    }
-  }
-}
+  final String value;
 
-extension OAuthScopesElementFromString on String {
-  OAuthScopesElement toOAuthScopesElement() {
-    switch (this) {
-      case 'PHONE':
-        return OAuthScopesElement.phone;
-      case 'EMAIL':
-        return OAuthScopesElement.email;
-      case 'OPENID':
-        return OAuthScopesElement.openid;
-      case 'PROFILE':
-        return OAuthScopesElement.profile;
-      case 'AWS_COGNITO_SIGNIN_USER_ADMIN':
-        return OAuthScopesElement.awsCognitoSigninUserAdmin;
-    }
-    throw Exception('$this is not known in enum OAuthScopesElement');
-  }
+  const OAuthScopesElement(this.value);
+
+  static OAuthScopesElement fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum OAuthScopesElement'));
 }
 
 enum RequiredSignUpAttributesElement {
-  address,
-  birthdate,
-  email,
-  familyName,
-  gender,
-  givenName,
-  locale,
-  middleName,
-  name,
-  nickname,
-  phoneNumber,
-  picture,
-  preferredUsername,
-  profile,
-  updatedAt,
-  website,
-  zoneInfo,
-}
+  address('ADDRESS'),
+  birthdate('BIRTHDATE'),
+  email('EMAIL'),
+  familyName('FAMILY_NAME'),
+  gender('GENDER'),
+  givenName('GIVEN_NAME'),
+  locale('LOCALE'),
+  middleName('MIDDLE_NAME'),
+  name('NAME'),
+  nickname('NICKNAME'),
+  phoneNumber('PHONE_NUMBER'),
+  picture('PICTURE'),
+  preferredUsername('PREFERRED_USERNAME'),
+  profile('PROFILE'),
+  updatedAt('UPDATED_AT'),
+  website('WEBSITE'),
+  zoneInfo('ZONE_INFO'),
+  ;
 
-extension RequiredSignUpAttributesElementValueExtension
-    on RequiredSignUpAttributesElement {
-  String toValue() {
-    switch (this) {
-      case RequiredSignUpAttributesElement.address:
-        return 'ADDRESS';
-      case RequiredSignUpAttributesElement.birthdate:
-        return 'BIRTHDATE';
-      case RequiredSignUpAttributesElement.email:
-        return 'EMAIL';
-      case RequiredSignUpAttributesElement.familyName:
-        return 'FAMILY_NAME';
-      case RequiredSignUpAttributesElement.gender:
-        return 'GENDER';
-      case RequiredSignUpAttributesElement.givenName:
-        return 'GIVEN_NAME';
-      case RequiredSignUpAttributesElement.locale:
-        return 'LOCALE';
-      case RequiredSignUpAttributesElement.middleName:
-        return 'MIDDLE_NAME';
-      case RequiredSignUpAttributesElement.name:
-        return 'NAME';
-      case RequiredSignUpAttributesElement.nickname:
-        return 'NICKNAME';
-      case RequiredSignUpAttributesElement.phoneNumber:
-        return 'PHONE_NUMBER';
-      case RequiredSignUpAttributesElement.picture:
-        return 'PICTURE';
-      case RequiredSignUpAttributesElement.preferredUsername:
-        return 'PREFERRED_USERNAME';
-      case RequiredSignUpAttributesElement.profile:
-        return 'PROFILE';
-      case RequiredSignUpAttributesElement.updatedAt:
-        return 'UPDATED_AT';
-      case RequiredSignUpAttributesElement.website:
-        return 'WEBSITE';
-      case RequiredSignUpAttributesElement.zoneInfo:
-        return 'ZONE_INFO';
-    }
-  }
-}
+  final String value;
 
-extension RequiredSignUpAttributesElementFromString on String {
-  RequiredSignUpAttributesElement toRequiredSignUpAttributesElement() {
-    switch (this) {
-      case 'ADDRESS':
-        return RequiredSignUpAttributesElement.address;
-      case 'BIRTHDATE':
-        return RequiredSignUpAttributesElement.birthdate;
-      case 'EMAIL':
-        return RequiredSignUpAttributesElement.email;
-      case 'FAMILY_NAME':
-        return RequiredSignUpAttributesElement.familyName;
-      case 'GENDER':
-        return RequiredSignUpAttributesElement.gender;
-      case 'GIVEN_NAME':
-        return RequiredSignUpAttributesElement.givenName;
-      case 'LOCALE':
-        return RequiredSignUpAttributesElement.locale;
-      case 'MIDDLE_NAME':
-        return RequiredSignUpAttributesElement.middleName;
-      case 'NAME':
-        return RequiredSignUpAttributesElement.name;
-      case 'NICKNAME':
-        return RequiredSignUpAttributesElement.nickname;
-      case 'PHONE_NUMBER':
-        return RequiredSignUpAttributesElement.phoneNumber;
-      case 'PICTURE':
-        return RequiredSignUpAttributesElement.picture;
-      case 'PREFERRED_USERNAME':
-        return RequiredSignUpAttributesElement.preferredUsername;
-      case 'PROFILE':
-        return RequiredSignUpAttributesElement.profile;
-      case 'UPDATED_AT':
-        return RequiredSignUpAttributesElement.updatedAt;
-      case 'WEBSITE':
-        return RequiredSignUpAttributesElement.website;
-      case 'ZONE_INFO':
-        return RequiredSignUpAttributesElement.zoneInfo;
-    }
-    throw Exception(
-        '$this is not known in enum RequiredSignUpAttributesElement');
-  }
+  const RequiredSignUpAttributesElement(this.value);
+
+  static RequiredSignUpAttributesElement fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RequiredSignUpAttributesElement'));
 }
 
 enum UnAuthenticatedElement {
-  read,
-  createAndUpdate,
-  delete,
-}
+  read('READ'),
+  createAndUpdate('CREATE_AND_UPDATE'),
+  delete('DELETE'),
+  ;
 
-extension UnAuthenticatedElementValueExtension on UnAuthenticatedElement {
-  String toValue() {
-    switch (this) {
-      case UnAuthenticatedElement.read:
-        return 'READ';
-      case UnAuthenticatedElement.createAndUpdate:
-        return 'CREATE_AND_UPDATE';
-      case UnAuthenticatedElement.delete:
-        return 'DELETE';
-    }
-  }
-}
+  final String value;
 
-extension UnAuthenticatedElementFromString on String {
-  UnAuthenticatedElement toUnAuthenticatedElement() {
-    switch (this) {
-      case 'READ':
-        return UnAuthenticatedElement.read;
-      case 'CREATE_AND_UPDATE':
-        return UnAuthenticatedElement.createAndUpdate;
-      case 'DELETE':
-        return UnAuthenticatedElement.delete;
-    }
-    throw Exception('$this is not known in enum UnAuthenticatedElement');
-  }
+  const UnAuthenticatedElement(this.value);
+
+  static UnAuthenticatedElement fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum UnAuthenticatedElement'));
 }
 
 class BadRequestException extends _s.GenericAwsException {

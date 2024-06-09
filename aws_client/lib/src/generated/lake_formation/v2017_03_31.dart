@@ -1156,10 +1156,10 @@ class LakeFormation {
       if (auditContext != null) 'AuditContext': auditContext,
       if (durationSeconds != null) 'DurationSeconds': durationSeconds,
       if (permissions != null)
-        'Permissions': permissions.map((e) => e.toValue()).toList(),
+        'Permissions': permissions.map((e) => e.value).toList(),
       if (supportedPermissionTypes != null)
         'SupportedPermissionTypes':
-            supportedPermissionTypes.map((e) => e.toValue()).toList(),
+            supportedPermissionTypes.map((e) => e.value).toList(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1231,13 +1231,13 @@ class LakeFormation {
       if (auditContext != null) 'AuditContext': auditContext,
       if (durationSeconds != null) 'DurationSeconds': durationSeconds,
       if (permissions != null)
-        'Permissions': permissions.map((e) => e.toValue()).toList(),
+        'Permissions': permissions.map((e) => e.value).toList(),
       if (querySessionContext != null)
         'QuerySessionContext': querySessionContext,
       if (s3Path != null) 'S3Path': s3Path,
       if (supportedPermissionTypes != null)
         'SupportedPermissionTypes':
-            supportedPermissionTypes.map((e) => e.toValue()).toList(),
+            supportedPermissionTypes.map((e) => e.value).toList(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1385,13 +1385,13 @@ class LakeFormation {
     List<Permission>? permissionsWithGrantOption,
   }) async {
     final $payload = <String, dynamic>{
-      'Permissions': permissions.map((e) => e.toValue()).toList(),
+      'Permissions': permissions.map((e) => e.value).toList(),
       'Principal': principal,
       'Resource': resource,
       if (catalogId != null) 'CatalogId': catalogId,
       if (permissionsWithGrantOption != null)
         'PermissionsWithGrantOption':
-            permissionsWithGrantOption.map((e) => e.toValue()).toList(),
+            permissionsWithGrantOption.map((e) => e.value).toList(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1484,7 +1484,7 @@ class LakeFormation {
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
       if (resourceShareType != null)
-        'ResourceShareType': resourceShareType.toValue(),
+        'ResourceShareType': resourceShareType.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1602,7 +1602,7 @@ class LakeFormation {
       if (nextToken != null) 'NextToken': nextToken,
       if (principal != null) 'Principal': principal,
       if (resource != null) 'Resource': resource,
-      if (resourceType != null) 'ResourceType': resourceType.toValue(),
+      if (resourceType != null) 'ResourceType': resourceType.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1702,7 +1702,7 @@ class LakeFormation {
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
       if (storageOptimizerType != null)
-        'StorageOptimizerType': storageOptimizerType.toValue(),
+        'StorageOptimizerType': storageOptimizerType.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1755,7 +1755,7 @@ class LakeFormation {
       if (catalogId != null) 'CatalogId': catalogId,
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
-      if (statusFilter != null) 'StatusFilter': statusFilter.toValue(),
+      if (statusFilter != null) 'StatusFilter': statusFilter.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1959,13 +1959,13 @@ class LakeFormation {
     List<Permission>? permissionsWithGrantOption,
   }) async {
     final $payload = <String, dynamic>{
-      'Permissions': permissions.map((e) => e.toValue()).toList(),
+      'Permissions': permissions.map((e) => e.value).toList(),
       'Principal': principal,
       'Resource': resource,
       if (catalogId != null) 'CatalogId': catalogId,
       if (permissionsWithGrantOption != null)
         'PermissionsWithGrantOption':
-            permissionsWithGrantOption.map((e) => e.toValue()).toList(),
+            permissionsWithGrantOption.map((e) => e.value).toList(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2134,7 +2134,7 @@ class LakeFormation {
     TransactionType? transactionType,
   }) async {
     final $payload = <String, dynamic>{
-      if (transactionType != null) 'TransactionType': transactionType.toValue(),
+      if (transactionType != null) 'TransactionType': transactionType.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2264,7 +2264,7 @@ class LakeFormation {
   }) async {
     final $payload = <String, dynamic>{
       if (applicationStatus != null)
-        'ApplicationStatus': applicationStatus.toValue(),
+        'ApplicationStatus': applicationStatus.value,
       if (catalogId != null) 'CatalogId': catalogId,
       if (externalFiltering != null) 'ExternalFiltering': externalFiltering,
       if (shareRecipients != null) 'ShareRecipients': shareRecipients,
@@ -2397,7 +2397,7 @@ class LakeFormation {
     final $payload = <String, dynamic>{
       'DatabaseName': databaseName,
       'StorageOptimizerConfig':
-          storageOptimizerConfig.map((k, e) => MapEntry(k.toValue(), e)),
+          storageOptimizerConfig.map((k, e) => MapEntry(k.value, e)),
       'TableName': tableName,
       if (catalogId != null) 'CatalogId': catalogId,
     };
@@ -2491,31 +2491,18 @@ class AllRowsWildcard {
 }
 
 enum ApplicationStatus {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension ApplicationStatusValueExtension on ApplicationStatus {
-  String toValue() {
-    switch (this) {
-      case ApplicationStatus.enabled:
-        return 'ENABLED';
-      case ApplicationStatus.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension ApplicationStatusFromString on String {
-  ApplicationStatus toApplicationStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return ApplicationStatus.enabled;
-      case 'DISABLED':
-        return ApplicationStatus.disabled;
-    }
-    throw Exception('$this is not known in enum ApplicationStatus');
-  }
+  const ApplicationStatus(this.value);
+
+  static ApplicationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ApplicationStatus'));
 }
 
 class AssumeDecoratedRoleWithSAMLResponse {
@@ -2675,11 +2662,11 @@ class BatchPermissionsRequestEntry {
       id: json['Id'] as String,
       permissions: (json['Permissions'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toPermission())
+          .map((e) => Permission.fromString((e as String)))
           .toList(),
       permissionsWithGrantOption: (json['PermissionsWithGrantOption'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toPermission())
+          .map((e) => Permission.fromString((e as String)))
           .toList(),
       principal: json['Principal'] != null
           ? DataLakePrincipal.fromJson(
@@ -2700,10 +2687,10 @@ class BatchPermissionsRequestEntry {
     return {
       'Id': id,
       if (permissions != null)
-        'Permissions': permissions.map((e) => e.toValue()).toList(),
+        'Permissions': permissions.map((e) => e.value).toList(),
       if (permissionsWithGrantOption != null)
         'PermissionsWithGrantOption':
-            permissionsWithGrantOption.map((e) => e.toValue()).toList(),
+            permissionsWithGrantOption.map((e) => e.value).toList(),
       if (principal != null) 'Principal': principal,
       if (resource != null) 'Resource': resource,
     };
@@ -2833,8 +2820,8 @@ class CommitTransactionResponse {
 
   factory CommitTransactionResponse.fromJson(Map<String, dynamic> json) {
     return CommitTransactionResponse(
-      transactionStatus:
-          (json['TransactionStatus'] as String?)?.toTransactionStatus(),
+      transactionStatus: (json['TransactionStatus'] as String?)
+          ?.let(TransactionStatus.fromString),
     );
   }
 
@@ -2842,82 +2829,33 @@ class CommitTransactionResponse {
     final transactionStatus = this.transactionStatus;
     return {
       if (transactionStatus != null)
-        'TransactionStatus': transactionStatus.toValue(),
+        'TransactionStatus': transactionStatus.value,
     };
   }
 }
 
 enum ComparisonOperator {
-  eq,
-  ne,
-  le,
-  lt,
-  ge,
-  gt,
-  contains,
-  notContains,
-  beginsWith,
-  $in,
-  between,
-}
+  eq('EQ'),
+  ne('NE'),
+  le('LE'),
+  lt('LT'),
+  ge('GE'),
+  gt('GT'),
+  contains('CONTAINS'),
+  notContains('NOT_CONTAINS'),
+  beginsWith('BEGINS_WITH'),
+  $in('IN'),
+  between('BETWEEN'),
+  ;
 
-extension ComparisonOperatorValueExtension on ComparisonOperator {
-  String toValue() {
-    switch (this) {
-      case ComparisonOperator.eq:
-        return 'EQ';
-      case ComparisonOperator.ne:
-        return 'NE';
-      case ComparisonOperator.le:
-        return 'LE';
-      case ComparisonOperator.lt:
-        return 'LT';
-      case ComparisonOperator.ge:
-        return 'GE';
-      case ComparisonOperator.gt:
-        return 'GT';
-      case ComparisonOperator.contains:
-        return 'CONTAINS';
-      case ComparisonOperator.notContains:
-        return 'NOT_CONTAINS';
-      case ComparisonOperator.beginsWith:
-        return 'BEGINS_WITH';
-      case ComparisonOperator.$in:
-        return 'IN';
-      case ComparisonOperator.between:
-        return 'BETWEEN';
-    }
-  }
-}
+  final String value;
 
-extension ComparisonOperatorFromString on String {
-  ComparisonOperator toComparisonOperator() {
-    switch (this) {
-      case 'EQ':
-        return ComparisonOperator.eq;
-      case 'NE':
-        return ComparisonOperator.ne;
-      case 'LE':
-        return ComparisonOperator.le;
-      case 'LT':
-        return ComparisonOperator.lt;
-      case 'GE':
-        return ComparisonOperator.ge;
-      case 'GT':
-        return ComparisonOperator.gt;
-      case 'CONTAINS':
-        return ComparisonOperator.contains;
-      case 'NOT_CONTAINS':
-        return ComparisonOperator.notContains;
-      case 'BEGINS_WITH':
-        return ComparisonOperator.beginsWith;
-      case 'IN':
-        return ComparisonOperator.$in;
-      case 'BETWEEN':
-        return ComparisonOperator.between;
-    }
-    throw Exception('$this is not known in enum ComparisonOperator');
-  }
+  const ComparisonOperator(this.value);
+
+  static ComparisonOperator fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ComparisonOperator'));
 }
 
 class CreateDataCellsFilterResponse {
@@ -3137,61 +3075,24 @@ class DataLakePrincipal {
 }
 
 enum DataLakeResourceType {
-  catalog,
-  database,
-  table,
-  dataLocation,
-  lfTag,
-  lfTagPolicy,
-  lfTagPolicyDatabase,
-  lfTagPolicyTable,
-}
+  catalog('CATALOG'),
+  database('DATABASE'),
+  table('TABLE'),
+  dataLocation('DATA_LOCATION'),
+  lfTag('LF_TAG'),
+  lfTagPolicy('LF_TAG_POLICY'),
+  lfTagPolicyDatabase('LF_TAG_POLICY_DATABASE'),
+  lfTagPolicyTable('LF_TAG_POLICY_TABLE'),
+  ;
 
-extension DataLakeResourceTypeValueExtension on DataLakeResourceType {
-  String toValue() {
-    switch (this) {
-      case DataLakeResourceType.catalog:
-        return 'CATALOG';
-      case DataLakeResourceType.database:
-        return 'DATABASE';
-      case DataLakeResourceType.table:
-        return 'TABLE';
-      case DataLakeResourceType.dataLocation:
-        return 'DATA_LOCATION';
-      case DataLakeResourceType.lfTag:
-        return 'LF_TAG';
-      case DataLakeResourceType.lfTagPolicy:
-        return 'LF_TAG_POLICY';
-      case DataLakeResourceType.lfTagPolicyDatabase:
-        return 'LF_TAG_POLICY_DATABASE';
-      case DataLakeResourceType.lfTagPolicyTable:
-        return 'LF_TAG_POLICY_TABLE';
-    }
-  }
-}
+  final String value;
 
-extension DataLakeResourceTypeFromString on String {
-  DataLakeResourceType toDataLakeResourceType() {
-    switch (this) {
-      case 'CATALOG':
-        return DataLakeResourceType.catalog;
-      case 'DATABASE':
-        return DataLakeResourceType.database;
-      case 'TABLE':
-        return DataLakeResourceType.table;
-      case 'DATA_LOCATION':
-        return DataLakeResourceType.dataLocation;
-      case 'LF_TAG':
-        return DataLakeResourceType.lfTag;
-      case 'LF_TAG_POLICY':
-        return DataLakeResourceType.lfTagPolicy;
-      case 'LF_TAG_POLICY_DATABASE':
-        return DataLakeResourceType.lfTagPolicyDatabase;
-      case 'LF_TAG_POLICY_TABLE':
-        return DataLakeResourceType.lfTagPolicyTable;
-    }
-    throw Exception('$this is not known in enum DataLakeResourceType');
-  }
+  const DataLakeResourceType(this.value);
+
+  static DataLakeResourceType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DataLakeResourceType'));
 }
 
 /// A structure representing a list of Lake Formation principals designated as
@@ -3702,31 +3603,18 @@ class DetailsMap {
 }
 
 enum EnableStatus {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension EnableStatusValueExtension on EnableStatus {
-  String toValue() {
-    switch (this) {
-      case EnableStatus.enabled:
-        return 'ENABLED';
-      case EnableStatus.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension EnableStatusFromString on String {
-  EnableStatus toEnableStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return EnableStatus.enabled;
-      case 'DISABLED':
-        return EnableStatus.disabled;
-    }
-    throw Exception('$this is not known in enum EnableStatus');
-  }
+  const EnableStatus(this.value);
+
+  static EnableStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EnableStatus'));
 }
 
 /// Contains details about an error.
@@ -3832,7 +3720,7 @@ class ExternalFilteringConfiguration {
           .whereNotNull()
           .map((e) => e as String)
           .toList(),
-      status: (json['Status'] as String).toEnableStatus(),
+      status: EnableStatus.fromString((json['Status'] as String)),
     );
   }
 
@@ -3841,42 +3729,25 @@ class ExternalFilteringConfiguration {
     final status = this.status;
     return {
       'AuthorizedTargets': authorizedTargets,
-      'Status': status.toValue(),
+      'Status': status.value,
     };
   }
 }
 
 enum FieldNameString {
-  resourceArn,
-  roleArn,
-  lastModified,
-}
+  resourceArn('RESOURCE_ARN'),
+  roleArn('ROLE_ARN'),
+  lastModified('LAST_MODIFIED'),
+  ;
 
-extension FieldNameStringValueExtension on FieldNameString {
-  String toValue() {
-    switch (this) {
-      case FieldNameString.resourceArn:
-        return 'RESOURCE_ARN';
-      case FieldNameString.roleArn:
-        return 'ROLE_ARN';
-      case FieldNameString.lastModified:
-        return 'LAST_MODIFIED';
-    }
-  }
-}
+  final String value;
 
-extension FieldNameStringFromString on String {
-  FieldNameString toFieldNameString() {
-    switch (this) {
-      case 'RESOURCE_ARN':
-        return FieldNameString.resourceArn;
-      case 'ROLE_ARN':
-        return FieldNameString.roleArn;
-      case 'LAST_MODIFIED':
-        return FieldNameString.lastModified;
-    }
-    throw Exception('$this is not known in enum FieldNameString');
-  }
+  const FieldNameString(this.value);
+
+  static FieldNameString fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FieldNameString'));
 }
 
 /// This structure describes the filtering of columns in a table based on a
@@ -3903,8 +3774,8 @@ class FilterCondition {
     final stringValueList = this.stringValueList;
     return {
       if (comparisonOperator != null)
-        'ComparisonOperator': comparisonOperator.toValue(),
-      if (field != null) 'Field': field.toValue(),
+        'ComparisonOperator': comparisonOperator.value,
+      if (field != null) 'Field': field.value,
       if (stringValueList != null) 'StringValueList': stringValueList,
     };
   }
@@ -4092,7 +3963,7 @@ class GetQueryStateResponse {
 
   factory GetQueryStateResponse.fromJson(Map<String, dynamic> json) {
     return GetQueryStateResponse(
-      state: (json['State'] as String).toQueryStateString(),
+      state: QueryStateString.fromString((json['State'] as String)),
       error: json['Error'] as String?,
     );
   }
@@ -4101,7 +3972,7 @@ class GetQueryStateResponse {
     final state = this.state;
     final error = this.error;
     return {
-      'State': state.toValue(),
+      'State': state.value,
       if (error != null) 'Error': error,
     };
   }
@@ -4587,7 +4458,7 @@ class LFTagPolicyResource {
           .whereNotNull()
           .map((e) => LFTag.fromJson(e as Map<String, dynamic>))
           .toList(),
-      resourceType: (json['ResourceType'] as String).toResourceType(),
+      resourceType: ResourceType.fromString((json['ResourceType'] as String)),
       catalogId: json['CatalogId'] as String?,
     );
   }
@@ -4598,7 +4469,7 @@ class LFTagPolicyResource {
     final catalogId = this.catalogId;
     return {
       'Expression': expression,
-      'ResourceType': resourceType.toValue(),
+      'ResourceType': resourceType.value,
       if (catalogId != null) 'CatalogId': catalogId,
     };
   }
@@ -4891,36 +4762,19 @@ class ListTransactionsResponse {
 }
 
 enum OptimizerType {
-  compaction,
-  garbageCollection,
-  all,
-}
+  compaction('COMPACTION'),
+  garbageCollection('GARBAGE_COLLECTION'),
+  all('ALL'),
+  ;
 
-extension OptimizerTypeValueExtension on OptimizerType {
-  String toValue() {
-    switch (this) {
-      case OptimizerType.compaction:
-        return 'COMPACTION';
-      case OptimizerType.garbageCollection:
-        return 'GARBAGE_COLLECTION';
-      case OptimizerType.all:
-        return 'ALL';
-    }
-  }
-}
+  final String value;
 
-extension OptimizerTypeFromString on String {
-  OptimizerType toOptimizerType() {
-    switch (this) {
-      case 'COMPACTION':
-        return OptimizerType.compaction;
-      case 'GARBAGE_COLLECTION':
-        return OptimizerType.garbageCollection;
-      case 'ALL':
-        return OptimizerType.all;
-    }
-    throw Exception('$this is not known in enum OptimizerType');
-  }
+  const OptimizerType(this.value);
+
+  static OptimizerType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OptimizerType'));
 }
 
 /// A structure containing a list of partition values and table objects.
@@ -4977,124 +4831,45 @@ class PartitionValueList {
 }
 
 enum Permission {
-  all,
-  select,
-  alter,
-  drop,
-  delete,
-  insert,
-  describe,
-  createDatabase,
-  createTable,
-  dataLocationAccess,
-  createLfTag,
-  associate,
-  grantWithLfTagExpression,
-}
+  all('ALL'),
+  select('SELECT'),
+  alter('ALTER'),
+  drop('DROP'),
+  delete('DELETE'),
+  insert('INSERT'),
+  describe('DESCRIBE'),
+  createDatabase('CREATE_DATABASE'),
+  createTable('CREATE_TABLE'),
+  dataLocationAccess('DATA_LOCATION_ACCESS'),
+  createLfTag('CREATE_LF_TAG'),
+  associate('ASSOCIATE'),
+  grantWithLfTagExpression('GRANT_WITH_LF_TAG_EXPRESSION'),
+  ;
 
-extension PermissionValueExtension on Permission {
-  String toValue() {
-    switch (this) {
-      case Permission.all:
-        return 'ALL';
-      case Permission.select:
-        return 'SELECT';
-      case Permission.alter:
-        return 'ALTER';
-      case Permission.drop:
-        return 'DROP';
-      case Permission.delete:
-        return 'DELETE';
-      case Permission.insert:
-        return 'INSERT';
-      case Permission.describe:
-        return 'DESCRIBE';
-      case Permission.createDatabase:
-        return 'CREATE_DATABASE';
-      case Permission.createTable:
-        return 'CREATE_TABLE';
-      case Permission.dataLocationAccess:
-        return 'DATA_LOCATION_ACCESS';
-      case Permission.createLfTag:
-        return 'CREATE_LF_TAG';
-      case Permission.associate:
-        return 'ASSOCIATE';
-      case Permission.grantWithLfTagExpression:
-        return 'GRANT_WITH_LF_TAG_EXPRESSION';
-    }
-  }
-}
+  final String value;
 
-extension PermissionFromString on String {
-  Permission toPermission() {
-    switch (this) {
-      case 'ALL':
-        return Permission.all;
-      case 'SELECT':
-        return Permission.select;
-      case 'ALTER':
-        return Permission.alter;
-      case 'DROP':
-        return Permission.drop;
-      case 'DELETE':
-        return Permission.delete;
-      case 'INSERT':
-        return Permission.insert;
-      case 'DESCRIBE':
-        return Permission.describe;
-      case 'CREATE_DATABASE':
-        return Permission.createDatabase;
-      case 'CREATE_TABLE':
-        return Permission.createTable;
-      case 'DATA_LOCATION_ACCESS':
-        return Permission.dataLocationAccess;
-      case 'CREATE_LF_TAG':
-        return Permission.createLfTag;
-      case 'ASSOCIATE':
-        return Permission.associate;
-      case 'GRANT_WITH_LF_TAG_EXPRESSION':
-        return Permission.grantWithLfTagExpression;
-    }
-    throw Exception('$this is not known in enum Permission');
-  }
+  const Permission(this.value);
+
+  static Permission fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Permission'));
 }
 
 enum PermissionType {
-  columnPermission,
-  cellFilterPermission,
-  nestedPermission,
-  nestedCellPermission,
-}
+  columnPermission('COLUMN_PERMISSION'),
+  cellFilterPermission('CELL_FILTER_PERMISSION'),
+  nestedPermission('NESTED_PERMISSION'),
+  nestedCellPermission('NESTED_CELL_PERMISSION'),
+  ;
 
-extension PermissionTypeValueExtension on PermissionType {
-  String toValue() {
-    switch (this) {
-      case PermissionType.columnPermission:
-        return 'COLUMN_PERMISSION';
-      case PermissionType.cellFilterPermission:
-        return 'CELL_FILTER_PERMISSION';
-      case PermissionType.nestedPermission:
-        return 'NESTED_PERMISSION';
-      case PermissionType.nestedCellPermission:
-        return 'NESTED_CELL_PERMISSION';
-    }
-  }
-}
+  final String value;
 
-extension PermissionTypeFromString on String {
-  PermissionType toPermissionType() {
-    switch (this) {
-      case 'COLUMN_PERMISSION':
-        return PermissionType.columnPermission;
-      case 'CELL_FILTER_PERMISSION':
-        return PermissionType.cellFilterPermission;
-      case 'NESTED_PERMISSION':
-        return PermissionType.nestedPermission;
-      case 'NESTED_CELL_PERMISSION':
-        return PermissionType.nestedCellPermission;
-    }
-    throw Exception('$this is not known in enum PermissionType');
-  }
+  const PermissionType(this.value);
+
+  static PermissionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PermissionType'));
 }
 
 /// Statistics related to the processing of a query statement.
@@ -5160,7 +4935,7 @@ class PrincipalPermissions {
     return PrincipalPermissions(
       permissions: (json['Permissions'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toPermission())
+          .map((e) => Permission.fromString((e as String)))
           .toList(),
       principal: json['Principal'] != null
           ? DataLakePrincipal.fromJson(
@@ -5174,7 +4949,7 @@ class PrincipalPermissions {
     final principal = this.principal;
     return {
       if (permissions != null)
-        'Permissions': permissions.map((e) => e.toValue()).toList(),
+        'Permissions': permissions.map((e) => e.value).toList(),
       if (principal != null) 'Principal': principal,
     };
   }
@@ -5226,11 +5001,11 @@ class PrincipalResourcePermissions {
       lastUpdatedBy: json['LastUpdatedBy'] as String?,
       permissions: (json['Permissions'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toPermission())
+          .map((e) => Permission.fromString((e as String)))
           .toList(),
       permissionsWithGrantOption: (json['PermissionsWithGrantOption'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toPermission())
+          .map((e) => Permission.fromString((e as String)))
           .toList(),
       principal: json['Principal'] != null
           ? DataLakePrincipal.fromJson(
@@ -5255,10 +5030,10 @@ class PrincipalResourcePermissions {
       if (lastUpdated != null) 'LastUpdated': unixTimestampToJson(lastUpdated),
       if (lastUpdatedBy != null) 'LastUpdatedBy': lastUpdatedBy,
       if (permissions != null)
-        'Permissions': permissions.map((e) => e.toValue()).toList(),
+        'Permissions': permissions.map((e) => e.value).toList(),
       if (permissionsWithGrantOption != null)
         'PermissionsWithGrantOption':
-            permissionsWithGrantOption.map((e) => e.toValue()).toList(),
+            permissionsWithGrantOption.map((e) => e.value).toList(),
       if (principal != null) 'Principal': principal,
       if (resource != null) 'Resource': resource,
     };
@@ -5373,46 +5148,21 @@ class QuerySessionContext {
 }
 
 enum QueryStateString {
-  pending,
-  workunitsAvailable,
-  error,
-  finished,
-  expired,
-}
+  pending('PENDING'),
+  workunitsAvailable('WORKUNITS_AVAILABLE'),
+  error('ERROR'),
+  finished('FINISHED'),
+  expired('EXPIRED'),
+  ;
 
-extension QueryStateStringValueExtension on QueryStateString {
-  String toValue() {
-    switch (this) {
-      case QueryStateString.pending:
-        return 'PENDING';
-      case QueryStateString.workunitsAvailable:
-        return 'WORKUNITS_AVAILABLE';
-      case QueryStateString.error:
-        return 'ERROR';
-      case QueryStateString.finished:
-        return 'FINISHED';
-      case QueryStateString.expired:
-        return 'EXPIRED';
-    }
-  }
-}
+  final String value;
 
-extension QueryStateStringFromString on String {
-  QueryStateString toQueryStateString() {
-    switch (this) {
-      case 'PENDING':
-        return QueryStateString.pending;
-      case 'WORKUNITS_AVAILABLE':
-        return QueryStateString.workunitsAvailable;
-      case 'ERROR':
-        return QueryStateString.error;
-      case 'FINISHED':
-        return QueryStateString.finished;
-      case 'EXPIRED':
-        return QueryStateString.expired;
-    }
-    throw Exception('$this is not known in enum QueryStateString');
-  }
+  const QueryStateString(this.value);
+
+  static QueryStateString fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum QueryStateString'));
 }
 
 class RegisterResourceResponse {
@@ -5608,59 +5358,33 @@ class ResourceInfo {
 }
 
 enum ResourceShareType {
-  foreign,
-  all,
-}
+  foreign('FOREIGN'),
+  all('ALL'),
+  ;
 
-extension ResourceShareTypeValueExtension on ResourceShareType {
-  String toValue() {
-    switch (this) {
-      case ResourceShareType.foreign:
-        return 'FOREIGN';
-      case ResourceShareType.all:
-        return 'ALL';
-    }
-  }
-}
+  final String value;
 
-extension ResourceShareTypeFromString on String {
-  ResourceShareType toResourceShareType() {
-    switch (this) {
-      case 'FOREIGN':
-        return ResourceShareType.foreign;
-      case 'ALL':
-        return ResourceShareType.all;
-    }
-    throw Exception('$this is not known in enum ResourceShareType');
-  }
+  const ResourceShareType(this.value);
+
+  static ResourceShareType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResourceShareType'));
 }
 
 enum ResourceType {
-  database,
-  table,
-}
+  database('DATABASE'),
+  table('TABLE'),
+  ;
 
-extension ResourceTypeValueExtension on ResourceType {
-  String toValue() {
-    switch (this) {
-      case ResourceType.database:
-        return 'DATABASE';
-      case ResourceType.table:
-        return 'TABLE';
-    }
-  }
-}
+  final String value;
 
-extension ResourceTypeFromString on String {
-  ResourceType toResourceType() {
-    switch (this) {
-      case 'DATABASE':
-        return ResourceType.database;
-      case 'TABLE':
-        return ResourceType.table;
-    }
-    throw Exception('$this is not known in enum ResourceType');
-  }
+  const ResourceType(this.value);
+
+  static ResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResourceType'));
 }
 
 class RevokePermissionsResponse {
@@ -5863,8 +5587,8 @@ class StorageOptimizer {
           ?.map((k, e) => MapEntry(k, e as String)),
       errorMessage: json['ErrorMessage'] as String?,
       lastRunDetails: json['LastRunDetails'] as String?,
-      storageOptimizerType:
-          (json['StorageOptimizerType'] as String?)?.toOptimizerType(),
+      storageOptimizerType: (json['StorageOptimizerType'] as String?)
+          ?.let(OptimizerType.fromString),
       warnings: json['Warnings'] as String?,
     );
   }
@@ -5880,7 +5604,7 @@ class StorageOptimizer {
       if (errorMessage != null) 'ErrorMessage': errorMessage,
       if (lastRunDetails != null) 'LastRunDetails': lastRunDetails,
       if (storageOptimizerType != null)
-        'StorageOptimizerType': storageOptimizerType.toValue(),
+        'StorageOptimizerType': storageOptimizerType.value,
       if (warnings != null) 'Warnings': warnings,
     };
   }
@@ -6178,8 +5902,8 @@ class TransactionDescription {
       transactionEndTime: timeStampFromJson(json['TransactionEndTime']),
       transactionId: json['TransactionId'] as String?,
       transactionStartTime: timeStampFromJson(json['TransactionStartTime']),
-      transactionStatus:
-          (json['TransactionStatus'] as String?)?.toTransactionStatus(),
+      transactionStatus: (json['TransactionStatus'] as String?)
+          ?.let(TransactionStatus.fromString),
     );
   }
 
@@ -6195,118 +5919,59 @@ class TransactionDescription {
       if (transactionStartTime != null)
         'TransactionStartTime': unixTimestampToJson(transactionStartTime),
       if (transactionStatus != null)
-        'TransactionStatus': transactionStatus.toValue(),
+        'TransactionStatus': transactionStatus.value,
     };
   }
 }
 
 enum TransactionStatus {
-  active,
-  committed,
-  aborted,
-  commitInProgress,
-}
+  active('ACTIVE'),
+  committed('COMMITTED'),
+  aborted('ABORTED'),
+  commitInProgress('COMMIT_IN_PROGRESS'),
+  ;
 
-extension TransactionStatusValueExtension on TransactionStatus {
-  String toValue() {
-    switch (this) {
-      case TransactionStatus.active:
-        return 'ACTIVE';
-      case TransactionStatus.committed:
-        return 'COMMITTED';
-      case TransactionStatus.aborted:
-        return 'ABORTED';
-      case TransactionStatus.commitInProgress:
-        return 'COMMIT_IN_PROGRESS';
-    }
-  }
-}
+  final String value;
 
-extension TransactionStatusFromString on String {
-  TransactionStatus toTransactionStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return TransactionStatus.active;
-      case 'COMMITTED':
-        return TransactionStatus.committed;
-      case 'ABORTED':
-        return TransactionStatus.aborted;
-      case 'COMMIT_IN_PROGRESS':
-        return TransactionStatus.commitInProgress;
-    }
-    throw Exception('$this is not known in enum TransactionStatus');
-  }
+  const TransactionStatus(this.value);
+
+  static TransactionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TransactionStatus'));
 }
 
 enum TransactionStatusFilter {
-  all,
-  completed,
-  active,
-  committed,
-  aborted,
-}
+  all('ALL'),
+  completed('COMPLETED'),
+  active('ACTIVE'),
+  committed('COMMITTED'),
+  aborted('ABORTED'),
+  ;
 
-extension TransactionStatusFilterValueExtension on TransactionStatusFilter {
-  String toValue() {
-    switch (this) {
-      case TransactionStatusFilter.all:
-        return 'ALL';
-      case TransactionStatusFilter.completed:
-        return 'COMPLETED';
-      case TransactionStatusFilter.active:
-        return 'ACTIVE';
-      case TransactionStatusFilter.committed:
-        return 'COMMITTED';
-      case TransactionStatusFilter.aborted:
-        return 'ABORTED';
-    }
-  }
-}
+  final String value;
 
-extension TransactionStatusFilterFromString on String {
-  TransactionStatusFilter toTransactionStatusFilter() {
-    switch (this) {
-      case 'ALL':
-        return TransactionStatusFilter.all;
-      case 'COMPLETED':
-        return TransactionStatusFilter.completed;
-      case 'ACTIVE':
-        return TransactionStatusFilter.active;
-      case 'COMMITTED':
-        return TransactionStatusFilter.committed;
-      case 'ABORTED':
-        return TransactionStatusFilter.aborted;
-    }
-    throw Exception('$this is not known in enum TransactionStatusFilter');
-  }
+  const TransactionStatusFilter(this.value);
+
+  static TransactionStatusFilter fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TransactionStatusFilter'));
 }
 
 enum TransactionType {
-  readAndWrite,
-  readOnly,
-}
+  readAndWrite('READ_AND_WRITE'),
+  readOnly('READ_ONLY'),
+  ;
 
-extension TransactionTypeValueExtension on TransactionType {
-  String toValue() {
-    switch (this) {
-      case TransactionType.readAndWrite:
-        return 'READ_AND_WRITE';
-      case TransactionType.readOnly:
-        return 'READ_ONLY';
-    }
-  }
-}
+  final String value;
 
-extension TransactionTypeFromString on String {
-  TransactionType toTransactionType() {
-    switch (this) {
-      case 'READ_AND_WRITE':
-        return TransactionType.readAndWrite;
-      case 'READ_ONLY':
-        return TransactionType.readOnly;
-    }
-    throw Exception('$this is not known in enum TransactionType');
-  }
+  const TransactionType(this.value);
+
+  static TransactionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TransactionType'));
 }
 
 class UpdateDataCellsFilterResponse {

@@ -579,8 +579,8 @@ class CloudWatchNetworkMonitor {
       if (destination != null) 'destination': destination,
       if (destinationPort != null) 'destinationPort': destinationPort,
       if (packetSize != null) 'packetSize': packetSize,
-      if (protocol != null) 'protocol': protocol.toValue(),
-      if (state != null) 'state': state.toValue(),
+      if (protocol != null) 'protocol': protocol.value,
+      if (state != null) 'state': state.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -594,31 +594,18 @@ class CloudWatchNetworkMonitor {
 }
 
 enum AddressFamily {
-  ipv4,
-  ipv6,
-}
+  ipv4('IPV4'),
+  ipv6('IPV6'),
+  ;
 
-extension AddressFamilyValueExtension on AddressFamily {
-  String toValue() {
-    switch (this) {
-      case AddressFamily.ipv4:
-        return 'IPV4';
-      case AddressFamily.ipv6:
-        return 'IPV6';
-    }
-  }
-}
+  final String value;
 
-extension AddressFamilyFromString on String {
-  AddressFamily toAddressFamily() {
-    switch (this) {
-      case 'IPV4':
-        return AddressFamily.ipv4;
-      case 'IPV6':
-        return AddressFamily.ipv6;
-    }
-    throw Exception('$this is not known in enum AddressFamily');
-  }
+  const AddressFamily(this.value);
+
+  static AddressFamily fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AddressFamily'));
 }
 
 class CreateMonitorOutput {
@@ -650,7 +637,7 @@ class CreateMonitorOutput {
     return CreateMonitorOutput(
       monitorArn: json['monitorArn'] as String,
       monitorName: json['monitorName'] as String,
-      state: (json['state'] as String).toMonitorState(),
+      state: MonitorState.fromString((json['state'] as String)),
       aggregationPeriod: json['aggregationPeriod'] as int?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -666,7 +653,7 @@ class CreateMonitorOutput {
     return {
       'monitorArn': monitorArn,
       'monitorName': monitorName,
-      'state': state.toValue(),
+      'state': state.value,
       if (aggregationPeriod != null) 'aggregationPeriod': aggregationPeriod,
       if (tags != null) 'tags': tags,
     };
@@ -717,7 +704,7 @@ class CreateMonitorProbeInput {
     final probeTags = this.probeTags;
     return {
       'destination': destination,
-      'protocol': protocol.toValue(),
+      'protocol': protocol.value,
       'sourceArn': sourceArn,
       if (destinationPort != null) 'destinationPort': destinationPort,
       if (packetSize != null) 'packetSize': packetSize,
@@ -791,16 +778,17 @@ class CreateProbeOutput {
   factory CreateProbeOutput.fromJson(Map<String, dynamic> json) {
     return CreateProbeOutput(
       destination: json['destination'] as String,
-      protocol: (json['protocol'] as String).toProtocol(),
+      protocol: Protocol.fromString((json['protocol'] as String)),
       sourceArn: json['sourceArn'] as String,
-      addressFamily: (json['addressFamily'] as String?)?.toAddressFamily(),
+      addressFamily:
+          (json['addressFamily'] as String?)?.let(AddressFamily.fromString),
       createdAt: timeStampFromJson(json['createdAt']),
       destinationPort: json['destinationPort'] as int?,
       modifiedAt: timeStampFromJson(json['modifiedAt']),
       packetSize: json['packetSize'] as int?,
       probeArn: json['probeArn'] as String?,
       probeId: json['probeId'] as String?,
-      state: (json['state'] as String?)?.toProbeState(),
+      state: (json['state'] as String?)?.let(ProbeState.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       vpcId: json['vpcId'] as String?,
@@ -823,16 +811,16 @@ class CreateProbeOutput {
     final vpcId = this.vpcId;
     return {
       'destination': destination,
-      'protocol': protocol.toValue(),
+      'protocol': protocol.value,
       'sourceArn': sourceArn,
-      if (addressFamily != null) 'addressFamily': addressFamily.toValue(),
+      if (addressFamily != null) 'addressFamily': addressFamily.value,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (destinationPort != null) 'destinationPort': destinationPort,
       if (modifiedAt != null) 'modifiedAt': unixTimestampToJson(modifiedAt),
       if (packetSize != null) 'packetSize': packetSize,
       if (probeArn != null) 'probeArn': probeArn,
       if (probeId != null) 'probeId': probeId,
-      if (state != null) 'state': state.toValue(),
+      if (state != null) 'state': state.value,
       if (tags != null) 'tags': tags,
       if (vpcId != null) 'vpcId': vpcId,
     };
@@ -906,7 +894,7 @@ class GetMonitorOutput {
       modifiedAt: nonNullableTimeStampFromJson(json['modifiedAt'] as Object),
       monitorArn: json['monitorArn'] as String,
       monitorName: json['monitorName'] as String,
-      state: (json['state'] as String).toMonitorState(),
+      state: MonitorState.fromString((json['state'] as String)),
       probes: (json['probes'] as List?)
           ?.whereNotNull()
           .map((e) => Probe.fromJson(e as Map<String, dynamic>))
@@ -931,7 +919,7 @@ class GetMonitorOutput {
       'modifiedAt': unixTimestampToJson(modifiedAt),
       'monitorArn': monitorArn,
       'monitorName': monitorName,
-      'state': state.toValue(),
+      'state': state.value,
       if (probes != null) 'probes': probes,
       if (tags != null) 'tags': tags,
     };
@@ -1003,16 +991,17 @@ class GetProbeOutput {
   factory GetProbeOutput.fromJson(Map<String, dynamic> json) {
     return GetProbeOutput(
       destination: json['destination'] as String,
-      protocol: (json['protocol'] as String).toProtocol(),
+      protocol: Protocol.fromString((json['protocol'] as String)),
       sourceArn: json['sourceArn'] as String,
-      addressFamily: (json['addressFamily'] as String?)?.toAddressFamily(),
+      addressFamily:
+          (json['addressFamily'] as String?)?.let(AddressFamily.fromString),
       createdAt: timeStampFromJson(json['createdAt']),
       destinationPort: json['destinationPort'] as int?,
       modifiedAt: timeStampFromJson(json['modifiedAt']),
       packetSize: json['packetSize'] as int?,
       probeArn: json['probeArn'] as String?,
       probeId: json['probeId'] as String?,
-      state: (json['state'] as String?)?.toProbeState(),
+      state: (json['state'] as String?)?.let(ProbeState.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       vpcId: json['vpcId'] as String?,
@@ -1035,16 +1024,16 @@ class GetProbeOutput {
     final vpcId = this.vpcId;
     return {
       'destination': destination,
-      'protocol': protocol.toValue(),
+      'protocol': protocol.value,
       'sourceArn': sourceArn,
-      if (addressFamily != null) 'addressFamily': addressFamily.toValue(),
+      if (addressFamily != null) 'addressFamily': addressFamily.value,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (destinationPort != null) 'destinationPort': destinationPort,
       if (modifiedAt != null) 'modifiedAt': unixTimestampToJson(modifiedAt),
       if (packetSize != null) 'packetSize': packetSize,
       if (probeArn != null) 'probeArn': probeArn,
       if (probeId != null) 'probeId': probeId,
-      if (state != null) 'state': state.toValue(),
+      if (state != null) 'state': state.value,
       if (tags != null) 'tags': tags,
       if (vpcId != null) 'vpcId': vpcId,
     };
@@ -1107,46 +1096,21 @@ class ListTagsForResourceOutput {
 }
 
 enum MonitorState {
-  pending,
-  active,
-  inactive,
-  error,
-  deleting,
-}
+  pending('PENDING'),
+  active('ACTIVE'),
+  inactive('INACTIVE'),
+  error('ERROR'),
+  deleting('DELETING'),
+  ;
 
-extension MonitorStateValueExtension on MonitorState {
-  String toValue() {
-    switch (this) {
-      case MonitorState.pending:
-        return 'PENDING';
-      case MonitorState.active:
-        return 'ACTIVE';
-      case MonitorState.inactive:
-        return 'INACTIVE';
-      case MonitorState.error:
-        return 'ERROR';
-      case MonitorState.deleting:
-        return 'DELETING';
-    }
-  }
-}
+  final String value;
 
-extension MonitorStateFromString on String {
-  MonitorState toMonitorState() {
-    switch (this) {
-      case 'PENDING':
-        return MonitorState.pending;
-      case 'ACTIVE':
-        return MonitorState.active;
-      case 'INACTIVE':
-        return MonitorState.inactive;
-      case 'ERROR':
-        return MonitorState.error;
-      case 'DELETING':
-        return MonitorState.deleting;
-    }
-    throw Exception('$this is not known in enum MonitorState');
-  }
+  const MonitorState(this.value);
+
+  static MonitorState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MonitorState'));
 }
 
 /// Displays summary information about a monitor.
@@ -1179,7 +1143,7 @@ class MonitorSummary {
     return MonitorSummary(
       monitorArn: json['monitorArn'] as String,
       monitorName: json['monitorName'] as String,
-      state: (json['state'] as String).toMonitorState(),
+      state: MonitorState.fromString((json['state'] as String)),
       aggregationPeriod: json['aggregationPeriod'] as int?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -1195,7 +1159,7 @@ class MonitorSummary {
     return {
       'monitorArn': monitorArn,
       'monitorName': monitorName,
-      'state': state.toValue(),
+      'state': state.value,
       if (aggregationPeriod != null) 'aggregationPeriod': aggregationPeriod,
       if (tags != null) 'tags': tags,
     };
@@ -1268,16 +1232,17 @@ class Probe {
   factory Probe.fromJson(Map<String, dynamic> json) {
     return Probe(
       destination: json['destination'] as String,
-      protocol: (json['protocol'] as String).toProtocol(),
+      protocol: Protocol.fromString((json['protocol'] as String)),
       sourceArn: json['sourceArn'] as String,
-      addressFamily: (json['addressFamily'] as String?)?.toAddressFamily(),
+      addressFamily:
+          (json['addressFamily'] as String?)?.let(AddressFamily.fromString),
       createdAt: timeStampFromJson(json['createdAt']),
       destinationPort: json['destinationPort'] as int?,
       modifiedAt: timeStampFromJson(json['modifiedAt']),
       packetSize: json['packetSize'] as int?,
       probeArn: json['probeArn'] as String?,
       probeId: json['probeId'] as String?,
-      state: (json['state'] as String?)?.toProbeState(),
+      state: (json['state'] as String?)?.let(ProbeState.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       vpcId: json['vpcId'] as String?,
@@ -1300,16 +1265,16 @@ class Probe {
     final vpcId = this.vpcId;
     return {
       'destination': destination,
-      'protocol': protocol.toValue(),
+      'protocol': protocol.value,
       'sourceArn': sourceArn,
-      if (addressFamily != null) 'addressFamily': addressFamily.toValue(),
+      if (addressFamily != null) 'addressFamily': addressFamily.value,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (destinationPort != null) 'destinationPort': destinationPort,
       if (modifiedAt != null) 'modifiedAt': unixTimestampToJson(modifiedAt),
       if (packetSize != null) 'packetSize': packetSize,
       if (probeArn != null) 'probeArn': probeArn,
       if (probeId != null) 'probeId': probeId,
-      if (state != null) 'state': state.toValue(),
+      if (state != null) 'state': state.value,
       if (tags != null) 'tags': tags,
       if (vpcId != null) 'vpcId': vpcId,
     };
@@ -1360,7 +1325,7 @@ class ProbeInput {
     final tags = this.tags;
     return {
       'destination': destination,
-      'protocol': protocol.toValue(),
+      'protocol': protocol.value,
       'sourceArn': sourceArn,
       if (destinationPort != null) 'destinationPort': destinationPort,
       if (packetSize != null) 'packetSize': packetSize,
@@ -1370,79 +1335,35 @@ class ProbeInput {
 }
 
 enum ProbeState {
-  pending,
-  active,
-  inactive,
-  error,
-  deleting,
-  deleted,
-}
+  pending('PENDING'),
+  active('ACTIVE'),
+  inactive('INACTIVE'),
+  error('ERROR'),
+  deleting('DELETING'),
+  deleted('DELETED'),
+  ;
 
-extension ProbeStateValueExtension on ProbeState {
-  String toValue() {
-    switch (this) {
-      case ProbeState.pending:
-        return 'PENDING';
-      case ProbeState.active:
-        return 'ACTIVE';
-      case ProbeState.inactive:
-        return 'INACTIVE';
-      case ProbeState.error:
-        return 'ERROR';
-      case ProbeState.deleting:
-        return 'DELETING';
-      case ProbeState.deleted:
-        return 'DELETED';
-    }
-  }
-}
+  final String value;
 
-extension ProbeStateFromString on String {
-  ProbeState toProbeState() {
-    switch (this) {
-      case 'PENDING':
-        return ProbeState.pending;
-      case 'ACTIVE':
-        return ProbeState.active;
-      case 'INACTIVE':
-        return ProbeState.inactive;
-      case 'ERROR':
-        return ProbeState.error;
-      case 'DELETING':
-        return ProbeState.deleting;
-      case 'DELETED':
-        return ProbeState.deleted;
-    }
-    throw Exception('$this is not known in enum ProbeState');
-  }
+  const ProbeState(this.value);
+
+  static ProbeState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ProbeState'));
 }
 
 enum Protocol {
-  tcp,
-  icmp,
-}
+  tcp('TCP'),
+  icmp('ICMP'),
+  ;
 
-extension ProtocolValueExtension on Protocol {
-  String toValue() {
-    switch (this) {
-      case Protocol.tcp:
-        return 'TCP';
-      case Protocol.icmp:
-        return 'ICMP';
-    }
-  }
-}
+  final String value;
 
-extension ProtocolFromString on String {
-  Protocol toProtocol() {
-    switch (this) {
-      case 'TCP':
-        return Protocol.tcp;
-      case 'ICMP':
-        return Protocol.icmp;
-    }
-    throw Exception('$this is not known in enum Protocol');
-  }
+  const Protocol(this.value);
+
+  static Protocol fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Protocol'));
 }
 
 class TagResourceOutput {
@@ -1497,7 +1418,7 @@ class UpdateMonitorOutput {
     return UpdateMonitorOutput(
       monitorArn: json['monitorArn'] as String,
       monitorName: json['monitorName'] as String,
-      state: (json['state'] as String).toMonitorState(),
+      state: MonitorState.fromString((json['state'] as String)),
       aggregationPeriod: json['aggregationPeriod'] as int?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -1513,7 +1434,7 @@ class UpdateMonitorOutput {
     return {
       'monitorArn': monitorArn,
       'monitorName': monitorName,
-      'state': state.toValue(),
+      'state': state.value,
       if (aggregationPeriod != null) 'aggregationPeriod': aggregationPeriod,
       if (tags != null) 'tags': tags,
     };
@@ -1581,16 +1502,17 @@ class UpdateProbeOutput {
   factory UpdateProbeOutput.fromJson(Map<String, dynamic> json) {
     return UpdateProbeOutput(
       destination: json['destination'] as String,
-      protocol: (json['protocol'] as String).toProtocol(),
+      protocol: Protocol.fromString((json['protocol'] as String)),
       sourceArn: json['sourceArn'] as String,
-      addressFamily: (json['addressFamily'] as String?)?.toAddressFamily(),
+      addressFamily:
+          (json['addressFamily'] as String?)?.let(AddressFamily.fromString),
       createdAt: timeStampFromJson(json['createdAt']),
       destinationPort: json['destinationPort'] as int?,
       modifiedAt: timeStampFromJson(json['modifiedAt']),
       packetSize: json['packetSize'] as int?,
       probeArn: json['probeArn'] as String?,
       probeId: json['probeId'] as String?,
-      state: (json['state'] as String?)?.toProbeState(),
+      state: (json['state'] as String?)?.let(ProbeState.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       vpcId: json['vpcId'] as String?,
@@ -1613,16 +1535,16 @@ class UpdateProbeOutput {
     final vpcId = this.vpcId;
     return {
       'destination': destination,
-      'protocol': protocol.toValue(),
+      'protocol': protocol.value,
       'sourceArn': sourceArn,
-      if (addressFamily != null) 'addressFamily': addressFamily.toValue(),
+      if (addressFamily != null) 'addressFamily': addressFamily.value,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (destinationPort != null) 'destinationPort': destinationPort,
       if (modifiedAt != null) 'modifiedAt': unixTimestampToJson(modifiedAt),
       if (packetSize != null) 'packetSize': packetSize,
       if (probeArn != null) 'probeArn': probeArn,
       if (probeId != null) 'probeId': probeId,
-      if (state != null) 'state': state.toValue(),
+      if (state != null) 'state': state.value,
       if (tags != null) 'tags': tags,
       if (vpcId != null) 'vpcId': vpcId,
     };

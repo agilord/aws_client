@@ -449,11 +449,11 @@ class Shield {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Aggregation': aggregation.toValue(),
-        'Pattern': pattern.toValue(),
+        'Aggregation': aggregation.value,
+        'Pattern': pattern.value,
         'ProtectionGroupId': protectionGroupId,
         if (members != null) 'Members': members,
-        if (resourceType != null) 'ResourceType': resourceType.toValue(),
+        if (resourceType != null) 'ResourceType': resourceType.value,
         if (tags != null) 'Tags': tags,
       },
     );
@@ -1574,11 +1574,11 @@ class Shield {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Aggregation': aggregation.toValue(),
-        'Pattern': pattern.toValue(),
+        'Aggregation': aggregation.value,
+        'Pattern': pattern.value,
         'ProtectionGroupId': protectionGroupId,
         if (members != null) 'Members': members,
-        if (resourceType != null) 'ResourceType': resourceType.toValue(),
+        if (resourceType != null) 'ResourceType': resourceType.value,
       },
     );
   }
@@ -1619,7 +1619,7 @@ class Shield {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (autoRenew != null) 'AutoRenew': autoRenew.toValue(),
+        if (autoRenew != null) 'AutoRenew': autoRenew.value,
       },
     );
   }
@@ -1652,8 +1652,8 @@ class ApplicationLayerAutomaticResponseConfiguration {
       Map<String, dynamic> json) {
     return ApplicationLayerAutomaticResponseConfiguration(
       action: ResponseAction.fromJson(json['Action'] as Map<String, dynamic>),
-      status: (json['Status'] as String)
-          .toApplicationLayerAutomaticResponseStatus(),
+      status: ApplicationLayerAutomaticResponseStatus.fromString(
+          (json['Status'] as String)),
     );
   }
 
@@ -1662,40 +1662,24 @@ class ApplicationLayerAutomaticResponseConfiguration {
     final status = this.status;
     return {
       'Action': action,
-      'Status': status.toValue(),
+      'Status': status.value,
     };
   }
 }
 
 enum ApplicationLayerAutomaticResponseStatus {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension ApplicationLayerAutomaticResponseStatusValueExtension
-    on ApplicationLayerAutomaticResponseStatus {
-  String toValue() {
-    switch (this) {
-      case ApplicationLayerAutomaticResponseStatus.enabled:
-        return 'ENABLED';
-      case ApplicationLayerAutomaticResponseStatus.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension ApplicationLayerAutomaticResponseStatusFromString on String {
-  ApplicationLayerAutomaticResponseStatus
-      toApplicationLayerAutomaticResponseStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return ApplicationLayerAutomaticResponseStatus.enabled;
-      case 'DISABLED':
-        return ApplicationLayerAutomaticResponseStatus.disabled;
-    }
-    throw Exception(
-        '$this is not known in enum ApplicationLayerAutomaticResponseStatus');
-  }
+  const ApplicationLayerAutomaticResponseStatus(this.value);
+
+  static ApplicationLayerAutomaticResponseStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ApplicationLayerAutomaticResponseStatus'));
 }
 
 class AssociateDRTLogBucketResponse {
@@ -1838,31 +1822,17 @@ class AttackDetail {
 }
 
 enum AttackLayer {
-  network,
-  application,
-}
+  network('NETWORK'),
+  application('APPLICATION'),
+  ;
 
-extension AttackLayerValueExtension on AttackLayer {
-  String toValue() {
-    switch (this) {
-      case AttackLayer.network:
-        return 'NETWORK';
-      case AttackLayer.application:
-        return 'APPLICATION';
-    }
-  }
-}
+  final String value;
 
-extension AttackLayerFromString on String {
-  AttackLayer toAttackLayer() {
-    switch (this) {
-      case 'NETWORK':
-        return AttackLayer.network;
-      case 'APPLICATION':
-        return AttackLayer.application;
-    }
-    throw Exception('$this is not known in enum AttackLayer');
-  }
+  const AttackLayer(this.value);
+
+  static AttackLayer fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AttackLayer'));
 }
 
 /// Details of a Shield event. This is provided as part of an
@@ -1905,15 +1875,16 @@ class AttackProperty {
 
   factory AttackProperty.fromJson(Map<String, dynamic> json) {
     return AttackProperty(
-      attackLayer: (json['AttackLayer'] as String?)?.toAttackLayer(),
+      attackLayer:
+          (json['AttackLayer'] as String?)?.let(AttackLayer.fromString),
       attackPropertyIdentifier: (json['AttackPropertyIdentifier'] as String?)
-          ?.toAttackPropertyIdentifier(),
+          ?.let(AttackPropertyIdentifier.fromString),
       topContributors: (json['TopContributors'] as List?)
           ?.whereNotNull()
           .map((e) => Contributor.fromJson(e as Map<String, dynamic>))
           .toList(),
       total: json['Total'] as int?,
-      unit: (json['Unit'] as String?)?.toUnit(),
+      unit: (json['Unit'] as String?)?.let(Unit.fromString),
     );
   }
 
@@ -1924,72 +1895,35 @@ class AttackProperty {
     final total = this.total;
     final unit = this.unit;
     return {
-      if (attackLayer != null) 'AttackLayer': attackLayer.toValue(),
+      if (attackLayer != null) 'AttackLayer': attackLayer.value,
       if (attackPropertyIdentifier != null)
-        'AttackPropertyIdentifier': attackPropertyIdentifier.toValue(),
+        'AttackPropertyIdentifier': attackPropertyIdentifier.value,
       if (topContributors != null) 'TopContributors': topContributors,
       if (total != null) 'Total': total,
-      if (unit != null) 'Unit': unit.toValue(),
+      if (unit != null) 'Unit': unit.value,
     };
   }
 }
 
 enum AttackPropertyIdentifier {
-  destinationUrl,
-  referrer,
-  sourceAsn,
-  sourceCountry,
-  sourceIpAddress,
-  sourceUserAgent,
-  wordpressPingbackReflector,
-  wordpressPingbackSource,
-}
+  destinationUrl('DESTINATION_URL'),
+  referrer('REFERRER'),
+  sourceAsn('SOURCE_ASN'),
+  sourceCountry('SOURCE_COUNTRY'),
+  sourceIpAddress('SOURCE_IP_ADDRESS'),
+  sourceUserAgent('SOURCE_USER_AGENT'),
+  wordpressPingbackReflector('WORDPRESS_PINGBACK_REFLECTOR'),
+  wordpressPingbackSource('WORDPRESS_PINGBACK_SOURCE'),
+  ;
 
-extension AttackPropertyIdentifierValueExtension on AttackPropertyIdentifier {
-  String toValue() {
-    switch (this) {
-      case AttackPropertyIdentifier.destinationUrl:
-        return 'DESTINATION_URL';
-      case AttackPropertyIdentifier.referrer:
-        return 'REFERRER';
-      case AttackPropertyIdentifier.sourceAsn:
-        return 'SOURCE_ASN';
-      case AttackPropertyIdentifier.sourceCountry:
-        return 'SOURCE_COUNTRY';
-      case AttackPropertyIdentifier.sourceIpAddress:
-        return 'SOURCE_IP_ADDRESS';
-      case AttackPropertyIdentifier.sourceUserAgent:
-        return 'SOURCE_USER_AGENT';
-      case AttackPropertyIdentifier.wordpressPingbackReflector:
-        return 'WORDPRESS_PINGBACK_REFLECTOR';
-      case AttackPropertyIdentifier.wordpressPingbackSource:
-        return 'WORDPRESS_PINGBACK_SOURCE';
-    }
-  }
-}
+  final String value;
 
-extension AttackPropertyIdentifierFromString on String {
-  AttackPropertyIdentifier toAttackPropertyIdentifier() {
-    switch (this) {
-      case 'DESTINATION_URL':
-        return AttackPropertyIdentifier.destinationUrl;
-      case 'REFERRER':
-        return AttackPropertyIdentifier.referrer;
-      case 'SOURCE_ASN':
-        return AttackPropertyIdentifier.sourceAsn;
-      case 'SOURCE_COUNTRY':
-        return AttackPropertyIdentifier.sourceCountry;
-      case 'SOURCE_IP_ADDRESS':
-        return AttackPropertyIdentifier.sourceIpAddress;
-      case 'SOURCE_USER_AGENT':
-        return AttackPropertyIdentifier.sourceUserAgent;
-      case 'WORDPRESS_PINGBACK_REFLECTOR':
-        return AttackPropertyIdentifier.wordpressPingbackReflector;
-      case 'WORDPRESS_PINGBACK_SOURCE':
-        return AttackPropertyIdentifier.wordpressPingbackSource;
-    }
-    throw Exception('$this is not known in enum AttackPropertyIdentifier');
-  }
+  const AttackPropertyIdentifier(this.value);
+
+  static AttackPropertyIdentifier fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AttackPropertyIdentifier'));
 }
 
 /// A single attack statistics data record. This is returned by
@@ -2240,31 +2174,17 @@ class AttackVolumeStatistics {
 }
 
 enum AutoRenew {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension AutoRenewValueExtension on AutoRenew {
-  String toValue() {
-    switch (this) {
-      case AutoRenew.enabled:
-        return 'ENABLED';
-      case AutoRenew.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension AutoRenewFromString on String {
-  AutoRenew toAutoRenew() {
-    switch (this) {
-      case 'ENABLED':
-        return AutoRenew.enabled;
-      case 'DISABLED':
-        return AutoRenew.disabled;
-    }
-    throw Exception('$this is not known in enum AutoRenew');
-  }
+  const AutoRenew(this.value);
+
+  static AutoRenew fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AutoRenew'));
 }
 
 /// Specifies that Shield Advanced should configure its WAF rules with the WAF
@@ -2749,14 +2669,14 @@ class GetSubscriptionStateResponse {
   factory GetSubscriptionStateResponse.fromJson(Map<String, dynamic> json) {
     return GetSubscriptionStateResponse(
       subscriptionState:
-          (json['SubscriptionState'] as String).toSubscriptionState(),
+          SubscriptionState.fromString((json['SubscriptionState'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final subscriptionState = this.subscriptionState;
     return {
-      'SubscriptionState': subscriptionState.toValue(),
+      'SubscriptionState': subscriptionState.value,
     };
   }
 }
@@ -2792,7 +2712,7 @@ class InclusionProtectionFilters {
       if (protectionNames != null) 'ProtectionNames': protectionNames,
       if (resourceArns != null) 'ResourceArns': resourceArns,
       if (resourceTypes != null)
-        'ResourceTypes': resourceTypes.map((e) => e.toValue()).toList(),
+        'ResourceTypes': resourceTypes.map((e) => e.value).toList(),
     };
   }
 }
@@ -2834,12 +2754,11 @@ class InclusionProtectionGroupFilters {
     final resourceTypes = this.resourceTypes;
     return {
       if (aggregations != null)
-        'Aggregations': aggregations.map((e) => e.toValue()).toList(),
-      if (patterns != null)
-        'Patterns': patterns.map((e) => e.toValue()).toList(),
+        'Aggregations': aggregations.map((e) => e.value).toList(),
+      if (patterns != null) 'Patterns': patterns.map((e) => e.value).toList(),
       if (protectionGroupIds != null) 'ProtectionGroupIds': protectionGroupIds,
       if (resourceTypes != null)
-        'ResourceTypes': resourceTypes.map((e) => e.toValue()).toList(),
+        'ResourceTypes': resourceTypes.map((e) => e.value).toList(),
     };
   }
 }
@@ -3102,84 +3021,38 @@ class Mitigation {
 }
 
 enum ProactiveEngagementStatus {
-  enabled,
-  disabled,
-  pending,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  pending('PENDING'),
+  ;
 
-extension ProactiveEngagementStatusValueExtension on ProactiveEngagementStatus {
-  String toValue() {
-    switch (this) {
-      case ProactiveEngagementStatus.enabled:
-        return 'ENABLED';
-      case ProactiveEngagementStatus.disabled:
-        return 'DISABLED';
-      case ProactiveEngagementStatus.pending:
-        return 'PENDING';
-    }
-  }
-}
+  final String value;
 
-extension ProactiveEngagementStatusFromString on String {
-  ProactiveEngagementStatus toProactiveEngagementStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return ProactiveEngagementStatus.enabled;
-      case 'DISABLED':
-        return ProactiveEngagementStatus.disabled;
-      case 'PENDING':
-        return ProactiveEngagementStatus.pending;
-    }
-    throw Exception('$this is not known in enum ProactiveEngagementStatus');
-  }
+  const ProactiveEngagementStatus(this.value);
+
+  static ProactiveEngagementStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ProactiveEngagementStatus'));
 }
 
 enum ProtectedResourceType {
-  cloudfrontDistribution,
-  route_53HostedZone,
-  elasticIpAllocation,
-  classicLoadBalancer,
-  applicationLoadBalancer,
-  globalAccelerator,
-}
+  cloudfrontDistribution('CLOUDFRONT_DISTRIBUTION'),
+  route_53HostedZone('ROUTE_53_HOSTED_ZONE'),
+  elasticIpAllocation('ELASTIC_IP_ALLOCATION'),
+  classicLoadBalancer('CLASSIC_LOAD_BALANCER'),
+  applicationLoadBalancer('APPLICATION_LOAD_BALANCER'),
+  globalAccelerator('GLOBAL_ACCELERATOR'),
+  ;
 
-extension ProtectedResourceTypeValueExtension on ProtectedResourceType {
-  String toValue() {
-    switch (this) {
-      case ProtectedResourceType.cloudfrontDistribution:
-        return 'CLOUDFRONT_DISTRIBUTION';
-      case ProtectedResourceType.route_53HostedZone:
-        return 'ROUTE_53_HOSTED_ZONE';
-      case ProtectedResourceType.elasticIpAllocation:
-        return 'ELASTIC_IP_ALLOCATION';
-      case ProtectedResourceType.classicLoadBalancer:
-        return 'CLASSIC_LOAD_BALANCER';
-      case ProtectedResourceType.applicationLoadBalancer:
-        return 'APPLICATION_LOAD_BALANCER';
-      case ProtectedResourceType.globalAccelerator:
-        return 'GLOBAL_ACCELERATOR';
-    }
-  }
-}
+  final String value;
 
-extension ProtectedResourceTypeFromString on String {
-  ProtectedResourceType toProtectedResourceType() {
-    switch (this) {
-      case 'CLOUDFRONT_DISTRIBUTION':
-        return ProtectedResourceType.cloudfrontDistribution;
-      case 'ROUTE_53_HOSTED_ZONE':
-        return ProtectedResourceType.route_53HostedZone;
-      case 'ELASTIC_IP_ALLOCATION':
-        return ProtectedResourceType.elasticIpAllocation;
-      case 'CLASSIC_LOAD_BALANCER':
-        return ProtectedResourceType.classicLoadBalancer;
-      case 'APPLICATION_LOAD_BALANCER':
-        return ProtectedResourceType.applicationLoadBalancer;
-      case 'GLOBAL_ACCELERATOR':
-        return ProtectedResourceType.globalAccelerator;
-    }
-    throw Exception('$this is not known in enum ProtectedResourceType');
-  }
+  const ProtectedResourceType(this.value);
+
+  static ProtectedResourceType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ProtectedResourceType'));
 }
 
 /// An object that represents a resource that is under DDoS protection.
@@ -3322,17 +3195,17 @@ class ProtectionGroup {
 
   factory ProtectionGroup.fromJson(Map<String, dynamic> json) {
     return ProtectionGroup(
-      aggregation:
-          (json['Aggregation'] as String).toProtectionGroupAggregation(),
+      aggregation: ProtectionGroupAggregation.fromString(
+          (json['Aggregation'] as String)),
       members: (json['Members'] as List)
           .whereNotNull()
           .map((e) => e as String)
           .toList(),
-      pattern: (json['Pattern'] as String).toProtectionGroupPattern(),
+      pattern: ProtectionGroupPattern.fromString((json['Pattern'] as String)),
       protectionGroupId: json['ProtectionGroupId'] as String,
       protectionGroupArn: json['ProtectionGroupArn'] as String?,
-      resourceType:
-          (json['ResourceType'] as String?)?.toProtectedResourceType(),
+      resourceType: (json['ResourceType'] as String?)
+          ?.let(ProtectedResourceType.fromString),
     );
   }
 
@@ -3344,48 +3217,30 @@ class ProtectionGroup {
     final protectionGroupArn = this.protectionGroupArn;
     final resourceType = this.resourceType;
     return {
-      'Aggregation': aggregation.toValue(),
+      'Aggregation': aggregation.value,
       'Members': members,
-      'Pattern': pattern.toValue(),
+      'Pattern': pattern.value,
       'ProtectionGroupId': protectionGroupId,
       if (protectionGroupArn != null) 'ProtectionGroupArn': protectionGroupArn,
-      if (resourceType != null) 'ResourceType': resourceType.toValue(),
+      if (resourceType != null) 'ResourceType': resourceType.value,
     };
   }
 }
 
 enum ProtectionGroupAggregation {
-  sum,
-  mean,
-  max,
-}
+  sum('SUM'),
+  mean('MEAN'),
+  max('MAX'),
+  ;
 
-extension ProtectionGroupAggregationValueExtension
-    on ProtectionGroupAggregation {
-  String toValue() {
-    switch (this) {
-      case ProtectionGroupAggregation.sum:
-        return 'SUM';
-      case ProtectionGroupAggregation.mean:
-        return 'MEAN';
-      case ProtectionGroupAggregation.max:
-        return 'MAX';
-    }
-  }
-}
+  final String value;
 
-extension ProtectionGroupAggregationFromString on String {
-  ProtectionGroupAggregation toProtectionGroupAggregation() {
-    switch (this) {
-      case 'SUM':
-        return ProtectionGroupAggregation.sum;
-      case 'MEAN':
-        return ProtectionGroupAggregation.mean;
-      case 'MAX':
-        return ProtectionGroupAggregation.max;
-    }
-    throw Exception('$this is not known in enum ProtectionGroupAggregation');
-  }
+  const ProtectionGroupAggregation(this.value);
+
+  static ProtectionGroupAggregation fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ProtectionGroupAggregation'));
 }
 
 /// Limits settings on protection groups with arbitrary pattern type.
@@ -3446,36 +3301,19 @@ class ProtectionGroupLimits {
 }
 
 enum ProtectionGroupPattern {
-  all,
-  arbitrary,
-  byResourceType,
-}
+  all('ALL'),
+  arbitrary('ARBITRARY'),
+  byResourceType('BY_RESOURCE_TYPE'),
+  ;
 
-extension ProtectionGroupPatternValueExtension on ProtectionGroupPattern {
-  String toValue() {
-    switch (this) {
-      case ProtectionGroupPattern.all:
-        return 'ALL';
-      case ProtectionGroupPattern.arbitrary:
-        return 'ARBITRARY';
-      case ProtectionGroupPattern.byResourceType:
-        return 'BY_RESOURCE_TYPE';
-    }
-  }
-}
+  final String value;
 
-extension ProtectionGroupPatternFromString on String {
-  ProtectionGroupPattern toProtectionGroupPattern() {
-    switch (this) {
-      case 'ALL':
-        return ProtectionGroupPattern.all;
-      case 'ARBITRARY':
-        return ProtectionGroupPattern.arbitrary;
-      case 'BY_RESOURCE_TYPE':
-        return ProtectionGroupPattern.byResourceType;
-    }
-    throw Exception('$this is not known in enum ProtectionGroupPattern');
-  }
+  const ProtectionGroupPattern(this.value);
+
+  static ProtectionGroupPattern fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ProtectionGroupPattern'));
 }
 
 /// Limits settings by pattern type in the protection groups for your
@@ -3610,7 +3448,7 @@ class SubResourceSummary {
           .map((e) => SummarizedCounter.fromJson(e as Map<String, dynamic>))
           .toList(),
       id: json['Id'] as String?,
-      type: (json['Type'] as String?)?.toSubResourceType(),
+      type: (json['Type'] as String?)?.let(SubResourceType.fromString),
     );
   }
 
@@ -3623,37 +3461,24 @@ class SubResourceSummary {
       if (attackVectors != null) 'AttackVectors': attackVectors,
       if (counters != null) 'Counters': counters,
       if (id != null) 'Id': id,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum SubResourceType {
-  ip,
-  url,
-}
+  ip('IP'),
+  url('URL'),
+  ;
 
-extension SubResourceTypeValueExtension on SubResourceType {
-  String toValue() {
-    switch (this) {
-      case SubResourceType.ip:
-        return 'IP';
-      case SubResourceType.url:
-        return 'URL';
-    }
-  }
-}
+  final String value;
 
-extension SubResourceTypeFromString on String {
-  SubResourceType toSubResourceType() {
-    switch (this) {
-      case 'IP':
-        return SubResourceType.ip;
-      case 'URL':
-        return SubResourceType.url;
-    }
-    throw Exception('$this is not known in enum SubResourceType');
-  }
+  const SubResourceType(this.value);
+
+  static SubResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SubResourceType'));
 }
 
 /// Information about the Shield Advanced subscription for an account.
@@ -3714,14 +3539,14 @@ class Subscription {
     return Subscription(
       subscriptionLimits: SubscriptionLimits.fromJson(
           json['SubscriptionLimits'] as Map<String, dynamic>),
-      autoRenew: (json['AutoRenew'] as String?)?.toAutoRenew(),
+      autoRenew: (json['AutoRenew'] as String?)?.let(AutoRenew.fromString),
       endTime: timeStampFromJson(json['EndTime']),
       limits: (json['Limits'] as List?)
           ?.whereNotNull()
           .map((e) => Limit.fromJson(e as Map<String, dynamic>))
           .toList(),
       proactiveEngagementStatus: (json['ProactiveEngagementStatus'] as String?)
-          ?.toProactiveEngagementStatus(),
+          ?.let(ProactiveEngagementStatus.fromString),
       startTime: timeStampFromJson(json['StartTime']),
       subscriptionArn: json['SubscriptionArn'] as String?,
       timeCommitmentInSeconds: json['TimeCommitmentInSeconds'] as int?,
@@ -3739,11 +3564,11 @@ class Subscription {
     final timeCommitmentInSeconds = this.timeCommitmentInSeconds;
     return {
       'SubscriptionLimits': subscriptionLimits,
-      if (autoRenew != null) 'AutoRenew': autoRenew.toValue(),
+      if (autoRenew != null) 'AutoRenew': autoRenew.value,
       if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
       if (limits != null) 'Limits': limits,
       if (proactiveEngagementStatus != null)
-        'ProactiveEngagementStatus': proactiveEngagementStatus.toValue(),
+        'ProactiveEngagementStatus': proactiveEngagementStatus.value,
       if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
       if (subscriptionArn != null) 'SubscriptionArn': subscriptionArn,
       if (timeCommitmentInSeconds != null)
@@ -3785,31 +3610,18 @@ class SubscriptionLimits {
 }
 
 enum SubscriptionState {
-  active,
-  inactive,
-}
+  active('ACTIVE'),
+  inactive('INACTIVE'),
+  ;
 
-extension SubscriptionStateValueExtension on SubscriptionState {
-  String toValue() {
-    switch (this) {
-      case SubscriptionState.active:
-        return 'ACTIVE';
-      case SubscriptionState.inactive:
-        return 'INACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension SubscriptionStateFromString on String {
-  SubscriptionState toSubscriptionState() {
-    switch (this) {
-      case 'ACTIVE':
-        return SubscriptionState.active;
-      case 'INACTIVE':
-        return SubscriptionState.inactive;
-    }
-    throw Exception('$this is not known in enum SubscriptionState');
-  }
+  const SubscriptionState(this.value);
+
+  static SubscriptionState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SubscriptionState'));
 }
 
 /// A summary of information about the attack.
@@ -3988,41 +3800,19 @@ class TimeRange {
 }
 
 enum Unit {
-  bits,
-  bytes,
-  packets,
-  requests,
-}
+  bits('BITS'),
+  bytes('BYTES'),
+  packets('PACKETS'),
+  requests('REQUESTS'),
+  ;
 
-extension UnitValueExtension on Unit {
-  String toValue() {
-    switch (this) {
-      case Unit.bits:
-        return 'BITS';
-      case Unit.bytes:
-        return 'BYTES';
-      case Unit.packets:
-        return 'PACKETS';
-      case Unit.requests:
-        return 'REQUESTS';
-    }
-  }
-}
+  final String value;
 
-extension UnitFromString on String {
-  Unit toUnit() {
-    switch (this) {
-      case 'BITS':
-        return Unit.bits;
-      case 'BYTES':
-        return Unit.bytes;
-      case 'PACKETS':
-        return Unit.packets;
-      case 'REQUESTS':
-        return Unit.requests;
-    }
-    throw Exception('$this is not known in enum Unit');
-  }
+  const Unit(this.value);
+
+  static Unit fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Unit'));
 }
 
 class UntagResourceResponse {

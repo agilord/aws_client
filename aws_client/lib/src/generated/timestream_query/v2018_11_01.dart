@@ -808,7 +808,7 @@ class TimestreamQuery {
       payload: {
         if (maxQueryTCU != null) 'MaxQueryTCU': maxQueryTCU,
         if (queryPricingModel != null)
-          'QueryPricingModel': queryPricingModel.toValue(),
+          'QueryPricingModel': queryPricingModel.value,
       },
     );
 
@@ -845,7 +845,7 @@ class TimestreamQuery {
       headers: headers,
       payload: {
         'ScheduledQueryArn': scheduledQueryArn,
-        'State': state.toValue(),
+        'State': state.value,
       },
     );
   }
@@ -1010,8 +1010,8 @@ class DescribeAccountSettingsResponse {
   factory DescribeAccountSettingsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeAccountSettingsResponse(
       maxQueryTCU: json['MaxQueryTCU'] as int?,
-      queryPricingModel:
-          (json['QueryPricingModel'] as String?)?.toQueryPricingModel(),
+      queryPricingModel: (json['QueryPricingModel'] as String?)
+          ?.let(QueryPricingModel.fromString),
     );
   }
 
@@ -1021,7 +1021,7 @@ class DescribeAccountSettingsResponse {
     return {
       if (maxQueryTCU != null) 'MaxQueryTCU': maxQueryTCU,
       if (queryPricingModel != null)
-        'QueryPricingModel': queryPricingModel.toValue(),
+        'QueryPricingModel': queryPricingModel.value,
     };
   }
 }
@@ -1092,7 +1092,7 @@ class DimensionMapping {
   factory DimensionMapping.fromJson(Map<String, dynamic> json) {
     return DimensionMapping(
       dimensionValueType:
-          (json['DimensionValueType'] as String).toDimensionValueType(),
+          DimensionValueType.fromString((json['DimensionValueType'] as String)),
       name: json['Name'] as String,
     );
   }
@@ -1101,33 +1101,24 @@ class DimensionMapping {
     final dimensionValueType = this.dimensionValueType;
     final name = this.name;
     return {
-      'DimensionValueType': dimensionValueType.toValue(),
+      'DimensionValueType': dimensionValueType.value,
       'Name': name,
     };
   }
 }
 
 enum DimensionValueType {
-  varchar,
-}
+  varchar('VARCHAR'),
+  ;
 
-extension DimensionValueTypeValueExtension on DimensionValueType {
-  String toValue() {
-    switch (this) {
-      case DimensionValueType.varchar:
-        return 'VARCHAR';
-    }
-  }
-}
+  final String value;
 
-extension DimensionValueTypeFromString on String {
-  DimensionValueType toDimensionValueType() {
-    switch (this) {
-      case 'VARCHAR':
-        return DimensionValueType.varchar;
-    }
-    throw Exception('$this is not known in enum DimensionValueType');
-  }
+  const DimensionValueType(this.value);
+
+  static DimensionValueType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DimensionValueType'));
 }
 
 /// Represents an available endpoint against which to make API calls against, as
@@ -1341,46 +1332,21 @@ class ListTagsForResourceResponse {
 }
 
 enum MeasureValueType {
-  bigint,
-  boolean,
-  double,
-  varchar,
-  multi,
-}
+  bigint('BIGINT'),
+  boolean('BOOLEAN'),
+  double('DOUBLE'),
+  varchar('VARCHAR'),
+  multi('MULTI'),
+  ;
 
-extension MeasureValueTypeValueExtension on MeasureValueType {
-  String toValue() {
-    switch (this) {
-      case MeasureValueType.bigint:
-        return 'BIGINT';
-      case MeasureValueType.boolean:
-        return 'BOOLEAN';
-      case MeasureValueType.double:
-        return 'DOUBLE';
-      case MeasureValueType.varchar:
-        return 'VARCHAR';
-      case MeasureValueType.multi:
-        return 'MULTI';
-    }
-  }
-}
+  final String value;
 
-extension MeasureValueTypeFromString on String {
-  MeasureValueType toMeasureValueType() {
-    switch (this) {
-      case 'BIGINT':
-        return MeasureValueType.bigint;
-      case 'BOOLEAN':
-        return MeasureValueType.boolean;
-      case 'DOUBLE':
-        return MeasureValueType.double;
-      case 'VARCHAR':
-        return MeasureValueType.varchar;
-      case 'MULTI':
-        return MeasureValueType.multi;
-    }
-    throw Exception('$this is not known in enum MeasureValueType');
-  }
+  const MeasureValueType(this.value);
+
+  static MeasureValueType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MeasureValueType'));
 }
 
 /// MixedMeasureMappings are mappings that can be used to ingest data into a
@@ -1417,7 +1383,7 @@ class MixedMeasureMapping {
   factory MixedMeasureMapping.fromJson(Map<String, dynamic> json) {
     return MixedMeasureMapping(
       measureValueType:
-          (json['MeasureValueType'] as String).toMeasureValueType(),
+          MeasureValueType.fromString((json['MeasureValueType'] as String)),
       measureName: json['MeasureName'] as String?,
       multiMeasureAttributeMappings: (json['MultiMeasureAttributeMappings']
               as List?)
@@ -1437,7 +1403,7 @@ class MixedMeasureMapping {
     final sourceColumn = this.sourceColumn;
     final targetMeasureName = this.targetMeasureName;
     return {
-      'MeasureValueType': measureValueType.toValue(),
+      'MeasureValueType': measureValueType.value,
       if (measureName != null) 'MeasureName': measureName,
       if (multiMeasureAttributeMappings != null)
         'MultiMeasureAttributeMappings': multiMeasureAttributeMappings,
@@ -1467,8 +1433,8 @@ class MultiMeasureAttributeMapping {
 
   factory MultiMeasureAttributeMapping.fromJson(Map<String, dynamic> json) {
     return MultiMeasureAttributeMapping(
-      measureValueType:
-          (json['MeasureValueType'] as String).toScalarMeasureValueType(),
+      measureValueType: ScalarMeasureValueType.fromString(
+          (json['MeasureValueType'] as String)),
       sourceColumn: json['SourceColumn'] as String,
       targetMultiMeasureAttributeName:
           json['TargetMultiMeasureAttributeName'] as String?,
@@ -1481,7 +1447,7 @@ class MultiMeasureAttributeMapping {
     final targetMultiMeasureAttributeName =
         this.targetMultiMeasureAttributeName;
     return {
-      'MeasureValueType': measureValueType.toValue(),
+      'MeasureValueType': measureValueType.value,
       'SourceColumn': sourceColumn,
       if (targetMultiMeasureAttributeName != null)
         'TargetMultiMeasureAttributeName': targetMultiMeasureAttributeName,
@@ -1627,31 +1593,18 @@ class PrepareQueryResponse {
 }
 
 enum QueryPricingModel {
-  bytesScanned,
-  computeUnits,
-}
+  bytesScanned('BYTES_SCANNED'),
+  computeUnits('COMPUTE_UNITS'),
+  ;
 
-extension QueryPricingModelValueExtension on QueryPricingModel {
-  String toValue() {
-    switch (this) {
-      case QueryPricingModel.bytesScanned:
-        return 'BYTES_SCANNED';
-      case QueryPricingModel.computeUnits:
-        return 'COMPUTE_UNITS';
-    }
-  }
-}
+  final String value;
 
-extension QueryPricingModelFromString on String {
-  QueryPricingModel toQueryPricingModel() {
-    switch (this) {
-      case 'BYTES_SCANNED':
-        return QueryPricingModel.bytesScanned;
-      case 'COMPUTE_UNITS':
-        return QueryPricingModel.computeUnits;
-    }
-    throw Exception('$this is not known in enum QueryPricingModel');
-  }
+  const QueryPricingModel(this.value);
+
+  static QueryPricingModel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum QueryPricingModel'));
 }
 
 class QueryResponse {
@@ -1808,8 +1761,8 @@ class S3Configuration {
   factory S3Configuration.fromJson(Map<String, dynamic> json) {
     return S3Configuration(
       bucketName: json['BucketName'] as String,
-      encryptionOption:
-          (json['EncryptionOption'] as String?)?.toS3EncryptionOption(),
+      encryptionOption: (json['EncryptionOption'] as String?)
+          ?.let(S3EncryptionOption.fromString),
       objectKeyPrefix: json['ObjectKeyPrefix'] as String?,
     );
   }
@@ -1820,39 +1773,25 @@ class S3Configuration {
     final objectKeyPrefix = this.objectKeyPrefix;
     return {
       'BucketName': bucketName,
-      if (encryptionOption != null)
-        'EncryptionOption': encryptionOption.toValue(),
+      if (encryptionOption != null) 'EncryptionOption': encryptionOption.value,
       if (objectKeyPrefix != null) 'ObjectKeyPrefix': objectKeyPrefix,
     };
   }
 }
 
 enum S3EncryptionOption {
-  sseS3,
-  sseKms,
-}
+  sseS3('SSE_S3'),
+  sseKms('SSE_KMS'),
+  ;
 
-extension S3EncryptionOptionValueExtension on S3EncryptionOption {
-  String toValue() {
-    switch (this) {
-      case S3EncryptionOption.sseS3:
-        return 'SSE_S3';
-      case S3EncryptionOption.sseKms:
-        return 'SSE_KMS';
-    }
-  }
-}
+  final String value;
 
-extension S3EncryptionOptionFromString on String {
-  S3EncryptionOption toS3EncryptionOption() {
-    switch (this) {
-      case 'SSE_S3':
-        return S3EncryptionOption.sseS3;
-      case 'SSE_KMS':
-        return S3EncryptionOption.sseKms;
-    }
-    throw Exception('$this is not known in enum S3EncryptionOption');
-  }
+  const S3EncryptionOption(this.value);
+
+  static S3EncryptionOption fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum S3EncryptionOption'));
 }
 
 /// S3 report location for the scheduled query run.
@@ -1886,119 +1825,44 @@ class S3ReportLocation {
 }
 
 enum ScalarMeasureValueType {
-  bigint,
-  boolean,
-  double,
-  varchar,
-  timestamp,
-}
+  bigint('BIGINT'),
+  boolean('BOOLEAN'),
+  double('DOUBLE'),
+  varchar('VARCHAR'),
+  timestamp('TIMESTAMP'),
+  ;
 
-extension ScalarMeasureValueTypeValueExtension on ScalarMeasureValueType {
-  String toValue() {
-    switch (this) {
-      case ScalarMeasureValueType.bigint:
-        return 'BIGINT';
-      case ScalarMeasureValueType.boolean:
-        return 'BOOLEAN';
-      case ScalarMeasureValueType.double:
-        return 'DOUBLE';
-      case ScalarMeasureValueType.varchar:
-        return 'VARCHAR';
-      case ScalarMeasureValueType.timestamp:
-        return 'TIMESTAMP';
-    }
-  }
-}
+  final String value;
 
-extension ScalarMeasureValueTypeFromString on String {
-  ScalarMeasureValueType toScalarMeasureValueType() {
-    switch (this) {
-      case 'BIGINT':
-        return ScalarMeasureValueType.bigint;
-      case 'BOOLEAN':
-        return ScalarMeasureValueType.boolean;
-      case 'DOUBLE':
-        return ScalarMeasureValueType.double;
-      case 'VARCHAR':
-        return ScalarMeasureValueType.varchar;
-      case 'TIMESTAMP':
-        return ScalarMeasureValueType.timestamp;
-    }
-    throw Exception('$this is not known in enum ScalarMeasureValueType');
-  }
+  const ScalarMeasureValueType(this.value);
+
+  static ScalarMeasureValueType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ScalarMeasureValueType'));
 }
 
 enum ScalarType {
-  varchar,
-  boolean,
-  bigint,
-  double,
-  timestamp,
-  date,
-  time,
-  intervalDayToSecond,
-  intervalYearToMonth,
-  unknown,
-  integer,
-}
+  varchar('VARCHAR'),
+  boolean('BOOLEAN'),
+  bigint('BIGINT'),
+  double('DOUBLE'),
+  timestamp('TIMESTAMP'),
+  date('DATE'),
+  time('TIME'),
+  intervalDayToSecond('INTERVAL_DAY_TO_SECOND'),
+  intervalYearToMonth('INTERVAL_YEAR_TO_MONTH'),
+  unknown('UNKNOWN'),
+  integer('INTEGER'),
+  ;
 
-extension ScalarTypeValueExtension on ScalarType {
-  String toValue() {
-    switch (this) {
-      case ScalarType.varchar:
-        return 'VARCHAR';
-      case ScalarType.boolean:
-        return 'BOOLEAN';
-      case ScalarType.bigint:
-        return 'BIGINT';
-      case ScalarType.double:
-        return 'DOUBLE';
-      case ScalarType.timestamp:
-        return 'TIMESTAMP';
-      case ScalarType.date:
-        return 'DATE';
-      case ScalarType.time:
-        return 'TIME';
-      case ScalarType.intervalDayToSecond:
-        return 'INTERVAL_DAY_TO_SECOND';
-      case ScalarType.intervalYearToMonth:
-        return 'INTERVAL_YEAR_TO_MONTH';
-      case ScalarType.unknown:
-        return 'UNKNOWN';
-      case ScalarType.integer:
-        return 'INTEGER';
-    }
-  }
-}
+  final String value;
 
-extension ScalarTypeFromString on String {
-  ScalarType toScalarType() {
-    switch (this) {
-      case 'VARCHAR':
-        return ScalarType.varchar;
-      case 'BOOLEAN':
-        return ScalarType.boolean;
-      case 'BIGINT':
-        return ScalarType.bigint;
-      case 'DOUBLE':
-        return ScalarType.double;
-      case 'TIMESTAMP':
-        return ScalarType.timestamp;
-      case 'DATE':
-        return ScalarType.date;
-      case 'TIME':
-        return ScalarType.time;
-      case 'INTERVAL_DAY_TO_SECOND':
-        return ScalarType.intervalDayToSecond;
-      case 'INTERVAL_YEAR_TO_MONTH':
-        return ScalarType.intervalYearToMonth;
-      case 'UNKNOWN':
-        return ScalarType.unknown;
-      case 'INTEGER':
-        return ScalarType.integer;
-    }
-    throw Exception('$this is not known in enum ScalarType');
-  }
+  const ScalarType(this.value);
+
+  static ScalarType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ScalarType'));
 }
 
 /// Configuration of the schedule of the query.
@@ -2070,14 +1934,14 @@ class ScheduledQuery {
     return ScheduledQuery(
       arn: json['Arn'] as String,
       name: json['Name'] as String,
-      state: (json['State'] as String).toScheduledQueryState(),
+      state: ScheduledQueryState.fromString((json['State'] as String)),
       creationTime: timeStampFromJson(json['CreationTime']),
       errorReportConfiguration: json['ErrorReportConfiguration'] != null
           ? ErrorReportConfiguration.fromJson(
               json['ErrorReportConfiguration'] as Map<String, dynamic>)
           : null,
-      lastRunStatus:
-          (json['LastRunStatus'] as String?)?.toScheduledQueryRunStatus(),
+      lastRunStatus: (json['LastRunStatus'] as String?)
+          ?.let(ScheduledQueryRunStatus.fromString),
       nextInvocationTime: timeStampFromJson(json['NextInvocationTime']),
       previousInvocationTime: timeStampFromJson(json['PreviousInvocationTime']),
       targetDestination: json['TargetDestination'] != null
@@ -2100,12 +1964,12 @@ class ScheduledQuery {
     return {
       'Arn': arn,
       'Name': name,
-      'State': state.toValue(),
+      'State': state.value,
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
       if (errorReportConfiguration != null)
         'ErrorReportConfiguration': errorReportConfiguration,
-      if (lastRunStatus != null) 'LastRunStatus': lastRunStatus.toValue(),
+      if (lastRunStatus != null) 'LastRunStatus': lastRunStatus.value,
       if (nextInvocationTime != null)
         'NextInvocationTime': unixTimestampToJson(nextInvocationTime),
       if (previousInvocationTime != null)
@@ -2189,7 +2053,7 @@ class ScheduledQueryDescription {
       queryString: json['QueryString'] as String,
       scheduleConfiguration: ScheduleConfiguration.fromJson(
           json['ScheduleConfiguration'] as Map<String, dynamic>),
-      state: (json['State'] as String).toScheduledQueryState(),
+      state: ScheduledQueryState.fromString((json['State'] as String)),
       creationTime: timeStampFromJson(json['CreationTime']),
       errorReportConfiguration: json['ErrorReportConfiguration'] != null
           ? ErrorReportConfiguration.fromJson(
@@ -2238,7 +2102,7 @@ class ScheduledQueryDescription {
       'NotificationConfiguration': notificationConfiguration,
       'QueryString': queryString,
       'ScheduleConfiguration': scheduleConfiguration,
-      'State': state.toValue(),
+      'State': state.value,
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
       if (errorReportConfiguration != null)
@@ -2259,41 +2123,20 @@ class ScheduledQueryDescription {
 }
 
 enum ScheduledQueryRunStatus {
-  autoTriggerSuccess,
-  autoTriggerFailure,
-  manualTriggerSuccess,
-  manualTriggerFailure,
-}
+  autoTriggerSuccess('AUTO_TRIGGER_SUCCESS'),
+  autoTriggerFailure('AUTO_TRIGGER_FAILURE'),
+  manualTriggerSuccess('MANUAL_TRIGGER_SUCCESS'),
+  manualTriggerFailure('MANUAL_TRIGGER_FAILURE'),
+  ;
 
-extension ScheduledQueryRunStatusValueExtension on ScheduledQueryRunStatus {
-  String toValue() {
-    switch (this) {
-      case ScheduledQueryRunStatus.autoTriggerSuccess:
-        return 'AUTO_TRIGGER_SUCCESS';
-      case ScheduledQueryRunStatus.autoTriggerFailure:
-        return 'AUTO_TRIGGER_FAILURE';
-      case ScheduledQueryRunStatus.manualTriggerSuccess:
-        return 'MANUAL_TRIGGER_SUCCESS';
-      case ScheduledQueryRunStatus.manualTriggerFailure:
-        return 'MANUAL_TRIGGER_FAILURE';
-    }
-  }
-}
+  final String value;
 
-extension ScheduledQueryRunStatusFromString on String {
-  ScheduledQueryRunStatus toScheduledQueryRunStatus() {
-    switch (this) {
-      case 'AUTO_TRIGGER_SUCCESS':
-        return ScheduledQueryRunStatus.autoTriggerSuccess;
-      case 'AUTO_TRIGGER_FAILURE':
-        return ScheduledQueryRunStatus.autoTriggerFailure;
-      case 'MANUAL_TRIGGER_SUCCESS':
-        return ScheduledQueryRunStatus.manualTriggerSuccess;
-      case 'MANUAL_TRIGGER_FAILURE':
-        return ScheduledQueryRunStatus.manualTriggerFailure;
-    }
-    throw Exception('$this is not known in enum ScheduledQueryRunStatus');
-  }
+  const ScheduledQueryRunStatus(this.value);
+
+  static ScheduledQueryRunStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ScheduledQueryRunStatus'));
 }
 
 /// Run summary for the scheduled query
@@ -2340,7 +2183,8 @@ class ScheduledQueryRunSummary {
           : null,
       failureReason: json['FailureReason'] as String?,
       invocationTime: timeStampFromJson(json['InvocationTime']),
-      runStatus: (json['RunStatus'] as String?)?.toScheduledQueryRunStatus(),
+      runStatus: (json['RunStatus'] as String?)
+          ?.let(ScheduledQueryRunStatus.fromString),
       triggerTime: timeStampFromJson(json['TriggerTime']),
     );
   }
@@ -2359,38 +2203,25 @@ class ScheduledQueryRunSummary {
       if (failureReason != null) 'FailureReason': failureReason,
       if (invocationTime != null)
         'InvocationTime': unixTimestampToJson(invocationTime),
-      if (runStatus != null) 'RunStatus': runStatus.toValue(),
+      if (runStatus != null) 'RunStatus': runStatus.value,
       if (triggerTime != null) 'TriggerTime': unixTimestampToJson(triggerTime),
     };
   }
 }
 
 enum ScheduledQueryState {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension ScheduledQueryStateValueExtension on ScheduledQueryState {
-  String toValue() {
-    switch (this) {
-      case ScheduledQueryState.enabled:
-        return 'ENABLED';
-      case ScheduledQueryState.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension ScheduledQueryStateFromString on String {
-  ScheduledQueryState toScheduledQueryState() {
-    switch (this) {
-      case 'ENABLED':
-        return ScheduledQueryState.enabled;
-      case 'DISABLED':
-        return ScheduledQueryState.disabled;
-    }
-    throw Exception('$this is not known in enum ScheduledQueryState');
-  }
+  const ScheduledQueryState(this.value);
+
+  static ScheduledQueryState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ScheduledQueryState'));
 }
 
 /// Details of the column that is returned by the query.
@@ -2746,7 +2577,7 @@ class Type {
           ?.whereNotNull()
           .map((e) => ColumnInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
-      scalarType: (json['ScalarType'] as String?)?.toScalarType(),
+      scalarType: (json['ScalarType'] as String?)?.let(ScalarType.fromString),
       timeSeriesMeasureValueColumnInfo:
           json['TimeSeriesMeasureValueColumnInfo'] != null
               ? ColumnInfo.fromJson(json['TimeSeriesMeasureValueColumnInfo']
@@ -2764,7 +2595,7 @@ class Type {
     return {
       if (arrayColumnInfo != null) 'ArrayColumnInfo': arrayColumnInfo,
       if (rowColumnInfo != null) 'RowColumnInfo': rowColumnInfo,
-      if (scalarType != null) 'ScalarType': scalarType.toValue(),
+      if (scalarType != null) 'ScalarType': scalarType.value,
       if (timeSeriesMeasureValueColumnInfo != null)
         'TimeSeriesMeasureValueColumnInfo': timeSeriesMeasureValueColumnInfo,
     };
@@ -2799,8 +2630,8 @@ class UpdateAccountSettingsResponse {
   factory UpdateAccountSettingsResponse.fromJson(Map<String, dynamic> json) {
     return UpdateAccountSettingsResponse(
       maxQueryTCU: json['MaxQueryTCU'] as int?,
-      queryPricingModel:
-          (json['QueryPricingModel'] as String?)?.toQueryPricingModel(),
+      queryPricingModel: (json['QueryPricingModel'] as String?)
+          ?.let(QueryPricingModel.fromString),
     );
   }
 
@@ -2810,7 +2641,7 @@ class UpdateAccountSettingsResponse {
     return {
       if (maxQueryTCU != null) 'MaxQueryTCU': maxQueryTCU,
       if (queryPricingModel != null)
-        'QueryPricingModel': queryPricingModel.toValue(),
+        'QueryPricingModel': queryPricingModel.value,
     };
   }
 }

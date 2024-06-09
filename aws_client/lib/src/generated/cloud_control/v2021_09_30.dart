@@ -926,96 +926,31 @@ class GetResourceRequestStatusOutput {
 }
 
 enum HandlerErrorCode {
-  notUpdatable,
-  invalidRequest,
-  accessDenied,
-  invalidCredentials,
-  alreadyExists,
-  notFound,
-  resourceConflict,
-  throttling,
-  serviceLimitExceeded,
-  notStabilized,
-  generalServiceException,
-  serviceInternalError,
-  serviceTimeout,
-  networkFailure,
-  internalFailure,
-}
+  notUpdatable('NotUpdatable'),
+  invalidRequest('InvalidRequest'),
+  accessDenied('AccessDenied'),
+  invalidCredentials('InvalidCredentials'),
+  alreadyExists('AlreadyExists'),
+  notFound('NotFound'),
+  resourceConflict('ResourceConflict'),
+  throttling('Throttling'),
+  serviceLimitExceeded('ServiceLimitExceeded'),
+  notStabilized('NotStabilized'),
+  generalServiceException('GeneralServiceException'),
+  serviceInternalError('ServiceInternalError'),
+  serviceTimeout('ServiceTimeout'),
+  networkFailure('NetworkFailure'),
+  internalFailure('InternalFailure'),
+  ;
 
-extension HandlerErrorCodeValueExtension on HandlerErrorCode {
-  String toValue() {
-    switch (this) {
-      case HandlerErrorCode.notUpdatable:
-        return 'NotUpdatable';
-      case HandlerErrorCode.invalidRequest:
-        return 'InvalidRequest';
-      case HandlerErrorCode.accessDenied:
-        return 'AccessDenied';
-      case HandlerErrorCode.invalidCredentials:
-        return 'InvalidCredentials';
-      case HandlerErrorCode.alreadyExists:
-        return 'AlreadyExists';
-      case HandlerErrorCode.notFound:
-        return 'NotFound';
-      case HandlerErrorCode.resourceConflict:
-        return 'ResourceConflict';
-      case HandlerErrorCode.throttling:
-        return 'Throttling';
-      case HandlerErrorCode.serviceLimitExceeded:
-        return 'ServiceLimitExceeded';
-      case HandlerErrorCode.notStabilized:
-        return 'NotStabilized';
-      case HandlerErrorCode.generalServiceException:
-        return 'GeneralServiceException';
-      case HandlerErrorCode.serviceInternalError:
-        return 'ServiceInternalError';
-      case HandlerErrorCode.serviceTimeout:
-        return 'ServiceTimeout';
-      case HandlerErrorCode.networkFailure:
-        return 'NetworkFailure';
-      case HandlerErrorCode.internalFailure:
-        return 'InternalFailure';
-    }
-  }
-}
+  final String value;
 
-extension HandlerErrorCodeFromString on String {
-  HandlerErrorCode toHandlerErrorCode() {
-    switch (this) {
-      case 'NotUpdatable':
-        return HandlerErrorCode.notUpdatable;
-      case 'InvalidRequest':
-        return HandlerErrorCode.invalidRequest;
-      case 'AccessDenied':
-        return HandlerErrorCode.accessDenied;
-      case 'InvalidCredentials':
-        return HandlerErrorCode.invalidCredentials;
-      case 'AlreadyExists':
-        return HandlerErrorCode.alreadyExists;
-      case 'NotFound':
-        return HandlerErrorCode.notFound;
-      case 'ResourceConflict':
-        return HandlerErrorCode.resourceConflict;
-      case 'Throttling':
-        return HandlerErrorCode.throttling;
-      case 'ServiceLimitExceeded':
-        return HandlerErrorCode.serviceLimitExceeded;
-      case 'NotStabilized':
-        return HandlerErrorCode.notStabilized;
-      case 'GeneralServiceException':
-        return HandlerErrorCode.generalServiceException;
-      case 'ServiceInternalError':
-        return HandlerErrorCode.serviceInternalError;
-      case 'ServiceTimeout':
-        return HandlerErrorCode.serviceTimeout;
-      case 'NetworkFailure':
-        return HandlerErrorCode.networkFailure;
-      case 'InternalFailure':
-        return HandlerErrorCode.internalFailure;
-    }
-    throw Exception('$this is not known in enum HandlerErrorCode');
-  }
+  const HandlerErrorCode(this.value);
+
+  static HandlerErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum HandlerErrorCode'));
 }
 
 class ListResourceRequestsOutput {
@@ -1102,84 +1037,37 @@ class ListResourcesOutput {
 }
 
 enum Operation {
-  create,
-  delete,
-  update,
-}
+  create('CREATE'),
+  delete('DELETE'),
+  update('UPDATE'),
+  ;
 
-extension OperationValueExtension on Operation {
-  String toValue() {
-    switch (this) {
-      case Operation.create:
-        return 'CREATE';
-      case Operation.delete:
-        return 'DELETE';
-      case Operation.update:
-        return 'UPDATE';
-    }
-  }
-}
+  final String value;
 
-extension OperationFromString on String {
-  Operation toOperation() {
-    switch (this) {
-      case 'CREATE':
-        return Operation.create;
-      case 'DELETE':
-        return Operation.delete;
-      case 'UPDATE':
-        return Operation.update;
-    }
-    throw Exception('$this is not known in enum Operation');
-  }
+  const Operation(this.value);
+
+  static Operation fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Operation'));
 }
 
 enum OperationStatus {
-  pending,
-  inProgress,
-  success,
-  failed,
-  cancelInProgress,
-  cancelComplete,
-}
+  pending('PENDING'),
+  inProgress('IN_PROGRESS'),
+  success('SUCCESS'),
+  failed('FAILED'),
+  cancelInProgress('CANCEL_IN_PROGRESS'),
+  cancelComplete('CANCEL_COMPLETE'),
+  ;
 
-extension OperationStatusValueExtension on OperationStatus {
-  String toValue() {
-    switch (this) {
-      case OperationStatus.pending:
-        return 'PENDING';
-      case OperationStatus.inProgress:
-        return 'IN_PROGRESS';
-      case OperationStatus.success:
-        return 'SUCCESS';
-      case OperationStatus.failed:
-        return 'FAILED';
-      case OperationStatus.cancelInProgress:
-        return 'CANCEL_IN_PROGRESS';
-      case OperationStatus.cancelComplete:
-        return 'CANCEL_COMPLETE';
-    }
-  }
-}
+  final String value;
 
-extension OperationStatusFromString on String {
-  OperationStatus toOperationStatus() {
-    switch (this) {
-      case 'PENDING':
-        return OperationStatus.pending;
-      case 'IN_PROGRESS':
-        return OperationStatus.inProgress;
-      case 'SUCCESS':
-        return OperationStatus.success;
-      case 'FAILED':
-        return OperationStatus.failed;
-      case 'CANCEL_IN_PROGRESS':
-        return OperationStatus.cancelInProgress;
-      case 'CANCEL_COMPLETE':
-        return OperationStatus.cancelComplete;
-    }
-    throw Exception('$this is not known in enum OperationStatus');
-  }
+  const OperationStatus(this.value);
+
+  static OperationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OperationStatus'));
 }
 
 /// Represents the current status of a resource operation request. For more
@@ -1271,12 +1159,13 @@ class ProgressEvent {
 
   factory ProgressEvent.fromJson(Map<String, dynamic> json) {
     return ProgressEvent(
-      errorCode: (json['ErrorCode'] as String?)?.toHandlerErrorCode(),
+      errorCode:
+          (json['ErrorCode'] as String?)?.let(HandlerErrorCode.fromString),
       eventTime: timeStampFromJson(json['EventTime']),
       identifier: json['Identifier'] as String?,
-      operation: (json['Operation'] as String?)?.toOperation(),
+      operation: (json['Operation'] as String?)?.let(Operation.fromString),
       operationStatus:
-          (json['OperationStatus'] as String?)?.toOperationStatus(),
+          (json['OperationStatus'] as String?)?.let(OperationStatus.fromString),
       requestToken: json['RequestToken'] as String?,
       resourceModel: json['ResourceModel'] as String?,
       retryAfter: timeStampFromJson(json['RetryAfter']),
@@ -1297,11 +1186,11 @@ class ProgressEvent {
     final statusMessage = this.statusMessage;
     final typeName = this.typeName;
     return {
-      if (errorCode != null) 'ErrorCode': errorCode.toValue(),
+      if (errorCode != null) 'ErrorCode': errorCode.value,
       if (eventTime != null) 'EventTime': unixTimestampToJson(eventTime),
       if (identifier != null) 'Identifier': identifier,
-      if (operation != null) 'Operation': operation.toValue(),
-      if (operationStatus != null) 'OperationStatus': operationStatus.toValue(),
+      if (operation != null) 'Operation': operation.value,
+      if (operationStatus != null) 'OperationStatus': operationStatus.value,
       if (requestToken != null) 'RequestToken': requestToken,
       if (resourceModel != null) 'ResourceModel': resourceModel,
       if (retryAfter != null) 'RetryAfter': unixTimestampToJson(retryAfter),
@@ -1387,9 +1276,9 @@ class ResourceRequestStatusFilter {
     final operations = this.operations;
     return {
       if (operationStatuses != null)
-        'OperationStatuses': operationStatuses.map((e) => e.toValue()).toList(),
+        'OperationStatuses': operationStatuses.map((e) => e.value).toList(),
       if (operations != null)
-        'Operations': operations.map((e) => e.toValue()).toList(),
+        'Operations': operations.map((e) => e.value).toList(),
     };
   }
 }

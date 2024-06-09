@@ -834,7 +834,7 @@ class Honeycode {
   }) async {
     final $payload = <String, dynamic>{
       'clientRequestToken': clientRequestToken,
-      'dataFormat': dataFormat.toValue(),
+      'dataFormat': dataFormat.value,
       'dataSource': dataSource,
       'importOptions': importOptions,
     };
@@ -1170,7 +1170,7 @@ class Cell {
 
   factory Cell.fromJson(Map<String, dynamic> json) {
     return Cell(
-      format: (json['format'] as String?)?.toFormat(),
+      format: (json['format'] as String?)?.let(Format.fromString),
       formattedValue: json['formattedValue'] as String?,
       formattedValues: (json['formattedValues'] as List?)
           ?.whereNotNull()
@@ -1188,7 +1188,7 @@ class Cell {
     final formula = this.formula;
     final rawValue = this.rawValue;
     return {
-      if (format != null) 'format': format.toValue(),
+      if (format != null) 'format': format.value,
       if (formattedValue != null) 'formattedValue': formattedValue,
       if (formattedValues != null) 'formattedValues': formattedValues,
       if (formula != null) 'formula': formula,
@@ -1243,7 +1243,7 @@ class ColumnMetadata {
 
   factory ColumnMetadata.fromJson(Map<String, dynamic> json) {
     return ColumnMetadata(
-      format: (json['format'] as String).toFormat(),
+      format: Format.fromString((json['format'] as String)),
       name: json['name'] as String,
     );
   }
@@ -1252,7 +1252,7 @@ class ColumnMetadata {
     final format = this.format;
     final name = this.name;
     return {
-      'format': format.toValue(),
+      'format': format.value,
       'name': name,
     };
   }
@@ -1310,7 +1310,8 @@ class DataItem {
   factory DataItem.fromJson(Map<String, dynamic> json) {
     return DataItem(
       formattedValue: json['formattedValue'] as String?,
-      overrideFormat: (json['overrideFormat'] as String?)?.toFormat(),
+      overrideFormat:
+          (json['overrideFormat'] as String?)?.let(Format.fromString),
       rawValue: json['rawValue'] as String?,
     );
   }
@@ -1321,7 +1322,7 @@ class DataItem {
     final rawValue = this.rawValue;
     return {
       if (formattedValue != null) 'formattedValue': formattedValue,
-      if (overrideFormat != null) 'overrideFormat': overrideFormat.toValue(),
+      if (overrideFormat != null) 'overrideFormat': overrideFormat.value,
       if (rawValue != null) 'rawValue': rawValue,
     };
   }
@@ -1355,7 +1356,7 @@ class DelimitedTextImportOptions {
     return DelimitedTextImportOptions(
       delimiter: json['delimiter'] as String,
       dataCharacterEncoding: (json['dataCharacterEncoding'] as String?)
-          ?.toImportDataCharacterEncoding(),
+          ?.let(ImportDataCharacterEncoding.fromString),
       hasHeaderRow: json['hasHeaderRow'] as bool?,
       ignoreEmptyRows: json['ignoreEmptyRows'] as bool?,
     );
@@ -1369,7 +1370,7 @@ class DelimitedTextImportOptions {
     return {
       'delimiter': delimiter,
       if (dataCharacterEncoding != null)
-        'dataCharacterEncoding': dataCharacterEncoding.toValue(),
+        'dataCharacterEncoding': dataCharacterEncoding.value,
       if (hasHeaderRow != null) 'hasHeaderRow': hasHeaderRow,
       if (ignoreEmptyRows != null) 'ignoreEmptyRows': ignoreEmptyRows,
     };
@@ -1400,9 +1401,10 @@ class DescribeTableDataImportJobResult {
     return DescribeTableDataImportJobResult(
       jobMetadata: TableDataImportJobMetadata.fromJson(
           json['jobMetadata'] as Map<String, dynamic>),
-      jobStatus: (json['jobStatus'] as String).toTableDataImportJobStatus(),
+      jobStatus:
+          TableDataImportJobStatus.fromString((json['jobStatus'] as String)),
       message: json['message'] as String,
-      errorCode: (json['errorCode'] as String?)?.toErrorCode(),
+      errorCode: (json['errorCode'] as String?)?.let(ErrorCode.fromString),
     );
   }
 
@@ -1413,9 +1415,9 @@ class DescribeTableDataImportJobResult {
     final errorCode = this.errorCode;
     return {
       'jobMetadata': jobMetadata,
-      'jobStatus': jobStatus.toValue(),
+      'jobStatus': jobStatus.value,
       'message': message,
-      if (errorCode != null) 'errorCode': errorCode.toValue(),
+      if (errorCode != null) 'errorCode': errorCode.value,
     };
   }
 }
@@ -1447,91 +1449,29 @@ class DestinationOptions {
 }
 
 enum ErrorCode {
-  accessDenied,
-  invalidUrlError,
-  invalidImportOptionsError,
-  invalidTableIdError,
-  invalidTableColumnIdError,
-  tableNotFoundError,
-  fileEmptyError,
-  invalidFileTypeError,
-  fileParsingError,
-  fileSizeLimitError,
-  fileNotFoundError,
-  unknownError,
-  resourceNotFoundError,
-  systemLimitError,
-}
+  accessDenied('ACCESS_DENIED'),
+  invalidUrlError('INVALID_URL_ERROR'),
+  invalidImportOptionsError('INVALID_IMPORT_OPTIONS_ERROR'),
+  invalidTableIdError('INVALID_TABLE_ID_ERROR'),
+  invalidTableColumnIdError('INVALID_TABLE_COLUMN_ID_ERROR'),
+  tableNotFoundError('TABLE_NOT_FOUND_ERROR'),
+  fileEmptyError('FILE_EMPTY_ERROR'),
+  invalidFileTypeError('INVALID_FILE_TYPE_ERROR'),
+  fileParsingError('FILE_PARSING_ERROR'),
+  fileSizeLimitError('FILE_SIZE_LIMIT_ERROR'),
+  fileNotFoundError('FILE_NOT_FOUND_ERROR'),
+  unknownError('UNKNOWN_ERROR'),
+  resourceNotFoundError('RESOURCE_NOT_FOUND_ERROR'),
+  systemLimitError('SYSTEM_LIMIT_ERROR'),
+  ;
 
-extension ErrorCodeValueExtension on ErrorCode {
-  String toValue() {
-    switch (this) {
-      case ErrorCode.accessDenied:
-        return 'ACCESS_DENIED';
-      case ErrorCode.invalidUrlError:
-        return 'INVALID_URL_ERROR';
-      case ErrorCode.invalidImportOptionsError:
-        return 'INVALID_IMPORT_OPTIONS_ERROR';
-      case ErrorCode.invalidTableIdError:
-        return 'INVALID_TABLE_ID_ERROR';
-      case ErrorCode.invalidTableColumnIdError:
-        return 'INVALID_TABLE_COLUMN_ID_ERROR';
-      case ErrorCode.tableNotFoundError:
-        return 'TABLE_NOT_FOUND_ERROR';
-      case ErrorCode.fileEmptyError:
-        return 'FILE_EMPTY_ERROR';
-      case ErrorCode.invalidFileTypeError:
-        return 'INVALID_FILE_TYPE_ERROR';
-      case ErrorCode.fileParsingError:
-        return 'FILE_PARSING_ERROR';
-      case ErrorCode.fileSizeLimitError:
-        return 'FILE_SIZE_LIMIT_ERROR';
-      case ErrorCode.fileNotFoundError:
-        return 'FILE_NOT_FOUND_ERROR';
-      case ErrorCode.unknownError:
-        return 'UNKNOWN_ERROR';
-      case ErrorCode.resourceNotFoundError:
-        return 'RESOURCE_NOT_FOUND_ERROR';
-      case ErrorCode.systemLimitError:
-        return 'SYSTEM_LIMIT_ERROR';
-    }
-  }
-}
+  final String value;
 
-extension ErrorCodeFromString on String {
-  ErrorCode toErrorCode() {
-    switch (this) {
-      case 'ACCESS_DENIED':
-        return ErrorCode.accessDenied;
-      case 'INVALID_URL_ERROR':
-        return ErrorCode.invalidUrlError;
-      case 'INVALID_IMPORT_OPTIONS_ERROR':
-        return ErrorCode.invalidImportOptionsError;
-      case 'INVALID_TABLE_ID_ERROR':
-        return ErrorCode.invalidTableIdError;
-      case 'INVALID_TABLE_COLUMN_ID_ERROR':
-        return ErrorCode.invalidTableColumnIdError;
-      case 'TABLE_NOT_FOUND_ERROR':
-        return ErrorCode.tableNotFoundError;
-      case 'FILE_EMPTY_ERROR':
-        return ErrorCode.fileEmptyError;
-      case 'INVALID_FILE_TYPE_ERROR':
-        return ErrorCode.invalidFileTypeError;
-      case 'FILE_PARSING_ERROR':
-        return ErrorCode.fileParsingError;
-      case 'FILE_SIZE_LIMIT_ERROR':
-        return ErrorCode.fileSizeLimitError;
-      case 'FILE_NOT_FOUND_ERROR':
-        return ErrorCode.fileNotFoundError;
-      case 'UNKNOWN_ERROR':
-        return ErrorCode.unknownError;
-      case 'RESOURCE_NOT_FOUND_ERROR':
-        return ErrorCode.resourceNotFoundError;
-      case 'SYSTEM_LIMIT_ERROR':
-        return ErrorCode.systemLimitError;
-    }
-    throw Exception('$this is not known in enum ErrorCode');
-  }
+  const ErrorCode(this.value);
+
+  static ErrorCode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ErrorCode'));
 }
 
 /// A single item in a batch that failed to perform the intended action because
@@ -1599,81 +1539,27 @@ class Filter {
 }
 
 enum Format {
-  auto,
-  number,
-  currency,
-  date,
-  time,
-  dateTime,
-  percentage,
-  text,
-  accounting,
-  contact,
-  rowlink,
-  rowset,
-}
+  auto('AUTO'),
+  number('NUMBER'),
+  currency('CURRENCY'),
+  date('DATE'),
+  time('TIME'),
+  dateTime('DATE_TIME'),
+  percentage('PERCENTAGE'),
+  text('TEXT'),
+  accounting('ACCOUNTING'),
+  contact('CONTACT'),
+  rowlink('ROWLINK'),
+  rowset('ROWSET'),
+  ;
 
-extension FormatValueExtension on Format {
-  String toValue() {
-    switch (this) {
-      case Format.auto:
-        return 'AUTO';
-      case Format.number:
-        return 'NUMBER';
-      case Format.currency:
-        return 'CURRENCY';
-      case Format.date:
-        return 'DATE';
-      case Format.time:
-        return 'TIME';
-      case Format.dateTime:
-        return 'DATE_TIME';
-      case Format.percentage:
-        return 'PERCENTAGE';
-      case Format.text:
-        return 'TEXT';
-      case Format.accounting:
-        return 'ACCOUNTING';
-      case Format.contact:
-        return 'CONTACT';
-      case Format.rowlink:
-        return 'ROWLINK';
-      case Format.rowset:
-        return 'ROWSET';
-    }
-  }
-}
+  final String value;
 
-extension FormatFromString on String {
-  Format toFormat() {
-    switch (this) {
-      case 'AUTO':
-        return Format.auto;
-      case 'NUMBER':
-        return Format.number;
-      case 'CURRENCY':
-        return Format.currency;
-      case 'DATE':
-        return Format.date;
-      case 'TIME':
-        return Format.time;
-      case 'DATE_TIME':
-        return Format.dateTime;
-      case 'PERCENTAGE':
-        return Format.percentage;
-      case 'TEXT':
-        return Format.text;
-      case 'ACCOUNTING':
-        return Format.accounting;
-      case 'CONTACT':
-        return Format.contact;
-      case 'ROWLINK':
-        return Format.rowlink;
-      case 'ROWSET':
-        return Format.rowset;
-    }
-    throw Exception('$this is not known in enum Format');
-  }
+  const Format(this.value);
+
+  static Format fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Format'));
 }
 
 class GetScreenDataResult {
@@ -1718,52 +1604,22 @@ class GetScreenDataResult {
 }
 
 enum ImportDataCharacterEncoding {
-  utf_8,
-  usAscii,
-  iso_8859_1,
-  utf_16be,
-  utf_16le,
-  utf_16,
-}
+  utf_8('UTF-8'),
+  usAscii('US-ASCII'),
+  iso_8859_1('ISO-8859-1'),
+  utf_16be('UTF-16BE'),
+  utf_16le('UTF-16LE'),
+  utf_16('UTF-16'),
+  ;
 
-extension ImportDataCharacterEncodingValueExtension
-    on ImportDataCharacterEncoding {
-  String toValue() {
-    switch (this) {
-      case ImportDataCharacterEncoding.utf_8:
-        return 'UTF-8';
-      case ImportDataCharacterEncoding.usAscii:
-        return 'US-ASCII';
-      case ImportDataCharacterEncoding.iso_8859_1:
-        return 'ISO-8859-1';
-      case ImportDataCharacterEncoding.utf_16be:
-        return 'UTF-16BE';
-      case ImportDataCharacterEncoding.utf_16le:
-        return 'UTF-16LE';
-      case ImportDataCharacterEncoding.utf_16:
-        return 'UTF-16';
-    }
-  }
-}
+  final String value;
 
-extension ImportDataCharacterEncodingFromString on String {
-  ImportDataCharacterEncoding toImportDataCharacterEncoding() {
-    switch (this) {
-      case 'UTF-8':
-        return ImportDataCharacterEncoding.utf_8;
-      case 'US-ASCII':
-        return ImportDataCharacterEncoding.usAscii;
-      case 'ISO-8859-1':
-        return ImportDataCharacterEncoding.iso_8859_1;
-      case 'UTF-16BE':
-        return ImportDataCharacterEncoding.utf_16be;
-      case 'UTF-16LE':
-        return ImportDataCharacterEncoding.utf_16le;
-      case 'UTF-16':
-        return ImportDataCharacterEncoding.utf_16;
-    }
-    throw Exception('$this is not known in enum ImportDataCharacterEncoding');
-  }
+  const ImportDataCharacterEncoding(this.value);
+
+  static ImportDataCharacterEncoding fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ImportDataCharacterEncoding'));
 }
 
 /// An object that has details about the source of the data that was submitted
@@ -1885,26 +1741,17 @@ class ImportOptions {
 }
 
 enum ImportSourceDataFormat {
-  delimitedText,
-}
+  delimitedText('DELIMITED_TEXT'),
+  ;
 
-extension ImportSourceDataFormatValueExtension on ImportSourceDataFormat {
-  String toValue() {
-    switch (this) {
-      case ImportSourceDataFormat.delimitedText:
-        return 'DELIMITED_TEXT';
-    }
-  }
-}
+  final String value;
 
-extension ImportSourceDataFormatFromString on String {
-  ImportSourceDataFormat toImportSourceDataFormat() {
-    switch (this) {
-      case 'DELIMITED_TEXT':
-        return ImportSourceDataFormat.delimitedText;
-    }
-    throw Exception('$this is not known in enum ImportSourceDataFormat');
-  }
+  const ImportSourceDataFormat(this.value);
+
+  static ImportSourceDataFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ImportSourceDataFormat'));
 }
 
 class InvokeScreenAutomationResult {
@@ -2281,7 +2128,8 @@ class StartTableDataImportJobResult {
   factory StartTableDataImportJobResult.fromJson(Map<String, dynamic> json) {
     return StartTableDataImportJobResult(
       jobId: json['jobId'] as String,
-      jobStatus: (json['jobStatus'] as String).toTableDataImportJobStatus(),
+      jobStatus:
+          TableDataImportJobStatus.fromString((json['jobStatus'] as String)),
     );
   }
 
@@ -2290,7 +2138,7 @@ class StartTableDataImportJobResult {
     final jobStatus = this.jobStatus;
     return {
       'jobId': jobId,
-      'jobStatus': jobStatus.toValue(),
+      'jobStatus': jobStatus.value,
     };
   }
 }
@@ -2345,7 +2193,7 @@ class TableColumn {
 
   factory TableColumn.fromJson(Map<String, dynamic> json) {
     return TableColumn(
-      format: (json['format'] as String?)?.toFormat(),
+      format: (json['format'] as String?)?.let(Format.fromString),
       tableColumnId: json['tableColumnId'] as String?,
       tableColumnName: json['tableColumnName'] as String?,
     );
@@ -2356,7 +2204,7 @@ class TableColumn {
     final tableColumnId = this.tableColumnId;
     final tableColumnName = this.tableColumnName;
     return {
-      if (format != null) 'format': format.toValue(),
+      if (format != null) 'format': format.value,
       if (tableColumnId != null) 'tableColumnId': tableColumnId,
       if (tableColumnName != null) 'tableColumnName': tableColumnName,
     };
@@ -2411,41 +2259,20 @@ class TableDataImportJobMetadata {
 }
 
 enum TableDataImportJobStatus {
-  submitted,
-  inProgress,
-  completed,
-  failed,
-}
+  submitted('SUBMITTED'),
+  inProgress('IN_PROGRESS'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  ;
 
-extension TableDataImportJobStatusValueExtension on TableDataImportJobStatus {
-  String toValue() {
-    switch (this) {
-      case TableDataImportJobStatus.submitted:
-        return 'SUBMITTED';
-      case TableDataImportJobStatus.inProgress:
-        return 'IN_PROGRESS';
-      case TableDataImportJobStatus.completed:
-        return 'COMPLETED';
-      case TableDataImportJobStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension TableDataImportJobStatusFromString on String {
-  TableDataImportJobStatus toTableDataImportJobStatus() {
-    switch (this) {
-      case 'SUBMITTED':
-        return TableDataImportJobStatus.submitted;
-      case 'IN_PROGRESS':
-        return TableDataImportJobStatus.inProgress;
-      case 'COMPLETED':
-        return TableDataImportJobStatus.completed;
-      case 'FAILED':
-        return TableDataImportJobStatus.failed;
-    }
-    throw Exception('$this is not known in enum TableDataImportJobStatus');
-  }
+  const TableDataImportJobStatus(this.value);
+
+  static TableDataImportJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TableDataImportJobStatus'));
 }
 
 /// An object that contains attributes about a single row in a table
@@ -2533,31 +2360,18 @@ class UpdateRowData {
 }
 
 enum UpsertAction {
-  updated,
-  appended,
-}
+  updated('UPDATED'),
+  appended('APPENDED'),
+  ;
 
-extension UpsertActionValueExtension on UpsertAction {
-  String toValue() {
-    switch (this) {
-      case UpsertAction.updated:
-        return 'UPDATED';
-      case UpsertAction.appended:
-        return 'APPENDED';
-    }
-  }
-}
+  final String value;
 
-extension UpsertActionFromString on String {
-  UpsertAction toUpsertAction() {
-    switch (this) {
-      case 'UPDATED':
-        return UpsertAction.updated;
-      case 'APPENDED':
-        return UpsertAction.appended;
-    }
-    throw Exception('$this is not known in enum UpsertAction');
-  }
+  const UpsertAction(this.value);
+
+  static UpsertAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum UpsertAction'));
 }
 
 /// Data needed to upsert rows in a table as part of a single item in the
@@ -2628,7 +2442,7 @@ class UpsertRowsResult {
           .whereNotNull()
           .map((e) => e as String)
           .toList(),
-      upsertAction: (json['upsertAction'] as String).toUpsertAction(),
+      upsertAction: UpsertAction.fromString((json['upsertAction'] as String)),
     );
   }
 
@@ -2637,7 +2451,7 @@ class UpsertRowsResult {
     final upsertAction = this.upsertAction;
     return {
       'rowIds': rowIds,
-      'upsertAction': upsertAction.toValue(),
+      'upsertAction': upsertAction.value,
     };
   }
 }

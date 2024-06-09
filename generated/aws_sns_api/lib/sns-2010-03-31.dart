@@ -408,7 +408,7 @@ class SNS {
   }) async {
     final $request = <String, String>{
       'PhoneNumber': phoneNumber,
-      if (languageCode != null) 'LanguageCode': languageCode.toValue(),
+      if (languageCode != null) 'LanguageCode': languageCode.value,
     };
     await _protocol.send(
       $request,
@@ -3427,86 +3427,29 @@ class GetTopicAttributesResponse {
 
 /// Supported language code for sending OTP message
 enum LanguageCodeString {
-  enUs,
-  enGb,
-  es_419,
-  esEs,
-  deDe,
-  frCa,
-  frFr,
-  itIt,
-  jaJp,
-  ptBr,
-  krKr,
-  zhCn,
-  zhTw,
-}
+  enUs('en-US'),
+  enGb('en-GB'),
+  es_419('es-419'),
+  esEs('es-ES'),
+  deDe('de-DE'),
+  frCa('fr-CA'),
+  frFr('fr-FR'),
+  itIt('it-IT'),
+  jaJp('ja-JP'),
+  ptBr('pt-BR'),
+  krKr('kr-KR'),
+  zhCn('zh-CN'),
+  zhTw('zh-TW'),
+  ;
 
-extension LanguageCodeStringValueExtension on LanguageCodeString {
-  String toValue() {
-    switch (this) {
-      case LanguageCodeString.enUs:
-        return 'en-US';
-      case LanguageCodeString.enGb:
-        return 'en-GB';
-      case LanguageCodeString.es_419:
-        return 'es-419';
-      case LanguageCodeString.esEs:
-        return 'es-ES';
-      case LanguageCodeString.deDe:
-        return 'de-DE';
-      case LanguageCodeString.frCa:
-        return 'fr-CA';
-      case LanguageCodeString.frFr:
-        return 'fr-FR';
-      case LanguageCodeString.itIt:
-        return 'it-IT';
-      case LanguageCodeString.jaJp:
-        return 'ja-JP';
-      case LanguageCodeString.ptBr:
-        return 'pt-BR';
-      case LanguageCodeString.krKr:
-        return 'kr-KR';
-      case LanguageCodeString.zhCn:
-        return 'zh-CN';
-      case LanguageCodeString.zhTw:
-        return 'zh-TW';
-    }
-  }
-}
+  final String value;
 
-extension LanguageCodeStringFromString on String {
-  LanguageCodeString toLanguageCodeString() {
-    switch (this) {
-      case 'en-US':
-        return LanguageCodeString.enUs;
-      case 'en-GB':
-        return LanguageCodeString.enGb;
-      case 'es-419':
-        return LanguageCodeString.es_419;
-      case 'es-ES':
-        return LanguageCodeString.esEs;
-      case 'de-DE':
-        return LanguageCodeString.deDe;
-      case 'fr-CA':
-        return LanguageCodeString.frCa;
-      case 'fr-FR':
-        return LanguageCodeString.frFr;
-      case 'it-IT':
-        return LanguageCodeString.itIt;
-      case 'ja-JP':
-        return LanguageCodeString.jaJp;
-      case 'pt-BR':
-        return LanguageCodeString.ptBr;
-      case 'kr-KR':
-        return LanguageCodeString.krKr;
-      case 'zh-CN':
-        return LanguageCodeString.zhCn;
-      case 'zh-TW':
-        return LanguageCodeString.zhTw;
-    }
-    throw Exception('$this is not known in enum LanguageCodeString');
-  }
+  const LanguageCodeString(this.value);
+
+  static LanguageCodeString fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum LanguageCodeString'));
 }
 
 /// Response for <code>ListEndpointsByPlatformApplication</code> action.
@@ -3780,36 +3723,19 @@ class MessageAttributeValue {
 
 /// Enum listing out all supported number capabilities.
 enum NumberCapability {
-  sms,
-  mms,
-  voice,
-}
+  sms('SMS'),
+  mms('MMS'),
+  voice('VOICE'),
+  ;
 
-extension NumberCapabilityValueExtension on NumberCapability {
-  String toValue() {
-    switch (this) {
-      case NumberCapability.sms:
-        return 'SMS';
-      case NumberCapability.mms:
-        return 'MMS';
-      case NumberCapability.voice:
-        return 'VOICE';
-    }
-  }
-}
+  final String value;
 
-extension NumberCapabilityFromString on String {
-  NumberCapability toNumberCapability() {
-    switch (this) {
-      case 'SMS':
-        return NumberCapability.sms;
-      case 'MMS':
-        return NumberCapability.mms;
-      case 'VOICE':
-        return NumberCapability.voice;
-    }
-    throw Exception('$this is not known in enum NumberCapability');
-  }
+  const NumberCapability(this.value);
+
+  static NumberCapability fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum NumberCapability'));
 }
 
 /// The response for the OptInPhoneNumber action.
@@ -3858,10 +3784,12 @@ class PhoneNumberInformation {
       numberCapabilities: _s.extractXmlChild(elem, 'NumberCapabilities')?.let(
           (elem) => _s
               .extractXmlStringListValues(elem, 'member')
-              .map((s) => s.toNumberCapability())
+              .map(NumberCapability.fromString)
               .toList()),
       phoneNumber: _s.extractXmlStringValue(elem, 'PhoneNumber'),
-      routeType: _s.extractXmlStringValue(elem, 'RouteType')?.toRouteType(),
+      routeType: _s
+          .extractXmlStringValue(elem, 'RouteType')
+          ?.let(RouteType.fromString),
       status: _s.extractXmlStringValue(elem, 'Status'),
     );
   }
@@ -4168,36 +4096,18 @@ class PublishResponse {
 /// supported. 1. Transactional : Non-marketing traffic 2. Promotional :
 /// Marketing 3. Premium : Premium routes for OTP delivery to the carriers
 enum RouteType {
-  transactional,
-  promotional,
-  premium,
-}
+  transactional('Transactional'),
+  promotional('Promotional'),
+  premium('Premium'),
+  ;
 
-extension RouteTypeValueExtension on RouteType {
-  String toValue() {
-    switch (this) {
-      case RouteType.transactional:
-        return 'Transactional';
-      case RouteType.promotional:
-        return 'Promotional';
-      case RouteType.premium:
-        return 'Premium';
-    }
-  }
-}
+  final String value;
 
-extension RouteTypeFromString on String {
-  RouteType toRouteType() {
-    switch (this) {
-      case 'Transactional':
-        return RouteType.transactional;
-      case 'Promotional':
-        return RouteType.promotional;
-      case 'Premium':
-        return RouteType.premium;
-    }
-    throw Exception('$this is not known in enum RouteType');
-  }
+  const RouteType(this.value);
+
+  static RouteType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum RouteType'));
 }
 
 /// A verified or pending destination phone number in the SMS sandbox.
@@ -4228,7 +4138,7 @@ class SMSSandboxPhoneNumber {
       phoneNumber: _s.extractXmlStringValue(elem, 'PhoneNumber'),
       status: _s
           .extractXmlStringValue(elem, 'Status')
-          ?.toSMSSandboxPhoneNumberVerificationStatus(),
+          ?.let(SMSSandboxPhoneNumberVerificationStatus.fromString),
     );
   }
 }
@@ -4238,34 +4148,18 @@ class SMSSandboxPhoneNumber {
 /// destination phone number is pending verification. 2. VERIFIED : The
 /// destination phone number is verified.
 enum SMSSandboxPhoneNumberVerificationStatus {
-  pending,
-  verified,
-}
+  pending('Pending'),
+  verified('Verified'),
+  ;
 
-extension SMSSandboxPhoneNumberVerificationStatusValueExtension
-    on SMSSandboxPhoneNumberVerificationStatus {
-  String toValue() {
-    switch (this) {
-      case SMSSandboxPhoneNumberVerificationStatus.pending:
-        return 'Pending';
-      case SMSSandboxPhoneNumberVerificationStatus.verified:
-        return 'Verified';
-    }
-  }
-}
+  final String value;
 
-extension SMSSandboxPhoneNumberVerificationStatusFromString on String {
-  SMSSandboxPhoneNumberVerificationStatus
-      toSMSSandboxPhoneNumberVerificationStatus() {
-    switch (this) {
-      case 'Pending':
-        return SMSSandboxPhoneNumberVerificationStatus.pending;
-      case 'Verified':
-        return SMSSandboxPhoneNumberVerificationStatus.verified;
-    }
-    throw Exception(
-        '$this is not known in enum SMSSandboxPhoneNumberVerificationStatus');
-  }
+  const SMSSandboxPhoneNumberVerificationStatus(this.value);
+
+  static SMSSandboxPhoneNumberVerificationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SMSSandboxPhoneNumberVerificationStatus'));
 }
 
 /// The response for the SetSMSAttributes action.

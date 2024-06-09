@@ -283,7 +283,7 @@ class DocDBElastic {
     final $payload = <String, dynamic>{
       'adminUserName': adminUserName,
       'adminUserPassword': adminUserPassword,
-      'authType': authType.toValue(),
+      'authType': authType.value,
       'clusterName': clusterName,
       'shardCapacity': shardCapacity,
       'shardCount': shardCount,
@@ -830,7 +830,7 @@ class DocDBElastic {
   }) async {
     final $payload = <String, dynamic>{
       if (adminUserPassword != null) 'adminUserPassword': adminUserPassword,
-      if (authType != null) 'authType': authType.toValue(),
+      if (authType != null) 'authType': authType.value,
       if (backupRetentionPeriod != null)
         'backupRetentionPeriod': backupRetentionPeriod,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
@@ -856,31 +856,17 @@ class DocDBElastic {
 }
 
 enum Auth {
-  plainText,
-  secretArn,
-}
+  plainText('PLAIN_TEXT'),
+  secretArn('SECRET_ARN'),
+  ;
 
-extension AuthValueExtension on Auth {
-  String toValue() {
-    switch (this) {
-      case Auth.plainText:
-        return 'PLAIN_TEXT';
-      case Auth.secretArn:
-        return 'SECRET_ARN';
-    }
-  }
-}
+  final String value;
 
-extension AuthFromString on String {
-  Auth toAuth() {
-    switch (this) {
-      case 'PLAIN_TEXT':
-        return Auth.plainText;
-      case 'SECRET_ARN':
-        return Auth.secretArn;
-    }
-    throw Exception('$this is not known in enum Auth');
-  }
+  const Auth(this.value);
+
+  static Auth fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Auth'));
 }
 
 /// Returns information about a specific elastic cluster.
@@ -968,7 +954,7 @@ class Cluster {
   factory Cluster.fromJson(Map<String, dynamic> json) {
     return Cluster(
       adminUserName: json['adminUserName'] as String,
-      authType: (json['authType'] as String).toAuth(),
+      authType: Auth.fromString((json['authType'] as String)),
       clusterArn: json['clusterArn'] as String,
       clusterEndpoint: json['clusterEndpoint'] as String,
       clusterName: json['clusterName'] as String,
@@ -977,7 +963,7 @@ class Cluster {
       preferredMaintenanceWindow: json['preferredMaintenanceWindow'] as String,
       shardCapacity: json['shardCapacity'] as int,
       shardCount: json['shardCount'] as int,
-      status: (json['status'] as String).toStatus(),
+      status: Status.fromString((json['status'] as String)),
       subnetIds: (json['subnetIds'] as List)
           .whereNotNull()
           .map((e) => e as String)
@@ -1016,7 +1002,7 @@ class Cluster {
     final shards = this.shards;
     return {
       'adminUserName': adminUserName,
-      'authType': authType.toValue(),
+      'authType': authType.value,
       'clusterArn': clusterArn,
       'clusterEndpoint': clusterEndpoint,
       'clusterName': clusterName,
@@ -1025,7 +1011,7 @@ class Cluster {
       'preferredMaintenanceWindow': preferredMaintenanceWindow,
       'shardCapacity': shardCapacity,
       'shardCount': shardCount,
-      'status': status.toValue(),
+      'status': status.value,
       'subnetIds': subnetIds,
       'vpcSecurityGroupIds': vpcSecurityGroupIds,
       if (backupRetentionPeriod != null)
@@ -1059,7 +1045,7 @@ class ClusterInList {
     return ClusterInList(
       clusterArn: json['clusterArn'] as String,
       clusterName: json['clusterName'] as String,
-      status: (json['status'] as String).toStatus(),
+      status: Status.fromString((json['status'] as String)),
     );
   }
 
@@ -1070,7 +1056,7 @@ class ClusterInList {
     return {
       'clusterArn': clusterArn,
       'clusterName': clusterName,
-      'status': status.toValue(),
+      'status': status.value,
     };
   }
 }
@@ -1153,7 +1139,7 @@ class ClusterSnapshot {
       snapshotArn: json['snapshotArn'] as String,
       snapshotCreationTime: json['snapshotCreationTime'] as String,
       snapshotName: json['snapshotName'] as String,
-      status: (json['status'] as String).toStatus(),
+      status: Status.fromString((json['status'] as String)),
       subnetIds: (json['subnetIds'] as List)
           .whereNotNull()
           .map((e) => e as String)
@@ -1162,7 +1148,8 @@ class ClusterSnapshot {
           .whereNotNull()
           .map((e) => e as String)
           .toList(),
-      snapshotType: (json['snapshotType'] as String?)?.toSnapshotType(),
+      snapshotType:
+          (json['snapshotType'] as String?)?.let(SnapshotType.fromString),
     );
   }
 
@@ -1186,10 +1173,10 @@ class ClusterSnapshot {
       'snapshotArn': snapshotArn,
       'snapshotCreationTime': snapshotCreationTime,
       'snapshotName': snapshotName,
-      'status': status.toValue(),
+      'status': status.value,
       'subnetIds': subnetIds,
       'vpcSecurityGroupIds': vpcSecurityGroupIds,
-      if (snapshotType != null) 'snapshotType': snapshotType.toValue(),
+      if (snapshotType != null) 'snapshotType': snapshotType.value,
     };
   }
 }
@@ -1226,7 +1213,7 @@ class ClusterSnapshotInList {
       snapshotArn: json['snapshotArn'] as String,
       snapshotCreationTime: json['snapshotCreationTime'] as String,
       snapshotName: json['snapshotName'] as String,
-      status: (json['status'] as String).toStatus(),
+      status: Status.fromString((json['status'] as String)),
     );
   }
 
@@ -1241,7 +1228,7 @@ class ClusterSnapshotInList {
       'snapshotArn': snapshotArn,
       'snapshotCreationTime': snapshotCreationTime,
       'snapshotName': snapshotName,
-      'status': status.toValue(),
+      'status': status.value,
     };
   }
 }
@@ -1543,7 +1530,7 @@ class Shard {
     return Shard(
       createTime: json['createTime'] as String,
       shardId: json['shardId'] as String,
-      status: (json['status'] as String).toStatus(),
+      status: Status.fromString((json['status'] as String)),
     );
   }
 
@@ -1554,37 +1541,24 @@ class Shard {
     return {
       'createTime': createTime,
       'shardId': shardId,
-      'status': status.toValue(),
+      'status': status.value,
     };
   }
 }
 
 enum SnapshotType {
-  manual,
-  automated,
-}
+  manual('MANUAL'),
+  automated('AUTOMATED'),
+  ;
 
-extension SnapshotTypeValueExtension on SnapshotType {
-  String toValue() {
-    switch (this) {
-      case SnapshotType.manual:
-        return 'MANUAL';
-      case SnapshotType.automated:
-        return 'AUTOMATED';
-    }
-  }
-}
+  final String value;
 
-extension SnapshotTypeFromString on String {
-  SnapshotType toSnapshotType() {
-    switch (this) {
-      case 'MANUAL':
-        return SnapshotType.manual;
-      case 'AUTOMATED':
-        return SnapshotType.automated;
-    }
-    throw Exception('$this is not known in enum SnapshotType');
-  }
+  const SnapshotType(this.value);
+
+  static SnapshotType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SnapshotType'));
 }
 
 class StartClusterOutput {
@@ -1609,116 +1583,34 @@ class StartClusterOutput {
 }
 
 enum Status {
-  creating,
-  active,
-  deleting,
-  updating,
-  vpcEndpointLimitExceeded,
-  ipAddressLimitExceeded,
-  invalidSecurityGroupId,
-  invalidSubnetId,
-  inaccessibleEncryptionCreds,
-  inaccessibleSecretArn,
-  inaccessibleVpcEndpoint,
-  incompatibleNetwork,
-  merging,
-  modifying,
-  splitting,
-  copying,
-  starting,
-  stopping,
-  stopped,
-}
+  creating('CREATING'),
+  active('ACTIVE'),
+  deleting('DELETING'),
+  updating('UPDATING'),
+  vpcEndpointLimitExceeded('VPC_ENDPOINT_LIMIT_EXCEEDED'),
+  ipAddressLimitExceeded('IP_ADDRESS_LIMIT_EXCEEDED'),
+  invalidSecurityGroupId('INVALID_SECURITY_GROUP_ID'),
+  invalidSubnetId('INVALID_SUBNET_ID'),
+  inaccessibleEncryptionCreds('INACCESSIBLE_ENCRYPTION_CREDS'),
+  inaccessibleSecretArn('INACCESSIBLE_SECRET_ARN'),
+  inaccessibleVpcEndpoint('INACCESSIBLE_VPC_ENDPOINT'),
+  incompatibleNetwork('INCOMPATIBLE_NETWORK'),
+  merging('MERGING'),
+  modifying('MODIFYING'),
+  splitting('SPLITTING'),
+  copying('COPYING'),
+  starting('STARTING'),
+  stopping('STOPPING'),
+  stopped('STOPPED'),
+  ;
 
-extension StatusValueExtension on Status {
-  String toValue() {
-    switch (this) {
-      case Status.creating:
-        return 'CREATING';
-      case Status.active:
-        return 'ACTIVE';
-      case Status.deleting:
-        return 'DELETING';
-      case Status.updating:
-        return 'UPDATING';
-      case Status.vpcEndpointLimitExceeded:
-        return 'VPC_ENDPOINT_LIMIT_EXCEEDED';
-      case Status.ipAddressLimitExceeded:
-        return 'IP_ADDRESS_LIMIT_EXCEEDED';
-      case Status.invalidSecurityGroupId:
-        return 'INVALID_SECURITY_GROUP_ID';
-      case Status.invalidSubnetId:
-        return 'INVALID_SUBNET_ID';
-      case Status.inaccessibleEncryptionCreds:
-        return 'INACCESSIBLE_ENCRYPTION_CREDS';
-      case Status.inaccessibleSecretArn:
-        return 'INACCESSIBLE_SECRET_ARN';
-      case Status.inaccessibleVpcEndpoint:
-        return 'INACCESSIBLE_VPC_ENDPOINT';
-      case Status.incompatibleNetwork:
-        return 'INCOMPATIBLE_NETWORK';
-      case Status.merging:
-        return 'MERGING';
-      case Status.modifying:
-        return 'MODIFYING';
-      case Status.splitting:
-        return 'SPLITTING';
-      case Status.copying:
-        return 'COPYING';
-      case Status.starting:
-        return 'STARTING';
-      case Status.stopping:
-        return 'STOPPING';
-      case Status.stopped:
-        return 'STOPPED';
-    }
-  }
-}
+  final String value;
 
-extension StatusFromString on String {
-  Status toStatus() {
-    switch (this) {
-      case 'CREATING':
-        return Status.creating;
-      case 'ACTIVE':
-        return Status.active;
-      case 'DELETING':
-        return Status.deleting;
-      case 'UPDATING':
-        return Status.updating;
-      case 'VPC_ENDPOINT_LIMIT_EXCEEDED':
-        return Status.vpcEndpointLimitExceeded;
-      case 'IP_ADDRESS_LIMIT_EXCEEDED':
-        return Status.ipAddressLimitExceeded;
-      case 'INVALID_SECURITY_GROUP_ID':
-        return Status.invalidSecurityGroupId;
-      case 'INVALID_SUBNET_ID':
-        return Status.invalidSubnetId;
-      case 'INACCESSIBLE_ENCRYPTION_CREDS':
-        return Status.inaccessibleEncryptionCreds;
-      case 'INACCESSIBLE_SECRET_ARN':
-        return Status.inaccessibleSecretArn;
-      case 'INACCESSIBLE_VPC_ENDPOINT':
-        return Status.inaccessibleVpcEndpoint;
-      case 'INCOMPATIBLE_NETWORK':
-        return Status.incompatibleNetwork;
-      case 'MERGING':
-        return Status.merging;
-      case 'MODIFYING':
-        return Status.modifying;
-      case 'SPLITTING':
-        return Status.splitting;
-      case 'COPYING':
-        return Status.copying;
-      case 'STARTING':
-        return Status.starting;
-      case 'STOPPING':
-        return Status.stopping;
-      case 'STOPPED':
-        return Status.stopped;
-    }
-    throw Exception('$this is not known in enum Status');
-  }
+  const Status(this.value);
+
+  static Status fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Status'));
 }
 
 class StopClusterOutput {

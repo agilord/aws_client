@@ -151,9 +151,9 @@ class CodeGuruSecurity {
     final $payload = <String, dynamic>{
       'resourceId': resourceId,
       'scanName': scanName,
-      if (analysisType != null) 'analysisType': analysisType.toValue(),
+      if (analysisType != null) 'analysisType': analysisType.value,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
-      if (scanType != null) 'scanType': scanType.toValue(),
+      if (scanType != null) 'scanType': scanType.value,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -255,7 +255,7 @@ class CodeGuruSecurity {
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (status != null) 'status': [status.toValue()],
+      if (status != null) 'status': [status.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -623,31 +623,18 @@ class AccountFindingsMetric {
 }
 
 enum AnalysisType {
-  security,
-  all,
-}
+  security('Security'),
+  all('All'),
+  ;
 
-extension AnalysisTypeValueExtension on AnalysisType {
-  String toValue() {
-    switch (this) {
-      case AnalysisType.security:
-        return 'Security';
-      case AnalysisType.all:
-        return 'All';
-    }
-  }
-}
+  final String value;
 
-extension AnalysisTypeFromString on String {
-  AnalysisType toAnalysisType() {
-    switch (this) {
-      case 'Security':
-        return AnalysisType.security;
-      case 'All':
-        return AnalysisType.all;
-    }
-    throw Exception('$this is not known in enum AnalysisType');
-  }
+  const AnalysisType(this.value);
+
+  static AnalysisType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AnalysisType'));
 }
 
 /// Contains information about the error that caused a finding to fail to be
@@ -674,7 +661,7 @@ class BatchGetFindingsError {
 
   factory BatchGetFindingsError.fromJson(Map<String, dynamic> json) {
     return BatchGetFindingsError(
-      errorCode: (json['errorCode'] as String).toErrorCode(),
+      errorCode: ErrorCode.fromString((json['errorCode'] as String)),
       findingId: json['findingId'] as String,
       message: json['message'] as String,
       scanName: json['scanName'] as String,
@@ -687,7 +674,7 @@ class BatchGetFindingsError {
     final message = this.message;
     final scanName = this.scanName;
     return {
-      'errorCode': errorCode.toValue(),
+      'errorCode': errorCode.value,
       'findingId': findingId,
       'message': message,
       'scanName': scanName,
@@ -826,7 +813,7 @@ class CreateScanResponse {
           ResourceId.fromJson(json['resourceId'] as Map<String, dynamic>),
       runId: json['runId'] as String,
       scanName: json['scanName'] as String,
-      scanState: (json['scanState'] as String).toScanState(),
+      scanState: ScanState.fromString((json['scanState'] as String)),
       scanNameArn: json['scanNameArn'] as String?,
     );
   }
@@ -841,7 +828,7 @@ class CreateScanResponse {
       'resourceId': resourceId,
       'runId': runId,
       'scanName': scanName,
-      'scanState': scanState.toValue(),
+      'scanState': scanState.value,
       if (scanNameArn != null) 'scanNameArn': scanNameArn,
     };
   }
@@ -913,46 +900,20 @@ class EncryptionConfig {
 }
 
 enum ErrorCode {
-  duplicateIdentifier,
-  itemDoesNotExist,
-  internalError,
-  invalidFindingId,
-  invalidScanName,
-}
+  duplicateIdentifier('DUPLICATE_IDENTIFIER'),
+  itemDoesNotExist('ITEM_DOES_NOT_EXIST'),
+  internalError('INTERNAL_ERROR'),
+  invalidFindingId('INVALID_FINDING_ID'),
+  invalidScanName('INVALID_SCAN_NAME'),
+  ;
 
-extension ErrorCodeValueExtension on ErrorCode {
-  String toValue() {
-    switch (this) {
-      case ErrorCode.duplicateIdentifier:
-        return 'DUPLICATE_IDENTIFIER';
-      case ErrorCode.itemDoesNotExist:
-        return 'ITEM_DOES_NOT_EXIST';
-      case ErrorCode.internalError:
-        return 'INTERNAL_ERROR';
-      case ErrorCode.invalidFindingId:
-        return 'INVALID_FINDING_ID';
-      case ErrorCode.invalidScanName:
-        return 'INVALID_SCAN_NAME';
-    }
-  }
-}
+  final String value;
 
-extension ErrorCodeFromString on String {
-  ErrorCode toErrorCode() {
-    switch (this) {
-      case 'DUPLICATE_IDENTIFIER':
-        return ErrorCode.duplicateIdentifier;
-      case 'ITEM_DOES_NOT_EXIST':
-        return ErrorCode.itemDoesNotExist;
-      case 'INTERNAL_ERROR':
-        return ErrorCode.internalError;
-      case 'INVALID_FINDING_ID':
-        return ErrorCode.invalidFindingId;
-      case 'INVALID_SCAN_NAME':
-        return ErrorCode.invalidScanName;
-    }
-    throw Exception('$this is not known in enum ErrorCode');
-  }
+  const ErrorCode(this.value);
+
+  static ErrorCode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ErrorCode'));
 }
 
 /// Information about the location of security vulnerabilities that Amazon
@@ -1111,8 +1072,8 @@ class Finding {
           ? Resource.fromJson(json['resource'] as Map<String, dynamic>)
           : null,
       ruleId: json['ruleId'] as String?,
-      severity: (json['severity'] as String?)?.toSeverity(),
-      status: (json['status'] as String?)?.toStatus(),
+      severity: (json['severity'] as String?)?.let(Severity.fromString),
+      status: (json['status'] as String?)?.let(Status.fromString),
       title: json['title'] as String?,
       type: json['type'] as String?,
       updatedAt: timeStampFromJson(json['updatedAt']),
@@ -1151,8 +1112,8 @@ class Finding {
       if (remediation != null) 'remediation': remediation,
       if (resource != null) 'resource': resource,
       if (ruleId != null) 'ruleId': ruleId,
-      if (severity != null) 'severity': severity.toValue(),
-      if (status != null) 'status': status.toValue(),
+      if (severity != null) 'severity': severity.value,
+      if (status != null) 'status': status.value,
       if (title != null) 'title': title,
       if (type != null) 'type': type,
       if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
@@ -1370,11 +1331,11 @@ class GetScanResponse {
 
   factory GetScanResponse.fromJson(Map<String, dynamic> json) {
     return GetScanResponse(
-      analysisType: (json['analysisType'] as String).toAnalysisType(),
+      analysisType: AnalysisType.fromString((json['analysisType'] as String)),
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
       runId: json['runId'] as String,
       scanName: json['scanName'] as String,
-      scanState: (json['scanState'] as String).toScanState(),
+      scanState: ScanState.fromString((json['scanState'] as String)),
       errorMessage: json['errorMessage'] as String?,
       numberOfRevisions: json['numberOfRevisions'] as int?,
       scanNameArn: json['scanNameArn'] as String?,
@@ -1393,11 +1354,11 @@ class GetScanResponse {
     final scanNameArn = this.scanNameArn;
     final updatedAt = this.updatedAt;
     return {
-      'analysisType': analysisType.toValue(),
+      'analysisType': analysisType.value,
       'createdAt': unixTimestampToJson(createdAt),
       'runId': runId,
       'scanName': scanName,
-      'scanState': scanState.toValue(),
+      'scanState': scanState.value,
       if (errorMessage != null) 'errorMessage': errorMessage,
       if (numberOfRevisions != null) 'numberOfRevisions': numberOfRevisions,
       if (scanNameArn != null) 'scanNameArn': scanNameArn,
@@ -1739,36 +1700,18 @@ class ScanNameWithFindingNum {
 }
 
 enum ScanState {
-  inProgress,
-  successful,
-  failed,
-}
+  inProgress('InProgress'),
+  successful('Successful'),
+  failed('Failed'),
+  ;
 
-extension ScanStateValueExtension on ScanState {
-  String toValue() {
-    switch (this) {
-      case ScanState.inProgress:
-        return 'InProgress';
-      case ScanState.successful:
-        return 'Successful';
-      case ScanState.failed:
-        return 'Failed';
-    }
-  }
-}
+  final String value;
 
-extension ScanStateFromString on String {
-  ScanState toScanState() {
-    switch (this) {
-      case 'InProgress':
-        return ScanState.inProgress;
-      case 'Successful':
-        return ScanState.successful;
-      case 'Failed':
-        return ScanState.failed;
-    }
-    throw Exception('$this is not known in enum ScanState');
-  }
+  const ScanState(this.value);
+
+  static ScanState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ScanState'));
 }
 
 /// Information about a scan.
@@ -1806,7 +1749,7 @@ class ScanSummary {
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
       runId: json['runId'] as String,
       scanName: json['scanName'] as String,
-      scanState: (json['scanState'] as String).toScanState(),
+      scanState: ScanState.fromString((json['scanState'] as String)),
       scanNameArn: json['scanNameArn'] as String?,
       updatedAt: timeStampFromJson(json['updatedAt']),
     );
@@ -1823,7 +1766,7 @@ class ScanSummary {
       'createdAt': unixTimestampToJson(createdAt),
       'runId': runId,
       'scanName': scanName,
-      'scanState': scanState.toValue(),
+      'scanState': scanState.value,
       if (scanNameArn != null) 'scanNameArn': scanNameArn,
       if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
     };
@@ -1831,107 +1774,49 @@ class ScanSummary {
 }
 
 enum ScanType {
-  standard,
-  express,
-}
+  standard('Standard'),
+  express('Express'),
+  ;
 
-extension ScanTypeValueExtension on ScanType {
-  String toValue() {
-    switch (this) {
-      case ScanType.standard:
-        return 'Standard';
-      case ScanType.express:
-        return 'Express';
-    }
-  }
-}
+  final String value;
 
-extension ScanTypeFromString on String {
-  ScanType toScanType() {
-    switch (this) {
-      case 'Standard':
-        return ScanType.standard;
-      case 'Express':
-        return ScanType.express;
-    }
-    throw Exception('$this is not known in enum ScanType');
-  }
+  const ScanType(this.value);
+
+  static ScanType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ScanType'));
 }
 
 enum Severity {
-  critical,
-  high,
-  medium,
-  low,
-  info,
-}
+  critical('Critical'),
+  high('High'),
+  medium('Medium'),
+  low('Low'),
+  info('Info'),
+  ;
 
-extension SeverityValueExtension on Severity {
-  String toValue() {
-    switch (this) {
-      case Severity.critical:
-        return 'Critical';
-      case Severity.high:
-        return 'High';
-      case Severity.medium:
-        return 'Medium';
-      case Severity.low:
-        return 'Low';
-      case Severity.info:
-        return 'Info';
-    }
-  }
-}
+  final String value;
 
-extension SeverityFromString on String {
-  Severity toSeverity() {
-    switch (this) {
-      case 'Critical':
-        return Severity.critical;
-      case 'High':
-        return Severity.high;
-      case 'Medium':
-        return Severity.medium;
-      case 'Low':
-        return Severity.low;
-      case 'Info':
-        return Severity.info;
-    }
-    throw Exception('$this is not known in enum Severity');
-  }
+  const Severity(this.value);
+
+  static Severity fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Severity'));
 }
 
 enum Status {
-  closed,
-  open,
-  all,
-}
+  closed('Closed'),
+  open('Open'),
+  all('All'),
+  ;
 
-extension StatusValueExtension on Status {
-  String toValue() {
-    switch (this) {
-      case Status.closed:
-        return 'Closed';
-      case Status.open:
-        return 'Open';
-      case Status.all:
-        return 'All';
-    }
-  }
-}
+  final String value;
 
-extension StatusFromString on String {
-  Status toStatus() {
-    switch (this) {
-      case 'Closed':
-        return Status.closed;
-      case 'Open':
-        return Status.open;
-      case 'All':
-        return Status.all;
-    }
-    throw Exception('$this is not known in enum Status');
-  }
+  const Status(this.value);
+
+  static Status fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Status'));
 }
 
 /// Information about the suggested code fix to remediate a finding.

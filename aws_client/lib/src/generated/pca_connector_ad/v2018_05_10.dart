@@ -1097,31 +1097,17 @@ class AccessControlEntrySummary {
 }
 
 enum AccessRight {
-  allow,
-  deny,
-}
+  allow('ALLOW'),
+  deny('DENY'),
+  ;
 
-extension AccessRightValueExtension on AccessRight {
-  String toValue() {
-    switch (this) {
-      case AccessRight.allow:
-        return 'ALLOW';
-      case AccessRight.deny:
-        return 'DENY';
-    }
-  }
-}
+  final String value;
 
-extension AccessRightFromString on String {
-  AccessRight toAccessRight() {
-    switch (this) {
-      case 'ALLOW':
-        return AccessRight.allow;
-      case 'DENY':
-        return AccessRight.deny;
-    }
-    throw Exception('$this is not known in enum AccessRight');
-  }
+  const AccessRight(this.value);
+
+  static AccessRight fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AccessRight'));
 }
 
 /// Allow or deny permissions for an Active Directory group to enroll or
@@ -1143,8 +1129,8 @@ class AccessRights {
 
   factory AccessRights.fromJson(Map<String, dynamic> json) {
     return AccessRights(
-      autoEnroll: (json['AutoEnroll'] as String?)?.toAccessRight(),
-      enroll: (json['Enroll'] as String?)?.toAccessRight(),
+      autoEnroll: (json['AutoEnroll'] as String?)?.let(AccessRight.fromString),
+      enroll: (json['Enroll'] as String?)?.let(AccessRight.fromString),
     );
   }
 
@@ -1152,8 +1138,8 @@ class AccessRights {
     final autoEnroll = this.autoEnroll;
     final enroll = this.enroll;
     return {
-      if (autoEnroll != null) 'AutoEnroll': autoEnroll.toValue(),
-      if (enroll != null) 'Enroll': enroll.toValue(),
+      if (autoEnroll != null) 'AutoEnroll': autoEnroll.value,
+      if (enroll != null) 'Enroll': enroll.value,
     };
   }
 }
@@ -1207,7 +1193,8 @@ class ApplicationPolicy {
   factory ApplicationPolicy.fromJson(Map<String, dynamic> json) {
     return ApplicationPolicy(
       policyObjectIdentifier: json['PolicyObjectIdentifier'] as String?,
-      policyType: (json['PolicyType'] as String?)?.toApplicationPolicyType(),
+      policyType: (json['PolicyType'] as String?)
+          ?.let(ApplicationPolicyType.fromString),
     );
   }
 
@@ -1217,362 +1204,95 @@ class ApplicationPolicy {
     return {
       if (policyObjectIdentifier != null)
         'PolicyObjectIdentifier': policyObjectIdentifier,
-      if (policyType != null) 'PolicyType': policyType.toValue(),
+      if (policyType != null) 'PolicyType': policyType.value,
     };
   }
 }
 
 enum ApplicationPolicyType {
-  allApplicationPolicies,
-  anyPurpose,
-  attestationIdentityKeyCertificate,
-  certificateRequestAgent,
-  clientAuthentication,
-  codeSigning,
-  ctlUsage,
-  digitalRights,
-  directoryServiceEmailReplication,
-  disallowedList,
-  dnsServerTrust,
-  documentEncryption,
-  documentSigning,
-  dynamicCodeGenerator,
-  earlyLaunchAntimalwareDriver,
-  embeddedWindowsSystemComponentVerification,
-  enclave,
-  encryptingFileSystem,
-  endorsementKeyCertificate,
-  fileRecovery,
-  halExtension,
-  ipSecurityEndSystem,
-  ipSecurityIkeIntermediate,
-  ipSecurityTunnelTermination,
-  ipSecurityUser,
-  isolatedUserMode,
-  kdcAuthentication,
-  kernelModeCodeSigning,
-  keyPackLicenses,
-  keyRecovery,
-  keyRecoveryAgent,
-  licenseServerVerification,
-  lifetimeSigning,
-  microsoftPublisher,
-  microsoftTimeStamping,
-  microsoftTrustListSigning,
-  ocspSigning,
-  oemWindowsSystemComponentVerification,
-  platformCertificate,
-  previewBuildSigning,
-  privateKeyArchival,
-  protectedProcessLightVerification,
-  protectedProcessVerification,
-  qualifiedSubordination,
-  revokedListSigner,
-  rootProgramAutoUpdateCaRevocation,
-  rootProgramAutoUpdateEndRevocation,
-  rootProgramNoOscpFailoverToCrl,
-  rootListSigner,
-  secureEmail,
-  serverAuthentication,
-  smartCardLogin,
-  spcEncryptedDigestRetryCount,
-  spcRelaxedPeMarkerCheck,
-  timeStamping,
-  windowsHardwareDriverAttestedVerification,
-  windowsHardwareDriverExtendedVerification,
-  windowsHardwareDriverVerification,
-  windowsHelloRecoveryKeyEncryption,
-  windowsKitsComponent,
-  windowsRtVerification,
-  windowsSoftwareExtensionVerification,
-  windowsStore,
-  windowsSystemComponentVerification,
-  windowsTcbComponent,
-  windowsThirdPartyApplicationComponent,
-  windowsUpdate,
-}
+  allApplicationPolicies('ALL_APPLICATION_POLICIES'),
+  anyPurpose('ANY_PURPOSE'),
+  attestationIdentityKeyCertificate('ATTESTATION_IDENTITY_KEY_CERTIFICATE'),
+  certificateRequestAgent('CERTIFICATE_REQUEST_AGENT'),
+  clientAuthentication('CLIENT_AUTHENTICATION'),
+  codeSigning('CODE_SIGNING'),
+  ctlUsage('CTL_USAGE'),
+  digitalRights('DIGITAL_RIGHTS'),
+  directoryServiceEmailReplication('DIRECTORY_SERVICE_EMAIL_REPLICATION'),
+  disallowedList('DISALLOWED_LIST'),
+  dnsServerTrust('DNS_SERVER_TRUST'),
+  documentEncryption('DOCUMENT_ENCRYPTION'),
+  documentSigning('DOCUMENT_SIGNING'),
+  dynamicCodeGenerator('DYNAMIC_CODE_GENERATOR'),
+  earlyLaunchAntimalwareDriver('EARLY_LAUNCH_ANTIMALWARE_DRIVER'),
+  embeddedWindowsSystemComponentVerification(
+      'EMBEDDED_WINDOWS_SYSTEM_COMPONENT_VERIFICATION'),
+  enclave('ENCLAVE'),
+  encryptingFileSystem('ENCRYPTING_FILE_SYSTEM'),
+  endorsementKeyCertificate('ENDORSEMENT_KEY_CERTIFICATE'),
+  fileRecovery('FILE_RECOVERY'),
+  halExtension('HAL_EXTENSION'),
+  ipSecurityEndSystem('IP_SECURITY_END_SYSTEM'),
+  ipSecurityIkeIntermediate('IP_SECURITY_IKE_INTERMEDIATE'),
+  ipSecurityTunnelTermination('IP_SECURITY_TUNNEL_TERMINATION'),
+  ipSecurityUser('IP_SECURITY_USER'),
+  isolatedUserMode('ISOLATED_USER_MODE'),
+  kdcAuthentication('KDC_AUTHENTICATION'),
+  kernelModeCodeSigning('KERNEL_MODE_CODE_SIGNING'),
+  keyPackLicenses('KEY_PACK_LICENSES'),
+  keyRecovery('KEY_RECOVERY'),
+  keyRecoveryAgent('KEY_RECOVERY_AGENT'),
+  licenseServerVerification('LICENSE_SERVER_VERIFICATION'),
+  lifetimeSigning('LIFETIME_SIGNING'),
+  microsoftPublisher('MICROSOFT_PUBLISHER'),
+  microsoftTimeStamping('MICROSOFT_TIME_STAMPING'),
+  microsoftTrustListSigning('MICROSOFT_TRUST_LIST_SIGNING'),
+  ocspSigning('OCSP_SIGNING'),
+  oemWindowsSystemComponentVerification(
+      'OEM_WINDOWS_SYSTEM_COMPONENT_VERIFICATION'),
+  platformCertificate('PLATFORM_CERTIFICATE'),
+  previewBuildSigning('PREVIEW_BUILD_SIGNING'),
+  privateKeyArchival('PRIVATE_KEY_ARCHIVAL'),
+  protectedProcessLightVerification('PROTECTED_PROCESS_LIGHT_VERIFICATION'),
+  protectedProcessVerification('PROTECTED_PROCESS_VERIFICATION'),
+  qualifiedSubordination('QUALIFIED_SUBORDINATION'),
+  revokedListSigner('REVOKED_LIST_SIGNER'),
+  rootProgramAutoUpdateCaRevocation('ROOT_PROGRAM_AUTO_UPDATE_CA_REVOCATION'),
+  rootProgramAutoUpdateEndRevocation('ROOT_PROGRAM_AUTO_UPDATE_END_REVOCATION'),
+  rootProgramNoOscpFailoverToCrl('ROOT_PROGRAM_NO_OSCP_FAILOVER_TO_CRL'),
+  rootListSigner('ROOT_LIST_SIGNER'),
+  secureEmail('SECURE_EMAIL'),
+  serverAuthentication('SERVER_AUTHENTICATION'),
+  smartCardLogin('SMART_CARD_LOGIN'),
+  spcEncryptedDigestRetryCount('SPC_ENCRYPTED_DIGEST_RETRY_COUNT'),
+  spcRelaxedPeMarkerCheck('SPC_RELAXED_PE_MARKER_CHECK'),
+  timeStamping('TIME_STAMPING'),
+  windowsHardwareDriverAttestedVerification(
+      'WINDOWS_HARDWARE_DRIVER_ATTESTED_VERIFICATION'),
+  windowsHardwareDriverExtendedVerification(
+      'WINDOWS_HARDWARE_DRIVER_EXTENDED_VERIFICATION'),
+  windowsHardwareDriverVerification('WINDOWS_HARDWARE_DRIVER_VERIFICATION'),
+  windowsHelloRecoveryKeyEncryption('WINDOWS_HELLO_RECOVERY_KEY_ENCRYPTION'),
+  windowsKitsComponent('WINDOWS_KITS_COMPONENT'),
+  windowsRtVerification('WINDOWS_RT_VERIFICATION'),
+  windowsSoftwareExtensionVerification(
+      'WINDOWS_SOFTWARE_EXTENSION_VERIFICATION'),
+  windowsStore('WINDOWS_STORE'),
+  windowsSystemComponentVerification('WINDOWS_SYSTEM_COMPONENT_VERIFICATION'),
+  windowsTcbComponent('WINDOWS_TCB_COMPONENT'),
+  windowsThirdPartyApplicationComponent(
+      'WINDOWS_THIRD_PARTY_APPLICATION_COMPONENT'),
+  windowsUpdate('WINDOWS_UPDATE'),
+  ;
 
-extension ApplicationPolicyTypeValueExtension on ApplicationPolicyType {
-  String toValue() {
-    switch (this) {
-      case ApplicationPolicyType.allApplicationPolicies:
-        return 'ALL_APPLICATION_POLICIES';
-      case ApplicationPolicyType.anyPurpose:
-        return 'ANY_PURPOSE';
-      case ApplicationPolicyType.attestationIdentityKeyCertificate:
-        return 'ATTESTATION_IDENTITY_KEY_CERTIFICATE';
-      case ApplicationPolicyType.certificateRequestAgent:
-        return 'CERTIFICATE_REQUEST_AGENT';
-      case ApplicationPolicyType.clientAuthentication:
-        return 'CLIENT_AUTHENTICATION';
-      case ApplicationPolicyType.codeSigning:
-        return 'CODE_SIGNING';
-      case ApplicationPolicyType.ctlUsage:
-        return 'CTL_USAGE';
-      case ApplicationPolicyType.digitalRights:
-        return 'DIGITAL_RIGHTS';
-      case ApplicationPolicyType.directoryServiceEmailReplication:
-        return 'DIRECTORY_SERVICE_EMAIL_REPLICATION';
-      case ApplicationPolicyType.disallowedList:
-        return 'DISALLOWED_LIST';
-      case ApplicationPolicyType.dnsServerTrust:
-        return 'DNS_SERVER_TRUST';
-      case ApplicationPolicyType.documentEncryption:
-        return 'DOCUMENT_ENCRYPTION';
-      case ApplicationPolicyType.documentSigning:
-        return 'DOCUMENT_SIGNING';
-      case ApplicationPolicyType.dynamicCodeGenerator:
-        return 'DYNAMIC_CODE_GENERATOR';
-      case ApplicationPolicyType.earlyLaunchAntimalwareDriver:
-        return 'EARLY_LAUNCH_ANTIMALWARE_DRIVER';
-      case ApplicationPolicyType.embeddedWindowsSystemComponentVerification:
-        return 'EMBEDDED_WINDOWS_SYSTEM_COMPONENT_VERIFICATION';
-      case ApplicationPolicyType.enclave:
-        return 'ENCLAVE';
-      case ApplicationPolicyType.encryptingFileSystem:
-        return 'ENCRYPTING_FILE_SYSTEM';
-      case ApplicationPolicyType.endorsementKeyCertificate:
-        return 'ENDORSEMENT_KEY_CERTIFICATE';
-      case ApplicationPolicyType.fileRecovery:
-        return 'FILE_RECOVERY';
-      case ApplicationPolicyType.halExtension:
-        return 'HAL_EXTENSION';
-      case ApplicationPolicyType.ipSecurityEndSystem:
-        return 'IP_SECURITY_END_SYSTEM';
-      case ApplicationPolicyType.ipSecurityIkeIntermediate:
-        return 'IP_SECURITY_IKE_INTERMEDIATE';
-      case ApplicationPolicyType.ipSecurityTunnelTermination:
-        return 'IP_SECURITY_TUNNEL_TERMINATION';
-      case ApplicationPolicyType.ipSecurityUser:
-        return 'IP_SECURITY_USER';
-      case ApplicationPolicyType.isolatedUserMode:
-        return 'ISOLATED_USER_MODE';
-      case ApplicationPolicyType.kdcAuthentication:
-        return 'KDC_AUTHENTICATION';
-      case ApplicationPolicyType.kernelModeCodeSigning:
-        return 'KERNEL_MODE_CODE_SIGNING';
-      case ApplicationPolicyType.keyPackLicenses:
-        return 'KEY_PACK_LICENSES';
-      case ApplicationPolicyType.keyRecovery:
-        return 'KEY_RECOVERY';
-      case ApplicationPolicyType.keyRecoveryAgent:
-        return 'KEY_RECOVERY_AGENT';
-      case ApplicationPolicyType.licenseServerVerification:
-        return 'LICENSE_SERVER_VERIFICATION';
-      case ApplicationPolicyType.lifetimeSigning:
-        return 'LIFETIME_SIGNING';
-      case ApplicationPolicyType.microsoftPublisher:
-        return 'MICROSOFT_PUBLISHER';
-      case ApplicationPolicyType.microsoftTimeStamping:
-        return 'MICROSOFT_TIME_STAMPING';
-      case ApplicationPolicyType.microsoftTrustListSigning:
-        return 'MICROSOFT_TRUST_LIST_SIGNING';
-      case ApplicationPolicyType.ocspSigning:
-        return 'OCSP_SIGNING';
-      case ApplicationPolicyType.oemWindowsSystemComponentVerification:
-        return 'OEM_WINDOWS_SYSTEM_COMPONENT_VERIFICATION';
-      case ApplicationPolicyType.platformCertificate:
-        return 'PLATFORM_CERTIFICATE';
-      case ApplicationPolicyType.previewBuildSigning:
-        return 'PREVIEW_BUILD_SIGNING';
-      case ApplicationPolicyType.privateKeyArchival:
-        return 'PRIVATE_KEY_ARCHIVAL';
-      case ApplicationPolicyType.protectedProcessLightVerification:
-        return 'PROTECTED_PROCESS_LIGHT_VERIFICATION';
-      case ApplicationPolicyType.protectedProcessVerification:
-        return 'PROTECTED_PROCESS_VERIFICATION';
-      case ApplicationPolicyType.qualifiedSubordination:
-        return 'QUALIFIED_SUBORDINATION';
-      case ApplicationPolicyType.revokedListSigner:
-        return 'REVOKED_LIST_SIGNER';
-      case ApplicationPolicyType.rootProgramAutoUpdateCaRevocation:
-        return 'ROOT_PROGRAM_AUTO_UPDATE_CA_REVOCATION';
-      case ApplicationPolicyType.rootProgramAutoUpdateEndRevocation:
-        return 'ROOT_PROGRAM_AUTO_UPDATE_END_REVOCATION';
-      case ApplicationPolicyType.rootProgramNoOscpFailoverToCrl:
-        return 'ROOT_PROGRAM_NO_OSCP_FAILOVER_TO_CRL';
-      case ApplicationPolicyType.rootListSigner:
-        return 'ROOT_LIST_SIGNER';
-      case ApplicationPolicyType.secureEmail:
-        return 'SECURE_EMAIL';
-      case ApplicationPolicyType.serverAuthentication:
-        return 'SERVER_AUTHENTICATION';
-      case ApplicationPolicyType.smartCardLogin:
-        return 'SMART_CARD_LOGIN';
-      case ApplicationPolicyType.spcEncryptedDigestRetryCount:
-        return 'SPC_ENCRYPTED_DIGEST_RETRY_COUNT';
-      case ApplicationPolicyType.spcRelaxedPeMarkerCheck:
-        return 'SPC_RELAXED_PE_MARKER_CHECK';
-      case ApplicationPolicyType.timeStamping:
-        return 'TIME_STAMPING';
-      case ApplicationPolicyType.windowsHardwareDriverAttestedVerification:
-        return 'WINDOWS_HARDWARE_DRIVER_ATTESTED_VERIFICATION';
-      case ApplicationPolicyType.windowsHardwareDriverExtendedVerification:
-        return 'WINDOWS_HARDWARE_DRIVER_EXTENDED_VERIFICATION';
-      case ApplicationPolicyType.windowsHardwareDriverVerification:
-        return 'WINDOWS_HARDWARE_DRIVER_VERIFICATION';
-      case ApplicationPolicyType.windowsHelloRecoveryKeyEncryption:
-        return 'WINDOWS_HELLO_RECOVERY_KEY_ENCRYPTION';
-      case ApplicationPolicyType.windowsKitsComponent:
-        return 'WINDOWS_KITS_COMPONENT';
-      case ApplicationPolicyType.windowsRtVerification:
-        return 'WINDOWS_RT_VERIFICATION';
-      case ApplicationPolicyType.windowsSoftwareExtensionVerification:
-        return 'WINDOWS_SOFTWARE_EXTENSION_VERIFICATION';
-      case ApplicationPolicyType.windowsStore:
-        return 'WINDOWS_STORE';
-      case ApplicationPolicyType.windowsSystemComponentVerification:
-        return 'WINDOWS_SYSTEM_COMPONENT_VERIFICATION';
-      case ApplicationPolicyType.windowsTcbComponent:
-        return 'WINDOWS_TCB_COMPONENT';
-      case ApplicationPolicyType.windowsThirdPartyApplicationComponent:
-        return 'WINDOWS_THIRD_PARTY_APPLICATION_COMPONENT';
-      case ApplicationPolicyType.windowsUpdate:
-        return 'WINDOWS_UPDATE';
-    }
-  }
-}
+  final String value;
 
-extension ApplicationPolicyTypeFromString on String {
-  ApplicationPolicyType toApplicationPolicyType() {
-    switch (this) {
-      case 'ALL_APPLICATION_POLICIES':
-        return ApplicationPolicyType.allApplicationPolicies;
-      case 'ANY_PURPOSE':
-        return ApplicationPolicyType.anyPurpose;
-      case 'ATTESTATION_IDENTITY_KEY_CERTIFICATE':
-        return ApplicationPolicyType.attestationIdentityKeyCertificate;
-      case 'CERTIFICATE_REQUEST_AGENT':
-        return ApplicationPolicyType.certificateRequestAgent;
-      case 'CLIENT_AUTHENTICATION':
-        return ApplicationPolicyType.clientAuthentication;
-      case 'CODE_SIGNING':
-        return ApplicationPolicyType.codeSigning;
-      case 'CTL_USAGE':
-        return ApplicationPolicyType.ctlUsage;
-      case 'DIGITAL_RIGHTS':
-        return ApplicationPolicyType.digitalRights;
-      case 'DIRECTORY_SERVICE_EMAIL_REPLICATION':
-        return ApplicationPolicyType.directoryServiceEmailReplication;
-      case 'DISALLOWED_LIST':
-        return ApplicationPolicyType.disallowedList;
-      case 'DNS_SERVER_TRUST':
-        return ApplicationPolicyType.dnsServerTrust;
-      case 'DOCUMENT_ENCRYPTION':
-        return ApplicationPolicyType.documentEncryption;
-      case 'DOCUMENT_SIGNING':
-        return ApplicationPolicyType.documentSigning;
-      case 'DYNAMIC_CODE_GENERATOR':
-        return ApplicationPolicyType.dynamicCodeGenerator;
-      case 'EARLY_LAUNCH_ANTIMALWARE_DRIVER':
-        return ApplicationPolicyType.earlyLaunchAntimalwareDriver;
-      case 'EMBEDDED_WINDOWS_SYSTEM_COMPONENT_VERIFICATION':
-        return ApplicationPolicyType.embeddedWindowsSystemComponentVerification;
-      case 'ENCLAVE':
-        return ApplicationPolicyType.enclave;
-      case 'ENCRYPTING_FILE_SYSTEM':
-        return ApplicationPolicyType.encryptingFileSystem;
-      case 'ENDORSEMENT_KEY_CERTIFICATE':
-        return ApplicationPolicyType.endorsementKeyCertificate;
-      case 'FILE_RECOVERY':
-        return ApplicationPolicyType.fileRecovery;
-      case 'HAL_EXTENSION':
-        return ApplicationPolicyType.halExtension;
-      case 'IP_SECURITY_END_SYSTEM':
-        return ApplicationPolicyType.ipSecurityEndSystem;
-      case 'IP_SECURITY_IKE_INTERMEDIATE':
-        return ApplicationPolicyType.ipSecurityIkeIntermediate;
-      case 'IP_SECURITY_TUNNEL_TERMINATION':
-        return ApplicationPolicyType.ipSecurityTunnelTermination;
-      case 'IP_SECURITY_USER':
-        return ApplicationPolicyType.ipSecurityUser;
-      case 'ISOLATED_USER_MODE':
-        return ApplicationPolicyType.isolatedUserMode;
-      case 'KDC_AUTHENTICATION':
-        return ApplicationPolicyType.kdcAuthentication;
-      case 'KERNEL_MODE_CODE_SIGNING':
-        return ApplicationPolicyType.kernelModeCodeSigning;
-      case 'KEY_PACK_LICENSES':
-        return ApplicationPolicyType.keyPackLicenses;
-      case 'KEY_RECOVERY':
-        return ApplicationPolicyType.keyRecovery;
-      case 'KEY_RECOVERY_AGENT':
-        return ApplicationPolicyType.keyRecoveryAgent;
-      case 'LICENSE_SERVER_VERIFICATION':
-        return ApplicationPolicyType.licenseServerVerification;
-      case 'LIFETIME_SIGNING':
-        return ApplicationPolicyType.lifetimeSigning;
-      case 'MICROSOFT_PUBLISHER':
-        return ApplicationPolicyType.microsoftPublisher;
-      case 'MICROSOFT_TIME_STAMPING':
-        return ApplicationPolicyType.microsoftTimeStamping;
-      case 'MICROSOFT_TRUST_LIST_SIGNING':
-        return ApplicationPolicyType.microsoftTrustListSigning;
-      case 'OCSP_SIGNING':
-        return ApplicationPolicyType.ocspSigning;
-      case 'OEM_WINDOWS_SYSTEM_COMPONENT_VERIFICATION':
-        return ApplicationPolicyType.oemWindowsSystemComponentVerification;
-      case 'PLATFORM_CERTIFICATE':
-        return ApplicationPolicyType.platformCertificate;
-      case 'PREVIEW_BUILD_SIGNING':
-        return ApplicationPolicyType.previewBuildSigning;
-      case 'PRIVATE_KEY_ARCHIVAL':
-        return ApplicationPolicyType.privateKeyArchival;
-      case 'PROTECTED_PROCESS_LIGHT_VERIFICATION':
-        return ApplicationPolicyType.protectedProcessLightVerification;
-      case 'PROTECTED_PROCESS_VERIFICATION':
-        return ApplicationPolicyType.protectedProcessVerification;
-      case 'QUALIFIED_SUBORDINATION':
-        return ApplicationPolicyType.qualifiedSubordination;
-      case 'REVOKED_LIST_SIGNER':
-        return ApplicationPolicyType.revokedListSigner;
-      case 'ROOT_PROGRAM_AUTO_UPDATE_CA_REVOCATION':
-        return ApplicationPolicyType.rootProgramAutoUpdateCaRevocation;
-      case 'ROOT_PROGRAM_AUTO_UPDATE_END_REVOCATION':
-        return ApplicationPolicyType.rootProgramAutoUpdateEndRevocation;
-      case 'ROOT_PROGRAM_NO_OSCP_FAILOVER_TO_CRL':
-        return ApplicationPolicyType.rootProgramNoOscpFailoverToCrl;
-      case 'ROOT_LIST_SIGNER':
-        return ApplicationPolicyType.rootListSigner;
-      case 'SECURE_EMAIL':
-        return ApplicationPolicyType.secureEmail;
-      case 'SERVER_AUTHENTICATION':
-        return ApplicationPolicyType.serverAuthentication;
-      case 'SMART_CARD_LOGIN':
-        return ApplicationPolicyType.smartCardLogin;
-      case 'SPC_ENCRYPTED_DIGEST_RETRY_COUNT':
-        return ApplicationPolicyType.spcEncryptedDigestRetryCount;
-      case 'SPC_RELAXED_PE_MARKER_CHECK':
-        return ApplicationPolicyType.spcRelaxedPeMarkerCheck;
-      case 'TIME_STAMPING':
-        return ApplicationPolicyType.timeStamping;
-      case 'WINDOWS_HARDWARE_DRIVER_ATTESTED_VERIFICATION':
-        return ApplicationPolicyType.windowsHardwareDriverAttestedVerification;
-      case 'WINDOWS_HARDWARE_DRIVER_EXTENDED_VERIFICATION':
-        return ApplicationPolicyType.windowsHardwareDriverExtendedVerification;
-      case 'WINDOWS_HARDWARE_DRIVER_VERIFICATION':
-        return ApplicationPolicyType.windowsHardwareDriverVerification;
-      case 'WINDOWS_HELLO_RECOVERY_KEY_ENCRYPTION':
-        return ApplicationPolicyType.windowsHelloRecoveryKeyEncryption;
-      case 'WINDOWS_KITS_COMPONENT':
-        return ApplicationPolicyType.windowsKitsComponent;
-      case 'WINDOWS_RT_VERIFICATION':
-        return ApplicationPolicyType.windowsRtVerification;
-      case 'WINDOWS_SOFTWARE_EXTENSION_VERIFICATION':
-        return ApplicationPolicyType.windowsSoftwareExtensionVerification;
-      case 'WINDOWS_STORE':
-        return ApplicationPolicyType.windowsStore;
-      case 'WINDOWS_SYSTEM_COMPONENT_VERIFICATION':
-        return ApplicationPolicyType.windowsSystemComponentVerification;
-      case 'WINDOWS_TCB_COMPONENT':
-        return ApplicationPolicyType.windowsTcbComponent;
-      case 'WINDOWS_THIRD_PARTY_APPLICATION_COMPONENT':
-        return ApplicationPolicyType.windowsThirdPartyApplicationComponent;
-      case 'WINDOWS_UPDATE':
-        return ApplicationPolicyType.windowsUpdate;
-    }
-    throw Exception('$this is not known in enum ApplicationPolicyType');
-  }
+  const ApplicationPolicyType(this.value);
+
+  static ApplicationPolicyType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ApplicationPolicyType'));
 }
 
 /// Information describing the end of the validity period of the certificate.
@@ -1625,127 +1345,56 @@ class CertificateValidity {
 }
 
 enum ClientCompatibilityV2 {
-  windowsServer_2003,
-  windowsServer_2008,
-  windowsServer_2008R2,
-  windowsServer_2012,
-  windowsServer_2012R2,
-  windowsServer_2016,
-}
+  windowsServer_2003('WINDOWS_SERVER_2003'),
+  windowsServer_2008('WINDOWS_SERVER_2008'),
+  windowsServer_2008R2('WINDOWS_SERVER_2008_R2'),
+  windowsServer_2012('WINDOWS_SERVER_2012'),
+  windowsServer_2012R2('WINDOWS_SERVER_2012_R2'),
+  windowsServer_2016('WINDOWS_SERVER_2016'),
+  ;
 
-extension ClientCompatibilityV2ValueExtension on ClientCompatibilityV2 {
-  String toValue() {
-    switch (this) {
-      case ClientCompatibilityV2.windowsServer_2003:
-        return 'WINDOWS_SERVER_2003';
-      case ClientCompatibilityV2.windowsServer_2008:
-        return 'WINDOWS_SERVER_2008';
-      case ClientCompatibilityV2.windowsServer_2008R2:
-        return 'WINDOWS_SERVER_2008_R2';
-      case ClientCompatibilityV2.windowsServer_2012:
-        return 'WINDOWS_SERVER_2012';
-      case ClientCompatibilityV2.windowsServer_2012R2:
-        return 'WINDOWS_SERVER_2012_R2';
-      case ClientCompatibilityV2.windowsServer_2016:
-        return 'WINDOWS_SERVER_2016';
-    }
-  }
-}
+  final String value;
 
-extension ClientCompatibilityV2FromString on String {
-  ClientCompatibilityV2 toClientCompatibilityV2() {
-    switch (this) {
-      case 'WINDOWS_SERVER_2003':
-        return ClientCompatibilityV2.windowsServer_2003;
-      case 'WINDOWS_SERVER_2008':
-        return ClientCompatibilityV2.windowsServer_2008;
-      case 'WINDOWS_SERVER_2008_R2':
-        return ClientCompatibilityV2.windowsServer_2008R2;
-      case 'WINDOWS_SERVER_2012':
-        return ClientCompatibilityV2.windowsServer_2012;
-      case 'WINDOWS_SERVER_2012_R2':
-        return ClientCompatibilityV2.windowsServer_2012R2;
-      case 'WINDOWS_SERVER_2016':
-        return ClientCompatibilityV2.windowsServer_2016;
-    }
-    throw Exception('$this is not known in enum ClientCompatibilityV2');
-  }
+  const ClientCompatibilityV2(this.value);
+
+  static ClientCompatibilityV2 fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ClientCompatibilityV2'));
 }
 
 enum ClientCompatibilityV3 {
-  windowsServer_2008,
-  windowsServer_2008R2,
-  windowsServer_2012,
-  windowsServer_2012R2,
-  windowsServer_2016,
-}
+  windowsServer_2008('WINDOWS_SERVER_2008'),
+  windowsServer_2008R2('WINDOWS_SERVER_2008_R2'),
+  windowsServer_2012('WINDOWS_SERVER_2012'),
+  windowsServer_2012R2('WINDOWS_SERVER_2012_R2'),
+  windowsServer_2016('WINDOWS_SERVER_2016'),
+  ;
 
-extension ClientCompatibilityV3ValueExtension on ClientCompatibilityV3 {
-  String toValue() {
-    switch (this) {
-      case ClientCompatibilityV3.windowsServer_2008:
-        return 'WINDOWS_SERVER_2008';
-      case ClientCompatibilityV3.windowsServer_2008R2:
-        return 'WINDOWS_SERVER_2008_R2';
-      case ClientCompatibilityV3.windowsServer_2012:
-        return 'WINDOWS_SERVER_2012';
-      case ClientCompatibilityV3.windowsServer_2012R2:
-        return 'WINDOWS_SERVER_2012_R2';
-      case ClientCompatibilityV3.windowsServer_2016:
-        return 'WINDOWS_SERVER_2016';
-    }
-  }
-}
+  final String value;
 
-extension ClientCompatibilityV3FromString on String {
-  ClientCompatibilityV3 toClientCompatibilityV3() {
-    switch (this) {
-      case 'WINDOWS_SERVER_2008':
-        return ClientCompatibilityV3.windowsServer_2008;
-      case 'WINDOWS_SERVER_2008_R2':
-        return ClientCompatibilityV3.windowsServer_2008R2;
-      case 'WINDOWS_SERVER_2012':
-        return ClientCompatibilityV3.windowsServer_2012;
-      case 'WINDOWS_SERVER_2012_R2':
-        return ClientCompatibilityV3.windowsServer_2012R2;
-      case 'WINDOWS_SERVER_2016':
-        return ClientCompatibilityV3.windowsServer_2016;
-    }
-    throw Exception('$this is not known in enum ClientCompatibilityV3');
-  }
+  const ClientCompatibilityV3(this.value);
+
+  static ClientCompatibilityV3 fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ClientCompatibilityV3'));
 }
 
 enum ClientCompatibilityV4 {
-  windowsServer_2012,
-  windowsServer_2012R2,
-  windowsServer_2016,
-}
+  windowsServer_2012('WINDOWS_SERVER_2012'),
+  windowsServer_2012R2('WINDOWS_SERVER_2012_R2'),
+  windowsServer_2016('WINDOWS_SERVER_2016'),
+  ;
 
-extension ClientCompatibilityV4ValueExtension on ClientCompatibilityV4 {
-  String toValue() {
-    switch (this) {
-      case ClientCompatibilityV4.windowsServer_2012:
-        return 'WINDOWS_SERVER_2012';
-      case ClientCompatibilityV4.windowsServer_2012R2:
-        return 'WINDOWS_SERVER_2012_R2';
-      case ClientCompatibilityV4.windowsServer_2016:
-        return 'WINDOWS_SERVER_2016';
-    }
-  }
-}
+  final String value;
 
-extension ClientCompatibilityV4FromString on String {
-  ClientCompatibilityV4 toClientCompatibilityV4() {
-    switch (this) {
-      case 'WINDOWS_SERVER_2012':
-        return ClientCompatibilityV4.windowsServer_2012;
-      case 'WINDOWS_SERVER_2012_R2':
-        return ClientCompatibilityV4.windowsServer_2012R2;
-      case 'WINDOWS_SERVER_2016':
-        return ClientCompatibilityV4.windowsServer_2016;
-    }
-    throw Exception('$this is not known in enum ClientCompatibilityV4');
-  }
+  const ClientCompatibilityV4(this.value);
+
+  static ClientCompatibilityV4 fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ClientCompatibilityV4'));
 }
 
 /// Amazon Web Services Private CA Connector for Active Directory is a service
@@ -1804,9 +1453,9 @@ class Connector {
           json['CertificateEnrollmentPolicyServerEndpoint'] as String?,
       createdAt: timeStampFromJson(json['CreatedAt']),
       directoryId: json['DirectoryId'] as String?,
-      status: (json['Status'] as String?)?.toConnectorStatus(),
-      statusReason:
-          (json['StatusReason'] as String?)?.toConnectorStatusReason(),
+      status: (json['Status'] as String?)?.let(ConnectorStatus.fromString),
+      statusReason: (json['StatusReason'] as String?)
+          ?.let(ConnectorStatusReason.fromString),
       updatedAt: timeStampFromJson(json['UpdatedAt']),
       vpcInformation: json['VpcInformation'] != null
           ? VpcInformation.fromJson(
@@ -1835,8 +1484,8 @@ class Connector {
             certificateEnrollmentPolicyServerEndpoint,
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
       if (directoryId != null) 'DirectoryId': directoryId,
-      if (status != null) 'Status': status.toValue(),
-      if (statusReason != null) 'StatusReason': statusReason.toValue(),
+      if (status != null) 'Status': status.value,
+      if (statusReason != null) 'StatusReason': statusReason.value,
       if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
       if (vpcInformation != null) 'VpcInformation': vpcInformation,
     };
@@ -1844,99 +1493,41 @@ class Connector {
 }
 
 enum ConnectorStatus {
-  creating,
-  active,
-  deleting,
-  failed,
-}
+  creating('CREATING'),
+  active('ACTIVE'),
+  deleting('DELETING'),
+  failed('FAILED'),
+  ;
 
-extension ConnectorStatusValueExtension on ConnectorStatus {
-  String toValue() {
-    switch (this) {
-      case ConnectorStatus.creating:
-        return 'CREATING';
-      case ConnectorStatus.active:
-        return 'ACTIVE';
-      case ConnectorStatus.deleting:
-        return 'DELETING';
-      case ConnectorStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ConnectorStatusFromString on String {
-  ConnectorStatus toConnectorStatus() {
-    switch (this) {
-      case 'CREATING':
-        return ConnectorStatus.creating;
-      case 'ACTIVE':
-        return ConnectorStatus.active;
-      case 'DELETING':
-        return ConnectorStatus.deleting;
-      case 'FAILED':
-        return ConnectorStatus.failed;
-    }
-    throw Exception('$this is not known in enum ConnectorStatus');
-  }
+  const ConnectorStatus(this.value);
+
+  static ConnectorStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ConnectorStatus'));
 }
 
 enum ConnectorStatusReason {
-  directoryAccessDenied,
-  internalFailure,
-  privatecaAccessDenied,
-  privatecaResourceNotFound,
-  securityGroupNotInVpc,
-  vpcAccessDenied,
-  vpcEndpointLimitExceeded,
-  vpcResourceNotFound,
-}
+  directoryAccessDenied('DIRECTORY_ACCESS_DENIED'),
+  internalFailure('INTERNAL_FAILURE'),
+  privatecaAccessDenied('PRIVATECA_ACCESS_DENIED'),
+  privatecaResourceNotFound('PRIVATECA_RESOURCE_NOT_FOUND'),
+  securityGroupNotInVpc('SECURITY_GROUP_NOT_IN_VPC'),
+  vpcAccessDenied('VPC_ACCESS_DENIED'),
+  vpcEndpointLimitExceeded('VPC_ENDPOINT_LIMIT_EXCEEDED'),
+  vpcResourceNotFound('VPC_RESOURCE_NOT_FOUND'),
+  ;
 
-extension ConnectorStatusReasonValueExtension on ConnectorStatusReason {
-  String toValue() {
-    switch (this) {
-      case ConnectorStatusReason.directoryAccessDenied:
-        return 'DIRECTORY_ACCESS_DENIED';
-      case ConnectorStatusReason.internalFailure:
-        return 'INTERNAL_FAILURE';
-      case ConnectorStatusReason.privatecaAccessDenied:
-        return 'PRIVATECA_ACCESS_DENIED';
-      case ConnectorStatusReason.privatecaResourceNotFound:
-        return 'PRIVATECA_RESOURCE_NOT_FOUND';
-      case ConnectorStatusReason.securityGroupNotInVpc:
-        return 'SECURITY_GROUP_NOT_IN_VPC';
-      case ConnectorStatusReason.vpcAccessDenied:
-        return 'VPC_ACCESS_DENIED';
-      case ConnectorStatusReason.vpcEndpointLimitExceeded:
-        return 'VPC_ENDPOINT_LIMIT_EXCEEDED';
-      case ConnectorStatusReason.vpcResourceNotFound:
-        return 'VPC_RESOURCE_NOT_FOUND';
-    }
-  }
-}
+  final String value;
 
-extension ConnectorStatusReasonFromString on String {
-  ConnectorStatusReason toConnectorStatusReason() {
-    switch (this) {
-      case 'DIRECTORY_ACCESS_DENIED':
-        return ConnectorStatusReason.directoryAccessDenied;
-      case 'INTERNAL_FAILURE':
-        return ConnectorStatusReason.internalFailure;
-      case 'PRIVATECA_ACCESS_DENIED':
-        return ConnectorStatusReason.privatecaAccessDenied;
-      case 'PRIVATECA_RESOURCE_NOT_FOUND':
-        return ConnectorStatusReason.privatecaResourceNotFound;
-      case 'SECURITY_GROUP_NOT_IN_VPC':
-        return ConnectorStatusReason.securityGroupNotInVpc;
-      case 'VPC_ACCESS_DENIED':
-        return ConnectorStatusReason.vpcAccessDenied;
-      case 'VPC_ENDPOINT_LIMIT_EXCEEDED':
-        return ConnectorStatusReason.vpcEndpointLimitExceeded;
-      case 'VPC_RESOURCE_NOT_FOUND':
-        return ConnectorStatusReason.vpcResourceNotFound;
-    }
-    throw Exception('$this is not known in enum ConnectorStatusReason');
-  }
+  const ConnectorStatusReason(this.value);
+
+  static ConnectorStatusReason fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ConnectorStatusReason'));
 }
 
 /// Summary description of the Amazon Web Services Private CA AD connectors
@@ -1992,9 +1583,9 @@ class ConnectorSummary {
           json['CertificateEnrollmentPolicyServerEndpoint'] as String?,
       createdAt: timeStampFromJson(json['CreatedAt']),
       directoryId: json['DirectoryId'] as String?,
-      status: (json['Status'] as String?)?.toConnectorStatus(),
-      statusReason:
-          (json['StatusReason'] as String?)?.toConnectorStatusReason(),
+      status: (json['Status'] as String?)?.let(ConnectorStatus.fromString),
+      statusReason: (json['StatusReason'] as String?)
+          ?.let(ConnectorStatusReason.fromString),
       updatedAt: timeStampFromJson(json['UpdatedAt']),
       vpcInformation: json['VpcInformation'] != null
           ? VpcInformation.fromJson(
@@ -2023,8 +1614,8 @@ class ConnectorSummary {
             certificateEnrollmentPolicyServerEndpoint,
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
       if (directoryId != null) 'DirectoryId': directoryId,
-      if (status != null) 'Status': status.toValue(),
-      if (statusReason != null) 'StatusReason': statusReason.toValue(),
+      if (status != null) 'Status': status.value,
+      if (statusReason != null) 'StatusReason': statusReason.value,
       if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
       if (vpcInformation != null) 'VpcInformation': vpcInformation,
     };
@@ -2138,9 +1729,10 @@ class DirectoryRegistration {
       arn: json['Arn'] as String?,
       createdAt: timeStampFromJson(json['CreatedAt']),
       directoryId: json['DirectoryId'] as String?,
-      status: (json['Status'] as String?)?.toDirectoryRegistrationStatus(),
+      status: (json['Status'] as String?)
+          ?.let(DirectoryRegistrationStatus.fromString),
       statusReason: (json['StatusReason'] as String?)
-          ?.toDirectoryRegistrationStatusReason(),
+          ?.let(DirectoryRegistrationStatusReason.fromString),
       updatedAt: timeStampFromJson(json['UpdatedAt']),
     );
   }
@@ -2156,100 +1748,47 @@ class DirectoryRegistration {
       if (arn != null) 'Arn': arn,
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
       if (directoryId != null) 'DirectoryId': directoryId,
-      if (status != null) 'Status': status.toValue(),
-      if (statusReason != null) 'StatusReason': statusReason.toValue(),
+      if (status != null) 'Status': status.value,
+      if (statusReason != null) 'StatusReason': statusReason.value,
       if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
     };
   }
 }
 
 enum DirectoryRegistrationStatus {
-  creating,
-  active,
-  deleting,
-  failed,
-}
+  creating('CREATING'),
+  active('ACTIVE'),
+  deleting('DELETING'),
+  failed('FAILED'),
+  ;
 
-extension DirectoryRegistrationStatusValueExtension
-    on DirectoryRegistrationStatus {
-  String toValue() {
-    switch (this) {
-      case DirectoryRegistrationStatus.creating:
-        return 'CREATING';
-      case DirectoryRegistrationStatus.active:
-        return 'ACTIVE';
-      case DirectoryRegistrationStatus.deleting:
-        return 'DELETING';
-      case DirectoryRegistrationStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension DirectoryRegistrationStatusFromString on String {
-  DirectoryRegistrationStatus toDirectoryRegistrationStatus() {
-    switch (this) {
-      case 'CREATING':
-        return DirectoryRegistrationStatus.creating;
-      case 'ACTIVE':
-        return DirectoryRegistrationStatus.active;
-      case 'DELETING':
-        return DirectoryRegistrationStatus.deleting;
-      case 'FAILED':
-        return DirectoryRegistrationStatus.failed;
-    }
-    throw Exception('$this is not known in enum DirectoryRegistrationStatus');
-  }
+  const DirectoryRegistrationStatus(this.value);
+
+  static DirectoryRegistrationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DirectoryRegistrationStatus'));
 }
 
 enum DirectoryRegistrationStatusReason {
-  directoryAccessDenied,
-  directoryResourceNotFound,
-  directoryNotActive,
-  directoryNotReachable,
-  directoryTypeNotSupported,
-  internalFailure,
-}
+  directoryAccessDenied('DIRECTORY_ACCESS_DENIED'),
+  directoryResourceNotFound('DIRECTORY_RESOURCE_NOT_FOUND'),
+  directoryNotActive('DIRECTORY_NOT_ACTIVE'),
+  directoryNotReachable('DIRECTORY_NOT_REACHABLE'),
+  directoryTypeNotSupported('DIRECTORY_TYPE_NOT_SUPPORTED'),
+  internalFailure('INTERNAL_FAILURE'),
+  ;
 
-extension DirectoryRegistrationStatusReasonValueExtension
-    on DirectoryRegistrationStatusReason {
-  String toValue() {
-    switch (this) {
-      case DirectoryRegistrationStatusReason.directoryAccessDenied:
-        return 'DIRECTORY_ACCESS_DENIED';
-      case DirectoryRegistrationStatusReason.directoryResourceNotFound:
-        return 'DIRECTORY_RESOURCE_NOT_FOUND';
-      case DirectoryRegistrationStatusReason.directoryNotActive:
-        return 'DIRECTORY_NOT_ACTIVE';
-      case DirectoryRegistrationStatusReason.directoryNotReachable:
-        return 'DIRECTORY_NOT_REACHABLE';
-      case DirectoryRegistrationStatusReason.directoryTypeNotSupported:
-        return 'DIRECTORY_TYPE_NOT_SUPPORTED';
-      case DirectoryRegistrationStatusReason.internalFailure:
-        return 'INTERNAL_FAILURE';
-    }
-  }
-}
+  final String value;
 
-extension DirectoryRegistrationStatusReasonFromString on String {
-  DirectoryRegistrationStatusReason toDirectoryRegistrationStatusReason() {
-    switch (this) {
-      case 'DIRECTORY_ACCESS_DENIED':
-        return DirectoryRegistrationStatusReason.directoryAccessDenied;
-      case 'DIRECTORY_RESOURCE_NOT_FOUND':
-        return DirectoryRegistrationStatusReason.directoryResourceNotFound;
-      case 'DIRECTORY_NOT_ACTIVE':
-        return DirectoryRegistrationStatusReason.directoryNotActive;
-      case 'DIRECTORY_NOT_REACHABLE':
-        return DirectoryRegistrationStatusReason.directoryNotReachable;
-      case 'DIRECTORY_TYPE_NOT_SUPPORTED':
-        return DirectoryRegistrationStatusReason.directoryTypeNotSupported;
-      case 'INTERNAL_FAILURE':
-        return DirectoryRegistrationStatusReason.internalFailure;
-    }
-    throw Exception(
-        '$this is not known in enum DirectoryRegistrationStatusReason');
-  }
+  const DirectoryRegistrationStatusReason(this.value);
+
+  static DirectoryRegistrationStatusReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DirectoryRegistrationStatusReason'));
 }
 
 /// The directory registration represents the authorization of the connector
@@ -2289,9 +1828,10 @@ class DirectoryRegistrationSummary {
       arn: json['Arn'] as String?,
       createdAt: timeStampFromJson(json['CreatedAt']),
       directoryId: json['DirectoryId'] as String?,
-      status: (json['Status'] as String?)?.toDirectoryRegistrationStatus(),
+      status: (json['Status'] as String?)
+          ?.let(DirectoryRegistrationStatus.fromString),
       statusReason: (json['StatusReason'] as String?)
-          ?.toDirectoryRegistrationStatusReason(),
+          ?.let(DirectoryRegistrationStatusReason.fromString),
       updatedAt: timeStampFromJson(json['UpdatedAt']),
     );
   }
@@ -2307,8 +1847,8 @@ class DirectoryRegistrationSummary {
       if (arn != null) 'Arn': arn,
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
       if (directoryId != null) 'DirectoryId': directoryId,
-      if (status != null) 'Status': status.toValue(),
-      if (statusReason != null) 'StatusReason': statusReason.toValue(),
+      if (status != null) 'Status': status.value,
+      if (statusReason != null) 'StatusReason': statusReason.value,
       if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
     };
   }
@@ -2853,64 +2393,33 @@ class GetTemplateResponse {
 }
 
 enum HashAlgorithm {
-  sha256,
-  sha384,
-  sha512,
-}
+  sha256('SHA256'),
+  sha384('SHA384'),
+  sha512('SHA512'),
+  ;
 
-extension HashAlgorithmValueExtension on HashAlgorithm {
-  String toValue() {
-    switch (this) {
-      case HashAlgorithm.sha256:
-        return 'SHA256';
-      case HashAlgorithm.sha384:
-        return 'SHA384';
-      case HashAlgorithm.sha512:
-        return 'SHA512';
-    }
-  }
-}
+  final String value;
 
-extension HashAlgorithmFromString on String {
-  HashAlgorithm toHashAlgorithm() {
-    switch (this) {
-      case 'SHA256':
-        return HashAlgorithm.sha256;
-      case 'SHA384':
-        return HashAlgorithm.sha384;
-      case 'SHA512':
-        return HashAlgorithm.sha512;
-    }
-    throw Exception('$this is not known in enum HashAlgorithm');
-  }
+  const HashAlgorithm(this.value);
+
+  static HashAlgorithm fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum HashAlgorithm'));
 }
 
 enum KeySpec {
-  keyExchange,
-  signature,
-}
+  keyExchange('KEY_EXCHANGE'),
+  signature('SIGNATURE'),
+  ;
 
-extension KeySpecValueExtension on KeySpec {
-  String toValue() {
-    switch (this) {
-      case KeySpec.keyExchange:
-        return 'KEY_EXCHANGE';
-      case KeySpec.signature:
-        return 'SIGNATURE';
-    }
-  }
-}
+  final String value;
 
-extension KeySpecFromString on String {
-  KeySpec toKeySpec() {
-    switch (this) {
-      case 'KEY_EXCHANGE':
-        return KeySpec.keyExchange;
-      case 'SIGNATURE':
-        return KeySpec.signature;
-    }
-    throw Exception('$this is not known in enum KeySpec');
-  }
+  const KeySpec(this.value);
+
+  static KeySpec fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum KeySpec'));
 }
 
 /// The key usage extension defines the purpose (e.g., encipherment, signature)
@@ -3027,7 +2536,8 @@ class KeyUsageProperty {
           ? KeyUsagePropertyFlags.fromJson(
               json['PropertyFlags'] as Map<String, dynamic>)
           : null,
-      propertyType: (json['PropertyType'] as String?)?.toKeyUsagePropertyType(),
+      propertyType: (json['PropertyType'] as String?)
+          ?.let(KeyUsagePropertyType.fromString),
     );
   }
 
@@ -3036,7 +2546,7 @@ class KeyUsageProperty {
     final propertyType = this.propertyType;
     return {
       if (propertyFlags != null) 'PropertyFlags': propertyFlags,
-      if (propertyType != null) 'PropertyType': propertyType.toValue(),
+      if (propertyType != null) 'PropertyType': propertyType.value,
     };
   }
 }
@@ -3079,26 +2589,17 @@ class KeyUsagePropertyFlags {
 }
 
 enum KeyUsagePropertyType {
-  all,
-}
+  all('ALL'),
+  ;
 
-extension KeyUsagePropertyTypeValueExtension on KeyUsagePropertyType {
-  String toValue() {
-    switch (this) {
-      case KeyUsagePropertyType.all:
-        return 'ALL';
-    }
-  }
-}
+  final String value;
 
-extension KeyUsagePropertyTypeFromString on String {
-  KeyUsagePropertyType toKeyUsagePropertyType() {
-    switch (this) {
-      case 'ALL':
-        return KeyUsagePropertyType.all;
-    }
-    throw Exception('$this is not known in enum KeyUsagePropertyType');
-  }
+  const KeyUsagePropertyType(this.value);
+
+  static KeyUsagePropertyType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum KeyUsagePropertyType'));
 }
 
 class ListConnectorsResponse {
@@ -3306,41 +2807,20 @@ class ListTemplatesResponse {
 }
 
 enum PrivateKeyAlgorithm {
-  rsa,
-  ecdhP256,
-  ecdhP384,
-  ecdhP521,
-}
+  rsa('RSA'),
+  ecdhP256('ECDH_P256'),
+  ecdhP384('ECDH_P384'),
+  ecdhP521('ECDH_P521'),
+  ;
 
-extension PrivateKeyAlgorithmValueExtension on PrivateKeyAlgorithm {
-  String toValue() {
-    switch (this) {
-      case PrivateKeyAlgorithm.rsa:
-        return 'RSA';
-      case PrivateKeyAlgorithm.ecdhP256:
-        return 'ECDH_P256';
-      case PrivateKeyAlgorithm.ecdhP384:
-        return 'ECDH_P384';
-      case PrivateKeyAlgorithm.ecdhP521:
-        return 'ECDH_P521';
-    }
-  }
-}
+  final String value;
 
-extension PrivateKeyAlgorithmFromString on String {
-  PrivateKeyAlgorithm toPrivateKeyAlgorithm() {
-    switch (this) {
-      case 'RSA':
-        return PrivateKeyAlgorithm.rsa;
-      case 'ECDH_P256':
-        return PrivateKeyAlgorithm.ecdhP256;
-      case 'ECDH_P384':
-        return PrivateKeyAlgorithm.ecdhP384;
-      case 'ECDH_P521':
-        return PrivateKeyAlgorithm.ecdhP521;
-    }
-    throw Exception('$this is not known in enum PrivateKeyAlgorithm');
-  }
+  const PrivateKeyAlgorithm(this.value);
+
+  static PrivateKeyAlgorithm fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum PrivateKeyAlgorithm'));
 }
 
 /// Defines the attributes of the private key.
@@ -3363,7 +2843,7 @@ class PrivateKeyAttributesV2 {
 
   factory PrivateKeyAttributesV2.fromJson(Map<String, dynamic> json) {
     return PrivateKeyAttributesV2(
-      keySpec: (json['KeySpec'] as String).toKeySpec(),
+      keySpec: KeySpec.fromString((json['KeySpec'] as String)),
       minimalKeyLength: json['MinimalKeyLength'] as int,
       cryptoProviders: (json['CryptoProviders'] as List?)
           ?.whereNotNull()
@@ -3377,7 +2857,7 @@ class PrivateKeyAttributesV2 {
     final minimalKeyLength = this.minimalKeyLength;
     final cryptoProviders = this.cryptoProviders;
     return {
-      'KeySpec': keySpec.toValue(),
+      'KeySpec': keySpec.value,
       'MinimalKeyLength': minimalKeyLength,
       if (cryptoProviders != null) 'CryptoProviders': cryptoProviders,
     };
@@ -3414,8 +2894,8 @@ class PrivateKeyAttributesV3 {
 
   factory PrivateKeyAttributesV3.fromJson(Map<String, dynamic> json) {
     return PrivateKeyAttributesV3(
-      algorithm: (json['Algorithm'] as String).toPrivateKeyAlgorithm(),
-      keySpec: (json['KeySpec'] as String).toKeySpec(),
+      algorithm: PrivateKeyAlgorithm.fromString((json['Algorithm'] as String)),
+      keySpec: KeySpec.fromString((json['KeySpec'] as String)),
       keyUsageProperty: KeyUsageProperty.fromJson(
           json['KeyUsageProperty'] as Map<String, dynamic>),
       minimalKeyLength: json['MinimalKeyLength'] as int,
@@ -3433,8 +2913,8 @@ class PrivateKeyAttributesV3 {
     final minimalKeyLength = this.minimalKeyLength;
     final cryptoProviders = this.cryptoProviders;
     return {
-      'Algorithm': algorithm.toValue(),
-      'KeySpec': keySpec.toValue(),
+      'Algorithm': algorithm.value,
+      'KeySpec': keySpec.value,
       'KeyUsageProperty': keyUsageProperty,
       'MinimalKeyLength': minimalKeyLength,
       if (cryptoProviders != null) 'CryptoProviders': cryptoProviders,
@@ -3472,9 +2952,10 @@ class PrivateKeyAttributesV4 {
 
   factory PrivateKeyAttributesV4.fromJson(Map<String, dynamic> json) {
     return PrivateKeyAttributesV4(
-      keySpec: (json['KeySpec'] as String).toKeySpec(),
+      keySpec: KeySpec.fromString((json['KeySpec'] as String)),
       minimalKeyLength: json['MinimalKeyLength'] as int,
-      algorithm: (json['Algorithm'] as String?)?.toPrivateKeyAlgorithm(),
+      algorithm:
+          (json['Algorithm'] as String?)?.let(PrivateKeyAlgorithm.fromString),
       cryptoProviders: (json['CryptoProviders'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -3493,9 +2974,9 @@ class PrivateKeyAttributesV4 {
     final cryptoProviders = this.cryptoProviders;
     final keyUsageProperty = this.keyUsageProperty;
     return {
-      'KeySpec': keySpec.toValue(),
+      'KeySpec': keySpec.value,
       'MinimalKeyLength': minimalKeyLength,
-      if (algorithm != null) 'Algorithm': algorithm.toValue(),
+      if (algorithm != null) 'Algorithm': algorithm.value,
       if (cryptoProviders != null) 'CryptoProviders': cryptoProviders,
       if (keyUsageProperty != null) 'KeyUsageProperty': keyUsageProperty,
     };
@@ -3524,7 +3005,7 @@ class PrivateKeyFlagsV2 {
   factory PrivateKeyFlagsV2.fromJson(Map<String, dynamic> json) {
     return PrivateKeyFlagsV2(
       clientVersion:
-          (json['ClientVersion'] as String).toClientCompatibilityV2(),
+          ClientCompatibilityV2.fromString((json['ClientVersion'] as String)),
       exportableKey: json['ExportableKey'] as bool?,
       strongKeyProtectionRequired: json['StrongKeyProtectionRequired'] as bool?,
     );
@@ -3535,7 +3016,7 @@ class PrivateKeyFlagsV2 {
     final exportableKey = this.exportableKey;
     final strongKeyProtectionRequired = this.strongKeyProtectionRequired;
     return {
-      'ClientVersion': clientVersion.toValue(),
+      'ClientVersion': clientVersion.value,
       if (exportableKey != null) 'ExportableKey': exportableKey,
       if (strongKeyProtectionRequired != null)
         'StrongKeyProtectionRequired': strongKeyProtectionRequired,
@@ -3571,7 +3052,7 @@ class PrivateKeyFlagsV3 {
   factory PrivateKeyFlagsV3.fromJson(Map<String, dynamic> json) {
     return PrivateKeyFlagsV3(
       clientVersion:
-          (json['ClientVersion'] as String).toClientCompatibilityV3(),
+          ClientCompatibilityV3.fromString((json['ClientVersion'] as String)),
       exportableKey: json['ExportableKey'] as bool?,
       requireAlternateSignatureAlgorithm:
           json['RequireAlternateSignatureAlgorithm'] as bool?,
@@ -3586,7 +3067,7 @@ class PrivateKeyFlagsV3 {
         this.requireAlternateSignatureAlgorithm;
     final strongKeyProtectionRequired = this.strongKeyProtectionRequired;
     return {
-      'ClientVersion': clientVersion.toValue(),
+      'ClientVersion': clientVersion.value,
       if (exportableKey != null) 'ExportableKey': exportableKey,
       if (requireAlternateSignatureAlgorithm != null)
         'RequireAlternateSignatureAlgorithm':
@@ -3636,7 +3117,7 @@ class PrivateKeyFlagsV4 {
   factory PrivateKeyFlagsV4.fromJson(Map<String, dynamic> json) {
     return PrivateKeyFlagsV4(
       clientVersion:
-          (json['ClientVersion'] as String).toClientCompatibilityV4(),
+          ClientCompatibilityV4.fromString((json['ClientVersion'] as String)),
       exportableKey: json['ExportableKey'] as bool?,
       requireAlternateSignatureAlgorithm:
           json['RequireAlternateSignatureAlgorithm'] as bool?,
@@ -3655,7 +3136,7 @@ class PrivateKeyFlagsV4 {
     final strongKeyProtectionRequired = this.strongKeyProtectionRequired;
     final useLegacyProvider = this.useLegacyProvider;
     return {
-      'ClientVersion': clientVersion.toValue(),
+      'ClientVersion': clientVersion.value,
       if (exportableKey != null) 'ExportableKey': exportableKey,
       if (requireAlternateSignatureAlgorithm != null)
         'RequireAlternateSignatureAlgorithm':
@@ -3707,9 +3188,10 @@ class ServicePrincipalName {
       connectorArn: json['ConnectorArn'] as String?,
       createdAt: timeStampFromJson(json['CreatedAt']),
       directoryRegistrationArn: json['DirectoryRegistrationArn'] as String?,
-      status: (json['Status'] as String?)?.toServicePrincipalNameStatus(),
+      status: (json['Status'] as String?)
+          ?.let(ServicePrincipalNameStatus.fromString),
       statusReason: (json['StatusReason'] as String?)
-          ?.toServicePrincipalNameStatusReason(),
+          ?.let(ServicePrincipalNameStatusReason.fromString),
       updatedAt: timeStampFromJson(json['UpdatedAt']),
     );
   }
@@ -3726,95 +3208,46 @@ class ServicePrincipalName {
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
       if (directoryRegistrationArn != null)
         'DirectoryRegistrationArn': directoryRegistrationArn,
-      if (status != null) 'Status': status.toValue(),
-      if (statusReason != null) 'StatusReason': statusReason.toValue(),
+      if (status != null) 'Status': status.value,
+      if (statusReason != null) 'StatusReason': statusReason.value,
       if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
     };
   }
 }
 
 enum ServicePrincipalNameStatus {
-  creating,
-  active,
-  deleting,
-  failed,
-}
+  creating('CREATING'),
+  active('ACTIVE'),
+  deleting('DELETING'),
+  failed('FAILED'),
+  ;
 
-extension ServicePrincipalNameStatusValueExtension
-    on ServicePrincipalNameStatus {
-  String toValue() {
-    switch (this) {
-      case ServicePrincipalNameStatus.creating:
-        return 'CREATING';
-      case ServicePrincipalNameStatus.active:
-        return 'ACTIVE';
-      case ServicePrincipalNameStatus.deleting:
-        return 'DELETING';
-      case ServicePrincipalNameStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ServicePrincipalNameStatusFromString on String {
-  ServicePrincipalNameStatus toServicePrincipalNameStatus() {
-    switch (this) {
-      case 'CREATING':
-        return ServicePrincipalNameStatus.creating;
-      case 'ACTIVE':
-        return ServicePrincipalNameStatus.active;
-      case 'DELETING':
-        return ServicePrincipalNameStatus.deleting;
-      case 'FAILED':
-        return ServicePrincipalNameStatus.failed;
-    }
-    throw Exception('$this is not known in enum ServicePrincipalNameStatus');
-  }
+  const ServicePrincipalNameStatus(this.value);
+
+  static ServicePrincipalNameStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ServicePrincipalNameStatus'));
 }
 
 enum ServicePrincipalNameStatusReason {
-  directoryAccessDenied,
-  directoryNotReachable,
-  directoryResourceNotFound,
-  spnExistsOnDifferentAdObject,
-  internalFailure,
-}
+  directoryAccessDenied('DIRECTORY_ACCESS_DENIED'),
+  directoryNotReachable('DIRECTORY_NOT_REACHABLE'),
+  directoryResourceNotFound('DIRECTORY_RESOURCE_NOT_FOUND'),
+  spnExistsOnDifferentAdObject('SPN_EXISTS_ON_DIFFERENT_AD_OBJECT'),
+  internalFailure('INTERNAL_FAILURE'),
+  ;
 
-extension ServicePrincipalNameStatusReasonValueExtension
-    on ServicePrincipalNameStatusReason {
-  String toValue() {
-    switch (this) {
-      case ServicePrincipalNameStatusReason.directoryAccessDenied:
-        return 'DIRECTORY_ACCESS_DENIED';
-      case ServicePrincipalNameStatusReason.directoryNotReachable:
-        return 'DIRECTORY_NOT_REACHABLE';
-      case ServicePrincipalNameStatusReason.directoryResourceNotFound:
-        return 'DIRECTORY_RESOURCE_NOT_FOUND';
-      case ServicePrincipalNameStatusReason.spnExistsOnDifferentAdObject:
-        return 'SPN_EXISTS_ON_DIFFERENT_AD_OBJECT';
-      case ServicePrincipalNameStatusReason.internalFailure:
-        return 'INTERNAL_FAILURE';
-    }
-  }
-}
+  final String value;
 
-extension ServicePrincipalNameStatusReasonFromString on String {
-  ServicePrincipalNameStatusReason toServicePrincipalNameStatusReason() {
-    switch (this) {
-      case 'DIRECTORY_ACCESS_DENIED':
-        return ServicePrincipalNameStatusReason.directoryAccessDenied;
-      case 'DIRECTORY_NOT_REACHABLE':
-        return ServicePrincipalNameStatusReason.directoryNotReachable;
-      case 'DIRECTORY_RESOURCE_NOT_FOUND':
-        return ServicePrincipalNameStatusReason.directoryResourceNotFound;
-      case 'SPN_EXISTS_ON_DIFFERENT_AD_OBJECT':
-        return ServicePrincipalNameStatusReason.spnExistsOnDifferentAdObject;
-      case 'INTERNAL_FAILURE':
-        return ServicePrincipalNameStatusReason.internalFailure;
-    }
-    throw Exception(
-        '$this is not known in enum ServicePrincipalNameStatusReason');
-  }
+  const ServicePrincipalNameStatusReason(this.value);
+
+  static ServicePrincipalNameStatusReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ServicePrincipalNameStatusReason'));
 }
 
 /// The service principal name that the connector uses to authenticate with
@@ -3855,9 +3288,10 @@ class ServicePrincipalNameSummary {
       connectorArn: json['ConnectorArn'] as String?,
       createdAt: timeStampFromJson(json['CreatedAt']),
       directoryRegistrationArn: json['DirectoryRegistrationArn'] as String?,
-      status: (json['Status'] as String?)?.toServicePrincipalNameStatus(),
+      status: (json['Status'] as String?)
+          ?.let(ServicePrincipalNameStatus.fromString),
       statusReason: (json['StatusReason'] as String?)
-          ?.toServicePrincipalNameStatusReason(),
+          ?.let(ServicePrincipalNameStatusReason.fromString),
       updatedAt: timeStampFromJson(json['UpdatedAt']),
     );
   }
@@ -3874,8 +3308,8 @@ class ServicePrincipalNameSummary {
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
       if (directoryRegistrationArn != null)
         'DirectoryRegistrationArn': directoryRegistrationArn,
-      if (status != null) 'Status': status.toValue(),
-      if (statusReason != null) 'StatusReason': statusReason.toValue(),
+      if (status != null) 'Status': status.value,
+      if (statusReason != null) 'StatusReason': statusReason.value,
       if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
     };
   }
@@ -4240,7 +3674,7 @@ class Template {
       revision: json['Revision'] != null
           ? TemplateRevision.fromJson(json['Revision'] as Map<String, dynamic>)
           : null,
-      status: (json['Status'] as String?)?.toTemplateStatus(),
+      status: (json['Status'] as String?)?.let(TemplateStatus.fromString),
       updatedAt: timeStampFromJson(json['UpdatedAt']),
     );
   }
@@ -4265,7 +3699,7 @@ class Template {
       if (objectIdentifier != null) 'ObjectIdentifier': objectIdentifier,
       if (policySchema != null) 'PolicySchema': policySchema,
       if (revision != null) 'Revision': revision,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
     };
   }
@@ -4361,31 +3795,18 @@ class TemplateRevision {
 }
 
 enum TemplateStatus {
-  active,
-  deleting,
-}
+  active('ACTIVE'),
+  deleting('DELETING'),
+  ;
 
-extension TemplateStatusValueExtension on TemplateStatus {
-  String toValue() {
-    switch (this) {
-      case TemplateStatus.active:
-        return 'ACTIVE';
-      case TemplateStatus.deleting:
-        return 'DELETING';
-    }
-  }
-}
+  final String value;
 
-extension TemplateStatusFromString on String {
-  TemplateStatus toTemplateStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return TemplateStatus.active;
-      case 'DELETING':
-        return TemplateStatus.deleting;
-    }
-    throw Exception('$this is not known in enum TemplateStatus');
-  }
+  const TemplateStatus(this.value);
+
+  static TemplateStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TemplateStatus'));
 }
 
 /// An Active Directory compatible certificate template. Connectors issue
@@ -4459,7 +3880,7 @@ class TemplateSummary {
       revision: json['Revision'] != null
           ? TemplateRevision.fromJson(json['Revision'] as Map<String, dynamic>)
           : null,
-      status: (json['Status'] as String?)?.toTemplateStatus(),
+      status: (json['Status'] as String?)?.let(TemplateStatus.fromString),
       updatedAt: timeStampFromJson(json['UpdatedAt']),
     );
   }
@@ -4484,7 +3905,7 @@ class TemplateSummary {
       if (objectIdentifier != null) 'ObjectIdentifier': objectIdentifier,
       if (policySchema != null) 'PolicySchema': policySchema,
       if (revision != null) 'Revision': revision,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
     };
   }
@@ -4644,7 +4065,8 @@ class TemplateV3 {
           ExtensionsV3.fromJson(json['Extensions'] as Map<String, dynamic>),
       generalFlags:
           GeneralFlagsV3.fromJson(json['GeneralFlags'] as Map<String, dynamic>),
-      hashAlgorithm: (json['HashAlgorithm'] as String).toHashAlgorithm(),
+      hashAlgorithm:
+          HashAlgorithm.fromString((json['HashAlgorithm'] as String)),
       privateKeyAttributes: PrivateKeyAttributesV3.fromJson(
           json['PrivateKeyAttributes'] as Map<String, dynamic>),
       privateKeyFlags: PrivateKeyFlagsV3.fromJson(
@@ -4673,7 +4095,7 @@ class TemplateV3 {
       'EnrollmentFlags': enrollmentFlags,
       'Extensions': extensions,
       'GeneralFlags': generalFlags,
-      'HashAlgorithm': hashAlgorithm.toValue(),
+      'HashAlgorithm': hashAlgorithm.value,
       'PrivateKeyAttributes': privateKeyAttributes,
       'PrivateKeyFlags': privateKeyFlags,
       'SubjectNameFlags': subjectNameFlags,
@@ -4754,7 +4176,8 @@ class TemplateV4 {
           json['PrivateKeyFlags'] as Map<String, dynamic>),
       subjectNameFlags: SubjectNameFlagsV4.fromJson(
           json['SubjectNameFlags'] as Map<String, dynamic>),
-      hashAlgorithm: (json['HashAlgorithm'] as String?)?.toHashAlgorithm(),
+      hashAlgorithm:
+          (json['HashAlgorithm'] as String?)?.let(HashAlgorithm.fromString),
       supersededTemplates: (json['SupersededTemplates'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -4780,7 +4203,7 @@ class TemplateV4 {
       'PrivateKeyAttributes': privateKeyAttributes,
       'PrivateKeyFlags': privateKeyFlags,
       'SubjectNameFlags': subjectNameFlags,
-      if (hashAlgorithm != null) 'HashAlgorithm': hashAlgorithm.toValue(),
+      if (hashAlgorithm != null) 'HashAlgorithm': hashAlgorithm.value,
       if (supersededTemplates != null)
         'SupersededTemplates': supersededTemplates,
     };
@@ -4811,7 +4234,7 @@ class ValidityPeriod {
   factory ValidityPeriod.fromJson(Map<String, dynamic> json) {
     return ValidityPeriod(
       period: json['Period'] as int,
-      periodType: (json['PeriodType'] as String).toValidityPeriodType(),
+      periodType: ValidityPeriodType.fromString((json['PeriodType'] as String)),
     );
   }
 
@@ -4820,52 +4243,27 @@ class ValidityPeriod {
     final periodType = this.periodType;
     return {
       'Period': period,
-      'PeriodType': periodType.toValue(),
+      'PeriodType': periodType.value,
     };
   }
 }
 
 enum ValidityPeriodType {
-  hours,
-  days,
-  weeks,
-  months,
-  years,
-}
+  hours('HOURS'),
+  days('DAYS'),
+  weeks('WEEKS'),
+  months('MONTHS'),
+  years('YEARS'),
+  ;
 
-extension ValidityPeriodTypeValueExtension on ValidityPeriodType {
-  String toValue() {
-    switch (this) {
-      case ValidityPeriodType.hours:
-        return 'HOURS';
-      case ValidityPeriodType.days:
-        return 'DAYS';
-      case ValidityPeriodType.weeks:
-        return 'WEEKS';
-      case ValidityPeriodType.months:
-        return 'MONTHS';
-      case ValidityPeriodType.years:
-        return 'YEARS';
-    }
-  }
-}
+  final String value;
 
-extension ValidityPeriodTypeFromString on String {
-  ValidityPeriodType toValidityPeriodType() {
-    switch (this) {
-      case 'HOURS':
-        return ValidityPeriodType.hours;
-      case 'DAYS':
-        return ValidityPeriodType.days;
-      case 'WEEKS':
-        return ValidityPeriodType.weeks;
-      case 'MONTHS':
-        return ValidityPeriodType.months;
-      case 'YEARS':
-        return ValidityPeriodType.years;
-    }
-    throw Exception('$this is not known in enum ValidityPeriodType');
-  }
+  const ValidityPeriodType(this.value);
+
+  static ValidityPeriodType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ValidityPeriodType'));
 }
 
 /// Information about your VPC and security groups used with the connector.

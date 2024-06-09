@@ -346,6 +346,7 @@ extension NameStuff on String? {
       isReserved ||
       <String>{
         'index',
+        'value',
         'values',
       }.contains(this);
 

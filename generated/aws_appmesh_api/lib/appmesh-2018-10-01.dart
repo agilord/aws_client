@@ -995,36 +995,19 @@ class UpdateVirtualRouterOutput {
 }
 
 enum MeshStatusCode {
-  active,
-  deleted,
-  inactive,
-}
+  active('ACTIVE'),
+  deleted('DELETED'),
+  inactive('INACTIVE'),
+  ;
 
-extension MeshStatusCodeValueExtension on MeshStatusCode {
-  String toValue() {
-    switch (this) {
-      case MeshStatusCode.active:
-        return 'ACTIVE';
-      case MeshStatusCode.deleted:
-        return 'DELETED';
-      case MeshStatusCode.inactive:
-        return 'INACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension MeshStatusCodeFromString on String {
-  MeshStatusCode toMeshStatusCode() {
-    switch (this) {
-      case 'ACTIVE':
-        return MeshStatusCode.active;
-      case 'DELETED':
-        return MeshStatusCode.deleted;
-      case 'INACTIVE':
-        return MeshStatusCode.inactive;
-    }
-    throw Exception('$this is not known in enum MeshStatusCode');
-  }
+  const MeshStatusCode(this.value);
+
+  static MeshStatusCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MeshStatusCode'));
 }
 
 /// An object representing a target and its relative weight. Traffic is
@@ -1166,7 +1149,7 @@ class MeshStatus {
 
   factory MeshStatus.fromJson(Map<String, dynamic> json) {
     return MeshStatus(
-      status: (json['status'] as String?)?.toMeshStatusCode(),
+      status: (json['status'] as String?)?.let(MeshStatusCode.fromString),
     );
   }
 }
@@ -1350,7 +1333,7 @@ class RouteStatus {
 
   factory RouteStatus.fromJson(Map<String, dynamic> json) {
     return RouteStatus(
-      status: (json['status'] as String?)?.toRouteStatusCode(),
+      status: (json['status'] as String?)?.let(RouteStatusCode.fromString),
     );
   }
 }
@@ -1366,7 +1349,8 @@ class VirtualRouterStatus {
 
   factory VirtualRouterStatus.fromJson(Map<String, dynamic> json) {
     return VirtualRouterStatus(
-      status: (json['status'] as String?)?.toVirtualRouterStatusCode(),
+      status:
+          (json['status'] as String?)?.let(VirtualRouterStatusCode.fromString),
     );
   }
 }
@@ -1579,36 +1563,19 @@ class VirtualRouterRef {
 }
 
 enum VirtualRouterStatusCode {
-  active,
-  deleted,
-  inactive,
-}
+  active('ACTIVE'),
+  deleted('DELETED'),
+  inactive('INACTIVE'),
+  ;
 
-extension VirtualRouterStatusCodeValueExtension on VirtualRouterStatusCode {
-  String toValue() {
-    switch (this) {
-      case VirtualRouterStatusCode.active:
-        return 'ACTIVE';
-      case VirtualRouterStatusCode.deleted:
-        return 'DELETED';
-      case VirtualRouterStatusCode.inactive:
-        return 'INACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension VirtualRouterStatusCodeFromString on String {
-  VirtualRouterStatusCode toVirtualRouterStatusCode() {
-    switch (this) {
-      case 'ACTIVE':
-        return VirtualRouterStatusCode.active;
-      case 'DELETED':
-        return VirtualRouterStatusCode.deleted;
-      case 'INACTIVE':
-        return VirtualRouterStatusCode.inactive;
-    }
-    throw Exception('$this is not known in enum VirtualRouterStatusCode');
-  }
+  const VirtualRouterStatusCode(this.value);
+
+  static VirtualRouterStatusCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum VirtualRouterStatusCode'));
 }
 
 class ListVirtualNodesOutput {
@@ -1696,31 +1663,18 @@ class DeleteVirtualRouterOutput {
 }
 
 enum PortProtocol {
-  http,
-  tcp,
-}
+  http('http'),
+  tcp('tcp'),
+  ;
 
-extension PortProtocolValueExtension on PortProtocol {
-  String toValue() {
-    switch (this) {
-      case PortProtocol.http:
-        return 'http';
-      case PortProtocol.tcp:
-        return 'tcp';
-    }
-  }
-}
+  final String value;
 
-extension PortProtocolFromString on String {
-  PortProtocol toPortProtocol() {
-    switch (this) {
-      case 'http':
-        return PortProtocol.http;
-      case 'tcp':
-        return PortProtocol.tcp;
-    }
-    throw Exception('$this is not known in enum PortProtocol');
-  }
+  const PortProtocol(this.value);
+
+  static PortProtocol fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PortProtocol'));
 }
 
 /// An object representing metadata for a resource.
@@ -1797,7 +1751,7 @@ class PortMapping {
   factory PortMapping.fromJson(Map<String, dynamic> json) {
     return PortMapping(
       port: json['port'] as int?,
-      protocol: (json['protocol'] as String?)?.toPortProtocol(),
+      protocol: (json['protocol'] as String?)?.let(PortProtocol.fromString),
     );
   }
 
@@ -1806,42 +1760,25 @@ class PortMapping {
     final protocol = this.protocol;
     return {
       if (port != null) 'port': port,
-      if (protocol != null) 'protocol': protocol.toValue(),
+      if (protocol != null) 'protocol': protocol.value,
     };
   }
 }
 
 enum VirtualNodeStatusCode {
-  active,
-  deleted,
-  inactive,
-}
+  active('ACTIVE'),
+  deleted('DELETED'),
+  inactive('INACTIVE'),
+  ;
 
-extension VirtualNodeStatusCodeValueExtension on VirtualNodeStatusCode {
-  String toValue() {
-    switch (this) {
-      case VirtualNodeStatusCode.active:
-        return 'ACTIVE';
-      case VirtualNodeStatusCode.deleted:
-        return 'DELETED';
-      case VirtualNodeStatusCode.inactive:
-        return 'INACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension VirtualNodeStatusCodeFromString on String {
-  VirtualNodeStatusCode toVirtualNodeStatusCode() {
-    switch (this) {
-      case 'ACTIVE':
-        return VirtualNodeStatusCode.active;
-      case 'DELETED':
-        return VirtualNodeStatusCode.deleted;
-      case 'INACTIVE':
-        return VirtualNodeStatusCode.inactive;
-    }
-    throw Exception('$this is not known in enum VirtualNodeStatusCode');
-  }
+  const VirtualNodeStatusCode(this.value);
+
+  static VirtualNodeStatusCode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum VirtualNodeStatusCode'));
 }
 
 /// An object representing the specification of a virtual router.
@@ -2005,7 +1942,7 @@ class HealthCheckPolicy {
     return HealthCheckPolicy(
       healthyThreshold: json['healthyThreshold'] as int,
       intervalMillis: json['intervalMillis'] as int,
-      protocol: (json['protocol'] as String).toPortProtocol(),
+      protocol: PortProtocol.fromString((json['protocol'] as String)),
       timeoutMillis: json['timeoutMillis'] as int,
       unhealthyThreshold: json['unhealthyThreshold'] as int,
       path: json['path'] as String?,
@@ -2024,7 +1961,7 @@ class HealthCheckPolicy {
     return {
       'healthyThreshold': healthyThreshold,
       'intervalMillis': intervalMillis,
-      'protocol': protocol.toValue(),
+      'protocol': protocol.value,
       'timeoutMillis': timeoutMillis,
       'unhealthyThreshold': unhealthyThreshold,
       if (path != null) 'path': path,
@@ -2116,7 +2053,8 @@ class VirtualNodeStatus {
 
   factory VirtualNodeStatus.fromJson(Map<String, dynamic> json) {
     return VirtualNodeStatus(
-      status: (json['status'] as String?)?.toVirtualNodeStatusCode(),
+      status:
+          (json['status'] as String?)?.let(VirtualNodeStatusCode.fromString),
     );
   }
 }
@@ -2153,36 +2091,19 @@ class RouteRef {
 }
 
 enum RouteStatusCode {
-  active,
-  deleted,
-  inactive,
-}
+  active('ACTIVE'),
+  deleted('DELETED'),
+  inactive('INACTIVE'),
+  ;
 
-extension RouteStatusCodeValueExtension on RouteStatusCode {
-  String toValue() {
-    switch (this) {
-      case RouteStatusCode.active:
-        return 'ACTIVE';
-      case RouteStatusCode.deleted:
-        return 'DELETED';
-      case RouteStatusCode.inactive:
-        return 'INACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension RouteStatusCodeFromString on String {
-  RouteStatusCode toRouteStatusCode() {
-    switch (this) {
-      case 'ACTIVE':
-        return RouteStatusCode.active;
-      case 'DELETED':
-        return RouteStatusCode.deleted;
-      case 'INACTIVE':
-        return RouteStatusCode.inactive;
-    }
-    throw Exception('$this is not known in enum RouteStatusCode');
-  }
+  const RouteStatusCode(this.value);
+
+  static RouteStatusCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RouteStatusCode'));
 }
 
 class UpdateVirtualNodeOutput {

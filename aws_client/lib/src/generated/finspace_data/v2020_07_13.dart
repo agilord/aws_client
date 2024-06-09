@@ -189,7 +189,7 @@ class FinSpaceData {
     String? clientToken,
   }) async {
     final $payload = <String, dynamic>{
-      'changeType': changeType.toValue(),
+      'changeType': changeType.value,
       'formatParams': formatParams,
       'sourceParams': sourceParams,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
@@ -316,7 +316,7 @@ class FinSpaceData {
   }) async {
     final $payload = <String, dynamic>{
       'datasetTitle': datasetTitle,
-      'kind': kind.toValue(),
+      'kind': kind.value,
       'permissionGroupParams': permissionGroupParams,
       if (alias != null) 'alias': alias,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
@@ -400,7 +400,7 @@ class FinSpaceData {
   }) async {
     final $payload = <String, dynamic>{
       'applicationPermissions':
-          applicationPermissions.map((e) => e.toValue()).toList(),
+          applicationPermissions.map((e) => e.value).toList(),
       'name': name,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (description != null) 'description': description,
@@ -484,8 +484,8 @@ class FinSpaceData {
   }) async {
     final $payload = <String, dynamic>{
       'emailAddress': emailAddress,
-      'type': type.toValue(),
-      if (apiAccess != null) 'apiAccess': apiAccess.toValue(),
+      'type': type.value,
+      if (apiAccess != null) 'apiAccess': apiAccess.value,
       if (apiAccessPrincipalArn != null)
         'apiAccessPrincipalArn': apiAccessPrincipalArn,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
@@ -908,7 +908,7 @@ class FinSpaceData {
     LocationType? locationType,
   }) async {
     final $payload = <String, dynamic>{
-      if (locationType != null) 'locationType': locationType.toValue(),
+      if (locationType != null) 'locationType': locationType.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1391,7 +1391,7 @@ class FinSpaceData {
   }) async {
     final $payload = <String, dynamic>{
       'datasetTitle': datasetTitle,
-      'kind': kind.toValue(),
+      'kind': kind.value,
       if (alias != null) 'alias': alias,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (datasetDescription != null) 'datasetDescription': datasetDescription,
@@ -1478,7 +1478,7 @@ class FinSpaceData {
     final $payload = <String, dynamic>{
       if (applicationPermissions != null)
         'applicationPermissions':
-            applicationPermissions.map((e) => e.toValue()).toList(),
+            applicationPermissions.map((e) => e.value).toList(),
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (description != null) 'description': description,
       if (name != null) 'name': name,
@@ -1559,13 +1559,13 @@ class FinSpaceData {
     UserType? type,
   }) async {
     final $payload = <String, dynamic>{
-      if (apiAccess != null) 'apiAccess': apiAccess.toValue(),
+      if (apiAccess != null) 'apiAccess': apiAccess.value,
       if (apiAccessPrincipalArn != null)
         'apiAccessPrincipalArn': apiAccessPrincipalArn,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (firstName != null) 'firstName': firstName,
       if (lastName != null) 'lastName': lastName,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1578,84 +1578,37 @@ class FinSpaceData {
 }
 
 enum ApiAccess {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension ApiAccessValueExtension on ApiAccess {
-  String toValue() {
-    switch (this) {
-      case ApiAccess.enabled:
-        return 'ENABLED';
-      case ApiAccess.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension ApiAccessFromString on String {
-  ApiAccess toApiAccess() {
-    switch (this) {
-      case 'ENABLED':
-        return ApiAccess.enabled;
-      case 'DISABLED':
-        return ApiAccess.disabled;
-    }
-    throw Exception('$this is not known in enum ApiAccess');
-  }
+  const ApiAccess(this.value);
+
+  static ApiAccess fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ApiAccess'));
 }
 
 enum ApplicationPermission {
-  createDataset,
-  manageClusters,
-  manageUsersAndGroups,
-  manageAttributeSets,
-  viewAuditData,
-  accessNotebooks,
-  getTemporaryCredentials,
-}
+  createDataset('CreateDataset'),
+  manageClusters('ManageClusters'),
+  manageUsersAndGroups('ManageUsersAndGroups'),
+  manageAttributeSets('ManageAttributeSets'),
+  viewAuditData('ViewAuditData'),
+  accessNotebooks('AccessNotebooks'),
+  getTemporaryCredentials('GetTemporaryCredentials'),
+  ;
 
-extension ApplicationPermissionValueExtension on ApplicationPermission {
-  String toValue() {
-    switch (this) {
-      case ApplicationPermission.createDataset:
-        return 'CreateDataset';
-      case ApplicationPermission.manageClusters:
-        return 'ManageClusters';
-      case ApplicationPermission.manageUsersAndGroups:
-        return 'ManageUsersAndGroups';
-      case ApplicationPermission.manageAttributeSets:
-        return 'ManageAttributeSets';
-      case ApplicationPermission.viewAuditData:
-        return 'ViewAuditData';
-      case ApplicationPermission.accessNotebooks:
-        return 'AccessNotebooks';
-      case ApplicationPermission.getTemporaryCredentials:
-        return 'GetTemporaryCredentials';
-    }
-  }
-}
+  final String value;
 
-extension ApplicationPermissionFromString on String {
-  ApplicationPermission toApplicationPermission() {
-    switch (this) {
-      case 'CreateDataset':
-        return ApplicationPermission.createDataset;
-      case 'ManageClusters':
-        return ApplicationPermission.manageClusters;
-      case 'ManageUsersAndGroups':
-        return ApplicationPermission.manageUsersAndGroups;
-      case 'ManageAttributeSets':
-        return ApplicationPermission.manageAttributeSets;
-      case 'ViewAuditData':
-        return ApplicationPermission.viewAuditData;
-      case 'AccessNotebooks':
-        return ApplicationPermission.accessNotebooks;
-      case 'GetTemporaryCredentials':
-        return ApplicationPermission.getTemporaryCredentials;
-    }
-    throw Exception('$this is not known in enum ApplicationPermission');
-  }
+  const ApplicationPermission(this.value);
+
+  static ApplicationPermission fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ApplicationPermission'));
 }
 
 class AssociateUserToPermissionGroupResponse {
@@ -1726,36 +1679,18 @@ class AwsCredentials {
 
 /// Indicates how the given change will be applied to the dataset.
 enum ChangeType {
-  replace,
-  append,
-  modify,
-}
+  replace('REPLACE'),
+  append('APPEND'),
+  modify('MODIFY'),
+  ;
 
-extension ChangeTypeValueExtension on ChangeType {
-  String toValue() {
-    switch (this) {
-      case ChangeType.replace:
-        return 'REPLACE';
-      case ChangeType.append:
-        return 'APPEND';
-      case ChangeType.modify:
-        return 'MODIFY';
-    }
-  }
-}
+  final String value;
 
-extension ChangeTypeFromString on String {
-  ChangeType toChangeType() {
-    switch (this) {
-      case 'REPLACE':
-        return ChangeType.replace;
-      case 'APPEND':
-        return ChangeType.append;
-      case 'MODIFY':
-        return ChangeType.modify;
-    }
-    throw Exception('$this is not known in enum ChangeType');
-  }
+  const ChangeType(this.value);
+
+  static ChangeType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ChangeType'));
 }
 
 /// The structure with error messages.
@@ -1805,7 +1740,8 @@ class ChangesetErrorInfo {
 
   factory ChangesetErrorInfo.fromJson(Map<String, dynamic> json) {
     return ChangesetErrorInfo(
-      errorCategory: (json['errorCategory'] as String?)?.toErrorCategory(),
+      errorCategory:
+          (json['errorCategory'] as String?)?.let(ErrorCategory.fromString),
       errorMessage: json['errorMessage'] as String?,
     );
   }
@@ -1814,7 +1750,7 @@ class ChangesetErrorInfo {
     final errorCategory = this.errorCategory;
     final errorMessage = this.errorMessage;
     return {
-      if (errorCategory != null) 'errorCategory': errorCategory.toValue(),
+      if (errorCategory != null) 'errorCategory': errorCategory.value,
       if (errorMessage != null) 'errorMessage': errorMessage,
     };
   }
@@ -1921,7 +1857,7 @@ class ChangesetSummary {
     return ChangesetSummary(
       activeFromTimestamp: json['activeFromTimestamp'] as int?,
       activeUntilTimestamp: json['activeUntilTimestamp'] as int?,
-      changeType: (json['changeType'] as String?)?.toChangeType(),
+      changeType: (json['changeType'] as String?)?.let(ChangeType.fromString),
       changesetArn: json['changesetArn'] as String?,
       changesetId: json['changesetId'] as String?,
       createTime: json['createTime'] as int?,
@@ -1934,7 +1870,7 @@ class ChangesetSummary {
           ?.map((k, e) => MapEntry(k, e as String)),
       sourceParams: (json['sourceParams'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
-      status: (json['status'] as String?)?.toIngestionStatus(),
+      status: (json['status'] as String?)?.let(IngestionStatus.fromString),
       updatedByChangesetId: json['updatedByChangesetId'] as String?,
       updatesChangesetId: json['updatesChangesetId'] as String?,
     );
@@ -1959,7 +1895,7 @@ class ChangesetSummary {
         'activeFromTimestamp': activeFromTimestamp,
       if (activeUntilTimestamp != null)
         'activeUntilTimestamp': activeUntilTimestamp,
-      if (changeType != null) 'changeType': changeType.toValue(),
+      if (changeType != null) 'changeType': changeType.value,
       if (changesetArn != null) 'changesetArn': changesetArn,
       if (changesetId != null) 'changesetId': changesetId,
       if (createTime != null) 'createTime': createTime,
@@ -1967,7 +1903,7 @@ class ChangesetSummary {
       if (errorInfo != null) 'errorInfo': errorInfo,
       if (formatParams != null) 'formatParams': formatParams,
       if (sourceParams != null) 'sourceParams': sourceParams,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (updatedByChangesetId != null)
         'updatedByChangesetId': updatedByChangesetId,
       if (updatesChangesetId != null) 'updatesChangesetId': updatesChangesetId,
@@ -1977,81 +1913,28 @@ class ChangesetSummary {
 
 /// Data type of a column.
 enum ColumnDataType {
-  string,
-  char,
-  integer,
-  tinyint,
-  smallint,
-  bigint,
-  float,
-  double,
-  date,
-  datetime,
-  boolean,
-  binary,
-}
+  string('STRING'),
+  char('CHAR'),
+  integer('INTEGER'),
+  tinyint('TINYINT'),
+  smallint('SMALLINT'),
+  bigint('BIGINT'),
+  float('FLOAT'),
+  double('DOUBLE'),
+  date('DATE'),
+  datetime('DATETIME'),
+  boolean('BOOLEAN'),
+  binary('BINARY'),
+  ;
 
-extension ColumnDataTypeValueExtension on ColumnDataType {
-  String toValue() {
-    switch (this) {
-      case ColumnDataType.string:
-        return 'STRING';
-      case ColumnDataType.char:
-        return 'CHAR';
-      case ColumnDataType.integer:
-        return 'INTEGER';
-      case ColumnDataType.tinyint:
-        return 'TINYINT';
-      case ColumnDataType.smallint:
-        return 'SMALLINT';
-      case ColumnDataType.bigint:
-        return 'BIGINT';
-      case ColumnDataType.float:
-        return 'FLOAT';
-      case ColumnDataType.double:
-        return 'DOUBLE';
-      case ColumnDataType.date:
-        return 'DATE';
-      case ColumnDataType.datetime:
-        return 'DATETIME';
-      case ColumnDataType.boolean:
-        return 'BOOLEAN';
-      case ColumnDataType.binary:
-        return 'BINARY';
-    }
-  }
-}
+  final String value;
 
-extension ColumnDataTypeFromString on String {
-  ColumnDataType toColumnDataType() {
-    switch (this) {
-      case 'STRING':
-        return ColumnDataType.string;
-      case 'CHAR':
-        return ColumnDataType.char;
-      case 'INTEGER':
-        return ColumnDataType.integer;
-      case 'TINYINT':
-        return ColumnDataType.tinyint;
-      case 'SMALLINT':
-        return ColumnDataType.smallint;
-      case 'BIGINT':
-        return ColumnDataType.bigint;
-      case 'FLOAT':
-        return ColumnDataType.float;
-      case 'DOUBLE':
-        return ColumnDataType.double;
-      case 'DATE':
-        return ColumnDataType.date;
-      case 'DATETIME':
-        return ColumnDataType.datetime;
-      case 'BOOLEAN':
-        return ColumnDataType.boolean;
-      case 'BINARY':
-        return ColumnDataType.binary;
-    }
-    throw Exception('$this is not known in enum ColumnDataType');
-  }
+  const ColumnDataType(this.value);
+
+  static ColumnDataType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ColumnDataType'));
 }
 
 /// The definition of a column in a tabular Dataset.
@@ -2103,7 +1986,7 @@ class ColumnDefinition {
     return ColumnDefinition(
       columnDescription: json['columnDescription'] as String?,
       columnName: json['columnName'] as String?,
-      dataType: (json['dataType'] as String?)?.toColumnDataType(),
+      dataType: (json['dataType'] as String?)?.let(ColumnDataType.fromString),
     );
   }
 
@@ -2114,7 +1997,7 @@ class ColumnDefinition {
     return {
       if (columnDescription != null) 'columnDescription': columnDescription,
       if (columnName != null) 'columnName': columnName,
-      if (dataType != null) 'dataType': dataType.toValue(),
+      if (dataType != null) 'dataType': dataType.value,
     };
   }
 }
@@ -2329,7 +2212,7 @@ class DataViewDestinationTypeParams {
       destinationType: json['destinationType'] as String,
       s3DestinationExportFileFormat:
           (json['s3DestinationExportFileFormat'] as String?)
-              ?.toExportFileFormat(),
+              ?.let(ExportFileFormat.fromString),
       s3DestinationExportFileFormatOptions:
           (json['s3DestinationExportFileFormatOptions']
                   as Map<String, dynamic>?)
@@ -2345,8 +2228,7 @@ class DataViewDestinationTypeParams {
     return {
       'destinationType': destinationType,
       if (s3DestinationExportFileFormat != null)
-        's3DestinationExportFileFormat':
-            s3DestinationExportFileFormat.toValue(),
+        's3DestinationExportFileFormat': s3DestinationExportFileFormat.value,
       if (s3DestinationExportFileFormatOptions != null)
         's3DestinationExportFileFormatOptions':
             s3DestinationExportFileFormatOptions,
@@ -2401,7 +2283,8 @@ class DataViewErrorInfo {
 
   factory DataViewErrorInfo.fromJson(Map<String, dynamic> json) {
     return DataViewErrorInfo(
-      errorCategory: (json['errorCategory'] as String?)?.toErrorCategory(),
+      errorCategory:
+          (json['errorCategory'] as String?)?.let(ErrorCategory.fromString),
       errorMessage: json['errorMessage'] as String?,
     );
   }
@@ -2410,7 +2293,7 @@ class DataViewErrorInfo {
     final errorCategory = this.errorCategory;
     final errorMessage = this.errorMessage;
     return {
-      if (errorCategory != null) 'errorCategory': errorCategory.toValue(),
+      if (errorCategory != null) 'errorCategory': errorCategory.value,
       if (errorMessage != null) 'errorMessage': errorMessage,
     };
   }
@@ -2418,61 +2301,24 @@ class DataViewErrorInfo {
 
 /// Status of a DataView
 enum DataViewStatus {
-  running,
-  starting,
-  failed,
-  cancelled,
-  timeout,
-  success,
-  pending,
-  failedCleanupFailed,
-}
+  running('RUNNING'),
+  starting('STARTING'),
+  failed('FAILED'),
+  cancelled('CANCELLED'),
+  timeout('TIMEOUT'),
+  success('SUCCESS'),
+  pending('PENDING'),
+  failedCleanupFailed('FAILED_CLEANUP_FAILED'),
+  ;
 
-extension DataViewStatusValueExtension on DataViewStatus {
-  String toValue() {
-    switch (this) {
-      case DataViewStatus.running:
-        return 'RUNNING';
-      case DataViewStatus.starting:
-        return 'STARTING';
-      case DataViewStatus.failed:
-        return 'FAILED';
-      case DataViewStatus.cancelled:
-        return 'CANCELLED';
-      case DataViewStatus.timeout:
-        return 'TIMEOUT';
-      case DataViewStatus.success:
-        return 'SUCCESS';
-      case DataViewStatus.pending:
-        return 'PENDING';
-      case DataViewStatus.failedCleanupFailed:
-        return 'FAILED_CLEANUP_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension DataViewStatusFromString on String {
-  DataViewStatus toDataViewStatus() {
-    switch (this) {
-      case 'RUNNING':
-        return DataViewStatus.running;
-      case 'STARTING':
-        return DataViewStatus.starting;
-      case 'FAILED':
-        return DataViewStatus.failed;
-      case 'CANCELLED':
-        return DataViewStatus.cancelled;
-      case 'TIMEOUT':
-        return DataViewStatus.timeout;
-      case 'SUCCESS':
-        return DataViewStatus.success;
-      case 'PENDING':
-        return DataViewStatus.pending;
-      case 'FAILED_CLEANUP_FAILED':
-        return DataViewStatus.failedCleanupFailed;
-    }
-    throw Exception('$this is not known in enum DataViewStatus');
-  }
+  const DataViewStatus(this.value);
+
+  static DataViewStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DataViewStatus'));
 }
 
 /// Structure for the summary of a Dataview.
@@ -2587,7 +2433,7 @@ class DataViewSummary {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      status: (json['status'] as String?)?.toDataViewStatus(),
+      status: (json['status'] as String?)?.let(DataViewStatus.fromString),
     );
   }
 
@@ -2617,7 +2463,7 @@ class DataViewSummary {
       if (lastModifiedTime != null) 'lastModifiedTime': lastModifiedTime,
       if (partitionColumns != null) 'partitionColumns': partitionColumns,
       if (sortColumns != null) 'sortColumns': sortColumns,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -2688,7 +2534,7 @@ class Dataset {
       datasetDescription: json['datasetDescription'] as String?,
       datasetId: json['datasetId'] as String?,
       datasetTitle: json['datasetTitle'] as String?,
-      kind: (json['kind'] as String?)?.toDatasetKind(),
+      kind: (json['kind'] as String?)?.let(DatasetKind.fromString),
       lastModifiedTime: json['lastModifiedTime'] as int?,
       ownerInfo: json['ownerInfo'] != null
           ? DatasetOwnerInfo.fromJson(json['ownerInfo'] as Map<String, dynamic>)
@@ -2718,7 +2564,7 @@ class Dataset {
       if (datasetDescription != null) 'datasetDescription': datasetDescription,
       if (datasetId != null) 'datasetId': datasetId,
       if (datasetTitle != null) 'datasetTitle': datasetTitle,
-      if (kind != null) 'kind': kind.toValue(),
+      if (kind != null) 'kind': kind.value,
       if (lastModifiedTime != null) 'lastModifiedTime': lastModifiedTime,
       if (ownerInfo != null) 'ownerInfo': ownerInfo,
       if (schemaDefinition != null) 'schemaDefinition': schemaDefinition,
@@ -2728,31 +2574,17 @@ class Dataset {
 
 /// Dataset Kind
 enum DatasetKind {
-  tabular,
-  nonTabular,
-}
+  tabular('TABULAR'),
+  nonTabular('NON_TABULAR'),
+  ;
 
-extension DatasetKindValueExtension on DatasetKind {
-  String toValue() {
-    switch (this) {
-      case DatasetKind.tabular:
-        return 'TABULAR';
-      case DatasetKind.nonTabular:
-        return 'NON_TABULAR';
-    }
-  }
-}
+  final String value;
 
-extension DatasetKindFromString on String {
-  DatasetKind toDatasetKind() {
-    switch (this) {
-      case 'TABULAR':
-        return DatasetKind.tabular;
-      case 'NON_TABULAR':
-        return DatasetKind.nonTabular;
-    }
-    throw Exception('$this is not known in enum DatasetKind');
-  }
+  const DatasetKind(this.value);
+
+  static DatasetKind fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum DatasetKind'));
 }
 
 /// A structure for Dataset owner info.
@@ -2794,41 +2626,20 @@ class DatasetOwnerInfo {
 
 /// Status of the dataset process returned from scheduler service.
 enum DatasetStatus {
-  pending,
-  failed,
-  success,
-  running,
-}
+  pending('PENDING'),
+  failed('FAILED'),
+  success('SUCCESS'),
+  running('RUNNING'),
+  ;
 
-extension DatasetStatusValueExtension on DatasetStatus {
-  String toValue() {
-    switch (this) {
-      case DatasetStatus.pending:
-        return 'PENDING';
-      case DatasetStatus.failed:
-        return 'FAILED';
-      case DatasetStatus.success:
-        return 'SUCCESS';
-      case DatasetStatus.running:
-        return 'RUNNING';
-    }
-  }
-}
+  final String value;
 
-extension DatasetStatusFromString on String {
-  DatasetStatus toDatasetStatus() {
-    switch (this) {
-      case 'PENDING':
-        return DatasetStatus.pending;
-      case 'FAILED':
-        return DatasetStatus.failed;
-      case 'SUCCESS':
-        return DatasetStatus.success;
-      case 'RUNNING':
-        return DatasetStatus.running;
-    }
-    throw Exception('$this is not known in enum DatasetStatus');
-  }
+  const DatasetStatus(this.value);
+
+  static DatasetStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DatasetStatus'));
 }
 
 /// The response from an DeleteDataset operation
@@ -2943,90 +2754,40 @@ class EnableUserResponse {
 
 /// Changeset Error Category
 enum ErrorCategory {
-  validation,
-  serviceQuotaExceeded,
-  accessDenied,
-  resourceNotFound,
-  throttling,
-  internalServiceException,
-  cancelled,
-  userRecoverable,
-}
+  validation('VALIDATION'),
+  serviceQuotaExceeded('SERVICE_QUOTA_EXCEEDED'),
+  accessDenied('ACCESS_DENIED'),
+  resourceNotFound('RESOURCE_NOT_FOUND'),
+  throttling('THROTTLING'),
+  internalServiceException('INTERNAL_SERVICE_EXCEPTION'),
+  cancelled('CANCELLED'),
+  userRecoverable('USER_RECOVERABLE'),
+  ;
 
-extension ErrorCategoryValueExtension on ErrorCategory {
-  String toValue() {
-    switch (this) {
-      case ErrorCategory.validation:
-        return 'VALIDATION';
-      case ErrorCategory.serviceQuotaExceeded:
-        return 'SERVICE_QUOTA_EXCEEDED';
-      case ErrorCategory.accessDenied:
-        return 'ACCESS_DENIED';
-      case ErrorCategory.resourceNotFound:
-        return 'RESOURCE_NOT_FOUND';
-      case ErrorCategory.throttling:
-        return 'THROTTLING';
-      case ErrorCategory.internalServiceException:
-        return 'INTERNAL_SERVICE_EXCEPTION';
-      case ErrorCategory.cancelled:
-        return 'CANCELLED';
-      case ErrorCategory.userRecoverable:
-        return 'USER_RECOVERABLE';
-    }
-  }
-}
+  final String value;
 
-extension ErrorCategoryFromString on String {
-  ErrorCategory toErrorCategory() {
-    switch (this) {
-      case 'VALIDATION':
-        return ErrorCategory.validation;
-      case 'SERVICE_QUOTA_EXCEEDED':
-        return ErrorCategory.serviceQuotaExceeded;
-      case 'ACCESS_DENIED':
-        return ErrorCategory.accessDenied;
-      case 'RESOURCE_NOT_FOUND':
-        return ErrorCategory.resourceNotFound;
-      case 'THROTTLING':
-        return ErrorCategory.throttling;
-      case 'INTERNAL_SERVICE_EXCEPTION':
-        return ErrorCategory.internalServiceException;
-      case 'CANCELLED':
-        return ErrorCategory.cancelled;
-      case 'USER_RECOVERABLE':
-        return ErrorCategory.userRecoverable;
-    }
-    throw Exception('$this is not known in enum ErrorCategory');
-  }
+  const ErrorCategory(this.value);
+
+  static ErrorCategory fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ErrorCategory'));
 }
 
 /// Data View Export File Format
 enum ExportFileFormat {
-  parquet,
-  delimitedText,
-}
+  parquet('PARQUET'),
+  delimitedText('DELIMITED_TEXT'),
+  ;
 
-extension ExportFileFormatValueExtension on ExportFileFormat {
-  String toValue() {
-    switch (this) {
-      case ExportFileFormat.parquet:
-        return 'PARQUET';
-      case ExportFileFormat.delimitedText:
-        return 'DELIMITED_TEXT';
-    }
-  }
-}
+  final String value;
 
-extension ExportFileFormatFromString on String {
-  ExportFileFormat toExportFileFormat() {
-    switch (this) {
-      case 'PARQUET':
-        return ExportFileFormat.parquet;
-      case 'DELIMITED_TEXT':
-        return ExportFileFormat.delimitedText;
-    }
-    throw Exception('$this is not known in enum ExportFileFormat');
-  }
+  const ExportFileFormat(this.value);
+
+  static ExportFileFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ExportFileFormat'));
 }
 
 /// The response from a describe changeset operation
@@ -3112,7 +2873,7 @@ class GetChangesetResponse {
     return GetChangesetResponse(
       activeFromTimestamp: json['activeFromTimestamp'] as int?,
       activeUntilTimestamp: json['activeUntilTimestamp'] as int?,
-      changeType: (json['changeType'] as String?)?.toChangeType(),
+      changeType: (json['changeType'] as String?)?.let(ChangeType.fromString),
       changesetArn: json['changesetArn'] as String?,
       changesetId: json['changesetId'] as String?,
       createTime: json['createTime'] as int?,
@@ -3125,7 +2886,7 @@ class GetChangesetResponse {
           ?.map((k, e) => MapEntry(k, e as String)),
       sourceParams: (json['sourceParams'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
-      status: (json['status'] as String?)?.toIngestionStatus(),
+      status: (json['status'] as String?)?.let(IngestionStatus.fromString),
       updatedByChangesetId: json['updatedByChangesetId'] as String?,
       updatesChangesetId: json['updatesChangesetId'] as String?,
     );
@@ -3150,7 +2911,7 @@ class GetChangesetResponse {
         'activeFromTimestamp': activeFromTimestamp,
       if (activeUntilTimestamp != null)
         'activeUntilTimestamp': activeUntilTimestamp,
-      if (changeType != null) 'changeType': changeType.toValue(),
+      if (changeType != null) 'changeType': changeType.value,
       if (changesetArn != null) 'changesetArn': changesetArn,
       if (changesetId != null) 'changesetId': changesetId,
       if (createTime != null) 'createTime': createTime,
@@ -3158,7 +2919,7 @@ class GetChangesetResponse {
       if (errorInfo != null) 'errorInfo': errorInfo,
       if (formatParams != null) 'formatParams': formatParams,
       if (sourceParams != null) 'sourceParams': sourceParams,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (updatedByChangesetId != null)
         'updatedByChangesetId': updatedByChangesetId,
       if (updatesChangesetId != null) 'updatesChangesetId': updatesChangesetId,
@@ -3279,7 +3040,7 @@ class GetDataViewResponse {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      status: (json['status'] as String?)?.toDataViewStatus(),
+      status: (json['status'] as String?)?.let(DataViewStatus.fromString),
     );
   }
 
@@ -3309,7 +3070,7 @@ class GetDataViewResponse {
       if (lastModifiedTime != null) 'lastModifiedTime': lastModifiedTime,
       if (partitionColumns != null) 'partitionColumns': partitionColumns,
       if (sortColumns != null) 'sortColumns': sortColumns,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -3395,13 +3156,13 @@ class GetDatasetResponse {
       datasetDescription: json['datasetDescription'] as String?,
       datasetId: json['datasetId'] as String?,
       datasetTitle: json['datasetTitle'] as String?,
-      kind: (json['kind'] as String?)?.toDatasetKind(),
+      kind: (json['kind'] as String?)?.let(DatasetKind.fromString),
       lastModifiedTime: json['lastModifiedTime'] as int?,
       schemaDefinition: json['schemaDefinition'] != null
           ? SchemaUnion.fromJson(
               json['schemaDefinition'] as Map<String, dynamic>)
           : null,
-      status: (json['status'] as String?)?.toDatasetStatus(),
+      status: (json['status'] as String?)?.let(DatasetStatus.fromString),
     );
   }
 
@@ -3423,10 +3184,10 @@ class GetDatasetResponse {
       if (datasetDescription != null) 'datasetDescription': datasetDescription,
       if (datasetId != null) 'datasetId': datasetId,
       if (datasetTitle != null) 'datasetTitle': datasetTitle,
-      if (kind != null) 'kind': kind.toValue(),
+      if (kind != null) 'kind': kind.value,
       if (lastModifiedTime != null) 'lastModifiedTime': lastModifiedTime,
       if (schemaDefinition != null) 'schemaDefinition': schemaDefinition,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -3625,7 +3386,7 @@ class GetUserResponse {
 
   factory GetUserResponse.fromJson(Map<String, dynamic> json) {
     return GetUserResponse(
-      apiAccess: (json['apiAccess'] as String?)?.toApiAccess(),
+      apiAccess: (json['apiAccess'] as String?)?.let(ApiAccess.fromString),
       apiAccessPrincipalArn: json['apiAccessPrincipalArn'] as String?,
       createTime: json['createTime'] as int?,
       emailAddress: json['emailAddress'] as String?,
@@ -3635,8 +3396,8 @@ class GetUserResponse {
       lastLoginTime: json['lastLoginTime'] as int?,
       lastModifiedTime: json['lastModifiedTime'] as int?,
       lastName: json['lastName'] as String?,
-      status: (json['status'] as String?)?.toUserStatus(),
-      type: (json['type'] as String?)?.toUserType(),
+      status: (json['status'] as String?)?.let(UserStatus.fromString),
+      type: (json['type'] as String?)?.let(UserType.fromString),
       userId: json['userId'] as String?,
     );
   }
@@ -3656,7 +3417,7 @@ class GetUserResponse {
     final type = this.type;
     final userId = this.userId;
     return {
-      if (apiAccess != null) 'apiAccess': apiAccess.toValue(),
+      if (apiAccess != null) 'apiAccess': apiAccess.value,
       if (apiAccessPrincipalArn != null)
         'apiAccessPrincipalArn': apiAccessPrincipalArn,
       if (createTime != null) 'createTime': createTime,
@@ -3667,8 +3428,8 @@ class GetUserResponse {
       if (lastLoginTime != null) 'lastLoginTime': lastLoginTime,
       if (lastModifiedTime != null) 'lastModifiedTime': lastModifiedTime,
       if (lastName != null) 'lastName': lastName,
-      if (status != null) 'status': status.toValue(),
-      if (type != null) 'type': type.toValue(),
+      if (status != null) 'status': status.value,
+      if (type != null) 'type': type.value,
       if (userId != null) 'userId': userId,
     };
   }
@@ -3712,46 +3473,21 @@ class GetWorkingLocationResponse {
 
 /// Status of the ingestion process returned from scheduler service.
 enum IngestionStatus {
-  pending,
-  failed,
-  success,
-  running,
-  stopRequested,
-}
+  pending('PENDING'),
+  failed('FAILED'),
+  success('SUCCESS'),
+  running('RUNNING'),
+  stopRequested('STOP_REQUESTED'),
+  ;
 
-extension IngestionStatusValueExtension on IngestionStatus {
-  String toValue() {
-    switch (this) {
-      case IngestionStatus.pending:
-        return 'PENDING';
-      case IngestionStatus.failed:
-        return 'FAILED';
-      case IngestionStatus.success:
-        return 'SUCCESS';
-      case IngestionStatus.running:
-        return 'RUNNING';
-      case IngestionStatus.stopRequested:
-        return 'STOP_REQUESTED';
-    }
-  }
-}
+  final String value;
 
-extension IngestionStatusFromString on String {
-  IngestionStatus toIngestionStatus() {
-    switch (this) {
-      case 'PENDING':
-        return IngestionStatus.pending;
-      case 'FAILED':
-        return IngestionStatus.failed;
-      case 'SUCCESS':
-        return IngestionStatus.success;
-      case 'RUNNING':
-        return IngestionStatus.running;
-      case 'STOP_REQUESTED':
-        return IngestionStatus.stopRequested;
-    }
-    throw Exception('$this is not known in enum IngestionStatus');
-  }
+  const IngestionStatus(this.value);
+
+  static IngestionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum IngestionStatus'));
 }
 
 /// Response to ListChangesetsResponse. This returns a list of dataset
@@ -4073,13 +3809,13 @@ class PermissionGroup {
     return PermissionGroup(
       applicationPermissions: (json['applicationPermissions'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toApplicationPermission())
+          .map((e) => ApplicationPermission.fromString((e as String)))
           .toList(),
       createTime: json['createTime'] as int?,
       description: json['description'] as String?,
       lastModifiedTime: json['lastModifiedTime'] as int?,
       membershipStatus: (json['membershipStatus'] as String?)
-          ?.toPermissionGroupMembershipStatus(),
+          ?.let(PermissionGroupMembershipStatus.fromString),
       name: json['name'] as String?,
       permissionGroupId: json['permissionGroupId'] as String?,
     );
@@ -4096,12 +3832,11 @@ class PermissionGroup {
     return {
       if (applicationPermissions != null)
         'applicationPermissions':
-            applicationPermissions.map((e) => e.toValue()).toList(),
+            applicationPermissions.map((e) => e.value).toList(),
       if (createTime != null) 'createTime': createTime,
       if (description != null) 'description': description,
       if (lastModifiedTime != null) 'lastModifiedTime': lastModifiedTime,
-      if (membershipStatus != null)
-        'membershipStatus': membershipStatus.toValue(),
+      if (membershipStatus != null) 'membershipStatus': membershipStatus.value,
       if (name != null) 'name': name,
       if (permissionGroupId != null) 'permissionGroupId': permissionGroupId,
     };
@@ -4143,7 +3878,7 @@ class PermissionGroupByUser {
   factory PermissionGroupByUser.fromJson(Map<String, dynamic> json) {
     return PermissionGroupByUser(
       membershipStatus: (json['membershipStatus'] as String?)
-          ?.toPermissionGroupMembershipStatus(),
+          ?.let(PermissionGroupMembershipStatus.fromString),
       name: json['name'] as String?,
       permissionGroupId: json['permissionGroupId'] as String?,
     );
@@ -4154,8 +3889,7 @@ class PermissionGroupByUser {
     final name = this.name;
     final permissionGroupId = this.permissionGroupId;
     return {
-      if (membershipStatus != null)
-        'membershipStatus': membershipStatus.toValue(),
+      if (membershipStatus != null) 'membershipStatus': membershipStatus.value,
       if (name != null) 'name': name,
       if (permissionGroupId != null) 'permissionGroupId': permissionGroupId,
     };
@@ -4163,38 +3897,19 @@ class PermissionGroupByUser {
 }
 
 enum PermissionGroupMembershipStatus {
-  additionInProgress,
-  additionSuccess,
-  removalInProgress,
-}
+  additionInProgress('ADDITION_IN_PROGRESS'),
+  additionSuccess('ADDITION_SUCCESS'),
+  removalInProgress('REMOVAL_IN_PROGRESS'),
+  ;
 
-extension PermissionGroupMembershipStatusValueExtension
-    on PermissionGroupMembershipStatus {
-  String toValue() {
-    switch (this) {
-      case PermissionGroupMembershipStatus.additionInProgress:
-        return 'ADDITION_IN_PROGRESS';
-      case PermissionGroupMembershipStatus.additionSuccess:
-        return 'ADDITION_SUCCESS';
-      case PermissionGroupMembershipStatus.removalInProgress:
-        return 'REMOVAL_IN_PROGRESS';
-    }
-  }
-}
+  final String value;
 
-extension PermissionGroupMembershipStatusFromString on String {
-  PermissionGroupMembershipStatus toPermissionGroupMembershipStatus() {
-    switch (this) {
-      case 'ADDITION_IN_PROGRESS':
-        return PermissionGroupMembershipStatus.additionInProgress;
-      case 'ADDITION_SUCCESS':
-        return PermissionGroupMembershipStatus.additionSuccess;
-      case 'REMOVAL_IN_PROGRESS':
-        return PermissionGroupMembershipStatus.removalInProgress;
-    }
-    throw Exception(
-        '$this is not known in enum PermissionGroupMembershipStatus');
-  }
+  const PermissionGroupMembershipStatus(this.value);
+
+  static PermissionGroupMembershipStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PermissionGroupMembershipStatus'));
 }
 
 /// Permission group parameters for Dataset permissions.
@@ -4597,7 +4312,7 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      apiAccess: (json['apiAccess'] as String?)?.toApiAccess(),
+      apiAccess: (json['apiAccess'] as String?)?.let(ApiAccess.fromString),
       apiAccessPrincipalArn: json['apiAccessPrincipalArn'] as String?,
       createTime: json['createTime'] as int?,
       emailAddress: json['emailAddress'] as String?,
@@ -4607,8 +4322,8 @@ class User {
       lastLoginTime: json['lastLoginTime'] as int?,
       lastModifiedTime: json['lastModifiedTime'] as int?,
       lastName: json['lastName'] as String?,
-      status: (json['status'] as String?)?.toUserStatus(),
-      type: (json['type'] as String?)?.toUserType(),
+      status: (json['status'] as String?)?.let(UserStatus.fromString),
+      type: (json['type'] as String?)?.let(UserType.fromString),
       userId: json['userId'] as String?,
     );
   }
@@ -4628,7 +4343,7 @@ class User {
     final type = this.type;
     final userId = this.userId;
     return {
-      if (apiAccess != null) 'apiAccess': apiAccess.toValue(),
+      if (apiAccess != null) 'apiAccess': apiAccess.value,
       if (apiAccessPrincipalArn != null)
         'apiAccessPrincipalArn': apiAccessPrincipalArn,
       if (createTime != null) 'createTime': createTime,
@@ -4639,8 +4354,8 @@ class User {
       if (lastLoginTime != null) 'lastLoginTime': lastLoginTime,
       if (lastModifiedTime != null) 'lastModifiedTime': lastModifiedTime,
       if (lastName != null) 'lastName': lastName,
-      if (status != null) 'status': status.toValue(),
-      if (type != null) 'type': type.toValue(),
+      if (status != null) 'status': status.value,
+      if (type != null) 'type': type.value,
       if (userId != null) 'userId': userId,
     };
   }
@@ -4738,15 +4453,15 @@ class UserByPermissionGroup {
 
   factory UserByPermissionGroup.fromJson(Map<String, dynamic> json) {
     return UserByPermissionGroup(
-      apiAccess: (json['apiAccess'] as String?)?.toApiAccess(),
+      apiAccess: (json['apiAccess'] as String?)?.let(ApiAccess.fromString),
       apiAccessPrincipalArn: json['apiAccessPrincipalArn'] as String?,
       emailAddress: json['emailAddress'] as String?,
       firstName: json['firstName'] as String?,
       lastName: json['lastName'] as String?,
       membershipStatus: (json['membershipStatus'] as String?)
-          ?.toPermissionGroupMembershipStatus(),
-      status: (json['status'] as String?)?.toUserStatus(),
-      type: (json['type'] as String?)?.toUserType(),
+          ?.let(PermissionGroupMembershipStatus.fromString),
+      status: (json['status'] as String?)?.let(UserStatus.fromString),
+      type: (json['type'] as String?)?.let(UserType.fromString),
       userId: json['userId'] as String?,
     );
   }
@@ -4762,108 +4477,62 @@ class UserByPermissionGroup {
     final type = this.type;
     final userId = this.userId;
     return {
-      if (apiAccess != null) 'apiAccess': apiAccess.toValue(),
+      if (apiAccess != null) 'apiAccess': apiAccess.value,
       if (apiAccessPrincipalArn != null)
         'apiAccessPrincipalArn': apiAccessPrincipalArn,
       if (emailAddress != null) 'emailAddress': emailAddress,
       if (firstName != null) 'firstName': firstName,
       if (lastName != null) 'lastName': lastName,
-      if (membershipStatus != null)
-        'membershipStatus': membershipStatus.toValue(),
-      if (status != null) 'status': status.toValue(),
-      if (type != null) 'type': type.toValue(),
+      if (membershipStatus != null) 'membershipStatus': membershipStatus.value,
+      if (status != null) 'status': status.value,
+      if (type != null) 'type': type.value,
       if (userId != null) 'userId': userId,
     };
   }
 }
 
 enum UserStatus {
-  creating,
-  enabled,
-  disabled,
-}
+  creating('CREATING'),
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension UserStatusValueExtension on UserStatus {
-  String toValue() {
-    switch (this) {
-      case UserStatus.creating:
-        return 'CREATING';
-      case UserStatus.enabled:
-        return 'ENABLED';
-      case UserStatus.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension UserStatusFromString on String {
-  UserStatus toUserStatus() {
-    switch (this) {
-      case 'CREATING':
-        return UserStatus.creating;
-      case 'ENABLED':
-        return UserStatus.enabled;
-      case 'DISABLED':
-        return UserStatus.disabled;
-    }
-    throw Exception('$this is not known in enum UserStatus');
-  }
+  const UserStatus(this.value);
+
+  static UserStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum UserStatus'));
 }
 
 enum UserType {
-  superUser,
-  appUser,
-}
+  superUser('SUPER_USER'),
+  appUser('APP_USER'),
+  ;
 
-extension UserTypeValueExtension on UserType {
-  String toValue() {
-    switch (this) {
-      case UserType.superUser:
-        return 'SUPER_USER';
-      case UserType.appUser:
-        return 'APP_USER';
-    }
-  }
-}
+  final String value;
 
-extension UserTypeFromString on String {
-  UserType toUserType() {
-    switch (this) {
-      case 'SUPER_USER':
-        return UserType.superUser;
-      case 'APP_USER':
-        return UserType.appUser;
-    }
-    throw Exception('$this is not known in enum UserType');
-  }
+  const UserType(this.value);
+
+  static UserType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum UserType'));
 }
 
 enum LocationType {
-  ingestion,
-  sagemaker,
-}
+  ingestion('INGESTION'),
+  sagemaker('SAGEMAKER'),
+  ;
 
-extension LocationTypeValueExtension on LocationType {
-  String toValue() {
-    switch (this) {
-      case LocationType.ingestion:
-        return 'INGESTION';
-      case LocationType.sagemaker:
-        return 'SAGEMAKER';
-    }
-  }
-}
+  final String value;
 
-extension LocationTypeFromString on String {
-  LocationType toLocationType() {
-    switch (this) {
-      case 'INGESTION':
-        return LocationType.ingestion;
-      case 'SAGEMAKER':
-        return LocationType.sagemaker;
-    }
-    throw Exception('$this is not known in enum LocationType');
-  }
+  const LocationType(this.value);
+
+  static LocationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LocationType'));
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

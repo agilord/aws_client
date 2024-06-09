@@ -129,7 +129,7 @@ class BackupGateway {
       payload: {
         'ActivationKey': activationKey,
         'GatewayDisplayName': gatewayDisplayName,
-        'GatewayType': gatewayType.toValue(),
+        'GatewayType': gatewayType.value,
         if (tags != null) 'Tags': tags,
       },
     );
@@ -1301,7 +1301,8 @@ class Gateway {
     return Gateway(
       gatewayArn: json['GatewayArn'] as String?,
       gatewayDisplayName: json['GatewayDisplayName'] as String?,
-      gatewayType: (json['GatewayType'] as String?)?.toGatewayType(),
+      gatewayType:
+          (json['GatewayType'] as String?)?.let(GatewayType.fromString),
       hypervisorId: json['HypervisorId'] as String?,
       lastSeenTime: timeStampFromJson(json['LastSeenTime']),
     );
@@ -1316,7 +1317,7 @@ class Gateway {
     return {
       if (gatewayArn != null) 'GatewayArn': gatewayArn,
       if (gatewayDisplayName != null) 'GatewayDisplayName': gatewayDisplayName,
-      if (gatewayType != null) 'GatewayType': gatewayType.toValue(),
+      if (gatewayType != null) 'GatewayType': gatewayType.value,
       if (hypervisorId != null) 'HypervisorId': hypervisorId,
       if (lastSeenTime != null)
         'LastSeenTime': unixTimestampToJson(lastSeenTime),
@@ -1371,7 +1372,8 @@ class GatewayDetails {
     return GatewayDetails(
       gatewayArn: json['GatewayArn'] as String?,
       gatewayDisplayName: json['GatewayDisplayName'] as String?,
-      gatewayType: (json['GatewayType'] as String?)?.toGatewayType(),
+      gatewayType:
+          (json['GatewayType'] as String?)?.let(GatewayType.fromString),
       hypervisorId: json['HypervisorId'] as String?,
       lastSeenTime: timeStampFromJson(json['LastSeenTime']),
       maintenanceStartTime: json['MaintenanceStartTime'] != null
@@ -1396,7 +1398,7 @@ class GatewayDetails {
     return {
       if (gatewayArn != null) 'GatewayArn': gatewayArn,
       if (gatewayDisplayName != null) 'GatewayDisplayName': gatewayDisplayName,
-      if (gatewayType != null) 'GatewayType': gatewayType.toValue(),
+      if (gatewayType != null) 'GatewayType': gatewayType.value,
       if (hypervisorId != null) 'HypervisorId': hypervisorId,
       if (lastSeenTime != null)
         'LastSeenTime': unixTimestampToJson(lastSeenTime),
@@ -1411,26 +1413,16 @@ class GatewayDetails {
 }
 
 enum GatewayType {
-  backupVm,
-}
+  backupVm('BACKUP_VM'),
+  ;
 
-extension GatewayTypeValueExtension on GatewayType {
-  String toValue() {
-    switch (this) {
-      case GatewayType.backupVm:
-        return 'BACKUP_VM';
-    }
-  }
-}
+  final String value;
 
-extension GatewayTypeFromString on String {
-  GatewayType toGatewayType() {
-    switch (this) {
-      case 'BACKUP_VM':
-        return GatewayType.backupVm;
-    }
-    throw Exception('$this is not known in enum GatewayType');
-  }
+  const GatewayType(this.value);
+
+  static GatewayType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum GatewayType'));
 }
 
 class GetBandwidthRateLimitScheduleOutput {
@@ -1627,7 +1619,7 @@ class Hypervisor {
       hypervisorArn: json['HypervisorArn'] as String?,
       kmsKeyArn: json['KmsKeyArn'] as String?,
       name: json['Name'] as String?,
-      state: (json['State'] as String?)?.toHypervisorState(),
+      state: (json['State'] as String?)?.let(HypervisorState.fromString),
     );
   }
 
@@ -1642,7 +1634,7 @@ class Hypervisor {
       if (hypervisorArn != null) 'HypervisorArn': hypervisorArn,
       if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
       if (name != null) 'Name': name,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
     };
   }
 }
@@ -1702,13 +1694,13 @@ class HypervisorDetails {
       kmsKeyArn: json['KmsKeyArn'] as String?,
       lastSuccessfulMetadataSyncTime:
           timeStampFromJson(json['LastSuccessfulMetadataSyncTime']),
-      latestMetadataSyncStatus:
-          (json['LatestMetadataSyncStatus'] as String?)?.toSyncMetadataStatus(),
+      latestMetadataSyncStatus: (json['LatestMetadataSyncStatus'] as String?)
+          ?.let(SyncMetadataStatus.fromString),
       latestMetadataSyncStatusMessage:
           json['LatestMetadataSyncStatusMessage'] as String?,
       logGroupArn: json['LogGroupArn'] as String?,
       name: json['Name'] as String?,
-      state: (json['State'] as String?)?.toHypervisorState(),
+      state: (json['State'] as String?)?.let(HypervisorState.fromString),
     );
   }
 
@@ -1731,52 +1723,31 @@ class HypervisorDetails {
         'LastSuccessfulMetadataSyncTime':
             unixTimestampToJson(lastSuccessfulMetadataSyncTime),
       if (latestMetadataSyncStatus != null)
-        'LatestMetadataSyncStatus': latestMetadataSyncStatus.toValue(),
+        'LatestMetadataSyncStatus': latestMetadataSyncStatus.value,
       if (latestMetadataSyncStatusMessage != null)
         'LatestMetadataSyncStatusMessage': latestMetadataSyncStatusMessage,
       if (logGroupArn != null) 'LogGroupArn': logGroupArn,
       if (name != null) 'Name': name,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
     };
   }
 }
 
 enum HypervisorState {
-  pending,
-  online,
-  offline,
-  error,
-}
+  pending('PENDING'),
+  online('ONLINE'),
+  offline('OFFLINE'),
+  error('ERROR'),
+  ;
 
-extension HypervisorStateValueExtension on HypervisorState {
-  String toValue() {
-    switch (this) {
-      case HypervisorState.pending:
-        return 'PENDING';
-      case HypervisorState.online:
-        return 'ONLINE';
-      case HypervisorState.offline:
-        return 'OFFLINE';
-      case HypervisorState.error:
-        return 'ERROR';
-    }
-  }
-}
+  final String value;
 
-extension HypervisorStateFromString on String {
-  HypervisorState toHypervisorState() {
-    switch (this) {
-      case 'PENDING':
-        return HypervisorState.pending;
-      case 'ONLINE':
-        return HypervisorState.online;
-      case 'OFFLINE':
-        return HypervisorState.offline;
-      case 'ERROR':
-        return HypervisorState.error;
-    }
-    throw Exception('$this is not known in enum HypervisorState');
-  }
+  const HypervisorState(this.value);
+
+  static HypervisorState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum HypervisorState'));
 }
 
 class ImportHypervisorConfigurationOutput {
@@ -2091,46 +2062,21 @@ class StartVirtualMachinesMetadataSyncOutput {
 }
 
 enum SyncMetadataStatus {
-  created,
-  running,
-  failed,
-  partiallyFailed,
-  succeeded,
-}
+  created('CREATED'),
+  running('RUNNING'),
+  failed('FAILED'),
+  partiallyFailed('PARTIALLY_FAILED'),
+  succeeded('SUCCEEDED'),
+  ;
 
-extension SyncMetadataStatusValueExtension on SyncMetadataStatus {
-  String toValue() {
-    switch (this) {
-      case SyncMetadataStatus.created:
-        return 'CREATED';
-      case SyncMetadataStatus.running:
-        return 'RUNNING';
-      case SyncMetadataStatus.failed:
-        return 'FAILED';
-      case SyncMetadataStatus.partiallyFailed:
-        return 'PARTIALLY_FAILED';
-      case SyncMetadataStatus.succeeded:
-        return 'SUCCEEDED';
-    }
-  }
-}
+  final String value;
 
-extension SyncMetadataStatusFromString on String {
-  SyncMetadataStatus toSyncMetadataStatus() {
-    switch (this) {
-      case 'CREATED':
-        return SyncMetadataStatus.created;
-      case 'RUNNING':
-        return SyncMetadataStatus.running;
-      case 'FAILED':
-        return SyncMetadataStatus.failed;
-      case 'PARTIALLY_FAILED':
-        return SyncMetadataStatus.partiallyFailed;
-      case 'SUCCEEDED':
-        return SyncMetadataStatus.succeeded;
-    }
-    throw Exception('$this is not known in enum SyncMetadataStatus');
-  }
+  const SyncMetadataStatus(this.value);
+
+  static SyncMetadataStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SyncMetadataStatus'));
 }
 
 /// A key-value pair you can use to manage, filter, and search for your

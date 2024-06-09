@@ -1083,7 +1083,7 @@ class SecretsManager {
           'IncludePlannedDeletion': includePlannedDeletion,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -2726,63 +2726,30 @@ class Filter {
     final key = this.key;
     final values = this.values;
     return {
-      if (key != null) 'Key': key.toValue(),
+      if (key != null) 'Key': key.value,
       if (values != null) 'Values': values,
     };
   }
 }
 
 enum FilterNameStringType {
-  description,
-  name,
-  tagKey,
-  tagValue,
-  primaryRegion,
-  owningService,
-  all,
-}
+  description('description'),
+  name('name'),
+  tagKey('tag-key'),
+  tagValue('tag-value'),
+  primaryRegion('primary-region'),
+  owningService('owning-service'),
+  all('all'),
+  ;
 
-extension FilterNameStringTypeValueExtension on FilterNameStringType {
-  String toValue() {
-    switch (this) {
-      case FilterNameStringType.description:
-        return 'description';
-      case FilterNameStringType.name:
-        return 'name';
-      case FilterNameStringType.tagKey:
-        return 'tag-key';
-      case FilterNameStringType.tagValue:
-        return 'tag-value';
-      case FilterNameStringType.primaryRegion:
-        return 'primary-region';
-      case FilterNameStringType.owningService:
-        return 'owning-service';
-      case FilterNameStringType.all:
-        return 'all';
-    }
-  }
-}
+  final String value;
 
-extension FilterNameStringTypeFromString on String {
-  FilterNameStringType toFilterNameStringType() {
-    switch (this) {
-      case 'description':
-        return FilterNameStringType.description;
-      case 'name':
-        return FilterNameStringType.name;
-      case 'tag-key':
-        return FilterNameStringType.tagKey;
-      case 'tag-value':
-        return FilterNameStringType.tagValue;
-      case 'primary-region':
-        return FilterNameStringType.primaryRegion;
-      case 'owning-service':
-        return FilterNameStringType.owningService;
-      case 'all':
-        return FilterNameStringType.all;
-    }
-    throw Exception('$this is not known in enum FilterNameStringType');
-  }
+  const FilterNameStringType(this.value);
+
+  static FilterNameStringType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum FilterNameStringType'));
 }
 
 class GetRandomPasswordResponse {
@@ -3218,7 +3185,7 @@ class ReplicationStatusType {
       kmsKeyId: json['KmsKeyId'] as String?,
       lastAccessedDate: timeStampFromJson(json['LastAccessedDate']),
       region: json['Region'] as String?,
-      status: (json['Status'] as String?)?.toStatusType(),
+      status: (json['Status'] as String?)?.let(StatusType.fromString),
       statusMessage: json['StatusMessage'] as String?,
     );
   }
@@ -3234,7 +3201,7 @@ class ReplicationStatusType {
       if (lastAccessedDate != null)
         'LastAccessedDate': unixTimestampToJson(lastAccessedDate),
       if (region != null) 'Region': region,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusMessage != null) 'StatusMessage': statusMessage,
     };
   }
@@ -3709,64 +3676,33 @@ class SecretVersionsListEntry {
 }
 
 enum SortOrderType {
-  asc,
-  desc,
-}
+  asc('asc'),
+  desc('desc'),
+  ;
 
-extension SortOrderTypeValueExtension on SortOrderType {
-  String toValue() {
-    switch (this) {
-      case SortOrderType.asc:
-        return 'asc';
-      case SortOrderType.desc:
-        return 'desc';
-    }
-  }
-}
+  final String value;
 
-extension SortOrderTypeFromString on String {
-  SortOrderType toSortOrderType() {
-    switch (this) {
-      case 'asc':
-        return SortOrderType.asc;
-      case 'desc':
-        return SortOrderType.desc;
-    }
-    throw Exception('$this is not known in enum SortOrderType');
-  }
+  const SortOrderType(this.value);
+
+  static SortOrderType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SortOrderType'));
 }
 
 enum StatusType {
-  inSync,
-  failed,
-  inProgress,
-}
+  inSync('InSync'),
+  failed('Failed'),
+  inProgress('InProgress'),
+  ;
 
-extension StatusTypeValueExtension on StatusType {
-  String toValue() {
-    switch (this) {
-      case StatusType.inSync:
-        return 'InSync';
-      case StatusType.failed:
-        return 'Failed';
-      case StatusType.inProgress:
-        return 'InProgress';
-    }
-  }
-}
+  final String value;
 
-extension StatusTypeFromString on String {
-  StatusType toStatusType() {
-    switch (this) {
-      case 'InSync':
-        return StatusType.inSync;
-      case 'Failed':
-        return StatusType.failed;
-      case 'InProgress':
-        return StatusType.inProgress;
-    }
-    throw Exception('$this is not known in enum StatusType');
-  }
+  const StatusType(this.value);
+
+  static StatusType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum StatusType'));
 }
 
 class StopReplicationToReplicaResponse {

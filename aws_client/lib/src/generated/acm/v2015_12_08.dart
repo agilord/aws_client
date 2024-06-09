@@ -512,12 +512,12 @@ class Acm {
       payload: {
         if (certificateStatuses != null)
           'CertificateStatuses':
-              certificateStatuses.map((e) => e.toValue()).toList(),
+              certificateStatuses.map((e) => e.value).toList(),
         if (includes != null) 'Includes': includes,
         if (maxItems != null) 'MaxItems': maxItems,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -862,13 +862,13 @@ class Acm {
         if (domainValidationOptions != null)
           'DomainValidationOptions': domainValidationOptions,
         if (idempotencyToken != null) 'IdempotencyToken': idempotencyToken,
-        if (keyAlgorithm != null) 'KeyAlgorithm': keyAlgorithm.toValue(),
+        if (keyAlgorithm != null) 'KeyAlgorithm': keyAlgorithm.value,
         if (options != null) 'Options': options,
         if (subjectAlternativeNames != null)
           'SubjectAlternativeNames': subjectAlternativeNames,
         if (tags != null) 'Tags': tags,
         if (validationMethod != null)
-          'ValidationMethod': validationMethod.toValue(),
+          'ValidationMethod': validationMethod.value,
       },
     );
 
@@ -1186,7 +1186,8 @@ class CertificateDetail {
           ?.whereNotNull()
           .map((e) => ExtendedKeyUsage.fromJson(e as Map<String, dynamic>))
           .toList(),
-      failureReason: (json['FailureReason'] as String?)?.toFailureReason(),
+      failureReason:
+          (json['FailureReason'] as String?)?.let(FailureReason.fromString),
       importedAt: timeStampFromJson(json['ImportedAt']),
       inUseBy: (json['InUseBy'] as List?)
           ?.whereNotNull()
@@ -1194,7 +1195,8 @@ class CertificateDetail {
           .toList(),
       issuedAt: timeStampFromJson(json['IssuedAt']),
       issuer: json['Issuer'] as String?,
-      keyAlgorithm: (json['KeyAlgorithm'] as String?)?.toKeyAlgorithm(),
+      keyAlgorithm:
+          (json['KeyAlgorithm'] as String?)?.let(KeyAlgorithm.fromString),
       keyUsages: (json['KeyUsages'] as List?)
           ?.whereNotNull()
           .map((e) => KeyUsage.fromJson(e as Map<String, dynamic>))
@@ -1204,24 +1206,24 @@ class CertificateDetail {
       options: json['Options'] != null
           ? CertificateOptions.fromJson(json['Options'] as Map<String, dynamic>)
           : null,
-      renewalEligibility:
-          (json['RenewalEligibility'] as String?)?.toRenewalEligibility(),
+      renewalEligibility: (json['RenewalEligibility'] as String?)
+          ?.let(RenewalEligibility.fromString),
       renewalSummary: json['RenewalSummary'] != null
           ? RenewalSummary.fromJson(
               json['RenewalSummary'] as Map<String, dynamic>)
           : null,
-      revocationReason:
-          (json['RevocationReason'] as String?)?.toRevocationReason(),
+      revocationReason: (json['RevocationReason'] as String?)
+          ?.let(RevocationReason.fromString),
       revokedAt: timeStampFromJson(json['RevokedAt']),
       serial: json['Serial'] as String?,
       signatureAlgorithm: json['SignatureAlgorithm'] as String?,
-      status: (json['Status'] as String?)?.toCertificateStatus(),
+      status: (json['Status'] as String?)?.let(CertificateStatus.fromString),
       subject: json['Subject'] as String?,
       subjectAlternativeNames: (json['SubjectAlternativeNames'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      type: (json['Type'] as String?)?.toCertificateType(),
+      type: (json['Type'] as String?)?.let(CertificateType.fromString),
     );
   }
 
@@ -1261,29 +1263,28 @@ class CertificateDetail {
       if (domainValidationOptions != null)
         'DomainValidationOptions': domainValidationOptions,
       if (extendedKeyUsages != null) 'ExtendedKeyUsages': extendedKeyUsages,
-      if (failureReason != null) 'FailureReason': failureReason.toValue(),
+      if (failureReason != null) 'FailureReason': failureReason.value,
       if (importedAt != null) 'ImportedAt': unixTimestampToJson(importedAt),
       if (inUseBy != null) 'InUseBy': inUseBy,
       if (issuedAt != null) 'IssuedAt': unixTimestampToJson(issuedAt),
       if (issuer != null) 'Issuer': issuer,
-      if (keyAlgorithm != null) 'KeyAlgorithm': keyAlgorithm.toValue(),
+      if (keyAlgorithm != null) 'KeyAlgorithm': keyAlgorithm.value,
       if (keyUsages != null) 'KeyUsages': keyUsages,
       if (notAfter != null) 'NotAfter': unixTimestampToJson(notAfter),
       if (notBefore != null) 'NotBefore': unixTimestampToJson(notBefore),
       if (options != null) 'Options': options,
       if (renewalEligibility != null)
-        'RenewalEligibility': renewalEligibility.toValue(),
+        'RenewalEligibility': renewalEligibility.value,
       if (renewalSummary != null) 'RenewalSummary': renewalSummary,
-      if (revocationReason != null)
-        'RevocationReason': revocationReason.toValue(),
+      if (revocationReason != null) 'RevocationReason': revocationReason.value,
       if (revokedAt != null) 'RevokedAt': unixTimestampToJson(revokedAt),
       if (serial != null) 'Serial': serial,
       if (signatureAlgorithm != null) 'SignatureAlgorithm': signatureAlgorithm,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (subject != null) 'Subject': subject,
       if (subjectAlternativeNames != null)
         'SubjectAlternativeNames': subjectAlternativeNames,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -1311,7 +1312,7 @@ class CertificateOptions {
     return CertificateOptions(
       certificateTransparencyLoggingPreference:
           (json['CertificateTransparencyLoggingPreference'] as String?)
-              ?.toCertificateTransparencyLoggingPreference(),
+              ?.let(CertificateTransparencyLoggingPreference.fromString),
     );
   }
 
@@ -1321,62 +1322,29 @@ class CertificateOptions {
     return {
       if (certificateTransparencyLoggingPreference != null)
         'CertificateTransparencyLoggingPreference':
-            certificateTransparencyLoggingPreference.toValue(),
+            certificateTransparencyLoggingPreference.value,
     };
   }
 }
 
 enum CertificateStatus {
-  pendingValidation,
-  issued,
-  inactive,
-  expired,
-  validationTimedOut,
-  revoked,
-  failed,
-}
+  pendingValidation('PENDING_VALIDATION'),
+  issued('ISSUED'),
+  inactive('INACTIVE'),
+  expired('EXPIRED'),
+  validationTimedOut('VALIDATION_TIMED_OUT'),
+  revoked('REVOKED'),
+  failed('FAILED'),
+  ;
 
-extension CertificateStatusValueExtension on CertificateStatus {
-  String toValue() {
-    switch (this) {
-      case CertificateStatus.pendingValidation:
-        return 'PENDING_VALIDATION';
-      case CertificateStatus.issued:
-        return 'ISSUED';
-      case CertificateStatus.inactive:
-        return 'INACTIVE';
-      case CertificateStatus.expired:
-        return 'EXPIRED';
-      case CertificateStatus.validationTimedOut:
-        return 'VALIDATION_TIMED_OUT';
-      case CertificateStatus.revoked:
-        return 'REVOKED';
-      case CertificateStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension CertificateStatusFromString on String {
-  CertificateStatus toCertificateStatus() {
-    switch (this) {
-      case 'PENDING_VALIDATION':
-        return CertificateStatus.pendingValidation;
-      case 'ISSUED':
-        return CertificateStatus.issued;
-      case 'INACTIVE':
-        return CertificateStatus.inactive;
-      case 'EXPIRED':
-        return CertificateStatus.expired;
-      case 'VALIDATION_TIMED_OUT':
-        return CertificateStatus.validationTimedOut;
-      case 'REVOKED':
-        return CertificateStatus.revoked;
-      case 'FAILED':
-        return CertificateStatus.failed;
-    }
-    throw Exception('$this is not known in enum CertificateStatus');
-  }
+  const CertificateStatus(this.value);
+
+  static CertificateStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CertificateStatus'));
 }
 
 /// This structure is returned in the response object of <a>ListCertificates</a>
@@ -1523,30 +1491,31 @@ class CertificateSummary {
       exported: json['Exported'] as bool?,
       extendedKeyUsages: (json['ExtendedKeyUsages'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toExtendedKeyUsageName())
+          .map((e) => ExtendedKeyUsageName.fromString((e as String)))
           .toList(),
       hasAdditionalSubjectAlternativeNames:
           json['HasAdditionalSubjectAlternativeNames'] as bool?,
       importedAt: timeStampFromJson(json['ImportedAt']),
       inUse: json['InUse'] as bool?,
       issuedAt: timeStampFromJson(json['IssuedAt']),
-      keyAlgorithm: (json['KeyAlgorithm'] as String?)?.toKeyAlgorithm(),
+      keyAlgorithm:
+          (json['KeyAlgorithm'] as String?)?.let(KeyAlgorithm.fromString),
       keyUsages: (json['KeyUsages'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toKeyUsageName())
+          .map((e) => KeyUsageName.fromString((e as String)))
           .toList(),
       notAfter: timeStampFromJson(json['NotAfter']),
       notBefore: timeStampFromJson(json['NotBefore']),
-      renewalEligibility:
-          (json['RenewalEligibility'] as String?)?.toRenewalEligibility(),
+      renewalEligibility: (json['RenewalEligibility'] as String?)
+          ?.let(RenewalEligibility.fromString),
       revokedAt: timeStampFromJson(json['RevokedAt']),
-      status: (json['Status'] as String?)?.toCertificateStatus(),
+      status: (json['Status'] as String?)?.let(CertificateStatus.fromString),
       subjectAlternativeNameSummaries:
           (json['SubjectAlternativeNameSummaries'] as List?)
               ?.whereNotNull()
               .map((e) => e as String)
               .toList(),
-      type: (json['Type'] as String?)?.toCertificateType(),
+      type: (json['Type'] as String?)?.let(CertificateType.fromString),
     );
   }
 
@@ -1577,91 +1546,58 @@ class CertificateSummary {
       if (domainName != null) 'DomainName': domainName,
       if (exported != null) 'Exported': exported,
       if (extendedKeyUsages != null)
-        'ExtendedKeyUsages': extendedKeyUsages.map((e) => e.toValue()).toList(),
+        'ExtendedKeyUsages': extendedKeyUsages.map((e) => e.value).toList(),
       if (hasAdditionalSubjectAlternativeNames != null)
         'HasAdditionalSubjectAlternativeNames':
             hasAdditionalSubjectAlternativeNames,
       if (importedAt != null) 'ImportedAt': unixTimestampToJson(importedAt),
       if (inUse != null) 'InUse': inUse,
       if (issuedAt != null) 'IssuedAt': unixTimestampToJson(issuedAt),
-      if (keyAlgorithm != null) 'KeyAlgorithm': keyAlgorithm.toValue(),
+      if (keyAlgorithm != null) 'KeyAlgorithm': keyAlgorithm.value,
       if (keyUsages != null)
-        'KeyUsages': keyUsages.map((e) => e.toValue()).toList(),
+        'KeyUsages': keyUsages.map((e) => e.value).toList(),
       if (notAfter != null) 'NotAfter': unixTimestampToJson(notAfter),
       if (notBefore != null) 'NotBefore': unixTimestampToJson(notBefore),
       if (renewalEligibility != null)
-        'RenewalEligibility': renewalEligibility.toValue(),
+        'RenewalEligibility': renewalEligibility.value,
       if (revokedAt != null) 'RevokedAt': unixTimestampToJson(revokedAt),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (subjectAlternativeNameSummaries != null)
         'SubjectAlternativeNameSummaries': subjectAlternativeNameSummaries,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum CertificateTransparencyLoggingPreference {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension CertificateTransparencyLoggingPreferenceValueExtension
-    on CertificateTransparencyLoggingPreference {
-  String toValue() {
-    switch (this) {
-      case CertificateTransparencyLoggingPreference.enabled:
-        return 'ENABLED';
-      case CertificateTransparencyLoggingPreference.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension CertificateTransparencyLoggingPreferenceFromString on String {
-  CertificateTransparencyLoggingPreference
-      toCertificateTransparencyLoggingPreference() {
-    switch (this) {
-      case 'ENABLED':
-        return CertificateTransparencyLoggingPreference.enabled;
-      case 'DISABLED':
-        return CertificateTransparencyLoggingPreference.disabled;
-    }
-    throw Exception(
-        '$this is not known in enum CertificateTransparencyLoggingPreference');
-  }
+  const CertificateTransparencyLoggingPreference(this.value);
+
+  static CertificateTransparencyLoggingPreference fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CertificateTransparencyLoggingPreference'));
 }
 
 enum CertificateType {
-  imported,
-  amazonIssued,
-  private,
-}
+  imported('IMPORTED'),
+  amazonIssued('AMAZON_ISSUED'),
+  private('PRIVATE'),
+  ;
 
-extension CertificateTypeValueExtension on CertificateType {
-  String toValue() {
-    switch (this) {
-      case CertificateType.imported:
-        return 'IMPORTED';
-      case CertificateType.amazonIssued:
-        return 'AMAZON_ISSUED';
-      case CertificateType.private:
-        return 'PRIVATE';
-    }
-  }
-}
+  final String value;
 
-extension CertificateTypeFromString on String {
-  CertificateType toCertificateType() {
-    switch (this) {
-      case 'IMPORTED':
-        return CertificateType.imported;
-      case 'AMAZON_ISSUED':
-        return CertificateType.amazonIssued;
-      case 'PRIVATE':
-        return CertificateType.private;
-    }
-    throw Exception('$this is not known in enum CertificateType');
-  }
+  const CertificateType(this.value);
+
+  static CertificateType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CertificateType'));
 }
 
 class DescribeCertificateResponse {
@@ -1690,36 +1626,19 @@ class DescribeCertificateResponse {
 }
 
 enum DomainStatus {
-  pendingValidation,
-  success,
-  failed,
-}
+  pendingValidation('PENDING_VALIDATION'),
+  success('SUCCESS'),
+  failed('FAILED'),
+  ;
 
-extension DomainStatusValueExtension on DomainStatus {
-  String toValue() {
-    switch (this) {
-      case DomainStatus.pendingValidation:
-        return 'PENDING_VALIDATION';
-      case DomainStatus.success:
-        return 'SUCCESS';
-      case DomainStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension DomainStatusFromString on String {
-  DomainStatus toDomainStatus() {
-    switch (this) {
-      case 'PENDING_VALIDATION':
-        return DomainStatus.pendingValidation;
-      case 'SUCCESS':
-        return DomainStatus.success;
-      case 'FAILED':
-        return DomainStatus.failed;
-    }
-    throw Exception('$this is not known in enum DomainStatus');
-  }
+  const DomainStatus(this.value);
+
+  static DomainStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DomainStatus'));
 }
 
 /// Contains information about the validation of each domain name in the
@@ -1787,9 +1706,10 @@ class DomainValidation {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      validationMethod:
-          (json['ValidationMethod'] as String?)?.toValidationMethod(),
-      validationStatus: (json['ValidationStatus'] as String?)?.toDomainStatus(),
+      validationMethod: (json['ValidationMethod'] as String?)
+          ?.let(ValidationMethod.fromString),
+      validationStatus:
+          (json['ValidationStatus'] as String?)?.let(DomainStatus.fromString),
     );
   }
 
@@ -1805,10 +1725,8 @@ class DomainValidation {
       if (resourceRecord != null) 'ResourceRecord': resourceRecord,
       if (validationDomain != null) 'ValidationDomain': validationDomain,
       if (validationEmails != null) 'ValidationEmails': validationEmails,
-      if (validationMethod != null)
-        'ValidationMethod': validationMethod.toValue(),
-      if (validationStatus != null)
-        'ValidationStatus': validationStatus.toValue(),
+      if (validationMethod != null) 'ValidationMethod': validationMethod.value,
+      if (validationStatus != null) 'ValidationStatus': validationStatus.value,
     };
   }
 }
@@ -1975,7 +1893,7 @@ class ExtendedKeyUsage {
 
   factory ExtendedKeyUsage.fromJson(Map<String, dynamic> json) {
     return ExtendedKeyUsage(
-      name: (json['Name'] as String?)?.toExtendedKeyUsageName(),
+      name: (json['Name'] as String?)?.let(ExtendedKeyUsageName.fromString),
       oid: json['OID'] as String?,
     );
   }
@@ -1984,191 +1902,65 @@ class ExtendedKeyUsage {
     final name = this.name;
     final oid = this.oid;
     return {
-      if (name != null) 'Name': name.toValue(),
+      if (name != null) 'Name': name.value,
       if (oid != null) 'OID': oid,
     };
   }
 }
 
 enum ExtendedKeyUsageName {
-  tlsWebServerAuthentication,
-  tlsWebClientAuthentication,
-  codeSigning,
-  emailProtection,
-  timeStamping,
-  ocspSigning,
-  ipsecEndSystem,
-  ipsecTunnel,
-  ipsecUser,
-  any,
-  none,
-  custom,
-}
+  tlsWebServerAuthentication('TLS_WEB_SERVER_AUTHENTICATION'),
+  tlsWebClientAuthentication('TLS_WEB_CLIENT_AUTHENTICATION'),
+  codeSigning('CODE_SIGNING'),
+  emailProtection('EMAIL_PROTECTION'),
+  timeStamping('TIME_STAMPING'),
+  ocspSigning('OCSP_SIGNING'),
+  ipsecEndSystem('IPSEC_END_SYSTEM'),
+  ipsecTunnel('IPSEC_TUNNEL'),
+  ipsecUser('IPSEC_USER'),
+  any('ANY'),
+  none('NONE'),
+  custom('CUSTOM'),
+  ;
 
-extension ExtendedKeyUsageNameValueExtension on ExtendedKeyUsageName {
-  String toValue() {
-    switch (this) {
-      case ExtendedKeyUsageName.tlsWebServerAuthentication:
-        return 'TLS_WEB_SERVER_AUTHENTICATION';
-      case ExtendedKeyUsageName.tlsWebClientAuthentication:
-        return 'TLS_WEB_CLIENT_AUTHENTICATION';
-      case ExtendedKeyUsageName.codeSigning:
-        return 'CODE_SIGNING';
-      case ExtendedKeyUsageName.emailProtection:
-        return 'EMAIL_PROTECTION';
-      case ExtendedKeyUsageName.timeStamping:
-        return 'TIME_STAMPING';
-      case ExtendedKeyUsageName.ocspSigning:
-        return 'OCSP_SIGNING';
-      case ExtendedKeyUsageName.ipsecEndSystem:
-        return 'IPSEC_END_SYSTEM';
-      case ExtendedKeyUsageName.ipsecTunnel:
-        return 'IPSEC_TUNNEL';
-      case ExtendedKeyUsageName.ipsecUser:
-        return 'IPSEC_USER';
-      case ExtendedKeyUsageName.any:
-        return 'ANY';
-      case ExtendedKeyUsageName.none:
-        return 'NONE';
-      case ExtendedKeyUsageName.custom:
-        return 'CUSTOM';
-    }
-  }
-}
+  final String value;
 
-extension ExtendedKeyUsageNameFromString on String {
-  ExtendedKeyUsageName toExtendedKeyUsageName() {
-    switch (this) {
-      case 'TLS_WEB_SERVER_AUTHENTICATION':
-        return ExtendedKeyUsageName.tlsWebServerAuthentication;
-      case 'TLS_WEB_CLIENT_AUTHENTICATION':
-        return ExtendedKeyUsageName.tlsWebClientAuthentication;
-      case 'CODE_SIGNING':
-        return ExtendedKeyUsageName.codeSigning;
-      case 'EMAIL_PROTECTION':
-        return ExtendedKeyUsageName.emailProtection;
-      case 'TIME_STAMPING':
-        return ExtendedKeyUsageName.timeStamping;
-      case 'OCSP_SIGNING':
-        return ExtendedKeyUsageName.ocspSigning;
-      case 'IPSEC_END_SYSTEM':
-        return ExtendedKeyUsageName.ipsecEndSystem;
-      case 'IPSEC_TUNNEL':
-        return ExtendedKeyUsageName.ipsecTunnel;
-      case 'IPSEC_USER':
-        return ExtendedKeyUsageName.ipsecUser;
-      case 'ANY':
-        return ExtendedKeyUsageName.any;
-      case 'NONE':
-        return ExtendedKeyUsageName.none;
-      case 'CUSTOM':
-        return ExtendedKeyUsageName.custom;
-    }
-    throw Exception('$this is not known in enum ExtendedKeyUsageName');
-  }
+  const ExtendedKeyUsageName(this.value);
+
+  static ExtendedKeyUsageName fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ExtendedKeyUsageName'));
 }
 
 enum FailureReason {
-  noAvailableContacts,
-  additionalVerificationRequired,
-  domainNotAllowed,
-  invalidPublicDomain,
-  domainValidationDenied,
-  caaError,
-  pcaLimitExceeded,
-  pcaInvalidArn,
-  pcaInvalidState,
-  pcaRequestFailed,
-  pcaNameConstraintsValidation,
-  pcaResourceNotFound,
-  pcaInvalidArgs,
-  pcaInvalidDuration,
-  pcaAccessDenied,
-  slrNotFound,
-  other,
-}
+  noAvailableContacts('NO_AVAILABLE_CONTACTS'),
+  additionalVerificationRequired('ADDITIONAL_VERIFICATION_REQUIRED'),
+  domainNotAllowed('DOMAIN_NOT_ALLOWED'),
+  invalidPublicDomain('INVALID_PUBLIC_DOMAIN'),
+  domainValidationDenied('DOMAIN_VALIDATION_DENIED'),
+  caaError('CAA_ERROR'),
+  pcaLimitExceeded('PCA_LIMIT_EXCEEDED'),
+  pcaInvalidArn('PCA_INVALID_ARN'),
+  pcaInvalidState('PCA_INVALID_STATE'),
+  pcaRequestFailed('PCA_REQUEST_FAILED'),
+  pcaNameConstraintsValidation('PCA_NAME_CONSTRAINTS_VALIDATION'),
+  pcaResourceNotFound('PCA_RESOURCE_NOT_FOUND'),
+  pcaInvalidArgs('PCA_INVALID_ARGS'),
+  pcaInvalidDuration('PCA_INVALID_DURATION'),
+  pcaAccessDenied('PCA_ACCESS_DENIED'),
+  slrNotFound('SLR_NOT_FOUND'),
+  other('OTHER'),
+  ;
 
-extension FailureReasonValueExtension on FailureReason {
-  String toValue() {
-    switch (this) {
-      case FailureReason.noAvailableContacts:
-        return 'NO_AVAILABLE_CONTACTS';
-      case FailureReason.additionalVerificationRequired:
-        return 'ADDITIONAL_VERIFICATION_REQUIRED';
-      case FailureReason.domainNotAllowed:
-        return 'DOMAIN_NOT_ALLOWED';
-      case FailureReason.invalidPublicDomain:
-        return 'INVALID_PUBLIC_DOMAIN';
-      case FailureReason.domainValidationDenied:
-        return 'DOMAIN_VALIDATION_DENIED';
-      case FailureReason.caaError:
-        return 'CAA_ERROR';
-      case FailureReason.pcaLimitExceeded:
-        return 'PCA_LIMIT_EXCEEDED';
-      case FailureReason.pcaInvalidArn:
-        return 'PCA_INVALID_ARN';
-      case FailureReason.pcaInvalidState:
-        return 'PCA_INVALID_STATE';
-      case FailureReason.pcaRequestFailed:
-        return 'PCA_REQUEST_FAILED';
-      case FailureReason.pcaNameConstraintsValidation:
-        return 'PCA_NAME_CONSTRAINTS_VALIDATION';
-      case FailureReason.pcaResourceNotFound:
-        return 'PCA_RESOURCE_NOT_FOUND';
-      case FailureReason.pcaInvalidArgs:
-        return 'PCA_INVALID_ARGS';
-      case FailureReason.pcaInvalidDuration:
-        return 'PCA_INVALID_DURATION';
-      case FailureReason.pcaAccessDenied:
-        return 'PCA_ACCESS_DENIED';
-      case FailureReason.slrNotFound:
-        return 'SLR_NOT_FOUND';
-      case FailureReason.other:
-        return 'OTHER';
-    }
-  }
-}
+  final String value;
 
-extension FailureReasonFromString on String {
-  FailureReason toFailureReason() {
-    switch (this) {
-      case 'NO_AVAILABLE_CONTACTS':
-        return FailureReason.noAvailableContacts;
-      case 'ADDITIONAL_VERIFICATION_REQUIRED':
-        return FailureReason.additionalVerificationRequired;
-      case 'DOMAIN_NOT_ALLOWED':
-        return FailureReason.domainNotAllowed;
-      case 'INVALID_PUBLIC_DOMAIN':
-        return FailureReason.invalidPublicDomain;
-      case 'DOMAIN_VALIDATION_DENIED':
-        return FailureReason.domainValidationDenied;
-      case 'CAA_ERROR':
-        return FailureReason.caaError;
-      case 'PCA_LIMIT_EXCEEDED':
-        return FailureReason.pcaLimitExceeded;
-      case 'PCA_INVALID_ARN':
-        return FailureReason.pcaInvalidArn;
-      case 'PCA_INVALID_STATE':
-        return FailureReason.pcaInvalidState;
-      case 'PCA_REQUEST_FAILED':
-        return FailureReason.pcaRequestFailed;
-      case 'PCA_NAME_CONSTRAINTS_VALIDATION':
-        return FailureReason.pcaNameConstraintsValidation;
-      case 'PCA_RESOURCE_NOT_FOUND':
-        return FailureReason.pcaResourceNotFound;
-      case 'PCA_INVALID_ARGS':
-        return FailureReason.pcaInvalidArgs;
-      case 'PCA_INVALID_DURATION':
-        return FailureReason.pcaInvalidDuration;
-      case 'PCA_ACCESS_DENIED':
-        return FailureReason.pcaAccessDenied;
-      case 'SLR_NOT_FOUND':
-        return FailureReason.slrNotFound;
-      case 'OTHER':
-        return FailureReason.other;
-    }
-    throw Exception('$this is not known in enum FailureReason');
-  }
+  const FailureReason(this.value);
+
+  static FailureReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FailureReason'));
 }
 
 /// This structure can be used in the <a>ListCertificates</a> action to filter
@@ -2202,11 +1994,9 @@ class Filters {
     final keyUsage = this.keyUsage;
     return {
       if (extendedKeyUsage != null)
-        'extendedKeyUsage': extendedKeyUsage.map((e) => e.toValue()).toList(),
-      if (keyTypes != null)
-        'keyTypes': keyTypes.map((e) => e.toValue()).toList(),
-      if (keyUsage != null)
-        'keyUsage': keyUsage.map((e) => e.toValue()).toList(),
+        'extendedKeyUsage': extendedKeyUsage.map((e) => e.value).toList(),
+      if (keyTypes != null) 'keyTypes': keyTypes.map((e) => e.value).toList(),
+      if (keyUsage != null) 'keyUsage': keyUsage.map((e) => e.value).toList(),
     };
   }
 }
@@ -2293,56 +2083,23 @@ class ImportCertificateResponse {
 }
 
 enum KeyAlgorithm {
-  rsa_1024,
-  rsa_2048,
-  rsa_3072,
-  rsa_4096,
-  ecPrime256v1,
-  ecSecp384r1,
-  ecSecp521r1,
-}
+  rsa_1024('RSA_1024'),
+  rsa_2048('RSA_2048'),
+  rsa_3072('RSA_3072'),
+  rsa_4096('RSA_4096'),
+  ecPrime256v1('EC_prime256v1'),
+  ecSecp384r1('EC_secp384r1'),
+  ecSecp521r1('EC_secp521r1'),
+  ;
 
-extension KeyAlgorithmValueExtension on KeyAlgorithm {
-  String toValue() {
-    switch (this) {
-      case KeyAlgorithm.rsa_1024:
-        return 'RSA_1024';
-      case KeyAlgorithm.rsa_2048:
-        return 'RSA_2048';
-      case KeyAlgorithm.rsa_3072:
-        return 'RSA_3072';
-      case KeyAlgorithm.rsa_4096:
-        return 'RSA_4096';
-      case KeyAlgorithm.ecPrime256v1:
-        return 'EC_prime256v1';
-      case KeyAlgorithm.ecSecp384r1:
-        return 'EC_secp384r1';
-      case KeyAlgorithm.ecSecp521r1:
-        return 'EC_secp521r1';
-    }
-  }
-}
+  final String value;
 
-extension KeyAlgorithmFromString on String {
-  KeyAlgorithm toKeyAlgorithm() {
-    switch (this) {
-      case 'RSA_1024':
-        return KeyAlgorithm.rsa_1024;
-      case 'RSA_2048':
-        return KeyAlgorithm.rsa_2048;
-      case 'RSA_3072':
-        return KeyAlgorithm.rsa_3072;
-      case 'RSA_4096':
-        return KeyAlgorithm.rsa_4096;
-      case 'EC_prime256v1':
-        return KeyAlgorithm.ecPrime256v1;
-      case 'EC_secp384r1':
-        return KeyAlgorithm.ecSecp384r1;
-      case 'EC_secp521r1':
-        return KeyAlgorithm.ecSecp521r1;
-    }
-    throw Exception('$this is not known in enum KeyAlgorithm');
-  }
+  const KeyAlgorithm(this.value);
+
+  static KeyAlgorithm fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum KeyAlgorithm'));
 }
 
 /// The Key Usage X.509 v3 extension defines the purpose of the public key
@@ -2357,89 +2114,40 @@ class KeyUsage {
 
   factory KeyUsage.fromJson(Map<String, dynamic> json) {
     return KeyUsage(
-      name: (json['Name'] as String?)?.toKeyUsageName(),
+      name: (json['Name'] as String?)?.let(KeyUsageName.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final name = this.name;
     return {
-      if (name != null) 'Name': name.toValue(),
+      if (name != null) 'Name': name.value,
     };
   }
 }
 
 enum KeyUsageName {
-  digitalSignature,
-  nonRepudiation,
-  keyEncipherment,
-  dataEncipherment,
-  keyAgreement,
-  certificateSigning,
-  crlSigning,
-  encipherOnly,
-  decipherOnly,
-  any,
-  custom,
-}
+  digitalSignature('DIGITAL_SIGNATURE'),
+  nonRepudiation('NON_REPUDIATION'),
+  keyEncipherment('KEY_ENCIPHERMENT'),
+  dataEncipherment('DATA_ENCIPHERMENT'),
+  keyAgreement('KEY_AGREEMENT'),
+  certificateSigning('CERTIFICATE_SIGNING'),
+  crlSigning('CRL_SIGNING'),
+  encipherOnly('ENCIPHER_ONLY'),
+  decipherOnly('DECIPHER_ONLY'),
+  any('ANY'),
+  custom('CUSTOM'),
+  ;
 
-extension KeyUsageNameValueExtension on KeyUsageName {
-  String toValue() {
-    switch (this) {
-      case KeyUsageName.digitalSignature:
-        return 'DIGITAL_SIGNATURE';
-      case KeyUsageName.nonRepudiation:
-        return 'NON_REPUDIATION';
-      case KeyUsageName.keyEncipherment:
-        return 'KEY_ENCIPHERMENT';
-      case KeyUsageName.dataEncipherment:
-        return 'DATA_ENCIPHERMENT';
-      case KeyUsageName.keyAgreement:
-        return 'KEY_AGREEMENT';
-      case KeyUsageName.certificateSigning:
-        return 'CERTIFICATE_SIGNING';
-      case KeyUsageName.crlSigning:
-        return 'CRL_SIGNING';
-      case KeyUsageName.encipherOnly:
-        return 'ENCIPHER_ONLY';
-      case KeyUsageName.decipherOnly:
-        return 'DECIPHER_ONLY';
-      case KeyUsageName.any:
-        return 'ANY';
-      case KeyUsageName.custom:
-        return 'CUSTOM';
-    }
-  }
-}
+  final String value;
 
-extension KeyUsageNameFromString on String {
-  KeyUsageName toKeyUsageName() {
-    switch (this) {
-      case 'DIGITAL_SIGNATURE':
-        return KeyUsageName.digitalSignature;
-      case 'NON_REPUDIATION':
-        return KeyUsageName.nonRepudiation;
-      case 'KEY_ENCIPHERMENT':
-        return KeyUsageName.keyEncipherment;
-      case 'DATA_ENCIPHERMENT':
-        return KeyUsageName.dataEncipherment;
-      case 'KEY_AGREEMENT':
-        return KeyUsageName.keyAgreement;
-      case 'CERTIFICATE_SIGNING':
-        return KeyUsageName.certificateSigning;
-      case 'CRL_SIGNING':
-        return KeyUsageName.crlSigning;
-      case 'ENCIPHER_ONLY':
-        return KeyUsageName.encipherOnly;
-      case 'DECIPHER_ONLY':
-        return KeyUsageName.decipherOnly;
-      case 'ANY':
-        return KeyUsageName.any;
-      case 'CUSTOM':
-        return KeyUsageName.custom;
-    }
-    throw Exception('$this is not known in enum KeyUsageName');
-  }
+  const KeyUsageName(this.value);
+
+  static KeyUsageName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum KeyUsageName'));
 }
 
 class ListCertificatesResponse {
@@ -2503,92 +2211,48 @@ class ListTagsForCertificateResponse {
 }
 
 enum RecordType {
-  cname,
-}
+  cname('CNAME'),
+  ;
 
-extension RecordTypeValueExtension on RecordType {
-  String toValue() {
-    switch (this) {
-      case RecordType.cname:
-        return 'CNAME';
-    }
-  }
-}
+  final String value;
 
-extension RecordTypeFromString on String {
-  RecordType toRecordType() {
-    switch (this) {
-      case 'CNAME':
-        return RecordType.cname;
-    }
-    throw Exception('$this is not known in enum RecordType');
-  }
+  const RecordType(this.value);
+
+  static RecordType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum RecordType'));
 }
 
 enum RenewalEligibility {
-  eligible,
-  ineligible,
-}
+  eligible('ELIGIBLE'),
+  ineligible('INELIGIBLE'),
+  ;
 
-extension RenewalEligibilityValueExtension on RenewalEligibility {
-  String toValue() {
-    switch (this) {
-      case RenewalEligibility.eligible:
-        return 'ELIGIBLE';
-      case RenewalEligibility.ineligible:
-        return 'INELIGIBLE';
-    }
-  }
-}
+  final String value;
 
-extension RenewalEligibilityFromString on String {
-  RenewalEligibility toRenewalEligibility() {
-    switch (this) {
-      case 'ELIGIBLE':
-        return RenewalEligibility.eligible;
-      case 'INELIGIBLE':
-        return RenewalEligibility.ineligible;
-    }
-    throw Exception('$this is not known in enum RenewalEligibility');
-  }
+  const RenewalEligibility(this.value);
+
+  static RenewalEligibility fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RenewalEligibility'));
 }
 
 enum RenewalStatus {
-  pendingAutoRenewal,
-  pendingValidation,
-  success,
-  failed,
-}
+  pendingAutoRenewal('PENDING_AUTO_RENEWAL'),
+  pendingValidation('PENDING_VALIDATION'),
+  success('SUCCESS'),
+  failed('FAILED'),
+  ;
 
-extension RenewalStatusValueExtension on RenewalStatus {
-  String toValue() {
-    switch (this) {
-      case RenewalStatus.pendingAutoRenewal:
-        return 'PENDING_AUTO_RENEWAL';
-      case RenewalStatus.pendingValidation:
-        return 'PENDING_VALIDATION';
-      case RenewalStatus.success:
-        return 'SUCCESS';
-      case RenewalStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension RenewalStatusFromString on String {
-  RenewalStatus toRenewalStatus() {
-    switch (this) {
-      case 'PENDING_AUTO_RENEWAL':
-        return RenewalStatus.pendingAutoRenewal;
-      case 'PENDING_VALIDATION':
-        return RenewalStatus.pendingValidation;
-      case 'SUCCESS':
-        return RenewalStatus.success;
-      case 'FAILED':
-        return RenewalStatus.failed;
-    }
-    throw Exception('$this is not known in enum RenewalStatus');
-  }
+  const RenewalStatus(this.value);
+
+  static RenewalStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RenewalStatus'));
 }
 
 /// Contains information about the status of ACM's <a
@@ -2628,10 +2292,11 @@ class RenewalSummary {
           .whereNotNull()
           .map((e) => DomainValidation.fromJson(e as Map<String, dynamic>))
           .toList(),
-      renewalStatus: (json['RenewalStatus'] as String).toRenewalStatus(),
+      renewalStatus:
+          RenewalStatus.fromString((json['RenewalStatus'] as String)),
       updatedAt: nonNullableTimeStampFromJson(json['UpdatedAt'] as Object),
-      renewalStatusReason:
-          (json['RenewalStatusReason'] as String?)?.toFailureReason(),
+      renewalStatusReason: (json['RenewalStatusReason'] as String?)
+          ?.let(FailureReason.fromString),
     );
   }
 
@@ -2642,10 +2307,10 @@ class RenewalSummary {
     final renewalStatusReason = this.renewalStatusReason;
     return {
       'DomainValidationOptions': domainValidationOptions,
-      'RenewalStatus': renewalStatus.toValue(),
+      'RenewalStatus': renewalStatus.value,
       'UpdatedAt': unixTimestampToJson(updatedAt),
       if (renewalStatusReason != null)
-        'RenewalStatusReason': renewalStatusReason.toValue(),
+        'RenewalStatusReason': renewalStatusReason.value,
     };
   }
 }
@@ -2698,7 +2363,7 @@ class ResourceRecord {
   factory ResourceRecord.fromJson(Map<String, dynamic> json) {
     return ResourceRecord(
       name: json['Name'] as String,
-      type: (json['Type'] as String).toRecordType(),
+      type: RecordType.fromString((json['Type'] as String)),
       value: json['Value'] as String,
     );
   }
@@ -2709,129 +2374,60 @@ class ResourceRecord {
     final value = this.value;
     return {
       'Name': name,
-      'Type': type.toValue(),
+      'Type': type.value,
       'Value': value,
     };
   }
 }
 
 enum RevocationReason {
-  unspecified,
-  keyCompromise,
-  caCompromise,
-  affiliationChanged,
-  superceded,
-  cessationOfOperation,
-  certificateHold,
-  removeFromCrl,
-  privilegeWithdrawn,
-  aACompromise,
-}
+  unspecified('UNSPECIFIED'),
+  keyCompromise('KEY_COMPROMISE'),
+  caCompromise('CA_COMPROMISE'),
+  affiliationChanged('AFFILIATION_CHANGED'),
+  superceded('SUPERCEDED'),
+  cessationOfOperation('CESSATION_OF_OPERATION'),
+  certificateHold('CERTIFICATE_HOLD'),
+  removeFromCrl('REMOVE_FROM_CRL'),
+  privilegeWithdrawn('PRIVILEGE_WITHDRAWN'),
+  aACompromise('A_A_COMPROMISE'),
+  ;
 
-extension RevocationReasonValueExtension on RevocationReason {
-  String toValue() {
-    switch (this) {
-      case RevocationReason.unspecified:
-        return 'UNSPECIFIED';
-      case RevocationReason.keyCompromise:
-        return 'KEY_COMPROMISE';
-      case RevocationReason.caCompromise:
-        return 'CA_COMPROMISE';
-      case RevocationReason.affiliationChanged:
-        return 'AFFILIATION_CHANGED';
-      case RevocationReason.superceded:
-        return 'SUPERCEDED';
-      case RevocationReason.cessationOfOperation:
-        return 'CESSATION_OF_OPERATION';
-      case RevocationReason.certificateHold:
-        return 'CERTIFICATE_HOLD';
-      case RevocationReason.removeFromCrl:
-        return 'REMOVE_FROM_CRL';
-      case RevocationReason.privilegeWithdrawn:
-        return 'PRIVILEGE_WITHDRAWN';
-      case RevocationReason.aACompromise:
-        return 'A_A_COMPROMISE';
-    }
-  }
-}
+  final String value;
 
-extension RevocationReasonFromString on String {
-  RevocationReason toRevocationReason() {
-    switch (this) {
-      case 'UNSPECIFIED':
-        return RevocationReason.unspecified;
-      case 'KEY_COMPROMISE':
-        return RevocationReason.keyCompromise;
-      case 'CA_COMPROMISE':
-        return RevocationReason.caCompromise;
-      case 'AFFILIATION_CHANGED':
-        return RevocationReason.affiliationChanged;
-      case 'SUPERCEDED':
-        return RevocationReason.superceded;
-      case 'CESSATION_OF_OPERATION':
-        return RevocationReason.cessationOfOperation;
-      case 'CERTIFICATE_HOLD':
-        return RevocationReason.certificateHold;
-      case 'REMOVE_FROM_CRL':
-        return RevocationReason.removeFromCrl;
-      case 'PRIVILEGE_WITHDRAWN':
-        return RevocationReason.privilegeWithdrawn;
-      case 'A_A_COMPROMISE':
-        return RevocationReason.aACompromise;
-    }
-    throw Exception('$this is not known in enum RevocationReason');
-  }
+  const RevocationReason(this.value);
+
+  static RevocationReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RevocationReason'));
 }
 
 enum SortBy {
-  createdAt,
-}
+  createdAt('CREATED_AT'),
+  ;
 
-extension SortByValueExtension on SortBy {
-  String toValue() {
-    switch (this) {
-      case SortBy.createdAt:
-        return 'CREATED_AT';
-    }
-  }
-}
+  final String value;
 
-extension SortByFromString on String {
-  SortBy toSortBy() {
-    switch (this) {
-      case 'CREATED_AT':
-        return SortBy.createdAt;
-    }
-    throw Exception('$this is not known in enum SortBy');
-  }
+  const SortBy(this.value);
+
+  static SortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum SortBy'));
 }
 
 enum SortOrder {
-  ascending,
-  descending,
-}
+  ascending('ASCENDING'),
+  descending('DESCENDING'),
+  ;
 
-extension SortOrderValueExtension on SortOrder {
-  String toValue() {
-    switch (this) {
-      case SortOrder.ascending:
-        return 'ASCENDING';
-      case SortOrder.descending:
-        return 'DESCENDING';
-    }
-  }
-}
+  final String value;
 
-extension SortOrderFromString on String {
-  SortOrder toSortOrder() {
-    switch (this) {
-      case 'ASCENDING':
-        return SortOrder.ascending;
-      case 'DESCENDING':
-        return SortOrder.descending;
-    }
-    throw Exception('$this is not known in enum SortOrder');
-  }
+  const SortOrder(this.value);
+
+  static SortOrder fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SortOrder'));
 }
 
 /// A key-value pair that identifies or specifies metadata about an ACM
@@ -2866,31 +2462,18 @@ class Tag {
 }
 
 enum ValidationMethod {
-  email,
-  dns,
-}
+  email('EMAIL'),
+  dns('DNS'),
+  ;
 
-extension ValidationMethodValueExtension on ValidationMethod {
-  String toValue() {
-    switch (this) {
-      case ValidationMethod.email:
-        return 'EMAIL';
-      case ValidationMethod.dns:
-        return 'DNS';
-    }
-  }
-}
+  final String value;
 
-extension ValidationMethodFromString on String {
-  ValidationMethod toValidationMethod() {
-    switch (this) {
-      case 'EMAIL':
-        return ValidationMethod.email;
-      case 'DNS':
-        return ValidationMethod.dns;
-    }
-    throw Exception('$this is not known in enum ValidationMethod');
-  }
+  const ValidationMethod(this.value);
+
+  static ValidationMethod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ValidationMethod'));
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

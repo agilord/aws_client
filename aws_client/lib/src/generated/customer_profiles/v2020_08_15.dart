@@ -158,7 +158,7 @@ class CustomerProfiles {
   }) async {
     final $payload = <String, dynamic>{
       'AttributeDetails': attributeDetails,
-      'Statistic': statistic.toValue(),
+      'Statistic': statistic.value,
       if (conditions != null) 'Conditions': conditions,
       if (description != null) 'Description': description,
       if (displayName != null) 'DisplayName': displayName,
@@ -362,7 +362,7 @@ class CustomerProfiles {
       'IntegrationConfig': integrationConfig,
       'ObjectTypeName': objectTypeName,
       'RoleArn': roleArn,
-      'WorkflowType': workflowType.toValue(),
+      'WorkflowType': workflowType.value,
       if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
@@ -502,14 +502,14 @@ class CustomerProfiles {
         'BusinessPhoneNumber': businessPhoneNumber,
       if (emailAddress != null) 'EmailAddress': emailAddress,
       if (firstName != null) 'FirstName': firstName,
-      if (gender != null) 'Gender': gender.toValue(),
+      if (gender != null) 'Gender': gender.value,
       if (genderString != null) 'GenderString': genderString,
       if (homePhoneNumber != null) 'HomePhoneNumber': homePhoneNumber,
       if (lastName != null) 'LastName': lastName,
       if (mailingAddress != null) 'MailingAddress': mailingAddress,
       if (middleName != null) 'MiddleName': middleName,
       if (mobilePhoneNumber != null) 'MobilePhoneNumber': mobilePhoneNumber,
-      if (partyType != null) 'PartyType': partyType.toValue(),
+      if (partyType != null) 'PartyType': partyType.value,
       if (partyTypeString != null) 'PartyTypeString': partyTypeString,
       if (personalEmailAddress != null)
         'PersonalEmailAddress': personalEmailAddress,
@@ -1267,7 +1267,7 @@ class CustomerProfiles {
       if (nextToken != null) 'next-token': [nextToken],
     };
     final $payload = <String, dynamic>{
-      'MatchType': matchType.toValue(),
+      'MatchType': matchType.value,
       'SearchKey': searchKey,
       'SearchValue': searchValue,
     };
@@ -1926,8 +1926,8 @@ class CustomerProfiles {
         'QueryEndDate': unixTimestampToJson(queryEndDate),
       if (queryStartDate != null)
         'QueryStartDate': unixTimestampToJson(queryStartDate),
-      if (status != null) 'Status': status.toValue(),
-      if (workflowType != null) 'WorkflowType': workflowType.toValue(),
+      if (status != null) 'Status': status.value,
+      if (workflowType != null) 'WorkflowType': workflowType.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2329,7 +2329,7 @@ class CustomerProfiles {
       'Values': values,
       if (additionalSearchKeys != null)
         'AdditionalSearchKeys': additionalSearchKeys,
-      if (logicalOperator != null) 'LogicalOperator': logicalOperator.toValue(),
+      if (logicalOperator != null) 'LogicalOperator': logicalOperator.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2698,14 +2698,14 @@ class CustomerProfiles {
         'BusinessPhoneNumber': businessPhoneNumber,
       if (emailAddress != null) 'EmailAddress': emailAddress,
       if (firstName != null) 'FirstName': firstName,
-      if (gender != null) 'Gender': gender.toValue(),
+      if (gender != null) 'Gender': gender.value,
       if (genderString != null) 'GenderString': genderString,
       if (homePhoneNumber != null) 'HomePhoneNumber': homePhoneNumber,
       if (lastName != null) 'LastName': lastName,
       if (mailingAddress != null) 'MailingAddress': mailingAddress,
       if (middleName != null) 'MiddleName': middleName,
       if (mobilePhoneNumber != null) 'MobilePhoneNumber': mobilePhoneNumber,
-      if (partyType != null) 'PartyType': partyType.toValue(),
+      if (partyType != null) 'PartyType': partyType.value,
       if (partyTypeString != null) 'PartyTypeString': partyTypeString,
       if (personalEmailAddress != null)
         'PersonalEmailAddress': personalEmailAddress,
@@ -2917,8 +2917,8 @@ class AppflowIntegrationWorkflowAttributes {
       Map<String, dynamic> json) {
     return AppflowIntegrationWorkflowAttributes(
       connectorProfileName: json['ConnectorProfileName'] as String,
-      sourceConnectorType:
-          (json['SourceConnectorType'] as String).toSourceConnectorType(),
+      sourceConnectorType: SourceConnectorType.fromString(
+          (json['SourceConnectorType'] as String)),
       roleArn: json['RoleArn'] as String?,
     );
   }
@@ -2929,7 +2929,7 @@ class AppflowIntegrationWorkflowAttributes {
     final roleArn = this.roleArn;
     return {
       'ConnectorProfileName': connectorProfileName,
-      'SourceConnectorType': sourceConnectorType.toValue(),
+      'SourceConnectorType': sourceConnectorType.value,
       if (roleArn != null) 'RoleArn': roleArn,
     };
   }
@@ -3029,7 +3029,7 @@ class AppflowIntegrationWorkflowStep {
       lastUpdatedAt:
           nonNullableTimeStampFromJson(json['LastUpdatedAt'] as Object),
       recordsProcessed: json['RecordsProcessed'] as int,
-      status: (json['Status'] as String).toStatus(),
+      status: Status.fromString((json['Status'] as String)),
     );
   }
 
@@ -3050,7 +3050,7 @@ class AppflowIntegrationWorkflowStep {
       'FlowName': flowName,
       'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
       'RecordsProcessed': recordsProcessed,
-      'Status': status.toValue(),
+      'Status': status.value,
     };
   }
 }
@@ -3116,31 +3116,18 @@ class AttributeItem {
 }
 
 enum AttributeMatchingModel {
-  oneToOne,
-  manyToMany,
-}
+  oneToOne('ONE_TO_ONE'),
+  manyToMany('MANY_TO_MANY'),
+  ;
 
-extension AttributeMatchingModelValueExtension on AttributeMatchingModel {
-  String toValue() {
-    switch (this) {
-      case AttributeMatchingModel.oneToOne:
-        return 'ONE_TO_ONE';
-      case AttributeMatchingModel.manyToMany:
-        return 'MANY_TO_MANY';
-    }
-  }
-}
+  final String value;
 
-extension AttributeMatchingModelFromString on String {
-  AttributeMatchingModel toAttributeMatchingModel() {
-    switch (this) {
-      case 'ONE_TO_ONE':
-        return AttributeMatchingModel.oneToOne;
-      case 'MANY_TO_MANY':
-        return AttributeMatchingModel.manyToMany;
-    }
-    throw Exception('$this is not known in enum AttributeMatchingModel');
-  }
+  const AttributeMatchingModel(this.value);
+
+  static AttributeMatchingModel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AttributeMatchingModel'));
 }
 
 /// Configuration information about the <code>AttributeTypesSelector
@@ -3238,8 +3225,8 @@ class AttributeTypesSelector {
 
   factory AttributeTypesSelector.fromJson(Map<String, dynamic> json) {
     return AttributeTypesSelector(
-      attributeMatchingModel:
-          (json['AttributeMatchingModel'] as String).toAttributeMatchingModel(),
+      attributeMatchingModel: AttributeMatchingModel.fromString(
+          (json['AttributeMatchingModel'] as String)),
       address: (json['Address'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -3261,7 +3248,7 @@ class AttributeTypesSelector {
     final emailAddress = this.emailAddress;
     final phoneNumber = this.phoneNumber;
     return {
-      'AttributeMatchingModel': attributeMatchingModel.toValue(),
+      'AttributeMatchingModel': attributeMatchingModel.value,
       if (address != null) 'Address': address,
       if (emailAddress != null) 'EmailAddress': emailAddress,
       if (phoneNumber != null) 'PhoneNumber': phoneNumber,
@@ -3429,8 +3416,8 @@ class ConflictResolution {
 
   factory ConflictResolution.fromJson(Map<String, dynamic> json) {
     return ConflictResolution(
-      conflictResolvingModel:
-          (json['ConflictResolvingModel'] as String).toConflictResolvingModel(),
+      conflictResolvingModel: ConflictResolvingModel.fromString(
+          (json['ConflictResolvingModel'] as String)),
       sourceName: json['SourceName'] as String?,
     );
   }
@@ -3439,38 +3426,25 @@ class ConflictResolution {
     final conflictResolvingModel = this.conflictResolvingModel;
     final sourceName = this.sourceName;
     return {
-      'ConflictResolvingModel': conflictResolvingModel.toValue(),
+      'ConflictResolvingModel': conflictResolvingModel.value,
       if (sourceName != null) 'SourceName': sourceName,
     };
   }
 }
 
 enum ConflictResolvingModel {
-  recency,
-  source,
-}
+  recency('RECENCY'),
+  source('SOURCE'),
+  ;
 
-extension ConflictResolvingModelValueExtension on ConflictResolvingModel {
-  String toValue() {
-    switch (this) {
-      case ConflictResolvingModel.recency:
-        return 'RECENCY';
-      case ConflictResolvingModel.source:
-        return 'SOURCE';
-    }
-  }
-}
+  final String value;
 
-extension ConflictResolvingModelFromString on String {
-  ConflictResolvingModel toConflictResolvingModel() {
-    switch (this) {
-      case 'RECENCY':
-        return ConflictResolvingModel.recency;
-      case 'SOURCE':
-        return ConflictResolvingModel.source;
-    }
-    throw Exception('$this is not known in enum ConflictResolvingModel');
-  }
+  const ConflictResolvingModel(this.value);
+
+  static ConflictResolvingModel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ConflictResolvingModel'));
 }
 
 /// The operation to be performed on the provided source fields.
@@ -3505,11 +3479,11 @@ class ConnectorOperator {
     final serviceNow = this.serviceNow;
     final zendesk = this.zendesk;
     return {
-      if (marketo != null) 'Marketo': marketo.toValue(),
-      if (s3 != null) 'S3': s3.toValue(),
-      if (salesforce != null) 'Salesforce': salesforce.toValue(),
-      if (serviceNow != null) 'ServiceNow': serviceNow.toValue(),
-      if (zendesk != null) 'Zendesk': zendesk.toValue(),
+      if (marketo != null) 'Marketo': marketo.value,
+      if (s3 != null) 'S3': s3.value,
+      if (salesforce != null) 'Salesforce': salesforce.value,
+      if (serviceNow != null) 'ServiceNow': serviceNow.value,
+      if (zendesk != null) 'Zendesk': zendesk.value,
     };
   }
 }
@@ -3599,7 +3573,7 @@ class CreateCalculatedAttributeDefinitionResponse {
       description: json['Description'] as String?,
       displayName: json['DisplayName'] as String?,
       lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
-      statistic: (json['Statistic'] as String?)?.toStatistic(),
+      statistic: (json['Statistic'] as String?)?.let(Statistic.fromString),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -3625,7 +3599,7 @@ class CreateCalculatedAttributeDefinitionResponse {
       if (displayName != null) 'DisplayName': displayName,
       if (lastUpdatedAt != null)
         'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
-      if (statistic != null) 'Statistic': statistic.toValue(),
+      if (statistic != null) 'Statistic': statistic.value,
       if (tags != null) 'Tags': tags,
     };
   }
@@ -3820,31 +3794,18 @@ class CreateProfileResponse {
 }
 
 enum DataPullMode {
-  incremental,
-  complete,
-}
+  incremental('Incremental'),
+  complete('Complete'),
+  ;
 
-extension DataPullModeValueExtension on DataPullMode {
-  String toValue() {
-    switch (this) {
-      case DataPullMode.incremental:
-        return 'Incremental';
-      case DataPullMode.complete:
-        return 'Complete';
-    }
-  }
-}
+  final String value;
 
-extension DataPullModeFromString on String {
-  DataPullMode toDataPullMode() {
-    switch (this) {
-      case 'Incremental':
-        return DataPullMode.incremental;
-      case 'Complete':
-        return DataPullMode.complete;
-    }
-    throw Exception('$this is not known in enum DataPullMode');
-  }
+  const DataPullMode(this.value);
+
+  static DataPullMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DataPullMode'));
 }
 
 class DeleteCalculatedAttributeDefinitionResponse {
@@ -4036,7 +3997,8 @@ class DestinationSummary {
 
   factory DestinationSummary.fromJson(Map<String, dynamic> json) {
     return DestinationSummary(
-      status: (json['Status'] as String).toEventStreamDestinationStatus(),
+      status:
+          EventStreamDestinationStatus.fromString((json['Status'] as String)),
       uri: json['Uri'] as String,
       unhealthySince: timeStampFromJson(json['UnhealthySince']),
     );
@@ -4047,7 +4009,7 @@ class DestinationSummary {
     final uri = this.uri;
     final unhealthySince = this.unhealthySince;
     return {
-      'Status': status.toValue(),
+      'Status': status.value,
       'Uri': uri,
       if (unhealthySince != null)
         'UnhealthySince': unixTimestampToJson(unhealthySince),
@@ -4203,7 +4165,8 @@ class EventStreamDestinationDetails {
 
   factory EventStreamDestinationDetails.fromJson(Map<String, dynamic> json) {
     return EventStreamDestinationDetails(
-      status: (json['Status'] as String).toEventStreamDestinationStatus(),
+      status:
+          EventStreamDestinationStatus.fromString((json['Status'] as String)),
       uri: json['Uri'] as String,
       message: json['Message'] as String?,
       unhealthySince: timeStampFromJson(json['UnhealthySince']),
@@ -4216,7 +4179,7 @@ class EventStreamDestinationDetails {
     final message = this.message;
     final unhealthySince = this.unhealthySince;
     return {
-      'Status': status.toValue(),
+      'Status': status.value,
       'Uri': uri,
       if (message != null) 'Message': message,
       if (unhealthySince != null)
@@ -4226,60 +4189,33 @@ class EventStreamDestinationDetails {
 }
 
 enum EventStreamDestinationStatus {
-  healthy,
-  unhealthy,
-}
+  healthy('HEALTHY'),
+  unhealthy('UNHEALTHY'),
+  ;
 
-extension EventStreamDestinationStatusValueExtension
-    on EventStreamDestinationStatus {
-  String toValue() {
-    switch (this) {
-      case EventStreamDestinationStatus.healthy:
-        return 'HEALTHY';
-      case EventStreamDestinationStatus.unhealthy:
-        return 'UNHEALTHY';
-    }
-  }
-}
+  final String value;
 
-extension EventStreamDestinationStatusFromString on String {
-  EventStreamDestinationStatus toEventStreamDestinationStatus() {
-    switch (this) {
-      case 'HEALTHY':
-        return EventStreamDestinationStatus.healthy;
-      case 'UNHEALTHY':
-        return EventStreamDestinationStatus.unhealthy;
-    }
-    throw Exception('$this is not known in enum EventStreamDestinationStatus');
-  }
+  const EventStreamDestinationStatus(this.value);
+
+  static EventStreamDestinationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum EventStreamDestinationStatus'));
 }
 
 enum EventStreamState {
-  running,
-  stopped,
-}
+  running('RUNNING'),
+  stopped('STOPPED'),
+  ;
 
-extension EventStreamStateValueExtension on EventStreamState {
-  String toValue() {
-    switch (this) {
-      case EventStreamState.running:
-        return 'RUNNING';
-      case EventStreamState.stopped:
-        return 'STOPPED';
-    }
-  }
-}
+  final String value;
 
-extension EventStreamStateFromString on String {
-  EventStreamState toEventStreamState() {
-    switch (this) {
-      case 'RUNNING':
-        return EventStreamState.running;
-      case 'STOPPED':
-        return EventStreamState.stopped;
-    }
-    throw Exception('$this is not known in enum EventStreamState');
-  }
+  const EventStreamState(this.value);
+
+  static EventStreamState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EventStreamState'));
 }
 
 /// An instance of EventStream in a list of EventStreams.
@@ -4320,7 +4256,7 @@ class EventStreamSummary {
       domainName: json['DomainName'] as String,
       eventStreamArn: json['EventStreamArn'] as String,
       eventStreamName: json['EventStreamName'] as String,
-      state: (json['State'] as String).toEventStreamState(),
+      state: EventStreamState.fromString((json['State'] as String)),
       destinationSummary: json['DestinationSummary'] != null
           ? DestinationSummary.fromJson(
               json['DestinationSummary'] as Map<String, dynamic>)
@@ -4343,7 +4279,7 @@ class EventStreamSummary {
       'DomainName': domainName,
       'EventStreamArn': eventStreamArn,
       'EventStreamName': eventStreamName,
-      'State': state.toValue(),
+      'State': state.value,
       if (destinationSummary != null) 'DestinationSummary': destinationSummary,
       if (stoppedSince != null)
         'StoppedSince': unixTimestampToJson(stoppedSince),
@@ -4414,46 +4350,21 @@ class ExportingLocation {
 }
 
 enum FieldContentType {
-  string,
-  number,
-  phoneNumber,
-  emailAddress,
-  name,
-}
+  string('STRING'),
+  number('NUMBER'),
+  phoneNumber('PHONE_NUMBER'),
+  emailAddress('EMAIL_ADDRESS'),
+  name('NAME'),
+  ;
 
-extension FieldContentTypeValueExtension on FieldContentType {
-  String toValue() {
-    switch (this) {
-      case FieldContentType.string:
-        return 'STRING';
-      case FieldContentType.number:
-        return 'NUMBER';
-      case FieldContentType.phoneNumber:
-        return 'PHONE_NUMBER';
-      case FieldContentType.emailAddress:
-        return 'EMAIL_ADDRESS';
-      case FieldContentType.name:
-        return 'NAME';
-    }
-  }
-}
+  final String value;
 
-extension FieldContentTypeFromString on String {
-  FieldContentType toFieldContentType() {
-    switch (this) {
-      case 'STRING':
-        return FieldContentType.string;
-      case 'NUMBER':
-        return FieldContentType.number;
-      case 'PHONE_NUMBER':
-        return FieldContentType.phoneNumber;
-      case 'EMAIL_ADDRESS':
-        return FieldContentType.emailAddress;
-      case 'NAME':
-        return FieldContentType.name;
-    }
-    throw Exception('$this is not known in enum FieldContentType');
-  }
+  const FieldContentType(this.value);
+
+  static FieldContentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FieldContentType'));
 }
 
 /// A duplicate customer profile that is to be merged into a main profile.
@@ -4689,36 +4600,18 @@ class FoundByKeyValue {
 
 @Deprecated('Deprecated')
 enum Gender {
-  male,
-  female,
-  unspecified,
-}
+  male('MALE'),
+  female('FEMALE'),
+  unspecified('UNSPECIFIED'),
+  ;
 
-extension GenderValueExtension on Gender {
-  String toValue() {
-    switch (this) {
-      case Gender.male:
-        return 'MALE';
-      case Gender.female:
-        return 'FEMALE';
-      case Gender.unspecified:
-        return 'UNSPECIFIED';
-    }
-  }
-}
+  final String value;
 
-extension GenderFromString on String {
-  Gender toGender() {
-    switch (this) {
-      case 'MALE':
-        return Gender.male;
-      case 'FEMALE':
-        return Gender.female;
-      case 'UNSPECIFIED':
-        return Gender.unspecified;
-    }
-    throw Exception('$this is not known in enum Gender');
-  }
+  const Gender(this.value);
+
+  static Gender fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Gender'));
 }
 
 class GetAutoMergingPreviewResponse {
@@ -4828,7 +4721,7 @@ class GetCalculatedAttributeDefinitionResponse {
       description: json['Description'] as String?,
       displayName: json['DisplayName'] as String?,
       lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
-      statistic: (json['Statistic'] as String?)?.toStatistic(),
+      statistic: (json['Statistic'] as String?)?.let(Statistic.fromString),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -4854,7 +4747,7 @@ class GetCalculatedAttributeDefinitionResponse {
       if (displayName != null) 'DisplayName': displayName,
       if (lastUpdatedAt != null)
         'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
-      if (statistic != null) 'Statistic': statistic.toValue(),
+      if (statistic != null) 'Statistic': statistic.value,
       if (tags != null) 'Tags': tags,
     };
   }
@@ -5061,7 +4954,7 @@ class GetEventStreamResponse {
           json['DestinationDetails'] as Map<String, dynamic>),
       domainName: json['DomainName'] as String,
       eventStreamArn: json['EventStreamArn'] as String,
-      state: (json['State'] as String).toEventStreamState(),
+      state: EventStreamState.fromString((json['State'] as String)),
       stoppedSince: timeStampFromJson(json['StoppedSince']),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -5081,7 +4974,7 @@ class GetEventStreamResponse {
       'DestinationDetails': destinationDetails,
       'DomainName': domainName,
       'EventStreamArn': eventStreamArn,
-      'State': state.toValue(),
+      'State': state.value,
       if (stoppedSince != null)
         'StoppedSince': unixTimestampToJson(stoppedSince),
       if (tags != null) 'Tags': tags,
@@ -5189,7 +5082,8 @@ class GetIdentityResolutionJobResponse {
           : null,
       lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
       message: json['Message'] as String?,
-      status: (json['Status'] as String?)?.toIdentityResolutionJobStatus(),
+      status: (json['Status'] as String?)
+          ?.let(IdentityResolutionJobStatus.fromString),
     );
   }
 
@@ -5219,7 +5113,7 @@ class GetIdentityResolutionJobResponse {
       if (lastUpdatedAt != null)
         'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
       if (message != null) 'Message': message,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -5602,7 +5496,7 @@ class GetSimilarProfilesResponse {
     return GetSimilarProfilesResponse(
       confidenceScore: json['ConfidenceScore'] as double?,
       matchId: json['MatchId'] as String?,
-      matchType: (json['MatchType'] as String?)?.toMatchType(),
+      matchType: (json['MatchType'] as String?)?.let(MatchType.fromString),
       nextToken: json['NextToken'] as String?,
       profileIds: (json['ProfileIds'] as List?)
           ?.whereNotNull()
@@ -5622,7 +5516,7 @@ class GetSimilarProfilesResponse {
     return {
       if (confidenceScore != null) 'ConfidenceScore': confidenceScore,
       if (matchId != null) 'MatchId': matchId,
-      if (matchType != null) 'MatchType': matchType.toValue(),
+      if (matchType != null) 'MatchType': matchType.value,
       if (nextToken != null) 'NextToken': nextToken,
       if (profileIds != null) 'ProfileIds': profileIds,
       if (ruleLevel != null) 'RuleLevel': ruleLevel,
@@ -5678,9 +5572,10 @@ class GetWorkflowResponse {
           ? WorkflowMetrics.fromJson(json['Metrics'] as Map<String, dynamic>)
           : null,
       startDate: timeStampFromJson(json['StartDate']),
-      status: (json['Status'] as String?)?.toStatus(),
+      status: (json['Status'] as String?)?.let(Status.fromString),
       workflowId: json['WorkflowId'] as String?,
-      workflowType: (json['WorkflowType'] as String?)?.toWorkflowType(),
+      workflowType:
+          (json['WorkflowType'] as String?)?.let(WorkflowType.fromString),
     );
   }
 
@@ -5700,9 +5595,9 @@ class GetWorkflowResponse {
         'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
       if (metrics != null) 'Metrics': metrics,
       if (startDate != null) 'StartDate': unixTimestampToJson(startDate),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (workflowId != null) 'WorkflowId': workflowId,
-      if (workflowType != null) 'WorkflowType': workflowType.toValue(),
+      if (workflowType != null) 'WorkflowType': workflowType.value,
     };
   }
 }
@@ -5736,7 +5631,8 @@ class GetWorkflowStepsResponse {
           .toList(),
       nextToken: json['NextToken'] as String?,
       workflowId: json['WorkflowId'] as String?,
-      workflowType: (json['WorkflowType'] as String?)?.toWorkflowType(),
+      workflowType:
+          (json['WorkflowType'] as String?)?.let(WorkflowType.fromString),
     );
   }
 
@@ -5749,7 +5645,7 @@ class GetWorkflowStepsResponse {
       if (items != null) 'Items': items,
       if (nextToken != null) 'NextToken': nextToken,
       if (workflowId != null) 'WorkflowId': workflowId,
-      if (workflowType != null) 'WorkflowType': workflowType.toValue(),
+      if (workflowType != null) 'WorkflowType': workflowType.value,
     };
   }
 }
@@ -5837,7 +5733,8 @@ class IdentityResolutionJob {
           ? JobStats.fromJson(json['JobStats'] as Map<String, dynamic>)
           : null,
       message: json['Message'] as String?,
-      status: (json['Status'] as String?)?.toIdentityResolutionJobStatus(),
+      status: (json['Status'] as String?)
+          ?.let(IdentityResolutionJobStatus.fromString),
     );
   }
 
@@ -5859,63 +5756,29 @@ class IdentityResolutionJob {
         'JobStartTime': unixTimestampToJson(jobStartTime),
       if (jobStats != null) 'JobStats': jobStats,
       if (message != null) 'Message': message,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
 
 enum IdentityResolutionJobStatus {
-  pending,
-  preprocessing,
-  findMatching,
-  merging,
-  completed,
-  partialSuccess,
-  failed,
-}
+  pending('PENDING'),
+  preprocessing('PREPROCESSING'),
+  findMatching('FIND_MATCHING'),
+  merging('MERGING'),
+  completed('COMPLETED'),
+  partialSuccess('PARTIAL_SUCCESS'),
+  failed('FAILED'),
+  ;
 
-extension IdentityResolutionJobStatusValueExtension
-    on IdentityResolutionJobStatus {
-  String toValue() {
-    switch (this) {
-      case IdentityResolutionJobStatus.pending:
-        return 'PENDING';
-      case IdentityResolutionJobStatus.preprocessing:
-        return 'PREPROCESSING';
-      case IdentityResolutionJobStatus.findMatching:
-        return 'FIND_MATCHING';
-      case IdentityResolutionJobStatus.merging:
-        return 'MERGING';
-      case IdentityResolutionJobStatus.completed:
-        return 'COMPLETED';
-      case IdentityResolutionJobStatus.partialSuccess:
-        return 'PARTIAL_SUCCESS';
-      case IdentityResolutionJobStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension IdentityResolutionJobStatusFromString on String {
-  IdentityResolutionJobStatus toIdentityResolutionJobStatus() {
-    switch (this) {
-      case 'PENDING':
-        return IdentityResolutionJobStatus.pending;
-      case 'PREPROCESSING':
-        return IdentityResolutionJobStatus.preprocessing;
-      case 'FIND_MATCHING':
-        return IdentityResolutionJobStatus.findMatching;
-      case 'MERGING':
-        return IdentityResolutionJobStatus.merging;
-      case 'COMPLETED':
-        return IdentityResolutionJobStatus.completed;
-      case 'PARTIAL_SUCCESS':
-        return IdentityResolutionJobStatus.partialSuccess;
-      case 'FAILED':
-        return IdentityResolutionJobStatus.failed;
-    }
-    throw Exception('$this is not known in enum IdentityResolutionJobStatus');
-  }
+  const IdentityResolutionJobStatus(this.value);
+
+  static IdentityResolutionJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum IdentityResolutionJobStatus'));
 }
 
 /// Specifies the configuration used when importing incremental records from the
@@ -5972,7 +5835,7 @@ class JobSchedule {
   factory JobSchedule.fromJson(Map<String, dynamic> json) {
     return JobSchedule(
       dayOfTheWeek:
-          (json['DayOfTheWeek'] as String).toJobScheduleDayOfTheWeek(),
+          JobScheduleDayOfTheWeek.fromString((json['DayOfTheWeek'] as String)),
       time: json['Time'] as String,
     );
   }
@@ -5981,63 +5844,30 @@ class JobSchedule {
     final dayOfTheWeek = this.dayOfTheWeek;
     final time = this.time;
     return {
-      'DayOfTheWeek': dayOfTheWeek.toValue(),
+      'DayOfTheWeek': dayOfTheWeek.value,
       'Time': time,
     };
   }
 }
 
 enum JobScheduleDayOfTheWeek {
-  sunday,
-  monday,
-  tuesday,
-  wednesday,
-  thursday,
-  friday,
-  saturday,
-}
+  sunday('SUNDAY'),
+  monday('MONDAY'),
+  tuesday('TUESDAY'),
+  wednesday('WEDNESDAY'),
+  thursday('THURSDAY'),
+  friday('FRIDAY'),
+  saturday('SATURDAY'),
+  ;
 
-extension JobScheduleDayOfTheWeekValueExtension on JobScheduleDayOfTheWeek {
-  String toValue() {
-    switch (this) {
-      case JobScheduleDayOfTheWeek.sunday:
-        return 'SUNDAY';
-      case JobScheduleDayOfTheWeek.monday:
-        return 'MONDAY';
-      case JobScheduleDayOfTheWeek.tuesday:
-        return 'TUESDAY';
-      case JobScheduleDayOfTheWeek.wednesday:
-        return 'WEDNESDAY';
-      case JobScheduleDayOfTheWeek.thursday:
-        return 'THURSDAY';
-      case JobScheduleDayOfTheWeek.friday:
-        return 'FRIDAY';
-      case JobScheduleDayOfTheWeek.saturday:
-        return 'SATURDAY';
-    }
-  }
-}
+  final String value;
 
-extension JobScheduleDayOfTheWeekFromString on String {
-  JobScheduleDayOfTheWeek toJobScheduleDayOfTheWeek() {
-    switch (this) {
-      case 'SUNDAY':
-        return JobScheduleDayOfTheWeek.sunday;
-      case 'MONDAY':
-        return JobScheduleDayOfTheWeek.monday;
-      case 'TUESDAY':
-        return JobScheduleDayOfTheWeek.tuesday;
-      case 'WEDNESDAY':
-        return JobScheduleDayOfTheWeek.wednesday;
-      case 'THURSDAY':
-        return JobScheduleDayOfTheWeek.thursday;
-      case 'FRIDAY':
-        return JobScheduleDayOfTheWeek.friday;
-      case 'SATURDAY':
-        return JobScheduleDayOfTheWeek.saturday;
-    }
-    throw Exception('$this is not known in enum JobScheduleDayOfTheWeek');
-  }
+  const JobScheduleDayOfTheWeek(this.value);
+
+  static JobScheduleDayOfTheWeek fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum JobScheduleDayOfTheWeek'));
 }
 
 /// Statistics about the Identity Resolution Job.
@@ -6878,10 +6708,10 @@ class ListWorkflowsItem {
       createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
       lastUpdatedAt:
           nonNullableTimeStampFromJson(json['LastUpdatedAt'] as Object),
-      status: (json['Status'] as String).toStatus(),
+      status: Status.fromString((json['Status'] as String)),
       statusDescription: json['StatusDescription'] as String,
       workflowId: json['WorkflowId'] as String,
-      workflowType: (json['WorkflowType'] as String).toWorkflowType(),
+      workflowType: WorkflowType.fromString((json['WorkflowType'] as String)),
     );
   }
 
@@ -6895,10 +6725,10 @@ class ListWorkflowsItem {
     return {
       'CreatedAt': unixTimestampToJson(createdAt),
       'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
-      'Status': status.toValue(),
+      'Status': status.value,
       'StatusDescription': statusDescription,
       'WorkflowId': workflowId,
-      'WorkflowType': workflowType.toValue(),
+      'WorkflowType': workflowType.value,
     };
   }
 }
@@ -6937,101 +6767,32 @@ class ListWorkflowsResponse {
 }
 
 enum MarketoConnectorOperator {
-  projection,
-  lessThan,
-  greaterThan,
-  between,
-  addition,
-  multiplication,
-  division,
-  subtraction,
-  maskAll,
-  maskFirstN,
-  maskLastN,
-  validateNonNull,
-  validateNonZero,
-  validateNonNegative,
-  validateNumeric,
-  noOp,
-}
+  projection('PROJECTION'),
+  lessThan('LESS_THAN'),
+  greaterThan('GREATER_THAN'),
+  between('BETWEEN'),
+  addition('ADDITION'),
+  multiplication('MULTIPLICATION'),
+  division('DIVISION'),
+  subtraction('SUBTRACTION'),
+  maskAll('MASK_ALL'),
+  maskFirstN('MASK_FIRST_N'),
+  maskLastN('MASK_LAST_N'),
+  validateNonNull('VALIDATE_NON_NULL'),
+  validateNonZero('VALIDATE_NON_ZERO'),
+  validateNonNegative('VALIDATE_NON_NEGATIVE'),
+  validateNumeric('VALIDATE_NUMERIC'),
+  noOp('NO_OP'),
+  ;
 
-extension MarketoConnectorOperatorValueExtension on MarketoConnectorOperator {
-  String toValue() {
-    switch (this) {
-      case MarketoConnectorOperator.projection:
-        return 'PROJECTION';
-      case MarketoConnectorOperator.lessThan:
-        return 'LESS_THAN';
-      case MarketoConnectorOperator.greaterThan:
-        return 'GREATER_THAN';
-      case MarketoConnectorOperator.between:
-        return 'BETWEEN';
-      case MarketoConnectorOperator.addition:
-        return 'ADDITION';
-      case MarketoConnectorOperator.multiplication:
-        return 'MULTIPLICATION';
-      case MarketoConnectorOperator.division:
-        return 'DIVISION';
-      case MarketoConnectorOperator.subtraction:
-        return 'SUBTRACTION';
-      case MarketoConnectorOperator.maskAll:
-        return 'MASK_ALL';
-      case MarketoConnectorOperator.maskFirstN:
-        return 'MASK_FIRST_N';
-      case MarketoConnectorOperator.maskLastN:
-        return 'MASK_LAST_N';
-      case MarketoConnectorOperator.validateNonNull:
-        return 'VALIDATE_NON_NULL';
-      case MarketoConnectorOperator.validateNonZero:
-        return 'VALIDATE_NON_ZERO';
-      case MarketoConnectorOperator.validateNonNegative:
-        return 'VALIDATE_NON_NEGATIVE';
-      case MarketoConnectorOperator.validateNumeric:
-        return 'VALIDATE_NUMERIC';
-      case MarketoConnectorOperator.noOp:
-        return 'NO_OP';
-    }
-  }
-}
+  final String value;
 
-extension MarketoConnectorOperatorFromString on String {
-  MarketoConnectorOperator toMarketoConnectorOperator() {
-    switch (this) {
-      case 'PROJECTION':
-        return MarketoConnectorOperator.projection;
-      case 'LESS_THAN':
-        return MarketoConnectorOperator.lessThan;
-      case 'GREATER_THAN':
-        return MarketoConnectorOperator.greaterThan;
-      case 'BETWEEN':
-        return MarketoConnectorOperator.between;
-      case 'ADDITION':
-        return MarketoConnectorOperator.addition;
-      case 'MULTIPLICATION':
-        return MarketoConnectorOperator.multiplication;
-      case 'DIVISION':
-        return MarketoConnectorOperator.division;
-      case 'SUBTRACTION':
-        return MarketoConnectorOperator.subtraction;
-      case 'MASK_ALL':
-        return MarketoConnectorOperator.maskAll;
-      case 'MASK_FIRST_N':
-        return MarketoConnectorOperator.maskFirstN;
-      case 'MASK_LAST_N':
-        return MarketoConnectorOperator.maskLastN;
-      case 'VALIDATE_NON_NULL':
-        return MarketoConnectorOperator.validateNonNull;
-      case 'VALIDATE_NON_ZERO':
-        return MarketoConnectorOperator.validateNonZero;
-      case 'VALIDATE_NON_NEGATIVE':
-        return MarketoConnectorOperator.validateNonNegative;
-      case 'VALIDATE_NUMERIC':
-        return MarketoConnectorOperator.validateNumeric;
-      case 'NO_OP':
-        return MarketoConnectorOperator.noOp;
-    }
-    throw Exception('$this is not known in enum MarketoConnectorOperator');
-  }
+  const MarketoConnectorOperator(this.value);
+
+  static MarketoConnectorOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MarketoConnectorOperator'));
 }
 
 /// The properties that are applied when Marketo is being used as a source.
@@ -7099,31 +6860,17 @@ class MatchItem {
 }
 
 enum MatchType {
-  ruleBasedMatching,
-  mlBasedMatching,
-}
+  ruleBasedMatching('RULE_BASED_MATCHING'),
+  mlBasedMatching('ML_BASED_MATCHING'),
+  ;
 
-extension MatchTypeValueExtension on MatchType {
-  String toValue() {
-    switch (this) {
-      case MatchType.ruleBasedMatching:
-        return 'RULE_BASED_MATCHING';
-      case MatchType.mlBasedMatching:
-        return 'ML_BASED_MATCHING';
-    }
-  }
-}
+  final String value;
 
-extension MatchTypeFromString on String {
-  MatchType toMatchType() {
-    switch (this) {
-      case 'RULE_BASED_MATCHING':
-        return MatchType.ruleBasedMatching;
-      case 'ML_BASED_MATCHING':
-        return MatchType.mlBasedMatching;
-    }
-    throw Exception('$this is not known in enum MatchType');
-  }
+  const MatchType(this.value);
+
+  static MatchType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum MatchType'));
 }
 
 /// The flag that enables the matching process of duplicate profiles.
@@ -7372,7 +7119,8 @@ class ObjectTypeField {
 
   factory ObjectTypeField.fromJson(Map<String, dynamic> json) {
     return ObjectTypeField(
-      contentType: (json['ContentType'] as String?)?.toFieldContentType(),
+      contentType:
+          (json['ContentType'] as String?)?.let(FieldContentType.fromString),
       source: json['Source'] as String?,
       target: json['Target'] as String?,
     );
@@ -7383,7 +7131,7 @@ class ObjectTypeField {
     final source = this.source;
     final target = this.target;
     return {
-      if (contentType != null) 'ContentType': contentType.toValue(),
+      if (contentType != null) 'ContentType': contentType.value,
       if (source != null) 'Source': source,
       if (target != null) 'Target': target,
     };
@@ -7421,7 +7169,7 @@ class ObjectTypeKey {
           .toList(),
       standardIdentifiers: (json['StandardIdentifiers'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toStandardIdentifier())
+          .map((e) => StandardIdentifier.fromString((e as String)))
           .toList(),
     );
   }
@@ -7432,170 +7180,68 @@ class ObjectTypeKey {
     return {
       if (fieldNames != null) 'FieldNames': fieldNames,
       if (standardIdentifiers != null)
-        'StandardIdentifiers':
-            standardIdentifiers.map((e) => e.toValue()).toList(),
+        'StandardIdentifiers': standardIdentifiers.map((e) => e.value).toList(),
     };
   }
 }
 
 enum Operator {
-  equalTo,
-  greaterThan,
-  lessThan,
-  notEqualTo,
-}
+  equalTo('EQUAL_TO'),
+  greaterThan('GREATER_THAN'),
+  lessThan('LESS_THAN'),
+  notEqualTo('NOT_EQUAL_TO'),
+  ;
 
-extension OperatorValueExtension on Operator {
-  String toValue() {
-    switch (this) {
-      case Operator.equalTo:
-        return 'EQUAL_TO';
-      case Operator.greaterThan:
-        return 'GREATER_THAN';
-      case Operator.lessThan:
-        return 'LESS_THAN';
-      case Operator.notEqualTo:
-        return 'NOT_EQUAL_TO';
-    }
-  }
-}
+  final String value;
 
-extension OperatorFromString on String {
-  Operator toOperator() {
-    switch (this) {
-      case 'EQUAL_TO':
-        return Operator.equalTo;
-      case 'GREATER_THAN':
-        return Operator.greaterThan;
-      case 'LESS_THAN':
-        return Operator.lessThan;
-      case 'NOT_EQUAL_TO':
-        return Operator.notEqualTo;
-    }
-    throw Exception('$this is not known in enum Operator');
-  }
+  const Operator(this.value);
+
+  static Operator fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Operator'));
 }
 
 enum OperatorPropertiesKeys {
-  value,
-  $values,
-  dataType,
-  upperBound,
-  lowerBound,
-  sourceDataType,
-  destinationDataType,
-  validationAction,
-  maskValue,
-  maskLength,
-  truncateLength,
-  mathOperationFieldsOrder,
-  concatFormat,
-  subfieldCategoryMap,
-}
+  $value('VALUE'),
+  $values('VALUES'),
+  dataType('DATA_TYPE'),
+  upperBound('UPPER_BOUND'),
+  lowerBound('LOWER_BOUND'),
+  sourceDataType('SOURCE_DATA_TYPE'),
+  destinationDataType('DESTINATION_DATA_TYPE'),
+  validationAction('VALIDATION_ACTION'),
+  maskValue('MASK_VALUE'),
+  maskLength('MASK_LENGTH'),
+  truncateLength('TRUNCATE_LENGTH'),
+  mathOperationFieldsOrder('MATH_OPERATION_FIELDS_ORDER'),
+  concatFormat('CONCAT_FORMAT'),
+  subfieldCategoryMap('SUBFIELD_CATEGORY_MAP'),
+  ;
 
-extension OperatorPropertiesKeysValueExtension on OperatorPropertiesKeys {
-  String toValue() {
-    switch (this) {
-      case OperatorPropertiesKeys.value:
-        return 'VALUE';
-      case OperatorPropertiesKeys.$values:
-        return 'VALUES';
-      case OperatorPropertiesKeys.dataType:
-        return 'DATA_TYPE';
-      case OperatorPropertiesKeys.upperBound:
-        return 'UPPER_BOUND';
-      case OperatorPropertiesKeys.lowerBound:
-        return 'LOWER_BOUND';
-      case OperatorPropertiesKeys.sourceDataType:
-        return 'SOURCE_DATA_TYPE';
-      case OperatorPropertiesKeys.destinationDataType:
-        return 'DESTINATION_DATA_TYPE';
-      case OperatorPropertiesKeys.validationAction:
-        return 'VALIDATION_ACTION';
-      case OperatorPropertiesKeys.maskValue:
-        return 'MASK_VALUE';
-      case OperatorPropertiesKeys.maskLength:
-        return 'MASK_LENGTH';
-      case OperatorPropertiesKeys.truncateLength:
-        return 'TRUNCATE_LENGTH';
-      case OperatorPropertiesKeys.mathOperationFieldsOrder:
-        return 'MATH_OPERATION_FIELDS_ORDER';
-      case OperatorPropertiesKeys.concatFormat:
-        return 'CONCAT_FORMAT';
-      case OperatorPropertiesKeys.subfieldCategoryMap:
-        return 'SUBFIELD_CATEGORY_MAP';
-    }
-  }
-}
+  final String value;
 
-extension OperatorPropertiesKeysFromString on String {
-  OperatorPropertiesKeys toOperatorPropertiesKeys() {
-    switch (this) {
-      case 'VALUE':
-        return OperatorPropertiesKeys.value;
-      case 'VALUES':
-        return OperatorPropertiesKeys.$values;
-      case 'DATA_TYPE':
-        return OperatorPropertiesKeys.dataType;
-      case 'UPPER_BOUND':
-        return OperatorPropertiesKeys.upperBound;
-      case 'LOWER_BOUND':
-        return OperatorPropertiesKeys.lowerBound;
-      case 'SOURCE_DATA_TYPE':
-        return OperatorPropertiesKeys.sourceDataType;
-      case 'DESTINATION_DATA_TYPE':
-        return OperatorPropertiesKeys.destinationDataType;
-      case 'VALIDATION_ACTION':
-        return OperatorPropertiesKeys.validationAction;
-      case 'MASK_VALUE':
-        return OperatorPropertiesKeys.maskValue;
-      case 'MASK_LENGTH':
-        return OperatorPropertiesKeys.maskLength;
-      case 'TRUNCATE_LENGTH':
-        return OperatorPropertiesKeys.truncateLength;
-      case 'MATH_OPERATION_FIELDS_ORDER':
-        return OperatorPropertiesKeys.mathOperationFieldsOrder;
-      case 'CONCAT_FORMAT':
-        return OperatorPropertiesKeys.concatFormat;
-      case 'SUBFIELD_CATEGORY_MAP':
-        return OperatorPropertiesKeys.subfieldCategoryMap;
-    }
-    throw Exception('$this is not known in enum OperatorPropertiesKeys');
-  }
+  const OperatorPropertiesKeys(this.value);
+
+  static OperatorPropertiesKeys fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum OperatorPropertiesKeys'));
 }
 
 @Deprecated('Deprecated')
 enum PartyType {
-  individual,
-  business,
-  other,
-}
+  individual('INDIVIDUAL'),
+  business('BUSINESS'),
+  other('OTHER'),
+  ;
 
-extension PartyTypeValueExtension on PartyType {
-  String toValue() {
-    switch (this) {
-      case PartyType.individual:
-        return 'INDIVIDUAL';
-      case PartyType.business:
-        return 'BUSINESS';
-      case PartyType.other:
-        return 'OTHER';
-    }
-  }
-}
+  final String value;
 
-extension PartyTypeFromString on String {
-  PartyType toPartyType() {
-    switch (this) {
-      case 'INDIVIDUAL':
-        return PartyType.individual;
-      case 'BUSINESS':
-        return PartyType.business;
-      case 'OTHER':
-        return PartyType.other;
-    }
-    throw Exception('$this is not known in enum PartyType');
-  }
+  const PartyType(this.value);
+
+  static PartyType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum PartyType'));
 }
 
 /// The standard profile of a customer.
@@ -7755,7 +7401,7 @@ class Profile {
           ?.whereNotNull()
           .map((e) => FoundByKeyValue.fromJson(e as Map<String, dynamic>))
           .toList(),
-      gender: (json['Gender'] as String?)?.toGender(),
+      gender: (json['Gender'] as String?)?.let(Gender.fromString),
       genderString: json['GenderString'] as String?,
       homePhoneNumber: json['HomePhoneNumber'] as String?,
       lastName: json['LastName'] as String?,
@@ -7764,7 +7410,7 @@ class Profile {
           : null,
       middleName: json['MiddleName'] as String?,
       mobilePhoneNumber: json['MobilePhoneNumber'] as String?,
-      partyType: (json['PartyType'] as String?)?.toPartyType(),
+      partyType: (json['PartyType'] as String?)?.let(PartyType.fromString),
       partyTypeString: json['PartyTypeString'] as String?,
       personalEmailAddress: json['PersonalEmailAddress'] as String?,
       phoneNumber: json['PhoneNumber'] as String?,
@@ -7817,14 +7463,14 @@ class Profile {
       if (emailAddress != null) 'EmailAddress': emailAddress,
       if (firstName != null) 'FirstName': firstName,
       if (foundByItems != null) 'FoundByItems': foundByItems,
-      if (gender != null) 'Gender': gender.toValue(),
+      if (gender != null) 'Gender': gender.value,
       if (genderString != null) 'GenderString': genderString,
       if (homePhoneNumber != null) 'HomePhoneNumber': homePhoneNumber,
       if (lastName != null) 'LastName': lastName,
       if (mailingAddress != null) 'MailingAddress': mailingAddress,
       if (middleName != null) 'MiddleName': middleName,
       if (mobilePhoneNumber != null) 'MobilePhoneNumber': mobilePhoneNumber,
-      if (partyType != null) 'PartyType': partyType.toValue(),
+      if (partyType != null) 'PartyType': partyType.value,
       if (partyTypeString != null) 'PartyTypeString': partyTypeString,
       if (personalEmailAddress != null)
         'PersonalEmailAddress': personalEmailAddress,
@@ -8083,7 +7729,7 @@ class Range {
 
   factory Range.fromJson(Map<String, dynamic> json) {
     return Range(
-      unit: (json['Unit'] as String).toUnit(),
+      unit: Unit.fromString((json['Unit'] as String)),
       value: json['Value'] as int,
     );
   }
@@ -8092,7 +7738,7 @@ class Range {
     final unit = this.unit;
     final value = this.value;
     return {
-      'Unit': unit.toValue(),
+      'Unit': unit.value,
       'Value': value,
     };
   }
@@ -8240,7 +7886,8 @@ class RuleBasedMatchingResponse {
           json['MaxAllowedRuleLevelForMatching'] as int?,
       maxAllowedRuleLevelForMerging:
           json['MaxAllowedRuleLevelForMerging'] as int?,
-      status: (json['Status'] as String?)?.toRuleBasedMatchingStatus(),
+      status:
+          (json['Status'] as String?)?.let(RuleBasedMatchingStatus.fromString),
     );
   }
 
@@ -8264,160 +7911,58 @@ class RuleBasedMatchingResponse {
         'MaxAllowedRuleLevelForMatching': maxAllowedRuleLevelForMatching,
       if (maxAllowedRuleLevelForMerging != null)
         'MaxAllowedRuleLevelForMerging': maxAllowedRuleLevelForMerging,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
 
 enum RuleBasedMatchingStatus {
-  pending,
-  inProgress,
-  active,
-}
+  pending('PENDING'),
+  inProgress('IN_PROGRESS'),
+  active('ACTIVE'),
+  ;
 
-extension RuleBasedMatchingStatusValueExtension on RuleBasedMatchingStatus {
-  String toValue() {
-    switch (this) {
-      case RuleBasedMatchingStatus.pending:
-        return 'PENDING';
-      case RuleBasedMatchingStatus.inProgress:
-        return 'IN_PROGRESS';
-      case RuleBasedMatchingStatus.active:
-        return 'ACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension RuleBasedMatchingStatusFromString on String {
-  RuleBasedMatchingStatus toRuleBasedMatchingStatus() {
-    switch (this) {
-      case 'PENDING':
-        return RuleBasedMatchingStatus.pending;
-      case 'IN_PROGRESS':
-        return RuleBasedMatchingStatus.inProgress;
-      case 'ACTIVE':
-        return RuleBasedMatchingStatus.active;
-    }
-    throw Exception('$this is not known in enum RuleBasedMatchingStatus');
-  }
+  const RuleBasedMatchingStatus(this.value);
+
+  static RuleBasedMatchingStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RuleBasedMatchingStatus'));
 }
 
 enum S3ConnectorOperator {
-  projection,
-  lessThan,
-  greaterThan,
-  between,
-  lessThanOrEqualTo,
-  greaterThanOrEqualTo,
-  equalTo,
-  notEqualTo,
-  addition,
-  multiplication,
-  division,
-  subtraction,
-  maskAll,
-  maskFirstN,
-  maskLastN,
-  validateNonNull,
-  validateNonZero,
-  validateNonNegative,
-  validateNumeric,
-  noOp,
-}
+  projection('PROJECTION'),
+  lessThan('LESS_THAN'),
+  greaterThan('GREATER_THAN'),
+  between('BETWEEN'),
+  lessThanOrEqualTo('LESS_THAN_OR_EQUAL_TO'),
+  greaterThanOrEqualTo('GREATER_THAN_OR_EQUAL_TO'),
+  equalTo('EQUAL_TO'),
+  notEqualTo('NOT_EQUAL_TO'),
+  addition('ADDITION'),
+  multiplication('MULTIPLICATION'),
+  division('DIVISION'),
+  subtraction('SUBTRACTION'),
+  maskAll('MASK_ALL'),
+  maskFirstN('MASK_FIRST_N'),
+  maskLastN('MASK_LAST_N'),
+  validateNonNull('VALIDATE_NON_NULL'),
+  validateNonZero('VALIDATE_NON_ZERO'),
+  validateNonNegative('VALIDATE_NON_NEGATIVE'),
+  validateNumeric('VALIDATE_NUMERIC'),
+  noOp('NO_OP'),
+  ;
 
-extension S3ConnectorOperatorValueExtension on S3ConnectorOperator {
-  String toValue() {
-    switch (this) {
-      case S3ConnectorOperator.projection:
-        return 'PROJECTION';
-      case S3ConnectorOperator.lessThan:
-        return 'LESS_THAN';
-      case S3ConnectorOperator.greaterThan:
-        return 'GREATER_THAN';
-      case S3ConnectorOperator.between:
-        return 'BETWEEN';
-      case S3ConnectorOperator.lessThanOrEqualTo:
-        return 'LESS_THAN_OR_EQUAL_TO';
-      case S3ConnectorOperator.greaterThanOrEqualTo:
-        return 'GREATER_THAN_OR_EQUAL_TO';
-      case S3ConnectorOperator.equalTo:
-        return 'EQUAL_TO';
-      case S3ConnectorOperator.notEqualTo:
-        return 'NOT_EQUAL_TO';
-      case S3ConnectorOperator.addition:
-        return 'ADDITION';
-      case S3ConnectorOperator.multiplication:
-        return 'MULTIPLICATION';
-      case S3ConnectorOperator.division:
-        return 'DIVISION';
-      case S3ConnectorOperator.subtraction:
-        return 'SUBTRACTION';
-      case S3ConnectorOperator.maskAll:
-        return 'MASK_ALL';
-      case S3ConnectorOperator.maskFirstN:
-        return 'MASK_FIRST_N';
-      case S3ConnectorOperator.maskLastN:
-        return 'MASK_LAST_N';
-      case S3ConnectorOperator.validateNonNull:
-        return 'VALIDATE_NON_NULL';
-      case S3ConnectorOperator.validateNonZero:
-        return 'VALIDATE_NON_ZERO';
-      case S3ConnectorOperator.validateNonNegative:
-        return 'VALIDATE_NON_NEGATIVE';
-      case S3ConnectorOperator.validateNumeric:
-        return 'VALIDATE_NUMERIC';
-      case S3ConnectorOperator.noOp:
-        return 'NO_OP';
-    }
-  }
-}
+  final String value;
 
-extension S3ConnectorOperatorFromString on String {
-  S3ConnectorOperator toS3ConnectorOperator() {
-    switch (this) {
-      case 'PROJECTION':
-        return S3ConnectorOperator.projection;
-      case 'LESS_THAN':
-        return S3ConnectorOperator.lessThan;
-      case 'GREATER_THAN':
-        return S3ConnectorOperator.greaterThan;
-      case 'BETWEEN':
-        return S3ConnectorOperator.between;
-      case 'LESS_THAN_OR_EQUAL_TO':
-        return S3ConnectorOperator.lessThanOrEqualTo;
-      case 'GREATER_THAN_OR_EQUAL_TO':
-        return S3ConnectorOperator.greaterThanOrEqualTo;
-      case 'EQUAL_TO':
-        return S3ConnectorOperator.equalTo;
-      case 'NOT_EQUAL_TO':
-        return S3ConnectorOperator.notEqualTo;
-      case 'ADDITION':
-        return S3ConnectorOperator.addition;
-      case 'MULTIPLICATION':
-        return S3ConnectorOperator.multiplication;
-      case 'DIVISION':
-        return S3ConnectorOperator.division;
-      case 'SUBTRACTION':
-        return S3ConnectorOperator.subtraction;
-      case 'MASK_ALL':
-        return S3ConnectorOperator.maskAll;
-      case 'MASK_FIRST_N':
-        return S3ConnectorOperator.maskFirstN;
-      case 'MASK_LAST_N':
-        return S3ConnectorOperator.maskLastN;
-      case 'VALIDATE_NON_NULL':
-        return S3ConnectorOperator.validateNonNull;
-      case 'VALIDATE_NON_ZERO':
-        return S3ConnectorOperator.validateNonZero;
-      case 'VALIDATE_NON_NEGATIVE':
-        return S3ConnectorOperator.validateNonNegative;
-      case 'VALIDATE_NUMERIC':
-        return S3ConnectorOperator.validateNumeric;
-      case 'NO_OP':
-        return S3ConnectorOperator.noOp;
-    }
-    throw Exception('$this is not known in enum S3ConnectorOperator');
-  }
+  const S3ConnectorOperator(this.value);
+
+  static S3ConnectorOperator fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum S3ConnectorOperator'));
 }
 
 /// Configuration information about the S3 bucket where Identity Resolution Jobs
@@ -8510,127 +8055,37 @@ class S3SourceProperties {
 }
 
 enum SalesforceConnectorOperator {
-  projection,
-  lessThan,
-  contains,
-  greaterThan,
-  between,
-  lessThanOrEqualTo,
-  greaterThanOrEqualTo,
-  equalTo,
-  notEqualTo,
-  addition,
-  multiplication,
-  division,
-  subtraction,
-  maskAll,
-  maskFirstN,
-  maskLastN,
-  validateNonNull,
-  validateNonZero,
-  validateNonNegative,
-  validateNumeric,
-  noOp,
-}
+  projection('PROJECTION'),
+  lessThan('LESS_THAN'),
+  contains('CONTAINS'),
+  greaterThan('GREATER_THAN'),
+  between('BETWEEN'),
+  lessThanOrEqualTo('LESS_THAN_OR_EQUAL_TO'),
+  greaterThanOrEqualTo('GREATER_THAN_OR_EQUAL_TO'),
+  equalTo('EQUAL_TO'),
+  notEqualTo('NOT_EQUAL_TO'),
+  addition('ADDITION'),
+  multiplication('MULTIPLICATION'),
+  division('DIVISION'),
+  subtraction('SUBTRACTION'),
+  maskAll('MASK_ALL'),
+  maskFirstN('MASK_FIRST_N'),
+  maskLastN('MASK_LAST_N'),
+  validateNonNull('VALIDATE_NON_NULL'),
+  validateNonZero('VALIDATE_NON_ZERO'),
+  validateNonNegative('VALIDATE_NON_NEGATIVE'),
+  validateNumeric('VALIDATE_NUMERIC'),
+  noOp('NO_OP'),
+  ;
 
-extension SalesforceConnectorOperatorValueExtension
-    on SalesforceConnectorOperator {
-  String toValue() {
-    switch (this) {
-      case SalesforceConnectorOperator.projection:
-        return 'PROJECTION';
-      case SalesforceConnectorOperator.lessThan:
-        return 'LESS_THAN';
-      case SalesforceConnectorOperator.contains:
-        return 'CONTAINS';
-      case SalesforceConnectorOperator.greaterThan:
-        return 'GREATER_THAN';
-      case SalesforceConnectorOperator.between:
-        return 'BETWEEN';
-      case SalesforceConnectorOperator.lessThanOrEqualTo:
-        return 'LESS_THAN_OR_EQUAL_TO';
-      case SalesforceConnectorOperator.greaterThanOrEqualTo:
-        return 'GREATER_THAN_OR_EQUAL_TO';
-      case SalesforceConnectorOperator.equalTo:
-        return 'EQUAL_TO';
-      case SalesforceConnectorOperator.notEqualTo:
-        return 'NOT_EQUAL_TO';
-      case SalesforceConnectorOperator.addition:
-        return 'ADDITION';
-      case SalesforceConnectorOperator.multiplication:
-        return 'MULTIPLICATION';
-      case SalesforceConnectorOperator.division:
-        return 'DIVISION';
-      case SalesforceConnectorOperator.subtraction:
-        return 'SUBTRACTION';
-      case SalesforceConnectorOperator.maskAll:
-        return 'MASK_ALL';
-      case SalesforceConnectorOperator.maskFirstN:
-        return 'MASK_FIRST_N';
-      case SalesforceConnectorOperator.maskLastN:
-        return 'MASK_LAST_N';
-      case SalesforceConnectorOperator.validateNonNull:
-        return 'VALIDATE_NON_NULL';
-      case SalesforceConnectorOperator.validateNonZero:
-        return 'VALIDATE_NON_ZERO';
-      case SalesforceConnectorOperator.validateNonNegative:
-        return 'VALIDATE_NON_NEGATIVE';
-      case SalesforceConnectorOperator.validateNumeric:
-        return 'VALIDATE_NUMERIC';
-      case SalesforceConnectorOperator.noOp:
-        return 'NO_OP';
-    }
-  }
-}
+  final String value;
 
-extension SalesforceConnectorOperatorFromString on String {
-  SalesforceConnectorOperator toSalesforceConnectorOperator() {
-    switch (this) {
-      case 'PROJECTION':
-        return SalesforceConnectorOperator.projection;
-      case 'LESS_THAN':
-        return SalesforceConnectorOperator.lessThan;
-      case 'CONTAINS':
-        return SalesforceConnectorOperator.contains;
-      case 'GREATER_THAN':
-        return SalesforceConnectorOperator.greaterThan;
-      case 'BETWEEN':
-        return SalesforceConnectorOperator.between;
-      case 'LESS_THAN_OR_EQUAL_TO':
-        return SalesforceConnectorOperator.lessThanOrEqualTo;
-      case 'GREATER_THAN_OR_EQUAL_TO':
-        return SalesforceConnectorOperator.greaterThanOrEqualTo;
-      case 'EQUAL_TO':
-        return SalesforceConnectorOperator.equalTo;
-      case 'NOT_EQUAL_TO':
-        return SalesforceConnectorOperator.notEqualTo;
-      case 'ADDITION':
-        return SalesforceConnectorOperator.addition;
-      case 'MULTIPLICATION':
-        return SalesforceConnectorOperator.multiplication;
-      case 'DIVISION':
-        return SalesforceConnectorOperator.division;
-      case 'SUBTRACTION':
-        return SalesforceConnectorOperator.subtraction;
-      case 'MASK_ALL':
-        return SalesforceConnectorOperator.maskAll;
-      case 'MASK_FIRST_N':
-        return SalesforceConnectorOperator.maskFirstN;
-      case 'MASK_LAST_N':
-        return SalesforceConnectorOperator.maskLastN;
-      case 'VALIDATE_NON_NULL':
-        return SalesforceConnectorOperator.validateNonNull;
-      case 'VALIDATE_NON_ZERO':
-        return SalesforceConnectorOperator.validateNonZero;
-      case 'VALIDATE_NON_NEGATIVE':
-        return SalesforceConnectorOperator.validateNonNegative;
-      case 'VALIDATE_NUMERIC':
-        return SalesforceConnectorOperator.validateNumeric;
-      case 'NO_OP':
-        return SalesforceConnectorOperator.noOp;
-    }
-    throw Exception('$this is not known in enum SalesforceConnectorOperator');
-  }
+  const SalesforceConnectorOperator(this.value);
+
+  static SalesforceConnectorOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SalesforceConnectorOperator'));
 }
 
 /// The properties that are applied when Salesforce is being used as a source.
@@ -8714,7 +8169,7 @@ class ScheduledTriggerProperties {
     final timezone = this.timezone;
     return {
       'ScheduleExpression': scheduleExpression,
-      if (dataPullMode != null) 'DataPullMode': dataPullMode.toValue(),
+      if (dataPullMode != null) 'DataPullMode': dataPullMode.value,
       if (firstExecutionFrom != null)
         'FirstExecutionFrom': unixTimestampToJson(firstExecutionFrom),
       if (scheduleEndTime != null)
@@ -8760,127 +8215,37 @@ class SearchProfilesResponse {
 }
 
 enum ServiceNowConnectorOperator {
-  projection,
-  contains,
-  lessThan,
-  greaterThan,
-  between,
-  lessThanOrEqualTo,
-  greaterThanOrEqualTo,
-  equalTo,
-  notEqualTo,
-  addition,
-  multiplication,
-  division,
-  subtraction,
-  maskAll,
-  maskFirstN,
-  maskLastN,
-  validateNonNull,
-  validateNonZero,
-  validateNonNegative,
-  validateNumeric,
-  noOp,
-}
+  projection('PROJECTION'),
+  contains('CONTAINS'),
+  lessThan('LESS_THAN'),
+  greaterThan('GREATER_THAN'),
+  between('BETWEEN'),
+  lessThanOrEqualTo('LESS_THAN_OR_EQUAL_TO'),
+  greaterThanOrEqualTo('GREATER_THAN_OR_EQUAL_TO'),
+  equalTo('EQUAL_TO'),
+  notEqualTo('NOT_EQUAL_TO'),
+  addition('ADDITION'),
+  multiplication('MULTIPLICATION'),
+  division('DIVISION'),
+  subtraction('SUBTRACTION'),
+  maskAll('MASK_ALL'),
+  maskFirstN('MASK_FIRST_N'),
+  maskLastN('MASK_LAST_N'),
+  validateNonNull('VALIDATE_NON_NULL'),
+  validateNonZero('VALIDATE_NON_ZERO'),
+  validateNonNegative('VALIDATE_NON_NEGATIVE'),
+  validateNumeric('VALIDATE_NUMERIC'),
+  noOp('NO_OP'),
+  ;
 
-extension ServiceNowConnectorOperatorValueExtension
-    on ServiceNowConnectorOperator {
-  String toValue() {
-    switch (this) {
-      case ServiceNowConnectorOperator.projection:
-        return 'PROJECTION';
-      case ServiceNowConnectorOperator.contains:
-        return 'CONTAINS';
-      case ServiceNowConnectorOperator.lessThan:
-        return 'LESS_THAN';
-      case ServiceNowConnectorOperator.greaterThan:
-        return 'GREATER_THAN';
-      case ServiceNowConnectorOperator.between:
-        return 'BETWEEN';
-      case ServiceNowConnectorOperator.lessThanOrEqualTo:
-        return 'LESS_THAN_OR_EQUAL_TO';
-      case ServiceNowConnectorOperator.greaterThanOrEqualTo:
-        return 'GREATER_THAN_OR_EQUAL_TO';
-      case ServiceNowConnectorOperator.equalTo:
-        return 'EQUAL_TO';
-      case ServiceNowConnectorOperator.notEqualTo:
-        return 'NOT_EQUAL_TO';
-      case ServiceNowConnectorOperator.addition:
-        return 'ADDITION';
-      case ServiceNowConnectorOperator.multiplication:
-        return 'MULTIPLICATION';
-      case ServiceNowConnectorOperator.division:
-        return 'DIVISION';
-      case ServiceNowConnectorOperator.subtraction:
-        return 'SUBTRACTION';
-      case ServiceNowConnectorOperator.maskAll:
-        return 'MASK_ALL';
-      case ServiceNowConnectorOperator.maskFirstN:
-        return 'MASK_FIRST_N';
-      case ServiceNowConnectorOperator.maskLastN:
-        return 'MASK_LAST_N';
-      case ServiceNowConnectorOperator.validateNonNull:
-        return 'VALIDATE_NON_NULL';
-      case ServiceNowConnectorOperator.validateNonZero:
-        return 'VALIDATE_NON_ZERO';
-      case ServiceNowConnectorOperator.validateNonNegative:
-        return 'VALIDATE_NON_NEGATIVE';
-      case ServiceNowConnectorOperator.validateNumeric:
-        return 'VALIDATE_NUMERIC';
-      case ServiceNowConnectorOperator.noOp:
-        return 'NO_OP';
-    }
-  }
-}
+  final String value;
 
-extension ServiceNowConnectorOperatorFromString on String {
-  ServiceNowConnectorOperator toServiceNowConnectorOperator() {
-    switch (this) {
-      case 'PROJECTION':
-        return ServiceNowConnectorOperator.projection;
-      case 'CONTAINS':
-        return ServiceNowConnectorOperator.contains;
-      case 'LESS_THAN':
-        return ServiceNowConnectorOperator.lessThan;
-      case 'GREATER_THAN':
-        return ServiceNowConnectorOperator.greaterThan;
-      case 'BETWEEN':
-        return ServiceNowConnectorOperator.between;
-      case 'LESS_THAN_OR_EQUAL_TO':
-        return ServiceNowConnectorOperator.lessThanOrEqualTo;
-      case 'GREATER_THAN_OR_EQUAL_TO':
-        return ServiceNowConnectorOperator.greaterThanOrEqualTo;
-      case 'EQUAL_TO':
-        return ServiceNowConnectorOperator.equalTo;
-      case 'NOT_EQUAL_TO':
-        return ServiceNowConnectorOperator.notEqualTo;
-      case 'ADDITION':
-        return ServiceNowConnectorOperator.addition;
-      case 'MULTIPLICATION':
-        return ServiceNowConnectorOperator.multiplication;
-      case 'DIVISION':
-        return ServiceNowConnectorOperator.division;
-      case 'SUBTRACTION':
-        return ServiceNowConnectorOperator.subtraction;
-      case 'MASK_ALL':
-        return ServiceNowConnectorOperator.maskAll;
-      case 'MASK_FIRST_N':
-        return ServiceNowConnectorOperator.maskFirstN;
-      case 'MASK_LAST_N':
-        return ServiceNowConnectorOperator.maskLastN;
-      case 'VALIDATE_NON_NULL':
-        return ServiceNowConnectorOperator.validateNonNull;
-      case 'VALIDATE_NON_ZERO':
-        return ServiceNowConnectorOperator.validateNonZero;
-      case 'VALIDATE_NON_NEGATIVE':
-        return ServiceNowConnectorOperator.validateNonNegative;
-      case 'VALIDATE_NUMERIC':
-        return ServiceNowConnectorOperator.validateNumeric;
-      case 'NO_OP':
-        return ServiceNowConnectorOperator.noOp;
-    }
-    throw Exception('$this is not known in enum ServiceNowConnectorOperator');
-  }
+  const ServiceNowConnectorOperator(this.value);
+
+  static ServiceNowConnectorOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ServiceNowConnectorOperator'));
 }
 
 /// The properties that are applied when ServiceNow is being used as a source.
@@ -8945,46 +8310,21 @@ class SourceConnectorProperties {
 }
 
 enum SourceConnectorType {
-  salesforce,
-  marketo,
-  zendesk,
-  servicenow,
-  s3,
-}
+  salesforce('Salesforce'),
+  marketo('Marketo'),
+  zendesk('Zendesk'),
+  servicenow('Servicenow'),
+  s3('S3'),
+  ;
 
-extension SourceConnectorTypeValueExtension on SourceConnectorType {
-  String toValue() {
-    switch (this) {
-      case SourceConnectorType.salesforce:
-        return 'Salesforce';
-      case SourceConnectorType.marketo:
-        return 'Marketo';
-      case SourceConnectorType.zendesk:
-        return 'Zendesk';
-      case SourceConnectorType.servicenow:
-        return 'Servicenow';
-      case SourceConnectorType.s3:
-        return 'S3';
-    }
-  }
-}
+  final String value;
 
-extension SourceConnectorTypeFromString on String {
-  SourceConnectorType toSourceConnectorType() {
-    switch (this) {
-      case 'Salesforce':
-        return SourceConnectorType.salesforce;
-      case 'Marketo':
-        return SourceConnectorType.marketo;
-      case 'Zendesk':
-        return SourceConnectorType.zendesk;
-      case 'Servicenow':
-        return SourceConnectorType.servicenow;
-      case 'S3':
-        return SourceConnectorType.s3;
-    }
-    throw Exception('$this is not known in enum SourceConnectorType');
-  }
+  const SourceConnectorType(this.value);
+
+  static SourceConnectorType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SourceConnectorType'));
 }
 
 /// Contains information about the configuration of the source connector used in
@@ -9019,7 +8359,7 @@ class SourceFlowConfig {
     final connectorProfileName = this.connectorProfileName;
     final incrementalPullConfig = this.incrementalPullConfig;
     return {
-      'ConnectorType': connectorType.toValue(),
+      'ConnectorType': connectorType.value,
       'SourceConnectorProperties': sourceConnectorProperties,
       if (connectorProfileName != null)
         'ConnectorProfileName': connectorProfileName,
@@ -9030,172 +8370,63 @@ class SourceFlowConfig {
 }
 
 enum StandardIdentifier {
-  profile,
-  asset,
-  $case,
-  unique,
-  secondary,
-  lookupOnly,
-  newOnly,
-  order,
-}
+  profile('PROFILE'),
+  asset('ASSET'),
+  $case('CASE'),
+  unique('UNIQUE'),
+  secondary('SECONDARY'),
+  lookupOnly('LOOKUP_ONLY'),
+  newOnly('NEW_ONLY'),
+  order('ORDER'),
+  ;
 
-extension StandardIdentifierValueExtension on StandardIdentifier {
-  String toValue() {
-    switch (this) {
-      case StandardIdentifier.profile:
-        return 'PROFILE';
-      case StandardIdentifier.asset:
-        return 'ASSET';
-      case StandardIdentifier.$case:
-        return 'CASE';
-      case StandardIdentifier.unique:
-        return 'UNIQUE';
-      case StandardIdentifier.secondary:
-        return 'SECONDARY';
-      case StandardIdentifier.lookupOnly:
-        return 'LOOKUP_ONLY';
-      case StandardIdentifier.newOnly:
-        return 'NEW_ONLY';
-      case StandardIdentifier.order:
-        return 'ORDER';
-    }
-  }
-}
+  final String value;
 
-extension StandardIdentifierFromString on String {
-  StandardIdentifier toStandardIdentifier() {
-    switch (this) {
-      case 'PROFILE':
-        return StandardIdentifier.profile;
-      case 'ASSET':
-        return StandardIdentifier.asset;
-      case 'CASE':
-        return StandardIdentifier.$case;
-      case 'UNIQUE':
-        return StandardIdentifier.unique;
-      case 'SECONDARY':
-        return StandardIdentifier.secondary;
-      case 'LOOKUP_ONLY':
-        return StandardIdentifier.lookupOnly;
-      case 'NEW_ONLY':
-        return StandardIdentifier.newOnly;
-      case 'ORDER':
-        return StandardIdentifier.order;
-    }
-    throw Exception('$this is not known in enum StandardIdentifier');
-  }
+  const StandardIdentifier(this.value);
+
+  static StandardIdentifier fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum StandardIdentifier'));
 }
 
 enum Statistic {
-  firstOccurrence,
-  lastOccurrence,
-  count,
-  sum,
-  minimum,
-  maximum,
-  average,
-  maxOccurrence,
-}
+  firstOccurrence('FIRST_OCCURRENCE'),
+  lastOccurrence('LAST_OCCURRENCE'),
+  count('COUNT'),
+  sum('SUM'),
+  minimum('MINIMUM'),
+  maximum('MAXIMUM'),
+  average('AVERAGE'),
+  maxOccurrence('MAX_OCCURRENCE'),
+  ;
 
-extension StatisticValueExtension on Statistic {
-  String toValue() {
-    switch (this) {
-      case Statistic.firstOccurrence:
-        return 'FIRST_OCCURRENCE';
-      case Statistic.lastOccurrence:
-        return 'LAST_OCCURRENCE';
-      case Statistic.count:
-        return 'COUNT';
-      case Statistic.sum:
-        return 'SUM';
-      case Statistic.minimum:
-        return 'MINIMUM';
-      case Statistic.maximum:
-        return 'MAXIMUM';
-      case Statistic.average:
-        return 'AVERAGE';
-      case Statistic.maxOccurrence:
-        return 'MAX_OCCURRENCE';
-    }
-  }
-}
+  final String value;
 
-extension StatisticFromString on String {
-  Statistic toStatistic() {
-    switch (this) {
-      case 'FIRST_OCCURRENCE':
-        return Statistic.firstOccurrence;
-      case 'LAST_OCCURRENCE':
-        return Statistic.lastOccurrence;
-      case 'COUNT':
-        return Statistic.count;
-      case 'SUM':
-        return Statistic.sum;
-      case 'MINIMUM':
-        return Statistic.minimum;
-      case 'MAXIMUM':
-        return Statistic.maximum;
-      case 'AVERAGE':
-        return Statistic.average;
-      case 'MAX_OCCURRENCE':
-        return Statistic.maxOccurrence;
-    }
-    throw Exception('$this is not known in enum Statistic');
-  }
+  const Statistic(this.value);
+
+  static Statistic fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Statistic'));
 }
 
 enum Status {
-  notStarted,
-  inProgress,
-  complete,
-  failed,
-  split,
-  retry,
-  cancelled,
-}
+  notStarted('NOT_STARTED'),
+  inProgress('IN_PROGRESS'),
+  complete('COMPLETE'),
+  failed('FAILED'),
+  split('SPLIT'),
+  retry('RETRY'),
+  cancelled('CANCELLED'),
+  ;
 
-extension StatusValueExtension on Status {
-  String toValue() {
-    switch (this) {
-      case Status.notStarted:
-        return 'NOT_STARTED';
-      case Status.inProgress:
-        return 'IN_PROGRESS';
-      case Status.complete:
-        return 'COMPLETE';
-      case Status.failed:
-        return 'FAILED';
-      case Status.split:
-        return 'SPLIT';
-      case Status.retry:
-        return 'RETRY';
-      case Status.cancelled:
-        return 'CANCELLED';
-    }
-  }
-}
+  final String value;
 
-extension StatusFromString on String {
-  Status toStatus() {
-    switch (this) {
-      case 'NOT_STARTED':
-        return Status.notStarted;
-      case 'IN_PROGRESS':
-        return Status.inProgress;
-      case 'COMPLETE':
-        return Status.complete;
-      case 'FAILED':
-        return Status.failed;
-      case 'SPLIT':
-        return Status.split;
-      case 'RETRY':
-        return Status.retry;
-      case 'CANCELLED':
-        return Status.cancelled;
-    }
-    throw Exception('$this is not known in enum Status');
-  }
+  const Status(this.value);
+
+  static Status fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Status'));
 }
 
 class TagResourceResponse {
@@ -9246,67 +8477,32 @@ class Task {
     final taskProperties = this.taskProperties;
     return {
       'SourceFields': sourceFields,
-      'TaskType': taskType.toValue(),
+      'TaskType': taskType.value,
       if (connectorOperator != null) 'ConnectorOperator': connectorOperator,
       if (destinationField != null) 'DestinationField': destinationField,
       if (taskProperties != null)
-        'TaskProperties':
-            taskProperties.map((k, e) => MapEntry(k.toValue(), e)),
+        'TaskProperties': taskProperties.map((k, e) => MapEntry(k.value, e)),
     };
   }
 }
 
 enum TaskType {
-  arithmetic,
-  filter,
-  map,
-  mask,
-  merge,
-  truncate,
-  validate,
-}
+  arithmetic('Arithmetic'),
+  filter('Filter'),
+  map('Map'),
+  mask('Mask'),
+  merge('Merge'),
+  truncate('Truncate'),
+  validate('Validate'),
+  ;
 
-extension TaskTypeValueExtension on TaskType {
-  String toValue() {
-    switch (this) {
-      case TaskType.arithmetic:
-        return 'Arithmetic';
-      case TaskType.filter:
-        return 'Filter';
-      case TaskType.map:
-        return 'Map';
-      case TaskType.mask:
-        return 'Mask';
-      case TaskType.merge:
-        return 'Merge';
-      case TaskType.truncate:
-        return 'Truncate';
-      case TaskType.validate:
-        return 'Validate';
-    }
-  }
-}
+  final String value;
 
-extension TaskTypeFromString on String {
-  TaskType toTaskType() {
-    switch (this) {
-      case 'Arithmetic':
-        return TaskType.arithmetic;
-      case 'Filter':
-        return TaskType.filter;
-      case 'Map':
-        return TaskType.map;
-      case 'Mask':
-        return TaskType.mask;
-      case 'Merge':
-        return TaskType.merge;
-      case 'Truncate':
-        return TaskType.truncate;
-      case 'Validate':
-        return TaskType.validate;
-    }
-    throw Exception('$this is not known in enum TaskType');
-  }
+  const TaskType(this.value);
+
+  static TaskType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TaskType'));
 }
 
 /// The threshold for the calculated attribute.
@@ -9324,7 +8520,7 @@ class Threshold {
 
   factory Threshold.fromJson(Map<String, dynamic> json) {
     return Threshold(
-      operator: (json['Operator'] as String).toOperator(),
+      operator: Operator.fromString((json['Operator'] as String)),
       value: json['Value'] as String,
     );
   }
@@ -9333,7 +8529,7 @@ class Threshold {
     final operator = this.operator;
     final value = this.value;
     return {
-      'Operator': operator.toValue(),
+      'Operator': operator.value,
       'Value': value,
     };
   }
@@ -9358,7 +8554,7 @@ class TriggerConfig {
     final triggerType = this.triggerType;
     final triggerProperties = this.triggerProperties;
     return {
-      'TriggerType': triggerType.toValue(),
+      'TriggerType': triggerType.value,
       if (triggerProperties != null) 'TriggerProperties': triggerProperties,
     };
   }
@@ -9384,59 +8580,31 @@ class TriggerProperties {
 }
 
 enum TriggerType {
-  scheduled,
-  event,
-  onDemand,
-}
+  scheduled('Scheduled'),
+  event('Event'),
+  onDemand('OnDemand'),
+  ;
 
-extension TriggerTypeValueExtension on TriggerType {
-  String toValue() {
-    switch (this) {
-      case TriggerType.scheduled:
-        return 'Scheduled';
-      case TriggerType.event:
-        return 'Event';
-      case TriggerType.onDemand:
-        return 'OnDemand';
-    }
-  }
-}
+  final String value;
 
-extension TriggerTypeFromString on String {
-  TriggerType toTriggerType() {
-    switch (this) {
-      case 'Scheduled':
-        return TriggerType.scheduled;
-      case 'Event':
-        return TriggerType.event;
-      case 'OnDemand':
-        return TriggerType.onDemand;
-    }
-    throw Exception('$this is not known in enum TriggerType');
-  }
+  const TriggerType(this.value);
+
+  static TriggerType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TriggerType'));
 }
 
 enum Unit {
-  days,
-}
+  days('DAYS'),
+  ;
 
-extension UnitValueExtension on Unit {
-  String toValue() {
-    switch (this) {
-      case Unit.days:
-        return 'DAYS';
-    }
-  }
-}
+  final String value;
 
-extension UnitFromString on String {
-  Unit toUnit() {
-    switch (this) {
-      case 'DAYS':
-        return Unit.days;
-    }
-    throw Exception('$this is not known in enum Unit');
-  }
+  const Unit(this.value);
+
+  static Unit fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Unit'));
 }
 
 class UntagResourceResponse {
@@ -9580,7 +8748,7 @@ class UpdateCalculatedAttributeDefinitionResponse {
       description: json['Description'] as String?,
       displayName: json['DisplayName'] as String?,
       lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
-      statistic: (json['Statistic'] as String?)?.toStatistic(),
+      statistic: (json['Statistic'] as String?)?.let(Statistic.fromString),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -9606,7 +8774,7 @@ class UpdateCalculatedAttributeDefinitionResponse {
       if (displayName != null) 'DisplayName': displayName,
       if (lastUpdatedAt != null)
         'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
-      if (statistic != null) 'Statistic': statistic.toValue(),
+      if (statistic != null) 'Statistic': statistic.value,
       if (tags != null) 'Tags': tags,
     };
   }
@@ -9821,114 +8989,44 @@ class WorkflowStepItem {
 }
 
 enum WorkflowType {
-  appflowIntegration,
-}
+  appflowIntegration('APPFLOW_INTEGRATION'),
+  ;
 
-extension WorkflowTypeValueExtension on WorkflowType {
-  String toValue() {
-    switch (this) {
-      case WorkflowType.appflowIntegration:
-        return 'APPFLOW_INTEGRATION';
-    }
-  }
-}
+  final String value;
 
-extension WorkflowTypeFromString on String {
-  WorkflowType toWorkflowType() {
-    switch (this) {
-      case 'APPFLOW_INTEGRATION':
-        return WorkflowType.appflowIntegration;
-    }
-    throw Exception('$this is not known in enum WorkflowType');
-  }
+  const WorkflowType(this.value);
+
+  static WorkflowType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum WorkflowType'));
 }
 
 enum ZendeskConnectorOperator {
-  projection,
-  greaterThan,
-  addition,
-  multiplication,
-  division,
-  subtraction,
-  maskAll,
-  maskFirstN,
-  maskLastN,
-  validateNonNull,
-  validateNonZero,
-  validateNonNegative,
-  validateNumeric,
-  noOp,
-}
+  projection('PROJECTION'),
+  greaterThan('GREATER_THAN'),
+  addition('ADDITION'),
+  multiplication('MULTIPLICATION'),
+  division('DIVISION'),
+  subtraction('SUBTRACTION'),
+  maskAll('MASK_ALL'),
+  maskFirstN('MASK_FIRST_N'),
+  maskLastN('MASK_LAST_N'),
+  validateNonNull('VALIDATE_NON_NULL'),
+  validateNonZero('VALIDATE_NON_ZERO'),
+  validateNonNegative('VALIDATE_NON_NEGATIVE'),
+  validateNumeric('VALIDATE_NUMERIC'),
+  noOp('NO_OP'),
+  ;
 
-extension ZendeskConnectorOperatorValueExtension on ZendeskConnectorOperator {
-  String toValue() {
-    switch (this) {
-      case ZendeskConnectorOperator.projection:
-        return 'PROJECTION';
-      case ZendeskConnectorOperator.greaterThan:
-        return 'GREATER_THAN';
-      case ZendeskConnectorOperator.addition:
-        return 'ADDITION';
-      case ZendeskConnectorOperator.multiplication:
-        return 'MULTIPLICATION';
-      case ZendeskConnectorOperator.division:
-        return 'DIVISION';
-      case ZendeskConnectorOperator.subtraction:
-        return 'SUBTRACTION';
-      case ZendeskConnectorOperator.maskAll:
-        return 'MASK_ALL';
-      case ZendeskConnectorOperator.maskFirstN:
-        return 'MASK_FIRST_N';
-      case ZendeskConnectorOperator.maskLastN:
-        return 'MASK_LAST_N';
-      case ZendeskConnectorOperator.validateNonNull:
-        return 'VALIDATE_NON_NULL';
-      case ZendeskConnectorOperator.validateNonZero:
-        return 'VALIDATE_NON_ZERO';
-      case ZendeskConnectorOperator.validateNonNegative:
-        return 'VALIDATE_NON_NEGATIVE';
-      case ZendeskConnectorOperator.validateNumeric:
-        return 'VALIDATE_NUMERIC';
-      case ZendeskConnectorOperator.noOp:
-        return 'NO_OP';
-    }
-  }
-}
+  final String value;
 
-extension ZendeskConnectorOperatorFromString on String {
-  ZendeskConnectorOperator toZendeskConnectorOperator() {
-    switch (this) {
-      case 'PROJECTION':
-        return ZendeskConnectorOperator.projection;
-      case 'GREATER_THAN':
-        return ZendeskConnectorOperator.greaterThan;
-      case 'ADDITION':
-        return ZendeskConnectorOperator.addition;
-      case 'MULTIPLICATION':
-        return ZendeskConnectorOperator.multiplication;
-      case 'DIVISION':
-        return ZendeskConnectorOperator.division;
-      case 'SUBTRACTION':
-        return ZendeskConnectorOperator.subtraction;
-      case 'MASK_ALL':
-        return ZendeskConnectorOperator.maskAll;
-      case 'MASK_FIRST_N':
-        return ZendeskConnectorOperator.maskFirstN;
-      case 'MASK_LAST_N':
-        return ZendeskConnectorOperator.maskLastN;
-      case 'VALIDATE_NON_NULL':
-        return ZendeskConnectorOperator.validateNonNull;
-      case 'VALIDATE_NON_ZERO':
-        return ZendeskConnectorOperator.validateNonZero;
-      case 'VALIDATE_NON_NEGATIVE':
-        return ZendeskConnectorOperator.validateNonNegative;
-      case 'VALIDATE_NUMERIC':
-        return ZendeskConnectorOperator.validateNumeric;
-      case 'NO_OP':
-        return ZendeskConnectorOperator.noOp;
-    }
-    throw Exception('$this is not known in enum ZendeskConnectorOperator');
-  }
+  const ZendeskConnectorOperator(this.value);
+
+  static ZendeskConnectorOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ZendeskConnectorOperator'));
 }
 
 /// The properties that are applied when using Zendesk as a flow source.
@@ -9949,31 +9047,18 @@ class ZendeskSourceProperties {
 }
 
 enum LogicalOperator {
-  and,
-  or,
-}
+  and('AND'),
+  or('OR'),
+  ;
 
-extension LogicalOperatorValueExtension on LogicalOperator {
-  String toValue() {
-    switch (this) {
-      case LogicalOperator.and:
-        return 'AND';
-      case LogicalOperator.or:
-        return 'OR';
-    }
-  }
-}
+  final String value;
 
-extension LogicalOperatorFromString on String {
-  LogicalOperator toLogicalOperator() {
-    switch (this) {
-      case 'AND':
-        return LogicalOperator.and;
-      case 'OR':
-        return LogicalOperator.or;
-    }
-    throw Exception('$this is not known in enum LogicalOperator');
-  }
+  const LogicalOperator(this.value);
+
+  static LogicalOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LogicalOperator'));
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

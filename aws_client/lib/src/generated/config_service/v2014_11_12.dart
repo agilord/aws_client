@@ -915,7 +915,7 @@ class ConfigService {
       headers: headers,
       payload: {
         if (complianceTypes != null)
-          'ComplianceTypes': complianceTypes.map((e) => e.toValue()).toList(),
+          'ComplianceTypes': complianceTypes.map((e) => e.value).toList(),
         if (configRuleNames != null) 'ConfigRuleNames': configRuleNames,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -1007,7 +1007,7 @@ class ConfigService {
       headers: headers,
       payload: {
         if (complianceTypes != null)
-          'ComplianceTypes': complianceTypes.map((e) => e.toValue()).toList(),
+          'ComplianceTypes': complianceTypes.map((e) => e.value).toList(),
         if (limit != null) 'Limit': limit,
         if (nextToken != null) 'NextToken': nextToken,
         if (resourceId != null) 'ResourceId': resourceId,
@@ -1187,7 +1187,7 @@ class ConfigService {
         if (limit != null) 'Limit': limit,
         if (nextToken != null) 'NextToken': nextToken,
         if (updateStatus != null)
-          'UpdateStatus': updateStatus.map((e) => e.toValue()).toList(),
+          'UpdateStatus': updateStatus.map((e) => e.value).toList(),
       },
     );
 
@@ -2152,7 +2152,7 @@ class ConfigService {
         'AwsRegion': awsRegion,
         'ConfigRuleName': configRuleName,
         'ConfigurationAggregatorName': configurationAggregatorName,
-        if (complianceType != null) 'ComplianceType': complianceType.toValue(),
+        if (complianceType != null) 'ComplianceType': complianceType.value,
         if (limit != null) 'Limit': limit,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -2220,7 +2220,7 @@ class ConfigService {
       payload: {
         'ConfigurationAggregatorName': configurationAggregatorName,
         if (filters != null) 'Filters': filters,
-        if (groupByKey != null) 'GroupByKey': groupByKey.toValue(),
+        if (groupByKey != null) 'GroupByKey': groupByKey.value,
         if (limit != null) 'Limit': limit,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -2290,7 +2290,7 @@ class ConfigService {
       payload: {
         'ConfigurationAggregatorName': configurationAggregatorName,
         if (filters != null) 'Filters': filters,
-        if (groupByKey != null) 'GroupByKey': groupByKey.toValue(),
+        if (groupByKey != null) 'GroupByKey': groupByKey.value,
         if (limit != null) 'Limit': limit,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -2359,7 +2359,7 @@ class ConfigService {
       payload: {
         'ConfigurationAggregatorName': configurationAggregatorName,
         if (filters != null) 'Filters': filters,
-        if (groupByKey != null) 'GroupByKey': groupByKey.toValue(),
+        if (groupByKey != null) 'GroupByKey': groupByKey.value,
         if (limit != null) 'Limit': limit,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -2459,7 +2459,7 @@ class ConfigService {
       payload: {
         'ConfigRuleName': configRuleName,
         if (complianceTypes != null)
-          'ComplianceTypes': complianceTypes.map((e) => e.toValue()).toList(),
+          'ComplianceTypes': complianceTypes.map((e) => e.value).toList(),
         if (limit != null) 'Limit': limit,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -2522,7 +2522,7 @@ class ConfigService {
       headers: headers,
       payload: {
         if (complianceTypes != null)
-          'ComplianceTypes': complianceTypes.map((e) => e.toValue()).toList(),
+          'ComplianceTypes': complianceTypes.map((e) => e.value).toList(),
         if (nextToken != null) 'NextToken': nextToken,
         if (resourceEvaluationId != null)
           'ResourceEvaluationId': resourceEvaluationId,
@@ -3070,9 +3070,9 @@ class ConfigService {
       headers: headers,
       payload: {
         'resourceId': resourceId,
-        'resourceType': resourceType.toValue(),
+        'resourceType': resourceType.value,
         if (chronologicalOrder != null)
-          'chronologicalOrder': chronologicalOrder.toValue(),
+          'chronologicalOrder': chronologicalOrder.value,
         if (earlierTime != null)
           'earlierTime': unixTimestampToJson(earlierTime),
         if (laterTime != null) 'laterTime': unixTimestampToJson(laterTime),
@@ -3212,7 +3212,7 @@ class ConfigService {
       headers: headers,
       payload: {
         'ConfigurationAggregatorName': configurationAggregatorName,
-        'ResourceType': resourceType.toValue(),
+        'ResourceType': resourceType.value,
         if (filters != null) 'Filters': filters,
         if (limit != null) 'Limit': limit,
         if (nextToken != null) 'NextToken': nextToken,
@@ -3303,8 +3303,8 @@ class ConfigService {
         if (filters != null) 'Filters': filters,
         if (limit != null) 'Limit': limit,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -3385,7 +3385,7 @@ class ConfigService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'resourceType': resourceType.toValue(),
+        'resourceType': resourceType.value,
         if (includeDeletedResources != null)
           'includeDeletedResources': includeDeletedResources,
         if (limit != null) 'limit': limit,
@@ -5001,7 +5001,7 @@ class ConfigService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EvaluationMode': evaluationMode.toValue(),
+        'EvaluationMode': evaluationMode.value,
         'ResourceDetails': resourceDetails,
         if (clientToken != null) 'ClientToken': clientToken,
         if (evaluationContext != null) 'EvaluationContext': evaluationContext,
@@ -5339,7 +5339,7 @@ class AggregateConformancePackCompliance {
       Map<String, dynamic> json) {
     return AggregateConformancePackCompliance(
       complianceType: (json['ComplianceType'] as String?)
-          ?.toConformancePackComplianceType(),
+          ?.let(ConformancePackComplianceType.fromString),
       compliantRuleCount: json['CompliantRuleCount'] as int?,
       nonCompliantRuleCount: json['NonCompliantRuleCount'] as int?,
       totalRuleCount: json['TotalRuleCount'] as int?,
@@ -5352,7 +5352,7 @@ class AggregateConformancePackCompliance {
     final nonCompliantRuleCount = this.nonCompliantRuleCount;
     final totalRuleCount = this.totalRuleCount;
     return {
-      if (complianceType != null) 'ComplianceType': complianceType.toValue(),
+      if (complianceType != null) 'ComplianceType': complianceType.value,
       if (compliantRuleCount != null) 'CompliantRuleCount': compliantRuleCount,
       if (nonCompliantRuleCount != null)
         'NonCompliantRuleCount': nonCompliantRuleCount,
@@ -5427,7 +5427,7 @@ class AggregateConformancePackComplianceFilters {
     return {
       if (accountId != null) 'AccountId': accountId,
       if (awsRegion != null) 'AwsRegion': awsRegion,
-      if (complianceType != null) 'ComplianceType': complianceType.toValue(),
+      if (complianceType != null) 'ComplianceType': complianceType.value,
       if (conformancePackName != null)
         'ConformancePackName': conformancePackName,
     };
@@ -5493,35 +5493,19 @@ class AggregateConformancePackComplianceSummaryFilters {
 }
 
 enum AggregateConformancePackComplianceSummaryGroupKey {
-  accountId,
-  awsRegion,
-}
+  accountId('ACCOUNT_ID'),
+  awsRegion('AWS_REGION'),
+  ;
 
-extension AggregateConformancePackComplianceSummaryGroupKeyValueExtension
-    on AggregateConformancePackComplianceSummaryGroupKey {
-  String toValue() {
-    switch (this) {
-      case AggregateConformancePackComplianceSummaryGroupKey.accountId:
-        return 'ACCOUNT_ID';
-      case AggregateConformancePackComplianceSummaryGroupKey.awsRegion:
-        return 'AWS_REGION';
-    }
-  }
-}
+  final String value;
 
-extension AggregateConformancePackComplianceSummaryGroupKeyFromString
-    on String {
-  AggregateConformancePackComplianceSummaryGroupKey
-      toAggregateConformancePackComplianceSummaryGroupKey() {
-    switch (this) {
-      case 'ACCOUNT_ID':
-        return AggregateConformancePackComplianceSummaryGroupKey.accountId;
-      case 'AWS_REGION':
-        return AggregateConformancePackComplianceSummaryGroupKey.awsRegion;
-    }
-    throw Exception(
-        '$this is not known in enum AggregateConformancePackComplianceSummaryGroupKey');
-  }
+  const AggregateConformancePackComplianceSummaryGroupKey(this.value);
+
+  static AggregateConformancePackComplianceSummaryGroupKey fromString(
+          String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AggregateConformancePackComplianceSummaryGroupKey'));
 }
 
 /// The details of an Config evaluation for an account ID and region in an
@@ -5571,7 +5555,8 @@ class AggregateEvaluationResult {
       accountId: json['AccountId'] as String?,
       annotation: json['Annotation'] as String?,
       awsRegion: json['AwsRegion'] as String?,
-      complianceType: (json['ComplianceType'] as String?)?.toComplianceType(),
+      complianceType:
+          (json['ComplianceType'] as String?)?.let(ComplianceType.fromString),
       configRuleInvokedTime: timeStampFromJson(json['ConfigRuleInvokedTime']),
       evaluationResultIdentifier: json['EvaluationResultIdentifier'] != null
           ? EvaluationResultIdentifier.fromJson(
@@ -5593,7 +5578,7 @@ class AggregateEvaluationResult {
       if (accountId != null) 'AccountId': accountId,
       if (annotation != null) 'Annotation': annotation,
       if (awsRegion != null) 'AwsRegion': awsRegion,
-      if (complianceType != null) 'ComplianceType': complianceType.toValue(),
+      if (complianceType != null) 'ComplianceType': complianceType.value,
       if (configRuleInvokedTime != null)
         'ConfigRuleInvokedTime': unixTimestampToJson(configRuleInvokedTime),
       if (evaluationResultIdentifier != null)
@@ -5634,7 +5619,7 @@ class AggregateResourceIdentifier {
   factory AggregateResourceIdentifier.fromJson(Map<String, dynamic> json) {
     return AggregateResourceIdentifier(
       resourceId: json['ResourceId'] as String,
-      resourceType: (json['ResourceType'] as String).toResourceType(),
+      resourceType: ResourceType.fromString((json['ResourceType'] as String)),
       sourceAccountId: json['SourceAccountId'] as String,
       sourceRegion: json['SourceRegion'] as String,
       resourceName: json['ResourceName'] as String?,
@@ -5649,7 +5634,7 @@ class AggregateResourceIdentifier {
     final resourceName = this.resourceName;
     return {
       'ResourceId': resourceId,
-      'ResourceType': resourceType.toValue(),
+      'ResourceType': resourceType.value,
       'SourceAccountId': sourceAccountId,
       'SourceRegion': sourceRegion,
       if (resourceName != null) 'ResourceName': resourceName,
@@ -5709,11 +5694,12 @@ class AggregatedSourceStatus {
       awsRegion: json['AwsRegion'] as String?,
       lastErrorCode: json['LastErrorCode'] as String?,
       lastErrorMessage: json['LastErrorMessage'] as String?,
-      lastUpdateStatus:
-          (json['LastUpdateStatus'] as String?)?.toAggregatedSourceStatusType(),
+      lastUpdateStatus: (json['LastUpdateStatus'] as String?)
+          ?.let(AggregatedSourceStatusType.fromString),
       lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
       sourceId: json['SourceId'] as String?,
-      sourceType: (json['SourceType'] as String?)?.toAggregatedSourceType(),
+      sourceType:
+          (json['SourceType'] as String?)?.let(AggregatedSourceType.fromString),
     );
   }
 
@@ -5729,76 +5715,44 @@ class AggregatedSourceStatus {
       if (awsRegion != null) 'AwsRegion': awsRegion,
       if (lastErrorCode != null) 'LastErrorCode': lastErrorCode,
       if (lastErrorMessage != null) 'LastErrorMessage': lastErrorMessage,
-      if (lastUpdateStatus != null)
-        'LastUpdateStatus': lastUpdateStatus.toValue(),
+      if (lastUpdateStatus != null) 'LastUpdateStatus': lastUpdateStatus.value,
       if (lastUpdateTime != null)
         'LastUpdateTime': unixTimestampToJson(lastUpdateTime),
       if (sourceId != null) 'SourceId': sourceId,
-      if (sourceType != null) 'SourceType': sourceType.toValue(),
+      if (sourceType != null) 'SourceType': sourceType.value,
     };
   }
 }
 
 enum AggregatedSourceStatusType {
-  failed,
-  succeeded,
-  outdated,
-}
+  failed('FAILED'),
+  succeeded('SUCCEEDED'),
+  outdated('OUTDATED'),
+  ;
 
-extension AggregatedSourceStatusTypeValueExtension
-    on AggregatedSourceStatusType {
-  String toValue() {
-    switch (this) {
-      case AggregatedSourceStatusType.failed:
-        return 'FAILED';
-      case AggregatedSourceStatusType.succeeded:
-        return 'SUCCEEDED';
-      case AggregatedSourceStatusType.outdated:
-        return 'OUTDATED';
-    }
-  }
-}
+  final String value;
 
-extension AggregatedSourceStatusTypeFromString on String {
-  AggregatedSourceStatusType toAggregatedSourceStatusType() {
-    switch (this) {
-      case 'FAILED':
-        return AggregatedSourceStatusType.failed;
-      case 'SUCCEEDED':
-        return AggregatedSourceStatusType.succeeded;
-      case 'OUTDATED':
-        return AggregatedSourceStatusType.outdated;
-    }
-    throw Exception('$this is not known in enum AggregatedSourceStatusType');
-  }
+  const AggregatedSourceStatusType(this.value);
+
+  static AggregatedSourceStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AggregatedSourceStatusType'));
 }
 
 enum AggregatedSourceType {
-  account,
-  organization,
-}
+  account('ACCOUNT'),
+  organization('ORGANIZATION'),
+  ;
 
-extension AggregatedSourceTypeValueExtension on AggregatedSourceType {
-  String toValue() {
-    switch (this) {
-      case AggregatedSourceType.account:
-        return 'ACCOUNT';
-      case AggregatedSourceType.organization:
-        return 'ORGANIZATION';
-    }
-  }
-}
+  final String value;
 
-extension AggregatedSourceTypeFromString on String {
-  AggregatedSourceType toAggregatedSourceType() {
-    switch (this) {
-      case 'ACCOUNT':
-        return AggregatedSourceType.account;
-      case 'ORGANIZATION':
-        return AggregatedSourceType.organization;
-    }
-    throw Exception('$this is not known in enum AggregatedSourceType');
-  }
+  const AggregatedSourceType(this.value);
+
+  static AggregatedSourceType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AggregatedSourceType'));
 }
 
 /// An object that represents the authorizations granted to aggregator accounts
@@ -5966,14 +5920,15 @@ class BaseConfigurationItem {
       configurationItemDeliveryTime:
           timeStampFromJson(json['configurationItemDeliveryTime']),
       configurationItemStatus: (json['configurationItemStatus'] as String?)
-          ?.toConfigurationItemStatus(),
+          ?.let(ConfigurationItemStatus.fromString),
       configurationStateId: json['configurationStateId'] as String?,
-      recordingFrequency:
-          (json['recordingFrequency'] as String?)?.toRecordingFrequency(),
+      recordingFrequency: (json['recordingFrequency'] as String?)
+          ?.let(RecordingFrequency.fromString),
       resourceCreationTime: timeStampFromJson(json['resourceCreationTime']),
       resourceId: json['resourceId'] as String?,
       resourceName: json['resourceName'] as String?,
-      resourceType: (json['resourceType'] as String?)?.toResourceType(),
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
       supplementaryConfiguration:
           (json['supplementaryConfiguration'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
@@ -6011,16 +5966,16 @@ class BaseConfigurationItem {
         'configurationItemDeliveryTime':
             unixTimestampToJson(configurationItemDeliveryTime),
       if (configurationItemStatus != null)
-        'configurationItemStatus': configurationItemStatus.toValue(),
+        'configurationItemStatus': configurationItemStatus.value,
       if (configurationStateId != null)
         'configurationStateId': configurationStateId,
       if (recordingFrequency != null)
-        'recordingFrequency': recordingFrequency.toValue(),
+        'recordingFrequency': recordingFrequency.value,
       if (resourceCreationTime != null)
         'resourceCreationTime': unixTimestampToJson(resourceCreationTime),
       if (resourceId != null) 'resourceId': resourceId,
       if (resourceName != null) 'resourceName': resourceName,
-      if (resourceType != null) 'resourceType': resourceType.toValue(),
+      if (resourceType != null) 'resourceType': resourceType.value,
       if (supplementaryConfiguration != null)
         'supplementaryConfiguration': supplementaryConfiguration,
       if (version != null) 'version': version,
@@ -6111,31 +6066,18 @@ class BatchGetResourceConfigResponse {
 }
 
 enum ChronologicalOrder {
-  reverse,
-  forward,
-}
+  reverse('Reverse'),
+  forward('Forward'),
+  ;
 
-extension ChronologicalOrderValueExtension on ChronologicalOrder {
-  String toValue() {
-    switch (this) {
-      case ChronologicalOrder.reverse:
-        return 'Reverse';
-      case ChronologicalOrder.forward:
-        return 'Forward';
-    }
-  }
-}
+  final String value;
 
-extension ChronologicalOrderFromString on String {
-  ChronologicalOrder toChronologicalOrder() {
-    switch (this) {
-      case 'Reverse':
-        return ChronologicalOrder.reverse;
-      case 'Forward':
-        return ChronologicalOrder.forward;
-    }
-    throw Exception('$this is not known in enum ChronologicalOrder');
-  }
+  const ChronologicalOrder(this.value);
+
+  static ChronologicalOrder fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ChronologicalOrder'));
 }
 
 /// Indicates whether an Amazon Web Services resource or Config rule is
@@ -6176,7 +6118,8 @@ class Compliance {
           ? ComplianceContributorCount.fromJson(
               json['ComplianceContributorCount'] as Map<String, dynamic>)
           : null,
-      complianceType: (json['ComplianceType'] as String?)?.toComplianceType(),
+      complianceType:
+          (json['ComplianceType'] as String?)?.let(ComplianceType.fromString),
     );
   }
 
@@ -6186,7 +6129,7 @@ class Compliance {
     return {
       if (complianceContributorCount != null)
         'ComplianceContributorCount': complianceContributorCount,
-      if (complianceType != null) 'ComplianceType': complianceType.toValue(),
+      if (complianceType != null) 'ComplianceType': complianceType.value,
     };
   }
 }
@@ -6387,41 +6330,20 @@ class ComplianceSummaryByResourceType {
 }
 
 enum ComplianceType {
-  compliant,
-  nonCompliant,
-  notApplicable,
-  insufficientData,
-}
+  compliant('COMPLIANT'),
+  nonCompliant('NON_COMPLIANT'),
+  notApplicable('NOT_APPLICABLE'),
+  insufficientData('INSUFFICIENT_DATA'),
+  ;
 
-extension ComplianceTypeValueExtension on ComplianceType {
-  String toValue() {
-    switch (this) {
-      case ComplianceType.compliant:
-        return 'COMPLIANT';
-      case ComplianceType.nonCompliant:
-        return 'NON_COMPLIANT';
-      case ComplianceType.notApplicable:
-        return 'NOT_APPLICABLE';
-      case ComplianceType.insufficientData:
-        return 'INSUFFICIENT_DATA';
-    }
-  }
-}
+  final String value;
 
-extension ComplianceTypeFromString on String {
-  ComplianceType toComplianceType() {
-    switch (this) {
-      case 'COMPLIANT':
-        return ComplianceType.compliant;
-      case 'NON_COMPLIANT':
-        return ComplianceType.nonCompliant;
-      case 'NOT_APPLICABLE':
-        return ComplianceType.notApplicable;
-      case 'INSUFFICIENT_DATA':
-        return ComplianceType.insufficientData;
-    }
-    throw Exception('$this is not known in enum ComplianceType');
-  }
+  const ComplianceType(this.value);
+
+  static ComplianceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ComplianceType'));
 }
 
 /// Provides status of the delivery of the snapshot or the configuration history
@@ -6460,7 +6382,8 @@ class ConfigExportDeliveryInfo {
       lastAttemptTime: timeStampFromJson(json['lastAttemptTime']),
       lastErrorCode: json['lastErrorCode'] as String?,
       lastErrorMessage: json['lastErrorMessage'] as String?,
-      lastStatus: (json['lastStatus'] as String?)?.toDeliveryStatus(),
+      lastStatus:
+          (json['lastStatus'] as String?)?.let(DeliveryStatus.fromString),
       lastSuccessfulTime: timeStampFromJson(json['lastSuccessfulTime']),
       nextDeliveryTime: timeStampFromJson(json['nextDeliveryTime']),
     );
@@ -6478,7 +6401,7 @@ class ConfigExportDeliveryInfo {
         'lastAttemptTime': unixTimestampToJson(lastAttemptTime),
       if (lastErrorCode != null) 'lastErrorCode': lastErrorCode,
       if (lastErrorMessage != null) 'lastErrorMessage': lastErrorMessage,
-      if (lastStatus != null) 'lastStatus': lastStatus.toValue(),
+      if (lastStatus != null) 'lastStatus': lastStatus.value,
       if (lastSuccessfulTime != null)
         'lastSuccessfulTime': unixTimestampToJson(lastSuccessfulTime),
       if (nextDeliveryTime != null)
@@ -6620,7 +6543,7 @@ class ConfigRule {
       configRuleId: json['ConfigRuleId'] as String?,
       configRuleName: json['ConfigRuleName'] as String?,
       configRuleState:
-          (json['ConfigRuleState'] as String?)?.toConfigRuleState(),
+          (json['ConfigRuleState'] as String?)?.let(ConfigRuleState.fromString),
       createdBy: json['CreatedBy'] as String?,
       description: json['Description'] as String?,
       evaluationModes: (json['EvaluationModes'] as List?)
@@ -6630,7 +6553,7 @@ class ConfigRule {
           .toList(),
       inputParameters: json['InputParameters'] as String?,
       maximumExecutionFrequency: (json['MaximumExecutionFrequency'] as String?)
-          ?.toMaximumExecutionFrequency(),
+          ?.let(MaximumExecutionFrequency.fromString),
       scope: json['Scope'] != null
           ? Scope.fromJson(json['Scope'] as Map<String, dynamic>)
           : null,
@@ -6654,13 +6577,13 @@ class ConfigRule {
       if (configRuleArn != null) 'ConfigRuleArn': configRuleArn,
       if (configRuleId != null) 'ConfigRuleId': configRuleId,
       if (configRuleName != null) 'ConfigRuleName': configRuleName,
-      if (configRuleState != null) 'ConfigRuleState': configRuleState.toValue(),
+      if (configRuleState != null) 'ConfigRuleState': configRuleState.value,
       if (createdBy != null) 'CreatedBy': createdBy,
       if (description != null) 'Description': description,
       if (evaluationModes != null) 'EvaluationModes': evaluationModes,
       if (inputParameters != null) 'InputParameters': inputParameters,
       if (maximumExecutionFrequency != null)
-        'MaximumExecutionFrequency': maximumExecutionFrequency.toValue(),
+        'MaximumExecutionFrequency': maximumExecutionFrequency.value,
       if (scope != null) 'Scope': scope,
     };
   }
@@ -6701,7 +6624,7 @@ class ConfigRuleComplianceFilters {
     return {
       if (accountId != null) 'AccountId': accountId,
       if (awsRegion != null) 'AwsRegion': awsRegion,
-      if (complianceType != null) 'ComplianceType': complianceType.toValue(),
+      if (complianceType != null) 'ComplianceType': complianceType.value,
       if (configRuleName != null) 'ConfigRuleName': configRuleName,
     };
   }
@@ -6731,33 +6654,18 @@ class ConfigRuleComplianceSummaryFilters {
 }
 
 enum ConfigRuleComplianceSummaryGroupKey {
-  accountId,
-  awsRegion,
-}
+  accountId('ACCOUNT_ID'),
+  awsRegion('AWS_REGION'),
+  ;
 
-extension ConfigRuleComplianceSummaryGroupKeyValueExtension
-    on ConfigRuleComplianceSummaryGroupKey {
-  String toValue() {
-    switch (this) {
-      case ConfigRuleComplianceSummaryGroupKey.accountId:
-        return 'ACCOUNT_ID';
-      case ConfigRuleComplianceSummaryGroupKey.awsRegion:
-        return 'AWS_REGION';
-    }
-  }
-}
+  final String value;
 
-extension ConfigRuleComplianceSummaryGroupKeyFromString on String {
-  ConfigRuleComplianceSummaryGroupKey toConfigRuleComplianceSummaryGroupKey() {
-    switch (this) {
-      case 'ACCOUNT_ID':
-        return ConfigRuleComplianceSummaryGroupKey.accountId;
-      case 'AWS_REGION':
-        return ConfigRuleComplianceSummaryGroupKey.awsRegion;
-    }
-    throw Exception(
-        '$this is not known in enum ConfigRuleComplianceSummaryGroupKey');
-  }
+  const ConfigRuleComplianceSummaryGroupKey(this.value);
+
+  static ConfigRuleComplianceSummaryGroupKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ConfigRuleComplianceSummaryGroupKey'));
 }
 
 /// Status information for your Config Managed rules and Config Custom Policy
@@ -6928,41 +6836,20 @@ class ConfigRuleEvaluationStatus {
 }
 
 enum ConfigRuleState {
-  active,
-  deleting,
-  deletingResults,
-  evaluating,
-}
+  active('ACTIVE'),
+  deleting('DELETING'),
+  deletingResults('DELETING_RESULTS'),
+  evaluating('EVALUATING'),
+  ;
 
-extension ConfigRuleStateValueExtension on ConfigRuleState {
-  String toValue() {
-    switch (this) {
-      case ConfigRuleState.active:
-        return 'ACTIVE';
-      case ConfigRuleState.deleting:
-        return 'DELETING';
-      case ConfigRuleState.deletingResults:
-        return 'DELETING_RESULTS';
-      case ConfigRuleState.evaluating:
-        return 'EVALUATING';
-    }
-  }
-}
+  final String value;
 
-extension ConfigRuleStateFromString on String {
-  ConfigRuleState toConfigRuleState() {
-    switch (this) {
-      case 'ACTIVE':
-        return ConfigRuleState.active;
-      case 'DELETING':
-        return ConfigRuleState.deleting;
-      case 'DELETING_RESULTS':
-        return ConfigRuleState.deletingResults;
-      case 'EVALUATING':
-        return ConfigRuleState.evaluating;
-    }
-    throw Exception('$this is not known in enum ConfigRuleState');
-  }
+  const ConfigRuleState(this.value);
+
+  static ConfigRuleState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ConfigRuleState'));
 }
 
 /// Provides options for how often Config delivers configuration snapshots to
@@ -7023,8 +6910,8 @@ class ConfigSnapshotDeliveryProperties {
 
   factory ConfigSnapshotDeliveryProperties.fromJson(Map<String, dynamic> json) {
     return ConfigSnapshotDeliveryProperties(
-      deliveryFrequency:
-          (json['deliveryFrequency'] as String?)?.toMaximumExecutionFrequency(),
+      deliveryFrequency: (json['deliveryFrequency'] as String?)
+          ?.let(MaximumExecutionFrequency.fromString),
     );
   }
 
@@ -7032,7 +6919,7 @@ class ConfigSnapshotDeliveryProperties {
     final deliveryFrequency = this.deliveryFrequency;
     return {
       if (deliveryFrequency != null)
-        'deliveryFrequency': deliveryFrequency.toValue(),
+        'deliveryFrequency': deliveryFrequency.value,
     };
   }
 }
@@ -7068,7 +6955,8 @@ class ConfigStreamDeliveryInfo {
     return ConfigStreamDeliveryInfo(
       lastErrorCode: json['lastErrorCode'] as String?,
       lastErrorMessage: json['lastErrorMessage'] as String?,
-      lastStatus: (json['lastStatus'] as String?)?.toDeliveryStatus(),
+      lastStatus:
+          (json['lastStatus'] as String?)?.let(DeliveryStatus.fromString),
       lastStatusChangeTime: timeStampFromJson(json['lastStatusChangeTime']),
     );
   }
@@ -7081,7 +6969,7 @@ class ConfigStreamDeliveryInfo {
     return {
       if (lastErrorCode != null) 'lastErrorCode': lastErrorCode,
       if (lastErrorMessage != null) 'lastErrorMessage': lastErrorMessage,
-      if (lastStatus != null) 'lastStatus': lastStatus.toValue(),
+      if (lastStatus != null) 'lastStatus': lastStatus.value,
       if (lastStatusChangeTime != null)
         'lastStatusChangeTime': unixTimestampToJson(lastStatusChangeTime),
     };
@@ -7318,10 +7206,10 @@ class ConfigurationItem {
           timeStampFromJson(json['configurationItemDeliveryTime']),
       configurationItemMD5Hash: json['configurationItemMD5Hash'] as String?,
       configurationItemStatus: (json['configurationItemStatus'] as String?)
-          ?.toConfigurationItemStatus(),
+          ?.let(ConfigurationItemStatus.fromString),
       configurationStateId: json['configurationStateId'] as String?,
-      recordingFrequency:
-          (json['recordingFrequency'] as String?)?.toRecordingFrequency(),
+      recordingFrequency: (json['recordingFrequency'] as String?)
+          ?.let(RecordingFrequency.fromString),
       relatedEvents: (json['relatedEvents'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -7333,7 +7221,8 @@ class ConfigurationItem {
       resourceCreationTime: timeStampFromJson(json['resourceCreationTime']),
       resourceId: json['resourceId'] as String?,
       resourceName: json['resourceName'] as String?,
-      resourceType: (json['resourceType'] as String?)?.toResourceType(),
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
       supplementaryConfiguration:
           (json['supplementaryConfiguration'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
@@ -7379,18 +7268,18 @@ class ConfigurationItem {
       if (configurationItemMD5Hash != null)
         'configurationItemMD5Hash': configurationItemMD5Hash,
       if (configurationItemStatus != null)
-        'configurationItemStatus': configurationItemStatus.toValue(),
+        'configurationItemStatus': configurationItemStatus.value,
       if (configurationStateId != null)
         'configurationStateId': configurationStateId,
       if (recordingFrequency != null)
-        'recordingFrequency': recordingFrequency.toValue(),
+        'recordingFrequency': recordingFrequency.value,
       if (relatedEvents != null) 'relatedEvents': relatedEvents,
       if (relationships != null) 'relationships': relationships,
       if (resourceCreationTime != null)
         'resourceCreationTime': unixTimestampToJson(resourceCreationTime),
       if (resourceId != null) 'resourceId': resourceId,
       if (resourceName != null) 'resourceName': resourceName,
-      if (resourceType != null) 'resourceType': resourceType.toValue(),
+      if (resourceType != null) 'resourceType': resourceType.value,
       if (supplementaryConfiguration != null)
         'supplementaryConfiguration': supplementaryConfiguration,
       if (tags != null) 'tags': tags,
@@ -7400,46 +7289,21 @@ class ConfigurationItem {
 }
 
 enum ConfigurationItemStatus {
-  ok,
-  resourceDiscovered,
-  resourceNotRecorded,
-  resourceDeleted,
-  resourceDeletedNotRecorded,
-}
+  ok('OK'),
+  resourceDiscovered('ResourceDiscovered'),
+  resourceNotRecorded('ResourceNotRecorded'),
+  resourceDeleted('ResourceDeleted'),
+  resourceDeletedNotRecorded('ResourceDeletedNotRecorded'),
+  ;
 
-extension ConfigurationItemStatusValueExtension on ConfigurationItemStatus {
-  String toValue() {
-    switch (this) {
-      case ConfigurationItemStatus.ok:
-        return 'OK';
-      case ConfigurationItemStatus.resourceDiscovered:
-        return 'ResourceDiscovered';
-      case ConfigurationItemStatus.resourceNotRecorded:
-        return 'ResourceNotRecorded';
-      case ConfigurationItemStatus.resourceDeleted:
-        return 'ResourceDeleted';
-      case ConfigurationItemStatus.resourceDeletedNotRecorded:
-        return 'ResourceDeletedNotRecorded';
-    }
-  }
-}
+  final String value;
 
-extension ConfigurationItemStatusFromString on String {
-  ConfigurationItemStatus toConfigurationItemStatus() {
-    switch (this) {
-      case 'OK':
-        return ConfigurationItemStatus.ok;
-      case 'ResourceDiscovered':
-        return ConfigurationItemStatus.resourceDiscovered;
-      case 'ResourceNotRecorded':
-        return ConfigurationItemStatus.resourceNotRecorded;
-      case 'ResourceDeleted':
-        return ConfigurationItemStatus.resourceDeleted;
-      case 'ResourceDeletedNotRecorded':
-        return ConfigurationItemStatus.resourceDeletedNotRecorded;
-    }
-    throw Exception('$this is not known in enum ConfigurationItemStatus');
-  }
+  const ConfigurationItemStatus(this.value);
+
+  static ConfigurationItemStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ConfigurationItemStatus'));
 }
 
 /// Records configuration changes to your specified resource types. For more
@@ -7610,7 +7474,8 @@ class ConfigurationRecorderStatus {
       lastErrorCode: json['lastErrorCode'] as String?,
       lastErrorMessage: json['lastErrorMessage'] as String?,
       lastStartTime: timeStampFromJson(json['lastStartTime']),
-      lastStatus: (json['lastStatus'] as String?)?.toRecorderStatus(),
+      lastStatus:
+          (json['lastStatus'] as String?)?.let(RecorderStatus.fromString),
       lastStatusChangeTime: timeStampFromJson(json['lastStatusChangeTime']),
       lastStopTime: timeStampFromJson(json['lastStopTime']),
       name: json['name'] as String?,
@@ -7632,7 +7497,7 @@ class ConfigurationRecorderStatus {
       if (lastErrorMessage != null) 'lastErrorMessage': lastErrorMessage,
       if (lastStartTime != null)
         'lastStartTime': unixTimestampToJson(lastStartTime),
-      if (lastStatus != null) 'lastStatus': lastStatus.toValue(),
+      if (lastStatus != null) 'lastStatus': lastStatus.value,
       if (lastStatusChangeTime != null)
         'lastStatusChangeTime': unixTimestampToJson(lastStatusChangeTime),
       if (lastStopTime != null)
@@ -7663,7 +7528,7 @@ class ConformancePackComplianceFilters {
     final complianceType = this.complianceType;
     final configRuleNames = this.configRuleNames;
     return {
-      if (complianceType != null) 'ComplianceType': complianceType.toValue(),
+      if (complianceType != null) 'ComplianceType': complianceType.value,
       if (configRuleNames != null) 'ConfigRuleNames': configRuleNames,
     };
   }
@@ -7752,9 +7617,8 @@ class ConformancePackComplianceSummary {
 
   factory ConformancePackComplianceSummary.fromJson(Map<String, dynamic> json) {
     return ConformancePackComplianceSummary(
-      conformancePackComplianceStatus:
-          (json['ConformancePackComplianceStatus'] as String)
-              .toConformancePackComplianceType(),
+      conformancePackComplianceStatus: ConformancePackComplianceType.fromString(
+          (json['ConformancePackComplianceStatus'] as String)),
       conformancePackName: json['ConformancePackName'] as String,
     );
   }
@@ -7764,45 +7628,26 @@ class ConformancePackComplianceSummary {
         this.conformancePackComplianceStatus;
     final conformancePackName = this.conformancePackName;
     return {
-      'ConformancePackComplianceStatus':
-          conformancePackComplianceStatus.toValue(),
+      'ConformancePackComplianceStatus': conformancePackComplianceStatus.value,
       'ConformancePackName': conformancePackName,
     };
   }
 }
 
 enum ConformancePackComplianceType {
-  compliant,
-  nonCompliant,
-  insufficientData,
-}
+  compliant('COMPLIANT'),
+  nonCompliant('NON_COMPLIANT'),
+  insufficientData('INSUFFICIENT_DATA'),
+  ;
 
-extension ConformancePackComplianceTypeValueExtension
-    on ConformancePackComplianceType {
-  String toValue() {
-    switch (this) {
-      case ConformancePackComplianceType.compliant:
-        return 'COMPLIANT';
-      case ConformancePackComplianceType.nonCompliant:
-        return 'NON_COMPLIANT';
-      case ConformancePackComplianceType.insufficientData:
-        return 'INSUFFICIENT_DATA';
-    }
-  }
-}
+  final String value;
 
-extension ConformancePackComplianceTypeFromString on String {
-  ConformancePackComplianceType toConformancePackComplianceType() {
-    switch (this) {
-      case 'COMPLIANT':
-        return ConformancePackComplianceType.compliant;
-      case 'NON_COMPLIANT':
-        return ConformancePackComplianceType.nonCompliant;
-      case 'INSUFFICIENT_DATA':
-        return ConformancePackComplianceType.insufficientData;
-    }
-    throw Exception('$this is not known in enum ConformancePackComplianceType');
-  }
+  const ConformancePackComplianceType(this.value);
+
+  static ConformancePackComplianceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ConformancePackComplianceType'));
 }
 
 /// Returns details of a conformance pack. A conformance pack is a collection of
@@ -7944,7 +7789,7 @@ class ConformancePackEvaluationFilters {
     final resourceIds = this.resourceIds;
     final resourceType = this.resourceType;
     return {
-      if (complianceType != null) 'ComplianceType': complianceType.toValue(),
+      if (complianceType != null) 'ComplianceType': complianceType.value,
       if (configRuleNames != null) 'ConfigRuleNames': configRuleNames,
       if (resourceIds != null) 'ResourceIds': resourceIds,
       if (resourceType != null) 'ResourceType': resourceType,
@@ -7981,8 +7826,8 @@ class ConformancePackEvaluationResult {
 
   factory ConformancePackEvaluationResult.fromJson(Map<String, dynamic> json) {
     return ConformancePackEvaluationResult(
-      complianceType:
-          (json['ComplianceType'] as String).toConformancePackComplianceType(),
+      complianceType: ConformancePackComplianceType.fromString(
+          (json['ComplianceType'] as String)),
       configRuleInvokedTime:
           nonNullableTimeStampFromJson(json['ConfigRuleInvokedTime'] as Object),
       evaluationResultIdentifier: EvaluationResultIdentifier.fromJson(
@@ -8000,7 +7845,7 @@ class ConformancePackEvaluationResult {
     final resultRecordedTime = this.resultRecordedTime;
     final annotation = this.annotation;
     return {
-      'ComplianceType': complianceType.toValue(),
+      'ComplianceType': complianceType.value,
       'ConfigRuleInvokedTime': unixTimestampToJson(configRuleInvokedTime),
       'EvaluationResultIdentifier': evaluationResultIdentifier,
       'ResultRecordedTime': unixTimestampToJson(resultRecordedTime),
@@ -8065,7 +7910,7 @@ class ConformancePackRuleCompliance {
   factory ConformancePackRuleCompliance.fromJson(Map<String, dynamic> json) {
     return ConformancePackRuleCompliance(
       complianceType: (json['ComplianceType'] as String?)
-          ?.toConformancePackComplianceType(),
+          ?.let(ConformancePackComplianceType.fromString),
       configRuleName: json['ConfigRuleName'] as String?,
       controls: (json['Controls'] as List?)
           ?.whereNotNull()
@@ -8079,7 +7924,7 @@ class ConformancePackRuleCompliance {
     final configRuleName = this.configRuleName;
     final controls = this.controls;
     return {
-      if (complianceType != null) 'ComplianceType': complianceType.toValue(),
+      if (complianceType != null) 'ComplianceType': complianceType.value,
       if (configRuleName != null) 'ConfigRuleName': configRuleName,
       if (controls != null) 'Controls': controls,
     };
@@ -8087,46 +7932,21 @@ class ConformancePackRuleCompliance {
 }
 
 enum ConformancePackState {
-  createInProgress,
-  createComplete,
-  createFailed,
-  deleteInProgress,
-  deleteFailed,
-}
+  createInProgress('CREATE_IN_PROGRESS'),
+  createComplete('CREATE_COMPLETE'),
+  createFailed('CREATE_FAILED'),
+  deleteInProgress('DELETE_IN_PROGRESS'),
+  deleteFailed('DELETE_FAILED'),
+  ;
 
-extension ConformancePackStateValueExtension on ConformancePackState {
-  String toValue() {
-    switch (this) {
-      case ConformancePackState.createInProgress:
-        return 'CREATE_IN_PROGRESS';
-      case ConformancePackState.createComplete:
-        return 'CREATE_COMPLETE';
-      case ConformancePackState.createFailed:
-        return 'CREATE_FAILED';
-      case ConformancePackState.deleteInProgress:
-        return 'DELETE_IN_PROGRESS';
-      case ConformancePackState.deleteFailed:
-        return 'DELETE_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ConformancePackStateFromString on String {
-  ConformancePackState toConformancePackState() {
-    switch (this) {
-      case 'CREATE_IN_PROGRESS':
-        return ConformancePackState.createInProgress;
-      case 'CREATE_COMPLETE':
-        return ConformancePackState.createComplete;
-      case 'CREATE_FAILED':
-        return ConformancePackState.createFailed;
-      case 'DELETE_IN_PROGRESS':
-        return ConformancePackState.deleteInProgress;
-      case 'DELETE_FAILED':
-        return ConformancePackState.deleteFailed;
-    }
-    throw Exception('$this is not known in enum ConformancePackState');
-  }
+  const ConformancePackState(this.value);
+
+  static ConformancePackState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ConformancePackState'));
 }
 
 /// Status details of a conformance pack.
@@ -8193,8 +8013,8 @@ class ConformancePackStatusDetail {
       conformancePackArn: json['ConformancePackArn'] as String,
       conformancePackId: json['ConformancePackId'] as String,
       conformancePackName: json['ConformancePackName'] as String,
-      conformancePackState:
-          (json['ConformancePackState'] as String).toConformancePackState(),
+      conformancePackState: ConformancePackState.fromString(
+          (json['ConformancePackState'] as String)),
       lastUpdateRequestedTime: nonNullableTimeStampFromJson(
           json['LastUpdateRequestedTime'] as Object),
       stackArn: json['StackArn'] as String,
@@ -8218,7 +8038,7 @@ class ConformancePackStatusDetail {
       'ConformancePackArn': conformancePackArn,
       'ConformancePackId': conformancePackId,
       'ConformancePackName': conformancePackName,
-      'ConformancePackState': conformancePackState.toValue(),
+      'ConformancePackState': conformancePackState.value,
       'LastUpdateRequestedTime': unixTimestampToJson(lastUpdateRequestedTime),
       'StackArn': stackArn,
       if (conformancePackStatusReason != null)
@@ -8513,36 +8333,19 @@ class DeliveryChannelStatus {
 }
 
 enum DeliveryStatus {
-  success,
-  failure,
-  notApplicable,
-}
+  success('Success'),
+  failure('Failure'),
+  notApplicable('Not_Applicable'),
+  ;
 
-extension DeliveryStatusValueExtension on DeliveryStatus {
-  String toValue() {
-    switch (this) {
-      case DeliveryStatus.success:
-        return 'Success';
-      case DeliveryStatus.failure:
-        return 'Failure';
-      case DeliveryStatus.notApplicable:
-        return 'Not_Applicable';
-    }
-  }
-}
+  final String value;
 
-extension DeliveryStatusFromString on String {
-  DeliveryStatus toDeliveryStatus() {
-    switch (this) {
-      case 'Success':
-        return DeliveryStatus.success;
-      case 'Failure':
-        return DeliveryStatus.failure;
-      case 'Not_Applicable':
-        return DeliveryStatus.notApplicable;
-    }
-    throw Exception('$this is not known in enum DeliveryStatus');
-  }
+  const DeliveryStatus(this.value);
+
+  static DeliveryStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DeliveryStatus'));
 }
 
 class DescribeAggregateComplianceByConfigRulesResponse {
@@ -8788,7 +8591,7 @@ class DescribeConfigRulesFilters {
   Map<String, dynamic> toJson() {
     final evaluationMode = this.evaluationMode;
     return {
-      if (evaluationMode != null) 'EvaluationMode': evaluationMode.toValue(),
+      if (evaluationMode != null) 'EvaluationMode': evaluationMode.value,
     };
   }
 }
@@ -9496,7 +9299,8 @@ class Evaluation {
     return Evaluation(
       complianceResourceId: json['ComplianceResourceId'] as String,
       complianceResourceType: json['ComplianceResourceType'] as String,
-      complianceType: (json['ComplianceType'] as String).toComplianceType(),
+      complianceType:
+          ComplianceType.fromString((json['ComplianceType'] as String)),
       orderingTimestamp:
           nonNullableTimeStampFromJson(json['OrderingTimestamp'] as Object),
       annotation: json['Annotation'] as String?,
@@ -9512,7 +9316,7 @@ class Evaluation {
     return {
       'ComplianceResourceId': complianceResourceId,
       'ComplianceResourceType': complianceResourceType,
-      'ComplianceType': complianceType.toValue(),
+      'ComplianceType': complianceType.value,
       'OrderingTimestamp': unixTimestampToJson(orderingTimestamp),
       if (annotation != null) 'Annotation': annotation,
     };
@@ -9547,31 +9351,18 @@ class EvaluationContext {
 }
 
 enum EvaluationMode {
-  detective,
-  proactive,
-}
+  detective('DETECTIVE'),
+  proactive('PROACTIVE'),
+  ;
 
-extension EvaluationModeValueExtension on EvaluationMode {
-  String toValue() {
-    switch (this) {
-      case EvaluationMode.detective:
-        return 'DETECTIVE';
-      case EvaluationMode.proactive:
-        return 'PROACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension EvaluationModeFromString on String {
-  EvaluationMode toEvaluationMode() {
-    switch (this) {
-      case 'DETECTIVE':
-        return EvaluationMode.detective;
-      case 'PROACTIVE':
-        return EvaluationMode.proactive;
-    }
-    throw Exception('$this is not known in enum EvaluationMode');
-  }
+  const EvaluationMode(this.value);
+
+  static EvaluationMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EvaluationMode'));
 }
 
 /// The configuration object for Config rule evaluation mode. The supported
@@ -9586,14 +9377,14 @@ class EvaluationModeConfiguration {
 
   factory EvaluationModeConfiguration.fromJson(Map<String, dynamic> json) {
     return EvaluationModeConfiguration(
-      mode: (json['Mode'] as String?)?.toEvaluationMode(),
+      mode: (json['Mode'] as String?)?.let(EvaluationMode.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final mode = this.mode;
     return {
-      if (mode != null) 'Mode': mode.toValue(),
+      if (mode != null) 'Mode': mode.value,
     };
   }
 }
@@ -9642,7 +9433,8 @@ class EvaluationResult {
   factory EvaluationResult.fromJson(Map<String, dynamic> json) {
     return EvaluationResult(
       annotation: json['Annotation'] as String?,
-      complianceType: (json['ComplianceType'] as String?)?.toComplianceType(),
+      complianceType:
+          (json['ComplianceType'] as String?)?.let(ComplianceType.fromString),
       configRuleInvokedTime: timeStampFromJson(json['ConfigRuleInvokedTime']),
       evaluationResultIdentifier: json['EvaluationResultIdentifier'] != null
           ? EvaluationResultIdentifier.fromJson(
@@ -9662,7 +9454,7 @@ class EvaluationResult {
     final resultToken = this.resultToken;
     return {
       if (annotation != null) 'Annotation': annotation,
-      if (complianceType != null) 'ComplianceType': complianceType.toValue(),
+      if (complianceType != null) 'ComplianceType': complianceType.value,
       if (configRuleInvokedTime != null)
         'ConfigRuleInvokedTime': unixTimestampToJson(configRuleInvokedTime),
       if (evaluationResultIdentifier != null)
@@ -9747,7 +9539,8 @@ class EvaluationResultQualifier {
   factory EvaluationResultQualifier.fromJson(Map<String, dynamic> json) {
     return EvaluationResultQualifier(
       configRuleName: json['ConfigRuleName'] as String?,
-      evaluationMode: (json['EvaluationMode'] as String?)?.toEvaluationMode(),
+      evaluationMode:
+          (json['EvaluationMode'] as String?)?.let(EvaluationMode.fromString),
       resourceId: json['ResourceId'] as String?,
       resourceType: json['ResourceType'] as String?,
     );
@@ -9760,7 +9553,7 @@ class EvaluationResultQualifier {
     final resourceType = this.resourceType;
     return {
       if (configRuleName != null) 'ConfigRuleName': configRuleName,
-      if (evaluationMode != null) 'EvaluationMode': evaluationMode.toValue(),
+      if (evaluationMode != null) 'EvaluationMode': evaluationMode.value,
       if (resourceId != null) 'ResourceId': resourceId,
       if (resourceType != null) 'ResourceType': resourceType,
     };
@@ -9783,7 +9576,7 @@ class EvaluationStatus {
 
   factory EvaluationStatus.fromJson(Map<String, dynamic> json) {
     return EvaluationStatus(
-      status: (json['Status'] as String).toResourceEvaluationStatus(),
+      status: ResourceEvaluationStatus.fromString((json['Status'] as String)),
       failureReason: json['FailureReason'] as String?,
     );
   }
@@ -9792,33 +9585,23 @@ class EvaluationStatus {
     final status = this.status;
     final failureReason = this.failureReason;
     return {
-      'Status': status.toValue(),
+      'Status': status.value,
       if (failureReason != null) 'FailureReason': failureReason,
     };
   }
 }
 
 enum EventSource {
-  awsConfig,
-}
+  awsConfig('aws.config'),
+  ;
 
-extension EventSourceValueExtension on EventSource {
-  String toValue() {
-    switch (this) {
-      case EventSource.awsConfig:
-        return 'aws.config';
-    }
-  }
-}
+  final String value;
 
-extension EventSourceFromString on String {
-  EventSource toEventSource() {
-    switch (this) {
-      case 'aws.config':
-        return EventSource.awsConfig;
-    }
-    throw Exception('$this is not known in enum EventSource');
-  }
+  const EventSource(this.value);
+
+  static EventSource fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum EventSource'));
 }
 
 /// Specifies whether the configuration recorder excludes certain resource types
@@ -9888,7 +9671,7 @@ class ExclusionByResourceTypes {
     return ExclusionByResourceTypes(
       resourceTypes: (json['resourceTypes'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toResourceType())
+          .map((e) => ResourceType.fromString((e as String)))
           .toList(),
     );
   }
@@ -9897,7 +9680,7 @@ class ExclusionByResourceTypes {
     final resourceTypes = this.resourceTypes;
     return {
       if (resourceTypes != null)
-        'resourceTypes': resourceTypes.map((e) => e.toValue()).toList(),
+        'resourceTypes': resourceTypes.map((e) => e.value).toList(),
     };
   }
 }
@@ -9966,7 +9749,7 @@ class ExternalEvaluation {
     return {
       'ComplianceResourceId': complianceResourceId,
       'ComplianceResourceType': complianceResourceType,
-      'ComplianceType': complianceType.toValue(),
+      'ComplianceType': complianceType.value,
       'OrderingTimestamp': unixTimestampToJson(orderingTimestamp),
       if (annotation != null) 'Annotation': annotation,
     };
@@ -10784,12 +10567,14 @@ class GetResourceEvaluationSummaryResponse {
   factory GetResourceEvaluationSummaryResponse.fromJson(
       Map<String, dynamic> json) {
     return GetResourceEvaluationSummaryResponse(
-      compliance: (json['Compliance'] as String?)?.toComplianceType(),
+      compliance:
+          (json['Compliance'] as String?)?.let(ComplianceType.fromString),
       evaluationContext: json['EvaluationContext'] != null
           ? EvaluationContext.fromJson(
               json['EvaluationContext'] as Map<String, dynamic>)
           : null,
-      evaluationMode: (json['EvaluationMode'] as String?)?.toEvaluationMode(),
+      evaluationMode:
+          (json['EvaluationMode'] as String?)?.let(EvaluationMode.fromString),
       evaluationStartTimestamp:
           timeStampFromJson(json['EvaluationStartTimestamp']),
       evaluationStatus: json['EvaluationStatus'] != null
@@ -10813,9 +10598,9 @@ class GetResourceEvaluationSummaryResponse {
     final resourceDetails = this.resourceDetails;
     final resourceEvaluationId = this.resourceEvaluationId;
     return {
-      if (compliance != null) 'Compliance': compliance.toValue(),
+      if (compliance != null) 'Compliance': compliance.value,
       if (evaluationContext != null) 'EvaluationContext': evaluationContext,
-      if (evaluationMode != null) 'EvaluationMode': evaluationMode.toValue(),
+      if (evaluationMode != null) 'EvaluationMode': evaluationMode.value,
       if (evaluationStartTimestamp != null)
         'EvaluationStartTimestamp':
             unixTimestampToJson(evaluationStartTimestamp),
@@ -11098,109 +10883,43 @@ class ListTagsForResourceResponse {
 }
 
 enum MaximumExecutionFrequency {
-  oneHour,
-  threeHours,
-  sixHours,
-  twelveHours,
-  twentyFourHours,
-}
+  oneHour('One_Hour'),
+  threeHours('Three_Hours'),
+  sixHours('Six_Hours'),
+  twelveHours('Twelve_Hours'),
+  twentyFourHours('TwentyFour_Hours'),
+  ;
 
-extension MaximumExecutionFrequencyValueExtension on MaximumExecutionFrequency {
-  String toValue() {
-    switch (this) {
-      case MaximumExecutionFrequency.oneHour:
-        return 'One_Hour';
-      case MaximumExecutionFrequency.threeHours:
-        return 'Three_Hours';
-      case MaximumExecutionFrequency.sixHours:
-        return 'Six_Hours';
-      case MaximumExecutionFrequency.twelveHours:
-        return 'Twelve_Hours';
-      case MaximumExecutionFrequency.twentyFourHours:
-        return 'TwentyFour_Hours';
-    }
-  }
-}
+  final String value;
 
-extension MaximumExecutionFrequencyFromString on String {
-  MaximumExecutionFrequency toMaximumExecutionFrequency() {
-    switch (this) {
-      case 'One_Hour':
-        return MaximumExecutionFrequency.oneHour;
-      case 'Three_Hours':
-        return MaximumExecutionFrequency.threeHours;
-      case 'Six_Hours':
-        return MaximumExecutionFrequency.sixHours;
-      case 'Twelve_Hours':
-        return MaximumExecutionFrequency.twelveHours;
-      case 'TwentyFour_Hours':
-        return MaximumExecutionFrequency.twentyFourHours;
-    }
-    throw Exception('$this is not known in enum MaximumExecutionFrequency');
-  }
+  const MaximumExecutionFrequency(this.value);
+
+  static MaximumExecutionFrequency fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MaximumExecutionFrequency'));
 }
 
 enum MemberAccountRuleStatus {
-  createSuccessful,
-  createInProgress,
-  createFailed,
-  deleteSuccessful,
-  deleteFailed,
-  deleteInProgress,
-  updateSuccessful,
-  updateInProgress,
-  updateFailed,
-}
+  createSuccessful('CREATE_SUCCESSFUL'),
+  createInProgress('CREATE_IN_PROGRESS'),
+  createFailed('CREATE_FAILED'),
+  deleteSuccessful('DELETE_SUCCESSFUL'),
+  deleteFailed('DELETE_FAILED'),
+  deleteInProgress('DELETE_IN_PROGRESS'),
+  updateSuccessful('UPDATE_SUCCESSFUL'),
+  updateInProgress('UPDATE_IN_PROGRESS'),
+  updateFailed('UPDATE_FAILED'),
+  ;
 
-extension MemberAccountRuleStatusValueExtension on MemberAccountRuleStatus {
-  String toValue() {
-    switch (this) {
-      case MemberAccountRuleStatus.createSuccessful:
-        return 'CREATE_SUCCESSFUL';
-      case MemberAccountRuleStatus.createInProgress:
-        return 'CREATE_IN_PROGRESS';
-      case MemberAccountRuleStatus.createFailed:
-        return 'CREATE_FAILED';
-      case MemberAccountRuleStatus.deleteSuccessful:
-        return 'DELETE_SUCCESSFUL';
-      case MemberAccountRuleStatus.deleteFailed:
-        return 'DELETE_FAILED';
-      case MemberAccountRuleStatus.deleteInProgress:
-        return 'DELETE_IN_PROGRESS';
-      case MemberAccountRuleStatus.updateSuccessful:
-        return 'UPDATE_SUCCESSFUL';
-      case MemberAccountRuleStatus.updateInProgress:
-        return 'UPDATE_IN_PROGRESS';
-      case MemberAccountRuleStatus.updateFailed:
-        return 'UPDATE_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension MemberAccountRuleStatusFromString on String {
-  MemberAccountRuleStatus toMemberAccountRuleStatus() {
-    switch (this) {
-      case 'CREATE_SUCCESSFUL':
-        return MemberAccountRuleStatus.createSuccessful;
-      case 'CREATE_IN_PROGRESS':
-        return MemberAccountRuleStatus.createInProgress;
-      case 'CREATE_FAILED':
-        return MemberAccountRuleStatus.createFailed;
-      case 'DELETE_SUCCESSFUL':
-        return MemberAccountRuleStatus.deleteSuccessful;
-      case 'DELETE_FAILED':
-        return MemberAccountRuleStatus.deleteFailed;
-      case 'DELETE_IN_PROGRESS':
-        return MemberAccountRuleStatus.deleteInProgress;
-      case 'UPDATE_SUCCESSFUL':
-        return MemberAccountRuleStatus.updateSuccessful;
-      case 'UPDATE_IN_PROGRESS':
-        return MemberAccountRuleStatus.updateInProgress;
-      case 'UPDATE_FAILED':
-        return MemberAccountRuleStatus.updateFailed;
-    }
-    throw Exception('$this is not known in enum MemberAccountRuleStatus');
-  }
+  const MemberAccountRuleStatus(this.value);
+
+  static MemberAccountRuleStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MemberAccountRuleStatus'));
 }
 
 /// Organization Config rule creation or deletion status in each member account.
@@ -11288,8 +11007,8 @@ class MemberAccountStatus {
     return MemberAccountStatus(
       accountId: json['AccountId'] as String,
       configRuleName: json['ConfigRuleName'] as String,
-      memberAccountRuleStatus: (json['MemberAccountRuleStatus'] as String)
-          .toMemberAccountRuleStatus(),
+      memberAccountRuleStatus: MemberAccountRuleStatus.fromString(
+          (json['MemberAccountRuleStatus'] as String)),
       errorCode: json['ErrorCode'] as String?,
       errorMessage: json['ErrorMessage'] as String?,
       lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
@@ -11306,7 +11025,7 @@ class MemberAccountStatus {
     return {
       'AccountId': accountId,
       'ConfigRuleName': configRuleName,
-      'MemberAccountRuleStatus': memberAccountRuleStatus.toValue(),
+      'MemberAccountRuleStatus': memberAccountRuleStatus.value,
       if (errorCode != null) 'ErrorCode': errorCode,
       if (errorMessage != null) 'ErrorMessage': errorMessage,
       if (lastUpdateTime != null)
@@ -11316,41 +11035,21 @@ class MemberAccountStatus {
 }
 
 enum MessageType {
-  configurationItemChangeNotification,
-  configurationSnapshotDeliveryCompleted,
-  scheduledNotification,
-  oversizedConfigurationItemChangeNotification,
-}
+  configurationItemChangeNotification('ConfigurationItemChangeNotification'),
+  configurationSnapshotDeliveryCompleted(
+      'ConfigurationSnapshotDeliveryCompleted'),
+  scheduledNotification('ScheduledNotification'),
+  oversizedConfigurationItemChangeNotification(
+      'OversizedConfigurationItemChangeNotification'),
+  ;
 
-extension MessageTypeValueExtension on MessageType {
-  String toValue() {
-    switch (this) {
-      case MessageType.configurationItemChangeNotification:
-        return 'ConfigurationItemChangeNotification';
-      case MessageType.configurationSnapshotDeliveryCompleted:
-        return 'ConfigurationSnapshotDeliveryCompleted';
-      case MessageType.scheduledNotification:
-        return 'ScheduledNotification';
-      case MessageType.oversizedConfigurationItemChangeNotification:
-        return 'OversizedConfigurationItemChangeNotification';
-    }
-  }
-}
+  final String value;
 
-extension MessageTypeFromString on String {
-  MessageType toMessageType() {
-    switch (this) {
-      case 'ConfigurationItemChangeNotification':
-        return MessageType.configurationItemChangeNotification;
-      case 'ConfigurationSnapshotDeliveryCompleted':
-        return MessageType.configurationSnapshotDeliveryCompleted;
-      case 'ScheduledNotification':
-        return MessageType.scheduledNotification;
-      case 'OversizedConfigurationItemChangeNotification':
-        return MessageType.oversizedConfigurationItemChangeNotification;
-    }
-    throw Exception('$this is not known in enum MessageType');
-  }
+  const MessageType(this.value);
+
+  static MessageType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum MessageType'));
 }
 
 /// This object contains regions to set up the aggregator and an IAM role to
@@ -11570,8 +11269,8 @@ class OrganizationConfigRuleStatus {
   factory OrganizationConfigRuleStatus.fromJson(Map<String, dynamic> json) {
     return OrganizationConfigRuleStatus(
       organizationConfigRuleName: json['OrganizationConfigRuleName'] as String,
-      organizationRuleStatus:
-          (json['OrganizationRuleStatus'] as String).toOrganizationRuleStatus(),
+      organizationRuleStatus: OrganizationRuleStatus.fromString(
+          (json['OrganizationRuleStatus'] as String)),
       errorCode: json['ErrorCode'] as String?,
       errorMessage: json['ErrorMessage'] as String?,
       lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
@@ -11586,7 +11285,7 @@ class OrganizationConfigRuleStatus {
     final lastUpdateTime = this.lastUpdateTime;
     return {
       'OrganizationConfigRuleName': organizationConfigRuleName,
-      'OrganizationRuleStatus': organizationRuleStatus.toValue(),
+      'OrganizationRuleStatus': organizationRuleStatus.value,
       if (errorCode != null) 'ErrorCode': errorCode,
       if (errorMessage != null) 'ErrorMessage': errorMessage,
       if (lastUpdateTime != null)
@@ -11596,77 +11295,36 @@ class OrganizationConfigRuleStatus {
 }
 
 enum OrganizationConfigRuleTriggerType {
-  configurationItemChangeNotification,
-  oversizedConfigurationItemChangeNotification,
-  scheduledNotification,
-}
+  configurationItemChangeNotification('ConfigurationItemChangeNotification'),
+  oversizedConfigurationItemChangeNotification(
+      'OversizedConfigurationItemChangeNotification'),
+  scheduledNotification('ScheduledNotification'),
+  ;
 
-extension OrganizationConfigRuleTriggerTypeValueExtension
-    on OrganizationConfigRuleTriggerType {
-  String toValue() {
-    switch (this) {
-      case OrganizationConfigRuleTriggerType
-            .configurationItemChangeNotification:
-        return 'ConfigurationItemChangeNotification';
-      case OrganizationConfigRuleTriggerType
-            .oversizedConfigurationItemChangeNotification:
-        return 'OversizedConfigurationItemChangeNotification';
-      case OrganizationConfigRuleTriggerType.scheduledNotification:
-        return 'ScheduledNotification';
-    }
-  }
-}
+  final String value;
 
-extension OrganizationConfigRuleTriggerTypeFromString on String {
-  OrganizationConfigRuleTriggerType toOrganizationConfigRuleTriggerType() {
-    switch (this) {
-      case 'ConfigurationItemChangeNotification':
-        return OrganizationConfigRuleTriggerType
-            .configurationItemChangeNotification;
-      case 'OversizedConfigurationItemChangeNotification':
-        return OrganizationConfigRuleTriggerType
-            .oversizedConfigurationItemChangeNotification;
-      case 'ScheduledNotification':
-        return OrganizationConfigRuleTriggerType.scheduledNotification;
-    }
-    throw Exception(
-        '$this is not known in enum OrganizationConfigRuleTriggerType');
-  }
+  const OrganizationConfigRuleTriggerType(this.value);
+
+  static OrganizationConfigRuleTriggerType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum OrganizationConfigRuleTriggerType'));
 }
 
 enum OrganizationConfigRuleTriggerTypeNoSN {
-  configurationItemChangeNotification,
-  oversizedConfigurationItemChangeNotification,
-}
+  configurationItemChangeNotification('ConfigurationItemChangeNotification'),
+  oversizedConfigurationItemChangeNotification(
+      'OversizedConfigurationItemChangeNotification'),
+  ;
 
-extension OrganizationConfigRuleTriggerTypeNoSNValueExtension
-    on OrganizationConfigRuleTriggerTypeNoSN {
-  String toValue() {
-    switch (this) {
-      case OrganizationConfigRuleTriggerTypeNoSN
-            .configurationItemChangeNotification:
-        return 'ConfigurationItemChangeNotification';
-      case OrganizationConfigRuleTriggerTypeNoSN
-            .oversizedConfigurationItemChangeNotification:
-        return 'OversizedConfigurationItemChangeNotification';
-    }
-  }
-}
+  final String value;
 
-extension OrganizationConfigRuleTriggerTypeNoSNFromString on String {
-  OrganizationConfigRuleTriggerTypeNoSN
-      toOrganizationConfigRuleTriggerTypeNoSN() {
-    switch (this) {
-      case 'ConfigurationItemChangeNotification':
-        return OrganizationConfigRuleTriggerTypeNoSN
-            .configurationItemChangeNotification;
-      case 'OversizedConfigurationItemChangeNotification':
-        return OrganizationConfigRuleTriggerTypeNoSN
-            .oversizedConfigurationItemChangeNotification;
-    }
-    throw Exception(
-        '$this is not known in enum OrganizationConfigRuleTriggerTypeNoSN');
-  }
+  const OrganizationConfigRuleTriggerTypeNoSN(this.value);
+
+  static OrganizationConfigRuleTriggerTypeNoSN fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum OrganizationConfigRuleTriggerTypeNoSN'));
 }
 
 /// An organization conformance pack that has information about conformance
@@ -11845,7 +11503,8 @@ class OrganizationConformancePackDetailedStatus {
     return OrganizationConformancePackDetailedStatus(
       accountId: json['AccountId'] as String,
       conformancePackName: json['ConformancePackName'] as String,
-      status: (json['Status'] as String).toOrganizationResourceDetailedStatus(),
+      status: OrganizationResourceDetailedStatus.fromString(
+          (json['Status'] as String)),
       errorCode: json['ErrorCode'] as String?,
       errorMessage: json['ErrorMessage'] as String?,
       lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
@@ -11862,7 +11521,7 @@ class OrganizationConformancePackDetailedStatus {
     return {
       'AccountId': accountId,
       'ConformancePackName': conformancePackName,
-      'Status': status.toValue(),
+      'Status': status.value,
       if (errorCode != null) 'ErrorCode': errorCode,
       if (errorMessage != null) 'ErrorMessage': errorMessage,
       if (lastUpdateTime != null)
@@ -11953,7 +11612,7 @@ class OrganizationConformancePackStatus {
     return OrganizationConformancePackStatus(
       organizationConformancePackName:
           json['OrganizationConformancePackName'] as String,
-      status: (json['Status'] as String).toOrganizationResourceStatus(),
+      status: OrganizationResourceStatus.fromString((json['Status'] as String)),
       errorCode: json['ErrorCode'] as String?,
       errorMessage: json['ErrorMessage'] as String?,
       lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
@@ -11969,7 +11628,7 @@ class OrganizationConformancePackStatus {
     final lastUpdateTime = this.lastUpdateTime;
     return {
       'OrganizationConformancePackName': organizationConformancePackName,
-      'Status': status.toValue(),
+      'Status': status.value,
       if (errorCode != null) 'ErrorCode': errorCode,
       if (errorMessage != null) 'ErrorMessage': errorMessage,
       if (lastUpdateTime != null)
@@ -12084,10 +11743,10 @@ class OrganizationCustomPolicyRuleMetadata {
       if (description != null) 'Description': description,
       if (inputParameters != null) 'InputParameters': inputParameters,
       if (maximumExecutionFrequency != null)
-        'MaximumExecutionFrequency': maximumExecutionFrequency.toValue(),
+        'MaximumExecutionFrequency': maximumExecutionFrequency.value,
       if (organizationConfigRuleTriggerTypes != null)
         'OrganizationConfigRuleTriggerTypes':
-            organizationConfigRuleTriggerTypes.map((e) => e.toValue()).toList(),
+            organizationConfigRuleTriggerTypes.map((e) => e.value).toList(),
       if (resourceIdScope != null) 'ResourceIdScope': resourceIdScope,
       if (resourceTypesScope != null) 'ResourceTypesScope': resourceTypesScope,
       if (tagKeyScope != null) 'TagKeyScope': tagKeyScope,
@@ -12185,12 +11844,13 @@ class OrganizationCustomPolicyRuleMetadataNoPolicy {
       description: json['Description'] as String?,
       inputParameters: json['InputParameters'] as String?,
       maximumExecutionFrequency: (json['MaximumExecutionFrequency'] as String?)
-          ?.toMaximumExecutionFrequency(),
-      organizationConfigRuleTriggerTypes: (json[
-              'OrganizationConfigRuleTriggerTypes'] as List?)
-          ?.whereNotNull()
-          .map((e) => (e as String).toOrganizationConfigRuleTriggerTypeNoSN())
-          .toList(),
+          ?.let(MaximumExecutionFrequency.fromString),
+      organizationConfigRuleTriggerTypes:
+          (json['OrganizationConfigRuleTriggerTypes'] as List?)
+              ?.whereNotNull()
+              .map((e) => OrganizationConfigRuleTriggerTypeNoSN.fromString(
+                  (e as String)))
+              .toList(),
       policyRuntime: json['PolicyRuntime'] as String?,
       resourceIdScope: json['ResourceIdScope'] as String?,
       resourceTypesScope: (json['ResourceTypesScope'] as List?)
@@ -12220,10 +11880,10 @@ class OrganizationCustomPolicyRuleMetadataNoPolicy {
       if (description != null) 'Description': description,
       if (inputParameters != null) 'InputParameters': inputParameters,
       if (maximumExecutionFrequency != null)
-        'MaximumExecutionFrequency': maximumExecutionFrequency.toValue(),
+        'MaximumExecutionFrequency': maximumExecutionFrequency.value,
       if (organizationConfigRuleTriggerTypes != null)
         'OrganizationConfigRuleTriggerTypes':
-            organizationConfigRuleTriggerTypes.map((e) => e.toValue()).toList(),
+            organizationConfigRuleTriggerTypes.map((e) => e.value).toList(),
       if (policyRuntime != null) 'PolicyRuntime': policyRuntime,
       if (resourceIdScope != null) 'ResourceIdScope': resourceIdScope,
       if (resourceTypesScope != null) 'ResourceTypesScope': resourceTypesScope,
@@ -12314,12 +11974,13 @@ class OrganizationCustomRuleMetadata {
       organizationConfigRuleTriggerTypes:
           (json['OrganizationConfigRuleTriggerTypes'] as List)
               .whereNotNull()
-              .map((e) => (e as String).toOrganizationConfigRuleTriggerType())
+              .map((e) =>
+                  OrganizationConfigRuleTriggerType.fromString((e as String)))
               .toList(),
       description: json['Description'] as String?,
       inputParameters: json['InputParameters'] as String?,
       maximumExecutionFrequency: (json['MaximumExecutionFrequency'] as String?)
-          ?.toMaximumExecutionFrequency(),
+          ?.let(MaximumExecutionFrequency.fromString),
       resourceIdScope: json['ResourceIdScope'] as String?,
       resourceTypesScope: (json['ResourceTypesScope'] as List?)
           ?.whereNotNull()
@@ -12344,11 +12005,11 @@ class OrganizationCustomRuleMetadata {
     return {
       'LambdaFunctionArn': lambdaFunctionArn,
       'OrganizationConfigRuleTriggerTypes':
-          organizationConfigRuleTriggerTypes.map((e) => e.toValue()).toList(),
+          organizationConfigRuleTriggerTypes.map((e) => e.value).toList(),
       if (description != null) 'Description': description,
       if (inputParameters != null) 'InputParameters': inputParameters,
       if (maximumExecutionFrequency != null)
-        'MaximumExecutionFrequency': maximumExecutionFrequency.toValue(),
+        'MaximumExecutionFrequency': maximumExecutionFrequency.value,
       if (resourceIdScope != null) 'ResourceIdScope': resourceIdScope,
       if (resourceTypesScope != null) 'ResourceTypesScope': resourceTypesScope,
       if (tagKeyScope != null) 'TagKeyScope': tagKeyScope,
@@ -12416,7 +12077,7 @@ class OrganizationManagedRuleMetadata {
       description: json['Description'] as String?,
       inputParameters: json['InputParameters'] as String?,
       maximumExecutionFrequency: (json['MaximumExecutionFrequency'] as String?)
-          ?.toMaximumExecutionFrequency(),
+          ?.let(MaximumExecutionFrequency.fromString),
       resourceIdScope: json['ResourceIdScope'] as String?,
       resourceTypesScope: (json['ResourceTypesScope'] as List?)
           ?.whereNotNull()
@@ -12441,7 +12102,7 @@ class OrganizationManagedRuleMetadata {
       if (description != null) 'Description': description,
       if (inputParameters != null) 'InputParameters': inputParameters,
       if (maximumExecutionFrequency != null)
-        'MaximumExecutionFrequency': maximumExecutionFrequency.toValue(),
+        'MaximumExecutionFrequency': maximumExecutionFrequency.value,
       if (resourceIdScope != null) 'ResourceIdScope': resourceIdScope,
       if (resourceTypesScope != null) 'ResourceTypesScope': resourceTypesScope,
       if (tagKeyScope != null) 'TagKeyScope': tagKeyScope,
@@ -12451,68 +12112,25 @@ class OrganizationManagedRuleMetadata {
 }
 
 enum OrganizationResourceDetailedStatus {
-  createSuccessful,
-  createInProgress,
-  createFailed,
-  deleteSuccessful,
-  deleteFailed,
-  deleteInProgress,
-  updateSuccessful,
-  updateInProgress,
-  updateFailed,
-}
+  createSuccessful('CREATE_SUCCESSFUL'),
+  createInProgress('CREATE_IN_PROGRESS'),
+  createFailed('CREATE_FAILED'),
+  deleteSuccessful('DELETE_SUCCESSFUL'),
+  deleteFailed('DELETE_FAILED'),
+  deleteInProgress('DELETE_IN_PROGRESS'),
+  updateSuccessful('UPDATE_SUCCESSFUL'),
+  updateInProgress('UPDATE_IN_PROGRESS'),
+  updateFailed('UPDATE_FAILED'),
+  ;
 
-extension OrganizationResourceDetailedStatusValueExtension
-    on OrganizationResourceDetailedStatus {
-  String toValue() {
-    switch (this) {
-      case OrganizationResourceDetailedStatus.createSuccessful:
-        return 'CREATE_SUCCESSFUL';
-      case OrganizationResourceDetailedStatus.createInProgress:
-        return 'CREATE_IN_PROGRESS';
-      case OrganizationResourceDetailedStatus.createFailed:
-        return 'CREATE_FAILED';
-      case OrganizationResourceDetailedStatus.deleteSuccessful:
-        return 'DELETE_SUCCESSFUL';
-      case OrganizationResourceDetailedStatus.deleteFailed:
-        return 'DELETE_FAILED';
-      case OrganizationResourceDetailedStatus.deleteInProgress:
-        return 'DELETE_IN_PROGRESS';
-      case OrganizationResourceDetailedStatus.updateSuccessful:
-        return 'UPDATE_SUCCESSFUL';
-      case OrganizationResourceDetailedStatus.updateInProgress:
-        return 'UPDATE_IN_PROGRESS';
-      case OrganizationResourceDetailedStatus.updateFailed:
-        return 'UPDATE_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension OrganizationResourceDetailedStatusFromString on String {
-  OrganizationResourceDetailedStatus toOrganizationResourceDetailedStatus() {
-    switch (this) {
-      case 'CREATE_SUCCESSFUL':
-        return OrganizationResourceDetailedStatus.createSuccessful;
-      case 'CREATE_IN_PROGRESS':
-        return OrganizationResourceDetailedStatus.createInProgress;
-      case 'CREATE_FAILED':
-        return OrganizationResourceDetailedStatus.createFailed;
-      case 'DELETE_SUCCESSFUL':
-        return OrganizationResourceDetailedStatus.deleteSuccessful;
-      case 'DELETE_FAILED':
-        return OrganizationResourceDetailedStatus.deleteFailed;
-      case 'DELETE_IN_PROGRESS':
-        return OrganizationResourceDetailedStatus.deleteInProgress;
-      case 'UPDATE_SUCCESSFUL':
-        return OrganizationResourceDetailedStatus.updateSuccessful;
-      case 'UPDATE_IN_PROGRESS':
-        return OrganizationResourceDetailedStatus.updateInProgress;
-      case 'UPDATE_FAILED':
-        return OrganizationResourceDetailedStatus.updateFailed;
-    }
-    throw Exception(
-        '$this is not known in enum OrganizationResourceDetailedStatus');
-  }
+  const OrganizationResourceDetailedStatus(this.value);
+
+  static OrganizationResourceDetailedStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum OrganizationResourceDetailedStatus'));
 }
 
 /// Status filter object to filter results based on specific member account ID
@@ -12583,169 +12201,68 @@ class OrganizationResourceDetailedStatusFilters {
     final status = this.status;
     return {
       if (accountId != null) 'AccountId': accountId,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
 
 enum OrganizationResourceStatus {
-  createSuccessful,
-  createInProgress,
-  createFailed,
-  deleteSuccessful,
-  deleteFailed,
-  deleteInProgress,
-  updateSuccessful,
-  updateInProgress,
-  updateFailed,
-}
+  createSuccessful('CREATE_SUCCESSFUL'),
+  createInProgress('CREATE_IN_PROGRESS'),
+  createFailed('CREATE_FAILED'),
+  deleteSuccessful('DELETE_SUCCESSFUL'),
+  deleteFailed('DELETE_FAILED'),
+  deleteInProgress('DELETE_IN_PROGRESS'),
+  updateSuccessful('UPDATE_SUCCESSFUL'),
+  updateInProgress('UPDATE_IN_PROGRESS'),
+  updateFailed('UPDATE_FAILED'),
+  ;
 
-extension OrganizationResourceStatusValueExtension
-    on OrganizationResourceStatus {
-  String toValue() {
-    switch (this) {
-      case OrganizationResourceStatus.createSuccessful:
-        return 'CREATE_SUCCESSFUL';
-      case OrganizationResourceStatus.createInProgress:
-        return 'CREATE_IN_PROGRESS';
-      case OrganizationResourceStatus.createFailed:
-        return 'CREATE_FAILED';
-      case OrganizationResourceStatus.deleteSuccessful:
-        return 'DELETE_SUCCESSFUL';
-      case OrganizationResourceStatus.deleteFailed:
-        return 'DELETE_FAILED';
-      case OrganizationResourceStatus.deleteInProgress:
-        return 'DELETE_IN_PROGRESS';
-      case OrganizationResourceStatus.updateSuccessful:
-        return 'UPDATE_SUCCESSFUL';
-      case OrganizationResourceStatus.updateInProgress:
-        return 'UPDATE_IN_PROGRESS';
-      case OrganizationResourceStatus.updateFailed:
-        return 'UPDATE_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension OrganizationResourceStatusFromString on String {
-  OrganizationResourceStatus toOrganizationResourceStatus() {
-    switch (this) {
-      case 'CREATE_SUCCESSFUL':
-        return OrganizationResourceStatus.createSuccessful;
-      case 'CREATE_IN_PROGRESS':
-        return OrganizationResourceStatus.createInProgress;
-      case 'CREATE_FAILED':
-        return OrganizationResourceStatus.createFailed;
-      case 'DELETE_SUCCESSFUL':
-        return OrganizationResourceStatus.deleteSuccessful;
-      case 'DELETE_FAILED':
-        return OrganizationResourceStatus.deleteFailed;
-      case 'DELETE_IN_PROGRESS':
-        return OrganizationResourceStatus.deleteInProgress;
-      case 'UPDATE_SUCCESSFUL':
-        return OrganizationResourceStatus.updateSuccessful;
-      case 'UPDATE_IN_PROGRESS':
-        return OrganizationResourceStatus.updateInProgress;
-      case 'UPDATE_FAILED':
-        return OrganizationResourceStatus.updateFailed;
-    }
-    throw Exception('$this is not known in enum OrganizationResourceStatus');
-  }
+  const OrganizationResourceStatus(this.value);
+
+  static OrganizationResourceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum OrganizationResourceStatus'));
 }
 
 enum OrganizationRuleStatus {
-  createSuccessful,
-  createInProgress,
-  createFailed,
-  deleteSuccessful,
-  deleteFailed,
-  deleteInProgress,
-  updateSuccessful,
-  updateInProgress,
-  updateFailed,
-}
+  createSuccessful('CREATE_SUCCESSFUL'),
+  createInProgress('CREATE_IN_PROGRESS'),
+  createFailed('CREATE_FAILED'),
+  deleteSuccessful('DELETE_SUCCESSFUL'),
+  deleteFailed('DELETE_FAILED'),
+  deleteInProgress('DELETE_IN_PROGRESS'),
+  updateSuccessful('UPDATE_SUCCESSFUL'),
+  updateInProgress('UPDATE_IN_PROGRESS'),
+  updateFailed('UPDATE_FAILED'),
+  ;
 
-extension OrganizationRuleStatusValueExtension on OrganizationRuleStatus {
-  String toValue() {
-    switch (this) {
-      case OrganizationRuleStatus.createSuccessful:
-        return 'CREATE_SUCCESSFUL';
-      case OrganizationRuleStatus.createInProgress:
-        return 'CREATE_IN_PROGRESS';
-      case OrganizationRuleStatus.createFailed:
-        return 'CREATE_FAILED';
-      case OrganizationRuleStatus.deleteSuccessful:
-        return 'DELETE_SUCCESSFUL';
-      case OrganizationRuleStatus.deleteFailed:
-        return 'DELETE_FAILED';
-      case OrganizationRuleStatus.deleteInProgress:
-        return 'DELETE_IN_PROGRESS';
-      case OrganizationRuleStatus.updateSuccessful:
-        return 'UPDATE_SUCCESSFUL';
-      case OrganizationRuleStatus.updateInProgress:
-        return 'UPDATE_IN_PROGRESS';
-      case OrganizationRuleStatus.updateFailed:
-        return 'UPDATE_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension OrganizationRuleStatusFromString on String {
-  OrganizationRuleStatus toOrganizationRuleStatus() {
-    switch (this) {
-      case 'CREATE_SUCCESSFUL':
-        return OrganizationRuleStatus.createSuccessful;
-      case 'CREATE_IN_PROGRESS':
-        return OrganizationRuleStatus.createInProgress;
-      case 'CREATE_FAILED':
-        return OrganizationRuleStatus.createFailed;
-      case 'DELETE_SUCCESSFUL':
-        return OrganizationRuleStatus.deleteSuccessful;
-      case 'DELETE_FAILED':
-        return OrganizationRuleStatus.deleteFailed;
-      case 'DELETE_IN_PROGRESS':
-        return OrganizationRuleStatus.deleteInProgress;
-      case 'UPDATE_SUCCESSFUL':
-        return OrganizationRuleStatus.updateSuccessful;
-      case 'UPDATE_IN_PROGRESS':
-        return OrganizationRuleStatus.updateInProgress;
-      case 'UPDATE_FAILED':
-        return OrganizationRuleStatus.updateFailed;
-    }
-    throw Exception('$this is not known in enum OrganizationRuleStatus');
-  }
+  const OrganizationRuleStatus(this.value);
+
+  static OrganizationRuleStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum OrganizationRuleStatus'));
 }
 
 enum Owner {
-  customLambda,
-  aws,
-  customPolicy,
-}
+  customLambda('CUSTOM_LAMBDA'),
+  aws('AWS'),
+  customPolicy('CUSTOM_POLICY'),
+  ;
 
-extension OwnerValueExtension on Owner {
-  String toValue() {
-    switch (this) {
-      case Owner.customLambda:
-        return 'CUSTOM_LAMBDA';
-      case Owner.aws:
-        return 'AWS';
-      case Owner.customPolicy:
-        return 'CUSTOM_POLICY';
-    }
-  }
-}
+  final String value;
 
-extension OwnerFromString on String {
-  Owner toOwner() {
-    switch (this) {
-      case 'CUSTOM_LAMBDA':
-        return Owner.customLambda;
-      case 'AWS':
-        return Owner.aws;
-      case 'CUSTOM_POLICY':
-        return Owner.customPolicy;
-    }
-    throw Exception('$this is not known in enum Owner');
-  }
+  const Owner(this.value);
+
+  static Owner fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Owner'));
 }
 
 /// An object that represents the account ID and region of an aggregator account
@@ -13073,64 +12590,34 @@ class QueryInfo {
 }
 
 enum RecorderStatus {
-  pending,
-  success,
-  failure,
-}
+  pending('Pending'),
+  success('Success'),
+  failure('Failure'),
+  ;
 
-extension RecorderStatusValueExtension on RecorderStatus {
-  String toValue() {
-    switch (this) {
-      case RecorderStatus.pending:
-        return 'Pending';
-      case RecorderStatus.success:
-        return 'Success';
-      case RecorderStatus.failure:
-        return 'Failure';
-    }
-  }
-}
+  final String value;
 
-extension RecorderStatusFromString on String {
-  RecorderStatus toRecorderStatus() {
-    switch (this) {
-      case 'Pending':
-        return RecorderStatus.pending;
-      case 'Success':
-        return RecorderStatus.success;
-      case 'Failure':
-        return RecorderStatus.failure;
-    }
-    throw Exception('$this is not known in enum RecorderStatus');
-  }
+  const RecorderStatus(this.value);
+
+  static RecorderStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RecorderStatus'));
 }
 
 enum RecordingFrequency {
-  continuous,
-  daily,
-}
+  continuous('CONTINUOUS'),
+  daily('DAILY'),
+  ;
 
-extension RecordingFrequencyValueExtension on RecordingFrequency {
-  String toValue() {
-    switch (this) {
-      case RecordingFrequency.continuous:
-        return 'CONTINUOUS';
-      case RecordingFrequency.daily:
-        return 'DAILY';
-    }
-  }
-}
+  final String value;
 
-extension RecordingFrequencyFromString on String {
-  RecordingFrequency toRecordingFrequency() {
-    switch (this) {
-      case 'CONTINUOUS':
-        return RecordingFrequency.continuous;
-      case 'DAILY':
-        return RecordingFrequency.daily;
-    }
-    throw Exception('$this is not known in enum RecordingFrequency');
-  }
+  const RecordingFrequency(this.value);
+
+  static RecordingFrequency fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RecordingFrequency'));
 }
 
 /// Specifies which resource types Config records for configuration changes. By
@@ -13470,7 +12957,7 @@ class RecordingGroup {
           : null,
       resourceTypes: (json['resourceTypes'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toResourceType())
+          .map((e) => ResourceType.fromString((e as String)))
           .toList(),
     );
   }
@@ -13489,7 +12976,7 @@ class RecordingGroup {
         'includeGlobalResourceTypes': includeGlobalResourceTypes,
       if (recordingStrategy != null) 'recordingStrategy': recordingStrategy,
       if (resourceTypes != null)
-        'resourceTypes': resourceTypes.map((e) => e.toValue()).toList(),
+        'resourceTypes': resourceTypes.map((e) => e.value).toList(),
     };
   }
 }
@@ -13553,7 +13040,7 @@ class RecordingMode {
   factory RecordingMode.fromJson(Map<String, dynamic> json) {
     return RecordingMode(
       recordingFrequency:
-          (json['recordingFrequency'] as String).toRecordingFrequency(),
+          RecordingFrequency.fromString((json['recordingFrequency'] as String)),
       recordingModeOverrides: (json['recordingModeOverrides'] as List?)
           ?.whereNotNull()
           .map((e) => RecordingModeOverride.fromJson(e as Map<String, dynamic>))
@@ -13565,7 +13052,7 @@ class RecordingMode {
     final recordingFrequency = this.recordingFrequency;
     final recordingModeOverrides = this.recordingModeOverrides;
     return {
-      'recordingFrequency': recordingFrequency.toValue(),
+      'recordingFrequency': recordingFrequency.value,
       if (recordingModeOverrides != null)
         'recordingModeOverrides': recordingModeOverrides,
     };
@@ -13624,10 +13111,10 @@ class RecordingModeOverride {
   factory RecordingModeOverride.fromJson(Map<String, dynamic> json) {
     return RecordingModeOverride(
       recordingFrequency:
-          (json['recordingFrequency'] as String).toRecordingFrequency(),
+          RecordingFrequency.fromString((json['recordingFrequency'] as String)),
       resourceTypes: (json['resourceTypes'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toResourceType())
+          .map((e) => ResourceType.fromString((e as String)))
           .toList(),
       description: json['description'] as String?,
     );
@@ -13638,8 +13125,8 @@ class RecordingModeOverride {
     final resourceTypes = this.resourceTypes;
     final description = this.description;
     return {
-      'recordingFrequency': recordingFrequency.toValue(),
-      'resourceTypes': resourceTypes.map((e) => e.toValue()).toList(),
+      'recordingFrequency': recordingFrequency.value,
+      'resourceTypes': resourceTypes.map((e) => e.value).toList(),
       if (description != null) 'description': description,
     };
   }
@@ -13754,49 +13241,33 @@ class RecordingStrategy {
 
   factory RecordingStrategy.fromJson(Map<String, dynamic> json) {
     return RecordingStrategy(
-      useOnly: (json['useOnly'] as String?)?.toRecordingStrategyType(),
+      useOnly:
+          (json['useOnly'] as String?)?.let(RecordingStrategyType.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final useOnly = this.useOnly;
     return {
-      if (useOnly != null) 'useOnly': useOnly.toValue(),
+      if (useOnly != null) 'useOnly': useOnly.value,
     };
   }
 }
 
 enum RecordingStrategyType {
-  allSupportedResourceTypes,
-  inclusionByResourceTypes,
-  exclusionByResourceTypes,
-}
+  allSupportedResourceTypes('ALL_SUPPORTED_RESOURCE_TYPES'),
+  inclusionByResourceTypes('INCLUSION_BY_RESOURCE_TYPES'),
+  exclusionByResourceTypes('EXCLUSION_BY_RESOURCE_TYPES'),
+  ;
 
-extension RecordingStrategyTypeValueExtension on RecordingStrategyType {
-  String toValue() {
-    switch (this) {
-      case RecordingStrategyType.allSupportedResourceTypes:
-        return 'ALL_SUPPORTED_RESOURCE_TYPES';
-      case RecordingStrategyType.inclusionByResourceTypes:
-        return 'INCLUSION_BY_RESOURCE_TYPES';
-      case RecordingStrategyType.exclusionByResourceTypes:
-        return 'EXCLUSION_BY_RESOURCE_TYPES';
-    }
-  }
-}
+  final String value;
 
-extension RecordingStrategyTypeFromString on String {
-  RecordingStrategyType toRecordingStrategyType() {
-    switch (this) {
-      case 'ALL_SUPPORTED_RESOURCE_TYPES':
-        return RecordingStrategyType.allSupportedResourceTypes;
-      case 'INCLUSION_BY_RESOURCE_TYPES':
-        return RecordingStrategyType.inclusionByResourceTypes;
-      case 'EXCLUSION_BY_RESOURCE_TYPES':
-        return RecordingStrategyType.exclusionByResourceTypes;
-    }
-    throw Exception('$this is not known in enum RecordingStrategyType');
-  }
+  const RecordingStrategyType(this.value);
+
+  static RecordingStrategyType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RecordingStrategyType'));
 }
 
 /// The relationship of the related resource to the main resource.
@@ -13825,7 +13296,8 @@ class Relationship {
       relationshipName: json['relationshipName'] as String?,
       resourceId: json['resourceId'] as String?,
       resourceName: json['resourceName'] as String?,
-      resourceType: (json['resourceType'] as String?)?.toResourceType(),
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
     );
   }
 
@@ -13838,7 +13310,7 @@ class Relationship {
       if (relationshipName != null) 'relationshipName': relationshipName,
       if (resourceId != null) 'resourceId': resourceId,
       if (resourceName != null) 'resourceName': resourceName,
-      if (resourceType != null) 'resourceType': resourceType.toValue(),
+      if (resourceType != null) 'resourceType': resourceType.value,
     };
   }
 }
@@ -13923,7 +13395,8 @@ class RemediationConfiguration {
     return RemediationConfiguration(
       configRuleName: json['ConfigRuleName'] as String,
       targetId: json['TargetId'] as String,
-      targetType: (json['TargetType'] as String).toRemediationTargetType(),
+      targetType:
+          RemediationTargetType.fromString((json['TargetType'] as String)),
       arn: json['Arn'] as String?,
       automatic: json['Automatic'] as bool?,
       createdByService: json['CreatedByService'] as String?,
@@ -13957,7 +13430,7 @@ class RemediationConfiguration {
     return {
       'ConfigRuleName': configRuleName,
       'TargetId': targetId,
-      'TargetType': targetType.toValue(),
+      'TargetType': targetType.value,
       if (arn != null) 'Arn': arn,
       if (automatic != null) 'Automatic': automatic,
       if (createdByService != null) 'CreatedByService': createdByService,
@@ -14059,41 +13532,20 @@ class RemediationExceptionResourceKey {
 }
 
 enum RemediationExecutionState {
-  queued,
-  inProgress,
-  succeeded,
-  failed,
-}
+  queued('QUEUED'),
+  inProgress('IN_PROGRESS'),
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  ;
 
-extension RemediationExecutionStateValueExtension on RemediationExecutionState {
-  String toValue() {
-    switch (this) {
-      case RemediationExecutionState.queued:
-        return 'QUEUED';
-      case RemediationExecutionState.inProgress:
-        return 'IN_PROGRESS';
-      case RemediationExecutionState.succeeded:
-        return 'SUCCEEDED';
-      case RemediationExecutionState.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension RemediationExecutionStateFromString on String {
-  RemediationExecutionState toRemediationExecutionState() {
-    switch (this) {
-      case 'QUEUED':
-        return RemediationExecutionState.queued;
-      case 'IN_PROGRESS':
-        return RemediationExecutionState.inProgress;
-      case 'SUCCEEDED':
-        return RemediationExecutionState.succeeded;
-      case 'FAILED':
-        return RemediationExecutionState.failed;
-    }
-    throw Exception('$this is not known in enum RemediationExecutionState');
-  }
+  const RemediationExecutionState(this.value);
+
+  static RemediationExecutionState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RemediationExecutionState'));
 }
 
 /// Provides details of the current status of the invoked remediation action for
@@ -14127,7 +13579,8 @@ class RemediationExecutionStatus {
       resourceKey: json['ResourceKey'] != null
           ? ResourceKey.fromJson(json['ResourceKey'] as Map<String, dynamic>)
           : null,
-      state: (json['State'] as String?)?.toRemediationExecutionState(),
+      state:
+          (json['State'] as String?)?.let(RemediationExecutionState.fromString),
       stepDetails: (json['StepDetails'] as List?)
           ?.whereNotNull()
           .map((e) =>
@@ -14148,7 +13601,7 @@ class RemediationExecutionStatus {
       if (lastUpdatedTime != null)
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       if (resourceKey != null) 'ResourceKey': resourceKey,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (stepDetails != null) 'StepDetails': stepDetails,
     };
   }
@@ -14184,7 +13637,8 @@ class RemediationExecutionStep {
       errorMessage: json['ErrorMessage'] as String?,
       name: json['Name'] as String?,
       startTime: timeStampFromJson(json['StartTime']),
-      state: (json['State'] as String?)?.toRemediationExecutionStepState(),
+      state: (json['State'] as String?)
+          ?.let(RemediationExecutionStepState.fromString),
       stopTime: timeStampFromJson(json['StopTime']),
     );
   }
@@ -14199,44 +13653,26 @@ class RemediationExecutionStep {
       if (errorMessage != null) 'ErrorMessage': errorMessage,
       if (name != null) 'Name': name,
       if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (stopTime != null) 'StopTime': unixTimestampToJson(stopTime),
     };
   }
 }
 
 enum RemediationExecutionStepState {
-  succeeded,
-  pending,
-  failed,
-}
+  succeeded('SUCCEEDED'),
+  pending('PENDING'),
+  failed('FAILED'),
+  ;
 
-extension RemediationExecutionStepStateValueExtension
-    on RemediationExecutionStepState {
-  String toValue() {
-    switch (this) {
-      case RemediationExecutionStepState.succeeded:
-        return 'SUCCEEDED';
-      case RemediationExecutionStepState.pending:
-        return 'PENDING';
-      case RemediationExecutionStepState.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension RemediationExecutionStepStateFromString on String {
-  RemediationExecutionStepState toRemediationExecutionStepState() {
-    switch (this) {
-      case 'SUCCEEDED':
-        return RemediationExecutionStepState.succeeded;
-      case 'PENDING':
-        return RemediationExecutionStepState.pending;
-      case 'FAILED':
-        return RemediationExecutionStepState.failed;
-    }
-    throw Exception('$this is not known in enum RemediationExecutionStepState');
-  }
+  const RemediationExecutionStepState(this.value);
+
+  static RemediationExecutionStepState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RemediationExecutionStepState'));
 }
 
 /// The value is either a dynamic (resource) value or a static value. You must
@@ -14276,51 +13712,31 @@ class RemediationParameterValue {
 }
 
 enum RemediationTargetType {
-  ssmDocument,
-}
+  ssmDocument('SSM_DOCUMENT'),
+  ;
 
-extension RemediationTargetTypeValueExtension on RemediationTargetType {
-  String toValue() {
-    switch (this) {
-      case RemediationTargetType.ssmDocument:
-        return 'SSM_DOCUMENT';
-    }
-  }
-}
+  final String value;
 
-extension RemediationTargetTypeFromString on String {
-  RemediationTargetType toRemediationTargetType() {
-    switch (this) {
-      case 'SSM_DOCUMENT':
-        return RemediationTargetType.ssmDocument;
-    }
-    throw Exception('$this is not known in enum RemediationTargetType');
-  }
+  const RemediationTargetType(this.value);
+
+  static RemediationTargetType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RemediationTargetType'));
 }
 
 enum ResourceConfigurationSchemaType {
-  cfnResourceSchema,
-}
+  cfnResourceSchema('CFN_RESOURCE_SCHEMA'),
+  ;
 
-extension ResourceConfigurationSchemaTypeValueExtension
-    on ResourceConfigurationSchemaType {
-  String toValue() {
-    switch (this) {
-      case ResourceConfigurationSchemaType.cfnResourceSchema:
-        return 'CFN_RESOURCE_SCHEMA';
-    }
-  }
-}
+  final String value;
 
-extension ResourceConfigurationSchemaTypeFromString on String {
-  ResourceConfigurationSchemaType toResourceConfigurationSchemaType() {
-    switch (this) {
-      case 'CFN_RESOURCE_SCHEMA':
-        return ResourceConfigurationSchemaType.cfnResourceSchema;
-    }
-    throw Exception(
-        '$this is not known in enum ResourceConfigurationSchemaType');
-  }
+  const ResourceConfigurationSchemaType(this.value);
+
+  static ResourceConfigurationSchemaType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ResourceConfigurationSchemaType'));
 }
 
 /// An object that contains the resource type and the number of resources.
@@ -14339,7 +13755,8 @@ class ResourceCount {
   factory ResourceCount.fromJson(Map<String, dynamic> json) {
     return ResourceCount(
       count: json['count'] as int?,
-      resourceType: (json['resourceType'] as String?)?.toResourceType(),
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
     );
   }
 
@@ -14348,7 +13765,7 @@ class ResourceCount {
     final resourceType = this.resourceType;
     return {
       if (count != null) 'count': count,
-      if (resourceType != null) 'resourceType': resourceType.toValue(),
+      if (resourceType != null) 'resourceType': resourceType.value,
     };
   }
 }
@@ -14377,42 +13794,25 @@ class ResourceCountFilters {
     return {
       if (accountId != null) 'AccountId': accountId,
       if (region != null) 'Region': region,
-      if (resourceType != null) 'ResourceType': resourceType.toValue(),
+      if (resourceType != null) 'ResourceType': resourceType.value,
     };
   }
 }
 
 enum ResourceCountGroupKey {
-  resourceType,
-  accountId,
-  awsRegion,
-}
+  resourceType('RESOURCE_TYPE'),
+  accountId('ACCOUNT_ID'),
+  awsRegion('AWS_REGION'),
+  ;
 
-extension ResourceCountGroupKeyValueExtension on ResourceCountGroupKey {
-  String toValue() {
-    switch (this) {
-      case ResourceCountGroupKey.resourceType:
-        return 'RESOURCE_TYPE';
-      case ResourceCountGroupKey.accountId:
-        return 'ACCOUNT_ID';
-      case ResourceCountGroupKey.awsRegion:
-        return 'AWS_REGION';
-    }
-  }
-}
+  final String value;
 
-extension ResourceCountGroupKeyFromString on String {
-  ResourceCountGroupKey toResourceCountGroupKey() {
-    switch (this) {
-      case 'RESOURCE_TYPE':
-        return ResourceCountGroupKey.resourceType;
-      case 'ACCOUNT_ID':
-        return ResourceCountGroupKey.accountId;
-      case 'AWS_REGION':
-        return ResourceCountGroupKey.awsRegion;
-    }
-    throw Exception('$this is not known in enum ResourceCountGroupKey');
-  }
+  const ResourceCountGroupKey(this.value);
+
+  static ResourceCountGroupKey fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ResourceCountGroupKey'));
 }
 
 /// Returns information about the resource being evaluated.
@@ -14459,7 +13859,7 @@ class ResourceDetails {
       resourceType: json['ResourceType'] as String,
       resourceConfigurationSchemaType:
           (json['ResourceConfigurationSchemaType'] as String?)
-              ?.toResourceConfigurationSchemaType(),
+              ?.let(ResourceConfigurationSchemaType.fromString),
     );
   }
 
@@ -14475,7 +13875,7 @@ class ResourceDetails {
       'ResourceType': resourceType,
       if (resourceConfigurationSchemaType != null)
         'ResourceConfigurationSchemaType':
-            resourceConfigurationSchemaType.toValue(),
+            resourceConfigurationSchemaType.value,
     };
   }
 }
@@ -14499,7 +13899,8 @@ class ResourceEvaluation {
 
   factory ResourceEvaluation.fromJson(Map<String, dynamic> json) {
     return ResourceEvaluation(
-      evaluationMode: (json['EvaluationMode'] as String?)?.toEvaluationMode(),
+      evaluationMode:
+          (json['EvaluationMode'] as String?)?.let(EvaluationMode.fromString),
       evaluationStartTimestamp:
           timeStampFromJson(json['EvaluationStartTimestamp']),
       resourceEvaluationId: json['ResourceEvaluationId'] as String?,
@@ -14511,7 +13912,7 @@ class ResourceEvaluation {
     final evaluationStartTimestamp = this.evaluationStartTimestamp;
     final resourceEvaluationId = this.resourceEvaluationId;
     return {
-      if (evaluationMode != null) 'EvaluationMode': evaluationMode.toValue(),
+      if (evaluationMode != null) 'EvaluationMode': evaluationMode.value,
       if (evaluationStartTimestamp != null)
         'EvaluationStartTimestamp':
             unixTimestampToJson(evaluationStartTimestamp),
@@ -14550,43 +13951,26 @@ class ResourceEvaluationFilters {
     return {
       if (evaluationContextIdentifier != null)
         'EvaluationContextIdentifier': evaluationContextIdentifier,
-      if (evaluationMode != null) 'EvaluationMode': evaluationMode.toValue(),
+      if (evaluationMode != null) 'EvaluationMode': evaluationMode.value,
       if (timeWindow != null) 'TimeWindow': timeWindow,
     };
   }
 }
 
 enum ResourceEvaluationStatus {
-  inProgress,
-  failed,
-  succeeded,
-}
+  inProgress('IN_PROGRESS'),
+  failed('FAILED'),
+  succeeded('SUCCEEDED'),
+  ;
 
-extension ResourceEvaluationStatusValueExtension on ResourceEvaluationStatus {
-  String toValue() {
-    switch (this) {
-      case ResourceEvaluationStatus.inProgress:
-        return 'IN_PROGRESS';
-      case ResourceEvaluationStatus.failed:
-        return 'FAILED';
-      case ResourceEvaluationStatus.succeeded:
-        return 'SUCCEEDED';
-    }
-  }
-}
+  final String value;
 
-extension ResourceEvaluationStatusFromString on String {
-  ResourceEvaluationStatus toResourceEvaluationStatus() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return ResourceEvaluationStatus.inProgress;
-      case 'FAILED':
-        return ResourceEvaluationStatus.failed;
-      case 'SUCCEEDED':
-        return ResourceEvaluationStatus.succeeded;
-    }
-    throw Exception('$this is not known in enum ResourceEvaluationStatus');
-  }
+  const ResourceEvaluationStatus(this.value);
+
+  static ResourceEvaluationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ResourceEvaluationStatus'));
 }
 
 /// Filters the results by resource account ID, region, resource ID, and
@@ -14652,7 +14036,8 @@ class ResourceIdentifier {
       resourceDeletionTime: timeStampFromJson(json['resourceDeletionTime']),
       resourceId: json['resourceId'] as String?,
       resourceName: json['resourceName'] as String?,
-      resourceType: (json['resourceType'] as String?)?.toResourceType(),
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
     );
   }
 
@@ -14666,7 +14051,7 @@ class ResourceIdentifier {
         'resourceDeletionTime': unixTimestampToJson(resourceDeletionTime),
       if (resourceId != null) 'resourceId': resourceId,
       if (resourceName != null) 'resourceName': resourceName,
-      if (resourceType != null) 'resourceType': resourceType.toValue(),
+      if (resourceType != null) 'resourceType': resourceType.value,
     };
   }
 }
@@ -14688,7 +14073,7 @@ class ResourceKey {
   factory ResourceKey.fromJson(Map<String, dynamic> json) {
     return ResourceKey(
       resourceId: json['resourceId'] as String,
-      resourceType: (json['resourceType'] as String).toResourceType(),
+      resourceType: ResourceType.fromString((json['resourceType'] as String)),
     );
   }
 
@@ -14697,2063 +14082,461 @@ class ResourceKey {
     final resourceType = this.resourceType;
     return {
       'resourceId': resourceId,
-      'resourceType': resourceType.toValue(),
+      'resourceType': resourceType.value,
     };
   }
 }
 
 enum ResourceType {
-  awsEc2CustomerGateway,
-  awsEc2Eip,
-  awsEc2Host,
-  awsEc2Instance,
-  awsEc2InternetGateway,
-  awsEc2NetworkAcl,
-  awsEc2NetworkInterface,
-  awsEc2RouteTable,
-  awsEc2SecurityGroup,
-  awsEc2Subnet,
-  awsCloudTrailTrail,
-  awsEc2Volume,
-  awsEc2Vpc,
-  awsEc2VPNConnection,
-  awsEc2VPNGateway,
-  awsEc2RegisteredHAInstance,
-  awsEc2NatGateway,
-  awsEc2EgressOnlyInternetGateway,
-  awsEc2VPCEndpoint,
-  awsEc2VPCEndpointService,
-  awsEc2FlowLog,
-  awsEc2VPCPeeringConnection,
-  awsElasticsearchDomain,
-  awsIamGroup,
-  awsIamPolicy,
-  awsIamRole,
-  awsIamUser,
-  awsElasticLoadBalancingV2LoadBalancer,
-  awsAcmCertificate,
-  awsRdsDBInstance,
-  awsRdsDBSubnetGroup,
-  awsRdsDBSecurityGroup,
-  awsRdsDBSnapshot,
-  awsRdsDBCluster,
-  awsRdsDBClusterSnapshot,
-  awsRdsEventSubscription,
-  awsS3Bucket,
-  awsS3AccountPublicAccessBlock,
-  awsRedshiftCluster,
-  awsRedshiftClusterSnapshot,
-  awsRedshiftClusterParameterGroup,
-  awsRedshiftClusterSecurityGroup,
-  awsRedshiftClusterSubnetGroup,
-  awsRedshiftEventSubscription,
-  awsSsmManagedInstanceInventory,
-  awsCloudWatchAlarm,
-  awsCloudFormationStack,
-  awsElasticLoadBalancingLoadBalancer,
-  awsAutoScalingAutoScalingGroup,
-  awsAutoScalingLaunchConfiguration,
-  awsAutoScalingScalingPolicy,
-  awsAutoScalingScheduledAction,
-  awsDynamoDBTable,
-  awsCodeBuildProject,
-  awsWafRateBasedRule,
-  awsWafRule,
-  awsWafRuleGroup,
-  awsWafWebACL,
-  awsWAFRegionalRateBasedRule,
-  awsWAFRegionalRule,
-  awsWAFRegionalRuleGroup,
-  awsWAFRegionalWebACL,
-  awsCloudFrontDistribution,
-  awsCloudFrontStreamingDistribution,
-  awsLambdaFunction,
-  awsNetworkFirewallFirewall,
-  awsNetworkFirewallFirewallPolicy,
-  awsNetworkFirewallRuleGroup,
-  awsElasticBeanstalkApplication,
-  awsElasticBeanstalkApplicationVersion,
-  awsElasticBeanstalkEnvironment,
-  awsWAFv2WebACL,
-  awsWAFv2RuleGroup,
-  awsWAFv2IPSet,
-  awsWAFv2RegexPatternSet,
-  awsWAFv2ManagedRuleSet,
-  awsXRayEncryptionConfig,
-  awsSsmAssociationCompliance,
-  awsSsmPatchCompliance,
-  awsShieldProtection,
-  awsShieldRegionalProtection,
-  awsConfigConformancePackCompliance,
-  awsConfigResourceCompliance,
-  awsApiGatewayStage,
-  awsApiGatewayRestApi,
-  awsApiGatewayV2Stage,
-  awsApiGatewayV2Api,
-  awsCodePipelinePipeline,
-  awsServiceCatalogCloudFormationProvisionedProduct,
-  awsServiceCatalogCloudFormationProduct,
-  awsServiceCatalogPortfolio,
-  awsSqsQueue,
-  awsKmsKey,
-  awsQldbLedger,
-  awsSecretsManagerSecret,
-  awsSnsTopic,
-  awsSsmFileData,
-  awsBackupBackupPlan,
-  awsBackupBackupSelection,
-  awsBackupBackupVault,
-  awsBackupRecoveryPoint,
-  awsEcrRepository,
-  awsEcsCluster,
-  awsEcsService,
-  awsEcsTaskDefinition,
-  awsEfsAccessPoint,
-  awsEfsFileSystem,
-  awsEksCluster,
-  awsOpenSearchDomain,
-  awsEc2TransitGateway,
-  awsKinesisStream,
-  awsKinesisStreamConsumer,
-  awsCodeDeployApplication,
-  awsCodeDeployDeploymentConfig,
-  awsCodeDeployDeploymentGroup,
-  awsEc2LaunchTemplate,
-  awsEcrPublicRepository,
-  awsGuardDutyDetector,
-  awsEmrSecurityConfiguration,
-  awsSageMakerCodeRepository,
-  awsRoute53ResolverResolverEndpoint,
-  awsRoute53ResolverResolverRule,
-  awsRoute53ResolverResolverRuleAssociation,
-  awsDmsReplicationSubnetGroup,
-  awsDmsEventSubscription,
-  awsMskCluster,
-  awsStepFunctionsActivity,
-  awsWorkSpacesWorkspace,
-  awsWorkSpacesConnectionAlias,
-  awsSageMakerModel,
-  awsElasticLoadBalancingV2Listener,
-  awsStepFunctionsStateMachine,
-  awsBatchJobQueue,
-  awsBatchComputeEnvironment,
-  awsAccessAnalyzerAnalyzer,
-  awsAthenaWorkGroup,
-  awsAthenaDataCatalog,
-  awsDetectiveGraph,
-  awsGlobalAcceleratorAccelerator,
-  awsGlobalAcceleratorEndpointGroup,
-  awsGlobalAcceleratorListener,
-  awsEc2TransitGatewayAttachment,
-  awsEc2TransitGatewayRouteTable,
-  awsDmsCertificate,
-  awsAppConfigApplication,
-  awsAppSyncGraphQLApi,
-  awsDataSyncLocationSMB,
-  awsDataSyncLocationFSxLustre,
-  awsDataSyncLocationS3,
-  awsDataSyncLocationEFS,
-  awsDataSyncTask,
-  awsDataSyncLocationNFS,
-  awsEc2NetworkInsightsAccessScopeAnalysis,
-  awsEksFargateProfile,
-  awsGlueJob,
-  awsGuardDutyThreatIntelSet,
-  awsGuardDutyIPSet,
-  awsSageMakerWorkteam,
-  awsSageMakerNotebookInstanceLifecycleConfig,
-  awsServiceDiscoveryService,
-  awsServiceDiscoveryPublicDnsNamespace,
-  awsSesContactList,
-  awsSesConfigurationSet,
-  awsRoute53HostedZone,
-  awsIoTEventsInput,
-  awsIoTEventsDetectorModel,
-  awsIoTEventsAlarmModel,
-  awsServiceDiscoveryHttpNamespace,
-  awsEventsEventBus,
-  awsImageBuilderContainerRecipe,
-  awsImageBuilderDistributionConfiguration,
-  awsImageBuilderInfrastructureConfiguration,
-  awsDataSyncLocationObjectStorage,
-  awsDataSyncLocationHDFS,
-  awsGlueClassifier,
-  awsRoute53RecoveryReadinessCell,
-  awsRoute53RecoveryReadinessReadinessCheck,
-  awsEcrRegistryPolicy,
-  awsBackupReportPlan,
-  awsLightsailCertificate,
-  awsRumAppMonitor,
-  awsEventsEndpoint,
-  awsSesReceiptRuleSet,
-  awsEventsArchive,
-  awsEventsApiDestination,
-  awsLightsailDisk,
-  awsFisExperimentTemplate,
-  awsDataSyncLocationFSxWindows,
-  awsSesReceiptFilter,
-  awsGuardDutyFilter,
-  awsSesTemplate,
-  awsAmazonMQBroker,
-  awsAppConfigEnvironment,
-  awsAppConfigConfigurationProfile,
-  awsCloud9EnvironmentEC2,
-  awsEventSchemasRegistry,
-  awsEventSchemasRegistryPolicy,
-  awsEventSchemasDiscoverer,
-  awsFraudDetectorLabel,
-  awsFraudDetectorEntityType,
-  awsFraudDetectorVariable,
-  awsFraudDetectorOutcome,
-  awsIoTAuthorizer,
-  awsIoTSecurityProfile,
-  awsIoTRoleAlias,
-  awsIoTDimension,
-  awsIoTAnalyticsDatastore,
-  awsLightsailBucket,
-  awsLightsailStaticIp,
-  awsMediaPackagePackagingGroup,
-  awsRoute53RecoveryReadinessRecoveryGroup,
-  awsResilienceHubResiliencyPolicy,
-  awsTransferWorkflow,
-  awsEksIdentityProviderConfig,
-  awsEksAddon,
-  awsGlueMLTransform,
-  awsIoTPolicy,
-  awsIoTMitigationAction,
-  awsIoTTwinMakerWorkspace,
-  awsIoTTwinMakerEntity,
-  awsIoTAnalyticsDataset,
-  awsIoTAnalyticsPipeline,
-  awsIoTAnalyticsChannel,
-  awsIoTSiteWiseDashboard,
-  awsIoTSiteWiseProject,
-  awsIoTSiteWisePortal,
-  awsIoTSiteWiseAssetModel,
-  awsIvsChannel,
-  awsIvsRecordingConfiguration,
-  awsIvsPlaybackKeyPair,
-  awsKinesisAnalyticsV2Application,
-  awsRdsGlobalCluster,
-  awsS3MultiRegionAccessPoint,
-  awsDeviceFarmTestGridProject,
-  awsBudgetsBudgetsAction,
-  awsLexBot,
-  awsCodeGuruReviewerRepositoryAssociation,
-  awsIoTCustomMetric,
-  awsRoute53ResolverFirewallDomainList,
-  awsRoboMakerRobotApplicationVersion,
-  awsEc2TrafficMirrorSession,
-  awsIoTSiteWiseGateway,
-  awsLexBotAlias,
-  awsLookoutMetricsAlert,
-  awsIoTAccountAuditConfiguration,
-  awsEc2TrafficMirrorTarget,
-  awsS3StorageLens,
-  awsIoTScheduledAudit,
-  awsEventsConnection,
-  awsEventSchemasSchema,
-  awsMediaPackagePackagingConfiguration,
-  awsKinesisVideoSignalingChannel,
-  awsAppStreamDirectoryConfig,
-  awsLookoutVisionProject,
-  awsRoute53RecoveryControlCluster,
-  awsRoute53RecoveryControlSafetyRule,
-  awsRoute53RecoveryControlControlPanel,
-  awsRoute53RecoveryControlRoutingControl,
-  awsRoute53RecoveryReadinessResourceSet,
-  awsRoboMakerSimulationApplication,
-  awsRoboMakerRobotApplication,
-  awsHealthLakeFHIRDatastore,
-  awsPinpointSegment,
-  awsPinpointApplicationSettings,
-  awsEventsRule,
-  awsEc2DHCPOptions,
-  awsEc2NetworkInsightsPath,
-  awsEc2TrafficMirrorFilter,
-  awsEc2Ipam,
-  awsIoTTwinMakerScene,
-  awsNetworkManagerTransitGatewayRegistration,
-  awsCustomerProfilesDomain,
-  awsAutoScalingWarmPool,
-  awsConnectPhoneNumber,
-  awsAppConfigDeploymentStrategy,
-  awsAppFlowFlow,
-  awsAuditManagerAssessment,
-  awsCloudWatchMetricStream,
-  awsDeviceFarmInstanceProfile,
-  awsDeviceFarmProject,
-  awsEc2EC2Fleet,
-  awsEc2SubnetRouteTableAssociation,
-  awsEcrPullThroughCacheRule,
-  awsGroundStationConfig,
-  awsImageBuilderImagePipeline,
-  awsIoTFleetMetric,
-  awsIoTWirelessServiceProfile,
-  awsNetworkManagerDevice,
-  awsNetworkManagerGlobalNetwork,
-  awsNetworkManagerLink,
-  awsNetworkManagerSite,
-  awsPanoramaPackage,
-  awsPinpointApp,
-  awsRedshiftScheduledAction,
-  awsRoute53ResolverFirewallRuleGroupAssociation,
-  awsSageMakerAppImageConfig,
-  awsSageMakerImage,
-  awsEcsTaskSet,
-  awsCassandraKeyspace,
-  awsSignerSigningProfile,
-  awsAmplifyApp,
-  awsAppMeshVirtualNode,
-  awsAppMeshVirtualService,
-  awsAppRunnerVpcConnector,
-  awsAppStreamApplication,
-  awsCodeArtifactRepository,
-  awsEc2PrefixList,
-  awsEc2SpotFleet,
-  awsEvidentlyProject,
-  awsForecastDataset,
-  awsIamSAMLProvider,
-  awsIamServerCertificate,
-  awsPinpointCampaign,
-  awsPinpointInAppTemplate,
-  awsSageMakerDomain,
-  awsTransferAgreement,
-  awsTransferConnector,
-  awsKinesisFirehoseDeliveryStream,
-  awsAmplifyBranch,
-  awsAppIntegrationsEventIntegration,
-  awsAppMeshRoute,
-  awsAthenaPreparedStatement,
-  awsEc2IPAMScope,
-  awsEvidentlyLaunch,
-  awsForecastDatasetGroup,
-  awsGreengrassV2ComponentVersion,
-  awsGroundStationMissionProfile,
-  awsMediaConnectFlowEntitlement,
-  awsMediaConnectFlowVpcInterface,
-  awsMediaTailorPlaybackConfiguration,
-  awsMskConfiguration,
-  awsPersonalizeDataset,
-  awsPersonalizeSchema,
-  awsPersonalizeSolution,
-  awsPinpointEmailTemplate,
-  awsPinpointEventStream,
-  awsResilienceHubApp,
-  awsAcmpcaCertificateAuthority,
-  awsAppConfigHostedConfigurationVersion,
-  awsAppMeshVirtualGateway,
-  awsAppMeshVirtualRouter,
-  awsAppRunnerService,
-  awsCustomerProfilesObjectType,
-  awsDmsEndpoint,
-  awsEc2CapacityReservation,
-  awsEc2ClientVpnEndpoint,
-  awsKendraIndex,
-  awsKinesisVideoStream,
-  awsLogsDestination,
-  awsPinpointEmailChannel,
-  awsS3AccessPoint,
-  awsNetworkManagerCustomerGatewayAssociation,
-  awsNetworkManagerLinkAssociation,
-  awsIoTWirelessMulticastGroup,
-  awsPersonalizeDatasetGroup,
-  awsIoTTwinMakerComponentType,
-  awsCodeBuildReportGroup,
-  awsSageMakerFeatureGroup,
-  awsMskBatchScramSecret,
-  awsAppStreamStack,
-  awsIoTJobTemplate,
-  awsIoTWirelessFuotaTask,
-  awsIoTProvisioningTemplate,
-  awsInspectorV2Filter,
-  awsRoute53ResolverResolverQueryLoggingConfigAssociation,
-  awsServiceDiscoveryInstance,
-  awsTransferCertificate,
-  awsMediaConnectFlowSource,
-  awsApsRuleGroupsNamespace,
-  awsCodeGuruProfilerProfilingGroup,
-  awsRoute53ResolverResolverQueryLoggingConfig,
-  awsBatchSchedulingPolicy,
-  awsAcmpcaCertificateAuthorityActivation,
-  awsAppMeshGatewayRoute,
-  awsAppMeshMesh,
-  awsConnectInstance,
-  awsConnectQuickConnect,
-  awsEc2CarrierGateway,
-  awsEc2IPAMPool,
-  awsEc2TransitGatewayConnect,
-  awsEc2TransitGatewayMulticastDomain,
-  awsEcsCapacityProvider,
-  awsIamInstanceProfile,
-  awsIoTCACertificate,
-  awsIoTTwinMakerSyncJob,
-  awsKafkaConnectConnector,
-  awsLambdaCodeSigningConfig,
-  awsNetworkManagerConnectPeer,
-  awsResourceExplorer2Index,
-  awsAppStreamFleet,
-  awsCognitoUserPool,
-  awsCognitoUserPoolClient,
-  awsCognitoUserPoolGroup,
-  awsEc2NetworkInsightsAccessScope,
-  awsEc2NetworkInsightsAnalysis,
-  awsGrafanaWorkspace,
-  awsGroundStationDataflowEndpointGroup,
-  awsImageBuilderImageRecipe,
-  awsKmsAlias,
-  awsM2Environment,
-  awsQuickSightDataSource,
-  awsQuickSightTemplate,
-  awsQuickSightTheme,
-  awsRdsOptionGroup,
-  awsRedshiftEndpointAccess,
-  awsRoute53ResolverFirewallRuleGroup,
-  awsSsmDocument,
-}
+  awsEc2CustomerGateway('AWS::EC2::CustomerGateway'),
+  awsEc2Eip('AWS::EC2::EIP'),
+  awsEc2Host('AWS::EC2::Host'),
+  awsEc2Instance('AWS::EC2::Instance'),
+  awsEc2InternetGateway('AWS::EC2::InternetGateway'),
+  awsEc2NetworkAcl('AWS::EC2::NetworkAcl'),
+  awsEc2NetworkInterface('AWS::EC2::NetworkInterface'),
+  awsEc2RouteTable('AWS::EC2::RouteTable'),
+  awsEc2SecurityGroup('AWS::EC2::SecurityGroup'),
+  awsEc2Subnet('AWS::EC2::Subnet'),
+  awsCloudTrailTrail('AWS::CloudTrail::Trail'),
+  awsEc2Volume('AWS::EC2::Volume'),
+  awsEc2Vpc('AWS::EC2::VPC'),
+  awsEc2VPNConnection('AWS::EC2::VPNConnection'),
+  awsEc2VPNGateway('AWS::EC2::VPNGateway'),
+  awsEc2RegisteredHAInstance('AWS::EC2::RegisteredHAInstance'),
+  awsEc2NatGateway('AWS::EC2::NatGateway'),
+  awsEc2EgressOnlyInternetGateway('AWS::EC2::EgressOnlyInternetGateway'),
+  awsEc2VPCEndpoint('AWS::EC2::VPCEndpoint'),
+  awsEc2VPCEndpointService('AWS::EC2::VPCEndpointService'),
+  awsEc2FlowLog('AWS::EC2::FlowLog'),
+  awsEc2VPCPeeringConnection('AWS::EC2::VPCPeeringConnection'),
+  awsElasticsearchDomain('AWS::Elasticsearch::Domain'),
+  awsIamGroup('AWS::IAM::Group'),
+  awsIamPolicy('AWS::IAM::Policy'),
+  awsIamRole('AWS::IAM::Role'),
+  awsIamUser('AWS::IAM::User'),
+  awsElasticLoadBalancingV2LoadBalancer(
+      'AWS::ElasticLoadBalancingV2::LoadBalancer'),
+  awsAcmCertificate('AWS::ACM::Certificate'),
+  awsRdsDBInstance('AWS::RDS::DBInstance'),
+  awsRdsDBSubnetGroup('AWS::RDS::DBSubnetGroup'),
+  awsRdsDBSecurityGroup('AWS::RDS::DBSecurityGroup'),
+  awsRdsDBSnapshot('AWS::RDS::DBSnapshot'),
+  awsRdsDBCluster('AWS::RDS::DBCluster'),
+  awsRdsDBClusterSnapshot('AWS::RDS::DBClusterSnapshot'),
+  awsRdsEventSubscription('AWS::RDS::EventSubscription'),
+  awsS3Bucket('AWS::S3::Bucket'),
+  awsS3AccountPublicAccessBlock('AWS::S3::AccountPublicAccessBlock'),
+  awsRedshiftCluster('AWS::Redshift::Cluster'),
+  awsRedshiftClusterSnapshot('AWS::Redshift::ClusterSnapshot'),
+  awsRedshiftClusterParameterGroup('AWS::Redshift::ClusterParameterGroup'),
+  awsRedshiftClusterSecurityGroup('AWS::Redshift::ClusterSecurityGroup'),
+  awsRedshiftClusterSubnetGroup('AWS::Redshift::ClusterSubnetGroup'),
+  awsRedshiftEventSubscription('AWS::Redshift::EventSubscription'),
+  awsSsmManagedInstanceInventory('AWS::SSM::ManagedInstanceInventory'),
+  awsCloudWatchAlarm('AWS::CloudWatch::Alarm'),
+  awsCloudFormationStack('AWS::CloudFormation::Stack'),
+  awsElasticLoadBalancingLoadBalancer(
+      'AWS::ElasticLoadBalancing::LoadBalancer'),
+  awsAutoScalingAutoScalingGroup('AWS::AutoScaling::AutoScalingGroup'),
+  awsAutoScalingLaunchConfiguration('AWS::AutoScaling::LaunchConfiguration'),
+  awsAutoScalingScalingPolicy('AWS::AutoScaling::ScalingPolicy'),
+  awsAutoScalingScheduledAction('AWS::AutoScaling::ScheduledAction'),
+  awsDynamoDBTable('AWS::DynamoDB::Table'),
+  awsCodeBuildProject('AWS::CodeBuild::Project'),
+  awsWafRateBasedRule('AWS::WAF::RateBasedRule'),
+  awsWafRule('AWS::WAF::Rule'),
+  awsWafRuleGroup('AWS::WAF::RuleGroup'),
+  awsWafWebACL('AWS::WAF::WebACL'),
+  awsWAFRegionalRateBasedRule('AWS::WAFRegional::RateBasedRule'),
+  awsWAFRegionalRule('AWS::WAFRegional::Rule'),
+  awsWAFRegionalRuleGroup('AWS::WAFRegional::RuleGroup'),
+  awsWAFRegionalWebACL('AWS::WAFRegional::WebACL'),
+  awsCloudFrontDistribution('AWS::CloudFront::Distribution'),
+  awsCloudFrontStreamingDistribution('AWS::CloudFront::StreamingDistribution'),
+  awsLambdaFunction('AWS::Lambda::Function'),
+  awsNetworkFirewallFirewall('AWS::NetworkFirewall::Firewall'),
+  awsNetworkFirewallFirewallPolicy('AWS::NetworkFirewall::FirewallPolicy'),
+  awsNetworkFirewallRuleGroup('AWS::NetworkFirewall::RuleGroup'),
+  awsElasticBeanstalkApplication('AWS::ElasticBeanstalk::Application'),
+  awsElasticBeanstalkApplicationVersion(
+      'AWS::ElasticBeanstalk::ApplicationVersion'),
+  awsElasticBeanstalkEnvironment('AWS::ElasticBeanstalk::Environment'),
+  awsWAFv2WebACL('AWS::WAFv2::WebACL'),
+  awsWAFv2RuleGroup('AWS::WAFv2::RuleGroup'),
+  awsWAFv2IPSet('AWS::WAFv2::IPSet'),
+  awsWAFv2RegexPatternSet('AWS::WAFv2::RegexPatternSet'),
+  awsWAFv2ManagedRuleSet('AWS::WAFv2::ManagedRuleSet'),
+  awsXRayEncryptionConfig('AWS::XRay::EncryptionConfig'),
+  awsSsmAssociationCompliance('AWS::SSM::AssociationCompliance'),
+  awsSsmPatchCompliance('AWS::SSM::PatchCompliance'),
+  awsShieldProtection('AWS::Shield::Protection'),
+  awsShieldRegionalProtection('AWS::ShieldRegional::Protection'),
+  awsConfigConformancePackCompliance('AWS::Config::ConformancePackCompliance'),
+  awsConfigResourceCompliance('AWS::Config::ResourceCompliance'),
+  awsApiGatewayStage('AWS::ApiGateway::Stage'),
+  awsApiGatewayRestApi('AWS::ApiGateway::RestApi'),
+  awsApiGatewayV2Stage('AWS::ApiGatewayV2::Stage'),
+  awsApiGatewayV2Api('AWS::ApiGatewayV2::Api'),
+  awsCodePipelinePipeline('AWS::CodePipeline::Pipeline'),
+  awsServiceCatalogCloudFormationProvisionedProduct(
+      'AWS::ServiceCatalog::CloudFormationProvisionedProduct'),
+  awsServiceCatalogCloudFormationProduct(
+      'AWS::ServiceCatalog::CloudFormationProduct'),
+  awsServiceCatalogPortfolio('AWS::ServiceCatalog::Portfolio'),
+  awsSqsQueue('AWS::SQS::Queue'),
+  awsKmsKey('AWS::KMS::Key'),
+  awsQldbLedger('AWS::QLDB::Ledger'),
+  awsSecretsManagerSecret('AWS::SecretsManager::Secret'),
+  awsSnsTopic('AWS::SNS::Topic'),
+  awsSsmFileData('AWS::SSM::FileData'),
+  awsBackupBackupPlan('AWS::Backup::BackupPlan'),
+  awsBackupBackupSelection('AWS::Backup::BackupSelection'),
+  awsBackupBackupVault('AWS::Backup::BackupVault'),
+  awsBackupRecoveryPoint('AWS::Backup::RecoveryPoint'),
+  awsEcrRepository('AWS::ECR::Repository'),
+  awsEcsCluster('AWS::ECS::Cluster'),
+  awsEcsService('AWS::ECS::Service'),
+  awsEcsTaskDefinition('AWS::ECS::TaskDefinition'),
+  awsEfsAccessPoint('AWS::EFS::AccessPoint'),
+  awsEfsFileSystem('AWS::EFS::FileSystem'),
+  awsEksCluster('AWS::EKS::Cluster'),
+  awsOpenSearchDomain('AWS::OpenSearch::Domain'),
+  awsEc2TransitGateway('AWS::EC2::TransitGateway'),
+  awsKinesisStream('AWS::Kinesis::Stream'),
+  awsKinesisStreamConsumer('AWS::Kinesis::StreamConsumer'),
+  awsCodeDeployApplication('AWS::CodeDeploy::Application'),
+  awsCodeDeployDeploymentConfig('AWS::CodeDeploy::DeploymentConfig'),
+  awsCodeDeployDeploymentGroup('AWS::CodeDeploy::DeploymentGroup'),
+  awsEc2LaunchTemplate('AWS::EC2::LaunchTemplate'),
+  awsEcrPublicRepository('AWS::ECR::PublicRepository'),
+  awsGuardDutyDetector('AWS::GuardDuty::Detector'),
+  awsEmrSecurityConfiguration('AWS::EMR::SecurityConfiguration'),
+  awsSageMakerCodeRepository('AWS::SageMaker::CodeRepository'),
+  awsRoute53ResolverResolverEndpoint('AWS::Route53Resolver::ResolverEndpoint'),
+  awsRoute53ResolverResolverRule('AWS::Route53Resolver::ResolverRule'),
+  awsRoute53ResolverResolverRuleAssociation(
+      'AWS::Route53Resolver::ResolverRuleAssociation'),
+  awsDmsReplicationSubnetGroup('AWS::DMS::ReplicationSubnetGroup'),
+  awsDmsEventSubscription('AWS::DMS::EventSubscription'),
+  awsMskCluster('AWS::MSK::Cluster'),
+  awsStepFunctionsActivity('AWS::StepFunctions::Activity'),
+  awsWorkSpacesWorkspace('AWS::WorkSpaces::Workspace'),
+  awsWorkSpacesConnectionAlias('AWS::WorkSpaces::ConnectionAlias'),
+  awsSageMakerModel('AWS::SageMaker::Model'),
+  awsElasticLoadBalancingV2Listener('AWS::ElasticLoadBalancingV2::Listener'),
+  awsStepFunctionsStateMachine('AWS::StepFunctions::StateMachine'),
+  awsBatchJobQueue('AWS::Batch::JobQueue'),
+  awsBatchComputeEnvironment('AWS::Batch::ComputeEnvironment'),
+  awsAccessAnalyzerAnalyzer('AWS::AccessAnalyzer::Analyzer'),
+  awsAthenaWorkGroup('AWS::Athena::WorkGroup'),
+  awsAthenaDataCatalog('AWS::Athena::DataCatalog'),
+  awsDetectiveGraph('AWS::Detective::Graph'),
+  awsGlobalAcceleratorAccelerator('AWS::GlobalAccelerator::Accelerator'),
+  awsGlobalAcceleratorEndpointGroup('AWS::GlobalAccelerator::EndpointGroup'),
+  awsGlobalAcceleratorListener('AWS::GlobalAccelerator::Listener'),
+  awsEc2TransitGatewayAttachment('AWS::EC2::TransitGatewayAttachment'),
+  awsEc2TransitGatewayRouteTable('AWS::EC2::TransitGatewayRouteTable'),
+  awsDmsCertificate('AWS::DMS::Certificate'),
+  awsAppConfigApplication('AWS::AppConfig::Application'),
+  awsAppSyncGraphQLApi('AWS::AppSync::GraphQLApi'),
+  awsDataSyncLocationSMB('AWS::DataSync::LocationSMB'),
+  awsDataSyncLocationFSxLustre('AWS::DataSync::LocationFSxLustre'),
+  awsDataSyncLocationS3('AWS::DataSync::LocationS3'),
+  awsDataSyncLocationEFS('AWS::DataSync::LocationEFS'),
+  awsDataSyncTask('AWS::DataSync::Task'),
+  awsDataSyncLocationNFS('AWS::DataSync::LocationNFS'),
+  awsEc2NetworkInsightsAccessScopeAnalysis(
+      'AWS::EC2::NetworkInsightsAccessScopeAnalysis'),
+  awsEksFargateProfile('AWS::EKS::FargateProfile'),
+  awsGlueJob('AWS::Glue::Job'),
+  awsGuardDutyThreatIntelSet('AWS::GuardDuty::ThreatIntelSet'),
+  awsGuardDutyIPSet('AWS::GuardDuty::IPSet'),
+  awsSageMakerWorkteam('AWS::SageMaker::Workteam'),
+  awsSageMakerNotebookInstanceLifecycleConfig(
+      'AWS::SageMaker::NotebookInstanceLifecycleConfig'),
+  awsServiceDiscoveryService('AWS::ServiceDiscovery::Service'),
+  awsServiceDiscoveryPublicDnsNamespace(
+      'AWS::ServiceDiscovery::PublicDnsNamespace'),
+  awsSesContactList('AWS::SES::ContactList'),
+  awsSesConfigurationSet('AWS::SES::ConfigurationSet'),
+  awsRoute53HostedZone('AWS::Route53::HostedZone'),
+  awsIoTEventsInput('AWS::IoTEvents::Input'),
+  awsIoTEventsDetectorModel('AWS::IoTEvents::DetectorModel'),
+  awsIoTEventsAlarmModel('AWS::IoTEvents::AlarmModel'),
+  awsServiceDiscoveryHttpNamespace('AWS::ServiceDiscovery::HttpNamespace'),
+  awsEventsEventBus('AWS::Events::EventBus'),
+  awsImageBuilderContainerRecipe('AWS::ImageBuilder::ContainerRecipe'),
+  awsImageBuilderDistributionConfiguration(
+      'AWS::ImageBuilder::DistributionConfiguration'),
+  awsImageBuilderInfrastructureConfiguration(
+      'AWS::ImageBuilder::InfrastructureConfiguration'),
+  awsDataSyncLocationObjectStorage('AWS::DataSync::LocationObjectStorage'),
+  awsDataSyncLocationHDFS('AWS::DataSync::LocationHDFS'),
+  awsGlueClassifier('AWS::Glue::Classifier'),
+  awsRoute53RecoveryReadinessCell('AWS::Route53RecoveryReadiness::Cell'),
+  awsRoute53RecoveryReadinessReadinessCheck(
+      'AWS::Route53RecoveryReadiness::ReadinessCheck'),
+  awsEcrRegistryPolicy('AWS::ECR::RegistryPolicy'),
+  awsBackupReportPlan('AWS::Backup::ReportPlan'),
+  awsLightsailCertificate('AWS::Lightsail::Certificate'),
+  awsRumAppMonitor('AWS::RUM::AppMonitor'),
+  awsEventsEndpoint('AWS::Events::Endpoint'),
+  awsSesReceiptRuleSet('AWS::SES::ReceiptRuleSet'),
+  awsEventsArchive('AWS::Events::Archive'),
+  awsEventsApiDestination('AWS::Events::ApiDestination'),
+  awsLightsailDisk('AWS::Lightsail::Disk'),
+  awsFisExperimentTemplate('AWS::FIS::ExperimentTemplate'),
+  awsDataSyncLocationFSxWindows('AWS::DataSync::LocationFSxWindows'),
+  awsSesReceiptFilter('AWS::SES::ReceiptFilter'),
+  awsGuardDutyFilter('AWS::GuardDuty::Filter'),
+  awsSesTemplate('AWS::SES::Template'),
+  awsAmazonMQBroker('AWS::AmazonMQ::Broker'),
+  awsAppConfigEnvironment('AWS::AppConfig::Environment'),
+  awsAppConfigConfigurationProfile('AWS::AppConfig::ConfigurationProfile'),
+  awsCloud9EnvironmentEC2('AWS::Cloud9::EnvironmentEC2'),
+  awsEventSchemasRegistry('AWS::EventSchemas::Registry'),
+  awsEventSchemasRegistryPolicy('AWS::EventSchemas::RegistryPolicy'),
+  awsEventSchemasDiscoverer('AWS::EventSchemas::Discoverer'),
+  awsFraudDetectorLabel('AWS::FraudDetector::Label'),
+  awsFraudDetectorEntityType('AWS::FraudDetector::EntityType'),
+  awsFraudDetectorVariable('AWS::FraudDetector::Variable'),
+  awsFraudDetectorOutcome('AWS::FraudDetector::Outcome'),
+  awsIoTAuthorizer('AWS::IoT::Authorizer'),
+  awsIoTSecurityProfile('AWS::IoT::SecurityProfile'),
+  awsIoTRoleAlias('AWS::IoT::RoleAlias'),
+  awsIoTDimension('AWS::IoT::Dimension'),
+  awsIoTAnalyticsDatastore('AWS::IoTAnalytics::Datastore'),
+  awsLightsailBucket('AWS::Lightsail::Bucket'),
+  awsLightsailStaticIp('AWS::Lightsail::StaticIp'),
+  awsMediaPackagePackagingGroup('AWS::MediaPackage::PackagingGroup'),
+  awsRoute53RecoveryReadinessRecoveryGroup(
+      'AWS::Route53RecoveryReadiness::RecoveryGroup'),
+  awsResilienceHubResiliencyPolicy('AWS::ResilienceHub::ResiliencyPolicy'),
+  awsTransferWorkflow('AWS::Transfer::Workflow'),
+  awsEksIdentityProviderConfig('AWS::EKS::IdentityProviderConfig'),
+  awsEksAddon('AWS::EKS::Addon'),
+  awsGlueMLTransform('AWS::Glue::MLTransform'),
+  awsIoTPolicy('AWS::IoT::Policy'),
+  awsIoTMitigationAction('AWS::IoT::MitigationAction'),
+  awsIoTTwinMakerWorkspace('AWS::IoTTwinMaker::Workspace'),
+  awsIoTTwinMakerEntity('AWS::IoTTwinMaker::Entity'),
+  awsIoTAnalyticsDataset('AWS::IoTAnalytics::Dataset'),
+  awsIoTAnalyticsPipeline('AWS::IoTAnalytics::Pipeline'),
+  awsIoTAnalyticsChannel('AWS::IoTAnalytics::Channel'),
+  awsIoTSiteWiseDashboard('AWS::IoTSiteWise::Dashboard'),
+  awsIoTSiteWiseProject('AWS::IoTSiteWise::Project'),
+  awsIoTSiteWisePortal('AWS::IoTSiteWise::Portal'),
+  awsIoTSiteWiseAssetModel('AWS::IoTSiteWise::AssetModel'),
+  awsIvsChannel('AWS::IVS::Channel'),
+  awsIvsRecordingConfiguration('AWS::IVS::RecordingConfiguration'),
+  awsIvsPlaybackKeyPair('AWS::IVS::PlaybackKeyPair'),
+  awsKinesisAnalyticsV2Application('AWS::KinesisAnalyticsV2::Application'),
+  awsRdsGlobalCluster('AWS::RDS::GlobalCluster'),
+  awsS3MultiRegionAccessPoint('AWS::S3::MultiRegionAccessPoint'),
+  awsDeviceFarmTestGridProject('AWS::DeviceFarm::TestGridProject'),
+  awsBudgetsBudgetsAction('AWS::Budgets::BudgetsAction'),
+  awsLexBot('AWS::Lex::Bot'),
+  awsCodeGuruReviewerRepositoryAssociation(
+      'AWS::CodeGuruReviewer::RepositoryAssociation'),
+  awsIoTCustomMetric('AWS::IoT::CustomMetric'),
+  awsRoute53ResolverFirewallDomainList(
+      'AWS::Route53Resolver::FirewallDomainList'),
+  awsRoboMakerRobotApplicationVersion(
+      'AWS::RoboMaker::RobotApplicationVersion'),
+  awsEc2TrafficMirrorSession('AWS::EC2::TrafficMirrorSession'),
+  awsIoTSiteWiseGateway('AWS::IoTSiteWise::Gateway'),
+  awsLexBotAlias('AWS::Lex::BotAlias'),
+  awsLookoutMetricsAlert('AWS::LookoutMetrics::Alert'),
+  awsIoTAccountAuditConfiguration('AWS::IoT::AccountAuditConfiguration'),
+  awsEc2TrafficMirrorTarget('AWS::EC2::TrafficMirrorTarget'),
+  awsS3StorageLens('AWS::S3::StorageLens'),
+  awsIoTScheduledAudit('AWS::IoT::ScheduledAudit'),
+  awsEventsConnection('AWS::Events::Connection'),
+  awsEventSchemasSchema('AWS::EventSchemas::Schema'),
+  awsMediaPackagePackagingConfiguration(
+      'AWS::MediaPackage::PackagingConfiguration'),
+  awsKinesisVideoSignalingChannel('AWS::KinesisVideo::SignalingChannel'),
+  awsAppStreamDirectoryConfig('AWS::AppStream::DirectoryConfig'),
+  awsLookoutVisionProject('AWS::LookoutVision::Project'),
+  awsRoute53RecoveryControlCluster('AWS::Route53RecoveryControl::Cluster'),
+  awsRoute53RecoveryControlSafetyRule(
+      'AWS::Route53RecoveryControl::SafetyRule'),
+  awsRoute53RecoveryControlControlPanel(
+      'AWS::Route53RecoveryControl::ControlPanel'),
+  awsRoute53RecoveryControlRoutingControl(
+      'AWS::Route53RecoveryControl::RoutingControl'),
+  awsRoute53RecoveryReadinessResourceSet(
+      'AWS::Route53RecoveryReadiness::ResourceSet'),
+  awsRoboMakerSimulationApplication('AWS::RoboMaker::SimulationApplication'),
+  awsRoboMakerRobotApplication('AWS::RoboMaker::RobotApplication'),
+  awsHealthLakeFHIRDatastore('AWS::HealthLake::FHIRDatastore'),
+  awsPinpointSegment('AWS::Pinpoint::Segment'),
+  awsPinpointApplicationSettings('AWS::Pinpoint::ApplicationSettings'),
+  awsEventsRule('AWS::Events::Rule'),
+  awsEc2DHCPOptions('AWS::EC2::DHCPOptions'),
+  awsEc2NetworkInsightsPath('AWS::EC2::NetworkInsightsPath'),
+  awsEc2TrafficMirrorFilter('AWS::EC2::TrafficMirrorFilter'),
+  awsEc2Ipam('AWS::EC2::IPAM'),
+  awsIoTTwinMakerScene('AWS::IoTTwinMaker::Scene'),
+  awsNetworkManagerTransitGatewayRegistration(
+      'AWS::NetworkManager::TransitGatewayRegistration'),
+  awsCustomerProfilesDomain('AWS::CustomerProfiles::Domain'),
+  awsAutoScalingWarmPool('AWS::AutoScaling::WarmPool'),
+  awsConnectPhoneNumber('AWS::Connect::PhoneNumber'),
+  awsAppConfigDeploymentStrategy('AWS::AppConfig::DeploymentStrategy'),
+  awsAppFlowFlow('AWS::AppFlow::Flow'),
+  awsAuditManagerAssessment('AWS::AuditManager::Assessment'),
+  awsCloudWatchMetricStream('AWS::CloudWatch::MetricStream'),
+  awsDeviceFarmInstanceProfile('AWS::DeviceFarm::InstanceProfile'),
+  awsDeviceFarmProject('AWS::DeviceFarm::Project'),
+  awsEc2EC2Fleet('AWS::EC2::EC2Fleet'),
+  awsEc2SubnetRouteTableAssociation('AWS::EC2::SubnetRouteTableAssociation'),
+  awsEcrPullThroughCacheRule('AWS::ECR::PullThroughCacheRule'),
+  awsGroundStationConfig('AWS::GroundStation::Config'),
+  awsImageBuilderImagePipeline('AWS::ImageBuilder::ImagePipeline'),
+  awsIoTFleetMetric('AWS::IoT::FleetMetric'),
+  awsIoTWirelessServiceProfile('AWS::IoTWireless::ServiceProfile'),
+  awsNetworkManagerDevice('AWS::NetworkManager::Device'),
+  awsNetworkManagerGlobalNetwork('AWS::NetworkManager::GlobalNetwork'),
+  awsNetworkManagerLink('AWS::NetworkManager::Link'),
+  awsNetworkManagerSite('AWS::NetworkManager::Site'),
+  awsPanoramaPackage('AWS::Panorama::Package'),
+  awsPinpointApp('AWS::Pinpoint::App'),
+  awsRedshiftScheduledAction('AWS::Redshift::ScheduledAction'),
+  awsRoute53ResolverFirewallRuleGroupAssociation(
+      'AWS::Route53Resolver::FirewallRuleGroupAssociation'),
+  awsSageMakerAppImageConfig('AWS::SageMaker::AppImageConfig'),
+  awsSageMakerImage('AWS::SageMaker::Image'),
+  awsEcsTaskSet('AWS::ECS::TaskSet'),
+  awsCassandraKeyspace('AWS::Cassandra::Keyspace'),
+  awsSignerSigningProfile('AWS::Signer::SigningProfile'),
+  awsAmplifyApp('AWS::Amplify::App'),
+  awsAppMeshVirtualNode('AWS::AppMesh::VirtualNode'),
+  awsAppMeshVirtualService('AWS::AppMesh::VirtualService'),
+  awsAppRunnerVpcConnector('AWS::AppRunner::VpcConnector'),
+  awsAppStreamApplication('AWS::AppStream::Application'),
+  awsCodeArtifactRepository('AWS::CodeArtifact::Repository'),
+  awsEc2PrefixList('AWS::EC2::PrefixList'),
+  awsEc2SpotFleet('AWS::EC2::SpotFleet'),
+  awsEvidentlyProject('AWS::Evidently::Project'),
+  awsForecastDataset('AWS::Forecast::Dataset'),
+  awsIamSAMLProvider('AWS::IAM::SAMLProvider'),
+  awsIamServerCertificate('AWS::IAM::ServerCertificate'),
+  awsPinpointCampaign('AWS::Pinpoint::Campaign'),
+  awsPinpointInAppTemplate('AWS::Pinpoint::InAppTemplate'),
+  awsSageMakerDomain('AWS::SageMaker::Domain'),
+  awsTransferAgreement('AWS::Transfer::Agreement'),
+  awsTransferConnector('AWS::Transfer::Connector'),
+  awsKinesisFirehoseDeliveryStream('AWS::KinesisFirehose::DeliveryStream'),
+  awsAmplifyBranch('AWS::Amplify::Branch'),
+  awsAppIntegrationsEventIntegration('AWS::AppIntegrations::EventIntegration'),
+  awsAppMeshRoute('AWS::AppMesh::Route'),
+  awsAthenaPreparedStatement('AWS::Athena::PreparedStatement'),
+  awsEc2IPAMScope('AWS::EC2::IPAMScope'),
+  awsEvidentlyLaunch('AWS::Evidently::Launch'),
+  awsForecastDatasetGroup('AWS::Forecast::DatasetGroup'),
+  awsGreengrassV2ComponentVersion('AWS::GreengrassV2::ComponentVersion'),
+  awsGroundStationMissionProfile('AWS::GroundStation::MissionProfile'),
+  awsMediaConnectFlowEntitlement('AWS::MediaConnect::FlowEntitlement'),
+  awsMediaConnectFlowVpcInterface('AWS::MediaConnect::FlowVpcInterface'),
+  awsMediaTailorPlaybackConfiguration(
+      'AWS::MediaTailor::PlaybackConfiguration'),
+  awsMskConfiguration('AWS::MSK::Configuration'),
+  awsPersonalizeDataset('AWS::Personalize::Dataset'),
+  awsPersonalizeSchema('AWS::Personalize::Schema'),
+  awsPersonalizeSolution('AWS::Personalize::Solution'),
+  awsPinpointEmailTemplate('AWS::Pinpoint::EmailTemplate'),
+  awsPinpointEventStream('AWS::Pinpoint::EventStream'),
+  awsResilienceHubApp('AWS::ResilienceHub::App'),
+  awsAcmpcaCertificateAuthority('AWS::ACMPCA::CertificateAuthority'),
+  awsAppConfigHostedConfigurationVersion(
+      'AWS::AppConfig::HostedConfigurationVersion'),
+  awsAppMeshVirtualGateway('AWS::AppMesh::VirtualGateway'),
+  awsAppMeshVirtualRouter('AWS::AppMesh::VirtualRouter'),
+  awsAppRunnerService('AWS::AppRunner::Service'),
+  awsCustomerProfilesObjectType('AWS::CustomerProfiles::ObjectType'),
+  awsDmsEndpoint('AWS::DMS::Endpoint'),
+  awsEc2CapacityReservation('AWS::EC2::CapacityReservation'),
+  awsEc2ClientVpnEndpoint('AWS::EC2::ClientVpnEndpoint'),
+  awsKendraIndex('AWS::Kendra::Index'),
+  awsKinesisVideoStream('AWS::KinesisVideo::Stream'),
+  awsLogsDestination('AWS::Logs::Destination'),
+  awsPinpointEmailChannel('AWS::Pinpoint::EmailChannel'),
+  awsS3AccessPoint('AWS::S3::AccessPoint'),
+  awsNetworkManagerCustomerGatewayAssociation(
+      'AWS::NetworkManager::CustomerGatewayAssociation'),
+  awsNetworkManagerLinkAssociation('AWS::NetworkManager::LinkAssociation'),
+  awsIoTWirelessMulticastGroup('AWS::IoTWireless::MulticastGroup'),
+  awsPersonalizeDatasetGroup('AWS::Personalize::DatasetGroup'),
+  awsIoTTwinMakerComponentType('AWS::IoTTwinMaker::ComponentType'),
+  awsCodeBuildReportGroup('AWS::CodeBuild::ReportGroup'),
+  awsSageMakerFeatureGroup('AWS::SageMaker::FeatureGroup'),
+  awsMskBatchScramSecret('AWS::MSK::BatchScramSecret'),
+  awsAppStreamStack('AWS::AppStream::Stack'),
+  awsIoTJobTemplate('AWS::IoT::JobTemplate'),
+  awsIoTWirelessFuotaTask('AWS::IoTWireless::FuotaTask'),
+  awsIoTProvisioningTemplate('AWS::IoT::ProvisioningTemplate'),
+  awsInspectorV2Filter('AWS::InspectorV2::Filter'),
+  awsRoute53ResolverResolverQueryLoggingConfigAssociation(
+      'AWS::Route53Resolver::ResolverQueryLoggingConfigAssociation'),
+  awsServiceDiscoveryInstance('AWS::ServiceDiscovery::Instance'),
+  awsTransferCertificate('AWS::Transfer::Certificate'),
+  awsMediaConnectFlowSource('AWS::MediaConnect::FlowSource'),
+  awsApsRuleGroupsNamespace('AWS::APS::RuleGroupsNamespace'),
+  awsCodeGuruProfilerProfilingGroup('AWS::CodeGuruProfiler::ProfilingGroup'),
+  awsRoute53ResolverResolverQueryLoggingConfig(
+      'AWS::Route53Resolver::ResolverQueryLoggingConfig'),
+  awsBatchSchedulingPolicy('AWS::Batch::SchedulingPolicy'),
+  awsAcmpcaCertificateAuthorityActivation(
+      'AWS::ACMPCA::CertificateAuthorityActivation'),
+  awsAppMeshGatewayRoute('AWS::AppMesh::GatewayRoute'),
+  awsAppMeshMesh('AWS::AppMesh::Mesh'),
+  awsConnectInstance('AWS::Connect::Instance'),
+  awsConnectQuickConnect('AWS::Connect::QuickConnect'),
+  awsEc2CarrierGateway('AWS::EC2::CarrierGateway'),
+  awsEc2IPAMPool('AWS::EC2::IPAMPool'),
+  awsEc2TransitGatewayConnect('AWS::EC2::TransitGatewayConnect'),
+  awsEc2TransitGatewayMulticastDomain(
+      'AWS::EC2::TransitGatewayMulticastDomain'),
+  awsEcsCapacityProvider('AWS::ECS::CapacityProvider'),
+  awsIamInstanceProfile('AWS::IAM::InstanceProfile'),
+  awsIoTCACertificate('AWS::IoT::CACertificate'),
+  awsIoTTwinMakerSyncJob('AWS::IoTTwinMaker::SyncJob'),
+  awsKafkaConnectConnector('AWS::KafkaConnect::Connector'),
+  awsLambdaCodeSigningConfig('AWS::Lambda::CodeSigningConfig'),
+  awsNetworkManagerConnectPeer('AWS::NetworkManager::ConnectPeer'),
+  awsResourceExplorer2Index('AWS::ResourceExplorer2::Index'),
+  awsAppStreamFleet('AWS::AppStream::Fleet'),
+  awsCognitoUserPool('AWS::Cognito::UserPool'),
+  awsCognitoUserPoolClient('AWS::Cognito::UserPoolClient'),
+  awsCognitoUserPoolGroup('AWS::Cognito::UserPoolGroup'),
+  awsEc2NetworkInsightsAccessScope('AWS::EC2::NetworkInsightsAccessScope'),
+  awsEc2NetworkInsightsAnalysis('AWS::EC2::NetworkInsightsAnalysis'),
+  awsGrafanaWorkspace('AWS::Grafana::Workspace'),
+  awsGroundStationDataflowEndpointGroup(
+      'AWS::GroundStation::DataflowEndpointGroup'),
+  awsImageBuilderImageRecipe('AWS::ImageBuilder::ImageRecipe'),
+  awsKmsAlias('AWS::KMS::Alias'),
+  awsM2Environment('AWS::M2::Environment'),
+  awsQuickSightDataSource('AWS::QuickSight::DataSource'),
+  awsQuickSightTemplate('AWS::QuickSight::Template'),
+  awsQuickSightTheme('AWS::QuickSight::Theme'),
+  awsRdsOptionGroup('AWS::RDS::OptionGroup'),
+  awsRedshiftEndpointAccess('AWS::Redshift::EndpointAccess'),
+  awsRoute53ResolverFirewallRuleGroup(
+      'AWS::Route53Resolver::FirewallRuleGroup'),
+  awsSsmDocument('AWS::SSM::Document'),
+  ;
 
-extension ResourceTypeValueExtension on ResourceType {
-  String toValue() {
-    switch (this) {
-      case ResourceType.awsEc2CustomerGateway:
-        return 'AWS::EC2::CustomerGateway';
-      case ResourceType.awsEc2Eip:
-        return 'AWS::EC2::EIP';
-      case ResourceType.awsEc2Host:
-        return 'AWS::EC2::Host';
-      case ResourceType.awsEc2Instance:
-        return 'AWS::EC2::Instance';
-      case ResourceType.awsEc2InternetGateway:
-        return 'AWS::EC2::InternetGateway';
-      case ResourceType.awsEc2NetworkAcl:
-        return 'AWS::EC2::NetworkAcl';
-      case ResourceType.awsEc2NetworkInterface:
-        return 'AWS::EC2::NetworkInterface';
-      case ResourceType.awsEc2RouteTable:
-        return 'AWS::EC2::RouteTable';
-      case ResourceType.awsEc2SecurityGroup:
-        return 'AWS::EC2::SecurityGroup';
-      case ResourceType.awsEc2Subnet:
-        return 'AWS::EC2::Subnet';
-      case ResourceType.awsCloudTrailTrail:
-        return 'AWS::CloudTrail::Trail';
-      case ResourceType.awsEc2Volume:
-        return 'AWS::EC2::Volume';
-      case ResourceType.awsEc2Vpc:
-        return 'AWS::EC2::VPC';
-      case ResourceType.awsEc2VPNConnection:
-        return 'AWS::EC2::VPNConnection';
-      case ResourceType.awsEc2VPNGateway:
-        return 'AWS::EC2::VPNGateway';
-      case ResourceType.awsEc2RegisteredHAInstance:
-        return 'AWS::EC2::RegisteredHAInstance';
-      case ResourceType.awsEc2NatGateway:
-        return 'AWS::EC2::NatGateway';
-      case ResourceType.awsEc2EgressOnlyInternetGateway:
-        return 'AWS::EC2::EgressOnlyInternetGateway';
-      case ResourceType.awsEc2VPCEndpoint:
-        return 'AWS::EC2::VPCEndpoint';
-      case ResourceType.awsEc2VPCEndpointService:
-        return 'AWS::EC2::VPCEndpointService';
-      case ResourceType.awsEc2FlowLog:
-        return 'AWS::EC2::FlowLog';
-      case ResourceType.awsEc2VPCPeeringConnection:
-        return 'AWS::EC2::VPCPeeringConnection';
-      case ResourceType.awsElasticsearchDomain:
-        return 'AWS::Elasticsearch::Domain';
-      case ResourceType.awsIamGroup:
-        return 'AWS::IAM::Group';
-      case ResourceType.awsIamPolicy:
-        return 'AWS::IAM::Policy';
-      case ResourceType.awsIamRole:
-        return 'AWS::IAM::Role';
-      case ResourceType.awsIamUser:
-        return 'AWS::IAM::User';
-      case ResourceType.awsElasticLoadBalancingV2LoadBalancer:
-        return 'AWS::ElasticLoadBalancingV2::LoadBalancer';
-      case ResourceType.awsAcmCertificate:
-        return 'AWS::ACM::Certificate';
-      case ResourceType.awsRdsDBInstance:
-        return 'AWS::RDS::DBInstance';
-      case ResourceType.awsRdsDBSubnetGroup:
-        return 'AWS::RDS::DBSubnetGroup';
-      case ResourceType.awsRdsDBSecurityGroup:
-        return 'AWS::RDS::DBSecurityGroup';
-      case ResourceType.awsRdsDBSnapshot:
-        return 'AWS::RDS::DBSnapshot';
-      case ResourceType.awsRdsDBCluster:
-        return 'AWS::RDS::DBCluster';
-      case ResourceType.awsRdsDBClusterSnapshot:
-        return 'AWS::RDS::DBClusterSnapshot';
-      case ResourceType.awsRdsEventSubscription:
-        return 'AWS::RDS::EventSubscription';
-      case ResourceType.awsS3Bucket:
-        return 'AWS::S3::Bucket';
-      case ResourceType.awsS3AccountPublicAccessBlock:
-        return 'AWS::S3::AccountPublicAccessBlock';
-      case ResourceType.awsRedshiftCluster:
-        return 'AWS::Redshift::Cluster';
-      case ResourceType.awsRedshiftClusterSnapshot:
-        return 'AWS::Redshift::ClusterSnapshot';
-      case ResourceType.awsRedshiftClusterParameterGroup:
-        return 'AWS::Redshift::ClusterParameterGroup';
-      case ResourceType.awsRedshiftClusterSecurityGroup:
-        return 'AWS::Redshift::ClusterSecurityGroup';
-      case ResourceType.awsRedshiftClusterSubnetGroup:
-        return 'AWS::Redshift::ClusterSubnetGroup';
-      case ResourceType.awsRedshiftEventSubscription:
-        return 'AWS::Redshift::EventSubscription';
-      case ResourceType.awsSsmManagedInstanceInventory:
-        return 'AWS::SSM::ManagedInstanceInventory';
-      case ResourceType.awsCloudWatchAlarm:
-        return 'AWS::CloudWatch::Alarm';
-      case ResourceType.awsCloudFormationStack:
-        return 'AWS::CloudFormation::Stack';
-      case ResourceType.awsElasticLoadBalancingLoadBalancer:
-        return 'AWS::ElasticLoadBalancing::LoadBalancer';
-      case ResourceType.awsAutoScalingAutoScalingGroup:
-        return 'AWS::AutoScaling::AutoScalingGroup';
-      case ResourceType.awsAutoScalingLaunchConfiguration:
-        return 'AWS::AutoScaling::LaunchConfiguration';
-      case ResourceType.awsAutoScalingScalingPolicy:
-        return 'AWS::AutoScaling::ScalingPolicy';
-      case ResourceType.awsAutoScalingScheduledAction:
-        return 'AWS::AutoScaling::ScheduledAction';
-      case ResourceType.awsDynamoDBTable:
-        return 'AWS::DynamoDB::Table';
-      case ResourceType.awsCodeBuildProject:
-        return 'AWS::CodeBuild::Project';
-      case ResourceType.awsWafRateBasedRule:
-        return 'AWS::WAF::RateBasedRule';
-      case ResourceType.awsWafRule:
-        return 'AWS::WAF::Rule';
-      case ResourceType.awsWafRuleGroup:
-        return 'AWS::WAF::RuleGroup';
-      case ResourceType.awsWafWebACL:
-        return 'AWS::WAF::WebACL';
-      case ResourceType.awsWAFRegionalRateBasedRule:
-        return 'AWS::WAFRegional::RateBasedRule';
-      case ResourceType.awsWAFRegionalRule:
-        return 'AWS::WAFRegional::Rule';
-      case ResourceType.awsWAFRegionalRuleGroup:
-        return 'AWS::WAFRegional::RuleGroup';
-      case ResourceType.awsWAFRegionalWebACL:
-        return 'AWS::WAFRegional::WebACL';
-      case ResourceType.awsCloudFrontDistribution:
-        return 'AWS::CloudFront::Distribution';
-      case ResourceType.awsCloudFrontStreamingDistribution:
-        return 'AWS::CloudFront::StreamingDistribution';
-      case ResourceType.awsLambdaFunction:
-        return 'AWS::Lambda::Function';
-      case ResourceType.awsNetworkFirewallFirewall:
-        return 'AWS::NetworkFirewall::Firewall';
-      case ResourceType.awsNetworkFirewallFirewallPolicy:
-        return 'AWS::NetworkFirewall::FirewallPolicy';
-      case ResourceType.awsNetworkFirewallRuleGroup:
-        return 'AWS::NetworkFirewall::RuleGroup';
-      case ResourceType.awsElasticBeanstalkApplication:
-        return 'AWS::ElasticBeanstalk::Application';
-      case ResourceType.awsElasticBeanstalkApplicationVersion:
-        return 'AWS::ElasticBeanstalk::ApplicationVersion';
-      case ResourceType.awsElasticBeanstalkEnvironment:
-        return 'AWS::ElasticBeanstalk::Environment';
-      case ResourceType.awsWAFv2WebACL:
-        return 'AWS::WAFv2::WebACL';
-      case ResourceType.awsWAFv2RuleGroup:
-        return 'AWS::WAFv2::RuleGroup';
-      case ResourceType.awsWAFv2IPSet:
-        return 'AWS::WAFv2::IPSet';
-      case ResourceType.awsWAFv2RegexPatternSet:
-        return 'AWS::WAFv2::RegexPatternSet';
-      case ResourceType.awsWAFv2ManagedRuleSet:
-        return 'AWS::WAFv2::ManagedRuleSet';
-      case ResourceType.awsXRayEncryptionConfig:
-        return 'AWS::XRay::EncryptionConfig';
-      case ResourceType.awsSsmAssociationCompliance:
-        return 'AWS::SSM::AssociationCompliance';
-      case ResourceType.awsSsmPatchCompliance:
-        return 'AWS::SSM::PatchCompliance';
-      case ResourceType.awsShieldProtection:
-        return 'AWS::Shield::Protection';
-      case ResourceType.awsShieldRegionalProtection:
-        return 'AWS::ShieldRegional::Protection';
-      case ResourceType.awsConfigConformancePackCompliance:
-        return 'AWS::Config::ConformancePackCompliance';
-      case ResourceType.awsConfigResourceCompliance:
-        return 'AWS::Config::ResourceCompliance';
-      case ResourceType.awsApiGatewayStage:
-        return 'AWS::ApiGateway::Stage';
-      case ResourceType.awsApiGatewayRestApi:
-        return 'AWS::ApiGateway::RestApi';
-      case ResourceType.awsApiGatewayV2Stage:
-        return 'AWS::ApiGatewayV2::Stage';
-      case ResourceType.awsApiGatewayV2Api:
-        return 'AWS::ApiGatewayV2::Api';
-      case ResourceType.awsCodePipelinePipeline:
-        return 'AWS::CodePipeline::Pipeline';
-      case ResourceType.awsServiceCatalogCloudFormationProvisionedProduct:
-        return 'AWS::ServiceCatalog::CloudFormationProvisionedProduct';
-      case ResourceType.awsServiceCatalogCloudFormationProduct:
-        return 'AWS::ServiceCatalog::CloudFormationProduct';
-      case ResourceType.awsServiceCatalogPortfolio:
-        return 'AWS::ServiceCatalog::Portfolio';
-      case ResourceType.awsSqsQueue:
-        return 'AWS::SQS::Queue';
-      case ResourceType.awsKmsKey:
-        return 'AWS::KMS::Key';
-      case ResourceType.awsQldbLedger:
-        return 'AWS::QLDB::Ledger';
-      case ResourceType.awsSecretsManagerSecret:
-        return 'AWS::SecretsManager::Secret';
-      case ResourceType.awsSnsTopic:
-        return 'AWS::SNS::Topic';
-      case ResourceType.awsSsmFileData:
-        return 'AWS::SSM::FileData';
-      case ResourceType.awsBackupBackupPlan:
-        return 'AWS::Backup::BackupPlan';
-      case ResourceType.awsBackupBackupSelection:
-        return 'AWS::Backup::BackupSelection';
-      case ResourceType.awsBackupBackupVault:
-        return 'AWS::Backup::BackupVault';
-      case ResourceType.awsBackupRecoveryPoint:
-        return 'AWS::Backup::RecoveryPoint';
-      case ResourceType.awsEcrRepository:
-        return 'AWS::ECR::Repository';
-      case ResourceType.awsEcsCluster:
-        return 'AWS::ECS::Cluster';
-      case ResourceType.awsEcsService:
-        return 'AWS::ECS::Service';
-      case ResourceType.awsEcsTaskDefinition:
-        return 'AWS::ECS::TaskDefinition';
-      case ResourceType.awsEfsAccessPoint:
-        return 'AWS::EFS::AccessPoint';
-      case ResourceType.awsEfsFileSystem:
-        return 'AWS::EFS::FileSystem';
-      case ResourceType.awsEksCluster:
-        return 'AWS::EKS::Cluster';
-      case ResourceType.awsOpenSearchDomain:
-        return 'AWS::OpenSearch::Domain';
-      case ResourceType.awsEc2TransitGateway:
-        return 'AWS::EC2::TransitGateway';
-      case ResourceType.awsKinesisStream:
-        return 'AWS::Kinesis::Stream';
-      case ResourceType.awsKinesisStreamConsumer:
-        return 'AWS::Kinesis::StreamConsumer';
-      case ResourceType.awsCodeDeployApplication:
-        return 'AWS::CodeDeploy::Application';
-      case ResourceType.awsCodeDeployDeploymentConfig:
-        return 'AWS::CodeDeploy::DeploymentConfig';
-      case ResourceType.awsCodeDeployDeploymentGroup:
-        return 'AWS::CodeDeploy::DeploymentGroup';
-      case ResourceType.awsEc2LaunchTemplate:
-        return 'AWS::EC2::LaunchTemplate';
-      case ResourceType.awsEcrPublicRepository:
-        return 'AWS::ECR::PublicRepository';
-      case ResourceType.awsGuardDutyDetector:
-        return 'AWS::GuardDuty::Detector';
-      case ResourceType.awsEmrSecurityConfiguration:
-        return 'AWS::EMR::SecurityConfiguration';
-      case ResourceType.awsSageMakerCodeRepository:
-        return 'AWS::SageMaker::CodeRepository';
-      case ResourceType.awsRoute53ResolverResolverEndpoint:
-        return 'AWS::Route53Resolver::ResolverEndpoint';
-      case ResourceType.awsRoute53ResolverResolverRule:
-        return 'AWS::Route53Resolver::ResolverRule';
-      case ResourceType.awsRoute53ResolverResolverRuleAssociation:
-        return 'AWS::Route53Resolver::ResolverRuleAssociation';
-      case ResourceType.awsDmsReplicationSubnetGroup:
-        return 'AWS::DMS::ReplicationSubnetGroup';
-      case ResourceType.awsDmsEventSubscription:
-        return 'AWS::DMS::EventSubscription';
-      case ResourceType.awsMskCluster:
-        return 'AWS::MSK::Cluster';
-      case ResourceType.awsStepFunctionsActivity:
-        return 'AWS::StepFunctions::Activity';
-      case ResourceType.awsWorkSpacesWorkspace:
-        return 'AWS::WorkSpaces::Workspace';
-      case ResourceType.awsWorkSpacesConnectionAlias:
-        return 'AWS::WorkSpaces::ConnectionAlias';
-      case ResourceType.awsSageMakerModel:
-        return 'AWS::SageMaker::Model';
-      case ResourceType.awsElasticLoadBalancingV2Listener:
-        return 'AWS::ElasticLoadBalancingV2::Listener';
-      case ResourceType.awsStepFunctionsStateMachine:
-        return 'AWS::StepFunctions::StateMachine';
-      case ResourceType.awsBatchJobQueue:
-        return 'AWS::Batch::JobQueue';
-      case ResourceType.awsBatchComputeEnvironment:
-        return 'AWS::Batch::ComputeEnvironment';
-      case ResourceType.awsAccessAnalyzerAnalyzer:
-        return 'AWS::AccessAnalyzer::Analyzer';
-      case ResourceType.awsAthenaWorkGroup:
-        return 'AWS::Athena::WorkGroup';
-      case ResourceType.awsAthenaDataCatalog:
-        return 'AWS::Athena::DataCatalog';
-      case ResourceType.awsDetectiveGraph:
-        return 'AWS::Detective::Graph';
-      case ResourceType.awsGlobalAcceleratorAccelerator:
-        return 'AWS::GlobalAccelerator::Accelerator';
-      case ResourceType.awsGlobalAcceleratorEndpointGroup:
-        return 'AWS::GlobalAccelerator::EndpointGroup';
-      case ResourceType.awsGlobalAcceleratorListener:
-        return 'AWS::GlobalAccelerator::Listener';
-      case ResourceType.awsEc2TransitGatewayAttachment:
-        return 'AWS::EC2::TransitGatewayAttachment';
-      case ResourceType.awsEc2TransitGatewayRouteTable:
-        return 'AWS::EC2::TransitGatewayRouteTable';
-      case ResourceType.awsDmsCertificate:
-        return 'AWS::DMS::Certificate';
-      case ResourceType.awsAppConfigApplication:
-        return 'AWS::AppConfig::Application';
-      case ResourceType.awsAppSyncGraphQLApi:
-        return 'AWS::AppSync::GraphQLApi';
-      case ResourceType.awsDataSyncLocationSMB:
-        return 'AWS::DataSync::LocationSMB';
-      case ResourceType.awsDataSyncLocationFSxLustre:
-        return 'AWS::DataSync::LocationFSxLustre';
-      case ResourceType.awsDataSyncLocationS3:
-        return 'AWS::DataSync::LocationS3';
-      case ResourceType.awsDataSyncLocationEFS:
-        return 'AWS::DataSync::LocationEFS';
-      case ResourceType.awsDataSyncTask:
-        return 'AWS::DataSync::Task';
-      case ResourceType.awsDataSyncLocationNFS:
-        return 'AWS::DataSync::LocationNFS';
-      case ResourceType.awsEc2NetworkInsightsAccessScopeAnalysis:
-        return 'AWS::EC2::NetworkInsightsAccessScopeAnalysis';
-      case ResourceType.awsEksFargateProfile:
-        return 'AWS::EKS::FargateProfile';
-      case ResourceType.awsGlueJob:
-        return 'AWS::Glue::Job';
-      case ResourceType.awsGuardDutyThreatIntelSet:
-        return 'AWS::GuardDuty::ThreatIntelSet';
-      case ResourceType.awsGuardDutyIPSet:
-        return 'AWS::GuardDuty::IPSet';
-      case ResourceType.awsSageMakerWorkteam:
-        return 'AWS::SageMaker::Workteam';
-      case ResourceType.awsSageMakerNotebookInstanceLifecycleConfig:
-        return 'AWS::SageMaker::NotebookInstanceLifecycleConfig';
-      case ResourceType.awsServiceDiscoveryService:
-        return 'AWS::ServiceDiscovery::Service';
-      case ResourceType.awsServiceDiscoveryPublicDnsNamespace:
-        return 'AWS::ServiceDiscovery::PublicDnsNamespace';
-      case ResourceType.awsSesContactList:
-        return 'AWS::SES::ContactList';
-      case ResourceType.awsSesConfigurationSet:
-        return 'AWS::SES::ConfigurationSet';
-      case ResourceType.awsRoute53HostedZone:
-        return 'AWS::Route53::HostedZone';
-      case ResourceType.awsIoTEventsInput:
-        return 'AWS::IoTEvents::Input';
-      case ResourceType.awsIoTEventsDetectorModel:
-        return 'AWS::IoTEvents::DetectorModel';
-      case ResourceType.awsIoTEventsAlarmModel:
-        return 'AWS::IoTEvents::AlarmModel';
-      case ResourceType.awsServiceDiscoveryHttpNamespace:
-        return 'AWS::ServiceDiscovery::HttpNamespace';
-      case ResourceType.awsEventsEventBus:
-        return 'AWS::Events::EventBus';
-      case ResourceType.awsImageBuilderContainerRecipe:
-        return 'AWS::ImageBuilder::ContainerRecipe';
-      case ResourceType.awsImageBuilderDistributionConfiguration:
-        return 'AWS::ImageBuilder::DistributionConfiguration';
-      case ResourceType.awsImageBuilderInfrastructureConfiguration:
-        return 'AWS::ImageBuilder::InfrastructureConfiguration';
-      case ResourceType.awsDataSyncLocationObjectStorage:
-        return 'AWS::DataSync::LocationObjectStorage';
-      case ResourceType.awsDataSyncLocationHDFS:
-        return 'AWS::DataSync::LocationHDFS';
-      case ResourceType.awsGlueClassifier:
-        return 'AWS::Glue::Classifier';
-      case ResourceType.awsRoute53RecoveryReadinessCell:
-        return 'AWS::Route53RecoveryReadiness::Cell';
-      case ResourceType.awsRoute53RecoveryReadinessReadinessCheck:
-        return 'AWS::Route53RecoveryReadiness::ReadinessCheck';
-      case ResourceType.awsEcrRegistryPolicy:
-        return 'AWS::ECR::RegistryPolicy';
-      case ResourceType.awsBackupReportPlan:
-        return 'AWS::Backup::ReportPlan';
-      case ResourceType.awsLightsailCertificate:
-        return 'AWS::Lightsail::Certificate';
-      case ResourceType.awsRumAppMonitor:
-        return 'AWS::RUM::AppMonitor';
-      case ResourceType.awsEventsEndpoint:
-        return 'AWS::Events::Endpoint';
-      case ResourceType.awsSesReceiptRuleSet:
-        return 'AWS::SES::ReceiptRuleSet';
-      case ResourceType.awsEventsArchive:
-        return 'AWS::Events::Archive';
-      case ResourceType.awsEventsApiDestination:
-        return 'AWS::Events::ApiDestination';
-      case ResourceType.awsLightsailDisk:
-        return 'AWS::Lightsail::Disk';
-      case ResourceType.awsFisExperimentTemplate:
-        return 'AWS::FIS::ExperimentTemplate';
-      case ResourceType.awsDataSyncLocationFSxWindows:
-        return 'AWS::DataSync::LocationFSxWindows';
-      case ResourceType.awsSesReceiptFilter:
-        return 'AWS::SES::ReceiptFilter';
-      case ResourceType.awsGuardDutyFilter:
-        return 'AWS::GuardDuty::Filter';
-      case ResourceType.awsSesTemplate:
-        return 'AWS::SES::Template';
-      case ResourceType.awsAmazonMQBroker:
-        return 'AWS::AmazonMQ::Broker';
-      case ResourceType.awsAppConfigEnvironment:
-        return 'AWS::AppConfig::Environment';
-      case ResourceType.awsAppConfigConfigurationProfile:
-        return 'AWS::AppConfig::ConfigurationProfile';
-      case ResourceType.awsCloud9EnvironmentEC2:
-        return 'AWS::Cloud9::EnvironmentEC2';
-      case ResourceType.awsEventSchemasRegistry:
-        return 'AWS::EventSchemas::Registry';
-      case ResourceType.awsEventSchemasRegistryPolicy:
-        return 'AWS::EventSchemas::RegistryPolicy';
-      case ResourceType.awsEventSchemasDiscoverer:
-        return 'AWS::EventSchemas::Discoverer';
-      case ResourceType.awsFraudDetectorLabel:
-        return 'AWS::FraudDetector::Label';
-      case ResourceType.awsFraudDetectorEntityType:
-        return 'AWS::FraudDetector::EntityType';
-      case ResourceType.awsFraudDetectorVariable:
-        return 'AWS::FraudDetector::Variable';
-      case ResourceType.awsFraudDetectorOutcome:
-        return 'AWS::FraudDetector::Outcome';
-      case ResourceType.awsIoTAuthorizer:
-        return 'AWS::IoT::Authorizer';
-      case ResourceType.awsIoTSecurityProfile:
-        return 'AWS::IoT::SecurityProfile';
-      case ResourceType.awsIoTRoleAlias:
-        return 'AWS::IoT::RoleAlias';
-      case ResourceType.awsIoTDimension:
-        return 'AWS::IoT::Dimension';
-      case ResourceType.awsIoTAnalyticsDatastore:
-        return 'AWS::IoTAnalytics::Datastore';
-      case ResourceType.awsLightsailBucket:
-        return 'AWS::Lightsail::Bucket';
-      case ResourceType.awsLightsailStaticIp:
-        return 'AWS::Lightsail::StaticIp';
-      case ResourceType.awsMediaPackagePackagingGroup:
-        return 'AWS::MediaPackage::PackagingGroup';
-      case ResourceType.awsRoute53RecoveryReadinessRecoveryGroup:
-        return 'AWS::Route53RecoveryReadiness::RecoveryGroup';
-      case ResourceType.awsResilienceHubResiliencyPolicy:
-        return 'AWS::ResilienceHub::ResiliencyPolicy';
-      case ResourceType.awsTransferWorkflow:
-        return 'AWS::Transfer::Workflow';
-      case ResourceType.awsEksIdentityProviderConfig:
-        return 'AWS::EKS::IdentityProviderConfig';
-      case ResourceType.awsEksAddon:
-        return 'AWS::EKS::Addon';
-      case ResourceType.awsGlueMLTransform:
-        return 'AWS::Glue::MLTransform';
-      case ResourceType.awsIoTPolicy:
-        return 'AWS::IoT::Policy';
-      case ResourceType.awsIoTMitigationAction:
-        return 'AWS::IoT::MitigationAction';
-      case ResourceType.awsIoTTwinMakerWorkspace:
-        return 'AWS::IoTTwinMaker::Workspace';
-      case ResourceType.awsIoTTwinMakerEntity:
-        return 'AWS::IoTTwinMaker::Entity';
-      case ResourceType.awsIoTAnalyticsDataset:
-        return 'AWS::IoTAnalytics::Dataset';
-      case ResourceType.awsIoTAnalyticsPipeline:
-        return 'AWS::IoTAnalytics::Pipeline';
-      case ResourceType.awsIoTAnalyticsChannel:
-        return 'AWS::IoTAnalytics::Channel';
-      case ResourceType.awsIoTSiteWiseDashboard:
-        return 'AWS::IoTSiteWise::Dashboard';
-      case ResourceType.awsIoTSiteWiseProject:
-        return 'AWS::IoTSiteWise::Project';
-      case ResourceType.awsIoTSiteWisePortal:
-        return 'AWS::IoTSiteWise::Portal';
-      case ResourceType.awsIoTSiteWiseAssetModel:
-        return 'AWS::IoTSiteWise::AssetModel';
-      case ResourceType.awsIvsChannel:
-        return 'AWS::IVS::Channel';
-      case ResourceType.awsIvsRecordingConfiguration:
-        return 'AWS::IVS::RecordingConfiguration';
-      case ResourceType.awsIvsPlaybackKeyPair:
-        return 'AWS::IVS::PlaybackKeyPair';
-      case ResourceType.awsKinesisAnalyticsV2Application:
-        return 'AWS::KinesisAnalyticsV2::Application';
-      case ResourceType.awsRdsGlobalCluster:
-        return 'AWS::RDS::GlobalCluster';
-      case ResourceType.awsS3MultiRegionAccessPoint:
-        return 'AWS::S3::MultiRegionAccessPoint';
-      case ResourceType.awsDeviceFarmTestGridProject:
-        return 'AWS::DeviceFarm::TestGridProject';
-      case ResourceType.awsBudgetsBudgetsAction:
-        return 'AWS::Budgets::BudgetsAction';
-      case ResourceType.awsLexBot:
-        return 'AWS::Lex::Bot';
-      case ResourceType.awsCodeGuruReviewerRepositoryAssociation:
-        return 'AWS::CodeGuruReviewer::RepositoryAssociation';
-      case ResourceType.awsIoTCustomMetric:
-        return 'AWS::IoT::CustomMetric';
-      case ResourceType.awsRoute53ResolverFirewallDomainList:
-        return 'AWS::Route53Resolver::FirewallDomainList';
-      case ResourceType.awsRoboMakerRobotApplicationVersion:
-        return 'AWS::RoboMaker::RobotApplicationVersion';
-      case ResourceType.awsEc2TrafficMirrorSession:
-        return 'AWS::EC2::TrafficMirrorSession';
-      case ResourceType.awsIoTSiteWiseGateway:
-        return 'AWS::IoTSiteWise::Gateway';
-      case ResourceType.awsLexBotAlias:
-        return 'AWS::Lex::BotAlias';
-      case ResourceType.awsLookoutMetricsAlert:
-        return 'AWS::LookoutMetrics::Alert';
-      case ResourceType.awsIoTAccountAuditConfiguration:
-        return 'AWS::IoT::AccountAuditConfiguration';
-      case ResourceType.awsEc2TrafficMirrorTarget:
-        return 'AWS::EC2::TrafficMirrorTarget';
-      case ResourceType.awsS3StorageLens:
-        return 'AWS::S3::StorageLens';
-      case ResourceType.awsIoTScheduledAudit:
-        return 'AWS::IoT::ScheduledAudit';
-      case ResourceType.awsEventsConnection:
-        return 'AWS::Events::Connection';
-      case ResourceType.awsEventSchemasSchema:
-        return 'AWS::EventSchemas::Schema';
-      case ResourceType.awsMediaPackagePackagingConfiguration:
-        return 'AWS::MediaPackage::PackagingConfiguration';
-      case ResourceType.awsKinesisVideoSignalingChannel:
-        return 'AWS::KinesisVideo::SignalingChannel';
-      case ResourceType.awsAppStreamDirectoryConfig:
-        return 'AWS::AppStream::DirectoryConfig';
-      case ResourceType.awsLookoutVisionProject:
-        return 'AWS::LookoutVision::Project';
-      case ResourceType.awsRoute53RecoveryControlCluster:
-        return 'AWS::Route53RecoveryControl::Cluster';
-      case ResourceType.awsRoute53RecoveryControlSafetyRule:
-        return 'AWS::Route53RecoveryControl::SafetyRule';
-      case ResourceType.awsRoute53RecoveryControlControlPanel:
-        return 'AWS::Route53RecoveryControl::ControlPanel';
-      case ResourceType.awsRoute53RecoveryControlRoutingControl:
-        return 'AWS::Route53RecoveryControl::RoutingControl';
-      case ResourceType.awsRoute53RecoveryReadinessResourceSet:
-        return 'AWS::Route53RecoveryReadiness::ResourceSet';
-      case ResourceType.awsRoboMakerSimulationApplication:
-        return 'AWS::RoboMaker::SimulationApplication';
-      case ResourceType.awsRoboMakerRobotApplication:
-        return 'AWS::RoboMaker::RobotApplication';
-      case ResourceType.awsHealthLakeFHIRDatastore:
-        return 'AWS::HealthLake::FHIRDatastore';
-      case ResourceType.awsPinpointSegment:
-        return 'AWS::Pinpoint::Segment';
-      case ResourceType.awsPinpointApplicationSettings:
-        return 'AWS::Pinpoint::ApplicationSettings';
-      case ResourceType.awsEventsRule:
-        return 'AWS::Events::Rule';
-      case ResourceType.awsEc2DHCPOptions:
-        return 'AWS::EC2::DHCPOptions';
-      case ResourceType.awsEc2NetworkInsightsPath:
-        return 'AWS::EC2::NetworkInsightsPath';
-      case ResourceType.awsEc2TrafficMirrorFilter:
-        return 'AWS::EC2::TrafficMirrorFilter';
-      case ResourceType.awsEc2Ipam:
-        return 'AWS::EC2::IPAM';
-      case ResourceType.awsIoTTwinMakerScene:
-        return 'AWS::IoTTwinMaker::Scene';
-      case ResourceType.awsNetworkManagerTransitGatewayRegistration:
-        return 'AWS::NetworkManager::TransitGatewayRegistration';
-      case ResourceType.awsCustomerProfilesDomain:
-        return 'AWS::CustomerProfiles::Domain';
-      case ResourceType.awsAutoScalingWarmPool:
-        return 'AWS::AutoScaling::WarmPool';
-      case ResourceType.awsConnectPhoneNumber:
-        return 'AWS::Connect::PhoneNumber';
-      case ResourceType.awsAppConfigDeploymentStrategy:
-        return 'AWS::AppConfig::DeploymentStrategy';
-      case ResourceType.awsAppFlowFlow:
-        return 'AWS::AppFlow::Flow';
-      case ResourceType.awsAuditManagerAssessment:
-        return 'AWS::AuditManager::Assessment';
-      case ResourceType.awsCloudWatchMetricStream:
-        return 'AWS::CloudWatch::MetricStream';
-      case ResourceType.awsDeviceFarmInstanceProfile:
-        return 'AWS::DeviceFarm::InstanceProfile';
-      case ResourceType.awsDeviceFarmProject:
-        return 'AWS::DeviceFarm::Project';
-      case ResourceType.awsEc2EC2Fleet:
-        return 'AWS::EC2::EC2Fleet';
-      case ResourceType.awsEc2SubnetRouteTableAssociation:
-        return 'AWS::EC2::SubnetRouteTableAssociation';
-      case ResourceType.awsEcrPullThroughCacheRule:
-        return 'AWS::ECR::PullThroughCacheRule';
-      case ResourceType.awsGroundStationConfig:
-        return 'AWS::GroundStation::Config';
-      case ResourceType.awsImageBuilderImagePipeline:
-        return 'AWS::ImageBuilder::ImagePipeline';
-      case ResourceType.awsIoTFleetMetric:
-        return 'AWS::IoT::FleetMetric';
-      case ResourceType.awsIoTWirelessServiceProfile:
-        return 'AWS::IoTWireless::ServiceProfile';
-      case ResourceType.awsNetworkManagerDevice:
-        return 'AWS::NetworkManager::Device';
-      case ResourceType.awsNetworkManagerGlobalNetwork:
-        return 'AWS::NetworkManager::GlobalNetwork';
-      case ResourceType.awsNetworkManagerLink:
-        return 'AWS::NetworkManager::Link';
-      case ResourceType.awsNetworkManagerSite:
-        return 'AWS::NetworkManager::Site';
-      case ResourceType.awsPanoramaPackage:
-        return 'AWS::Panorama::Package';
-      case ResourceType.awsPinpointApp:
-        return 'AWS::Pinpoint::App';
-      case ResourceType.awsRedshiftScheduledAction:
-        return 'AWS::Redshift::ScheduledAction';
-      case ResourceType.awsRoute53ResolverFirewallRuleGroupAssociation:
-        return 'AWS::Route53Resolver::FirewallRuleGroupAssociation';
-      case ResourceType.awsSageMakerAppImageConfig:
-        return 'AWS::SageMaker::AppImageConfig';
-      case ResourceType.awsSageMakerImage:
-        return 'AWS::SageMaker::Image';
-      case ResourceType.awsEcsTaskSet:
-        return 'AWS::ECS::TaskSet';
-      case ResourceType.awsCassandraKeyspace:
-        return 'AWS::Cassandra::Keyspace';
-      case ResourceType.awsSignerSigningProfile:
-        return 'AWS::Signer::SigningProfile';
-      case ResourceType.awsAmplifyApp:
-        return 'AWS::Amplify::App';
-      case ResourceType.awsAppMeshVirtualNode:
-        return 'AWS::AppMesh::VirtualNode';
-      case ResourceType.awsAppMeshVirtualService:
-        return 'AWS::AppMesh::VirtualService';
-      case ResourceType.awsAppRunnerVpcConnector:
-        return 'AWS::AppRunner::VpcConnector';
-      case ResourceType.awsAppStreamApplication:
-        return 'AWS::AppStream::Application';
-      case ResourceType.awsCodeArtifactRepository:
-        return 'AWS::CodeArtifact::Repository';
-      case ResourceType.awsEc2PrefixList:
-        return 'AWS::EC2::PrefixList';
-      case ResourceType.awsEc2SpotFleet:
-        return 'AWS::EC2::SpotFleet';
-      case ResourceType.awsEvidentlyProject:
-        return 'AWS::Evidently::Project';
-      case ResourceType.awsForecastDataset:
-        return 'AWS::Forecast::Dataset';
-      case ResourceType.awsIamSAMLProvider:
-        return 'AWS::IAM::SAMLProvider';
-      case ResourceType.awsIamServerCertificate:
-        return 'AWS::IAM::ServerCertificate';
-      case ResourceType.awsPinpointCampaign:
-        return 'AWS::Pinpoint::Campaign';
-      case ResourceType.awsPinpointInAppTemplate:
-        return 'AWS::Pinpoint::InAppTemplate';
-      case ResourceType.awsSageMakerDomain:
-        return 'AWS::SageMaker::Domain';
-      case ResourceType.awsTransferAgreement:
-        return 'AWS::Transfer::Agreement';
-      case ResourceType.awsTransferConnector:
-        return 'AWS::Transfer::Connector';
-      case ResourceType.awsKinesisFirehoseDeliveryStream:
-        return 'AWS::KinesisFirehose::DeliveryStream';
-      case ResourceType.awsAmplifyBranch:
-        return 'AWS::Amplify::Branch';
-      case ResourceType.awsAppIntegrationsEventIntegration:
-        return 'AWS::AppIntegrations::EventIntegration';
-      case ResourceType.awsAppMeshRoute:
-        return 'AWS::AppMesh::Route';
-      case ResourceType.awsAthenaPreparedStatement:
-        return 'AWS::Athena::PreparedStatement';
-      case ResourceType.awsEc2IPAMScope:
-        return 'AWS::EC2::IPAMScope';
-      case ResourceType.awsEvidentlyLaunch:
-        return 'AWS::Evidently::Launch';
-      case ResourceType.awsForecastDatasetGroup:
-        return 'AWS::Forecast::DatasetGroup';
-      case ResourceType.awsGreengrassV2ComponentVersion:
-        return 'AWS::GreengrassV2::ComponentVersion';
-      case ResourceType.awsGroundStationMissionProfile:
-        return 'AWS::GroundStation::MissionProfile';
-      case ResourceType.awsMediaConnectFlowEntitlement:
-        return 'AWS::MediaConnect::FlowEntitlement';
-      case ResourceType.awsMediaConnectFlowVpcInterface:
-        return 'AWS::MediaConnect::FlowVpcInterface';
-      case ResourceType.awsMediaTailorPlaybackConfiguration:
-        return 'AWS::MediaTailor::PlaybackConfiguration';
-      case ResourceType.awsMskConfiguration:
-        return 'AWS::MSK::Configuration';
-      case ResourceType.awsPersonalizeDataset:
-        return 'AWS::Personalize::Dataset';
-      case ResourceType.awsPersonalizeSchema:
-        return 'AWS::Personalize::Schema';
-      case ResourceType.awsPersonalizeSolution:
-        return 'AWS::Personalize::Solution';
-      case ResourceType.awsPinpointEmailTemplate:
-        return 'AWS::Pinpoint::EmailTemplate';
-      case ResourceType.awsPinpointEventStream:
-        return 'AWS::Pinpoint::EventStream';
-      case ResourceType.awsResilienceHubApp:
-        return 'AWS::ResilienceHub::App';
-      case ResourceType.awsAcmpcaCertificateAuthority:
-        return 'AWS::ACMPCA::CertificateAuthority';
-      case ResourceType.awsAppConfigHostedConfigurationVersion:
-        return 'AWS::AppConfig::HostedConfigurationVersion';
-      case ResourceType.awsAppMeshVirtualGateway:
-        return 'AWS::AppMesh::VirtualGateway';
-      case ResourceType.awsAppMeshVirtualRouter:
-        return 'AWS::AppMesh::VirtualRouter';
-      case ResourceType.awsAppRunnerService:
-        return 'AWS::AppRunner::Service';
-      case ResourceType.awsCustomerProfilesObjectType:
-        return 'AWS::CustomerProfiles::ObjectType';
-      case ResourceType.awsDmsEndpoint:
-        return 'AWS::DMS::Endpoint';
-      case ResourceType.awsEc2CapacityReservation:
-        return 'AWS::EC2::CapacityReservation';
-      case ResourceType.awsEc2ClientVpnEndpoint:
-        return 'AWS::EC2::ClientVpnEndpoint';
-      case ResourceType.awsKendraIndex:
-        return 'AWS::Kendra::Index';
-      case ResourceType.awsKinesisVideoStream:
-        return 'AWS::KinesisVideo::Stream';
-      case ResourceType.awsLogsDestination:
-        return 'AWS::Logs::Destination';
-      case ResourceType.awsPinpointEmailChannel:
-        return 'AWS::Pinpoint::EmailChannel';
-      case ResourceType.awsS3AccessPoint:
-        return 'AWS::S3::AccessPoint';
-      case ResourceType.awsNetworkManagerCustomerGatewayAssociation:
-        return 'AWS::NetworkManager::CustomerGatewayAssociation';
-      case ResourceType.awsNetworkManagerLinkAssociation:
-        return 'AWS::NetworkManager::LinkAssociation';
-      case ResourceType.awsIoTWirelessMulticastGroup:
-        return 'AWS::IoTWireless::MulticastGroup';
-      case ResourceType.awsPersonalizeDatasetGroup:
-        return 'AWS::Personalize::DatasetGroup';
-      case ResourceType.awsIoTTwinMakerComponentType:
-        return 'AWS::IoTTwinMaker::ComponentType';
-      case ResourceType.awsCodeBuildReportGroup:
-        return 'AWS::CodeBuild::ReportGroup';
-      case ResourceType.awsSageMakerFeatureGroup:
-        return 'AWS::SageMaker::FeatureGroup';
-      case ResourceType.awsMskBatchScramSecret:
-        return 'AWS::MSK::BatchScramSecret';
-      case ResourceType.awsAppStreamStack:
-        return 'AWS::AppStream::Stack';
-      case ResourceType.awsIoTJobTemplate:
-        return 'AWS::IoT::JobTemplate';
-      case ResourceType.awsIoTWirelessFuotaTask:
-        return 'AWS::IoTWireless::FuotaTask';
-      case ResourceType.awsIoTProvisioningTemplate:
-        return 'AWS::IoT::ProvisioningTemplate';
-      case ResourceType.awsInspectorV2Filter:
-        return 'AWS::InspectorV2::Filter';
-      case ResourceType.awsRoute53ResolverResolverQueryLoggingConfigAssociation:
-        return 'AWS::Route53Resolver::ResolverQueryLoggingConfigAssociation';
-      case ResourceType.awsServiceDiscoveryInstance:
-        return 'AWS::ServiceDiscovery::Instance';
-      case ResourceType.awsTransferCertificate:
-        return 'AWS::Transfer::Certificate';
-      case ResourceType.awsMediaConnectFlowSource:
-        return 'AWS::MediaConnect::FlowSource';
-      case ResourceType.awsApsRuleGroupsNamespace:
-        return 'AWS::APS::RuleGroupsNamespace';
-      case ResourceType.awsCodeGuruProfilerProfilingGroup:
-        return 'AWS::CodeGuruProfiler::ProfilingGroup';
-      case ResourceType.awsRoute53ResolverResolverQueryLoggingConfig:
-        return 'AWS::Route53Resolver::ResolverQueryLoggingConfig';
-      case ResourceType.awsBatchSchedulingPolicy:
-        return 'AWS::Batch::SchedulingPolicy';
-      case ResourceType.awsAcmpcaCertificateAuthorityActivation:
-        return 'AWS::ACMPCA::CertificateAuthorityActivation';
-      case ResourceType.awsAppMeshGatewayRoute:
-        return 'AWS::AppMesh::GatewayRoute';
-      case ResourceType.awsAppMeshMesh:
-        return 'AWS::AppMesh::Mesh';
-      case ResourceType.awsConnectInstance:
-        return 'AWS::Connect::Instance';
-      case ResourceType.awsConnectQuickConnect:
-        return 'AWS::Connect::QuickConnect';
-      case ResourceType.awsEc2CarrierGateway:
-        return 'AWS::EC2::CarrierGateway';
-      case ResourceType.awsEc2IPAMPool:
-        return 'AWS::EC2::IPAMPool';
-      case ResourceType.awsEc2TransitGatewayConnect:
-        return 'AWS::EC2::TransitGatewayConnect';
-      case ResourceType.awsEc2TransitGatewayMulticastDomain:
-        return 'AWS::EC2::TransitGatewayMulticastDomain';
-      case ResourceType.awsEcsCapacityProvider:
-        return 'AWS::ECS::CapacityProvider';
-      case ResourceType.awsIamInstanceProfile:
-        return 'AWS::IAM::InstanceProfile';
-      case ResourceType.awsIoTCACertificate:
-        return 'AWS::IoT::CACertificate';
-      case ResourceType.awsIoTTwinMakerSyncJob:
-        return 'AWS::IoTTwinMaker::SyncJob';
-      case ResourceType.awsKafkaConnectConnector:
-        return 'AWS::KafkaConnect::Connector';
-      case ResourceType.awsLambdaCodeSigningConfig:
-        return 'AWS::Lambda::CodeSigningConfig';
-      case ResourceType.awsNetworkManagerConnectPeer:
-        return 'AWS::NetworkManager::ConnectPeer';
-      case ResourceType.awsResourceExplorer2Index:
-        return 'AWS::ResourceExplorer2::Index';
-      case ResourceType.awsAppStreamFleet:
-        return 'AWS::AppStream::Fleet';
-      case ResourceType.awsCognitoUserPool:
-        return 'AWS::Cognito::UserPool';
-      case ResourceType.awsCognitoUserPoolClient:
-        return 'AWS::Cognito::UserPoolClient';
-      case ResourceType.awsCognitoUserPoolGroup:
-        return 'AWS::Cognito::UserPoolGroup';
-      case ResourceType.awsEc2NetworkInsightsAccessScope:
-        return 'AWS::EC2::NetworkInsightsAccessScope';
-      case ResourceType.awsEc2NetworkInsightsAnalysis:
-        return 'AWS::EC2::NetworkInsightsAnalysis';
-      case ResourceType.awsGrafanaWorkspace:
-        return 'AWS::Grafana::Workspace';
-      case ResourceType.awsGroundStationDataflowEndpointGroup:
-        return 'AWS::GroundStation::DataflowEndpointGroup';
-      case ResourceType.awsImageBuilderImageRecipe:
-        return 'AWS::ImageBuilder::ImageRecipe';
-      case ResourceType.awsKmsAlias:
-        return 'AWS::KMS::Alias';
-      case ResourceType.awsM2Environment:
-        return 'AWS::M2::Environment';
-      case ResourceType.awsQuickSightDataSource:
-        return 'AWS::QuickSight::DataSource';
-      case ResourceType.awsQuickSightTemplate:
-        return 'AWS::QuickSight::Template';
-      case ResourceType.awsQuickSightTheme:
-        return 'AWS::QuickSight::Theme';
-      case ResourceType.awsRdsOptionGroup:
-        return 'AWS::RDS::OptionGroup';
-      case ResourceType.awsRedshiftEndpointAccess:
-        return 'AWS::Redshift::EndpointAccess';
-      case ResourceType.awsRoute53ResolverFirewallRuleGroup:
-        return 'AWS::Route53Resolver::FirewallRuleGroup';
-      case ResourceType.awsSsmDocument:
-        return 'AWS::SSM::Document';
-    }
-  }
-}
+  final String value;
 
-extension ResourceTypeFromString on String {
-  ResourceType toResourceType() {
-    switch (this) {
-      case 'AWS::EC2::CustomerGateway':
-        return ResourceType.awsEc2CustomerGateway;
-      case 'AWS::EC2::EIP':
-        return ResourceType.awsEc2Eip;
-      case 'AWS::EC2::Host':
-        return ResourceType.awsEc2Host;
-      case 'AWS::EC2::Instance':
-        return ResourceType.awsEc2Instance;
-      case 'AWS::EC2::InternetGateway':
-        return ResourceType.awsEc2InternetGateway;
-      case 'AWS::EC2::NetworkAcl':
-        return ResourceType.awsEc2NetworkAcl;
-      case 'AWS::EC2::NetworkInterface':
-        return ResourceType.awsEc2NetworkInterface;
-      case 'AWS::EC2::RouteTable':
-        return ResourceType.awsEc2RouteTable;
-      case 'AWS::EC2::SecurityGroup':
-        return ResourceType.awsEc2SecurityGroup;
-      case 'AWS::EC2::Subnet':
-        return ResourceType.awsEc2Subnet;
-      case 'AWS::CloudTrail::Trail':
-        return ResourceType.awsCloudTrailTrail;
-      case 'AWS::EC2::Volume':
-        return ResourceType.awsEc2Volume;
-      case 'AWS::EC2::VPC':
-        return ResourceType.awsEc2Vpc;
-      case 'AWS::EC2::VPNConnection':
-        return ResourceType.awsEc2VPNConnection;
-      case 'AWS::EC2::VPNGateway':
-        return ResourceType.awsEc2VPNGateway;
-      case 'AWS::EC2::RegisteredHAInstance':
-        return ResourceType.awsEc2RegisteredHAInstance;
-      case 'AWS::EC2::NatGateway':
-        return ResourceType.awsEc2NatGateway;
-      case 'AWS::EC2::EgressOnlyInternetGateway':
-        return ResourceType.awsEc2EgressOnlyInternetGateway;
-      case 'AWS::EC2::VPCEndpoint':
-        return ResourceType.awsEc2VPCEndpoint;
-      case 'AWS::EC2::VPCEndpointService':
-        return ResourceType.awsEc2VPCEndpointService;
-      case 'AWS::EC2::FlowLog':
-        return ResourceType.awsEc2FlowLog;
-      case 'AWS::EC2::VPCPeeringConnection':
-        return ResourceType.awsEc2VPCPeeringConnection;
-      case 'AWS::Elasticsearch::Domain':
-        return ResourceType.awsElasticsearchDomain;
-      case 'AWS::IAM::Group':
-        return ResourceType.awsIamGroup;
-      case 'AWS::IAM::Policy':
-        return ResourceType.awsIamPolicy;
-      case 'AWS::IAM::Role':
-        return ResourceType.awsIamRole;
-      case 'AWS::IAM::User':
-        return ResourceType.awsIamUser;
-      case 'AWS::ElasticLoadBalancingV2::LoadBalancer':
-        return ResourceType.awsElasticLoadBalancingV2LoadBalancer;
-      case 'AWS::ACM::Certificate':
-        return ResourceType.awsAcmCertificate;
-      case 'AWS::RDS::DBInstance':
-        return ResourceType.awsRdsDBInstance;
-      case 'AWS::RDS::DBSubnetGroup':
-        return ResourceType.awsRdsDBSubnetGroup;
-      case 'AWS::RDS::DBSecurityGroup':
-        return ResourceType.awsRdsDBSecurityGroup;
-      case 'AWS::RDS::DBSnapshot':
-        return ResourceType.awsRdsDBSnapshot;
-      case 'AWS::RDS::DBCluster':
-        return ResourceType.awsRdsDBCluster;
-      case 'AWS::RDS::DBClusterSnapshot':
-        return ResourceType.awsRdsDBClusterSnapshot;
-      case 'AWS::RDS::EventSubscription':
-        return ResourceType.awsRdsEventSubscription;
-      case 'AWS::S3::Bucket':
-        return ResourceType.awsS3Bucket;
-      case 'AWS::S3::AccountPublicAccessBlock':
-        return ResourceType.awsS3AccountPublicAccessBlock;
-      case 'AWS::Redshift::Cluster':
-        return ResourceType.awsRedshiftCluster;
-      case 'AWS::Redshift::ClusterSnapshot':
-        return ResourceType.awsRedshiftClusterSnapshot;
-      case 'AWS::Redshift::ClusterParameterGroup':
-        return ResourceType.awsRedshiftClusterParameterGroup;
-      case 'AWS::Redshift::ClusterSecurityGroup':
-        return ResourceType.awsRedshiftClusterSecurityGroup;
-      case 'AWS::Redshift::ClusterSubnetGroup':
-        return ResourceType.awsRedshiftClusterSubnetGroup;
-      case 'AWS::Redshift::EventSubscription':
-        return ResourceType.awsRedshiftEventSubscription;
-      case 'AWS::SSM::ManagedInstanceInventory':
-        return ResourceType.awsSsmManagedInstanceInventory;
-      case 'AWS::CloudWatch::Alarm':
-        return ResourceType.awsCloudWatchAlarm;
-      case 'AWS::CloudFormation::Stack':
-        return ResourceType.awsCloudFormationStack;
-      case 'AWS::ElasticLoadBalancing::LoadBalancer':
-        return ResourceType.awsElasticLoadBalancingLoadBalancer;
-      case 'AWS::AutoScaling::AutoScalingGroup':
-        return ResourceType.awsAutoScalingAutoScalingGroup;
-      case 'AWS::AutoScaling::LaunchConfiguration':
-        return ResourceType.awsAutoScalingLaunchConfiguration;
-      case 'AWS::AutoScaling::ScalingPolicy':
-        return ResourceType.awsAutoScalingScalingPolicy;
-      case 'AWS::AutoScaling::ScheduledAction':
-        return ResourceType.awsAutoScalingScheduledAction;
-      case 'AWS::DynamoDB::Table':
-        return ResourceType.awsDynamoDBTable;
-      case 'AWS::CodeBuild::Project':
-        return ResourceType.awsCodeBuildProject;
-      case 'AWS::WAF::RateBasedRule':
-        return ResourceType.awsWafRateBasedRule;
-      case 'AWS::WAF::Rule':
-        return ResourceType.awsWafRule;
-      case 'AWS::WAF::RuleGroup':
-        return ResourceType.awsWafRuleGroup;
-      case 'AWS::WAF::WebACL':
-        return ResourceType.awsWafWebACL;
-      case 'AWS::WAFRegional::RateBasedRule':
-        return ResourceType.awsWAFRegionalRateBasedRule;
-      case 'AWS::WAFRegional::Rule':
-        return ResourceType.awsWAFRegionalRule;
-      case 'AWS::WAFRegional::RuleGroup':
-        return ResourceType.awsWAFRegionalRuleGroup;
-      case 'AWS::WAFRegional::WebACL':
-        return ResourceType.awsWAFRegionalWebACL;
-      case 'AWS::CloudFront::Distribution':
-        return ResourceType.awsCloudFrontDistribution;
-      case 'AWS::CloudFront::StreamingDistribution':
-        return ResourceType.awsCloudFrontStreamingDistribution;
-      case 'AWS::Lambda::Function':
-        return ResourceType.awsLambdaFunction;
-      case 'AWS::NetworkFirewall::Firewall':
-        return ResourceType.awsNetworkFirewallFirewall;
-      case 'AWS::NetworkFirewall::FirewallPolicy':
-        return ResourceType.awsNetworkFirewallFirewallPolicy;
-      case 'AWS::NetworkFirewall::RuleGroup':
-        return ResourceType.awsNetworkFirewallRuleGroup;
-      case 'AWS::ElasticBeanstalk::Application':
-        return ResourceType.awsElasticBeanstalkApplication;
-      case 'AWS::ElasticBeanstalk::ApplicationVersion':
-        return ResourceType.awsElasticBeanstalkApplicationVersion;
-      case 'AWS::ElasticBeanstalk::Environment':
-        return ResourceType.awsElasticBeanstalkEnvironment;
-      case 'AWS::WAFv2::WebACL':
-        return ResourceType.awsWAFv2WebACL;
-      case 'AWS::WAFv2::RuleGroup':
-        return ResourceType.awsWAFv2RuleGroup;
-      case 'AWS::WAFv2::IPSet':
-        return ResourceType.awsWAFv2IPSet;
-      case 'AWS::WAFv2::RegexPatternSet':
-        return ResourceType.awsWAFv2RegexPatternSet;
-      case 'AWS::WAFv2::ManagedRuleSet':
-        return ResourceType.awsWAFv2ManagedRuleSet;
-      case 'AWS::XRay::EncryptionConfig':
-        return ResourceType.awsXRayEncryptionConfig;
-      case 'AWS::SSM::AssociationCompliance':
-        return ResourceType.awsSsmAssociationCompliance;
-      case 'AWS::SSM::PatchCompliance':
-        return ResourceType.awsSsmPatchCompliance;
-      case 'AWS::Shield::Protection':
-        return ResourceType.awsShieldProtection;
-      case 'AWS::ShieldRegional::Protection':
-        return ResourceType.awsShieldRegionalProtection;
-      case 'AWS::Config::ConformancePackCompliance':
-        return ResourceType.awsConfigConformancePackCompliance;
-      case 'AWS::Config::ResourceCompliance':
-        return ResourceType.awsConfigResourceCompliance;
-      case 'AWS::ApiGateway::Stage':
-        return ResourceType.awsApiGatewayStage;
-      case 'AWS::ApiGateway::RestApi':
-        return ResourceType.awsApiGatewayRestApi;
-      case 'AWS::ApiGatewayV2::Stage':
-        return ResourceType.awsApiGatewayV2Stage;
-      case 'AWS::ApiGatewayV2::Api':
-        return ResourceType.awsApiGatewayV2Api;
-      case 'AWS::CodePipeline::Pipeline':
-        return ResourceType.awsCodePipelinePipeline;
-      case 'AWS::ServiceCatalog::CloudFormationProvisionedProduct':
-        return ResourceType.awsServiceCatalogCloudFormationProvisionedProduct;
-      case 'AWS::ServiceCatalog::CloudFormationProduct':
-        return ResourceType.awsServiceCatalogCloudFormationProduct;
-      case 'AWS::ServiceCatalog::Portfolio':
-        return ResourceType.awsServiceCatalogPortfolio;
-      case 'AWS::SQS::Queue':
-        return ResourceType.awsSqsQueue;
-      case 'AWS::KMS::Key':
-        return ResourceType.awsKmsKey;
-      case 'AWS::QLDB::Ledger':
-        return ResourceType.awsQldbLedger;
-      case 'AWS::SecretsManager::Secret':
-        return ResourceType.awsSecretsManagerSecret;
-      case 'AWS::SNS::Topic':
-        return ResourceType.awsSnsTopic;
-      case 'AWS::SSM::FileData':
-        return ResourceType.awsSsmFileData;
-      case 'AWS::Backup::BackupPlan':
-        return ResourceType.awsBackupBackupPlan;
-      case 'AWS::Backup::BackupSelection':
-        return ResourceType.awsBackupBackupSelection;
-      case 'AWS::Backup::BackupVault':
-        return ResourceType.awsBackupBackupVault;
-      case 'AWS::Backup::RecoveryPoint':
-        return ResourceType.awsBackupRecoveryPoint;
-      case 'AWS::ECR::Repository':
-        return ResourceType.awsEcrRepository;
-      case 'AWS::ECS::Cluster':
-        return ResourceType.awsEcsCluster;
-      case 'AWS::ECS::Service':
-        return ResourceType.awsEcsService;
-      case 'AWS::ECS::TaskDefinition':
-        return ResourceType.awsEcsTaskDefinition;
-      case 'AWS::EFS::AccessPoint':
-        return ResourceType.awsEfsAccessPoint;
-      case 'AWS::EFS::FileSystem':
-        return ResourceType.awsEfsFileSystem;
-      case 'AWS::EKS::Cluster':
-        return ResourceType.awsEksCluster;
-      case 'AWS::OpenSearch::Domain':
-        return ResourceType.awsOpenSearchDomain;
-      case 'AWS::EC2::TransitGateway':
-        return ResourceType.awsEc2TransitGateway;
-      case 'AWS::Kinesis::Stream':
-        return ResourceType.awsKinesisStream;
-      case 'AWS::Kinesis::StreamConsumer':
-        return ResourceType.awsKinesisStreamConsumer;
-      case 'AWS::CodeDeploy::Application':
-        return ResourceType.awsCodeDeployApplication;
-      case 'AWS::CodeDeploy::DeploymentConfig':
-        return ResourceType.awsCodeDeployDeploymentConfig;
-      case 'AWS::CodeDeploy::DeploymentGroup':
-        return ResourceType.awsCodeDeployDeploymentGroup;
-      case 'AWS::EC2::LaunchTemplate':
-        return ResourceType.awsEc2LaunchTemplate;
-      case 'AWS::ECR::PublicRepository':
-        return ResourceType.awsEcrPublicRepository;
-      case 'AWS::GuardDuty::Detector':
-        return ResourceType.awsGuardDutyDetector;
-      case 'AWS::EMR::SecurityConfiguration':
-        return ResourceType.awsEmrSecurityConfiguration;
-      case 'AWS::SageMaker::CodeRepository':
-        return ResourceType.awsSageMakerCodeRepository;
-      case 'AWS::Route53Resolver::ResolverEndpoint':
-        return ResourceType.awsRoute53ResolverResolverEndpoint;
-      case 'AWS::Route53Resolver::ResolverRule':
-        return ResourceType.awsRoute53ResolverResolverRule;
-      case 'AWS::Route53Resolver::ResolverRuleAssociation':
-        return ResourceType.awsRoute53ResolverResolverRuleAssociation;
-      case 'AWS::DMS::ReplicationSubnetGroup':
-        return ResourceType.awsDmsReplicationSubnetGroup;
-      case 'AWS::DMS::EventSubscription':
-        return ResourceType.awsDmsEventSubscription;
-      case 'AWS::MSK::Cluster':
-        return ResourceType.awsMskCluster;
-      case 'AWS::StepFunctions::Activity':
-        return ResourceType.awsStepFunctionsActivity;
-      case 'AWS::WorkSpaces::Workspace':
-        return ResourceType.awsWorkSpacesWorkspace;
-      case 'AWS::WorkSpaces::ConnectionAlias':
-        return ResourceType.awsWorkSpacesConnectionAlias;
-      case 'AWS::SageMaker::Model':
-        return ResourceType.awsSageMakerModel;
-      case 'AWS::ElasticLoadBalancingV2::Listener':
-        return ResourceType.awsElasticLoadBalancingV2Listener;
-      case 'AWS::StepFunctions::StateMachine':
-        return ResourceType.awsStepFunctionsStateMachine;
-      case 'AWS::Batch::JobQueue':
-        return ResourceType.awsBatchJobQueue;
-      case 'AWS::Batch::ComputeEnvironment':
-        return ResourceType.awsBatchComputeEnvironment;
-      case 'AWS::AccessAnalyzer::Analyzer':
-        return ResourceType.awsAccessAnalyzerAnalyzer;
-      case 'AWS::Athena::WorkGroup':
-        return ResourceType.awsAthenaWorkGroup;
-      case 'AWS::Athena::DataCatalog':
-        return ResourceType.awsAthenaDataCatalog;
-      case 'AWS::Detective::Graph':
-        return ResourceType.awsDetectiveGraph;
-      case 'AWS::GlobalAccelerator::Accelerator':
-        return ResourceType.awsGlobalAcceleratorAccelerator;
-      case 'AWS::GlobalAccelerator::EndpointGroup':
-        return ResourceType.awsGlobalAcceleratorEndpointGroup;
-      case 'AWS::GlobalAccelerator::Listener':
-        return ResourceType.awsGlobalAcceleratorListener;
-      case 'AWS::EC2::TransitGatewayAttachment':
-        return ResourceType.awsEc2TransitGatewayAttachment;
-      case 'AWS::EC2::TransitGatewayRouteTable':
-        return ResourceType.awsEc2TransitGatewayRouteTable;
-      case 'AWS::DMS::Certificate':
-        return ResourceType.awsDmsCertificate;
-      case 'AWS::AppConfig::Application':
-        return ResourceType.awsAppConfigApplication;
-      case 'AWS::AppSync::GraphQLApi':
-        return ResourceType.awsAppSyncGraphQLApi;
-      case 'AWS::DataSync::LocationSMB':
-        return ResourceType.awsDataSyncLocationSMB;
-      case 'AWS::DataSync::LocationFSxLustre':
-        return ResourceType.awsDataSyncLocationFSxLustre;
-      case 'AWS::DataSync::LocationS3':
-        return ResourceType.awsDataSyncLocationS3;
-      case 'AWS::DataSync::LocationEFS':
-        return ResourceType.awsDataSyncLocationEFS;
-      case 'AWS::DataSync::Task':
-        return ResourceType.awsDataSyncTask;
-      case 'AWS::DataSync::LocationNFS':
-        return ResourceType.awsDataSyncLocationNFS;
-      case 'AWS::EC2::NetworkInsightsAccessScopeAnalysis':
-        return ResourceType.awsEc2NetworkInsightsAccessScopeAnalysis;
-      case 'AWS::EKS::FargateProfile':
-        return ResourceType.awsEksFargateProfile;
-      case 'AWS::Glue::Job':
-        return ResourceType.awsGlueJob;
-      case 'AWS::GuardDuty::ThreatIntelSet':
-        return ResourceType.awsGuardDutyThreatIntelSet;
-      case 'AWS::GuardDuty::IPSet':
-        return ResourceType.awsGuardDutyIPSet;
-      case 'AWS::SageMaker::Workteam':
-        return ResourceType.awsSageMakerWorkteam;
-      case 'AWS::SageMaker::NotebookInstanceLifecycleConfig':
-        return ResourceType.awsSageMakerNotebookInstanceLifecycleConfig;
-      case 'AWS::ServiceDiscovery::Service':
-        return ResourceType.awsServiceDiscoveryService;
-      case 'AWS::ServiceDiscovery::PublicDnsNamespace':
-        return ResourceType.awsServiceDiscoveryPublicDnsNamespace;
-      case 'AWS::SES::ContactList':
-        return ResourceType.awsSesContactList;
-      case 'AWS::SES::ConfigurationSet':
-        return ResourceType.awsSesConfigurationSet;
-      case 'AWS::Route53::HostedZone':
-        return ResourceType.awsRoute53HostedZone;
-      case 'AWS::IoTEvents::Input':
-        return ResourceType.awsIoTEventsInput;
-      case 'AWS::IoTEvents::DetectorModel':
-        return ResourceType.awsIoTEventsDetectorModel;
-      case 'AWS::IoTEvents::AlarmModel':
-        return ResourceType.awsIoTEventsAlarmModel;
-      case 'AWS::ServiceDiscovery::HttpNamespace':
-        return ResourceType.awsServiceDiscoveryHttpNamespace;
-      case 'AWS::Events::EventBus':
-        return ResourceType.awsEventsEventBus;
-      case 'AWS::ImageBuilder::ContainerRecipe':
-        return ResourceType.awsImageBuilderContainerRecipe;
-      case 'AWS::ImageBuilder::DistributionConfiguration':
-        return ResourceType.awsImageBuilderDistributionConfiguration;
-      case 'AWS::ImageBuilder::InfrastructureConfiguration':
-        return ResourceType.awsImageBuilderInfrastructureConfiguration;
-      case 'AWS::DataSync::LocationObjectStorage':
-        return ResourceType.awsDataSyncLocationObjectStorage;
-      case 'AWS::DataSync::LocationHDFS':
-        return ResourceType.awsDataSyncLocationHDFS;
-      case 'AWS::Glue::Classifier':
-        return ResourceType.awsGlueClassifier;
-      case 'AWS::Route53RecoveryReadiness::Cell':
-        return ResourceType.awsRoute53RecoveryReadinessCell;
-      case 'AWS::Route53RecoveryReadiness::ReadinessCheck':
-        return ResourceType.awsRoute53RecoveryReadinessReadinessCheck;
-      case 'AWS::ECR::RegistryPolicy':
-        return ResourceType.awsEcrRegistryPolicy;
-      case 'AWS::Backup::ReportPlan':
-        return ResourceType.awsBackupReportPlan;
-      case 'AWS::Lightsail::Certificate':
-        return ResourceType.awsLightsailCertificate;
-      case 'AWS::RUM::AppMonitor':
-        return ResourceType.awsRumAppMonitor;
-      case 'AWS::Events::Endpoint':
-        return ResourceType.awsEventsEndpoint;
-      case 'AWS::SES::ReceiptRuleSet':
-        return ResourceType.awsSesReceiptRuleSet;
-      case 'AWS::Events::Archive':
-        return ResourceType.awsEventsArchive;
-      case 'AWS::Events::ApiDestination':
-        return ResourceType.awsEventsApiDestination;
-      case 'AWS::Lightsail::Disk':
-        return ResourceType.awsLightsailDisk;
-      case 'AWS::FIS::ExperimentTemplate':
-        return ResourceType.awsFisExperimentTemplate;
-      case 'AWS::DataSync::LocationFSxWindows':
-        return ResourceType.awsDataSyncLocationFSxWindows;
-      case 'AWS::SES::ReceiptFilter':
-        return ResourceType.awsSesReceiptFilter;
-      case 'AWS::GuardDuty::Filter':
-        return ResourceType.awsGuardDutyFilter;
-      case 'AWS::SES::Template':
-        return ResourceType.awsSesTemplate;
-      case 'AWS::AmazonMQ::Broker':
-        return ResourceType.awsAmazonMQBroker;
-      case 'AWS::AppConfig::Environment':
-        return ResourceType.awsAppConfigEnvironment;
-      case 'AWS::AppConfig::ConfigurationProfile':
-        return ResourceType.awsAppConfigConfigurationProfile;
-      case 'AWS::Cloud9::EnvironmentEC2':
-        return ResourceType.awsCloud9EnvironmentEC2;
-      case 'AWS::EventSchemas::Registry':
-        return ResourceType.awsEventSchemasRegistry;
-      case 'AWS::EventSchemas::RegistryPolicy':
-        return ResourceType.awsEventSchemasRegistryPolicy;
-      case 'AWS::EventSchemas::Discoverer':
-        return ResourceType.awsEventSchemasDiscoverer;
-      case 'AWS::FraudDetector::Label':
-        return ResourceType.awsFraudDetectorLabel;
-      case 'AWS::FraudDetector::EntityType':
-        return ResourceType.awsFraudDetectorEntityType;
-      case 'AWS::FraudDetector::Variable':
-        return ResourceType.awsFraudDetectorVariable;
-      case 'AWS::FraudDetector::Outcome':
-        return ResourceType.awsFraudDetectorOutcome;
-      case 'AWS::IoT::Authorizer':
-        return ResourceType.awsIoTAuthorizer;
-      case 'AWS::IoT::SecurityProfile':
-        return ResourceType.awsIoTSecurityProfile;
-      case 'AWS::IoT::RoleAlias':
-        return ResourceType.awsIoTRoleAlias;
-      case 'AWS::IoT::Dimension':
-        return ResourceType.awsIoTDimension;
-      case 'AWS::IoTAnalytics::Datastore':
-        return ResourceType.awsIoTAnalyticsDatastore;
-      case 'AWS::Lightsail::Bucket':
-        return ResourceType.awsLightsailBucket;
-      case 'AWS::Lightsail::StaticIp':
-        return ResourceType.awsLightsailStaticIp;
-      case 'AWS::MediaPackage::PackagingGroup':
-        return ResourceType.awsMediaPackagePackagingGroup;
-      case 'AWS::Route53RecoveryReadiness::RecoveryGroup':
-        return ResourceType.awsRoute53RecoveryReadinessRecoveryGroup;
-      case 'AWS::ResilienceHub::ResiliencyPolicy':
-        return ResourceType.awsResilienceHubResiliencyPolicy;
-      case 'AWS::Transfer::Workflow':
-        return ResourceType.awsTransferWorkflow;
-      case 'AWS::EKS::IdentityProviderConfig':
-        return ResourceType.awsEksIdentityProviderConfig;
-      case 'AWS::EKS::Addon':
-        return ResourceType.awsEksAddon;
-      case 'AWS::Glue::MLTransform':
-        return ResourceType.awsGlueMLTransform;
-      case 'AWS::IoT::Policy':
-        return ResourceType.awsIoTPolicy;
-      case 'AWS::IoT::MitigationAction':
-        return ResourceType.awsIoTMitigationAction;
-      case 'AWS::IoTTwinMaker::Workspace':
-        return ResourceType.awsIoTTwinMakerWorkspace;
-      case 'AWS::IoTTwinMaker::Entity':
-        return ResourceType.awsIoTTwinMakerEntity;
-      case 'AWS::IoTAnalytics::Dataset':
-        return ResourceType.awsIoTAnalyticsDataset;
-      case 'AWS::IoTAnalytics::Pipeline':
-        return ResourceType.awsIoTAnalyticsPipeline;
-      case 'AWS::IoTAnalytics::Channel':
-        return ResourceType.awsIoTAnalyticsChannel;
-      case 'AWS::IoTSiteWise::Dashboard':
-        return ResourceType.awsIoTSiteWiseDashboard;
-      case 'AWS::IoTSiteWise::Project':
-        return ResourceType.awsIoTSiteWiseProject;
-      case 'AWS::IoTSiteWise::Portal':
-        return ResourceType.awsIoTSiteWisePortal;
-      case 'AWS::IoTSiteWise::AssetModel':
-        return ResourceType.awsIoTSiteWiseAssetModel;
-      case 'AWS::IVS::Channel':
-        return ResourceType.awsIvsChannel;
-      case 'AWS::IVS::RecordingConfiguration':
-        return ResourceType.awsIvsRecordingConfiguration;
-      case 'AWS::IVS::PlaybackKeyPair':
-        return ResourceType.awsIvsPlaybackKeyPair;
-      case 'AWS::KinesisAnalyticsV2::Application':
-        return ResourceType.awsKinesisAnalyticsV2Application;
-      case 'AWS::RDS::GlobalCluster':
-        return ResourceType.awsRdsGlobalCluster;
-      case 'AWS::S3::MultiRegionAccessPoint':
-        return ResourceType.awsS3MultiRegionAccessPoint;
-      case 'AWS::DeviceFarm::TestGridProject':
-        return ResourceType.awsDeviceFarmTestGridProject;
-      case 'AWS::Budgets::BudgetsAction':
-        return ResourceType.awsBudgetsBudgetsAction;
-      case 'AWS::Lex::Bot':
-        return ResourceType.awsLexBot;
-      case 'AWS::CodeGuruReviewer::RepositoryAssociation':
-        return ResourceType.awsCodeGuruReviewerRepositoryAssociation;
-      case 'AWS::IoT::CustomMetric':
-        return ResourceType.awsIoTCustomMetric;
-      case 'AWS::Route53Resolver::FirewallDomainList':
-        return ResourceType.awsRoute53ResolverFirewallDomainList;
-      case 'AWS::RoboMaker::RobotApplicationVersion':
-        return ResourceType.awsRoboMakerRobotApplicationVersion;
-      case 'AWS::EC2::TrafficMirrorSession':
-        return ResourceType.awsEc2TrafficMirrorSession;
-      case 'AWS::IoTSiteWise::Gateway':
-        return ResourceType.awsIoTSiteWiseGateway;
-      case 'AWS::Lex::BotAlias':
-        return ResourceType.awsLexBotAlias;
-      case 'AWS::LookoutMetrics::Alert':
-        return ResourceType.awsLookoutMetricsAlert;
-      case 'AWS::IoT::AccountAuditConfiguration':
-        return ResourceType.awsIoTAccountAuditConfiguration;
-      case 'AWS::EC2::TrafficMirrorTarget':
-        return ResourceType.awsEc2TrafficMirrorTarget;
-      case 'AWS::S3::StorageLens':
-        return ResourceType.awsS3StorageLens;
-      case 'AWS::IoT::ScheduledAudit':
-        return ResourceType.awsIoTScheduledAudit;
-      case 'AWS::Events::Connection':
-        return ResourceType.awsEventsConnection;
-      case 'AWS::EventSchemas::Schema':
-        return ResourceType.awsEventSchemasSchema;
-      case 'AWS::MediaPackage::PackagingConfiguration':
-        return ResourceType.awsMediaPackagePackagingConfiguration;
-      case 'AWS::KinesisVideo::SignalingChannel':
-        return ResourceType.awsKinesisVideoSignalingChannel;
-      case 'AWS::AppStream::DirectoryConfig':
-        return ResourceType.awsAppStreamDirectoryConfig;
-      case 'AWS::LookoutVision::Project':
-        return ResourceType.awsLookoutVisionProject;
-      case 'AWS::Route53RecoveryControl::Cluster':
-        return ResourceType.awsRoute53RecoveryControlCluster;
-      case 'AWS::Route53RecoveryControl::SafetyRule':
-        return ResourceType.awsRoute53RecoveryControlSafetyRule;
-      case 'AWS::Route53RecoveryControl::ControlPanel':
-        return ResourceType.awsRoute53RecoveryControlControlPanel;
-      case 'AWS::Route53RecoveryControl::RoutingControl':
-        return ResourceType.awsRoute53RecoveryControlRoutingControl;
-      case 'AWS::Route53RecoveryReadiness::ResourceSet':
-        return ResourceType.awsRoute53RecoveryReadinessResourceSet;
-      case 'AWS::RoboMaker::SimulationApplication':
-        return ResourceType.awsRoboMakerSimulationApplication;
-      case 'AWS::RoboMaker::RobotApplication':
-        return ResourceType.awsRoboMakerRobotApplication;
-      case 'AWS::HealthLake::FHIRDatastore':
-        return ResourceType.awsHealthLakeFHIRDatastore;
-      case 'AWS::Pinpoint::Segment':
-        return ResourceType.awsPinpointSegment;
-      case 'AWS::Pinpoint::ApplicationSettings':
-        return ResourceType.awsPinpointApplicationSettings;
-      case 'AWS::Events::Rule':
-        return ResourceType.awsEventsRule;
-      case 'AWS::EC2::DHCPOptions':
-        return ResourceType.awsEc2DHCPOptions;
-      case 'AWS::EC2::NetworkInsightsPath':
-        return ResourceType.awsEc2NetworkInsightsPath;
-      case 'AWS::EC2::TrafficMirrorFilter':
-        return ResourceType.awsEc2TrafficMirrorFilter;
-      case 'AWS::EC2::IPAM':
-        return ResourceType.awsEc2Ipam;
-      case 'AWS::IoTTwinMaker::Scene':
-        return ResourceType.awsIoTTwinMakerScene;
-      case 'AWS::NetworkManager::TransitGatewayRegistration':
-        return ResourceType.awsNetworkManagerTransitGatewayRegistration;
-      case 'AWS::CustomerProfiles::Domain':
-        return ResourceType.awsCustomerProfilesDomain;
-      case 'AWS::AutoScaling::WarmPool':
-        return ResourceType.awsAutoScalingWarmPool;
-      case 'AWS::Connect::PhoneNumber':
-        return ResourceType.awsConnectPhoneNumber;
-      case 'AWS::AppConfig::DeploymentStrategy':
-        return ResourceType.awsAppConfigDeploymentStrategy;
-      case 'AWS::AppFlow::Flow':
-        return ResourceType.awsAppFlowFlow;
-      case 'AWS::AuditManager::Assessment':
-        return ResourceType.awsAuditManagerAssessment;
-      case 'AWS::CloudWatch::MetricStream':
-        return ResourceType.awsCloudWatchMetricStream;
-      case 'AWS::DeviceFarm::InstanceProfile':
-        return ResourceType.awsDeviceFarmInstanceProfile;
-      case 'AWS::DeviceFarm::Project':
-        return ResourceType.awsDeviceFarmProject;
-      case 'AWS::EC2::EC2Fleet':
-        return ResourceType.awsEc2EC2Fleet;
-      case 'AWS::EC2::SubnetRouteTableAssociation':
-        return ResourceType.awsEc2SubnetRouteTableAssociation;
-      case 'AWS::ECR::PullThroughCacheRule':
-        return ResourceType.awsEcrPullThroughCacheRule;
-      case 'AWS::GroundStation::Config':
-        return ResourceType.awsGroundStationConfig;
-      case 'AWS::ImageBuilder::ImagePipeline':
-        return ResourceType.awsImageBuilderImagePipeline;
-      case 'AWS::IoT::FleetMetric':
-        return ResourceType.awsIoTFleetMetric;
-      case 'AWS::IoTWireless::ServiceProfile':
-        return ResourceType.awsIoTWirelessServiceProfile;
-      case 'AWS::NetworkManager::Device':
-        return ResourceType.awsNetworkManagerDevice;
-      case 'AWS::NetworkManager::GlobalNetwork':
-        return ResourceType.awsNetworkManagerGlobalNetwork;
-      case 'AWS::NetworkManager::Link':
-        return ResourceType.awsNetworkManagerLink;
-      case 'AWS::NetworkManager::Site':
-        return ResourceType.awsNetworkManagerSite;
-      case 'AWS::Panorama::Package':
-        return ResourceType.awsPanoramaPackage;
-      case 'AWS::Pinpoint::App':
-        return ResourceType.awsPinpointApp;
-      case 'AWS::Redshift::ScheduledAction':
-        return ResourceType.awsRedshiftScheduledAction;
-      case 'AWS::Route53Resolver::FirewallRuleGroupAssociation':
-        return ResourceType.awsRoute53ResolverFirewallRuleGroupAssociation;
-      case 'AWS::SageMaker::AppImageConfig':
-        return ResourceType.awsSageMakerAppImageConfig;
-      case 'AWS::SageMaker::Image':
-        return ResourceType.awsSageMakerImage;
-      case 'AWS::ECS::TaskSet':
-        return ResourceType.awsEcsTaskSet;
-      case 'AWS::Cassandra::Keyspace':
-        return ResourceType.awsCassandraKeyspace;
-      case 'AWS::Signer::SigningProfile':
-        return ResourceType.awsSignerSigningProfile;
-      case 'AWS::Amplify::App':
-        return ResourceType.awsAmplifyApp;
-      case 'AWS::AppMesh::VirtualNode':
-        return ResourceType.awsAppMeshVirtualNode;
-      case 'AWS::AppMesh::VirtualService':
-        return ResourceType.awsAppMeshVirtualService;
-      case 'AWS::AppRunner::VpcConnector':
-        return ResourceType.awsAppRunnerVpcConnector;
-      case 'AWS::AppStream::Application':
-        return ResourceType.awsAppStreamApplication;
-      case 'AWS::CodeArtifact::Repository':
-        return ResourceType.awsCodeArtifactRepository;
-      case 'AWS::EC2::PrefixList':
-        return ResourceType.awsEc2PrefixList;
-      case 'AWS::EC2::SpotFleet':
-        return ResourceType.awsEc2SpotFleet;
-      case 'AWS::Evidently::Project':
-        return ResourceType.awsEvidentlyProject;
-      case 'AWS::Forecast::Dataset':
-        return ResourceType.awsForecastDataset;
-      case 'AWS::IAM::SAMLProvider':
-        return ResourceType.awsIamSAMLProvider;
-      case 'AWS::IAM::ServerCertificate':
-        return ResourceType.awsIamServerCertificate;
-      case 'AWS::Pinpoint::Campaign':
-        return ResourceType.awsPinpointCampaign;
-      case 'AWS::Pinpoint::InAppTemplate':
-        return ResourceType.awsPinpointInAppTemplate;
-      case 'AWS::SageMaker::Domain':
-        return ResourceType.awsSageMakerDomain;
-      case 'AWS::Transfer::Agreement':
-        return ResourceType.awsTransferAgreement;
-      case 'AWS::Transfer::Connector':
-        return ResourceType.awsTransferConnector;
-      case 'AWS::KinesisFirehose::DeliveryStream':
-        return ResourceType.awsKinesisFirehoseDeliveryStream;
-      case 'AWS::Amplify::Branch':
-        return ResourceType.awsAmplifyBranch;
-      case 'AWS::AppIntegrations::EventIntegration':
-        return ResourceType.awsAppIntegrationsEventIntegration;
-      case 'AWS::AppMesh::Route':
-        return ResourceType.awsAppMeshRoute;
-      case 'AWS::Athena::PreparedStatement':
-        return ResourceType.awsAthenaPreparedStatement;
-      case 'AWS::EC2::IPAMScope':
-        return ResourceType.awsEc2IPAMScope;
-      case 'AWS::Evidently::Launch':
-        return ResourceType.awsEvidentlyLaunch;
-      case 'AWS::Forecast::DatasetGroup':
-        return ResourceType.awsForecastDatasetGroup;
-      case 'AWS::GreengrassV2::ComponentVersion':
-        return ResourceType.awsGreengrassV2ComponentVersion;
-      case 'AWS::GroundStation::MissionProfile':
-        return ResourceType.awsGroundStationMissionProfile;
-      case 'AWS::MediaConnect::FlowEntitlement':
-        return ResourceType.awsMediaConnectFlowEntitlement;
-      case 'AWS::MediaConnect::FlowVpcInterface':
-        return ResourceType.awsMediaConnectFlowVpcInterface;
-      case 'AWS::MediaTailor::PlaybackConfiguration':
-        return ResourceType.awsMediaTailorPlaybackConfiguration;
-      case 'AWS::MSK::Configuration':
-        return ResourceType.awsMskConfiguration;
-      case 'AWS::Personalize::Dataset':
-        return ResourceType.awsPersonalizeDataset;
-      case 'AWS::Personalize::Schema':
-        return ResourceType.awsPersonalizeSchema;
-      case 'AWS::Personalize::Solution':
-        return ResourceType.awsPersonalizeSolution;
-      case 'AWS::Pinpoint::EmailTemplate':
-        return ResourceType.awsPinpointEmailTemplate;
-      case 'AWS::Pinpoint::EventStream':
-        return ResourceType.awsPinpointEventStream;
-      case 'AWS::ResilienceHub::App':
-        return ResourceType.awsResilienceHubApp;
-      case 'AWS::ACMPCA::CertificateAuthority':
-        return ResourceType.awsAcmpcaCertificateAuthority;
-      case 'AWS::AppConfig::HostedConfigurationVersion':
-        return ResourceType.awsAppConfigHostedConfigurationVersion;
-      case 'AWS::AppMesh::VirtualGateway':
-        return ResourceType.awsAppMeshVirtualGateway;
-      case 'AWS::AppMesh::VirtualRouter':
-        return ResourceType.awsAppMeshVirtualRouter;
-      case 'AWS::AppRunner::Service':
-        return ResourceType.awsAppRunnerService;
-      case 'AWS::CustomerProfiles::ObjectType':
-        return ResourceType.awsCustomerProfilesObjectType;
-      case 'AWS::DMS::Endpoint':
-        return ResourceType.awsDmsEndpoint;
-      case 'AWS::EC2::CapacityReservation':
-        return ResourceType.awsEc2CapacityReservation;
-      case 'AWS::EC2::ClientVpnEndpoint':
-        return ResourceType.awsEc2ClientVpnEndpoint;
-      case 'AWS::Kendra::Index':
-        return ResourceType.awsKendraIndex;
-      case 'AWS::KinesisVideo::Stream':
-        return ResourceType.awsKinesisVideoStream;
-      case 'AWS::Logs::Destination':
-        return ResourceType.awsLogsDestination;
-      case 'AWS::Pinpoint::EmailChannel':
-        return ResourceType.awsPinpointEmailChannel;
-      case 'AWS::S3::AccessPoint':
-        return ResourceType.awsS3AccessPoint;
-      case 'AWS::NetworkManager::CustomerGatewayAssociation':
-        return ResourceType.awsNetworkManagerCustomerGatewayAssociation;
-      case 'AWS::NetworkManager::LinkAssociation':
-        return ResourceType.awsNetworkManagerLinkAssociation;
-      case 'AWS::IoTWireless::MulticastGroup':
-        return ResourceType.awsIoTWirelessMulticastGroup;
-      case 'AWS::Personalize::DatasetGroup':
-        return ResourceType.awsPersonalizeDatasetGroup;
-      case 'AWS::IoTTwinMaker::ComponentType':
-        return ResourceType.awsIoTTwinMakerComponentType;
-      case 'AWS::CodeBuild::ReportGroup':
-        return ResourceType.awsCodeBuildReportGroup;
-      case 'AWS::SageMaker::FeatureGroup':
-        return ResourceType.awsSageMakerFeatureGroup;
-      case 'AWS::MSK::BatchScramSecret':
-        return ResourceType.awsMskBatchScramSecret;
-      case 'AWS::AppStream::Stack':
-        return ResourceType.awsAppStreamStack;
-      case 'AWS::IoT::JobTemplate':
-        return ResourceType.awsIoTJobTemplate;
-      case 'AWS::IoTWireless::FuotaTask':
-        return ResourceType.awsIoTWirelessFuotaTask;
-      case 'AWS::IoT::ProvisioningTemplate':
-        return ResourceType.awsIoTProvisioningTemplate;
-      case 'AWS::InspectorV2::Filter':
-        return ResourceType.awsInspectorV2Filter;
-      case 'AWS::Route53Resolver::ResolverQueryLoggingConfigAssociation':
-        return ResourceType
-            .awsRoute53ResolverResolverQueryLoggingConfigAssociation;
-      case 'AWS::ServiceDiscovery::Instance':
-        return ResourceType.awsServiceDiscoveryInstance;
-      case 'AWS::Transfer::Certificate':
-        return ResourceType.awsTransferCertificate;
-      case 'AWS::MediaConnect::FlowSource':
-        return ResourceType.awsMediaConnectFlowSource;
-      case 'AWS::APS::RuleGroupsNamespace':
-        return ResourceType.awsApsRuleGroupsNamespace;
-      case 'AWS::CodeGuruProfiler::ProfilingGroup':
-        return ResourceType.awsCodeGuruProfilerProfilingGroup;
-      case 'AWS::Route53Resolver::ResolverQueryLoggingConfig':
-        return ResourceType.awsRoute53ResolverResolverQueryLoggingConfig;
-      case 'AWS::Batch::SchedulingPolicy':
-        return ResourceType.awsBatchSchedulingPolicy;
-      case 'AWS::ACMPCA::CertificateAuthorityActivation':
-        return ResourceType.awsAcmpcaCertificateAuthorityActivation;
-      case 'AWS::AppMesh::GatewayRoute':
-        return ResourceType.awsAppMeshGatewayRoute;
-      case 'AWS::AppMesh::Mesh':
-        return ResourceType.awsAppMeshMesh;
-      case 'AWS::Connect::Instance':
-        return ResourceType.awsConnectInstance;
-      case 'AWS::Connect::QuickConnect':
-        return ResourceType.awsConnectQuickConnect;
-      case 'AWS::EC2::CarrierGateway':
-        return ResourceType.awsEc2CarrierGateway;
-      case 'AWS::EC2::IPAMPool':
-        return ResourceType.awsEc2IPAMPool;
-      case 'AWS::EC2::TransitGatewayConnect':
-        return ResourceType.awsEc2TransitGatewayConnect;
-      case 'AWS::EC2::TransitGatewayMulticastDomain':
-        return ResourceType.awsEc2TransitGatewayMulticastDomain;
-      case 'AWS::ECS::CapacityProvider':
-        return ResourceType.awsEcsCapacityProvider;
-      case 'AWS::IAM::InstanceProfile':
-        return ResourceType.awsIamInstanceProfile;
-      case 'AWS::IoT::CACertificate':
-        return ResourceType.awsIoTCACertificate;
-      case 'AWS::IoTTwinMaker::SyncJob':
-        return ResourceType.awsIoTTwinMakerSyncJob;
-      case 'AWS::KafkaConnect::Connector':
-        return ResourceType.awsKafkaConnectConnector;
-      case 'AWS::Lambda::CodeSigningConfig':
-        return ResourceType.awsLambdaCodeSigningConfig;
-      case 'AWS::NetworkManager::ConnectPeer':
-        return ResourceType.awsNetworkManagerConnectPeer;
-      case 'AWS::ResourceExplorer2::Index':
-        return ResourceType.awsResourceExplorer2Index;
-      case 'AWS::AppStream::Fleet':
-        return ResourceType.awsAppStreamFleet;
-      case 'AWS::Cognito::UserPool':
-        return ResourceType.awsCognitoUserPool;
-      case 'AWS::Cognito::UserPoolClient':
-        return ResourceType.awsCognitoUserPoolClient;
-      case 'AWS::Cognito::UserPoolGroup':
-        return ResourceType.awsCognitoUserPoolGroup;
-      case 'AWS::EC2::NetworkInsightsAccessScope':
-        return ResourceType.awsEc2NetworkInsightsAccessScope;
-      case 'AWS::EC2::NetworkInsightsAnalysis':
-        return ResourceType.awsEc2NetworkInsightsAnalysis;
-      case 'AWS::Grafana::Workspace':
-        return ResourceType.awsGrafanaWorkspace;
-      case 'AWS::GroundStation::DataflowEndpointGroup':
-        return ResourceType.awsGroundStationDataflowEndpointGroup;
-      case 'AWS::ImageBuilder::ImageRecipe':
-        return ResourceType.awsImageBuilderImageRecipe;
-      case 'AWS::KMS::Alias':
-        return ResourceType.awsKmsAlias;
-      case 'AWS::M2::Environment':
-        return ResourceType.awsM2Environment;
-      case 'AWS::QuickSight::DataSource':
-        return ResourceType.awsQuickSightDataSource;
-      case 'AWS::QuickSight::Template':
-        return ResourceType.awsQuickSightTemplate;
-      case 'AWS::QuickSight::Theme':
-        return ResourceType.awsQuickSightTheme;
-      case 'AWS::RDS::OptionGroup':
-        return ResourceType.awsRdsOptionGroup;
-      case 'AWS::Redshift::EndpointAccess':
-        return ResourceType.awsRedshiftEndpointAccess;
-      case 'AWS::Route53Resolver::FirewallRuleGroup':
-        return ResourceType.awsRoute53ResolverFirewallRuleGroup;
-      case 'AWS::SSM::Document':
-        return ResourceType.awsSsmDocument;
-    }
-    throw Exception('$this is not known in enum ResourceType');
-  }
+  const ResourceType(this.value);
+
+  static ResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResourceType'));
 }
 
 /// The dynamic value of the resource.
@@ -16767,39 +14550,30 @@ class ResourceValue {
 
   factory ResourceValue.fromJson(Map<String, dynamic> json) {
     return ResourceValue(
-      value: (json['Value'] as String).toResourceValueType(),
+      value: ResourceValueType.fromString((json['Value'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final value = this.value;
     return {
-      'Value': value.toValue(),
+      'Value': value.value,
     };
   }
 }
 
 enum ResourceValueType {
-  resourceId,
-}
+  resourceId('RESOURCE_ID'),
+  ;
 
-extension ResourceValueTypeValueExtension on ResourceValueType {
-  String toValue() {
-    switch (this) {
-      case ResourceValueType.resourceId:
-        return 'RESOURCE_ID';
-    }
-  }
-}
+  final String value;
 
-extension ResourceValueTypeFromString on String {
-  ResourceValueType toResourceValueType() {
-    switch (this) {
-      case 'RESOURCE_ID':
-        return ResourceValueType.resourceId;
-    }
-    throw Exception('$this is not known in enum ResourceValueType');
-  }
+  const ResourceValueType(this.value);
+
+  static ResourceValueType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResourceValueType'));
 }
 
 /// An object with the name of the retention configuration and the retention
@@ -16983,54 +14757,30 @@ class SelectResourceConfigResponse {
 }
 
 enum SortBy {
-  score,
-}
+  score('SCORE'),
+  ;
 
-extension SortByValueExtension on SortBy {
-  String toValue() {
-    switch (this) {
-      case SortBy.score:
-        return 'SCORE';
-    }
-  }
-}
+  final String value;
 
-extension SortByFromString on String {
-  SortBy toSortBy() {
-    switch (this) {
-      case 'SCORE':
-        return SortBy.score;
-    }
-    throw Exception('$this is not known in enum SortBy');
-  }
+  const SortBy(this.value);
+
+  static SortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum SortBy'));
 }
 
 enum SortOrder {
-  ascending,
-  descending,
-}
+  ascending('ASCENDING'),
+  descending('DESCENDING'),
+  ;
 
-extension SortOrderValueExtension on SortOrder {
-  String toValue() {
-    switch (this) {
-      case SortOrder.ascending:
-        return 'ASCENDING';
-      case SortOrder.descending:
-        return 'DESCENDING';
-    }
-  }
-}
+  final String value;
 
-extension SortOrderFromString on String {
-  SortOrder toSortOrder() {
-    switch (this) {
-      case 'ASCENDING':
-        return SortOrder.ascending;
-      case 'DESCENDING':
-        return SortOrder.descending;
-    }
-    throw Exception('$this is not known in enum SortOrder');
-  }
+  const SortOrder(this.value);
+
+  static SortOrder fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SortOrder'));
 }
 
 /// Provides the CustomPolicyDetails, the rule owner (<code>Amazon Web
@@ -17091,7 +14841,7 @@ class Source {
 
   factory Source.fromJson(Map<String, dynamic> json) {
     return Source(
-      owner: (json['Owner'] as String).toOwner(),
+      owner: Owner.fromString((json['Owner'] as String)),
       customPolicyDetails: json['CustomPolicyDetails'] != null
           ? CustomPolicyDetails.fromJson(
               json['CustomPolicyDetails'] as Map<String, dynamic>)
@@ -17110,7 +14860,7 @@ class Source {
     final sourceDetails = this.sourceDetails;
     final sourceIdentifier = this.sourceIdentifier;
     return {
-      'Owner': owner.toValue(),
+      'Owner': owner.value,
       if (customPolicyDetails != null)
         'CustomPolicyDetails': customPolicyDetails,
       if (sourceDetails != null) 'SourceDetails': sourceDetails,
@@ -17182,10 +14932,12 @@ class SourceDetail {
 
   factory SourceDetail.fromJson(Map<String, dynamic> json) {
     return SourceDetail(
-      eventSource: (json['EventSource'] as String?)?.toEventSource(),
+      eventSource:
+          (json['EventSource'] as String?)?.let(EventSource.fromString),
       maximumExecutionFrequency: (json['MaximumExecutionFrequency'] as String?)
-          ?.toMaximumExecutionFrequency(),
-      messageType: (json['MessageType'] as String?)?.toMessageType(),
+          ?.let(MaximumExecutionFrequency.fromString),
+      messageType:
+          (json['MessageType'] as String?)?.let(MessageType.fromString),
     );
   }
 
@@ -17194,10 +14946,10 @@ class SourceDetail {
     final maximumExecutionFrequency = this.maximumExecutionFrequency;
     final messageType = this.messageType;
     return {
-      if (eventSource != null) 'EventSource': eventSource.toValue(),
+      if (eventSource != null) 'EventSource': eventSource.value,
       if (maximumExecutionFrequency != null)
-        'MaximumExecutionFrequency': maximumExecutionFrequency.toValue(),
-      if (messageType != null) 'MessageType': messageType.toValue(),
+        'MaximumExecutionFrequency': maximumExecutionFrequency.value,
+      if (messageType != null) 'MessageType': messageType.value,
     };
   }
 }
@@ -17406,7 +15158,7 @@ class StatusDetailFilters {
     return {
       if (accountId != null) 'AccountId': accountId,
       if (memberAccountRuleStatus != null)
-        'MemberAccountRuleStatus': memberAccountRuleStatus.toValue(),
+        'MemberAccountRuleStatus': memberAccountRuleStatus.value,
     };
   }
 }

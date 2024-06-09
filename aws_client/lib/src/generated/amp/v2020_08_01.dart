@@ -1171,8 +1171,8 @@ class AlertManagerDefinitionStatus {
 
   factory AlertManagerDefinitionStatus.fromJson(Map<String, dynamic> json) {
     return AlertManagerDefinitionStatus(
-      statusCode:
-          (json['statusCode'] as String).toAlertManagerDefinitionStatusCode(),
+      statusCode: AlertManagerDefinitionStatusCode.fromString(
+          (json['statusCode'] as String)),
       statusReason: json['statusReason'] as String?,
     );
   }
@@ -1181,7 +1181,7 @@ class AlertManagerDefinitionStatus {
     final statusCode = this.statusCode;
     final statusReason = this.statusReason;
     return {
-      'statusCode': statusCode.toValue(),
+      'statusCode': statusCode.value,
       if (statusReason != null) 'statusReason': statusReason,
     };
   }
@@ -1189,53 +1189,22 @@ class AlertManagerDefinitionStatus {
 
 /// State of an <code>AlertManagerDefinition</code>.
 enum AlertManagerDefinitionStatusCode {
-  creating,
-  active,
-  updating,
-  deleting,
-  creationFailed,
-  updateFailed,
-}
+  creating('CREATING'),
+  active('ACTIVE'),
+  updating('UPDATING'),
+  deleting('DELETING'),
+  creationFailed('CREATION_FAILED'),
+  updateFailed('UPDATE_FAILED'),
+  ;
 
-extension AlertManagerDefinitionStatusCodeValueExtension
-    on AlertManagerDefinitionStatusCode {
-  String toValue() {
-    switch (this) {
-      case AlertManagerDefinitionStatusCode.creating:
-        return 'CREATING';
-      case AlertManagerDefinitionStatusCode.active:
-        return 'ACTIVE';
-      case AlertManagerDefinitionStatusCode.updating:
-        return 'UPDATING';
-      case AlertManagerDefinitionStatusCode.deleting:
-        return 'DELETING';
-      case AlertManagerDefinitionStatusCode.creationFailed:
-        return 'CREATION_FAILED';
-      case AlertManagerDefinitionStatusCode.updateFailed:
-        return 'UPDATE_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension AlertManagerDefinitionStatusCodeFromString on String {
-  AlertManagerDefinitionStatusCode toAlertManagerDefinitionStatusCode() {
-    switch (this) {
-      case 'CREATING':
-        return AlertManagerDefinitionStatusCode.creating;
-      case 'ACTIVE':
-        return AlertManagerDefinitionStatusCode.active;
-      case 'UPDATING':
-        return AlertManagerDefinitionStatusCode.updating;
-      case 'DELETING':
-        return AlertManagerDefinitionStatusCode.deleting;
-      case 'CREATION_FAILED':
-        return AlertManagerDefinitionStatusCode.creationFailed;
-      case 'UPDATE_FAILED':
-        return AlertManagerDefinitionStatusCode.updateFailed;
-    }
-    throw Exception(
-        '$this is not known in enum AlertManagerDefinitionStatusCode');
-  }
+  const AlertManagerDefinitionStatusCode(this.value);
+
+  static AlertManagerDefinitionStatusCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AlertManagerDefinitionStatusCode'));
 }
 
 /// The <code>AmpConfiguration</code> structure defines the Amazon Managed
@@ -1915,8 +1884,8 @@ class LoggingConfigurationStatus {
 
   factory LoggingConfigurationStatus.fromJson(Map<String, dynamic> json) {
     return LoggingConfigurationStatus(
-      statusCode:
-          (json['statusCode'] as String).toLoggingConfigurationStatusCode(),
+      statusCode: LoggingConfigurationStatusCode.fromString(
+          (json['statusCode'] as String)),
       statusReason: json['statusReason'] as String?,
     );
   }
@@ -1925,7 +1894,7 @@ class LoggingConfigurationStatus {
     final statusCode = this.statusCode;
     final statusReason = this.statusReason;
     return {
-      'statusCode': statusCode.toValue(),
+      'statusCode': statusCode.value,
       if (statusReason != null) 'statusReason': statusReason,
     };
   }
@@ -1933,53 +1902,22 @@ class LoggingConfigurationStatus {
 
 /// State of a logging configuration.
 enum LoggingConfigurationStatusCode {
-  creating,
-  active,
-  updating,
-  deleting,
-  creationFailed,
-  updateFailed,
-}
+  creating('CREATING'),
+  active('ACTIVE'),
+  updating('UPDATING'),
+  deleting('DELETING'),
+  creationFailed('CREATION_FAILED'),
+  updateFailed('UPDATE_FAILED'),
+  ;
 
-extension LoggingConfigurationStatusCodeValueExtension
-    on LoggingConfigurationStatusCode {
-  String toValue() {
-    switch (this) {
-      case LoggingConfigurationStatusCode.creating:
-        return 'CREATING';
-      case LoggingConfigurationStatusCode.active:
-        return 'ACTIVE';
-      case LoggingConfigurationStatusCode.updating:
-        return 'UPDATING';
-      case LoggingConfigurationStatusCode.deleting:
-        return 'DELETING';
-      case LoggingConfigurationStatusCode.creationFailed:
-        return 'CREATION_FAILED';
-      case LoggingConfigurationStatusCode.updateFailed:
-        return 'UPDATE_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension LoggingConfigurationStatusCodeFromString on String {
-  LoggingConfigurationStatusCode toLoggingConfigurationStatusCode() {
-    switch (this) {
-      case 'CREATING':
-        return LoggingConfigurationStatusCode.creating;
-      case 'ACTIVE':
-        return LoggingConfigurationStatusCode.active;
-      case 'UPDATING':
-        return LoggingConfigurationStatusCode.updating;
-      case 'DELETING':
-        return LoggingConfigurationStatusCode.deleting;
-      case 'CREATION_FAILED':
-        return LoggingConfigurationStatusCode.creationFailed;
-      case 'UPDATE_FAILED':
-        return LoggingConfigurationStatusCode.updateFailed;
-    }
-    throw Exception(
-        '$this is not known in enum LoggingConfigurationStatusCode');
-  }
+  const LoggingConfigurationStatusCode(this.value);
+
+  static LoggingConfigurationStatusCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum LoggingConfigurationStatusCode'));
 }
 
 /// Represents the output of a <code>PutAlertManagerDefinition</code> operation.
@@ -2139,8 +2077,8 @@ class RuleGroupsNamespaceStatus {
 
   factory RuleGroupsNamespaceStatus.fromJson(Map<String, dynamic> json) {
     return RuleGroupsNamespaceStatus(
-      statusCode:
-          (json['statusCode'] as String).toRuleGroupsNamespaceStatusCode(),
+      statusCode: RuleGroupsNamespaceStatusCode.fromString(
+          (json['statusCode'] as String)),
       statusReason: json['statusReason'] as String?,
     );
   }
@@ -2149,7 +2087,7 @@ class RuleGroupsNamespaceStatus {
     final statusCode = this.statusCode;
     final statusReason = this.statusReason;
     return {
-      'statusCode': statusCode.toValue(),
+      'statusCode': statusCode.value,
       if (statusReason != null) 'statusReason': statusReason,
     };
   }
@@ -2157,52 +2095,22 @@ class RuleGroupsNamespaceStatus {
 
 /// State of a namespace.
 enum RuleGroupsNamespaceStatusCode {
-  creating,
-  active,
-  updating,
-  deleting,
-  creationFailed,
-  updateFailed,
-}
+  creating('CREATING'),
+  active('ACTIVE'),
+  updating('UPDATING'),
+  deleting('DELETING'),
+  creationFailed('CREATION_FAILED'),
+  updateFailed('UPDATE_FAILED'),
+  ;
 
-extension RuleGroupsNamespaceStatusCodeValueExtension
-    on RuleGroupsNamespaceStatusCode {
-  String toValue() {
-    switch (this) {
-      case RuleGroupsNamespaceStatusCode.creating:
-        return 'CREATING';
-      case RuleGroupsNamespaceStatusCode.active:
-        return 'ACTIVE';
-      case RuleGroupsNamespaceStatusCode.updating:
-        return 'UPDATING';
-      case RuleGroupsNamespaceStatusCode.deleting:
-        return 'DELETING';
-      case RuleGroupsNamespaceStatusCode.creationFailed:
-        return 'CREATION_FAILED';
-      case RuleGroupsNamespaceStatusCode.updateFailed:
-        return 'UPDATE_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension RuleGroupsNamespaceStatusCodeFromString on String {
-  RuleGroupsNamespaceStatusCode toRuleGroupsNamespaceStatusCode() {
-    switch (this) {
-      case 'CREATING':
-        return RuleGroupsNamespaceStatusCode.creating;
-      case 'ACTIVE':
-        return RuleGroupsNamespaceStatusCode.active;
-      case 'UPDATING':
-        return RuleGroupsNamespaceStatusCode.updating;
-      case 'DELETING':
-        return RuleGroupsNamespaceStatusCode.deleting;
-      case 'CREATION_FAILED':
-        return RuleGroupsNamespaceStatusCode.creationFailed;
-      case 'UPDATE_FAILED':
-        return RuleGroupsNamespaceStatusCode.updateFailed;
-    }
-    throw Exception('$this is not known in enum RuleGroupsNamespaceStatusCode');
-  }
+  const RuleGroupsNamespaceStatusCode(this.value);
+
+  static RuleGroupsNamespaceStatusCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RuleGroupsNamespaceStatusCode'));
 }
 
 /// The high-level information about a rule groups namespace. To retrieve more
@@ -2415,60 +2323,35 @@ class ScraperStatus {
 
   factory ScraperStatus.fromJson(Map<String, dynamic> json) {
     return ScraperStatus(
-      statusCode: (json['statusCode'] as String).toScraperStatusCode(),
+      statusCode: ScraperStatusCode.fromString((json['statusCode'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final statusCode = this.statusCode;
     return {
-      'statusCode': statusCode.toValue(),
+      'statusCode': statusCode.value,
     };
   }
 }
 
 /// State of a scraper.
 enum ScraperStatusCode {
-  creating,
-  active,
-  deleting,
-  creationFailed,
-  deletionFailed,
-}
+  creating('CREATING'),
+  active('ACTIVE'),
+  deleting('DELETING'),
+  creationFailed('CREATION_FAILED'),
+  deletionFailed('DELETION_FAILED'),
+  ;
 
-extension ScraperStatusCodeValueExtension on ScraperStatusCode {
-  String toValue() {
-    switch (this) {
-      case ScraperStatusCode.creating:
-        return 'CREATING';
-      case ScraperStatusCode.active:
-        return 'ACTIVE';
-      case ScraperStatusCode.deleting:
-        return 'DELETING';
-      case ScraperStatusCode.creationFailed:
-        return 'CREATION_FAILED';
-      case ScraperStatusCode.deletionFailed:
-        return 'DELETION_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ScraperStatusCodeFromString on String {
-  ScraperStatusCode toScraperStatusCode() {
-    switch (this) {
-      case 'CREATING':
-        return ScraperStatusCode.creating;
-      case 'ACTIVE':
-        return ScraperStatusCode.active;
-      case 'DELETING':
-        return ScraperStatusCode.deleting;
-      case 'CREATION_FAILED':
-        return ScraperStatusCode.creationFailed;
-      case 'DELETION_FAILED':
-        return ScraperStatusCode.deletionFailed;
-    }
-    throw Exception('$this is not known in enum ScraperStatusCode');
-  }
+  const ScraperStatusCode(this.value);
+
+  static ScraperStatusCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ScraperStatusCode'));
 }
 
 /// The <code>ScraperSummary</code> structure contains a summary of the details
@@ -2733,60 +2616,36 @@ class WorkspaceStatus {
 
   factory WorkspaceStatus.fromJson(Map<String, dynamic> json) {
     return WorkspaceStatus(
-      statusCode: (json['statusCode'] as String).toWorkspaceStatusCode(),
+      statusCode:
+          WorkspaceStatusCode.fromString((json['statusCode'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final statusCode = this.statusCode;
     return {
-      'statusCode': statusCode.toValue(),
+      'statusCode': statusCode.value,
     };
   }
 }
 
 /// State of a workspace.
 enum WorkspaceStatusCode {
-  creating,
-  active,
-  updating,
-  deleting,
-  creationFailed,
-}
+  creating('CREATING'),
+  active('ACTIVE'),
+  updating('UPDATING'),
+  deleting('DELETING'),
+  creationFailed('CREATION_FAILED'),
+  ;
 
-extension WorkspaceStatusCodeValueExtension on WorkspaceStatusCode {
-  String toValue() {
-    switch (this) {
-      case WorkspaceStatusCode.creating:
-        return 'CREATING';
-      case WorkspaceStatusCode.active:
-        return 'ACTIVE';
-      case WorkspaceStatusCode.updating:
-        return 'UPDATING';
-      case WorkspaceStatusCode.deleting:
-        return 'DELETING';
-      case WorkspaceStatusCode.creationFailed:
-        return 'CREATION_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension WorkspaceStatusCodeFromString on String {
-  WorkspaceStatusCode toWorkspaceStatusCode() {
-    switch (this) {
-      case 'CREATING':
-        return WorkspaceStatusCode.creating;
-      case 'ACTIVE':
-        return WorkspaceStatusCode.active;
-      case 'UPDATING':
-        return WorkspaceStatusCode.updating;
-      case 'DELETING':
-        return WorkspaceStatusCode.deleting;
-      case 'CREATION_FAILED':
-        return WorkspaceStatusCode.creationFailed;
-    }
-    throw Exception('$this is not known in enum WorkspaceStatusCode');
-  }
+  const WorkspaceStatusCode(this.value);
+
+  static WorkspaceStatusCode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum WorkspaceStatusCode'));
 }
 
 /// The information about one Amazon Managed Service for Prometheus workspace in

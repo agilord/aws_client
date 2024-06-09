@@ -56,17 +56,17 @@ class Enum {
     List<EnumType>? queryListEnums,
   }) async {
     final headers = <String, String>{
-      if (headerEnum != null) 'x-amz-enum': headerEnum.toValue(),
+      if (headerEnum != null) 'x-amz-enum': headerEnum.value,
     };
     final $query = <String, List<String>>{
-      if (queryFooEnum != null) 'Enum': [queryFooEnum.toValue()],
+      if (queryFooEnum != null) 'Enum': [queryFooEnum.value],
       if (queryListEnums != null)
-        'List': queryListEnums.map((e) => e.toValue()).toList(),
+        'List': queryListEnums.map((e) => e.value).toList(),
     };
     final $payload = <String, dynamic>{
-      if (fooEnum != null) 'FooEnum': fooEnum.toValue(),
+      if (fooEnum != null) 'FooEnum': fooEnum.value,
       if (listEnums != null)
-        'ListEnums': listEnums.map((e) => e.toValue()).toList(),
+        'ListEnums': listEnums.map((e) => e.value).toList(),
     };
     await _protocol.send(
       payload: $payload,
@@ -86,17 +86,17 @@ class Enum {
     List<EnumType>? queryListEnums,
   }) async {
     final headers = <String, String>{
-      if (headerEnum != null) 'x-amz-enum': headerEnum.toValue(),
+      if (headerEnum != null) 'x-amz-enum': headerEnum.value,
     };
     final $query = <String, List<String>>{
-      if (queryFooEnum != null) 'Enum': [queryFooEnum.toValue()],
+      if (queryFooEnum != null) 'Enum': [queryFooEnum.value],
       if (queryListEnums != null)
-        'List': queryListEnums.map((e) => e.toValue()).toList(),
+        'List': queryListEnums.map((e) => e.value).toList(),
     };
     final $payload = <String, dynamic>{
-      if (fooEnum != null) 'FooEnum': fooEnum.toValue(),
+      if (fooEnum != null) 'FooEnum': fooEnum.value,
       if (listEnums != null)
-        'ListEnums': listEnums.map((e) => e.toValue()).toList(),
+        'ListEnums': listEnums.map((e) => e.value).toList(),
     };
     await _protocol.send(
       payload: $payload,
@@ -110,46 +110,20 @@ class Enum {
 }
 
 enum EnumType {
-  foo,
-  bar,
-  baz,
-  $0,
-  $1,
-}
+  foo('foo'),
+  bar('bar'),
+  baz('baz'),
+  $0('0'),
+  $1('1'),
+  ;
 
-extension EnumTypeValueExtension on EnumType {
-  String toValue() {
-    switch (this) {
-      case EnumType.foo:
-        return 'foo';
-      case EnumType.bar:
-        return 'bar';
-      case EnumType.baz:
-        return 'baz';
-      case EnumType.$0:
-        return '0';
-      case EnumType.$1:
-        return '1';
-    }
-  }
-}
+  final String value;
 
-extension EnumTypeFromString on String {
-  EnumType toEnumType() {
-    switch (this) {
-      case 'foo':
-        return EnumType.foo;
-      case 'bar':
-        return EnumType.bar;
-      case 'baz':
-        return EnumType.baz;
-      case '0':
-        return EnumType.$0;
-      case '1':
-        return EnumType.$1;
-    }
-    throw Exception('$this is not known in enum EnumType');
-  }
+  const EnumType(this.value);
+
+  static EnumType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum EnumType'));
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

@@ -279,7 +279,7 @@ class DeviceFarm {
         if (downlinkJitterMs != null) 'downlinkJitterMs': downlinkJitterMs,
         if (downlinkLossPercent != null)
           'downlinkLossPercent': downlinkLossPercent,
-        if (type != null) 'type': type.toValue(),
+        if (type != null) 'type': type.value,
         if (uplinkBandwidthBits != null)
           'uplinkBandwidthBits': uplinkBandwidthBits,
         if (uplinkDelayMs != null) 'uplinkDelayMs': uplinkDelayMs,
@@ -455,8 +455,7 @@ class DeviceFarm {
         if (clientId != null) 'clientId': clientId,
         if (configuration != null) 'configuration': configuration,
         if (instanceArn != null) 'instanceArn': instanceArn,
-        if (interactionMode != null)
-          'interactionMode': interactionMode.toValue(),
+        if (interactionMode != null) 'interactionMode': interactionMode.value,
         if (name != null) 'name': name,
         if (remoteDebugEnabled != null)
           'remoteDebugEnabled': remoteDebugEnabled,
@@ -700,7 +699,7 @@ class DeviceFarm {
       payload: {
         'name': name,
         'projectArn': projectArn,
-        'type': type.toValue(),
+        'type': type.value,
         if (contentType != null) 'contentType': contentType,
       },
     );
@@ -1247,7 +1246,7 @@ class DeviceFarm {
         if (appArn != null) 'appArn': appArn,
         if (configuration != null) 'configuration': configuration,
         if (test != null) 'test': test,
-        if (testType != null) 'testType': testType.toValue(),
+        if (testType != null) 'testType': testType.value,
       },
     );
 
@@ -1763,7 +1762,7 @@ class DeviceFarm {
       headers: headers,
       payload: {
         'arn': arn,
-        'type': type.toValue(),
+        'type': type.value,
         if (nextToken != null) 'nextToken': nextToken,
       },
     );
@@ -1855,7 +1854,7 @@ class DeviceFarm {
       payload: {
         'arn': arn,
         if (nextToken != null) 'nextToken': nextToken,
-        if (type != null) 'type': type.toValue(),
+        if (type != null) 'type': type.value,
       },
     );
 
@@ -2104,7 +2103,7 @@ class DeviceFarm {
       payload: {
         'arn': arn,
         if (nextToken != null) 'nextToken': nextToken,
-        if (type != null) 'type': type.toValue(),
+        if (type != null) 'type': type.value,
       },
     );
 
@@ -2568,7 +2567,7 @@ class DeviceFarm {
         'sessionArn': sessionArn,
         if (maxResult != null) 'maxResult': maxResult,
         if (nextToken != null) 'nextToken': nextToken,
-        if (type != null) 'type': type.toValue(),
+        if (type != null) 'type': type.value,
       },
     );
 
@@ -2642,7 +2641,7 @@ class DeviceFarm {
           'endTimeBefore': unixTimestampToJson(endTimeBefore),
         if (maxResult != null) 'maxResult': maxResult,
         if (nextToken != null) 'nextToken': nextToken,
-        if (status != null) 'status': status.toValue(),
+        if (status != null) 'status': status.value,
       },
     );
 
@@ -2863,7 +2862,7 @@ class DeviceFarm {
       payload: {
         'arn': arn,
         if (nextToken != null) 'nextToken': nextToken,
-        if (type != null) 'type': type.toValue(),
+        if (type != null) 'type': type.value,
       },
     );
 
@@ -3527,7 +3526,7 @@ class DeviceFarm {
         if (downlinkLossPercent != null)
           'downlinkLossPercent': downlinkLossPercent,
         if (name != null) 'name': name,
-        if (type != null) 'type': type.toValue(),
+        if (type != null) 'type': type.value,
         if (uplinkBandwidthBits != null)
           'uplinkBandwidthBits': uplinkBandwidthBits,
         if (uplinkDelayMs != null) 'uplinkDelayMs': uplinkDelayMs,
@@ -3800,10 +3799,10 @@ class AccountSettings {
           ? TrialMinutes.fromJson(json['trialMinutes'] as Map<String, dynamic>)
           : null,
       unmeteredDevices: (json['unmeteredDevices'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k.toDevicePlatform(), e as int)),
+          ?.map((k, e) => MapEntry(DevicePlatform.fromString(k), e as int)),
       unmeteredRemoteAccessDevices:
           (json['unmeteredRemoteAccessDevices'] as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(k.toDevicePlatform(), e as int)),
+              ?.map((k, e) => MapEntry(DevicePlatform.fromString(k), e as int)),
     );
   }
 
@@ -3827,10 +3826,10 @@ class AccountSettings {
       if (trialMinutes != null) 'trialMinutes': trialMinutes,
       if (unmeteredDevices != null)
         'unmeteredDevices':
-            unmeteredDevices.map((k, e) => MapEntry(k.toValue(), e)),
+            unmeteredDevices.map((k, e) => MapEntry(k.value, e)),
       if (unmeteredRemoteAccessDevices != null)
-        'unmeteredRemoteAccessDevices': unmeteredRemoteAccessDevices
-            .map((k, e) => MapEntry(k.toValue(), e)),
+        'unmeteredRemoteAccessDevices':
+            unmeteredRemoteAccessDevices.map((k, e) => MapEntry(k.value, e)),
     };
   }
 }
@@ -3957,7 +3956,7 @@ class Artifact {
       arn: json['arn'] as String?,
       extension: json['extension'] as String?,
       name: json['name'] as String?,
-      type: (json['type'] as String?)?.toArtifactType(),
+      type: (json['type'] as String?)?.let(ArtifactType.fromString),
       url: json['url'] as String?,
     );
   }
@@ -3972,229 +3971,82 @@ class Artifact {
       if (arn != null) 'arn': arn,
       if (extension != null) 'extension': extension,
       if (name != null) 'name': name,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
       if (url != null) 'url': url,
     };
   }
 }
 
 enum ArtifactCategory {
-  screenshot,
-  file,
-  log,
-}
+  screenshot('SCREENSHOT'),
+  file('FILE'),
+  log('LOG'),
+  ;
 
-extension ArtifactCategoryValueExtension on ArtifactCategory {
-  String toValue() {
-    switch (this) {
-      case ArtifactCategory.screenshot:
-        return 'SCREENSHOT';
-      case ArtifactCategory.file:
-        return 'FILE';
-      case ArtifactCategory.log:
-        return 'LOG';
-    }
-  }
-}
+  final String value;
 
-extension ArtifactCategoryFromString on String {
-  ArtifactCategory toArtifactCategory() {
-    switch (this) {
-      case 'SCREENSHOT':
-        return ArtifactCategory.screenshot;
-      case 'FILE':
-        return ArtifactCategory.file;
-      case 'LOG':
-        return ArtifactCategory.log;
-    }
-    throw Exception('$this is not known in enum ArtifactCategory');
-  }
+  const ArtifactCategory(this.value);
+
+  static ArtifactCategory fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ArtifactCategory'));
 }
 
 enum ArtifactType {
-  unknown,
-  screenshot,
-  deviceLog,
-  messageLog,
-  videoLog,
-  resultLog,
-  serviceLog,
-  webkitLog,
-  instrumentationOutput,
-  exerciserMonkeyOutput,
-  calabashJsonOutput,
-  calabashPrettyOutput,
-  calabashStandardOutput,
-  calabashJavaXmlOutput,
-  automationOutput,
-  appiumServerOutput,
-  appiumJavaOutput,
-  appiumJavaXmlOutput,
-  appiumPythonOutput,
-  appiumPythonXmlOutput,
-  explorerEventLog,
-  explorerSummaryLog,
-  applicationCrashReport,
-  xctestLog,
-  video,
-  customerArtifact,
-  customerArtifactLog,
-  testspecOutput,
-}
+  unknown('UNKNOWN'),
+  screenshot('SCREENSHOT'),
+  deviceLog('DEVICE_LOG'),
+  messageLog('MESSAGE_LOG'),
+  videoLog('VIDEO_LOG'),
+  resultLog('RESULT_LOG'),
+  serviceLog('SERVICE_LOG'),
+  webkitLog('WEBKIT_LOG'),
+  instrumentationOutput('INSTRUMENTATION_OUTPUT'),
+  exerciserMonkeyOutput('EXERCISER_MONKEY_OUTPUT'),
+  calabashJsonOutput('CALABASH_JSON_OUTPUT'),
+  calabashPrettyOutput('CALABASH_PRETTY_OUTPUT'),
+  calabashStandardOutput('CALABASH_STANDARD_OUTPUT'),
+  calabashJavaXmlOutput('CALABASH_JAVA_XML_OUTPUT'),
+  automationOutput('AUTOMATION_OUTPUT'),
+  appiumServerOutput('APPIUM_SERVER_OUTPUT'),
+  appiumJavaOutput('APPIUM_JAVA_OUTPUT'),
+  appiumJavaXmlOutput('APPIUM_JAVA_XML_OUTPUT'),
+  appiumPythonOutput('APPIUM_PYTHON_OUTPUT'),
+  appiumPythonXmlOutput('APPIUM_PYTHON_XML_OUTPUT'),
+  explorerEventLog('EXPLORER_EVENT_LOG'),
+  explorerSummaryLog('EXPLORER_SUMMARY_LOG'),
+  applicationCrashReport('APPLICATION_CRASH_REPORT'),
+  xctestLog('XCTEST_LOG'),
+  video('VIDEO'),
+  customerArtifact('CUSTOMER_ARTIFACT'),
+  customerArtifactLog('CUSTOMER_ARTIFACT_LOG'),
+  testspecOutput('TESTSPEC_OUTPUT'),
+  ;
 
-extension ArtifactTypeValueExtension on ArtifactType {
-  String toValue() {
-    switch (this) {
-      case ArtifactType.unknown:
-        return 'UNKNOWN';
-      case ArtifactType.screenshot:
-        return 'SCREENSHOT';
-      case ArtifactType.deviceLog:
-        return 'DEVICE_LOG';
-      case ArtifactType.messageLog:
-        return 'MESSAGE_LOG';
-      case ArtifactType.videoLog:
-        return 'VIDEO_LOG';
-      case ArtifactType.resultLog:
-        return 'RESULT_LOG';
-      case ArtifactType.serviceLog:
-        return 'SERVICE_LOG';
-      case ArtifactType.webkitLog:
-        return 'WEBKIT_LOG';
-      case ArtifactType.instrumentationOutput:
-        return 'INSTRUMENTATION_OUTPUT';
-      case ArtifactType.exerciserMonkeyOutput:
-        return 'EXERCISER_MONKEY_OUTPUT';
-      case ArtifactType.calabashJsonOutput:
-        return 'CALABASH_JSON_OUTPUT';
-      case ArtifactType.calabashPrettyOutput:
-        return 'CALABASH_PRETTY_OUTPUT';
-      case ArtifactType.calabashStandardOutput:
-        return 'CALABASH_STANDARD_OUTPUT';
-      case ArtifactType.calabashJavaXmlOutput:
-        return 'CALABASH_JAVA_XML_OUTPUT';
-      case ArtifactType.automationOutput:
-        return 'AUTOMATION_OUTPUT';
-      case ArtifactType.appiumServerOutput:
-        return 'APPIUM_SERVER_OUTPUT';
-      case ArtifactType.appiumJavaOutput:
-        return 'APPIUM_JAVA_OUTPUT';
-      case ArtifactType.appiumJavaXmlOutput:
-        return 'APPIUM_JAVA_XML_OUTPUT';
-      case ArtifactType.appiumPythonOutput:
-        return 'APPIUM_PYTHON_OUTPUT';
-      case ArtifactType.appiumPythonXmlOutput:
-        return 'APPIUM_PYTHON_XML_OUTPUT';
-      case ArtifactType.explorerEventLog:
-        return 'EXPLORER_EVENT_LOG';
-      case ArtifactType.explorerSummaryLog:
-        return 'EXPLORER_SUMMARY_LOG';
-      case ArtifactType.applicationCrashReport:
-        return 'APPLICATION_CRASH_REPORT';
-      case ArtifactType.xctestLog:
-        return 'XCTEST_LOG';
-      case ArtifactType.video:
-        return 'VIDEO';
-      case ArtifactType.customerArtifact:
-        return 'CUSTOMER_ARTIFACT';
-      case ArtifactType.customerArtifactLog:
-        return 'CUSTOMER_ARTIFACT_LOG';
-      case ArtifactType.testspecOutput:
-        return 'TESTSPEC_OUTPUT';
-    }
-  }
-}
+  final String value;
 
-extension ArtifactTypeFromString on String {
-  ArtifactType toArtifactType() {
-    switch (this) {
-      case 'UNKNOWN':
-        return ArtifactType.unknown;
-      case 'SCREENSHOT':
-        return ArtifactType.screenshot;
-      case 'DEVICE_LOG':
-        return ArtifactType.deviceLog;
-      case 'MESSAGE_LOG':
-        return ArtifactType.messageLog;
-      case 'VIDEO_LOG':
-        return ArtifactType.videoLog;
-      case 'RESULT_LOG':
-        return ArtifactType.resultLog;
-      case 'SERVICE_LOG':
-        return ArtifactType.serviceLog;
-      case 'WEBKIT_LOG':
-        return ArtifactType.webkitLog;
-      case 'INSTRUMENTATION_OUTPUT':
-        return ArtifactType.instrumentationOutput;
-      case 'EXERCISER_MONKEY_OUTPUT':
-        return ArtifactType.exerciserMonkeyOutput;
-      case 'CALABASH_JSON_OUTPUT':
-        return ArtifactType.calabashJsonOutput;
-      case 'CALABASH_PRETTY_OUTPUT':
-        return ArtifactType.calabashPrettyOutput;
-      case 'CALABASH_STANDARD_OUTPUT':
-        return ArtifactType.calabashStandardOutput;
-      case 'CALABASH_JAVA_XML_OUTPUT':
-        return ArtifactType.calabashJavaXmlOutput;
-      case 'AUTOMATION_OUTPUT':
-        return ArtifactType.automationOutput;
-      case 'APPIUM_SERVER_OUTPUT':
-        return ArtifactType.appiumServerOutput;
-      case 'APPIUM_JAVA_OUTPUT':
-        return ArtifactType.appiumJavaOutput;
-      case 'APPIUM_JAVA_XML_OUTPUT':
-        return ArtifactType.appiumJavaXmlOutput;
-      case 'APPIUM_PYTHON_OUTPUT':
-        return ArtifactType.appiumPythonOutput;
-      case 'APPIUM_PYTHON_XML_OUTPUT':
-        return ArtifactType.appiumPythonXmlOutput;
-      case 'EXPLORER_EVENT_LOG':
-        return ArtifactType.explorerEventLog;
-      case 'EXPLORER_SUMMARY_LOG':
-        return ArtifactType.explorerSummaryLog;
-      case 'APPLICATION_CRASH_REPORT':
-        return ArtifactType.applicationCrashReport;
-      case 'XCTEST_LOG':
-        return ArtifactType.xctestLog;
-      case 'VIDEO':
-        return ArtifactType.video;
-      case 'CUSTOMER_ARTIFACT':
-        return ArtifactType.customerArtifact;
-      case 'CUSTOMER_ARTIFACT_LOG':
-        return ArtifactType.customerArtifactLog;
-      case 'TESTSPEC_OUTPUT':
-        return ArtifactType.testspecOutput;
-    }
-    throw Exception('$this is not known in enum ArtifactType');
-  }
+  const ArtifactType(this.value);
+
+  static ArtifactType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ArtifactType'));
 }
 
 enum BillingMethod {
-  metered,
-  unmetered,
-}
+  metered('METERED'),
+  unmetered('UNMETERED'),
+  ;
 
-extension BillingMethodValueExtension on BillingMethod {
-  String toValue() {
-    switch (this) {
-      case BillingMethod.metered:
-        return 'METERED';
-      case BillingMethod.unmetered:
-        return 'UNMETERED';
-    }
-  }
-}
+  final String value;
 
-extension BillingMethodFromString on String {
-  BillingMethod toBillingMethod() {
-    switch (this) {
-      case 'METERED':
-        return BillingMethod.metered;
-      case 'UNMETERED':
-        return BillingMethod.unmetered;
-    }
-    throw Exception('$this is not known in enum BillingMethod');
-  }
+  const BillingMethod(this.value);
+
+  static BillingMethod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum BillingMethod'));
 }
 
 /// Represents the amount of CPU that an app is using on a physical device. Does
@@ -4419,7 +4271,7 @@ class CreateRemoteAccessSessionConfiguration {
     final billingMethod = this.billingMethod;
     final vpceConfigurationArns = this.vpceConfigurationArns;
     return {
-      if (billingMethod != null) 'billingMethod': billingMethod.toValue(),
+      if (billingMethod != null) 'billingMethod': billingMethod.value,
       if (vpceConfigurationArns != null)
         'vpceConfigurationArns': vpceConfigurationArns,
     };
@@ -4562,26 +4414,17 @@ class CreateVPCEConfigurationResult {
 }
 
 enum CurrencyCode {
-  usd,
-}
+  usd('USD'),
+  ;
 
-extension CurrencyCodeValueExtension on CurrencyCode {
-  String toValue() {
-    switch (this) {
-      case CurrencyCode.usd:
-        return 'USD';
-    }
-  }
-}
+  final String value;
 
-extension CurrencyCodeFromString on String {
-  CurrencyCode toCurrencyCode() {
-    switch (this) {
-      case 'USD':
-        return CurrencyCode.usd;
-    }
-    throw Exception('$this is not known in enum CurrencyCode');
-  }
+  const CurrencyCode(this.value);
+
+  static CurrencyCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CurrencyCode'));
 }
 
 /// A JSON object that specifies the paths where the artifacts generated by the
@@ -4875,14 +4718,16 @@ class Device {
   factory Device.fromJson(Map<String, dynamic> json) {
     return Device(
       arn: json['arn'] as String?,
-      availability: (json['availability'] as String?)?.toDeviceAvailability(),
+      availability:
+          (json['availability'] as String?)?.let(DeviceAvailability.fromString),
       carrier: json['carrier'] as String?,
       cpu: json['cpu'] != null
           ? CPU.fromJson(json['cpu'] as Map<String, dynamic>)
           : null,
       fleetName: json['fleetName'] as String?,
       fleetType: json['fleetType'] as String?,
-      formFactor: (json['formFactor'] as String?)?.toDeviceFormFactor(),
+      formFactor:
+          (json['formFactor'] as String?)?.let(DeviceFormFactor.fromString),
       heapSize: json['heapSize'] as int?,
       image: json['image'] as String?,
       instances: (json['instances'] as List?)
@@ -4895,7 +4740,7 @@ class Device {
       modelId: json['modelId'] as String?,
       name: json['name'] as String?,
       os: json['os'] as String?,
-      platform: (json['platform'] as String?)?.toDevicePlatform(),
+      platform: (json['platform'] as String?)?.let(DevicePlatform.fromString),
       radio: json['radio'] as String?,
       remoteAccessEnabled: json['remoteAccessEnabled'] as bool?,
       remoteDebugEnabled: json['remoteDebugEnabled'] as bool?,
@@ -4929,12 +4774,12 @@ class Device {
     final resolution = this.resolution;
     return {
       if (arn != null) 'arn': arn,
-      if (availability != null) 'availability': availability.toValue(),
+      if (availability != null) 'availability': availability.value,
       if (carrier != null) 'carrier': carrier,
       if (cpu != null) 'cpu': cpu,
       if (fleetName != null) 'fleetName': fleetName,
       if (fleetType != null) 'fleetType': fleetType,
-      if (formFactor != null) 'formFactor': formFactor.toValue(),
+      if (formFactor != null) 'formFactor': formFactor.value,
       if (heapSize != null) 'heapSize': heapSize,
       if (image != null) 'image': image,
       if (instances != null) 'instances': instances,
@@ -4944,7 +4789,7 @@ class Device {
       if (modelId != null) 'modelId': modelId,
       if (name != null) 'name': name,
       if (os != null) 'os': os,
-      if (platform != null) 'platform': platform.toValue(),
+      if (platform != null) 'platform': platform.value,
       if (radio != null) 'radio': radio,
       if (remoteAccessEnabled != null)
         'remoteAccessEnabled': remoteAccessEnabled,
@@ -4955,124 +4800,46 @@ class Device {
 }
 
 enum DeviceAttribute {
-  arn,
-  platform,
-  formFactor,
-  manufacturer,
-  remoteAccessEnabled,
-  remoteDebugEnabled,
-  appiumVersion,
-  instanceArn,
-  instanceLabels,
-  fleetType,
-  osVersion,
-  model,
-  availability,
-}
+  arn('ARN'),
+  platform('PLATFORM'),
+  formFactor('FORM_FACTOR'),
+  manufacturer('MANUFACTURER'),
+  remoteAccessEnabled('REMOTE_ACCESS_ENABLED'),
+  remoteDebugEnabled('REMOTE_DEBUG_ENABLED'),
+  appiumVersion('APPIUM_VERSION'),
+  instanceArn('INSTANCE_ARN'),
+  instanceLabels('INSTANCE_LABELS'),
+  fleetType('FLEET_TYPE'),
+  osVersion('OS_VERSION'),
+  model('MODEL'),
+  availability('AVAILABILITY'),
+  ;
 
-extension DeviceAttributeValueExtension on DeviceAttribute {
-  String toValue() {
-    switch (this) {
-      case DeviceAttribute.arn:
-        return 'ARN';
-      case DeviceAttribute.platform:
-        return 'PLATFORM';
-      case DeviceAttribute.formFactor:
-        return 'FORM_FACTOR';
-      case DeviceAttribute.manufacturer:
-        return 'MANUFACTURER';
-      case DeviceAttribute.remoteAccessEnabled:
-        return 'REMOTE_ACCESS_ENABLED';
-      case DeviceAttribute.remoteDebugEnabled:
-        return 'REMOTE_DEBUG_ENABLED';
-      case DeviceAttribute.appiumVersion:
-        return 'APPIUM_VERSION';
-      case DeviceAttribute.instanceArn:
-        return 'INSTANCE_ARN';
-      case DeviceAttribute.instanceLabels:
-        return 'INSTANCE_LABELS';
-      case DeviceAttribute.fleetType:
-        return 'FLEET_TYPE';
-      case DeviceAttribute.osVersion:
-        return 'OS_VERSION';
-      case DeviceAttribute.model:
-        return 'MODEL';
-      case DeviceAttribute.availability:
-        return 'AVAILABILITY';
-    }
-  }
-}
+  final String value;
 
-extension DeviceAttributeFromString on String {
-  DeviceAttribute toDeviceAttribute() {
-    switch (this) {
-      case 'ARN':
-        return DeviceAttribute.arn;
-      case 'PLATFORM':
-        return DeviceAttribute.platform;
-      case 'FORM_FACTOR':
-        return DeviceAttribute.formFactor;
-      case 'MANUFACTURER':
-        return DeviceAttribute.manufacturer;
-      case 'REMOTE_ACCESS_ENABLED':
-        return DeviceAttribute.remoteAccessEnabled;
-      case 'REMOTE_DEBUG_ENABLED':
-        return DeviceAttribute.remoteDebugEnabled;
-      case 'APPIUM_VERSION':
-        return DeviceAttribute.appiumVersion;
-      case 'INSTANCE_ARN':
-        return DeviceAttribute.instanceArn;
-      case 'INSTANCE_LABELS':
-        return DeviceAttribute.instanceLabels;
-      case 'FLEET_TYPE':
-        return DeviceAttribute.fleetType;
-      case 'OS_VERSION':
-        return DeviceAttribute.osVersion;
-      case 'MODEL':
-        return DeviceAttribute.model;
-      case 'AVAILABILITY':
-        return DeviceAttribute.availability;
-    }
-    throw Exception('$this is not known in enum DeviceAttribute');
-  }
+  const DeviceAttribute(this.value);
+
+  static DeviceAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DeviceAttribute'));
 }
 
 enum DeviceAvailability {
-  temporaryNotAvailable,
-  busy,
-  available,
-  highlyAvailable,
-}
+  temporaryNotAvailable('TEMPORARY_NOT_AVAILABLE'),
+  busy('BUSY'),
+  available('AVAILABLE'),
+  highlyAvailable('HIGHLY_AVAILABLE'),
+  ;
 
-extension DeviceAvailabilityValueExtension on DeviceAvailability {
-  String toValue() {
-    switch (this) {
-      case DeviceAvailability.temporaryNotAvailable:
-        return 'TEMPORARY_NOT_AVAILABLE';
-      case DeviceAvailability.busy:
-        return 'BUSY';
-      case DeviceAvailability.available:
-        return 'AVAILABLE';
-      case DeviceAvailability.highlyAvailable:
-        return 'HIGHLY_AVAILABLE';
-    }
-  }
-}
+  final String value;
 
-extension DeviceAvailabilityFromString on String {
-  DeviceAvailability toDeviceAvailability() {
-    switch (this) {
-      case 'TEMPORARY_NOT_AVAILABLE':
-        return DeviceAvailability.temporaryNotAvailable;
-      case 'BUSY':
-        return DeviceAvailability.busy;
-      case 'AVAILABLE':
-        return DeviceAvailability.available;
-      case 'HIGHLY_AVAILABLE':
-        return DeviceAvailability.highlyAvailable;
-    }
-    throw Exception('$this is not known in enum DeviceAvailability');
-  }
+  const DeviceAvailability(this.value);
+
+  static DeviceAvailability fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DeviceAvailability'));
 }
 
 /// Represents a device filter used to select a set of devices to be included in
@@ -5198,8 +4965,9 @@ class DeviceFilter {
 
   factory DeviceFilter.fromJson(Map<String, dynamic> json) {
     return DeviceFilter(
-      attribute: (json['attribute'] as String).toDeviceFilterAttribute(),
-      operator: (json['operator'] as String).toRuleOperator(),
+      attribute:
+          DeviceFilterAttribute.fromString((json['attribute'] as String)),
+      operator: RuleOperator.fromString((json['operator'] as String)),
       values: (json['values'] as List)
           .whereNotNull()
           .map((e) => e as String)
@@ -5212,117 +4980,51 @@ class DeviceFilter {
     final operator = this.operator;
     final values = this.values;
     return {
-      'attribute': attribute.toValue(),
-      'operator': operator.toValue(),
+      'attribute': attribute.value,
+      'operator': operator.value,
       'values': values,
     };
   }
 }
 
 enum DeviceFilterAttribute {
-  arn,
-  platform,
-  osVersion,
-  model,
-  availability,
-  formFactor,
-  manufacturer,
-  remoteAccessEnabled,
-  remoteDebugEnabled,
-  instanceArn,
-  instanceLabels,
-  fleetType,
-}
+  arn('ARN'),
+  platform('PLATFORM'),
+  osVersion('OS_VERSION'),
+  model('MODEL'),
+  availability('AVAILABILITY'),
+  formFactor('FORM_FACTOR'),
+  manufacturer('MANUFACTURER'),
+  remoteAccessEnabled('REMOTE_ACCESS_ENABLED'),
+  remoteDebugEnabled('REMOTE_DEBUG_ENABLED'),
+  instanceArn('INSTANCE_ARN'),
+  instanceLabels('INSTANCE_LABELS'),
+  fleetType('FLEET_TYPE'),
+  ;
 
-extension DeviceFilterAttributeValueExtension on DeviceFilterAttribute {
-  String toValue() {
-    switch (this) {
-      case DeviceFilterAttribute.arn:
-        return 'ARN';
-      case DeviceFilterAttribute.platform:
-        return 'PLATFORM';
-      case DeviceFilterAttribute.osVersion:
-        return 'OS_VERSION';
-      case DeviceFilterAttribute.model:
-        return 'MODEL';
-      case DeviceFilterAttribute.availability:
-        return 'AVAILABILITY';
-      case DeviceFilterAttribute.formFactor:
-        return 'FORM_FACTOR';
-      case DeviceFilterAttribute.manufacturer:
-        return 'MANUFACTURER';
-      case DeviceFilterAttribute.remoteAccessEnabled:
-        return 'REMOTE_ACCESS_ENABLED';
-      case DeviceFilterAttribute.remoteDebugEnabled:
-        return 'REMOTE_DEBUG_ENABLED';
-      case DeviceFilterAttribute.instanceArn:
-        return 'INSTANCE_ARN';
-      case DeviceFilterAttribute.instanceLabels:
-        return 'INSTANCE_LABELS';
-      case DeviceFilterAttribute.fleetType:
-        return 'FLEET_TYPE';
-    }
-  }
-}
+  final String value;
 
-extension DeviceFilterAttributeFromString on String {
-  DeviceFilterAttribute toDeviceFilterAttribute() {
-    switch (this) {
-      case 'ARN':
-        return DeviceFilterAttribute.arn;
-      case 'PLATFORM':
-        return DeviceFilterAttribute.platform;
-      case 'OS_VERSION':
-        return DeviceFilterAttribute.osVersion;
-      case 'MODEL':
-        return DeviceFilterAttribute.model;
-      case 'AVAILABILITY':
-        return DeviceFilterAttribute.availability;
-      case 'FORM_FACTOR':
-        return DeviceFilterAttribute.formFactor;
-      case 'MANUFACTURER':
-        return DeviceFilterAttribute.manufacturer;
-      case 'REMOTE_ACCESS_ENABLED':
-        return DeviceFilterAttribute.remoteAccessEnabled;
-      case 'REMOTE_DEBUG_ENABLED':
-        return DeviceFilterAttribute.remoteDebugEnabled;
-      case 'INSTANCE_ARN':
-        return DeviceFilterAttribute.instanceArn;
-      case 'INSTANCE_LABELS':
-        return DeviceFilterAttribute.instanceLabels;
-      case 'FLEET_TYPE':
-        return DeviceFilterAttribute.fleetType;
-    }
-    throw Exception('$this is not known in enum DeviceFilterAttribute');
-  }
+  const DeviceFilterAttribute(this.value);
+
+  static DeviceFilterAttribute fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DeviceFilterAttribute'));
 }
 
 enum DeviceFormFactor {
-  phone,
-  tablet,
-}
+  phone('PHONE'),
+  tablet('TABLET'),
+  ;
 
-extension DeviceFormFactorValueExtension on DeviceFormFactor {
-  String toValue() {
-    switch (this) {
-      case DeviceFormFactor.phone:
-        return 'PHONE';
-      case DeviceFormFactor.tablet:
-        return 'TABLET';
-    }
-  }
-}
+  final String value;
 
-extension DeviceFormFactorFromString on String {
-  DeviceFormFactor toDeviceFormFactor() {
-    switch (this) {
-      case 'PHONE':
-        return DeviceFormFactor.phone;
-      case 'TABLET':
-        return DeviceFormFactor.tablet;
-    }
-    throw Exception('$this is not known in enum DeviceFormFactor');
-  }
+  const DeviceFormFactor(this.value);
+
+  static DeviceFormFactor fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DeviceFormFactor'));
 }
 
 /// Represents the device instance.
@@ -5366,7 +5068,7 @@ class DeviceInstance {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      status: (json['status'] as String?)?.toInstanceStatus(),
+      status: (json['status'] as String?)?.let(InstanceStatus.fromString),
       udid: json['udid'] as String?,
     );
   }
@@ -5383,7 +5085,7 @@ class DeviceInstance {
       if (deviceArn != null) 'deviceArn': deviceArn,
       if (instanceProfile != null) 'instanceProfile': instanceProfile,
       if (labels != null) 'labels': labels,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (udid != null) 'udid': udid,
     };
   }
@@ -5431,31 +5133,18 @@ class DeviceMinutes {
 }
 
 enum DevicePlatform {
-  android,
-  ios,
-}
+  android('ANDROID'),
+  ios('IOS'),
+  ;
 
-extension DevicePlatformValueExtension on DevicePlatform {
-  String toValue() {
-    switch (this) {
-      case DevicePlatform.android:
-        return 'ANDROID';
-      case DevicePlatform.ios:
-        return 'IOS';
-    }
-  }
-}
+  final String value;
 
-extension DevicePlatformFromString on String {
-  DevicePlatform toDevicePlatform() {
-    switch (this) {
-      case 'ANDROID':
-        return DevicePlatform.android;
-      case 'IOS':
-        return DevicePlatform.ios;
-    }
-    throw Exception('$this is not known in enum DevicePlatform');
-  }
+  const DevicePlatform(this.value);
+
+  static DevicePlatform fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DevicePlatform'));
 }
 
 /// Represents a collection of device types.
@@ -5516,7 +5205,7 @@ class DevicePool {
           ?.whereNotNull()
           .map((e) => Rule.fromJson(e as Map<String, dynamic>))
           .toList(),
-      type: (json['type'] as String?)?.toDevicePoolType(),
+      type: (json['type'] as String?)?.let(DevicePoolType.fromString),
     );
   }
 
@@ -5533,7 +5222,7 @@ class DevicePool {
       if (maxDevices != null) 'maxDevices': maxDevices,
       if (name != null) 'name': name,
       if (rules != null) 'rules': rules,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -5583,31 +5272,18 @@ class DevicePoolCompatibilityResult {
 }
 
 enum DevicePoolType {
-  curated,
-  private,
-}
+  curated('CURATED'),
+  private('PRIVATE'),
+  ;
 
-extension DevicePoolTypeValueExtension on DevicePoolType {
-  String toValue() {
-    switch (this) {
-      case DevicePoolType.curated:
-        return 'CURATED';
-      case DevicePoolType.private:
-        return 'PRIVATE';
-    }
-  }
-}
+  final String value;
 
-extension DevicePoolTypeFromString on String {
-  DevicePoolType toDevicePoolType() {
-    switch (this) {
-      case 'CURATED':
-        return DevicePoolType.curated;
-      case 'PRIVATE':
-        return DevicePoolType.private;
-    }
-    throw Exception('$this is not known in enum DevicePoolType');
-  }
+  const DevicePoolType(this.value);
+
+  static DevicePoolType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DevicePoolType'));
 }
 
 /// Represents the device filters used in a test run and the maximum number of
@@ -5841,147 +5517,60 @@ class ExecutionConfiguration {
 }
 
 enum ExecutionResult {
-  pending,
-  passed,
-  warned,
-  failed,
-  skipped,
-  errored,
-  stopped,
-}
+  pending('PENDING'),
+  passed('PASSED'),
+  warned('WARNED'),
+  failed('FAILED'),
+  skipped('SKIPPED'),
+  errored('ERRORED'),
+  stopped('STOPPED'),
+  ;
 
-extension ExecutionResultValueExtension on ExecutionResult {
-  String toValue() {
-    switch (this) {
-      case ExecutionResult.pending:
-        return 'PENDING';
-      case ExecutionResult.passed:
-        return 'PASSED';
-      case ExecutionResult.warned:
-        return 'WARNED';
-      case ExecutionResult.failed:
-        return 'FAILED';
-      case ExecutionResult.skipped:
-        return 'SKIPPED';
-      case ExecutionResult.errored:
-        return 'ERRORED';
-      case ExecutionResult.stopped:
-        return 'STOPPED';
-    }
-  }
-}
+  final String value;
 
-extension ExecutionResultFromString on String {
-  ExecutionResult toExecutionResult() {
-    switch (this) {
-      case 'PENDING':
-        return ExecutionResult.pending;
-      case 'PASSED':
-        return ExecutionResult.passed;
-      case 'WARNED':
-        return ExecutionResult.warned;
-      case 'FAILED':
-        return ExecutionResult.failed;
-      case 'SKIPPED':
-        return ExecutionResult.skipped;
-      case 'ERRORED':
-        return ExecutionResult.errored;
-      case 'STOPPED':
-        return ExecutionResult.stopped;
-    }
-    throw Exception('$this is not known in enum ExecutionResult');
-  }
+  const ExecutionResult(this.value);
+
+  static ExecutionResult fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ExecutionResult'));
 }
 
 enum ExecutionResultCode {
-  parsingFailed,
-  vpcEndpointSetupFailed,
-}
+  parsingFailed('PARSING_FAILED'),
+  vpcEndpointSetupFailed('VPC_ENDPOINT_SETUP_FAILED'),
+  ;
 
-extension ExecutionResultCodeValueExtension on ExecutionResultCode {
-  String toValue() {
-    switch (this) {
-      case ExecutionResultCode.parsingFailed:
-        return 'PARSING_FAILED';
-      case ExecutionResultCode.vpcEndpointSetupFailed:
-        return 'VPC_ENDPOINT_SETUP_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ExecutionResultCodeFromString on String {
-  ExecutionResultCode toExecutionResultCode() {
-    switch (this) {
-      case 'PARSING_FAILED':
-        return ExecutionResultCode.parsingFailed;
-      case 'VPC_ENDPOINT_SETUP_FAILED':
-        return ExecutionResultCode.vpcEndpointSetupFailed;
-    }
-    throw Exception('$this is not known in enum ExecutionResultCode');
-  }
+  const ExecutionResultCode(this.value);
+
+  static ExecutionResultCode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ExecutionResultCode'));
 }
 
 enum ExecutionStatus {
-  pending,
-  pendingConcurrency,
-  pendingDevice,
-  processing,
-  scheduling,
-  preparing,
-  running,
-  completed,
-  stopping,
-}
+  pending('PENDING'),
+  pendingConcurrency('PENDING_CONCURRENCY'),
+  pendingDevice('PENDING_DEVICE'),
+  processing('PROCESSING'),
+  scheduling('SCHEDULING'),
+  preparing('PREPARING'),
+  running('RUNNING'),
+  completed('COMPLETED'),
+  stopping('STOPPING'),
+  ;
 
-extension ExecutionStatusValueExtension on ExecutionStatus {
-  String toValue() {
-    switch (this) {
-      case ExecutionStatus.pending:
-        return 'PENDING';
-      case ExecutionStatus.pendingConcurrency:
-        return 'PENDING_CONCURRENCY';
-      case ExecutionStatus.pendingDevice:
-        return 'PENDING_DEVICE';
-      case ExecutionStatus.processing:
-        return 'PROCESSING';
-      case ExecutionStatus.scheduling:
-        return 'SCHEDULING';
-      case ExecutionStatus.preparing:
-        return 'PREPARING';
-      case ExecutionStatus.running:
-        return 'RUNNING';
-      case ExecutionStatus.completed:
-        return 'COMPLETED';
-      case ExecutionStatus.stopping:
-        return 'STOPPING';
-    }
-  }
-}
+  final String value;
 
-extension ExecutionStatusFromString on String {
-  ExecutionStatus toExecutionStatus() {
-    switch (this) {
-      case 'PENDING':
-        return ExecutionStatus.pending;
-      case 'PENDING_CONCURRENCY':
-        return ExecutionStatus.pendingConcurrency;
-      case 'PENDING_DEVICE':
-        return ExecutionStatus.pendingDevice;
-      case 'PROCESSING':
-        return ExecutionStatus.processing;
-      case 'SCHEDULING':
-        return ExecutionStatus.scheduling;
-      case 'PREPARING':
-        return ExecutionStatus.preparing;
-      case 'RUNNING':
-        return ExecutionStatus.running;
-      case 'COMPLETED':
-        return ExecutionStatus.completed;
-      case 'STOPPING':
-        return ExecutionStatus.stopping;
-    }
-    throw Exception('$this is not known in enum ExecutionStatus');
-  }
+  const ExecutionStatus(this.value);
+
+  static ExecutionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ExecutionStatus'));
 }
 
 /// Represents the account settings return values from the
@@ -6507,7 +6096,7 @@ class IncompatibilityMessage {
   factory IncompatibilityMessage.fromJson(Map<String, dynamic> json) {
     return IncompatibilityMessage(
       message: json['message'] as String?,
-      type: (json['type'] as String?)?.toDeviceAttribute(),
+      type: (json['type'] as String?)?.let(DeviceAttribute.fromString),
     );
   }
 
@@ -6516,7 +6105,7 @@ class IncompatibilityMessage {
     final type = this.type;
     return {
       if (message != null) 'message': message,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -6618,74 +6207,36 @@ class InstanceProfile {
 }
 
 enum InstanceStatus {
-  inUse,
-  preparing,
-  available,
-  notAvailable,
-}
+  inUse('IN_USE'),
+  preparing('PREPARING'),
+  available('AVAILABLE'),
+  notAvailable('NOT_AVAILABLE'),
+  ;
 
-extension InstanceStatusValueExtension on InstanceStatus {
-  String toValue() {
-    switch (this) {
-      case InstanceStatus.inUse:
-        return 'IN_USE';
-      case InstanceStatus.preparing:
-        return 'PREPARING';
-      case InstanceStatus.available:
-        return 'AVAILABLE';
-      case InstanceStatus.notAvailable:
-        return 'NOT_AVAILABLE';
-    }
-  }
-}
+  final String value;
 
-extension InstanceStatusFromString on String {
-  InstanceStatus toInstanceStatus() {
-    switch (this) {
-      case 'IN_USE':
-        return InstanceStatus.inUse;
-      case 'PREPARING':
-        return InstanceStatus.preparing;
-      case 'AVAILABLE':
-        return InstanceStatus.available;
-      case 'NOT_AVAILABLE':
-        return InstanceStatus.notAvailable;
-    }
-    throw Exception('$this is not known in enum InstanceStatus');
-  }
+  const InstanceStatus(this.value);
+
+  static InstanceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum InstanceStatus'));
 }
 
 enum InteractionMode {
-  interactive,
-  noVideo,
-  videoOnly,
-}
+  interactive('INTERACTIVE'),
+  noVideo('NO_VIDEO'),
+  videoOnly('VIDEO_ONLY'),
+  ;
 
-extension InteractionModeValueExtension on InteractionMode {
-  String toValue() {
-    switch (this) {
-      case InteractionMode.interactive:
-        return 'INTERACTIVE';
-      case InteractionMode.noVideo:
-        return 'NO_VIDEO';
-      case InteractionMode.videoOnly:
-        return 'VIDEO_ONLY';
-    }
-  }
-}
+  final String value;
 
-extension InteractionModeFromString on String {
-  InteractionMode toInteractionMode() {
-    switch (this) {
-      case 'INTERACTIVE':
-        return InteractionMode.interactive;
-      case 'NO_VIDEO':
-        return InteractionMode.noVideo;
-      case 'VIDEO_ONLY':
-        return InteractionMode.videoOnly;
-    }
-    throw Exception('$this is not known in enum InteractionMode');
-  }
+  const InteractionMode(this.value);
+
+  static InteractionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum InteractionMode'));
 }
 
 /// Represents a device.
@@ -6889,11 +6440,11 @@ class Job {
       instanceArn: json['instanceArn'] as String?,
       message: json['message'] as String?,
       name: json['name'] as String?,
-      result: (json['result'] as String?)?.toExecutionResult(),
+      result: (json['result'] as String?)?.let(ExecutionResult.fromString),
       started: timeStampFromJson(json['started']),
-      status: (json['status'] as String?)?.toExecutionStatus(),
+      status: (json['status'] as String?)?.let(ExecutionStatus.fromString),
       stopped: timeStampFromJson(json['stopped']),
-      type: (json['type'] as String?)?.toTestType(),
+      type: (json['type'] as String?)?.let(TestType.fromString),
       videoCapture: json['videoCapture'] as bool?,
       videoEndpoint: json['videoEndpoint'] as String?,
     );
@@ -6924,11 +6475,11 @@ class Job {
       if (instanceArn != null) 'instanceArn': instanceArn,
       if (message != null) 'message': message,
       if (name != null) 'name': name,
-      if (result != null) 'result': result.toValue(),
+      if (result != null) 'result': result.value,
       if (started != null) 'started': unixTimestampToJson(started),
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (stopped != null) 'stopped': unixTimestampToJson(stopped),
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
       if (videoCapture != null) 'videoCapture': videoCapture,
       if (videoEndpoint != null) 'videoEndpoint': videoEndpoint,
     };
@@ -7694,7 +7245,7 @@ class ListUniqueProblemsResult {
       nextToken: json['nextToken'] as String?,
       uniqueProblems: (json['uniqueProblems'] as Map<String, dynamic>?)?.map(
           (k, e) => MapEntry(
-              k.toExecutionResult(),
+              ExecutionResult.fromString(k),
               (e as List)
                   .whereNotNull()
                   .map((e) => UniqueProblem.fromJson(e as Map<String, dynamic>))
@@ -7708,8 +7259,7 @@ class ListUniqueProblemsResult {
     return {
       if (nextToken != null) 'nextToken': nextToken,
       if (uniqueProblems != null)
-        'uniqueProblems':
-            uniqueProblems.map((k, e) => MapEntry(k.toValue(), e)),
+        'uniqueProblems': uniqueProblems.map((k, e) => MapEntry(k.value, e)),
     };
   }
 }
@@ -7833,7 +7383,8 @@ class MonetaryAmount {
   factory MonetaryAmount.fromJson(Map<String, dynamic> json) {
     return MonetaryAmount(
       amount: json['amount'] as double?,
-      currencyCode: (json['currencyCode'] as String?)?.toCurrencyCode(),
+      currencyCode:
+          (json['currencyCode'] as String?)?.let(CurrencyCode.fromString),
     );
   }
 
@@ -7842,7 +7393,7 @@ class MonetaryAmount {
     final currencyCode = this.currencyCode;
     return {
       if (amount != null) 'amount': amount,
-      if (currencyCode != null) 'currencyCode': currencyCode.toValue(),
+      if (currencyCode != null) 'currencyCode': currencyCode.value,
     };
   }
 }
@@ -7915,7 +7466,7 @@ class NetworkProfile {
       downlinkJitterMs: json['downlinkJitterMs'] as int?,
       downlinkLossPercent: json['downlinkLossPercent'] as int?,
       name: json['name'] as String?,
-      type: (json['type'] as String?)?.toNetworkProfileType(),
+      type: (json['type'] as String?)?.let(NetworkProfileType.fromString),
       uplinkBandwidthBits: json['uplinkBandwidthBits'] as int?,
       uplinkDelayMs: json['uplinkDelayMs'] as int?,
       uplinkJitterMs: json['uplinkJitterMs'] as int?,
@@ -7946,7 +7497,7 @@ class NetworkProfile {
       if (downlinkLossPercent != null)
         'downlinkLossPercent': downlinkLossPercent,
       if (name != null) 'name': name,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
       if (uplinkBandwidthBits != null)
         'uplinkBandwidthBits': uplinkBandwidthBits,
       if (uplinkDelayMs != null) 'uplinkDelayMs': uplinkDelayMs,
@@ -7957,31 +7508,18 @@ class NetworkProfile {
 }
 
 enum NetworkProfileType {
-  curated,
-  private,
-}
+  curated('CURATED'),
+  private('PRIVATE'),
+  ;
 
-extension NetworkProfileTypeValueExtension on NetworkProfileType {
-  String toValue() {
-    switch (this) {
-      case NetworkProfileType.curated:
-        return 'CURATED';
-      case NetworkProfileType.private:
-        return 'PRIVATE';
-    }
-  }
-}
+  final String value;
 
-extension NetworkProfileTypeFromString on String {
-  NetworkProfileType toNetworkProfileType() {
-    switch (this) {
-      case 'CURATED':
-        return NetworkProfileType.curated;
-      case 'PRIVATE':
-        return NetworkProfileType.private;
-    }
-    throw Exception('$this is not known in enum NetworkProfileType');
-  }
+  const NetworkProfileType(this.value);
+
+  static NetworkProfileType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum NetworkProfileType'));
 }
 
 /// Represents the metadata of a device offering.
@@ -8014,12 +7552,12 @@ class Offering {
     return Offering(
       description: json['description'] as String?,
       id: json['id'] as String?,
-      platform: (json['platform'] as String?)?.toDevicePlatform(),
+      platform: (json['platform'] as String?)?.let(DevicePlatform.fromString),
       recurringCharges: (json['recurringCharges'] as List?)
           ?.whereNotNull()
           .map((e) => RecurringCharge.fromJson(e as Map<String, dynamic>))
           .toList(),
-      type: (json['type'] as String?)?.toOfferingType(),
+      type: (json['type'] as String?)?.let(OfferingType.fromString),
     );
   }
 
@@ -8032,9 +7570,9 @@ class Offering {
     return {
       if (description != null) 'description': description,
       if (id != null) 'id': id,
-      if (platform != null) 'platform': platform.toValue(),
+      if (platform != null) 'platform': platform.value,
       if (recurringCharges != null) 'recurringCharges': recurringCharges,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -8097,7 +7635,7 @@ class OfferingStatus {
           ? Offering.fromJson(json['offering'] as Map<String, dynamic>)
           : null,
       quantity: json['quantity'] as int?,
-      type: (json['type'] as String?)?.toOfferingTransactionType(),
+      type: (json['type'] as String?)?.let(OfferingTransactionType.fromString),
     );
   }
 
@@ -8110,7 +7648,7 @@ class OfferingStatus {
       if (effectiveOn != null) 'effectiveOn': unixTimestampToJson(effectiveOn),
       if (offering != null) 'offering': offering,
       if (quantity != null) 'quantity': quantity,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -8173,59 +7711,33 @@ class OfferingTransaction {
 }
 
 enum OfferingTransactionType {
-  purchase,
-  renew,
-  system,
-}
+  purchase('PURCHASE'),
+  renew('RENEW'),
+  system('SYSTEM'),
+  ;
 
-extension OfferingTransactionTypeValueExtension on OfferingTransactionType {
-  String toValue() {
-    switch (this) {
-      case OfferingTransactionType.purchase:
-        return 'PURCHASE';
-      case OfferingTransactionType.renew:
-        return 'RENEW';
-      case OfferingTransactionType.system:
-        return 'SYSTEM';
-    }
-  }
-}
+  final String value;
 
-extension OfferingTransactionTypeFromString on String {
-  OfferingTransactionType toOfferingTransactionType() {
-    switch (this) {
-      case 'PURCHASE':
-        return OfferingTransactionType.purchase;
-      case 'RENEW':
-        return OfferingTransactionType.renew;
-      case 'SYSTEM':
-        return OfferingTransactionType.system;
-    }
-    throw Exception('$this is not known in enum OfferingTransactionType');
-  }
+  const OfferingTransactionType(this.value);
+
+  static OfferingTransactionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum OfferingTransactionType'));
 }
 
 enum OfferingType {
-  recurring,
-}
+  recurring('RECURRING'),
+  ;
 
-extension OfferingTypeValueExtension on OfferingType {
-  String toValue() {
-    switch (this) {
-      case OfferingType.recurring:
-        return 'RECURRING';
-    }
-  }
-}
+  final String value;
 
-extension OfferingTypeFromString on String {
-  OfferingType toOfferingType() {
-    switch (this) {
-      case 'RECURRING':
-        return OfferingType.recurring;
-    }
-    throw Exception('$this is not known in enum OfferingType');
-  }
+  const OfferingType(this.value);
+
+  static OfferingType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OfferingType'));
 }
 
 /// Represents a specific warning or failure.
@@ -8296,7 +7808,7 @@ class Problem {
           ? ProblemDetail.fromJson(json['job'] as Map<String, dynamic>)
           : null,
       message: json['message'] as String?,
-      result: (json['result'] as String?)?.toExecutionResult(),
+      result: (json['result'] as String?)?.let(ExecutionResult.fromString),
       run: json['run'] != null
           ? ProblemDetail.fromJson(json['run'] as Map<String, dynamic>)
           : null,
@@ -8321,7 +7833,7 @@ class Problem {
       if (device != null) 'device': device,
       if (job != null) 'job': job,
       if (message != null) 'message': message,
-      if (result != null) 'result': result.toValue(),
+      if (result != null) 'result': result.value,
       if (run != null) 'run': run,
       if (suite != null) 'suite': suite,
       if (test != null) 'test': test,
@@ -8505,7 +8017,8 @@ class RecurringCharge {
       cost: json['cost'] != null
           ? MonetaryAmount.fromJson(json['cost'] as Map<String, dynamic>)
           : null,
-      frequency: (json['frequency'] as String?)?.toRecurringChargeFrequency(),
+      frequency: (json['frequency'] as String?)
+          ?.let(RecurringChargeFrequency.fromString),
     );
   }
 
@@ -8514,32 +8027,23 @@ class RecurringCharge {
     final frequency = this.frequency;
     return {
       if (cost != null) 'cost': cost,
-      if (frequency != null) 'frequency': frequency.toValue(),
+      if (frequency != null) 'frequency': frequency.value,
     };
   }
 }
 
 enum RecurringChargeFrequency {
-  monthly,
-}
+  monthly('MONTHLY'),
+  ;
 
-extension RecurringChargeFrequencyValueExtension on RecurringChargeFrequency {
-  String toValue() {
-    switch (this) {
-      case RecurringChargeFrequency.monthly:
-        return 'MONTHLY';
-    }
-  }
-}
+  final String value;
 
-extension RecurringChargeFrequencyFromString on String {
-  RecurringChargeFrequency toRecurringChargeFrequency() {
-    switch (this) {
-      case 'MONTHLY':
-        return RecurringChargeFrequency.monthly;
-    }
-    throw Exception('$this is not known in enum RecurringChargeFrequency');
-  }
+  const RecurringChargeFrequency(this.value);
+
+  static RecurringChargeFrequency fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RecurringChargeFrequency'));
 }
 
 /// Represents information about the remote access session.
@@ -8742,7 +8246,8 @@ class RemoteAccessSession {
   factory RemoteAccessSession.fromJson(Map<String, dynamic> json) {
     return RemoteAccessSession(
       arn: json['arn'] as String?,
-      billingMethod: (json['billingMethod'] as String?)?.toBillingMethod(),
+      billingMethod:
+          (json['billingMethod'] as String?)?.let(BillingMethod.fromString),
       clientId: json['clientId'] as String?,
       created: timeStampFromJson(json['created']),
       device: json['device'] != null
@@ -8757,16 +8262,16 @@ class RemoteAccessSession {
       hostAddress: json['hostAddress'] as String?,
       instanceArn: json['instanceArn'] as String?,
       interactionMode:
-          (json['interactionMode'] as String?)?.toInteractionMode(),
+          (json['interactionMode'] as String?)?.let(InteractionMode.fromString),
       message: json['message'] as String?,
       name: json['name'] as String?,
       remoteDebugEnabled: json['remoteDebugEnabled'] as bool?,
       remoteRecordAppArn: json['remoteRecordAppArn'] as String?,
       remoteRecordEnabled: json['remoteRecordEnabled'] as bool?,
-      result: (json['result'] as String?)?.toExecutionResult(),
+      result: (json['result'] as String?)?.let(ExecutionResult.fromString),
       skipAppResign: json['skipAppResign'] as bool?,
       started: timeStampFromJson(json['started']),
-      status: (json['status'] as String?)?.toExecutionStatus(),
+      status: (json['status'] as String?)?.let(ExecutionStatus.fromString),
       stopped: timeStampFromJson(json['stopped']),
       vpcConfig: json['vpcConfig'] != null
           ? VpcConfig.fromJson(json['vpcConfig'] as Map<String, dynamic>)
@@ -8799,7 +8304,7 @@ class RemoteAccessSession {
     final vpcConfig = this.vpcConfig;
     return {
       if (arn != null) 'arn': arn,
-      if (billingMethod != null) 'billingMethod': billingMethod.toValue(),
+      if (billingMethod != null) 'billingMethod': billingMethod.value,
       if (clientId != null) 'clientId': clientId,
       if (created != null) 'created': unixTimestampToJson(created),
       if (device != null) 'device': device,
@@ -8808,17 +8313,17 @@ class RemoteAccessSession {
       if (endpoint != null) 'endpoint': endpoint,
       if (hostAddress != null) 'hostAddress': hostAddress,
       if (instanceArn != null) 'instanceArn': instanceArn,
-      if (interactionMode != null) 'interactionMode': interactionMode.toValue(),
+      if (interactionMode != null) 'interactionMode': interactionMode.value,
       if (message != null) 'message': message,
       if (name != null) 'name': name,
       if (remoteDebugEnabled != null) 'remoteDebugEnabled': remoteDebugEnabled,
       if (remoteRecordAppArn != null) 'remoteRecordAppArn': remoteRecordAppArn,
       if (remoteRecordEnabled != null)
         'remoteRecordEnabled': remoteRecordEnabled,
-      if (result != null) 'result': result.toValue(),
+      if (result != null) 'result': result.value,
       if (skipAppResign != null) 'skipAppResign': skipAppResign,
       if (started != null) 'started': unixTimestampToJson(started),
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (stopped != null) 'stopped': unixTimestampToJson(stopped),
       if (vpcConfig != null) 'vpcConfig': vpcConfig,
     };
@@ -8977,8 +8482,9 @@ class Rule {
 
   factory Rule.fromJson(Map<String, dynamic> json) {
     return Rule(
-      attribute: (json['attribute'] as String?)?.toDeviceAttribute(),
-      operator: (json['operator'] as String?)?.toRuleOperator(),
+      attribute:
+          (json['attribute'] as String?)?.let(DeviceAttribute.fromString),
+      operator: (json['operator'] as String?)?.let(RuleOperator.fromString),
       value: json['value'] as String?,
     );
   }
@@ -8988,69 +8494,32 @@ class Rule {
     final operator = this.operator;
     final value = this.value;
     return {
-      if (attribute != null) 'attribute': attribute.toValue(),
-      if (operator != null) 'operator': operator.toValue(),
+      if (attribute != null) 'attribute': attribute.value,
+      if (operator != null) 'operator': operator.value,
       if (value != null) 'value': value,
     };
   }
 }
 
 enum RuleOperator {
-  equals,
-  lessThan,
-  lessThanOrEquals,
-  greaterThan,
-  greaterThanOrEquals,
-  $in,
-  notIn,
-  contains,
-}
+  equals('EQUALS'),
+  lessThan('LESS_THAN'),
+  lessThanOrEquals('LESS_THAN_OR_EQUALS'),
+  greaterThan('GREATER_THAN'),
+  greaterThanOrEquals('GREATER_THAN_OR_EQUALS'),
+  $in('IN'),
+  notIn('NOT_IN'),
+  contains('CONTAINS'),
+  ;
 
-extension RuleOperatorValueExtension on RuleOperator {
-  String toValue() {
-    switch (this) {
-      case RuleOperator.equals:
-        return 'EQUALS';
-      case RuleOperator.lessThan:
-        return 'LESS_THAN';
-      case RuleOperator.lessThanOrEquals:
-        return 'LESS_THAN_OR_EQUALS';
-      case RuleOperator.greaterThan:
-        return 'GREATER_THAN';
-      case RuleOperator.greaterThanOrEquals:
-        return 'GREATER_THAN_OR_EQUALS';
-      case RuleOperator.$in:
-        return 'IN';
-      case RuleOperator.notIn:
-        return 'NOT_IN';
-      case RuleOperator.contains:
-        return 'CONTAINS';
-    }
-  }
-}
+  final String value;
 
-extension RuleOperatorFromString on String {
-  RuleOperator toRuleOperator() {
-    switch (this) {
-      case 'EQUALS':
-        return RuleOperator.equals;
-      case 'LESS_THAN':
-        return RuleOperator.lessThan;
-      case 'LESS_THAN_OR_EQUALS':
-        return RuleOperator.lessThanOrEquals;
-      case 'GREATER_THAN':
-        return RuleOperator.greaterThan;
-      case 'GREATER_THAN_OR_EQUALS':
-        return RuleOperator.greaterThanOrEquals;
-      case 'IN':
-        return RuleOperator.$in;
-      case 'NOT_IN':
-        return RuleOperator.notIn;
-      case 'CONTAINS':
-        return RuleOperator.contains;
-    }
-    throw Exception('$this is not known in enum RuleOperator');
-  }
+  const RuleOperator(this.value);
+
+  static RuleOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RuleOperator'));
 }
 
 /// Represents a test run on a set of devices with a given app package, test
@@ -9341,7 +8810,8 @@ class Run {
     return Run(
       appUpload: json['appUpload'] as String?,
       arn: json['arn'] as String?,
-      billingMethod: (json['billingMethod'] as String?)?.toBillingMethod(),
+      billingMethod:
+          (json['billingMethod'] as String?)?.let(BillingMethod.fromString),
       completedJobs: json['completedJobs'] as int?,
       counters: json['counters'] != null
           ? Counters.fromJson(json['counters'] as Map<String, dynamic>)
@@ -9373,20 +8843,21 @@ class Run {
               json['networkProfile'] as Map<String, dynamic>)
           : null,
       parsingResultUrl: json['parsingResultUrl'] as String?,
-      platform: (json['platform'] as String?)?.toDevicePlatform(),
+      platform: (json['platform'] as String?)?.let(DevicePlatform.fromString),
       radios: json['radios'] != null
           ? Radios.fromJson(json['radios'] as Map<String, dynamic>)
           : null,
-      result: (json['result'] as String?)?.toExecutionResult(),
-      resultCode: (json['resultCode'] as String?)?.toExecutionResultCode(),
+      result: (json['result'] as String?)?.let(ExecutionResult.fromString),
+      resultCode:
+          (json['resultCode'] as String?)?.let(ExecutionResultCode.fromString),
       seed: json['seed'] as int?,
       skipAppResign: json['skipAppResign'] as bool?,
       started: timeStampFromJson(json['started']),
-      status: (json['status'] as String?)?.toExecutionStatus(),
+      status: (json['status'] as String?)?.let(ExecutionStatus.fromString),
       stopped: timeStampFromJson(json['stopped']),
       testSpecArn: json['testSpecArn'] as String?,
       totalJobs: json['totalJobs'] as int?,
-      type: (json['type'] as String?)?.toTestType(),
+      type: (json['type'] as String?)?.let(TestType.fromString),
       vpcConfig: json['vpcConfig'] != null
           ? VpcConfig.fromJson(json['vpcConfig'] as Map<String, dynamic>)
           : null,
@@ -9430,7 +8901,7 @@ class Run {
     return {
       if (appUpload != null) 'appUpload': appUpload,
       if (arn != null) 'arn': arn,
-      if (billingMethod != null) 'billingMethod': billingMethod.toValue(),
+      if (billingMethod != null) 'billingMethod': billingMethod.value,
       if (completedJobs != null) 'completedJobs': completedJobs,
       if (counters != null) 'counters': counters,
       if (created != null) 'created': unixTimestampToJson(created),
@@ -9448,18 +8919,18 @@ class Run {
       if (name != null) 'name': name,
       if (networkProfile != null) 'networkProfile': networkProfile,
       if (parsingResultUrl != null) 'parsingResultUrl': parsingResultUrl,
-      if (platform != null) 'platform': platform.toValue(),
+      if (platform != null) 'platform': platform.value,
       if (radios != null) 'radios': radios,
-      if (result != null) 'result': result.toValue(),
-      if (resultCode != null) 'resultCode': resultCode.toValue(),
+      if (result != null) 'result': result.value,
+      if (resultCode != null) 'resultCode': resultCode.value,
       if (seed != null) 'seed': seed,
       if (skipAppResign != null) 'skipAppResign': skipAppResign,
       if (started != null) 'started': unixTimestampToJson(started),
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (stopped != null) 'stopped': unixTimestampToJson(stopped),
       if (testSpecArn != null) 'testSpecArn': testSpecArn,
       if (totalJobs != null) 'totalJobs': totalJobs,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
       if (vpcConfig != null) 'vpcConfig': vpcConfig,
       if (webUrl != null) 'webUrl': webUrl,
     };
@@ -9548,7 +9019,7 @@ class Sample {
   factory Sample.fromJson(Map<String, dynamic> json) {
     return Sample(
       arn: json['arn'] as String?,
-      type: (json['type'] as String?)?.toSampleType(),
+      type: (json['type'] as String?)?.let(SampleType.fromString),
       url: json['url'] as String?,
     );
   }
@@ -9559,113 +9030,39 @@ class Sample {
     final url = this.url;
     return {
       if (arn != null) 'arn': arn,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
       if (url != null) 'url': url,
     };
   }
 }
 
 enum SampleType {
-  cpu,
-  memory,
-  threads,
-  rxRate,
-  txRate,
-  rx,
-  tx,
-  nativeFrames,
-  nativeFps,
-  nativeMinDrawtime,
-  nativeAvgDrawtime,
-  nativeMaxDrawtime,
-  openglFrames,
-  openglFps,
-  openglMinDrawtime,
-  openglAvgDrawtime,
-  openglMaxDrawtime,
-}
+  cpu('CPU'),
+  memory('MEMORY'),
+  threads('THREADS'),
+  rxRate('RX_RATE'),
+  txRate('TX_RATE'),
+  rx('RX'),
+  tx('TX'),
+  nativeFrames('NATIVE_FRAMES'),
+  nativeFps('NATIVE_FPS'),
+  nativeMinDrawtime('NATIVE_MIN_DRAWTIME'),
+  nativeAvgDrawtime('NATIVE_AVG_DRAWTIME'),
+  nativeMaxDrawtime('NATIVE_MAX_DRAWTIME'),
+  openglFrames('OPENGL_FRAMES'),
+  openglFps('OPENGL_FPS'),
+  openglMinDrawtime('OPENGL_MIN_DRAWTIME'),
+  openglAvgDrawtime('OPENGL_AVG_DRAWTIME'),
+  openglMaxDrawtime('OPENGL_MAX_DRAWTIME'),
+  ;
 
-extension SampleTypeValueExtension on SampleType {
-  String toValue() {
-    switch (this) {
-      case SampleType.cpu:
-        return 'CPU';
-      case SampleType.memory:
-        return 'MEMORY';
-      case SampleType.threads:
-        return 'THREADS';
-      case SampleType.rxRate:
-        return 'RX_RATE';
-      case SampleType.txRate:
-        return 'TX_RATE';
-      case SampleType.rx:
-        return 'RX';
-      case SampleType.tx:
-        return 'TX';
-      case SampleType.nativeFrames:
-        return 'NATIVE_FRAMES';
-      case SampleType.nativeFps:
-        return 'NATIVE_FPS';
-      case SampleType.nativeMinDrawtime:
-        return 'NATIVE_MIN_DRAWTIME';
-      case SampleType.nativeAvgDrawtime:
-        return 'NATIVE_AVG_DRAWTIME';
-      case SampleType.nativeMaxDrawtime:
-        return 'NATIVE_MAX_DRAWTIME';
-      case SampleType.openglFrames:
-        return 'OPENGL_FRAMES';
-      case SampleType.openglFps:
-        return 'OPENGL_FPS';
-      case SampleType.openglMinDrawtime:
-        return 'OPENGL_MIN_DRAWTIME';
-      case SampleType.openglAvgDrawtime:
-        return 'OPENGL_AVG_DRAWTIME';
-      case SampleType.openglMaxDrawtime:
-        return 'OPENGL_MAX_DRAWTIME';
-    }
-  }
-}
+  final String value;
 
-extension SampleTypeFromString on String {
-  SampleType toSampleType() {
-    switch (this) {
-      case 'CPU':
-        return SampleType.cpu;
-      case 'MEMORY':
-        return SampleType.memory;
-      case 'THREADS':
-        return SampleType.threads;
-      case 'RX_RATE':
-        return SampleType.rxRate;
-      case 'TX_RATE':
-        return SampleType.txRate;
-      case 'RX':
-        return SampleType.rx;
-      case 'TX':
-        return SampleType.tx;
-      case 'NATIVE_FRAMES':
-        return SampleType.nativeFrames;
-      case 'NATIVE_FPS':
-        return SampleType.nativeFps;
-      case 'NATIVE_MIN_DRAWTIME':
-        return SampleType.nativeMinDrawtime;
-      case 'NATIVE_AVG_DRAWTIME':
-        return SampleType.nativeAvgDrawtime;
-      case 'NATIVE_MAX_DRAWTIME':
-        return SampleType.nativeMaxDrawtime;
-      case 'OPENGL_FRAMES':
-        return SampleType.openglFrames;
-      case 'OPENGL_FPS':
-        return SampleType.openglFps;
-      case 'OPENGL_MIN_DRAWTIME':
-        return SampleType.openglMinDrawtime;
-      case 'OPENGL_AVG_DRAWTIME':
-        return SampleType.openglAvgDrawtime;
-      case 'OPENGL_MAX_DRAWTIME':
-        return SampleType.openglMaxDrawtime;
-    }
-    throw Exception('$this is not known in enum SampleType');
-  }
+  const SampleType(this.value);
+
+  static SampleType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SampleType'));
 }
 
 /// Represents the settings for a run. Includes things like location, radio
@@ -9732,7 +9129,7 @@ class ScheduleRunConfiguration {
     final vpceConfigurationArns = this.vpceConfigurationArns;
     return {
       if (auxiliaryApps != null) 'auxiliaryApps': auxiliaryApps,
-      if (billingMethod != null) 'billingMethod': billingMethod.toValue(),
+      if (billingMethod != null) 'billingMethod': billingMethod.value,
       if (customerArtifactPaths != null)
         'customerArtifactPaths': customerArtifactPaths,
       if (extraDataPackageArn != null)
@@ -9996,7 +9393,7 @@ class ScheduleRunTest {
     final testPackageArn = this.testPackageArn;
     final testSpecArn = this.testSpecArn;
     return {
-      'type': type.toValue(),
+      'type': type.value,
       if (filter != null) 'filter': filter,
       if (parameters != null) 'parameters': parameters,
       if (testPackageArn != null) 'testPackageArn': testPackageArn,
@@ -10265,11 +9662,11 @@ class Suite {
           : null,
       message: json['message'] as String?,
       name: json['name'] as String?,
-      result: (json['result'] as String?)?.toExecutionResult(),
+      result: (json['result'] as String?)?.let(ExecutionResult.fromString),
       started: timeStampFromJson(json['started']),
-      status: (json['status'] as String?)?.toExecutionStatus(),
+      status: (json['status'] as String?)?.let(ExecutionStatus.fromString),
       stopped: timeStampFromJson(json['stopped']),
-      type: (json['type'] as String?)?.toTestType(),
+      type: (json['type'] as String?)?.let(TestType.fromString),
     );
   }
 
@@ -10292,11 +9689,11 @@ class Suite {
       if (deviceMinutes != null) 'deviceMinutes': deviceMinutes,
       if (message != null) 'message': message,
       if (name != null) 'name': name,
-      if (result != null) 'result': result.toValue(),
+      if (result != null) 'result': result.value,
       if (started != null) 'started': unixTimestampToJson(started),
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (stopped != null) 'stopped': unixTimestampToJson(stopped),
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -10530,11 +9927,11 @@ class Test {
           : null,
       message: json['message'] as String?,
       name: json['name'] as String?,
-      result: (json['result'] as String?)?.toExecutionResult(),
+      result: (json['result'] as String?)?.let(ExecutionResult.fromString),
       started: timeStampFromJson(json['started']),
-      status: (json['status'] as String?)?.toExecutionStatus(),
+      status: (json['status'] as String?)?.let(ExecutionStatus.fromString),
       stopped: timeStampFromJson(json['stopped']),
-      type: (json['type'] as String?)?.toTestType(),
+      type: (json['type'] as String?)?.let(TestType.fromString),
     );
   }
 
@@ -10557,11 +9954,11 @@ class Test {
       if (deviceMinutes != null) 'deviceMinutes': deviceMinutes,
       if (message != null) 'message': message,
       if (name != null) 'name': name,
-      if (result != null) 'result': result.toValue(),
+      if (result != null) 'result': result.value,
       if (started != null) 'started': unixTimestampToJson(started),
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (stopped != null) 'stopped': unixTimestampToJson(stopped),
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -10658,7 +10055,8 @@ class TestGridSession {
       created: timeStampFromJson(json['created']),
       ended: timeStampFromJson(json['ended']),
       seleniumProperties: json['seleniumProperties'] as String?,
-      status: (json['status'] as String?)?.toTestGridSessionStatus(),
+      status:
+          (json['status'] as String?)?.let(TestGridSessionStatus.fromString),
     );
   }
 
@@ -10675,7 +10073,7 @@ class TestGridSession {
       if (created != null) 'created': unixTimestampToJson(created),
       if (ended != null) 'ended': unixTimestampToJson(ended),
       if (seleniumProperties != null) 'seleniumProperties': seleniumProperties,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -10756,7 +10154,8 @@ class TestGridSessionArtifact {
   factory TestGridSessionArtifact.fromJson(Map<String, dynamic> json) {
     return TestGridSessionArtifact(
       filename: json['filename'] as String?,
-      type: (json['type'] as String?)?.toTestGridSessionArtifactType(),
+      type: (json['type'] as String?)
+          ?.let(TestGridSessionArtifactType.fromString),
       url: json['url'] as String?,
     );
   }
@@ -10767,107 +10166,57 @@ class TestGridSessionArtifact {
     final url = this.url;
     return {
       if (filename != null) 'filename': filename,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
       if (url != null) 'url': url,
     };
   }
 }
 
 enum TestGridSessionArtifactCategory {
-  video,
-  log,
-}
+  video('VIDEO'),
+  log('LOG'),
+  ;
 
-extension TestGridSessionArtifactCategoryValueExtension
-    on TestGridSessionArtifactCategory {
-  String toValue() {
-    switch (this) {
-      case TestGridSessionArtifactCategory.video:
-        return 'VIDEO';
-      case TestGridSessionArtifactCategory.log:
-        return 'LOG';
-    }
-  }
-}
+  final String value;
 
-extension TestGridSessionArtifactCategoryFromString on String {
-  TestGridSessionArtifactCategory toTestGridSessionArtifactCategory() {
-    switch (this) {
-      case 'VIDEO':
-        return TestGridSessionArtifactCategory.video;
-      case 'LOG':
-        return TestGridSessionArtifactCategory.log;
-    }
-    throw Exception(
-        '$this is not known in enum TestGridSessionArtifactCategory');
-  }
+  const TestGridSessionArtifactCategory(this.value);
+
+  static TestGridSessionArtifactCategory fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TestGridSessionArtifactCategory'));
 }
 
 enum TestGridSessionArtifactType {
-  unknown,
-  video,
-  seleniumLog,
-}
+  unknown('UNKNOWN'),
+  video('VIDEO'),
+  seleniumLog('SELENIUM_LOG'),
+  ;
 
-extension TestGridSessionArtifactTypeValueExtension
-    on TestGridSessionArtifactType {
-  String toValue() {
-    switch (this) {
-      case TestGridSessionArtifactType.unknown:
-        return 'UNKNOWN';
-      case TestGridSessionArtifactType.video:
-        return 'VIDEO';
-      case TestGridSessionArtifactType.seleniumLog:
-        return 'SELENIUM_LOG';
-    }
-  }
-}
+  final String value;
 
-extension TestGridSessionArtifactTypeFromString on String {
-  TestGridSessionArtifactType toTestGridSessionArtifactType() {
-    switch (this) {
-      case 'UNKNOWN':
-        return TestGridSessionArtifactType.unknown;
-      case 'VIDEO':
-        return TestGridSessionArtifactType.video;
-      case 'SELENIUM_LOG':
-        return TestGridSessionArtifactType.seleniumLog;
-    }
-    throw Exception('$this is not known in enum TestGridSessionArtifactType');
-  }
+  const TestGridSessionArtifactType(this.value);
+
+  static TestGridSessionArtifactType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TestGridSessionArtifactType'));
 }
 
 enum TestGridSessionStatus {
-  active,
-  closed,
-  errored,
-}
+  active('ACTIVE'),
+  closed('CLOSED'),
+  errored('ERRORED'),
+  ;
 
-extension TestGridSessionStatusValueExtension on TestGridSessionStatus {
-  String toValue() {
-    switch (this) {
-      case TestGridSessionStatus.active:
-        return 'ACTIVE';
-      case TestGridSessionStatus.closed:
-        return 'CLOSED';
-      case TestGridSessionStatus.errored:
-        return 'ERRORED';
-    }
-  }
-}
+  final String value;
 
-extension TestGridSessionStatusFromString on String {
-  TestGridSessionStatus toTestGridSessionStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return TestGridSessionStatus.active;
-      case 'CLOSED':
-        return TestGridSessionStatus.closed;
-      case 'ERRORED':
-        return TestGridSessionStatus.errored;
-    }
-    throw Exception('$this is not known in enum TestGridSessionStatus');
-  }
+  const TestGridSessionStatus(this.value);
+
+  static TestGridSessionStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TestGridSessionStatus'));
 }
 
 /// The VPC security groups and subnets that are attached to a project.
@@ -10914,126 +10263,36 @@ class TestGridVpcConfig {
 }
 
 enum TestType {
-  builtinFuzz,
-  builtinExplorer,
-  webPerformanceProfile,
-  appiumJavaJunit,
-  appiumJavaTestng,
-  appiumPython,
-  appiumNode,
-  appiumRuby,
-  appiumWebJavaJunit,
-  appiumWebJavaTestng,
-  appiumWebPython,
-  appiumWebNode,
-  appiumWebRuby,
-  calabash,
-  instrumentation,
-  uiautomation,
-  uiautomator,
-  xctest,
-  xctestUi,
-  remoteAccessRecord,
-  remoteAccessReplay,
-}
+  builtinFuzz('BUILTIN_FUZZ'),
+  builtinExplorer('BUILTIN_EXPLORER'),
+  webPerformanceProfile('WEB_PERFORMANCE_PROFILE'),
+  appiumJavaJunit('APPIUM_JAVA_JUNIT'),
+  appiumJavaTestng('APPIUM_JAVA_TESTNG'),
+  appiumPython('APPIUM_PYTHON'),
+  appiumNode('APPIUM_NODE'),
+  appiumRuby('APPIUM_RUBY'),
+  appiumWebJavaJunit('APPIUM_WEB_JAVA_JUNIT'),
+  appiumWebJavaTestng('APPIUM_WEB_JAVA_TESTNG'),
+  appiumWebPython('APPIUM_WEB_PYTHON'),
+  appiumWebNode('APPIUM_WEB_NODE'),
+  appiumWebRuby('APPIUM_WEB_RUBY'),
+  calabash('CALABASH'),
+  instrumentation('INSTRUMENTATION'),
+  uiautomation('UIAUTOMATION'),
+  uiautomator('UIAUTOMATOR'),
+  xctest('XCTEST'),
+  xctestUi('XCTEST_UI'),
+  remoteAccessRecord('REMOTE_ACCESS_RECORD'),
+  remoteAccessReplay('REMOTE_ACCESS_REPLAY'),
+  ;
 
-extension TestTypeValueExtension on TestType {
-  String toValue() {
-    switch (this) {
-      case TestType.builtinFuzz:
-        return 'BUILTIN_FUZZ';
-      case TestType.builtinExplorer:
-        return 'BUILTIN_EXPLORER';
-      case TestType.webPerformanceProfile:
-        return 'WEB_PERFORMANCE_PROFILE';
-      case TestType.appiumJavaJunit:
-        return 'APPIUM_JAVA_JUNIT';
-      case TestType.appiumJavaTestng:
-        return 'APPIUM_JAVA_TESTNG';
-      case TestType.appiumPython:
-        return 'APPIUM_PYTHON';
-      case TestType.appiumNode:
-        return 'APPIUM_NODE';
-      case TestType.appiumRuby:
-        return 'APPIUM_RUBY';
-      case TestType.appiumWebJavaJunit:
-        return 'APPIUM_WEB_JAVA_JUNIT';
-      case TestType.appiumWebJavaTestng:
-        return 'APPIUM_WEB_JAVA_TESTNG';
-      case TestType.appiumWebPython:
-        return 'APPIUM_WEB_PYTHON';
-      case TestType.appiumWebNode:
-        return 'APPIUM_WEB_NODE';
-      case TestType.appiumWebRuby:
-        return 'APPIUM_WEB_RUBY';
-      case TestType.calabash:
-        return 'CALABASH';
-      case TestType.instrumentation:
-        return 'INSTRUMENTATION';
-      case TestType.uiautomation:
-        return 'UIAUTOMATION';
-      case TestType.uiautomator:
-        return 'UIAUTOMATOR';
-      case TestType.xctest:
-        return 'XCTEST';
-      case TestType.xctestUi:
-        return 'XCTEST_UI';
-      case TestType.remoteAccessRecord:
-        return 'REMOTE_ACCESS_RECORD';
-      case TestType.remoteAccessReplay:
-        return 'REMOTE_ACCESS_REPLAY';
-    }
-  }
-}
+  final String value;
 
-extension TestTypeFromString on String {
-  TestType toTestType() {
-    switch (this) {
-      case 'BUILTIN_FUZZ':
-        return TestType.builtinFuzz;
-      case 'BUILTIN_EXPLORER':
-        return TestType.builtinExplorer;
-      case 'WEB_PERFORMANCE_PROFILE':
-        return TestType.webPerformanceProfile;
-      case 'APPIUM_JAVA_JUNIT':
-        return TestType.appiumJavaJunit;
-      case 'APPIUM_JAVA_TESTNG':
-        return TestType.appiumJavaTestng;
-      case 'APPIUM_PYTHON':
-        return TestType.appiumPython;
-      case 'APPIUM_NODE':
-        return TestType.appiumNode;
-      case 'APPIUM_RUBY':
-        return TestType.appiumRuby;
-      case 'APPIUM_WEB_JAVA_JUNIT':
-        return TestType.appiumWebJavaJunit;
-      case 'APPIUM_WEB_JAVA_TESTNG':
-        return TestType.appiumWebJavaTestng;
-      case 'APPIUM_WEB_PYTHON':
-        return TestType.appiumWebPython;
-      case 'APPIUM_WEB_NODE':
-        return TestType.appiumWebNode;
-      case 'APPIUM_WEB_RUBY':
-        return TestType.appiumWebRuby;
-      case 'CALABASH':
-        return TestType.calabash;
-      case 'INSTRUMENTATION':
-        return TestType.instrumentation;
-      case 'UIAUTOMATION':
-        return TestType.uiautomation;
-      case 'UIAUTOMATOR':
-        return TestType.uiautomator;
-      case 'XCTEST':
-        return TestType.xctest;
-      case 'XCTEST_UI':
-        return TestType.xctestUi;
-      case 'REMOTE_ACCESS_RECORD':
-        return TestType.remoteAccessRecord;
-      case 'REMOTE_ACCESS_REPLAY':
-        return TestType.remoteAccessReplay;
-    }
-    throw Exception('$this is not known in enum TestType');
-  }
+  const TestType(this.value);
+
+  static TestType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TestType'));
 }
 
 /// Represents information about free trial device minutes for an AWS account.
@@ -11489,14 +10748,14 @@ class Upload {
   factory Upload.fromJson(Map<String, dynamic> json) {
     return Upload(
       arn: json['arn'] as String?,
-      category: (json['category'] as String?)?.toUploadCategory(),
+      category: (json['category'] as String?)?.let(UploadCategory.fromString),
       contentType: json['contentType'] as String?,
       created: timeStampFromJson(json['created']),
       message: json['message'] as String?,
       metadata: json['metadata'] as String?,
       name: json['name'] as String?,
-      status: (json['status'] as String?)?.toUploadStatus(),
-      type: (json['type'] as String?)?.toUploadType(),
+      status: (json['status'] as String?)?.let(UploadStatus.fromString),
+      type: (json['type'] as String?)?.let(UploadType.fromString),
       url: json['url'] as String?,
     );
   }
@@ -11514,261 +10773,93 @@ class Upload {
     final url = this.url;
     return {
       if (arn != null) 'arn': arn,
-      if (category != null) 'category': category.toValue(),
+      if (category != null) 'category': category.value,
       if (contentType != null) 'contentType': contentType,
       if (created != null) 'created': unixTimestampToJson(created),
       if (message != null) 'message': message,
       if (metadata != null) 'metadata': metadata,
       if (name != null) 'name': name,
-      if (status != null) 'status': status.toValue(),
-      if (type != null) 'type': type.toValue(),
+      if (status != null) 'status': status.value,
+      if (type != null) 'type': type.value,
       if (url != null) 'url': url,
     };
   }
 }
 
 enum UploadCategory {
-  curated,
-  private,
-}
+  curated('CURATED'),
+  private('PRIVATE'),
+  ;
 
-extension UploadCategoryValueExtension on UploadCategory {
-  String toValue() {
-    switch (this) {
-      case UploadCategory.curated:
-        return 'CURATED';
-      case UploadCategory.private:
-        return 'PRIVATE';
-    }
-  }
-}
+  final String value;
 
-extension UploadCategoryFromString on String {
-  UploadCategory toUploadCategory() {
-    switch (this) {
-      case 'CURATED':
-        return UploadCategory.curated;
-      case 'PRIVATE':
-        return UploadCategory.private;
-    }
-    throw Exception('$this is not known in enum UploadCategory');
-  }
+  const UploadCategory(this.value);
+
+  static UploadCategory fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum UploadCategory'));
 }
 
 enum UploadStatus {
-  initialized,
-  processing,
-  succeeded,
-  failed,
-}
+  initialized('INITIALIZED'),
+  processing('PROCESSING'),
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  ;
 
-extension UploadStatusValueExtension on UploadStatus {
-  String toValue() {
-    switch (this) {
-      case UploadStatus.initialized:
-        return 'INITIALIZED';
-      case UploadStatus.processing:
-        return 'PROCESSING';
-      case UploadStatus.succeeded:
-        return 'SUCCEEDED';
-      case UploadStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension UploadStatusFromString on String {
-  UploadStatus toUploadStatus() {
-    switch (this) {
-      case 'INITIALIZED':
-        return UploadStatus.initialized;
-      case 'PROCESSING':
-        return UploadStatus.processing;
-      case 'SUCCEEDED':
-        return UploadStatus.succeeded;
-      case 'FAILED':
-        return UploadStatus.failed;
-    }
-    throw Exception('$this is not known in enum UploadStatus');
-  }
+  const UploadStatus(this.value);
+
+  static UploadStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum UploadStatus'));
 }
 
 enum UploadType {
-  androidApp,
-  iosApp,
-  webApp,
-  externalData,
-  appiumJavaJunitTestPackage,
-  appiumJavaTestngTestPackage,
-  appiumPythonTestPackage,
-  appiumNodeTestPackage,
-  appiumRubyTestPackage,
-  appiumWebJavaJunitTestPackage,
-  appiumWebJavaTestngTestPackage,
-  appiumWebPythonTestPackage,
-  appiumWebNodeTestPackage,
-  appiumWebRubyTestPackage,
-  calabashTestPackage,
-  instrumentationTestPackage,
-  uiautomationTestPackage,
-  uiautomatorTestPackage,
-  xctestTestPackage,
-  xctestUiTestPackage,
-  appiumJavaJunitTestSpec,
-  appiumJavaTestngTestSpec,
-  appiumPythonTestSpec,
-  appiumNodeTestSpec,
-  appiumRubyTestSpec,
-  appiumWebJavaJunitTestSpec,
-  appiumWebJavaTestngTestSpec,
-  appiumWebPythonTestSpec,
-  appiumWebNodeTestSpec,
-  appiumWebRubyTestSpec,
-  instrumentationTestSpec,
-  xctestUiTestSpec,
-}
+  androidApp('ANDROID_APP'),
+  iosApp('IOS_APP'),
+  webApp('WEB_APP'),
+  externalData('EXTERNAL_DATA'),
+  appiumJavaJunitTestPackage('APPIUM_JAVA_JUNIT_TEST_PACKAGE'),
+  appiumJavaTestngTestPackage('APPIUM_JAVA_TESTNG_TEST_PACKAGE'),
+  appiumPythonTestPackage('APPIUM_PYTHON_TEST_PACKAGE'),
+  appiumNodeTestPackage('APPIUM_NODE_TEST_PACKAGE'),
+  appiumRubyTestPackage('APPIUM_RUBY_TEST_PACKAGE'),
+  appiumWebJavaJunitTestPackage('APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE'),
+  appiumWebJavaTestngTestPackage('APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE'),
+  appiumWebPythonTestPackage('APPIUM_WEB_PYTHON_TEST_PACKAGE'),
+  appiumWebNodeTestPackage('APPIUM_WEB_NODE_TEST_PACKAGE'),
+  appiumWebRubyTestPackage('APPIUM_WEB_RUBY_TEST_PACKAGE'),
+  calabashTestPackage('CALABASH_TEST_PACKAGE'),
+  instrumentationTestPackage('INSTRUMENTATION_TEST_PACKAGE'),
+  uiautomationTestPackage('UIAUTOMATION_TEST_PACKAGE'),
+  uiautomatorTestPackage('UIAUTOMATOR_TEST_PACKAGE'),
+  xctestTestPackage('XCTEST_TEST_PACKAGE'),
+  xctestUiTestPackage('XCTEST_UI_TEST_PACKAGE'),
+  appiumJavaJunitTestSpec('APPIUM_JAVA_JUNIT_TEST_SPEC'),
+  appiumJavaTestngTestSpec('APPIUM_JAVA_TESTNG_TEST_SPEC'),
+  appiumPythonTestSpec('APPIUM_PYTHON_TEST_SPEC'),
+  appiumNodeTestSpec('APPIUM_NODE_TEST_SPEC'),
+  appiumRubyTestSpec('APPIUM_RUBY_TEST_SPEC'),
+  appiumWebJavaJunitTestSpec('APPIUM_WEB_JAVA_JUNIT_TEST_SPEC'),
+  appiumWebJavaTestngTestSpec('APPIUM_WEB_JAVA_TESTNG_TEST_SPEC'),
+  appiumWebPythonTestSpec('APPIUM_WEB_PYTHON_TEST_SPEC'),
+  appiumWebNodeTestSpec('APPIUM_WEB_NODE_TEST_SPEC'),
+  appiumWebRubyTestSpec('APPIUM_WEB_RUBY_TEST_SPEC'),
+  instrumentationTestSpec('INSTRUMENTATION_TEST_SPEC'),
+  xctestUiTestSpec('XCTEST_UI_TEST_SPEC'),
+  ;
 
-extension UploadTypeValueExtension on UploadType {
-  String toValue() {
-    switch (this) {
-      case UploadType.androidApp:
-        return 'ANDROID_APP';
-      case UploadType.iosApp:
-        return 'IOS_APP';
-      case UploadType.webApp:
-        return 'WEB_APP';
-      case UploadType.externalData:
-        return 'EXTERNAL_DATA';
-      case UploadType.appiumJavaJunitTestPackage:
-        return 'APPIUM_JAVA_JUNIT_TEST_PACKAGE';
-      case UploadType.appiumJavaTestngTestPackage:
-        return 'APPIUM_JAVA_TESTNG_TEST_PACKAGE';
-      case UploadType.appiumPythonTestPackage:
-        return 'APPIUM_PYTHON_TEST_PACKAGE';
-      case UploadType.appiumNodeTestPackage:
-        return 'APPIUM_NODE_TEST_PACKAGE';
-      case UploadType.appiumRubyTestPackage:
-        return 'APPIUM_RUBY_TEST_PACKAGE';
-      case UploadType.appiumWebJavaJunitTestPackage:
-        return 'APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE';
-      case UploadType.appiumWebJavaTestngTestPackage:
-        return 'APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE';
-      case UploadType.appiumWebPythonTestPackage:
-        return 'APPIUM_WEB_PYTHON_TEST_PACKAGE';
-      case UploadType.appiumWebNodeTestPackage:
-        return 'APPIUM_WEB_NODE_TEST_PACKAGE';
-      case UploadType.appiumWebRubyTestPackage:
-        return 'APPIUM_WEB_RUBY_TEST_PACKAGE';
-      case UploadType.calabashTestPackage:
-        return 'CALABASH_TEST_PACKAGE';
-      case UploadType.instrumentationTestPackage:
-        return 'INSTRUMENTATION_TEST_PACKAGE';
-      case UploadType.uiautomationTestPackage:
-        return 'UIAUTOMATION_TEST_PACKAGE';
-      case UploadType.uiautomatorTestPackage:
-        return 'UIAUTOMATOR_TEST_PACKAGE';
-      case UploadType.xctestTestPackage:
-        return 'XCTEST_TEST_PACKAGE';
-      case UploadType.xctestUiTestPackage:
-        return 'XCTEST_UI_TEST_PACKAGE';
-      case UploadType.appiumJavaJunitTestSpec:
-        return 'APPIUM_JAVA_JUNIT_TEST_SPEC';
-      case UploadType.appiumJavaTestngTestSpec:
-        return 'APPIUM_JAVA_TESTNG_TEST_SPEC';
-      case UploadType.appiumPythonTestSpec:
-        return 'APPIUM_PYTHON_TEST_SPEC';
-      case UploadType.appiumNodeTestSpec:
-        return 'APPIUM_NODE_TEST_SPEC';
-      case UploadType.appiumRubyTestSpec:
-        return 'APPIUM_RUBY_TEST_SPEC';
-      case UploadType.appiumWebJavaJunitTestSpec:
-        return 'APPIUM_WEB_JAVA_JUNIT_TEST_SPEC';
-      case UploadType.appiumWebJavaTestngTestSpec:
-        return 'APPIUM_WEB_JAVA_TESTNG_TEST_SPEC';
-      case UploadType.appiumWebPythonTestSpec:
-        return 'APPIUM_WEB_PYTHON_TEST_SPEC';
-      case UploadType.appiumWebNodeTestSpec:
-        return 'APPIUM_WEB_NODE_TEST_SPEC';
-      case UploadType.appiumWebRubyTestSpec:
-        return 'APPIUM_WEB_RUBY_TEST_SPEC';
-      case UploadType.instrumentationTestSpec:
-        return 'INSTRUMENTATION_TEST_SPEC';
-      case UploadType.xctestUiTestSpec:
-        return 'XCTEST_UI_TEST_SPEC';
-    }
-  }
-}
+  final String value;
 
-extension UploadTypeFromString on String {
-  UploadType toUploadType() {
-    switch (this) {
-      case 'ANDROID_APP':
-        return UploadType.androidApp;
-      case 'IOS_APP':
-        return UploadType.iosApp;
-      case 'WEB_APP':
-        return UploadType.webApp;
-      case 'EXTERNAL_DATA':
-        return UploadType.externalData;
-      case 'APPIUM_JAVA_JUNIT_TEST_PACKAGE':
-        return UploadType.appiumJavaJunitTestPackage;
-      case 'APPIUM_JAVA_TESTNG_TEST_PACKAGE':
-        return UploadType.appiumJavaTestngTestPackage;
-      case 'APPIUM_PYTHON_TEST_PACKAGE':
-        return UploadType.appiumPythonTestPackage;
-      case 'APPIUM_NODE_TEST_PACKAGE':
-        return UploadType.appiumNodeTestPackage;
-      case 'APPIUM_RUBY_TEST_PACKAGE':
-        return UploadType.appiumRubyTestPackage;
-      case 'APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE':
-        return UploadType.appiumWebJavaJunitTestPackage;
-      case 'APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE':
-        return UploadType.appiumWebJavaTestngTestPackage;
-      case 'APPIUM_WEB_PYTHON_TEST_PACKAGE':
-        return UploadType.appiumWebPythonTestPackage;
-      case 'APPIUM_WEB_NODE_TEST_PACKAGE':
-        return UploadType.appiumWebNodeTestPackage;
-      case 'APPIUM_WEB_RUBY_TEST_PACKAGE':
-        return UploadType.appiumWebRubyTestPackage;
-      case 'CALABASH_TEST_PACKAGE':
-        return UploadType.calabashTestPackage;
-      case 'INSTRUMENTATION_TEST_PACKAGE':
-        return UploadType.instrumentationTestPackage;
-      case 'UIAUTOMATION_TEST_PACKAGE':
-        return UploadType.uiautomationTestPackage;
-      case 'UIAUTOMATOR_TEST_PACKAGE':
-        return UploadType.uiautomatorTestPackage;
-      case 'XCTEST_TEST_PACKAGE':
-        return UploadType.xctestTestPackage;
-      case 'XCTEST_UI_TEST_PACKAGE':
-        return UploadType.xctestUiTestPackage;
-      case 'APPIUM_JAVA_JUNIT_TEST_SPEC':
-        return UploadType.appiumJavaJunitTestSpec;
-      case 'APPIUM_JAVA_TESTNG_TEST_SPEC':
-        return UploadType.appiumJavaTestngTestSpec;
-      case 'APPIUM_PYTHON_TEST_SPEC':
-        return UploadType.appiumPythonTestSpec;
-      case 'APPIUM_NODE_TEST_SPEC':
-        return UploadType.appiumNodeTestSpec;
-      case 'APPIUM_RUBY_TEST_SPEC':
-        return UploadType.appiumRubyTestSpec;
-      case 'APPIUM_WEB_JAVA_JUNIT_TEST_SPEC':
-        return UploadType.appiumWebJavaJunitTestSpec;
-      case 'APPIUM_WEB_JAVA_TESTNG_TEST_SPEC':
-        return UploadType.appiumWebJavaTestngTestSpec;
-      case 'APPIUM_WEB_PYTHON_TEST_SPEC':
-        return UploadType.appiumWebPythonTestSpec;
-      case 'APPIUM_WEB_NODE_TEST_SPEC':
-        return UploadType.appiumWebNodeTestSpec;
-      case 'APPIUM_WEB_RUBY_TEST_SPEC':
-        return UploadType.appiumWebRubyTestSpec;
-      case 'INSTRUMENTATION_TEST_SPEC':
-        return UploadType.instrumentationTestSpec;
-      case 'XCTEST_UI_TEST_SPEC':
-        return UploadType.xctestUiTestSpec;
-    }
-    throw Exception('$this is not known in enum UploadType');
-  }
+  const UploadType(this.value);
+
+  static UploadType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum UploadType'));
 }
 
 /// Represents an Amazon Virtual Private Cloud (VPC) endpoint configuration.

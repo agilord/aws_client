@@ -122,7 +122,7 @@ class Finspace {
       'name': name,
       if (dataBundles != null) 'dataBundles': dataBundles,
       if (description != null) 'description': description,
-      if (federationMode != null) 'federationMode': federationMode.toValue(),
+      if (federationMode != null) 'federationMode': federationMode.value,
       if (federationParameters != null)
         'federationParameters': federationParameters,
       if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
@@ -402,9 +402,9 @@ class Finspace {
     TickerplantLogConfiguration? tickerplantLogConfiguration,
   }) async {
     final $payload = <String, dynamic>{
-      'azMode': azMode.toValue(),
+      'azMode': azMode.value,
       'clusterName': clusterName,
-      'clusterType': clusterType.toValue(),
+      'clusterType': clusterType.value,
       'releaseLabel': releaseLabel,
       'vpcConfiguration': vpcConfiguration,
       if (autoScalingConfiguration != null)
@@ -588,7 +588,7 @@ class Finspace {
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
-      'azMode': azMode.toValue(),
+      'azMode': azMode.value,
       'dataviewName': dataviewName,
       if (autoUpdate != null) 'autoUpdate': autoUpdate,
       if (availabilityZoneId != null) 'availabilityZoneId': availabilityZoneId,
@@ -853,9 +853,9 @@ class Finspace {
   }) async {
     final $payload = <String, dynamic>{
       'availabilityZoneIds': availabilityZoneIds,
-      'azMode': azMode.toValue(),
+      'azMode': azMode.value,
       'volumeName': volumeName,
-      'volumeType': volumeType.toValue(),
+      'volumeType': volumeType.value,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (description != null) 'description': description,
       if (nas1Configuration != null) 'nas1Configuration': nas1Configuration,
@@ -1676,7 +1676,7 @@ class Finspace {
       100,
     );
     final $query = <String, List<String>>{
-      if (clusterType != null) 'clusterType': [clusterType.toValue()],
+      if (clusterType != null) 'clusterType': [clusterType.value],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -1934,7 +1934,7 @@ class Finspace {
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (volumeType != null) 'volumeType': [volumeType.toValue()],
+      if (volumeType != null) 'volumeType': [volumeType.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -2061,7 +2061,7 @@ class Finspace {
   }) async {
     final $payload = <String, dynamic>{
       if (description != null) 'description': description,
-      if (federationMode != null) 'federationMode': federationMode.toValue(),
+      if (federationMode != null) 'federationMode': federationMode.value,
       if (federationParameters != null)
         'federationParameters': federationParameters,
       if (name != null) 'name': name,
@@ -2524,8 +2524,8 @@ class AutoScalingConfiguration {
 
   factory AutoScalingConfiguration.fromJson(Map<String, dynamic> json) {
     return AutoScalingConfiguration(
-      autoScalingMetric:
-          (json['autoScalingMetric'] as String?)?.toAutoScalingMetric(),
+      autoScalingMetric: (json['autoScalingMetric'] as String?)
+          ?.let(AutoScalingMetric.fromString),
       maxNodeCount: json['maxNodeCount'] as int?,
       metricTarget: json['metricTarget'] as double?,
       minNodeCount: json['minNodeCount'] as int?,
@@ -2543,7 +2543,7 @@ class AutoScalingConfiguration {
     final scaleOutCooldownSeconds = this.scaleOutCooldownSeconds;
     return {
       if (autoScalingMetric != null)
-        'autoScalingMetric': autoScalingMetric.toValue(),
+        'autoScalingMetric': autoScalingMetric.value,
       if (maxNodeCount != null) 'maxNodeCount': maxNodeCount,
       if (metricTarget != null) 'metricTarget': metricTarget,
       if (minNodeCount != null) 'minNodeCount': minNodeCount,
@@ -2556,26 +2556,17 @@ class AutoScalingConfiguration {
 }
 
 enum AutoScalingMetric {
-  cpuUtilizationPercentage,
-}
+  cpuUtilizationPercentage('CPU_UTILIZATION_PERCENTAGE'),
+  ;
 
-extension AutoScalingMetricValueExtension on AutoScalingMetric {
-  String toValue() {
-    switch (this) {
-      case AutoScalingMetric.cpuUtilizationPercentage:
-        return 'CPU_UTILIZATION_PERCENTAGE';
-    }
-  }
-}
+  final String value;
 
-extension AutoScalingMetricFromString on String {
-  AutoScalingMetric toAutoScalingMetric() {
-    switch (this) {
-      case 'CPU_UTILIZATION_PERCENTAGE':
-        return AutoScalingMetric.cpuUtilizationPercentage;
-    }
-    throw Exception('$this is not known in enum AutoScalingMetric');
-  }
+  const AutoScalingMetric(this.value);
+
+  static AutoScalingMetric fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AutoScalingMetric'));
 }
 
 /// A structure for the metadata of a cluster. It includes information like the
@@ -2675,7 +2666,7 @@ class ChangeRequest {
 
   factory ChangeRequest.fromJson(Map<String, dynamic> json) {
     return ChangeRequest(
-      changeType: (json['changeType'] as String).toChangeType(),
+      changeType: ChangeType.fromString((json['changeType'] as String)),
       dbPath: json['dbPath'] as String,
       s3Path: json['s3Path'] as String?,
     );
@@ -2686,7 +2677,7 @@ class ChangeRequest {
     final dbPath = this.dbPath;
     final s3Path = this.s3Path;
     return {
-      'changeType': changeType.toValue(),
+      'changeType': changeType.value,
       'dbPath': dbPath,
       if (s3Path != null) 's3Path': s3Path,
     };
@@ -2694,69 +2685,34 @@ class ChangeRequest {
 }
 
 enum ChangeType {
-  put,
-  delete,
-}
+  put('PUT'),
+  delete('DELETE'),
+  ;
 
-extension ChangeTypeValueExtension on ChangeType {
-  String toValue() {
-    switch (this) {
-      case ChangeType.put:
-        return 'PUT';
-      case ChangeType.delete:
-        return 'DELETE';
-    }
-  }
-}
+  final String value;
 
-extension ChangeTypeFromString on String {
-  ChangeType toChangeType() {
-    switch (this) {
-      case 'PUT':
-        return ChangeType.put;
-      case 'DELETE':
-        return ChangeType.delete;
-    }
-    throw Exception('$this is not known in enum ChangeType');
-  }
+  const ChangeType(this.value);
+
+  static ChangeType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ChangeType'));
 }
 
 enum ChangesetStatus {
-  pending,
-  processing,
-  failed,
-  completed,
-}
+  pending('PENDING'),
+  processing('PROCESSING'),
+  failed('FAILED'),
+  completed('COMPLETED'),
+  ;
 
-extension ChangesetStatusValueExtension on ChangesetStatus {
-  String toValue() {
-    switch (this) {
-      case ChangesetStatus.pending:
-        return 'PENDING';
-      case ChangesetStatus.processing:
-        return 'PROCESSING';
-      case ChangesetStatus.failed:
-        return 'FAILED';
-      case ChangesetStatus.completed:
-        return 'COMPLETED';
-    }
-  }
-}
+  final String value;
 
-extension ChangesetStatusFromString on String {
-  ChangesetStatus toChangesetStatus() {
-    switch (this) {
-      case 'PENDING':
-        return ChangesetStatus.pending;
-      case 'PROCESSING':
-        return ChangesetStatus.processing;
-      case 'FAILED':
-        return ChangesetStatus.failed;
-      case 'COMPLETED':
-        return ChangesetStatus.completed;
-    }
-    throw Exception('$this is not known in enum ChangesetStatus');
-  }
+  const ChangesetStatus(this.value);
+
+  static ChangesetStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ChangesetStatus'));
 }
 
 /// The structure of the customer code available within the running cluster.
@@ -2904,7 +2860,7 @@ class CreateKxChangesetResponse {
           ? ErrorInfo.fromJson(json['errorInfo'] as Map<String, dynamic>)
           : null,
       lastModifiedTimestamp: timeStampFromJson(json['lastModifiedTimestamp']),
-      status: (json['status'] as String?)?.toChangesetStatus(),
+      status: (json['status'] as String?)?.let(ChangesetStatus.fromString),
     );
   }
 
@@ -2927,7 +2883,7 @@ class CreateKxChangesetResponse {
       if (errorInfo != null) 'errorInfo': errorInfo,
       if (lastModifiedTimestamp != null)
         'lastModifiedTimestamp': unixTimestampToJson(lastModifiedTimestamp),
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -3131,7 +3087,7 @@ class CreateKxClusterResponse {
               json['autoScalingConfiguration'] as Map<String, dynamic>)
           : null,
       availabilityZoneId: json['availabilityZoneId'] as String?,
-      azMode: (json['azMode'] as String?)?.toKxAzMode(),
+      azMode: (json['azMode'] as String?)?.let(KxAzMode.fromString),
       cacheStorageConfigurations: (json['cacheStorageConfigurations'] as List?)
           ?.whereNotNull()
           .map((e) =>
@@ -3143,7 +3099,8 @@ class CreateKxClusterResponse {
           : null,
       clusterDescription: json['clusterDescription'] as String?,
       clusterName: json['clusterName'] as String?,
-      clusterType: (json['clusterType'] as String?)?.toKxClusterType(),
+      clusterType:
+          (json['clusterType'] as String?)?.let(KxClusterType.fromString),
       code: json['code'] != null
           ? CodeConfiguration.fromJson(json['code'] as Map<String, dynamic>)
           : null,
@@ -3170,7 +3127,7 @@ class CreateKxClusterResponse {
           ? KxScalingGroupConfiguration.fromJson(
               json['scalingGroupConfiguration'] as Map<String, dynamic>)
           : null,
-      status: (json['status'] as String?)?.toKxClusterStatus(),
+      status: (json['status'] as String?)?.let(KxClusterStatus.fromString),
       statusReason: json['statusReason'] as String?,
       tickerplantLogConfiguration: json['tickerplantLogConfiguration'] != null
           ? TickerplantLogConfiguration.fromJson(
@@ -3216,14 +3173,14 @@ class CreateKxClusterResponse {
       if (autoScalingConfiguration != null)
         'autoScalingConfiguration': autoScalingConfiguration,
       if (availabilityZoneId != null) 'availabilityZoneId': availabilityZoneId,
-      if (azMode != null) 'azMode': azMode.toValue(),
+      if (azMode != null) 'azMode': azMode.value,
       if (cacheStorageConfigurations != null)
         'cacheStorageConfigurations': cacheStorageConfigurations,
       if (capacityConfiguration != null)
         'capacityConfiguration': capacityConfiguration,
       if (clusterDescription != null) 'clusterDescription': clusterDescription,
       if (clusterName != null) 'clusterName': clusterName,
-      if (clusterType != null) 'clusterType': clusterType.toValue(),
+      if (clusterType != null) 'clusterType': clusterType.value,
       if (code != null) 'code': code,
       if (commandLineArguments != null)
         'commandLineArguments': commandLineArguments,
@@ -3241,7 +3198,7 @@ class CreateKxClusterResponse {
         'savedownStorageConfiguration': savedownStorageConfiguration,
       if (scalingGroupConfiguration != null)
         'scalingGroupConfiguration': scalingGroupConfiguration,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (statusReason != null) 'statusReason': statusReason,
       if (tickerplantLogConfiguration != null)
         'tickerplantLogConfiguration': tickerplantLogConfiguration,
@@ -3399,7 +3356,7 @@ class CreateKxDataviewResponse {
     return CreateKxDataviewResponse(
       autoUpdate: json['autoUpdate'] as bool?,
       availabilityZoneId: json['availabilityZoneId'] as String?,
-      azMode: (json['azMode'] as String?)?.toKxAzMode(),
+      azMode: (json['azMode'] as String?)?.let(KxAzMode.fromString),
       changesetId: json['changesetId'] as String?,
       createdTimestamp: timeStampFromJson(json['createdTimestamp']),
       databaseName: json['databaseName'] as String?,
@@ -3413,7 +3370,7 @@ class CreateKxDataviewResponse {
           .map((e) => KxDataviewSegmentConfiguration.fromJson(
               e as Map<String, dynamic>))
           .toList(),
-      status: (json['status'] as String?)?.toKxDataviewStatus(),
+      status: (json['status'] as String?)?.let(KxDataviewStatus.fromString),
     );
   }
 
@@ -3434,7 +3391,7 @@ class CreateKxDataviewResponse {
     return {
       if (autoUpdate != null) 'autoUpdate': autoUpdate,
       if (availabilityZoneId != null) 'availabilityZoneId': availabilityZoneId,
-      if (azMode != null) 'azMode': azMode.toValue(),
+      if (azMode != null) 'azMode': azMode.value,
       if (changesetId != null) 'changesetId': changesetId,
       if (createdTimestamp != null)
         'createdTimestamp': unixTimestampToJson(createdTimestamp),
@@ -3447,7 +3404,7 @@ class CreateKxDataviewResponse {
       if (readWrite != null) 'readWrite': readWrite,
       if (segmentConfigurations != null)
         'segmentConfigurations': segmentConfigurations,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -3492,7 +3449,7 @@ class CreateKxEnvironmentResponse {
       environmentId: json['environmentId'] as String?,
       kmsKeyId: json['kmsKeyId'] as String?,
       name: json['name'] as String?,
-      status: (json['status'] as String?)?.toEnvironmentStatus(),
+      status: (json['status'] as String?)?.let(EnvironmentStatus.fromString),
     );
   }
 
@@ -3512,7 +3469,7 @@ class CreateKxEnvironmentResponse {
       if (environmentId != null) 'environmentId': environmentId,
       if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
       if (name != null) 'name': name,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -3590,7 +3547,7 @@ class CreateKxScalingGroupResponse {
       hostType: json['hostType'] as String?,
       lastModifiedTimestamp: timeStampFromJson(json['lastModifiedTimestamp']),
       scalingGroupName: json['scalingGroupName'] as String?,
-      status: (json['status'] as String?)?.toKxScalingGroupStatus(),
+      status: (json['status'] as String?)?.let(KxScalingGroupStatus.fromString),
     );
   }
 
@@ -3611,7 +3568,7 @@ class CreateKxScalingGroupResponse {
       if (lastModifiedTimestamp != null)
         'lastModifiedTimestamp': unixTimestampToJson(lastModifiedTimestamp),
       if (scalingGroupName != null) 'scalingGroupName': scalingGroupName,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -3753,7 +3710,7 @@ class CreateKxVolumeResponse {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      azMode: (json['azMode'] as String?)?.toKxAzMode(),
+      azMode: (json['azMode'] as String?)?.let(KxAzMode.fromString),
       createdTimestamp: timeStampFromJson(json['createdTimestamp']),
       description: json['description'] as String?,
       environmentId: json['environmentId'] as String?,
@@ -3761,11 +3718,11 @@ class CreateKxVolumeResponse {
           ? KxNAS1Configuration.fromJson(
               json['nas1Configuration'] as Map<String, dynamic>)
           : null,
-      status: (json['status'] as String?)?.toKxVolumeStatus(),
+      status: (json['status'] as String?)?.let(KxVolumeStatus.fromString),
       statusReason: json['statusReason'] as String?,
       volumeArn: json['volumeArn'] as String?,
       volumeName: json['volumeName'] as String?,
-      volumeType: (json['volumeType'] as String?)?.toKxVolumeType(),
+      volumeType: (json['volumeType'] as String?)?.let(KxVolumeType.fromString),
     );
   }
 
@@ -3784,17 +3741,17 @@ class CreateKxVolumeResponse {
     return {
       if (availabilityZoneIds != null)
         'availabilityZoneIds': availabilityZoneIds,
-      if (azMode != null) 'azMode': azMode.toValue(),
+      if (azMode != null) 'azMode': azMode.value,
       if (createdTimestamp != null)
         'createdTimestamp': unixTimestampToJson(createdTimestamp),
       if (description != null) 'description': description,
       if (environmentId != null) 'environmentId': environmentId,
       if (nas1Configuration != null) 'nas1Configuration': nas1Configuration,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (statusReason != null) 'statusReason': statusReason,
       if (volumeArn != null) 'volumeArn': volumeArn,
       if (volumeName != null) 'volumeName': volumeName,
-      if (volumeType != null) 'volumeType': volumeType.toValue(),
+      if (volumeType != null) 'volumeType': volumeType.value,
     };
   }
 }
@@ -4001,7 +3958,8 @@ class Environment {
       environmentArn: json['environmentArn'] as String?,
       environmentId: json['environmentId'] as String?,
       environmentUrl: json['environmentUrl'] as String?,
-      federationMode: (json['federationMode'] as String?)?.toFederationMode(),
+      federationMode:
+          (json['federationMode'] as String?)?.let(FederationMode.fromString),
       federationParameters: json['federationParameters'] != null
           ? FederationParameters.fromJson(
               json['federationParameters'] as Map<String, dynamic>)
@@ -4009,7 +3967,7 @@ class Environment {
       kmsKeyId: json['kmsKeyId'] as String?,
       name: json['name'] as String?,
       sageMakerStudioDomainUrl: json['sageMakerStudioDomainUrl'] as String?,
-      status: (json['status'] as String?)?.toEnvironmentStatus(),
+      status: (json['status'] as String?)?.let(EnvironmentStatus.fromString),
     );
   }
 
@@ -4034,159 +3992,66 @@ class Environment {
       if (environmentArn != null) 'environmentArn': environmentArn,
       if (environmentId != null) 'environmentId': environmentId,
       if (environmentUrl != null) 'environmentUrl': environmentUrl,
-      if (federationMode != null) 'federationMode': federationMode.toValue(),
+      if (federationMode != null) 'federationMode': federationMode.value,
       if (federationParameters != null)
         'federationParameters': federationParameters,
       if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
       if (name != null) 'name': name,
       if (sageMakerStudioDomainUrl != null)
         'sageMakerStudioDomainUrl': sageMakerStudioDomainUrl,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
 
 enum EnvironmentStatus {
-  createRequested,
-  creating,
-  created,
-  deleteRequested,
-  deleting,
-  deleted,
-  failedCreation,
-  retryDeletion,
-  failedDeletion,
-  updateNetworkRequested,
-  updatingNetwork,
-  failedUpdatingNetwork,
-  suspended,
-}
+  createRequested('CREATE_REQUESTED'),
+  creating('CREATING'),
+  created('CREATED'),
+  deleteRequested('DELETE_REQUESTED'),
+  deleting('DELETING'),
+  deleted('DELETED'),
+  failedCreation('FAILED_CREATION'),
+  retryDeletion('RETRY_DELETION'),
+  failedDeletion('FAILED_DELETION'),
+  updateNetworkRequested('UPDATE_NETWORK_REQUESTED'),
+  updatingNetwork('UPDATING_NETWORK'),
+  failedUpdatingNetwork('FAILED_UPDATING_NETWORK'),
+  suspended('SUSPENDED'),
+  ;
 
-extension EnvironmentStatusValueExtension on EnvironmentStatus {
-  String toValue() {
-    switch (this) {
-      case EnvironmentStatus.createRequested:
-        return 'CREATE_REQUESTED';
-      case EnvironmentStatus.creating:
-        return 'CREATING';
-      case EnvironmentStatus.created:
-        return 'CREATED';
-      case EnvironmentStatus.deleteRequested:
-        return 'DELETE_REQUESTED';
-      case EnvironmentStatus.deleting:
-        return 'DELETING';
-      case EnvironmentStatus.deleted:
-        return 'DELETED';
-      case EnvironmentStatus.failedCreation:
-        return 'FAILED_CREATION';
-      case EnvironmentStatus.retryDeletion:
-        return 'RETRY_DELETION';
-      case EnvironmentStatus.failedDeletion:
-        return 'FAILED_DELETION';
-      case EnvironmentStatus.updateNetworkRequested:
-        return 'UPDATE_NETWORK_REQUESTED';
-      case EnvironmentStatus.updatingNetwork:
-        return 'UPDATING_NETWORK';
-      case EnvironmentStatus.failedUpdatingNetwork:
-        return 'FAILED_UPDATING_NETWORK';
-      case EnvironmentStatus.suspended:
-        return 'SUSPENDED';
-    }
-  }
-}
+  final String value;
 
-extension EnvironmentStatusFromString on String {
-  EnvironmentStatus toEnvironmentStatus() {
-    switch (this) {
-      case 'CREATE_REQUESTED':
-        return EnvironmentStatus.createRequested;
-      case 'CREATING':
-        return EnvironmentStatus.creating;
-      case 'CREATED':
-        return EnvironmentStatus.created;
-      case 'DELETE_REQUESTED':
-        return EnvironmentStatus.deleteRequested;
-      case 'DELETING':
-        return EnvironmentStatus.deleting;
-      case 'DELETED':
-        return EnvironmentStatus.deleted;
-      case 'FAILED_CREATION':
-        return EnvironmentStatus.failedCreation;
-      case 'RETRY_DELETION':
-        return EnvironmentStatus.retryDeletion;
-      case 'FAILED_DELETION':
-        return EnvironmentStatus.failedDeletion;
-      case 'UPDATE_NETWORK_REQUESTED':
-        return EnvironmentStatus.updateNetworkRequested;
-      case 'UPDATING_NETWORK':
-        return EnvironmentStatus.updatingNetwork;
-      case 'FAILED_UPDATING_NETWORK':
-        return EnvironmentStatus.failedUpdatingNetwork;
-      case 'SUSPENDED':
-        return EnvironmentStatus.suspended;
-    }
-    throw Exception('$this is not known in enum EnvironmentStatus');
-  }
+  const EnvironmentStatus(this.value);
+
+  static EnvironmentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EnvironmentStatus'));
 }
 
 enum ErrorDetails {
-  theInputsToThisRequestAreInvalid,
-  serviceLimitsHaveBeenExceeded,
-  missingRequiredPermissionToPerformThisRequest,
-  oneOrMoreInputsToThisRequestWereNotFound,
-  theSystemTemporarilyLacksSufficientResourcesToProcessTheRequest,
-  anInternalErrorHasOccurred,
-  cancelled,
-  aUserRecoverableErrorHasOccurred,
-}
+  theInputsToThisRequestAreInvalid('The inputs to this request are invalid.'),
+  serviceLimitsHaveBeenExceeded('Service limits have been exceeded.'),
+  missingRequiredPermissionToPerformThisRequest(
+      'Missing required permission to perform this request.'),
+  oneOrMoreInputsToThisRequestWereNotFound(
+      'One or more inputs to this request were not found.'),
+  theSystemTemporarilyLacksSufficientResourcesToProcessTheRequest(
+      'The system temporarily lacks sufficient resources to process the request.'),
+  anInternalErrorHasOccurred('An internal error has occurred.'),
+  cancelled('Cancelled'),
+  aUserRecoverableErrorHasOccurred('A user recoverable error has occurred'),
+  ;
 
-extension ErrorDetailsValueExtension on ErrorDetails {
-  String toValue() {
-    switch (this) {
-      case ErrorDetails.theInputsToThisRequestAreInvalid:
-        return 'The inputs to this request are invalid.';
-      case ErrorDetails.serviceLimitsHaveBeenExceeded:
-        return 'Service limits have been exceeded.';
-      case ErrorDetails.missingRequiredPermissionToPerformThisRequest:
-        return 'Missing required permission to perform this request.';
-      case ErrorDetails.oneOrMoreInputsToThisRequestWereNotFound:
-        return 'One or more inputs to this request were not found.';
-      case ErrorDetails
-            .theSystemTemporarilyLacksSufficientResourcesToProcessTheRequest:
-        return 'The system temporarily lacks sufficient resources to process the request.';
-      case ErrorDetails.anInternalErrorHasOccurred:
-        return 'An internal error has occurred.';
-      case ErrorDetails.cancelled:
-        return 'Cancelled';
-      case ErrorDetails.aUserRecoverableErrorHasOccurred:
-        return 'A user recoverable error has occurred';
-    }
-  }
-}
+  final String value;
 
-extension ErrorDetailsFromString on String {
-  ErrorDetails toErrorDetails() {
-    switch (this) {
-      case 'The inputs to this request are invalid.':
-        return ErrorDetails.theInputsToThisRequestAreInvalid;
-      case 'Service limits have been exceeded.':
-        return ErrorDetails.serviceLimitsHaveBeenExceeded;
-      case 'Missing required permission to perform this request.':
-        return ErrorDetails.missingRequiredPermissionToPerformThisRequest;
-      case 'One or more inputs to this request were not found.':
-        return ErrorDetails.oneOrMoreInputsToThisRequestWereNotFound;
-      case 'The system temporarily lacks sufficient resources to process the request.':
-        return ErrorDetails
-            .theSystemTemporarilyLacksSufficientResourcesToProcessTheRequest;
-      case 'An internal error has occurred.':
-        return ErrorDetails.anInternalErrorHasOccurred;
-      case 'Cancelled':
-        return ErrorDetails.cancelled;
-      case 'A user recoverable error has occurred':
-        return ErrorDetails.aUserRecoverableErrorHasOccurred;
-    }
-    throw Exception('$this is not known in enum ErrorDetails');
-  }
+  const ErrorDetails(this.value);
+
+  static ErrorDetails fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ErrorDetails'));
 }
 
 /// Provides details in the event of a failed flow, including the error type and
@@ -4206,7 +4071,7 @@ class ErrorInfo {
   factory ErrorInfo.fromJson(Map<String, dynamic> json) {
     return ErrorInfo(
       errorMessage: json['errorMessage'] as String?,
-      errorType: (json['errorType'] as String?)?.toErrorDetails(),
+      errorType: (json['errorType'] as String?)?.let(ErrorDetails.fromString),
     );
   }
 
@@ -4215,37 +4080,24 @@ class ErrorInfo {
     final errorType = this.errorType;
     return {
       if (errorMessage != null) 'errorMessage': errorMessage,
-      if (errorType != null) 'errorType': errorType.toValue(),
+      if (errorType != null) 'errorType': errorType.value,
     };
   }
 }
 
 enum FederationMode {
-  federated,
-  local,
-}
+  federated('FEDERATED'),
+  local('LOCAL'),
+  ;
 
-extension FederationModeValueExtension on FederationMode {
-  String toValue() {
-    switch (this) {
-      case FederationMode.federated:
-        return 'FEDERATED';
-      case FederationMode.local:
-        return 'LOCAL';
-    }
-  }
-}
+  final String value;
 
-extension FederationModeFromString on String {
-  FederationMode toFederationMode() {
-    switch (this) {
-      case 'FEDERATED':
-        return FederationMode.federated;
-      case 'LOCAL':
-        return FederationMode.local;
-    }
-    throw Exception('$this is not known in enum FederationMode');
-  }
+  const FederationMode(this.value);
+
+  static FederationMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FederationMode'));
 }
 
 /// Configuration information when authentication mode is FEDERATED.
@@ -4419,7 +4271,7 @@ class GetKxChangesetResponse {
           ? ErrorInfo.fromJson(json['errorInfo'] as Map<String, dynamic>)
           : null,
       lastModifiedTimestamp: timeStampFromJson(json['lastModifiedTimestamp']),
-      status: (json['status'] as String?)?.toChangesetStatus(),
+      status: (json['status'] as String?)?.let(ChangesetStatus.fromString),
     );
   }
 
@@ -4445,7 +4297,7 @@ class GetKxChangesetResponse {
       if (errorInfo != null) 'errorInfo': errorInfo,
       if (lastModifiedTimestamp != null)
         'lastModifiedTimestamp': unixTimestampToJson(lastModifiedTimestamp),
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -4643,7 +4495,7 @@ class GetKxClusterResponse {
               json['autoScalingConfiguration'] as Map<String, dynamic>)
           : null,
       availabilityZoneId: json['availabilityZoneId'] as String?,
-      azMode: (json['azMode'] as String?)?.toKxAzMode(),
+      azMode: (json['azMode'] as String?)?.let(KxAzMode.fromString),
       cacheStorageConfigurations: (json['cacheStorageConfigurations'] as List?)
           ?.whereNotNull()
           .map((e) =>
@@ -4655,7 +4507,8 @@ class GetKxClusterResponse {
           : null,
       clusterDescription: json['clusterDescription'] as String?,
       clusterName: json['clusterName'] as String?,
-      clusterType: (json['clusterType'] as String?)?.toKxClusterType(),
+      clusterType:
+          (json['clusterType'] as String?)?.let(KxClusterType.fromString),
       code: json['code'] != null
           ? CodeConfiguration.fromJson(json['code'] as Map<String, dynamic>)
           : null,
@@ -4681,7 +4534,7 @@ class GetKxClusterResponse {
           ? KxScalingGroupConfiguration.fromJson(
               json['scalingGroupConfiguration'] as Map<String, dynamic>)
           : null,
-      status: (json['status'] as String?)?.toKxClusterStatus(),
+      status: (json['status'] as String?)?.let(KxClusterStatus.fromString),
       statusReason: json['statusReason'] as String?,
       tickerplantLogConfiguration: json['tickerplantLogConfiguration'] != null
           ? TickerplantLogConfiguration.fromJson(
@@ -4726,14 +4579,14 @@ class GetKxClusterResponse {
       if (autoScalingConfiguration != null)
         'autoScalingConfiguration': autoScalingConfiguration,
       if (availabilityZoneId != null) 'availabilityZoneId': availabilityZoneId,
-      if (azMode != null) 'azMode': azMode.toValue(),
+      if (azMode != null) 'azMode': azMode.value,
       if (cacheStorageConfigurations != null)
         'cacheStorageConfigurations': cacheStorageConfigurations,
       if (capacityConfiguration != null)
         'capacityConfiguration': capacityConfiguration,
       if (clusterDescription != null) 'clusterDescription': clusterDescription,
       if (clusterName != null) 'clusterName': clusterName,
-      if (clusterType != null) 'clusterType': clusterType.toValue(),
+      if (clusterType != null) 'clusterType': clusterType.value,
       if (code != null) 'code': code,
       if (commandLineArguments != null)
         'commandLineArguments': commandLineArguments,
@@ -4750,7 +4603,7 @@ class GetKxClusterResponse {
         'savedownStorageConfiguration': savedownStorageConfiguration,
       if (scalingGroupConfiguration != null)
         'scalingGroupConfiguration': scalingGroupConfiguration,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (statusReason != null) 'statusReason': statusReason,
       if (tickerplantLogConfiguration != null)
         'tickerplantLogConfiguration': tickerplantLogConfiguration,
@@ -4973,7 +4826,7 @@ class GetKxDataviewResponse {
           .toList(),
       autoUpdate: json['autoUpdate'] as bool?,
       availabilityZoneId: json['availabilityZoneId'] as String?,
-      azMode: (json['azMode'] as String?)?.toKxAzMode(),
+      azMode: (json['azMode'] as String?)?.let(KxAzMode.fromString),
       changesetId: json['changesetId'] as String?,
       createdTimestamp: timeStampFromJson(json['createdTimestamp']),
       databaseName: json['databaseName'] as String?,
@@ -4987,7 +4840,7 @@ class GetKxDataviewResponse {
           .map((e) => KxDataviewSegmentConfiguration.fromJson(
               e as Map<String, dynamic>))
           .toList(),
-      status: (json['status'] as String?)?.toKxDataviewStatus(),
+      status: (json['status'] as String?)?.let(KxDataviewStatus.fromString),
       statusReason: json['statusReason'] as String?,
     );
   }
@@ -5012,7 +4865,7 @@ class GetKxDataviewResponse {
       if (activeVersions != null) 'activeVersions': activeVersions,
       if (autoUpdate != null) 'autoUpdate': autoUpdate,
       if (availabilityZoneId != null) 'availabilityZoneId': availabilityZoneId,
-      if (azMode != null) 'azMode': azMode.toValue(),
+      if (azMode != null) 'azMode': azMode.value,
       if (changesetId != null) 'changesetId': changesetId,
       if (createdTimestamp != null)
         'createdTimestamp': unixTimestampToJson(createdTimestamp),
@@ -5025,7 +4878,7 @@ class GetKxDataviewResponse {
       if (readWrite != null) 'readWrite': readWrite,
       if (segmentConfigurations != null)
         'segmentConfigurations': segmentConfigurations,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (statusReason != null) 'statusReason': statusReason,
     };
   }
@@ -5120,14 +4973,14 @@ class GetKxEnvironmentResponse {
           .toList(),
       dedicatedServiceAccountId: json['dedicatedServiceAccountId'] as String?,
       description: json['description'] as String?,
-      dnsStatus: (json['dnsStatus'] as String?)?.toDnsStatus(),
+      dnsStatus: (json['dnsStatus'] as String?)?.let(DnsStatus.fromString),
       environmentArn: json['environmentArn'] as String?,
       environmentId: json['environmentId'] as String?,
       errorMessage: json['errorMessage'] as String?,
       kmsKeyId: json['kmsKeyId'] as String?,
       name: json['name'] as String?,
-      status: (json['status'] as String?)?.toEnvironmentStatus(),
-      tgwStatus: (json['tgwStatus'] as String?)?.toTgwStatus(),
+      status: (json['status'] as String?)?.let(EnvironmentStatus.fromString),
+      tgwStatus: (json['tgwStatus'] as String?)?.let(TgwStatus.fromString),
       transitGatewayConfiguration: json['transitGatewayConfiguration'] != null
           ? TransitGatewayConfiguration.fromJson(
               json['transitGatewayConfiguration'] as Map<String, dynamic>)
@@ -5167,14 +5020,14 @@ class GetKxEnvironmentResponse {
       if (dedicatedServiceAccountId != null)
         'dedicatedServiceAccountId': dedicatedServiceAccountId,
       if (description != null) 'description': description,
-      if (dnsStatus != null) 'dnsStatus': dnsStatus.toValue(),
+      if (dnsStatus != null) 'dnsStatus': dnsStatus.value,
       if (environmentArn != null) 'environmentArn': environmentArn,
       if (environmentId != null) 'environmentId': environmentId,
       if (errorMessage != null) 'errorMessage': errorMessage,
       if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
       if (name != null) 'name': name,
-      if (status != null) 'status': status.toValue(),
-      if (tgwStatus != null) 'tgwStatus': tgwStatus.toValue(),
+      if (status != null) 'status': status.value,
+      if (tgwStatus != null) 'tgwStatus': tgwStatus.value,
       if (transitGatewayConfiguration != null)
         'transitGatewayConfiguration': transitGatewayConfiguration,
       if (updateTimestamp != null)
@@ -5297,7 +5150,7 @@ class GetKxScalingGroupResponse {
       lastModifiedTimestamp: timeStampFromJson(json['lastModifiedTimestamp']),
       scalingGroupArn: json['scalingGroupArn'] as String?,
       scalingGroupName: json['scalingGroupName'] as String?,
-      status: (json['status'] as String?)?.toKxScalingGroupStatus(),
+      status: (json['status'] as String?)?.let(KxScalingGroupStatus.fromString),
       statusReason: json['statusReason'] as String?,
     );
   }
@@ -5322,7 +5175,7 @@ class GetKxScalingGroupResponse {
         'lastModifiedTimestamp': unixTimestampToJson(lastModifiedTimestamp),
       if (scalingGroupArn != null) 'scalingGroupArn': scalingGroupArn,
       if (scalingGroupName != null) 'scalingGroupName': scalingGroupName,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (statusReason != null) 'statusReason': statusReason,
     };
   }
@@ -5479,7 +5332,7 @@ class GetKxVolumeResponse {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      azMode: (json['azMode'] as String?)?.toKxAzMode(),
+      azMode: (json['azMode'] as String?)?.let(KxAzMode.fromString),
       createdTimestamp: timeStampFromJson(json['createdTimestamp']),
       description: json['description'] as String?,
       environmentId: json['environmentId'] as String?,
@@ -5488,11 +5341,11 @@ class GetKxVolumeResponse {
           ? KxNAS1Configuration.fromJson(
               json['nas1Configuration'] as Map<String, dynamic>)
           : null,
-      status: (json['status'] as String?)?.toKxVolumeStatus(),
+      status: (json['status'] as String?)?.let(KxVolumeStatus.fromString),
       statusReason: json['statusReason'] as String?,
       volumeArn: json['volumeArn'] as String?,
       volumeName: json['volumeName'] as String?,
-      volumeType: (json['volumeType'] as String?)?.toKxVolumeType(),
+      volumeType: (json['volumeType'] as String?)?.let(KxVolumeType.fromString),
     );
   }
 
@@ -5514,7 +5367,7 @@ class GetKxVolumeResponse {
       if (attachedClusters != null) 'attachedClusters': attachedClusters,
       if (availabilityZoneIds != null)
         'availabilityZoneIds': availabilityZoneIds,
-      if (azMode != null) 'azMode': azMode.toValue(),
+      if (azMode != null) 'azMode': azMode.value,
       if (createdTimestamp != null)
         'createdTimestamp': unixTimestampToJson(createdTimestamp),
       if (description != null) 'description': description,
@@ -5522,36 +5375,27 @@ class GetKxVolumeResponse {
       if (lastModifiedTimestamp != null)
         'lastModifiedTimestamp': unixTimestampToJson(lastModifiedTimestamp),
       if (nas1Configuration != null) 'nas1Configuration': nas1Configuration,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (statusReason != null) 'statusReason': statusReason,
       if (volumeArn != null) 'volumeArn': volumeArn,
       if (volumeName != null) 'volumeName': volumeName,
-      if (volumeType != null) 'volumeType': volumeType.toValue(),
+      if (volumeType != null) 'volumeType': volumeType.value,
     };
   }
 }
 
 enum IPAddressType {
-  ipV4,
-}
+  ipV4('IP_V4'),
+  ;
 
-extension IPAddressTypeValueExtension on IPAddressType {
-  String toValue() {
-    switch (this) {
-      case IPAddressType.ipV4:
-        return 'IP_V4';
-    }
-  }
-}
+  final String value;
 
-extension IPAddressTypeFromString on String {
-  IPAddressType toIPAddressType() {
-    switch (this) {
-      case 'IP_V4':
-        return IPAddressType.ipV4;
-    }
-    throw Exception('$this is not known in enum IPAddressType');
-  }
+  const IPAddressType(this.value);
+
+  static IPAddressType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum IPAddressType'));
 }
 
 /// Defines the ICMP protocol that consists of the ICMP type and code.
@@ -5633,8 +5477,10 @@ class KxAttachedCluster {
   factory KxAttachedCluster.fromJson(Map<String, dynamic> json) {
     return KxAttachedCluster(
       clusterName: json['clusterName'] as String?,
-      clusterStatus: (json['clusterStatus'] as String?)?.toKxClusterStatus(),
-      clusterType: (json['clusterType'] as String?)?.toKxClusterType(),
+      clusterStatus:
+          (json['clusterStatus'] as String?)?.let(KxClusterStatus.fromString),
+      clusterType:
+          (json['clusterType'] as String?)?.let(KxClusterType.fromString),
     );
   }
 
@@ -5644,38 +5490,24 @@ class KxAttachedCluster {
     final clusterType = this.clusterType;
     return {
       if (clusterName != null) 'clusterName': clusterName,
-      if (clusterStatus != null) 'clusterStatus': clusterStatus.toValue(),
-      if (clusterType != null) 'clusterType': clusterType.toValue(),
+      if (clusterStatus != null) 'clusterStatus': clusterStatus.value,
+      if (clusterType != null) 'clusterType': clusterType.value,
     };
   }
 }
 
 enum KxAzMode {
-  single,
-  multi,
-}
+  single('SINGLE'),
+  multi('MULTI'),
+  ;
 
-extension KxAzModeValueExtension on KxAzMode {
-  String toValue() {
-    switch (this) {
-      case KxAzMode.single:
-        return 'SINGLE';
-      case KxAzMode.multi:
-        return 'MULTI';
-    }
-  }
-}
+  final String value;
 
-extension KxAzModeFromString on String {
-  KxAzMode toKxAzMode() {
-    switch (this) {
-      case 'SINGLE':
-        return KxAzMode.single;
-      case 'MULTI':
-        return KxAzMode.multi;
-    }
-    throw Exception('$this is not known in enum KxAzMode');
-  }
+  const KxAzMode(this.value);
+
+  static KxAzMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum KxAzMode'));
 }
 
 /// The configuration for read only disk cache associated with a cluster.
@@ -5776,7 +5608,7 @@ class KxChangesetListEntry {
       changesetId: json['changesetId'] as String?,
       createdTimestamp: timeStampFromJson(json['createdTimestamp']),
       lastModifiedTimestamp: timeStampFromJson(json['lastModifiedTimestamp']),
-      status: (json['status'] as String?)?.toChangesetStatus(),
+      status: (json['status'] as String?)?.let(ChangesetStatus.fromString),
     );
   }
 
@@ -5794,7 +5626,7 @@ class KxChangesetListEntry {
         'createdTimestamp': unixTimestampToJson(createdTimestamp),
       if (lastModifiedTimestamp != null)
         'lastModifiedTimestamp': unixTimestampToJson(lastModifiedTimestamp),
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -5943,16 +5775,17 @@ class KxCluster {
   factory KxCluster.fromJson(Map<String, dynamic> json) {
     return KxCluster(
       availabilityZoneId: json['availabilityZoneId'] as String?,
-      azMode: (json['azMode'] as String?)?.toKxAzMode(),
+      azMode: (json['azMode'] as String?)?.let(KxAzMode.fromString),
       clusterDescription: json['clusterDescription'] as String?,
       clusterName: json['clusterName'] as String?,
-      clusterType: (json['clusterType'] as String?)?.toKxClusterType(),
+      clusterType:
+          (json['clusterType'] as String?)?.let(KxClusterType.fromString),
       createdTimestamp: timeStampFromJson(json['createdTimestamp']),
       executionRole: json['executionRole'] as String?,
       initializationScript: json['initializationScript'] as String?,
       lastModifiedTimestamp: timeStampFromJson(json['lastModifiedTimestamp']),
       releaseLabel: json['releaseLabel'] as String?,
-      status: (json['status'] as String?)?.toKxClusterStatus(),
+      status: (json['status'] as String?)?.let(KxClusterStatus.fromString),
       statusReason: json['statusReason'] as String?,
       volumes: (json['volumes'] as List?)
           ?.whereNotNull()
@@ -5977,10 +5810,10 @@ class KxCluster {
     final volumes = this.volumes;
     return {
       if (availabilityZoneId != null) 'availabilityZoneId': availabilityZoneId,
-      if (azMode != null) 'azMode': azMode.toValue(),
+      if (azMode != null) 'azMode': azMode.value,
       if (clusterDescription != null) 'clusterDescription': clusterDescription,
       if (clusterName != null) 'clusterName': clusterName,
-      if (clusterType != null) 'clusterType': clusterType.toValue(),
+      if (clusterType != null) 'clusterType': clusterType.value,
       if (createdTimestamp != null)
         'createdTimestamp': unixTimestampToJson(createdTimestamp),
       if (executionRole != null) 'executionRole': executionRole,
@@ -5989,7 +5822,7 @@ class KxCluster {
       if (lastModifiedTimestamp != null)
         'lastModifiedTimestamp': unixTimestampToJson(lastModifiedTimestamp),
       if (releaseLabel != null) 'releaseLabel': releaseLabel,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (statusReason != null) 'statusReason': statusReason,
       if (volumes != null) 'volumes': volumes,
     };
@@ -6032,145 +5865,64 @@ class KxClusterCodeDeploymentConfiguration {
   Map<String, dynamic> toJson() {
     final deploymentStrategy = this.deploymentStrategy;
     return {
-      'deploymentStrategy': deploymentStrategy.toValue(),
+      'deploymentStrategy': deploymentStrategy.value,
     };
   }
 }
 
 enum KxClusterCodeDeploymentStrategy {
-  noRestart,
-  rolling,
-  force,
-}
+  noRestart('NO_RESTART'),
+  rolling('ROLLING'),
+  force('FORCE'),
+  ;
 
-extension KxClusterCodeDeploymentStrategyValueExtension
-    on KxClusterCodeDeploymentStrategy {
-  String toValue() {
-    switch (this) {
-      case KxClusterCodeDeploymentStrategy.noRestart:
-        return 'NO_RESTART';
-      case KxClusterCodeDeploymentStrategy.rolling:
-        return 'ROLLING';
-      case KxClusterCodeDeploymentStrategy.force:
-        return 'FORCE';
-    }
-  }
-}
+  final String value;
 
-extension KxClusterCodeDeploymentStrategyFromString on String {
-  KxClusterCodeDeploymentStrategy toKxClusterCodeDeploymentStrategy() {
-    switch (this) {
-      case 'NO_RESTART':
-        return KxClusterCodeDeploymentStrategy.noRestart;
-      case 'ROLLING':
-        return KxClusterCodeDeploymentStrategy.rolling;
-      case 'FORCE':
-        return KxClusterCodeDeploymentStrategy.force;
-    }
-    throw Exception(
-        '$this is not known in enum KxClusterCodeDeploymentStrategy');
-  }
+  const KxClusterCodeDeploymentStrategy(this.value);
+
+  static KxClusterCodeDeploymentStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum KxClusterCodeDeploymentStrategy'));
 }
 
 enum KxClusterStatus {
-  pending,
-  creating,
-  createFailed,
-  running,
-  updating,
-  deleting,
-  deleted,
-  deleteFailed,
-}
+  pending('PENDING'),
+  creating('CREATING'),
+  createFailed('CREATE_FAILED'),
+  running('RUNNING'),
+  updating('UPDATING'),
+  deleting('DELETING'),
+  deleted('DELETED'),
+  deleteFailed('DELETE_FAILED'),
+  ;
 
-extension KxClusterStatusValueExtension on KxClusterStatus {
-  String toValue() {
-    switch (this) {
-      case KxClusterStatus.pending:
-        return 'PENDING';
-      case KxClusterStatus.creating:
-        return 'CREATING';
-      case KxClusterStatus.createFailed:
-        return 'CREATE_FAILED';
-      case KxClusterStatus.running:
-        return 'RUNNING';
-      case KxClusterStatus.updating:
-        return 'UPDATING';
-      case KxClusterStatus.deleting:
-        return 'DELETING';
-      case KxClusterStatus.deleted:
-        return 'DELETED';
-      case KxClusterStatus.deleteFailed:
-        return 'DELETE_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension KxClusterStatusFromString on String {
-  KxClusterStatus toKxClusterStatus() {
-    switch (this) {
-      case 'PENDING':
-        return KxClusterStatus.pending;
-      case 'CREATING':
-        return KxClusterStatus.creating;
-      case 'CREATE_FAILED':
-        return KxClusterStatus.createFailed;
-      case 'RUNNING':
-        return KxClusterStatus.running;
-      case 'UPDATING':
-        return KxClusterStatus.updating;
-      case 'DELETING':
-        return KxClusterStatus.deleting;
-      case 'DELETED':
-        return KxClusterStatus.deleted;
-      case 'DELETE_FAILED':
-        return KxClusterStatus.deleteFailed;
-    }
-    throw Exception('$this is not known in enum KxClusterStatus');
-  }
+  const KxClusterStatus(this.value);
+
+  static KxClusterStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum KxClusterStatus'));
 }
 
 enum KxClusterType {
-  hdb,
-  rdb,
-  gateway,
-  gp,
-  tickerplant,
-}
+  hdb('HDB'),
+  rdb('RDB'),
+  gateway('GATEWAY'),
+  gp('GP'),
+  tickerplant('TICKERPLANT'),
+  ;
 
-extension KxClusterTypeValueExtension on KxClusterType {
-  String toValue() {
-    switch (this) {
-      case KxClusterType.hdb:
-        return 'HDB';
-      case KxClusterType.rdb:
-        return 'RDB';
-      case KxClusterType.gateway:
-        return 'GATEWAY';
-      case KxClusterType.gp:
-        return 'GP';
-      case KxClusterType.tickerplant:
-        return 'TICKERPLANT';
-    }
-  }
-}
+  final String value;
 
-extension KxClusterTypeFromString on String {
-  KxClusterType toKxClusterType() {
-    switch (this) {
-      case 'HDB':
-        return KxClusterType.hdb;
-      case 'RDB':
-        return KxClusterType.rdb;
-      case 'GATEWAY':
-        return KxClusterType.gateway;
-      case 'GP':
-        return KxClusterType.gp;
-      case 'TICKERPLANT':
-        return KxClusterType.tickerplant;
-    }
-    throw Exception('$this is not known in enum KxClusterType');
-  }
+  const KxClusterType(this.value);
+
+  static KxClusterType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum KxClusterType'));
 }
 
 /// Defines the key-value pairs to make them available inside the cluster.
@@ -6558,7 +6310,7 @@ class KxDataviewListEntry {
           .toList(),
       autoUpdate: json['autoUpdate'] as bool?,
       availabilityZoneId: json['availabilityZoneId'] as String?,
-      azMode: (json['azMode'] as String?)?.toKxAzMode(),
+      azMode: (json['azMode'] as String?)?.let(KxAzMode.fromString),
       changesetId: json['changesetId'] as String?,
       createdTimestamp: timeStampFromJson(json['createdTimestamp']),
       databaseName: json['databaseName'] as String?,
@@ -6572,7 +6324,7 @@ class KxDataviewListEntry {
           .map((e) => KxDataviewSegmentConfiguration.fromJson(
               e as Map<String, dynamic>))
           .toList(),
-      status: (json['status'] as String?)?.toKxDataviewStatus(),
+      status: (json['status'] as String?)?.let(KxDataviewStatus.fromString),
       statusReason: json['statusReason'] as String?,
     );
   }
@@ -6597,7 +6349,7 @@ class KxDataviewListEntry {
       if (activeVersions != null) 'activeVersions': activeVersions,
       if (autoUpdate != null) 'autoUpdate': autoUpdate,
       if (availabilityZoneId != null) 'availabilityZoneId': availabilityZoneId,
-      if (azMode != null) 'azMode': azMode.toValue(),
+      if (azMode != null) 'azMode': azMode.value,
       if (changesetId != null) 'changesetId': changesetId,
       if (createdTimestamp != null)
         'createdTimestamp': unixTimestampToJson(createdTimestamp),
@@ -6610,7 +6362,7 @@ class KxDataviewListEntry {
       if (readWrite != null) 'readWrite': readWrite,
       if (segmentConfigurations != null)
         'segmentConfigurations': segmentConfigurations,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (statusReason != null) 'statusReason': statusReason,
     };
   }
@@ -6667,46 +6419,21 @@ class KxDataviewSegmentConfiguration {
 }
 
 enum KxDataviewStatus {
-  creating,
-  active,
-  updating,
-  failed,
-  deleting,
-}
+  creating('CREATING'),
+  active('ACTIVE'),
+  updating('UPDATING'),
+  failed('FAILED'),
+  deleting('DELETING'),
+  ;
 
-extension KxDataviewStatusValueExtension on KxDataviewStatus {
-  String toValue() {
-    switch (this) {
-      case KxDataviewStatus.creating:
-        return 'CREATING';
-      case KxDataviewStatus.active:
-        return 'ACTIVE';
-      case KxDataviewStatus.updating:
-        return 'UPDATING';
-      case KxDataviewStatus.failed:
-        return 'FAILED';
-      case KxDataviewStatus.deleting:
-        return 'DELETING';
-    }
-  }
-}
+  final String value;
 
-extension KxDataviewStatusFromString on String {
-  KxDataviewStatus toKxDataviewStatus() {
-    switch (this) {
-      case 'CREATING':
-        return KxDataviewStatus.creating;
-      case 'ACTIVE':
-        return KxDataviewStatus.active;
-      case 'UPDATING':
-        return KxDataviewStatus.updating;
-      case 'FAILED':
-        return KxDataviewStatus.failed;
-      case 'DELETING':
-        return KxDataviewStatus.deleting;
-    }
-    throw Exception('$this is not known in enum KxDataviewStatus');
-  }
+  const KxDataviewStatus(this.value);
+
+  static KxDataviewStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum KxDataviewStatus'));
 }
 
 /// The configuration that allows you to choose how you want to update the
@@ -6740,37 +6467,24 @@ class KxDeploymentConfiguration {
   Map<String, dynamic> toJson() {
     final deploymentStrategy = this.deploymentStrategy;
     return {
-      'deploymentStrategy': deploymentStrategy.toValue(),
+      'deploymentStrategy': deploymentStrategy.value,
     };
   }
 }
 
 enum KxDeploymentStrategy {
-  noRestart,
-  rolling,
-}
+  noRestart('NO_RESTART'),
+  rolling('ROLLING'),
+  ;
 
-extension KxDeploymentStrategyValueExtension on KxDeploymentStrategy {
-  String toValue() {
-    switch (this) {
-      case KxDeploymentStrategy.noRestart:
-        return 'NO_RESTART';
-      case KxDeploymentStrategy.rolling:
-        return 'ROLLING';
-    }
-  }
-}
+  final String value;
 
-extension KxDeploymentStrategyFromString on String {
-  KxDeploymentStrategy toKxDeploymentStrategy() {
-    switch (this) {
-      case 'NO_RESTART':
-        return KxDeploymentStrategy.noRestart;
-      case 'ROLLING':
-        return KxDeploymentStrategy.rolling;
-    }
-    throw Exception('$this is not known in enum KxDeploymentStrategy');
-  }
+  const KxDeploymentStrategy(this.value);
+
+  static KxDeploymentStrategy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum KxDeploymentStrategy'));
 }
 
 /// The details of a kdb environment.
@@ -6900,14 +6614,14 @@ class KxEnvironment {
           .toList(),
       dedicatedServiceAccountId: json['dedicatedServiceAccountId'] as String?,
       description: json['description'] as String?,
-      dnsStatus: (json['dnsStatus'] as String?)?.toDnsStatus(),
+      dnsStatus: (json['dnsStatus'] as String?)?.let(DnsStatus.fromString),
       environmentArn: json['environmentArn'] as String?,
       environmentId: json['environmentId'] as String?,
       errorMessage: json['errorMessage'] as String?,
       kmsKeyId: json['kmsKeyId'] as String?,
       name: json['name'] as String?,
-      status: (json['status'] as String?)?.toEnvironmentStatus(),
-      tgwStatus: (json['tgwStatus'] as String?)?.toTgwStatus(),
+      status: (json['status'] as String?)?.let(EnvironmentStatus.fromString),
+      tgwStatus: (json['tgwStatus'] as String?)?.let(TgwStatus.fromString),
       transitGatewayConfiguration: json['transitGatewayConfiguration'] != null
           ? TransitGatewayConfiguration.fromJson(
               json['transitGatewayConfiguration'] as Map<String, dynamic>)
@@ -6947,14 +6661,14 @@ class KxEnvironment {
       if (dedicatedServiceAccountId != null)
         'dedicatedServiceAccountId': dedicatedServiceAccountId,
       if (description != null) 'description': description,
-      if (dnsStatus != null) 'dnsStatus': dnsStatus.toValue(),
+      if (dnsStatus != null) 'dnsStatus': dnsStatus.value,
       if (environmentArn != null) 'environmentArn': environmentArn,
       if (environmentId != null) 'environmentId': environmentId,
       if (errorMessage != null) 'errorMessage': errorMessage,
       if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
       if (name != null) 'name': name,
-      if (status != null) 'status': status.toValue(),
-      if (tgwStatus != null) 'tgwStatus': tgwStatus.toValue(),
+      if (status != null) 'status': status.value,
+      if (tgwStatus != null) 'tgwStatus': tgwStatus.value,
       if (transitGatewayConfiguration != null)
         'transitGatewayConfiguration': transitGatewayConfiguration,
       if (updateTimestamp != null)
@@ -6984,7 +6698,7 @@ class KxNAS1Configuration {
   factory KxNAS1Configuration.fromJson(Map<String, dynamic> json) {
     return KxNAS1Configuration(
       size: json['size'] as int?,
-      type: (json['type'] as String?)?.toKxNAS1Type(),
+      type: (json['type'] as String?)?.let(KxNAS1Type.fromString),
     );
   }
 
@@ -6993,42 +6707,24 @@ class KxNAS1Configuration {
     final type = this.type;
     return {
       if (size != null) 'size': size,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
 
 enum KxNAS1Type {
-  ssd_1000,
-  ssd_250,
-  hdd_12,
-}
+  ssd_1000('SSD_1000'),
+  ssd_250('SSD_250'),
+  hdd_12('HDD_12'),
+  ;
 
-extension KxNAS1TypeValueExtension on KxNAS1Type {
-  String toValue() {
-    switch (this) {
-      case KxNAS1Type.ssd_1000:
-        return 'SSD_1000';
-      case KxNAS1Type.ssd_250:
-        return 'SSD_250';
-      case KxNAS1Type.hdd_12:
-        return 'HDD_12';
-    }
-  }
-}
+  final String value;
 
-extension KxNAS1TypeFromString on String {
-  KxNAS1Type toKxNAS1Type() {
-    switch (this) {
-      case 'SSD_1000':
-        return KxNAS1Type.ssd_1000;
-      case 'SSD_250':
-        return KxNAS1Type.ssd_250;
-      case 'HDD_12':
-        return KxNAS1Type.hdd_12;
-    }
-    throw Exception('$this is not known in enum KxNAS1Type');
-  }
+  const KxNAS1Type(this.value);
+
+  static KxNAS1Type fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum KxNAS1Type'));
 }
 
 /// A structure that stores metadata for a kdb node.
@@ -7069,7 +6765,7 @@ class KxNode {
       availabilityZoneId: json['availabilityZoneId'] as String?,
       launchTime: timeStampFromJson(json['launchTime']),
       nodeId: json['nodeId'] as String?,
-      status: (json['status'] as String?)?.toKxNodeStatus(),
+      status: (json['status'] as String?)?.let(KxNodeStatus.fromString),
     );
   }
 
@@ -7082,37 +6778,24 @@ class KxNode {
       if (availabilityZoneId != null) 'availabilityZoneId': availabilityZoneId,
       if (launchTime != null) 'launchTime': unixTimestampToJson(launchTime),
       if (nodeId != null) 'nodeId': nodeId,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
 
 enum KxNodeStatus {
-  running,
-  provisioning,
-}
+  running('RUNNING'),
+  provisioning('PROVISIONING'),
+  ;
 
-extension KxNodeStatusValueExtension on KxNodeStatus {
-  String toValue() {
-    switch (this) {
-      case KxNodeStatus.running:
-        return 'RUNNING';
-      case KxNodeStatus.provisioning:
-        return 'PROVISIONING';
-    }
-  }
-}
+  final String value;
 
-extension KxNodeStatusFromString on String {
-  KxNodeStatus toKxNodeStatus() {
-    switch (this) {
-      case 'RUNNING':
-        return KxNodeStatus.running;
-      case 'PROVISIONING':
-        return KxNodeStatus.provisioning;
-    }
-    throw Exception('$this is not known in enum KxNodeStatus');
-  }
+  const KxNodeStatus(this.value);
+
+  static KxNodeStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum KxNodeStatus'));
 }
 
 /// The size and type of temporary storage that is used to hold data during the
@@ -7145,7 +6828,7 @@ class KxSavedownStorageConfiguration {
   factory KxSavedownStorageConfiguration.fromJson(Map<String, dynamic> json) {
     return KxSavedownStorageConfiguration(
       size: json['size'] as int?,
-      type: (json['type'] as String?)?.toKxSavedownStorageType(),
+      type: (json['type'] as String?)?.let(KxSavedownStorageType.fromString),
       volumeName: json['volumeName'] as String?,
     );
   }
@@ -7156,33 +6839,24 @@ class KxSavedownStorageConfiguration {
     final volumeName = this.volumeName;
     return {
       if (size != null) 'size': size,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
       if (volumeName != null) 'volumeName': volumeName,
     };
   }
 }
 
 enum KxSavedownStorageType {
-  sds01,
-}
+  sds01('SDS01'),
+  ;
 
-extension KxSavedownStorageTypeValueExtension on KxSavedownStorageType {
-  String toValue() {
-    switch (this) {
-      case KxSavedownStorageType.sds01:
-        return 'SDS01';
-    }
-  }
-}
+  final String value;
 
-extension KxSavedownStorageTypeFromString on String {
-  KxSavedownStorageType toKxSavedownStorageType() {
-    switch (this) {
-      case 'SDS01':
-        return KxSavedownStorageType.sds01;
-    }
-    throw Exception('$this is not known in enum KxSavedownStorageType');
-  }
+  const KxSavedownStorageType(this.value);
+
+  static KxSavedownStorageType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum KxSavedownStorageType'));
 }
 
 /// A structure for storing metadata of scaling group.
@@ -7267,7 +6941,7 @@ class KxScalingGroup {
       hostType: json['hostType'] as String?,
       lastModifiedTimestamp: timeStampFromJson(json['lastModifiedTimestamp']),
       scalingGroupName: json['scalingGroupName'] as String?,
-      status: (json['status'] as String?)?.toKxScalingGroupStatus(),
+      status: (json['status'] as String?)?.let(KxScalingGroupStatus.fromString),
       statusReason: json['statusReason'] as String?,
     );
   }
@@ -7290,7 +6964,7 @@ class KxScalingGroup {
       if (lastModifiedTimestamp != null)
         'lastModifiedTimestamp': unixTimestampToJson(lastModifiedTimestamp),
       if (scalingGroupName != null) 'scalingGroupName': scalingGroupName,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (statusReason != null) 'statusReason': statusReason,
     };
   }
@@ -7352,51 +7026,22 @@ class KxScalingGroupConfiguration {
 }
 
 enum KxScalingGroupStatus {
-  creating,
-  createFailed,
-  active,
-  deleting,
-  deleted,
-  deleteFailed,
-}
+  creating('CREATING'),
+  createFailed('CREATE_FAILED'),
+  active('ACTIVE'),
+  deleting('DELETING'),
+  deleted('DELETED'),
+  deleteFailed('DELETE_FAILED'),
+  ;
 
-extension KxScalingGroupStatusValueExtension on KxScalingGroupStatus {
-  String toValue() {
-    switch (this) {
-      case KxScalingGroupStatus.creating:
-        return 'CREATING';
-      case KxScalingGroupStatus.createFailed:
-        return 'CREATE_FAILED';
-      case KxScalingGroupStatus.active:
-        return 'ACTIVE';
-      case KxScalingGroupStatus.deleting:
-        return 'DELETING';
-      case KxScalingGroupStatus.deleted:
-        return 'DELETED';
-      case KxScalingGroupStatus.deleteFailed:
-        return 'DELETE_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension KxScalingGroupStatusFromString on String {
-  KxScalingGroupStatus toKxScalingGroupStatus() {
-    switch (this) {
-      case 'CREATING':
-        return KxScalingGroupStatus.creating;
-      case 'CREATE_FAILED':
-        return KxScalingGroupStatus.createFailed;
-      case 'ACTIVE':
-        return KxScalingGroupStatus.active;
-      case 'DELETING':
-        return KxScalingGroupStatus.deleting;
-      case 'DELETED':
-        return KxScalingGroupStatus.deleted;
-      case 'DELETE_FAILED':
-        return KxScalingGroupStatus.deleteFailed;
-    }
-    throw Exception('$this is not known in enum KxScalingGroupStatus');
-  }
+  const KxScalingGroupStatus(this.value);
+
+  static KxScalingGroupStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum KxScalingGroupStatus'));
 }
 
 /// A structure that stores metadata for a kdb user.
@@ -7539,14 +7184,14 @@ class KxVolume {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      azMode: (json['azMode'] as String?)?.toKxAzMode(),
+      azMode: (json['azMode'] as String?)?.let(KxAzMode.fromString),
       createdTimestamp: timeStampFromJson(json['createdTimestamp']),
       description: json['description'] as String?,
       lastModifiedTimestamp: timeStampFromJson(json['lastModifiedTimestamp']),
-      status: (json['status'] as String?)?.toKxVolumeStatus(),
+      status: (json['status'] as String?)?.let(KxVolumeStatus.fromString),
       statusReason: json['statusReason'] as String?,
       volumeName: json['volumeName'] as String?,
-      volumeType: (json['volumeType'] as String?)?.toKxVolumeType(),
+      volumeType: (json['volumeType'] as String?)?.let(KxVolumeType.fromString),
     );
   }
 
@@ -7563,104 +7208,54 @@ class KxVolume {
     return {
       if (availabilityZoneIds != null)
         'availabilityZoneIds': availabilityZoneIds,
-      if (azMode != null) 'azMode': azMode.toValue(),
+      if (azMode != null) 'azMode': azMode.value,
       if (createdTimestamp != null)
         'createdTimestamp': unixTimestampToJson(createdTimestamp),
       if (description != null) 'description': description,
       if (lastModifiedTimestamp != null)
         'lastModifiedTimestamp': unixTimestampToJson(lastModifiedTimestamp),
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (statusReason != null) 'statusReason': statusReason,
       if (volumeName != null) 'volumeName': volumeName,
-      if (volumeType != null) 'volumeType': volumeType.toValue(),
+      if (volumeType != null) 'volumeType': volumeType.value,
     };
   }
 }
 
 enum KxVolumeStatus {
-  creating,
-  createFailed,
-  active,
-  updating,
-  updated,
-  updateFailed,
-  deleting,
-  deleted,
-  deleteFailed,
-}
+  creating('CREATING'),
+  createFailed('CREATE_FAILED'),
+  active('ACTIVE'),
+  updating('UPDATING'),
+  updated('UPDATED'),
+  updateFailed('UPDATE_FAILED'),
+  deleting('DELETING'),
+  deleted('DELETED'),
+  deleteFailed('DELETE_FAILED'),
+  ;
 
-extension KxVolumeStatusValueExtension on KxVolumeStatus {
-  String toValue() {
-    switch (this) {
-      case KxVolumeStatus.creating:
-        return 'CREATING';
-      case KxVolumeStatus.createFailed:
-        return 'CREATE_FAILED';
-      case KxVolumeStatus.active:
-        return 'ACTIVE';
-      case KxVolumeStatus.updating:
-        return 'UPDATING';
-      case KxVolumeStatus.updated:
-        return 'UPDATED';
-      case KxVolumeStatus.updateFailed:
-        return 'UPDATE_FAILED';
-      case KxVolumeStatus.deleting:
-        return 'DELETING';
-      case KxVolumeStatus.deleted:
-        return 'DELETED';
-      case KxVolumeStatus.deleteFailed:
-        return 'DELETE_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension KxVolumeStatusFromString on String {
-  KxVolumeStatus toKxVolumeStatus() {
-    switch (this) {
-      case 'CREATING':
-        return KxVolumeStatus.creating;
-      case 'CREATE_FAILED':
-        return KxVolumeStatus.createFailed;
-      case 'ACTIVE':
-        return KxVolumeStatus.active;
-      case 'UPDATING':
-        return KxVolumeStatus.updating;
-      case 'UPDATED':
-        return KxVolumeStatus.updated;
-      case 'UPDATE_FAILED':
-        return KxVolumeStatus.updateFailed;
-      case 'DELETING':
-        return KxVolumeStatus.deleting;
-      case 'DELETED':
-        return KxVolumeStatus.deleted;
-      case 'DELETE_FAILED':
-        return KxVolumeStatus.deleteFailed;
-    }
-    throw Exception('$this is not known in enum KxVolumeStatus');
-  }
+  const KxVolumeStatus(this.value);
+
+  static KxVolumeStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum KxVolumeStatus'));
 }
 
 enum KxVolumeType {
-  nas_1,
-}
+  nas_1('NAS_1'),
+  ;
 
-extension KxVolumeTypeValueExtension on KxVolumeType {
-  String toValue() {
-    switch (this) {
-      case KxVolumeType.nas_1:
-        return 'NAS_1';
-    }
-  }
-}
+  final String value;
 
-extension KxVolumeTypeFromString on String {
-  KxVolumeType toKxVolumeType() {
-    switch (this) {
-      case 'NAS_1':
-        return KxVolumeType.nas_1;
-    }
-    throw Exception('$this is not known in enum KxVolumeType');
-  }
+  const KxVolumeType(this.value);
+
+  static KxVolumeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum KxVolumeType'));
 }
 
 class ListEnvironmentsResponse {
@@ -8049,7 +7644,7 @@ class NetworkACLEntry {
     return NetworkACLEntry(
       cidrBlock: json['cidrBlock'] as String,
       protocol: json['protocol'] as String,
-      ruleAction: (json['ruleAction'] as String).toRuleAction(),
+      ruleAction: RuleAction.fromString((json['ruleAction'] as String)),
       ruleNumber: json['ruleNumber'] as int,
       icmpTypeCode: json['icmpTypeCode'] != null
           ? IcmpTypeCode.fromJson(json['icmpTypeCode'] as Map<String, dynamic>)
@@ -8070,7 +7665,7 @@ class NetworkACLEntry {
     return {
       'cidrBlock': cidrBlock,
       'protocol': protocol,
-      'ruleAction': ruleAction.toValue(),
+      'ruleAction': ruleAction.value,
       'ruleNumber': ruleNumber,
       if (icmpTypeCode != null) 'icmpTypeCode': icmpTypeCode,
       if (portRange != null) 'portRange': portRange,
@@ -8109,31 +7704,17 @@ class PortRange {
 }
 
 enum RuleAction {
-  allow,
-  deny,
-}
+  allow('allow'),
+  deny('deny'),
+  ;
 
-extension RuleActionValueExtension on RuleAction {
-  String toValue() {
-    switch (this) {
-      case RuleAction.allow:
-        return 'allow';
-      case RuleAction.deny:
-        return 'deny';
-    }
-  }
-}
+  final String value;
 
-extension RuleActionFromString on String {
-  RuleAction toRuleAction() {
-    switch (this) {
-      case 'allow':
-        return RuleAction.allow;
-      case 'deny':
-        return RuleAction.deny;
-    }
-    throw Exception('$this is not known in enum RuleAction');
-  }
+  const RuleAction(this.value);
+
+  static RuleAction fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum RuleAction'));
 }
 
 /// Configuration information for the superuser.
@@ -8457,7 +8038,7 @@ class UpdateKxDataviewResponse {
           .toList(),
       autoUpdate: json['autoUpdate'] as bool?,
       availabilityZoneId: json['availabilityZoneId'] as String?,
-      azMode: (json['azMode'] as String?)?.toKxAzMode(),
+      azMode: (json['azMode'] as String?)?.let(KxAzMode.fromString),
       changesetId: json['changesetId'] as String?,
       createdTimestamp: timeStampFromJson(json['createdTimestamp']),
       databaseName: json['databaseName'] as String?,
@@ -8471,7 +8052,7 @@ class UpdateKxDataviewResponse {
           .map((e) => KxDataviewSegmentConfiguration.fromJson(
               e as Map<String, dynamic>))
           .toList(),
-      status: (json['status'] as String?)?.toKxDataviewStatus(),
+      status: (json['status'] as String?)?.let(KxDataviewStatus.fromString),
     );
   }
 
@@ -8494,7 +8075,7 @@ class UpdateKxDataviewResponse {
       if (activeVersions != null) 'activeVersions': activeVersions,
       if (autoUpdate != null) 'autoUpdate': autoUpdate,
       if (availabilityZoneId != null) 'availabilityZoneId': availabilityZoneId,
-      if (azMode != null) 'azMode': azMode.toValue(),
+      if (azMode != null) 'azMode': azMode.value,
       if (changesetId != null) 'changesetId': changesetId,
       if (createdTimestamp != null)
         'createdTimestamp': unixTimestampToJson(createdTimestamp),
@@ -8507,7 +8088,7 @@ class UpdateKxDataviewResponse {
       if (readWrite != null) 'readWrite': readWrite,
       if (segmentConfigurations != null)
         'segmentConfigurations': segmentConfigurations,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -8596,14 +8177,14 @@ class UpdateKxEnvironmentNetworkResponse {
           .toList(),
       dedicatedServiceAccountId: json['dedicatedServiceAccountId'] as String?,
       description: json['description'] as String?,
-      dnsStatus: (json['dnsStatus'] as String?)?.toDnsStatus(),
+      dnsStatus: (json['dnsStatus'] as String?)?.let(DnsStatus.fromString),
       environmentArn: json['environmentArn'] as String?,
       environmentId: json['environmentId'] as String?,
       errorMessage: json['errorMessage'] as String?,
       kmsKeyId: json['kmsKeyId'] as String?,
       name: json['name'] as String?,
-      status: (json['status'] as String?)?.toEnvironmentStatus(),
-      tgwStatus: (json['tgwStatus'] as String?)?.toTgwStatus(),
+      status: (json['status'] as String?)?.let(EnvironmentStatus.fromString),
+      tgwStatus: (json['tgwStatus'] as String?)?.let(TgwStatus.fromString),
       transitGatewayConfiguration: json['transitGatewayConfiguration'] != null
           ? TransitGatewayConfiguration.fromJson(
               json['transitGatewayConfiguration'] as Map<String, dynamic>)
@@ -8640,14 +8221,14 @@ class UpdateKxEnvironmentNetworkResponse {
       if (dedicatedServiceAccountId != null)
         'dedicatedServiceAccountId': dedicatedServiceAccountId,
       if (description != null) 'description': description,
-      if (dnsStatus != null) 'dnsStatus': dnsStatus.toValue(),
+      if (dnsStatus != null) 'dnsStatus': dnsStatus.value,
       if (environmentArn != null) 'environmentArn': environmentArn,
       if (environmentId != null) 'environmentId': environmentId,
       if (errorMessage != null) 'errorMessage': errorMessage,
       if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
       if (name != null) 'name': name,
-      if (status != null) 'status': status.toValue(),
-      if (tgwStatus != null) 'tgwStatus': tgwStatus.toValue(),
+      if (status != null) 'status': status.value,
+      if (tgwStatus != null) 'tgwStatus': tgwStatus.value,
       if (transitGatewayConfiguration != null)
         'transitGatewayConfiguration': transitGatewayConfiguration,
       if (updateTimestamp != null)
@@ -8739,14 +8320,14 @@ class UpdateKxEnvironmentResponse {
           .toList(),
       dedicatedServiceAccountId: json['dedicatedServiceAccountId'] as String?,
       description: json['description'] as String?,
-      dnsStatus: (json['dnsStatus'] as String?)?.toDnsStatus(),
+      dnsStatus: (json['dnsStatus'] as String?)?.let(DnsStatus.fromString),
       environmentArn: json['environmentArn'] as String?,
       environmentId: json['environmentId'] as String?,
       errorMessage: json['errorMessage'] as String?,
       kmsKeyId: json['kmsKeyId'] as String?,
       name: json['name'] as String?,
-      status: (json['status'] as String?)?.toEnvironmentStatus(),
-      tgwStatus: (json['tgwStatus'] as String?)?.toTgwStatus(),
+      status: (json['status'] as String?)?.let(EnvironmentStatus.fromString),
+      tgwStatus: (json['tgwStatus'] as String?)?.let(TgwStatus.fromString),
       transitGatewayConfiguration: json['transitGatewayConfiguration'] != null
           ? TransitGatewayConfiguration.fromJson(
               json['transitGatewayConfiguration'] as Map<String, dynamic>)
@@ -8783,14 +8364,14 @@ class UpdateKxEnvironmentResponse {
       if (dedicatedServiceAccountId != null)
         'dedicatedServiceAccountId': dedicatedServiceAccountId,
       if (description != null) 'description': description,
-      if (dnsStatus != null) 'dnsStatus': dnsStatus.toValue(),
+      if (dnsStatus != null) 'dnsStatus': dnsStatus.value,
       if (environmentArn != null) 'environmentArn': environmentArn,
       if (environmentId != null) 'environmentId': environmentId,
       if (errorMessage != null) 'errorMessage': errorMessage,
       if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
       if (name != null) 'name': name,
-      if (status != null) 'status': status.toValue(),
-      if (tgwStatus != null) 'tgwStatus': tgwStatus.toValue(),
+      if (status != null) 'status': status.value,
+      if (tgwStatus != null) 'tgwStatus': tgwStatus.value,
       if (transitGatewayConfiguration != null)
         'transitGatewayConfiguration': transitGatewayConfiguration,
       if (updateTimestamp != null)
@@ -8950,7 +8531,7 @@ class UpdateKxVolumeResponse {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      azMode: (json['azMode'] as String?)?.toKxAzMode(),
+      azMode: (json['azMode'] as String?)?.let(KxAzMode.fromString),
       createdTimestamp: timeStampFromJson(json['createdTimestamp']),
       description: json['description'] as String?,
       environmentId: json['environmentId'] as String?,
@@ -8959,11 +8540,11 @@ class UpdateKxVolumeResponse {
           ? KxNAS1Configuration.fromJson(
               json['nas1Configuration'] as Map<String, dynamic>)
           : null,
-      status: (json['status'] as String?)?.toKxVolumeStatus(),
+      status: (json['status'] as String?)?.let(KxVolumeStatus.fromString),
       statusReason: json['statusReason'] as String?,
       volumeArn: json['volumeArn'] as String?,
       volumeName: json['volumeName'] as String?,
-      volumeType: (json['volumeType'] as String?)?.toKxVolumeType(),
+      volumeType: (json['volumeType'] as String?)?.let(KxVolumeType.fromString),
     );
   }
 
@@ -8985,7 +8566,7 @@ class UpdateKxVolumeResponse {
       if (attachedClusters != null) 'attachedClusters': attachedClusters,
       if (availabilityZoneIds != null)
         'availabilityZoneIds': availabilityZoneIds,
-      if (azMode != null) 'azMode': azMode.toValue(),
+      if (azMode != null) 'azMode': azMode.value,
       if (createdTimestamp != null)
         'createdTimestamp': unixTimestampToJson(createdTimestamp),
       if (description != null) 'description': description,
@@ -8993,11 +8574,11 @@ class UpdateKxVolumeResponse {
       if (lastModifiedTimestamp != null)
         'lastModifiedTimestamp': unixTimestampToJson(lastModifiedTimestamp),
       if (nas1Configuration != null) 'nas1Configuration': nas1Configuration,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (statusReason != null) 'statusReason': statusReason,
       if (volumeArn != null) 'volumeArn': volumeArn,
       if (volumeName != null) 'volumeName': volumeName,
-      if (volumeType != null) 'volumeType': volumeType.toValue(),
+      if (volumeType != null) 'volumeType': volumeType.value,
     };
   }
 }
@@ -9019,7 +8600,7 @@ class Volume {
   factory Volume.fromJson(Map<String, dynamic> json) {
     return Volume(
       volumeName: json['volumeName'] as String?,
-      volumeType: (json['volumeType'] as String?)?.toVolumeType(),
+      volumeType: (json['volumeType'] as String?)?.let(VolumeType.fromString),
     );
   }
 
@@ -9028,32 +8609,22 @@ class Volume {
     final volumeType = this.volumeType;
     return {
       if (volumeName != null) 'volumeName': volumeName,
-      if (volumeType != null) 'volumeType': volumeType.toValue(),
+      if (volumeType != null) 'volumeType': volumeType.value,
     };
   }
 }
 
 enum VolumeType {
-  nas_1,
-}
+  nas_1('NAS_1'),
+  ;
 
-extension VolumeTypeValueExtension on VolumeType {
-  String toValue() {
-    switch (this) {
-      case VolumeType.nas_1:
-        return 'NAS_1';
-    }
-  }
-}
+  final String value;
 
-extension VolumeTypeFromString on String {
-  VolumeType toVolumeType() {
-    switch (this) {
-      case 'NAS_1':
-        return VolumeType.nas_1;
-    }
-    throw Exception('$this is not known in enum VolumeType');
-  }
+  const VolumeType(this.value);
+
+  static VolumeType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum VolumeType'));
 }
 
 /// Configuration details about the network where the Privatelink endpoint of
@@ -9089,7 +8660,8 @@ class VpcConfiguration {
 
   factory VpcConfiguration.fromJson(Map<String, dynamic> json) {
     return VpcConfiguration(
-      ipAddressType: (json['ipAddressType'] as String?)?.toIPAddressType(),
+      ipAddressType:
+          (json['ipAddressType'] as String?)?.let(IPAddressType.fromString),
       securityGroupIds: (json['securityGroupIds'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -9108,7 +8680,7 @@ class VpcConfiguration {
     final subnetIds = this.subnetIds;
     final vpcId = this.vpcId;
     return {
-      if (ipAddressType != null) 'ipAddressType': ipAddressType.toValue(),
+      if (ipAddressType != null) 'ipAddressType': ipAddressType.value,
       if (securityGroupIds != null) 'securityGroupIds': securityGroupIds,
       if (subnetIds != null) 'subnetIds': subnetIds,
       if (vpcId != null) 'vpcId': vpcId,
@@ -9117,89 +8689,37 @@ class VpcConfiguration {
 }
 
 enum DnsStatus {
-  none,
-  updateRequested,
-  updating,
-  failedUpdate,
-  successfullyUpdated,
-}
+  none('NONE'),
+  updateRequested('UPDATE_REQUESTED'),
+  updating('UPDATING'),
+  failedUpdate('FAILED_UPDATE'),
+  successfullyUpdated('SUCCESSFULLY_UPDATED'),
+  ;
 
-extension DnsStatusValueExtension on DnsStatus {
-  String toValue() {
-    switch (this) {
-      case DnsStatus.none:
-        return 'NONE';
-      case DnsStatus.updateRequested:
-        return 'UPDATE_REQUESTED';
-      case DnsStatus.updating:
-        return 'UPDATING';
-      case DnsStatus.failedUpdate:
-        return 'FAILED_UPDATE';
-      case DnsStatus.successfullyUpdated:
-        return 'SUCCESSFULLY_UPDATED';
-    }
-  }
-}
+  final String value;
 
-extension DnsStatusFromString on String {
-  DnsStatus toDnsStatus() {
-    switch (this) {
-      case 'NONE':
-        return DnsStatus.none;
-      case 'UPDATE_REQUESTED':
-        return DnsStatus.updateRequested;
-      case 'UPDATING':
-        return DnsStatus.updating;
-      case 'FAILED_UPDATE':
-        return DnsStatus.failedUpdate;
-      case 'SUCCESSFULLY_UPDATED':
-        return DnsStatus.successfullyUpdated;
-    }
-    throw Exception('$this is not known in enum DnsStatus');
-  }
+  const DnsStatus(this.value);
+
+  static DnsStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum DnsStatus'));
 }
 
 enum TgwStatus {
-  none,
-  updateRequested,
-  updating,
-  failedUpdate,
-  successfullyUpdated,
-}
+  none('NONE'),
+  updateRequested('UPDATE_REQUESTED'),
+  updating('UPDATING'),
+  failedUpdate('FAILED_UPDATE'),
+  successfullyUpdated('SUCCESSFULLY_UPDATED'),
+  ;
 
-extension TgwStatusValueExtension on TgwStatus {
-  String toValue() {
-    switch (this) {
-      case TgwStatus.none:
-        return 'NONE';
-      case TgwStatus.updateRequested:
-        return 'UPDATE_REQUESTED';
-      case TgwStatus.updating:
-        return 'UPDATING';
-      case TgwStatus.failedUpdate:
-        return 'FAILED_UPDATE';
-      case TgwStatus.successfullyUpdated:
-        return 'SUCCESSFULLY_UPDATED';
-    }
-  }
-}
+  final String value;
 
-extension TgwStatusFromString on String {
-  TgwStatus toTgwStatus() {
-    switch (this) {
-      case 'NONE':
-        return TgwStatus.none;
-      case 'UPDATE_REQUESTED':
-        return TgwStatus.updateRequested;
-      case 'UPDATING':
-        return TgwStatus.updating;
-      case 'FAILED_UPDATE':
-        return TgwStatus.failedUpdate;
-      case 'SUCCESSFULLY_UPDATED':
-        return TgwStatus.successfullyUpdated;
-    }
-    throw Exception('$this is not known in enum TgwStatus');
-  }
+  const TgwStatus(this.value);
+
+  static TgwStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TgwStatus'));
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

@@ -545,7 +545,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'sourceRegion': sourceRegion.toValue(),
+        'sourceRegion': sourceRegion.value,
         'targetSnapshotName': targetSnapshotName,
         if (restoreDate != null) 'restoreDate': restoreDate,
         if (sourceResourceName != null)
@@ -886,7 +886,7 @@ class Lightsail {
       headers: headers,
       payload: {
         'contactEndpoint': contactEndpoint,
-        'protocol': protocol.toValue(),
+        'protocol': protocol.value,
       },
     );
 
@@ -1037,7 +1037,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'power': power.toValue(),
+        'power': power.value,
         'scale': scale,
         'serviceName': serviceName,
         if (deployment != null) 'deployment': deployment,
@@ -1573,11 +1573,11 @@ class Lightsail {
           'cacheBehaviorSettings': cacheBehaviorSettings,
         if (cacheBehaviors != null) 'cacheBehaviors': cacheBehaviors,
         if (certificateName != null) 'certificateName': certificateName,
-        if (ipAddressType != null) 'ipAddressType': ipAddressType.toValue(),
+        if (ipAddressType != null) 'ipAddressType': ipAddressType.value,
         if (tags != null) 'tags': tags,
         if (viewerMinimumTlsProtocolVersion != null)
           'viewerMinimumTlsProtocolVersion':
-              viewerMinimumTlsProtocolVersion.toValue(),
+              viewerMinimumTlsProtocolVersion.value,
       },
     );
 
@@ -1883,7 +1883,7 @@ class Lightsail {
         'instanceNames': instanceNames,
         if (addOns != null) 'addOns': addOns,
         if (customImageName != null) 'customImageName': customImageName,
-        if (ipAddressType != null) 'ipAddressType': ipAddressType.toValue(),
+        if (ipAddressType != null) 'ipAddressType': ipAddressType.value,
         if (keyPairName != null) 'keyPairName': keyPairName,
         if (tags != null) 'tags': tags,
         if (userData != null) 'userData': userData,
@@ -2076,7 +2076,7 @@ class Lightsail {
           'attachedDiskMapping': attachedDiskMapping,
         if (instanceSnapshotName != null)
           'instanceSnapshotName': instanceSnapshotName,
-        if (ipAddressType != null) 'ipAddressType': ipAddressType.toValue(),
+        if (ipAddressType != null) 'ipAddressType': ipAddressType.value,
         if (keyPairName != null) 'keyPairName': keyPairName,
         if (restoreDate != null) 'restoreDate': restoreDate,
         if (sourceInstanceName != null)
@@ -2261,7 +2261,7 @@ class Lightsail {
           'certificateDomainName': certificateDomainName,
         if (certificateName != null) 'certificateName': certificateName,
         if (healthCheckPath != null) 'healthCheckPath': healthCheckPath,
-        if (ipAddressType != null) 'ipAddressType': ipAddressType.toValue(),
+        if (ipAddressType != null) 'ipAddressType': ipAddressType.value,
         if (tags != null) 'tags': tags,
         if (tlsPolicyName != null) 'tlsPolicyName': tlsPolicyName,
       },
@@ -3141,7 +3141,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'protocol': protocol.toValue(),
+        'protocol': protocol.value,
       },
     );
 
@@ -4040,7 +4040,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'addOnType': addOnType.toValue(),
+        'addOnType': addOnType.value,
         'resourceName': resourceName,
       },
     );
@@ -4357,7 +4357,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (appCategory != null) 'appCategory': appCategory.toValue(),
+        if (appCategory != null) 'appCategory': appCategory.value,
         if (includeInactive != null) 'includeInactive': includeInactive,
         if (pageToken != null) 'pageToken': pageToken,
       },
@@ -4574,11 +4574,11 @@ class Lightsail {
       payload: {
         'bucketName': bucketName,
         'endTime': unixTimestampToJson(endTime),
-        'metricName': metricName.toValue(),
+        'metricName': metricName.value,
         'period': period,
         'startTime': unixTimestampToJson(startTime),
-        'statistics': statistics.map((e) => e.toValue()).toList(),
-        'unit': unit.toValue(),
+        'statistics': statistics.map((e) => e.value).toList(),
+        'unit': unit.value,
       },
     );
 
@@ -4694,7 +4694,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (appCategory != null) 'appCategory': appCategory.toValue(),
+        if (appCategory != null) 'appCategory': appCategory.value,
         if (includeInactive != null) 'includeInactive': includeInactive,
         if (pageToken != null) 'pageToken': pageToken,
       },
@@ -4767,7 +4767,7 @@ class Lightsail {
         if (certificateName != null) 'certificateName': certificateName,
         if (certificateStatuses != null)
           'certificateStatuses':
-              certificateStatuses.map((e) => e.toValue()).toList(),
+              certificateStatuses.map((e) => e.value).toList(),
         if (includeCertificateDetails != null)
           'includeCertificateDetails': includeCertificateDetails,
         if (pageToken != null) 'pageToken': pageToken,
@@ -4860,7 +4860,7 @@ class Lightsail {
       headers: headers,
       payload: {
         if (protocols != null)
-          'protocols': protocols.map((e) => e.toValue()).toList(),
+          'protocols': protocols.map((e) => e.value).toList(),
       },
     );
 
@@ -5226,11 +5226,11 @@ class Lightsail {
       headers: headers,
       payload: {
         'endTime': unixTimestampToJson(endTime),
-        'metricName': metricName.toValue(),
+        'metricName': metricName.value,
         'period': period,
         'serviceName': serviceName,
         'startTime': unixTimestampToJson(startTime),
-        'statistics': statistics.map((e) => e.toValue()).toList(),
+        'statistics': statistics.map((e) => e.value).toList(),
       },
     );
 
@@ -5786,11 +5786,11 @@ class Lightsail {
       payload: {
         'distributionName': distributionName,
         'endTime': unixTimestampToJson(endTime),
-        'metricName': metricName.toValue(),
+        'metricName': metricName.value,
         'period': period,
         'startTime': unixTimestampToJson(startTime),
-        'statistics': statistics.map((e) => e.toValue()).toList(),
-        'unit': unit.toValue(),
+        'statistics': statistics.map((e) => e.value).toList(),
+        'unit': unit.value,
       },
     );
 
@@ -6029,7 +6029,7 @@ class Lightsail {
       headers: headers,
       payload: {
         'instanceName': instanceName,
-        if (protocol != null) 'protocol': protocol.toValue(),
+        if (protocol != null) 'protocol': protocol.value,
       },
     );
 
@@ -6259,11 +6259,11 @@ class Lightsail {
       payload: {
         'endTime': unixTimestampToJson(endTime),
         'instanceName': instanceName,
-        'metricName': metricName.toValue(),
+        'metricName': metricName.value,
         'period': period,
         'startTime': unixTimestampToJson(startTime),
-        'statistics': statistics.map((e) => e.toValue()).toList(),
-        'unit': unit.toValue(),
+        'statistics': statistics.map((e) => e.value).toList(),
+        'unit': unit.value,
       },
     );
 
@@ -6788,11 +6788,11 @@ class Lightsail {
       payload: {
         'endTime': unixTimestampToJson(endTime),
         'loadBalancerName': loadBalancerName,
-        'metricName': metricName.toValue(),
+        'metricName': metricName.value,
         'period': period,
         'startTime': unixTimestampToJson(startTime),
-        'statistics': statistics.map((e) => e.toValue()).toList(),
-        'unit': unit.toValue(),
+        'statistics': statistics.map((e) => e.value).toList(),
+        'unit': unit.value,
       },
     );
 
@@ -7447,8 +7447,7 @@ class Lightsail {
       headers: headers,
       payload: {
         'relationalDatabaseName': relationalDatabaseName,
-        if (passwordVersion != null)
-          'passwordVersion': passwordVersion.toValue(),
+        if (passwordVersion != null) 'passwordVersion': passwordVersion.value,
       },
     );
 
@@ -7646,12 +7645,12 @@ class Lightsail {
       headers: headers,
       payload: {
         'endTime': unixTimestampToJson(endTime),
-        'metricName': metricName.toValue(),
+        'metricName': metricName.value,
         'period': period,
         'relationalDatabaseName': relationalDatabaseName,
         'startTime': unixTimestampToJson(startTime),
-        'statistics': statistics.map((e) => e.toValue()).toList(),
-        'unit': unit.toValue(),
+        'statistics': statistics.map((e) => e.value).toList(),
+        'unit': unit.value,
       },
     );
 
@@ -8274,21 +8273,21 @@ class Lightsail {
       headers: headers,
       payload: {
         'alarmName': alarmName,
-        'comparisonOperator': comparisonOperator.toValue(),
+        'comparisonOperator': comparisonOperator.value,
         'evaluationPeriods': evaluationPeriods,
-        'metricName': metricName.toValue(),
+        'metricName': metricName.value,
         'monitoredResourceName': monitoredResourceName,
         'threshold': threshold,
         if (contactProtocols != null)
-          'contactProtocols': contactProtocols.map((e) => e.toValue()).toList(),
+          'contactProtocols': contactProtocols.map((e) => e.value).toList(),
         if (datapointsToAlarm != null) 'datapointsToAlarm': datapointsToAlarm,
         if (notificationEnabled != null)
           'notificationEnabled': notificationEnabled,
         if (notificationTriggers != null)
           'notificationTriggers':
-              notificationTriggers.map((e) => e.toValue()).toList(),
+              notificationTriggers.map((e) => e.value).toList(),
         if (treatMissingData != null)
-          'treatMissingData': treatMissingData.toValue(),
+          'treatMissingData': treatMissingData.value,
       },
     );
 
@@ -8615,7 +8614,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'protocol': protocol.toValue(),
+        'protocol': protocol.value,
       },
     );
 
@@ -8687,9 +8686,9 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ipAddressType': ipAddressType.toValue(),
+        'ipAddressType': ipAddressType.value,
         'resourceName': resourceName,
-        'resourceType': resourceType.toValue(),
+        'resourceType': resourceType.value,
         if (acceptBundleUpdate != null)
           'acceptBundleUpdate': acceptBundleUpdate,
       },
@@ -8749,7 +8748,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'access': access.toValue(),
+        'access': access.value,
         'bucketName': bucketName,
         'resourceName': resourceName,
       },
@@ -8801,7 +8800,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'certificateProvider': certificateProvider.toValue(),
+        'certificateProvider': certificateProvider.value,
         'domainNames': domainNames,
         'emailAddress': emailAddress,
         'instanceName': instanceName,
@@ -9179,7 +9178,7 @@ class Lightsail {
       headers: headers,
       payload: {
         'alarmName': alarmName,
-        'state': state.toValue(),
+        'state': state.value,
       },
     );
 
@@ -9488,7 +9487,7 @@ class Lightsail {
       payload: {
         'serviceName': serviceName,
         if (isDisabled != null) 'isDisabled': isDisabled,
-        if (power != null) 'power': power.toValue(),
+        if (power != null) 'power': power.value,
         if (privateRegistryAccess != null)
           'privateRegistryAccess': privateRegistryAccess,
         if (publicDomainNames != null) 'publicDomainNames': publicDomainNames,
@@ -9599,7 +9598,7 @@ class Lightsail {
           'useDefaultCertificate': useDefaultCertificate,
         if (viewerMinimumTlsProtocolVersion != null)
           'viewerMinimumTlsProtocolVersion':
-              viewerMinimumTlsProtocolVersion.toValue(),
+              viewerMinimumTlsProtocolVersion.value,
       },
     );
 
@@ -9782,12 +9781,12 @@ class Lightsail {
       headers: headers,
       payload: {
         'instanceName': instanceName,
-        if (httpEndpoint != null) 'httpEndpoint': httpEndpoint.toValue(),
+        if (httpEndpoint != null) 'httpEndpoint': httpEndpoint.value,
         if (httpProtocolIpv6 != null)
-          'httpProtocolIpv6': httpProtocolIpv6.toValue(),
+          'httpProtocolIpv6': httpProtocolIpv6.value,
         if (httpPutResponseHopLimit != null)
           'httpPutResponseHopLimit': httpPutResponseHopLimit,
-        if (httpTokens != null) 'httpTokens': httpTokens.toValue(),
+        if (httpTokens != null) 'httpTokens': httpTokens.value,
       },
     );
 
@@ -9879,7 +9878,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'attributeName': attributeName.toValue(),
+        'attributeName': attributeName.value,
         'attributeValue': attributeValue,
         'loadBalancerName': loadBalancerName,
       },
@@ -10131,31 +10130,18 @@ class Lightsail {
 }
 
 enum AccessDirection {
-  inbound,
-  outbound,
-}
+  inbound('inbound'),
+  outbound('outbound'),
+  ;
 
-extension AccessDirectionValueExtension on AccessDirection {
-  String toValue() {
-    switch (this) {
-      case AccessDirection.inbound:
-        return 'inbound';
-      case AccessDirection.outbound:
-        return 'outbound';
-    }
-  }
-}
+  final String value;
 
-extension AccessDirectionFromString on String {
-  AccessDirection toAccessDirection() {
-    switch (this) {
-      case 'inbound':
-        return AccessDirection.inbound;
-      case 'outbound':
-        return AccessDirection.outbound;
-    }
-    throw Exception('$this is not known in enum AccessDirection');
-  }
+  const AccessDirection(this.value);
+
+  static AccessDirection fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AccessDirection'));
 }
 
 /// Describes an access key for an Amazon Lightsail bucket.
@@ -10220,7 +10206,7 @@ class AccessKey {
           ? AccessKeyLastUsed.fromJson(json['lastUsed'] as Map<String, dynamic>)
           : null,
       secretAccessKey: json['secretAccessKey'] as String?,
-      status: (json['status'] as String?)?.toStatusType(),
+      status: (json['status'] as String?)?.let(StatusType.fromString),
     );
   }
 
@@ -10235,7 +10221,7 @@ class AccessKey {
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (lastUsed != null) 'lastUsed': lastUsed,
       if (secretAccessKey != null) 'secretAccessKey': secretAccessKey,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -10344,7 +10330,7 @@ class AccessRules {
   factory AccessRules.fromJson(Map<String, dynamic> json) {
     return AccessRules(
       allowPublicOverrides: json['allowPublicOverrides'] as bool?,
-      getObject: (json['getObject'] as String?)?.toAccessType(),
+      getObject: (json['getObject'] as String?)?.let(AccessType.fromString),
     );
   }
 
@@ -10354,37 +10340,23 @@ class AccessRules {
     return {
       if (allowPublicOverrides != null)
         'allowPublicOverrides': allowPublicOverrides,
-      if (getObject != null) 'getObject': getObject.toValue(),
+      if (getObject != null) 'getObject': getObject.value,
     };
   }
 }
 
 enum AccessType {
-  public,
-  private,
-}
+  public('public'),
+  private('private'),
+  ;
 
-extension AccessTypeValueExtension on AccessType {
-  String toValue() {
-    switch (this) {
-      case AccessType.public:
-        return 'public';
-      case AccessType.private:
-        return 'private';
-    }
-  }
-}
+  final String value;
 
-extension AccessTypeFromString on String {
-  AccessType toAccessType() {
-    switch (this) {
-      case 'public':
-        return AccessType.public;
-      case 'private':
-        return AccessType.private;
-    }
-    throw Exception('$this is not known in enum AccessType');
-  }
+  const AccessType(this.value);
+
+  static AccessType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AccessType'));
 }
 
 /// Describes the synchronization status of the Amazon Simple Storage Service
@@ -10497,8 +10469,9 @@ class AccountLevelBpaSync {
     return AccountLevelBpaSync(
       bpaImpactsLightsail: json['bpaImpactsLightsail'] as bool?,
       lastSyncedAt: timeStampFromJson(json['lastSyncedAt']),
-      message: (json['message'] as String?)?.toBPAStatusMessage(),
-      status: (json['status'] as String?)?.toAccountLevelBpaSyncStatus(),
+      message: (json['message'] as String?)?.let(BPAStatusMessage.fromString),
+      status: (json['status'] as String?)
+          ?.let(AccountLevelBpaSyncStatus.fromString),
     );
   }
 
@@ -10512,48 +10485,27 @@ class AccountLevelBpaSync {
         'bpaImpactsLightsail': bpaImpactsLightsail,
       if (lastSyncedAt != null)
         'lastSyncedAt': unixTimestampToJson(lastSyncedAt),
-      if (message != null) 'message': message.toValue(),
-      if (status != null) 'status': status.toValue(),
+      if (message != null) 'message': message.value,
+      if (status != null) 'status': status.value,
     };
   }
 }
 
 enum AccountLevelBpaSyncStatus {
-  inSync,
-  failed,
-  neverSynced,
-  defaulted,
-}
+  inSync('InSync'),
+  failed('Failed'),
+  neverSynced('NeverSynced'),
+  defaulted('Defaulted'),
+  ;
 
-extension AccountLevelBpaSyncStatusValueExtension on AccountLevelBpaSyncStatus {
-  String toValue() {
-    switch (this) {
-      case AccountLevelBpaSyncStatus.inSync:
-        return 'InSync';
-      case AccountLevelBpaSyncStatus.failed:
-        return 'Failed';
-      case AccountLevelBpaSyncStatus.neverSynced:
-        return 'NeverSynced';
-      case AccountLevelBpaSyncStatus.defaulted:
-        return 'Defaulted';
-    }
-  }
-}
+  final String value;
 
-extension AccountLevelBpaSyncStatusFromString on String {
-  AccountLevelBpaSyncStatus toAccountLevelBpaSyncStatus() {
-    switch (this) {
-      case 'InSync':
-        return AccountLevelBpaSyncStatus.inSync;
-      case 'Failed':
-        return AccountLevelBpaSyncStatus.failed;
-      case 'NeverSynced':
-        return AccountLevelBpaSyncStatus.neverSynced;
-      case 'Defaulted':
-        return AccountLevelBpaSyncStatus.defaulted;
-    }
-    throw Exception('$this is not known in enum AccountLevelBpaSyncStatus');
-  }
+  const AccountLevelBpaSyncStatus(this.value);
+
+  static AccountLevelBpaSyncStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AccountLevelBpaSyncStatus'));
 }
 
 /// Describes an add-on that is enabled for an Amazon Lightsail resource.
@@ -10667,7 +10619,7 @@ class AddOnRequest {
     final autoSnapshotAddOnRequest = this.autoSnapshotAddOnRequest;
     final stopInstanceOnIdleRequest = this.stopInstanceOnIdleRequest;
     return {
-      'addOnType': addOnType.toValue(),
+      'addOnType': addOnType.value,
       if (autoSnapshotAddOnRequest != null)
         'autoSnapshotAddOnRequest': autoSnapshotAddOnRequest,
       if (stopInstanceOnIdleRequest != null)
@@ -10677,31 +10629,17 @@ class AddOnRequest {
 }
 
 enum AddOnType {
-  autoSnapshot,
-  stopInstanceOnIdle,
-}
+  autoSnapshot('AutoSnapshot'),
+  stopInstanceOnIdle('StopInstanceOnIdle'),
+  ;
 
-extension AddOnTypeValueExtension on AddOnType {
-  String toValue() {
-    switch (this) {
-      case AddOnType.autoSnapshot:
-        return 'AutoSnapshot';
-      case AddOnType.stopInstanceOnIdle:
-        return 'StopInstanceOnIdle';
-    }
-  }
-}
+  final String value;
 
-extension AddOnTypeFromString on String {
-  AddOnType toAddOnType() {
-    switch (this) {
-      case 'AutoSnapshot':
-        return AddOnType.autoSnapshot;
-      case 'StopInstanceOnIdle':
-        return AddOnType.stopInstanceOnIdle;
-    }
-    throw Exception('$this is not known in enum AddOnType');
-  }
+  const AddOnType(this.value);
+
+  static AddOnType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AddOnType'));
 }
 
 /// Describes an alarm.
@@ -10872,11 +10810,11 @@ class Alarm {
   factory Alarm.fromJson(Map<String, dynamic> json) {
     return Alarm(
       arn: json['arn'] as String?,
-      comparisonOperator:
-          (json['comparisonOperator'] as String?)?.toComparisonOperator(),
+      comparisonOperator: (json['comparisonOperator'] as String?)
+          ?.let(ComparisonOperator.fromString),
       contactProtocols: (json['contactProtocols'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toContactProtocol())
+          .map((e) => ContactProtocol.fromString((e as String)))
           .toList(),
       createdAt: timeStampFromJson(json['createdAt']),
       datapointsToAlarm: json['datapointsToAlarm'] as int?,
@@ -10884,7 +10822,7 @@ class Alarm {
       location: json['location'] != null
           ? ResourceLocation.fromJson(json['location'] as Map<String, dynamic>)
           : null,
-      metricName: (json['metricName'] as String?)?.toMetricName(),
+      metricName: (json['metricName'] as String?)?.let(MetricName.fromString),
       monitoredResourceInfo: json['monitoredResourceInfo'] != null
           ? MonitoredResourceInfo.fromJson(
               json['monitoredResourceInfo'] as Map<String, dynamic>)
@@ -10893,17 +10831,19 @@ class Alarm {
       notificationEnabled: json['notificationEnabled'] as bool?,
       notificationTriggers: (json['notificationTriggers'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toAlarmState())
+          .map((e) => AlarmState.fromString((e as String)))
           .toList(),
       period: json['period'] as int?,
-      resourceType: (json['resourceType'] as String?)?.toResourceType(),
-      state: (json['state'] as String?)?.toAlarmState(),
-      statistic: (json['statistic'] as String?)?.toMetricStatistic(),
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
+      state: (json['state'] as String?)?.let(AlarmState.fromString),
+      statistic:
+          (json['statistic'] as String?)?.let(MetricStatistic.fromString),
       supportCode: json['supportCode'] as String?,
       threshold: json['threshold'] as double?,
-      treatMissingData:
-          (json['treatMissingData'] as String?)?.toTreatMissingData(),
-      unit: (json['unit'] as String?)?.toMetricUnit(),
+      treatMissingData: (json['treatMissingData'] as String?)
+          ?.let(TreatMissingData.fromString),
+      unit: (json['unit'] as String?)?.let(MetricUnit.fromString),
     );
   }
 
@@ -10931,14 +10871,14 @@ class Alarm {
     return {
       if (arn != null) 'arn': arn,
       if (comparisonOperator != null)
-        'comparisonOperator': comparisonOperator.toValue(),
+        'comparisonOperator': comparisonOperator.value,
       if (contactProtocols != null)
-        'contactProtocols': contactProtocols.map((e) => e.toValue()).toList(),
+        'contactProtocols': contactProtocols.map((e) => e.value).toList(),
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (datapointsToAlarm != null) 'datapointsToAlarm': datapointsToAlarm,
       if (evaluationPeriods != null) 'evaluationPeriods': evaluationPeriods,
       if (location != null) 'location': location,
-      if (metricName != null) 'metricName': metricName.toValue(),
+      if (metricName != null) 'metricName': metricName.value,
       if (monitoredResourceInfo != null)
         'monitoredResourceInfo': monitoredResourceInfo,
       if (name != null) 'name': name,
@@ -10946,51 +10886,32 @@ class Alarm {
         'notificationEnabled': notificationEnabled,
       if (notificationTriggers != null)
         'notificationTriggers':
-            notificationTriggers.map((e) => e.toValue()).toList(),
+            notificationTriggers.map((e) => e.value).toList(),
       if (period != null) 'period': period,
-      if (resourceType != null) 'resourceType': resourceType.toValue(),
-      if (state != null) 'state': state.toValue(),
-      if (statistic != null) 'statistic': statistic.toValue(),
+      if (resourceType != null) 'resourceType': resourceType.value,
+      if (state != null) 'state': state.value,
+      if (statistic != null) 'statistic': statistic.value,
       if (supportCode != null) 'supportCode': supportCode,
       if (threshold != null) 'threshold': threshold,
-      if (treatMissingData != null)
-        'treatMissingData': treatMissingData.toValue(),
-      if (unit != null) 'unit': unit.toValue(),
+      if (treatMissingData != null) 'treatMissingData': treatMissingData.value,
+      if (unit != null) 'unit': unit.value,
     };
   }
 }
 
 enum AlarmState {
-  ok,
-  alarm,
-  insufficientData,
-}
+  ok('OK'),
+  alarm('ALARM'),
+  insufficientData('INSUFFICIENT_DATA'),
+  ;
 
-extension AlarmStateValueExtension on AlarmState {
-  String toValue() {
-    switch (this) {
-      case AlarmState.ok:
-        return 'OK';
-      case AlarmState.alarm:
-        return 'ALARM';
-      case AlarmState.insufficientData:
-        return 'INSUFFICIENT_DATA';
-    }
-  }
-}
+  final String value;
 
-extension AlarmStateFromString on String {
-  AlarmState toAlarmState() {
-    switch (this) {
-      case 'OK':
-        return AlarmState.ok;
-      case 'ALARM':
-        return AlarmState.alarm;
-      case 'INSUFFICIENT_DATA':
-        return AlarmState.insufficientData;
-    }
-    throw Exception('$this is not known in enum AlarmState');
-  }
+  const AlarmState(this.value);
+
+  static AlarmState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AlarmState'));
 }
 
 class AllocateStaticIpResult {
@@ -11021,26 +10942,16 @@ class AllocateStaticIpResult {
 }
 
 enum AppCategory {
-  lfR,
-}
+  lfR('LfR'),
+  ;
 
-extension AppCategoryValueExtension on AppCategory {
-  String toValue() {
-    switch (this) {
-      case AppCategory.lfR:
-        return 'LfR';
-    }
-  }
-}
+  final String value;
 
-extension AppCategoryFromString on String {
-  AppCategory toAppCategory() {
-    switch (this) {
-      case 'LfR':
-        return AppCategory.lfR;
-    }
-    throw Exception('$this is not known in enum AppCategory');
-  }
+  const AppCategory(this.value);
+
+  static AppCategory fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AppCategory'));
 }
 
 class AttachCertificateToDistributionResult {
@@ -11215,41 +11126,20 @@ class AttachedDisk {
 }
 
 enum AutoMountStatus {
-  failed,
-  pending,
-  mounted,
-  notMounted,
-}
+  failed('Failed'),
+  pending('Pending'),
+  mounted('Mounted'),
+  notMounted('NotMounted'),
+  ;
 
-extension AutoMountStatusValueExtension on AutoMountStatus {
-  String toValue() {
-    switch (this) {
-      case AutoMountStatus.failed:
-        return 'Failed';
-      case AutoMountStatus.pending:
-        return 'Pending';
-      case AutoMountStatus.mounted:
-        return 'Mounted';
-      case AutoMountStatus.notMounted:
-        return 'NotMounted';
-    }
-  }
-}
+  final String value;
 
-extension AutoMountStatusFromString on String {
-  AutoMountStatus toAutoMountStatus() {
-    switch (this) {
-      case 'Failed':
-        return AutoMountStatus.failed;
-      case 'Pending':
-        return AutoMountStatus.pending;
-      case 'Mounted':
-        return AutoMountStatus.mounted;
-      case 'NotMounted':
-        return AutoMountStatus.notMounted;
-    }
-    throw Exception('$this is not known in enum AutoMountStatus');
-  }
+  const AutoMountStatus(this.value);
+
+  static AutoMountStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AutoMountStatus'));
 }
 
 /// Describes a request to enable or modify the automatic snapshot add-on for an
@@ -11351,7 +11241,7 @@ class AutoSnapshotDetails {
           ?.whereNotNull()
           .map((e) => AttachedDisk.fromJson(e as Map<String, dynamic>))
           .toList(),
-      status: (json['status'] as String?)?.toAutoSnapshotStatus(),
+      status: (json['status'] as String?)?.let(AutoSnapshotStatus.fromString),
     );
   }
 
@@ -11364,47 +11254,26 @@ class AutoSnapshotDetails {
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (date != null) 'date': date,
       if (fromAttachedDisks != null) 'fromAttachedDisks': fromAttachedDisks,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
 
 enum AutoSnapshotStatus {
-  success,
-  failed,
-  inProgress,
-  notFound,
-}
+  success('Success'),
+  failed('Failed'),
+  inProgress('InProgress'),
+  notFound('NotFound'),
+  ;
 
-extension AutoSnapshotStatusValueExtension on AutoSnapshotStatus {
-  String toValue() {
-    switch (this) {
-      case AutoSnapshotStatus.success:
-        return 'Success';
-      case AutoSnapshotStatus.failed:
-        return 'Failed';
-      case AutoSnapshotStatus.inProgress:
-        return 'InProgress';
-      case AutoSnapshotStatus.notFound:
-        return 'NotFound';
-    }
-  }
-}
+  final String value;
 
-extension AutoSnapshotStatusFromString on String {
-  AutoSnapshotStatus toAutoSnapshotStatus() {
-    switch (this) {
-      case 'Success':
-        return AutoSnapshotStatus.success;
-      case 'Failed':
-        return AutoSnapshotStatus.failed;
-      case 'InProgress':
-        return AutoSnapshotStatus.inProgress;
-      case 'NotFound':
-        return AutoSnapshotStatus.notFound;
-    }
-    throw Exception('$this is not known in enum AutoSnapshotStatus');
-  }
+  const AutoSnapshotStatus(this.value);
+
+  static AutoSnapshotStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AutoSnapshotStatus'));
 }
 
 /// Describes an Availability Zone. This is returned only as part of a
@@ -11440,69 +11309,35 @@ class AvailabilityZone {
 }
 
 enum BPAStatusMessage {
-  defaultedForSlrMissing,
-  syncOnHold,
-  defaultedForSlrMissingOnHold,
-  unknown,
-}
+  defaultedForSlrMissing('DEFAULTED_FOR_SLR_MISSING'),
+  syncOnHold('SYNC_ON_HOLD'),
+  defaultedForSlrMissingOnHold('DEFAULTED_FOR_SLR_MISSING_ON_HOLD'),
+  unknown('Unknown'),
+  ;
 
-extension BPAStatusMessageValueExtension on BPAStatusMessage {
-  String toValue() {
-    switch (this) {
-      case BPAStatusMessage.defaultedForSlrMissing:
-        return 'DEFAULTED_FOR_SLR_MISSING';
-      case BPAStatusMessage.syncOnHold:
-        return 'SYNC_ON_HOLD';
-      case BPAStatusMessage.defaultedForSlrMissingOnHold:
-        return 'DEFAULTED_FOR_SLR_MISSING_ON_HOLD';
-      case BPAStatusMessage.unknown:
-        return 'Unknown';
-    }
-  }
-}
+  final String value;
 
-extension BPAStatusMessageFromString on String {
-  BPAStatusMessage toBPAStatusMessage() {
-    switch (this) {
-      case 'DEFAULTED_FOR_SLR_MISSING':
-        return BPAStatusMessage.defaultedForSlrMissing;
-      case 'SYNC_ON_HOLD':
-        return BPAStatusMessage.syncOnHold;
-      case 'DEFAULTED_FOR_SLR_MISSING_ON_HOLD':
-        return BPAStatusMessage.defaultedForSlrMissingOnHold;
-      case 'Unknown':
-        return BPAStatusMessage.unknown;
-    }
-    throw Exception('$this is not known in enum BPAStatusMessage');
-  }
+  const BPAStatusMessage(this.value);
+
+  static BPAStatusMessage fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum BPAStatusMessage'));
 }
 
 enum BehaviorEnum {
-  dontCache,
-  cache,
-}
+  dontCache('dont-cache'),
+  cache('cache'),
+  ;
 
-extension BehaviorEnumValueExtension on BehaviorEnum {
-  String toValue() {
-    switch (this) {
-      case BehaviorEnum.dontCache:
-        return 'dont-cache';
-      case BehaviorEnum.cache:
-        return 'cache';
-    }
-  }
-}
+  final String value;
 
-extension BehaviorEnumFromString on String {
-  BehaviorEnum toBehaviorEnum() {
-    switch (this) {
-      case 'dont-cache':
-        return BehaviorEnum.dontCache;
-      case 'cache':
-        return BehaviorEnum.cache;
-    }
-    throw Exception('$this is not known in enum BehaviorEnum');
-  }
+  const BehaviorEnum(this.value);
+
+  static BehaviorEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum BehaviorEnum'));
 }
 
 /// Describes a blueprint (a virtual private server image).
@@ -11577,7 +11412,8 @@ class Blueprint {
 
   factory Blueprint.fromJson(Map<String, dynamic> json) {
     return Blueprint(
-      appCategory: (json['appCategory'] as String?)?.toAppCategory(),
+      appCategory:
+          (json['appCategory'] as String?)?.let(AppCategory.fromString),
       blueprintId: json['blueprintId'] as String?,
       description: json['description'] as String?,
       group: json['group'] as String?,
@@ -11585,9 +11421,9 @@ class Blueprint {
       licenseUrl: json['licenseUrl'] as String?,
       minPower: json['minPower'] as int?,
       name: json['name'] as String?,
-      platform: (json['platform'] as String?)?.toInstancePlatform(),
+      platform: (json['platform'] as String?)?.let(InstancePlatform.fromString),
       productUrl: json['productUrl'] as String?,
-      type: (json['type'] as String?)?.toBlueprintType(),
+      type: (json['type'] as String?)?.let(BlueprintType.fromString),
       version: json['version'] as String?,
       versionCode: json['versionCode'] as String?,
     );
@@ -11608,7 +11444,7 @@ class Blueprint {
     final version = this.version;
     final versionCode = this.versionCode;
     return {
-      if (appCategory != null) 'appCategory': appCategory.toValue(),
+      if (appCategory != null) 'appCategory': appCategory.value,
       if (blueprintId != null) 'blueprintId': blueprintId,
       if (description != null) 'description': description,
       if (group != null) 'group': group,
@@ -11616,9 +11452,9 @@ class Blueprint {
       if (licenseUrl != null) 'licenseUrl': licenseUrl,
       if (minPower != null) 'minPower': minPower,
       if (name != null) 'name': name,
-      if (platform != null) 'platform': platform.toValue(),
+      if (platform != null) 'platform': platform.value,
       if (productUrl != null) 'productUrl': productUrl,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
       if (version != null) 'version': version,
       if (versionCode != null) 'versionCode': versionCode,
     };
@@ -11626,31 +11462,18 @@ class Blueprint {
 }
 
 enum BlueprintType {
-  os,
-  app,
-}
+  os('os'),
+  app('app'),
+  ;
 
-extension BlueprintTypeValueExtension on BlueprintType {
-  String toValue() {
-    switch (this) {
-      case BlueprintType.os:
-        return 'os';
-      case BlueprintType.app:
-        return 'app';
-    }
-  }
-}
+  final String value;
 
-extension BlueprintTypeFromString on String {
-  BlueprintType toBlueprintType() {
-    switch (this) {
-      case 'os':
-        return BlueprintType.os;
-      case 'app':
-        return BlueprintType.app;
-    }
-    throw Exception('$this is not known in enum BlueprintType');
-  }
+  const BlueprintType(this.value);
+
+  static BlueprintType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum BlueprintType'));
 }
 
 /// Describes an Amazon Lightsail bucket.
@@ -11969,31 +11792,18 @@ class BucketBundle {
 }
 
 enum BucketMetricName {
-  bucketSizeBytes,
-  numberOfObjects,
-}
+  bucketSizeBytes('BucketSizeBytes'),
+  numberOfObjects('NumberOfObjects'),
+  ;
 
-extension BucketMetricNameValueExtension on BucketMetricName {
-  String toValue() {
-    switch (this) {
-      case BucketMetricName.bucketSizeBytes:
-        return 'BucketSizeBytes';
-      case BucketMetricName.numberOfObjects:
-        return 'NumberOfObjects';
-    }
-  }
-}
+  final String value;
 
-extension BucketMetricNameFromString on String {
-  BucketMetricName toBucketMetricName() {
-    switch (this) {
-      case 'BucketSizeBytes':
-        return BucketMetricName.bucketSizeBytes;
-      case 'NumberOfObjects':
-        return BucketMetricName.numberOfObjects;
-    }
-    throw Exception('$this is not known in enum BucketMetricName');
-  }
+  const BucketMetricName(this.value);
+
+  static BucketMetricName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum BucketMetricName'));
 }
 
 /// Describes the state of an Amazon Lightsail bucket.
@@ -12122,11 +11932,11 @@ class Bundle {
       ramSizeInGb: json['ramSizeInGb'] as double?,
       supportedAppCategories: (json['supportedAppCategories'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toAppCategory())
+          .map((e) => AppCategory.fromString((e as String)))
           .toList(),
       supportedPlatforms: (json['supportedPlatforms'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toInstancePlatform())
+          .map((e) => InstancePlatform.fromString((e as String)))
           .toList(),
       transferPerMonthInGb: json['transferPerMonthInGb'] as int?,
     );
@@ -12160,10 +11970,9 @@ class Bundle {
       if (ramSizeInGb != null) 'ramSizeInGb': ramSizeInGb,
       if (supportedAppCategories != null)
         'supportedAppCategories':
-            supportedAppCategories.map((e) => e.toValue()).toList(),
+            supportedAppCategories.map((e) => e.value).toList(),
       if (supportedPlatforms != null)
-        'supportedPlatforms':
-            supportedPlatforms.map((e) => e.toValue()).toList(),
+        'supportedPlatforms': supportedPlatforms.map((e) => e.value).toList(),
       if (transferPerMonthInGb != null)
         'transferPerMonthInGb': transferPerMonthInGb,
     };
@@ -12202,14 +12011,14 @@ class CacheBehavior {
 
   factory CacheBehavior.fromJson(Map<String, dynamic> json) {
     return CacheBehavior(
-      behavior: (json['behavior'] as String?)?.toBehaviorEnum(),
+      behavior: (json['behavior'] as String?)?.let(BehaviorEnum.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final behavior = this.behavior;
     return {
-      if (behavior != null) 'behavior': behavior.toValue(),
+      if (behavior != null) 'behavior': behavior.value,
     };
   }
 }
@@ -12292,7 +12101,7 @@ class CacheBehaviorPerPath {
 
   factory CacheBehaviorPerPath.fromJson(Map<String, dynamic> json) {
     return CacheBehaviorPerPath(
-      behavior: (json['behavior'] as String?)?.toBehaviorEnum(),
+      behavior: (json['behavior'] as String?)?.let(BehaviorEnum.fromString),
       path: json['path'] as String?,
     );
   }
@@ -12301,7 +12110,7 @@ class CacheBehaviorPerPath {
     final behavior = this.behavior;
     final path = this.path;
     return {
-      if (behavior != null) 'behavior': behavior.toValue(),
+      if (behavior != null) 'behavior': behavior.value,
       if (path != null) 'path': path,
     };
   }
@@ -12641,7 +12450,7 @@ class Certificate {
       revocationReason: json['revocationReason'] as String?,
       revokedAt: timeStampFromJson(json['revokedAt']),
       serialNumber: json['serialNumber'] as String?,
-      status: (json['status'] as String?)?.toCertificateStatus(),
+      status: (json['status'] as String?)?.let(CertificateStatus.fromString),
       subjectAlternativeNames: (json['subjectAlternativeNames'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -12696,7 +12505,7 @@ class Certificate {
       if (revocationReason != null) 'revocationReason': revocationReason,
       if (revokedAt != null) 'revokedAt': unixTimestampToJson(revokedAt),
       if (serialNumber != null) 'serialNumber': serialNumber,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (subjectAlternativeNames != null)
         'subjectAlternativeNames': subjectAlternativeNames,
       if (supportCode != null) 'supportCode': supportCode,
@@ -12706,114 +12515,53 @@ class Certificate {
 }
 
 enum CertificateDomainValidationStatus {
-  pendingValidation,
-  failed,
-  success,
-}
+  pendingValidation('PENDING_VALIDATION'),
+  failed('FAILED'),
+  success('SUCCESS'),
+  ;
 
-extension CertificateDomainValidationStatusValueExtension
-    on CertificateDomainValidationStatus {
-  String toValue() {
-    switch (this) {
-      case CertificateDomainValidationStatus.pendingValidation:
-        return 'PENDING_VALIDATION';
-      case CertificateDomainValidationStatus.failed:
-        return 'FAILED';
-      case CertificateDomainValidationStatus.success:
-        return 'SUCCESS';
-    }
-  }
-}
+  final String value;
 
-extension CertificateDomainValidationStatusFromString on String {
-  CertificateDomainValidationStatus toCertificateDomainValidationStatus() {
-    switch (this) {
-      case 'PENDING_VALIDATION':
-        return CertificateDomainValidationStatus.pendingValidation;
-      case 'FAILED':
-        return CertificateDomainValidationStatus.failed;
-      case 'SUCCESS':
-        return CertificateDomainValidationStatus.success;
-    }
-    throw Exception(
-        '$this is not known in enum CertificateDomainValidationStatus');
-  }
+  const CertificateDomainValidationStatus(this.value);
+
+  static CertificateDomainValidationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CertificateDomainValidationStatus'));
 }
 
 enum CertificateProvider {
-  letsEncrypt,
-}
+  letsEncrypt('LetsEncrypt'),
+  ;
 
-extension CertificateProviderValueExtension on CertificateProvider {
-  String toValue() {
-    switch (this) {
-      case CertificateProvider.letsEncrypt:
-        return 'LetsEncrypt';
-    }
-  }
-}
+  final String value;
 
-extension CertificateProviderFromString on String {
-  CertificateProvider toCertificateProvider() {
-    switch (this) {
-      case 'LetsEncrypt':
-        return CertificateProvider.letsEncrypt;
-    }
-    throw Exception('$this is not known in enum CertificateProvider');
-  }
+  const CertificateProvider(this.value);
+
+  static CertificateProvider fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum CertificateProvider'));
 }
 
 enum CertificateStatus {
-  pendingValidation,
-  issued,
-  inactive,
-  expired,
-  validationTimedOut,
-  revoked,
-  failed,
-}
+  pendingValidation('PENDING_VALIDATION'),
+  issued('ISSUED'),
+  inactive('INACTIVE'),
+  expired('EXPIRED'),
+  validationTimedOut('VALIDATION_TIMED_OUT'),
+  revoked('REVOKED'),
+  failed('FAILED'),
+  ;
 
-extension CertificateStatusValueExtension on CertificateStatus {
-  String toValue() {
-    switch (this) {
-      case CertificateStatus.pendingValidation:
-        return 'PENDING_VALIDATION';
-      case CertificateStatus.issued:
-        return 'ISSUED';
-      case CertificateStatus.inactive:
-        return 'INACTIVE';
-      case CertificateStatus.expired:
-        return 'EXPIRED';
-      case CertificateStatus.validationTimedOut:
-        return 'VALIDATION_TIMED_OUT';
-      case CertificateStatus.revoked:
-        return 'REVOKED';
-      case CertificateStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension CertificateStatusFromString on String {
-  CertificateStatus toCertificateStatus() {
-    switch (this) {
-      case 'PENDING_VALIDATION':
-        return CertificateStatus.pendingValidation;
-      case 'ISSUED':
-        return CertificateStatus.issued;
-      case 'INACTIVE':
-        return CertificateStatus.inactive;
-      case 'EXPIRED':
-        return CertificateStatus.expired;
-      case 'VALIDATION_TIMED_OUT':
-        return CertificateStatus.validationTimedOut;
-      case 'REVOKED':
-        return CertificateStatus.revoked;
-      case 'FAILED':
-        return CertificateStatus.failed;
-    }
-    throw Exception('$this is not known in enum CertificateStatus');
-  }
+  const CertificateStatus(this.value);
+
+  static CertificateStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CertificateStatus'));
 }
 
 /// Describes an Amazon Lightsail SSL/TLS certificate.
@@ -12960,13 +12708,14 @@ class CloudFormationStackRecord {
           ? ResourceLocation.fromJson(json['location'] as Map<String, dynamic>)
           : null,
       name: json['name'] as String?,
-      resourceType: (json['resourceType'] as String?)?.toResourceType(),
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
       sourceInfo: (json['sourceInfo'] as List?)
           ?.whereNotNull()
           .map((e) => CloudFormationStackRecordSourceInfo.fromJson(
               e as Map<String, dynamic>))
           .toList(),
-      state: (json['state'] as String?)?.toRecordState(),
+      state: (json['state'] as String?)?.let(RecordState.fromString),
     );
   }
 
@@ -12985,9 +12734,9 @@ class CloudFormationStackRecord {
       if (destinationInfo != null) 'destinationInfo': destinationInfo,
       if (location != null) 'location': location,
       if (name != null) 'name': name,
-      if (resourceType != null) 'resourceType': resourceType.toValue(),
+      if (resourceType != null) 'resourceType': resourceType.value,
       if (sourceInfo != null) 'sourceInfo': sourceInfo,
-      if (state != null) 'state': state.toValue(),
+      if (state != null) 'state': state.value,
     };
   }
 }
@@ -13016,7 +12765,7 @@ class CloudFormationStackRecordSourceInfo {
       arn: json['arn'] as String?,
       name: json['name'] as String?,
       resourceType: (json['resourceType'] as String?)
-          ?.toCloudFormationStackRecordSourceType(),
+          ?.let(CloudFormationStackRecordSourceType.fromString),
     );
   }
 
@@ -13027,72 +12776,40 @@ class CloudFormationStackRecordSourceInfo {
     return {
       if (arn != null) 'arn': arn,
       if (name != null) 'name': name,
-      if (resourceType != null) 'resourceType': resourceType.toValue(),
+      if (resourceType != null) 'resourceType': resourceType.value,
     };
   }
 }
 
 enum CloudFormationStackRecordSourceType {
-  exportSnapshotRecord,
-}
+  exportSnapshotRecord('ExportSnapshotRecord'),
+  ;
 
-extension CloudFormationStackRecordSourceTypeValueExtension
-    on CloudFormationStackRecordSourceType {
-  String toValue() {
-    switch (this) {
-      case CloudFormationStackRecordSourceType.exportSnapshotRecord:
-        return 'ExportSnapshotRecord';
-    }
-  }
-}
+  final String value;
 
-extension CloudFormationStackRecordSourceTypeFromString on String {
-  CloudFormationStackRecordSourceType toCloudFormationStackRecordSourceType() {
-    switch (this) {
-      case 'ExportSnapshotRecord':
-        return CloudFormationStackRecordSourceType.exportSnapshotRecord;
-    }
-    throw Exception(
-        '$this is not known in enum CloudFormationStackRecordSourceType');
-  }
+  const CloudFormationStackRecordSourceType(this.value);
+
+  static CloudFormationStackRecordSourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CloudFormationStackRecordSourceType'));
 }
 
 enum ComparisonOperator {
-  greaterThanOrEqualToThreshold,
-  greaterThanThreshold,
-  lessThanThreshold,
-  lessThanOrEqualToThreshold,
-}
+  greaterThanOrEqualToThreshold('GreaterThanOrEqualToThreshold'),
+  greaterThanThreshold('GreaterThanThreshold'),
+  lessThanThreshold('LessThanThreshold'),
+  lessThanOrEqualToThreshold('LessThanOrEqualToThreshold'),
+  ;
 
-extension ComparisonOperatorValueExtension on ComparisonOperator {
-  String toValue() {
-    switch (this) {
-      case ComparisonOperator.greaterThanOrEqualToThreshold:
-        return 'GreaterThanOrEqualToThreshold';
-      case ComparisonOperator.greaterThanThreshold:
-        return 'GreaterThanThreshold';
-      case ComparisonOperator.lessThanThreshold:
-        return 'LessThanThreshold';
-      case ComparisonOperator.lessThanOrEqualToThreshold:
-        return 'LessThanOrEqualToThreshold';
-    }
-  }
-}
+  final String value;
 
-extension ComparisonOperatorFromString on String {
-  ComparisonOperator toComparisonOperator() {
-    switch (this) {
-      case 'GreaterThanOrEqualToThreshold':
-        return ComparisonOperator.greaterThanOrEqualToThreshold;
-      case 'GreaterThanThreshold':
-        return ComparisonOperator.greaterThanThreshold;
-      case 'LessThanThreshold':
-        return ComparisonOperator.lessThanThreshold;
-      case 'LessThanOrEqualToThreshold':
-        return ComparisonOperator.lessThanOrEqualToThreshold;
-    }
-    throw Exception('$this is not known in enum ComparisonOperator');
-  }
+  const ComparisonOperator(this.value);
+
+  static ComparisonOperator fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ComparisonOperator'));
 }
 
 /// Describes a contact method.
@@ -13170,9 +12887,10 @@ class ContactMethod {
           ? ResourceLocation.fromJson(json['location'] as Map<String, dynamic>)
           : null,
       name: json['name'] as String?,
-      protocol: (json['protocol'] as String?)?.toContactProtocol(),
-      resourceType: (json['resourceType'] as String?)?.toResourceType(),
-      status: (json['status'] as String?)?.toContactMethodStatus(),
+      protocol: (json['protocol'] as String?)?.let(ContactProtocol.fromString),
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
+      status: (json['status'] as String?)?.let(ContactMethodStatus.fromString),
       supportCode: json['supportCode'] as String?,
     );
   }
@@ -13193,98 +12911,57 @@ class ContactMethod {
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (location != null) 'location': location,
       if (name != null) 'name': name,
-      if (protocol != null) 'protocol': protocol.toValue(),
-      if (resourceType != null) 'resourceType': resourceType.toValue(),
-      if (status != null) 'status': status.toValue(),
+      if (protocol != null) 'protocol': protocol.value,
+      if (resourceType != null) 'resourceType': resourceType.value,
+      if (status != null) 'status': status.value,
       if (supportCode != null) 'supportCode': supportCode,
     };
   }
 }
 
 enum ContactMethodStatus {
-  pendingVerification,
-  valid,
-  invalid,
-}
+  pendingVerification('PendingVerification'),
+  valid('Valid'),
+  invalid('Invalid'),
+  ;
 
-extension ContactMethodStatusValueExtension on ContactMethodStatus {
-  String toValue() {
-    switch (this) {
-      case ContactMethodStatus.pendingVerification:
-        return 'PendingVerification';
-      case ContactMethodStatus.valid:
-        return 'Valid';
-      case ContactMethodStatus.invalid:
-        return 'Invalid';
-    }
-  }
-}
+  final String value;
 
-extension ContactMethodStatusFromString on String {
-  ContactMethodStatus toContactMethodStatus() {
-    switch (this) {
-      case 'PendingVerification':
-        return ContactMethodStatus.pendingVerification;
-      case 'Valid':
-        return ContactMethodStatus.valid;
-      case 'Invalid':
-        return ContactMethodStatus.invalid;
-    }
-    throw Exception('$this is not known in enum ContactMethodStatus');
-  }
+  const ContactMethodStatus(this.value);
+
+  static ContactMethodStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ContactMethodStatus'));
 }
 
 enum ContactMethodVerificationProtocol {
-  email,
-}
+  email('Email'),
+  ;
 
-extension ContactMethodVerificationProtocolValueExtension
-    on ContactMethodVerificationProtocol {
-  String toValue() {
-    switch (this) {
-      case ContactMethodVerificationProtocol.email:
-        return 'Email';
-    }
-  }
-}
+  final String value;
 
-extension ContactMethodVerificationProtocolFromString on String {
-  ContactMethodVerificationProtocol toContactMethodVerificationProtocol() {
-    switch (this) {
-      case 'Email':
-        return ContactMethodVerificationProtocol.email;
-    }
-    throw Exception(
-        '$this is not known in enum ContactMethodVerificationProtocol');
-  }
+  const ContactMethodVerificationProtocol(this.value);
+
+  static ContactMethodVerificationProtocol fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ContactMethodVerificationProtocol'));
 }
 
 enum ContactProtocol {
-  email,
-  sms,
-}
+  email('Email'),
+  sms('SMS'),
+  ;
 
-extension ContactProtocolValueExtension on ContactProtocol {
-  String toValue() {
-    switch (this) {
-      case ContactProtocol.email:
-        return 'Email';
-      case ContactProtocol.sms:
-        return 'SMS';
-    }
-  }
-}
+  final String value;
 
-extension ContactProtocolFromString on String {
-  ContactProtocol toContactProtocol() {
-    switch (this) {
-      case 'Email':
-        return ContactProtocol.email;
-      case 'SMS':
-        return ContactProtocol.sms;
-    }
-    throw Exception('$this is not known in enum ContactProtocol');
-  }
+  const ContactProtocol(this.value);
+
+  static ContactProtocol fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ContactProtocol'));
 }
 
 /// Describes the settings of a container that will be launched, or that is
@@ -13333,8 +13010,8 @@ class Container {
       environment: (json['environment'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       image: json['image'] as String?,
-      ports: (json['ports'] as Map<String, dynamic>?)?.map(
-          (k, e) => MapEntry(k, (e as String).toContainerServiceProtocol())),
+      ports: (json['ports'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, ContainerServiceProtocol.fromString((e as String)))),
     );
   }
 
@@ -13347,7 +13024,7 @@ class Container {
       if (command != null) 'command': command,
       if (environment != null) 'environment': environment,
       if (image != null) 'image': image,
-      if (ports != null) 'ports': ports.map((k, e) => MapEntry(k, e.toValue())),
+      if (ports != null) 'ports': ports.map((k, e) => MapEntry(k, e.value)),
     };
   }
 }
@@ -13572,7 +13249,8 @@ class ContainerService {
           ? ContainerServiceDeployment.fromJson(
               json['nextDeployment'] as Map<String, dynamic>)
           : null,
-      power: (json['power'] as String?)?.toContainerServicePowerName(),
+      power:
+          (json['power'] as String?)?.let(ContainerServicePowerName.fromString),
       powerId: json['powerId'] as String?,
       principalArn: json['principalArn'] as String?,
       privateDomainName: json['privateDomainName'] as String?,
@@ -13583,9 +13261,10 @@ class ContainerService {
       publicDomainNames: (json['publicDomainNames'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(
               k, (e as List).whereNotNull().map((e) => e as String).toList())),
-      resourceType: (json['resourceType'] as String?)?.toResourceType(),
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
       scale: json['scale'] as int?,
-      state: (json['state'] as String?)?.toContainerServiceState(),
+      state: (json['state'] as String?)?.let(ContainerServiceState.fromString),
       stateDetail: json['stateDetail'] != null
           ? ContainerServiceStateDetail.fromJson(
               json['stateDetail'] as Map<String, dynamic>)
@@ -13627,16 +13306,16 @@ class ContainerService {
       if (isDisabled != null) 'isDisabled': isDisabled,
       if (location != null) 'location': location,
       if (nextDeployment != null) 'nextDeployment': nextDeployment,
-      if (power != null) 'power': power.toValue(),
+      if (power != null) 'power': power.value,
       if (powerId != null) 'powerId': powerId,
       if (principalArn != null) 'principalArn': principalArn,
       if (privateDomainName != null) 'privateDomainName': privateDomainName,
       if (privateRegistryAccess != null)
         'privateRegistryAccess': privateRegistryAccess,
       if (publicDomainNames != null) 'publicDomainNames': publicDomainNames,
-      if (resourceType != null) 'resourceType': resourceType.toValue(),
+      if (resourceType != null) 'resourceType': resourceType.value,
       if (scale != null) 'scale': scale,
-      if (state != null) 'state': state.toValue(),
+      if (state != null) 'state': state.value,
       if (stateDetail != null) 'stateDetail': stateDetail,
       if (tags != null) 'tags': tags,
       if (url != null) 'url': url,
@@ -13705,7 +13384,8 @@ class ContainerServiceDeployment {
           ? ContainerServiceEndpoint.fromJson(
               json['publicEndpoint'] as Map<String, dynamic>)
           : null,
-      state: (json['state'] as String?)?.toContainerServiceDeploymentState(),
+      state: (json['state'] as String?)
+          ?.let(ContainerServiceDeploymentState.fromString),
       version: json['version'] as int?,
     );
   }
@@ -13720,7 +13400,7 @@ class ContainerServiceDeployment {
       if (containers != null) 'containers': containers,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (publicEndpoint != null) 'publicEndpoint': publicEndpoint,
-      if (state != null) 'state': state.toValue(),
+      if (state != null) 'state': state.value,
       if (version != null) 'version': version,
     };
   }
@@ -13755,43 +13435,20 @@ class ContainerServiceDeploymentRequest {
 }
 
 enum ContainerServiceDeploymentState {
-  activating,
-  active,
-  inactive,
-  failed,
-}
+  activating('ACTIVATING'),
+  active('ACTIVE'),
+  inactive('INACTIVE'),
+  failed('FAILED'),
+  ;
 
-extension ContainerServiceDeploymentStateValueExtension
-    on ContainerServiceDeploymentState {
-  String toValue() {
-    switch (this) {
-      case ContainerServiceDeploymentState.activating:
-        return 'ACTIVATING';
-      case ContainerServiceDeploymentState.active:
-        return 'ACTIVE';
-      case ContainerServiceDeploymentState.inactive:
-        return 'INACTIVE';
-      case ContainerServiceDeploymentState.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ContainerServiceDeploymentStateFromString on String {
-  ContainerServiceDeploymentState toContainerServiceDeploymentState() {
-    switch (this) {
-      case 'ACTIVATING':
-        return ContainerServiceDeploymentState.activating;
-      case 'ACTIVE':
-        return ContainerServiceDeploymentState.active;
-      case 'INACTIVE':
-        return ContainerServiceDeploymentState.inactive;
-      case 'FAILED':
-        return ContainerServiceDeploymentState.failed;
-    }
-    throw Exception(
-        '$this is not known in enum ContainerServiceDeploymentState');
-  }
+  const ContainerServiceDeploymentState(this.value);
+
+  static ContainerServiceDeploymentState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ContainerServiceDeploymentState'));
 }
 
 /// Describes the activation status of the role that you can use to grant an
@@ -14013,32 +13670,18 @@ class ContainerServiceLogEvent {
 }
 
 enum ContainerServiceMetricName {
-  cPUUtilization,
-  memoryUtilization,
-}
+  cPUUtilization('CPUUtilization'),
+  memoryUtilization('MemoryUtilization'),
+  ;
 
-extension ContainerServiceMetricNameValueExtension
-    on ContainerServiceMetricName {
-  String toValue() {
-    switch (this) {
-      case ContainerServiceMetricName.cPUUtilization:
-        return 'CPUUtilization';
-      case ContainerServiceMetricName.memoryUtilization:
-        return 'MemoryUtilization';
-    }
-  }
-}
+  final String value;
 
-extension ContainerServiceMetricNameFromString on String {
-  ContainerServiceMetricName toContainerServiceMetricName() {
-    switch (this) {
-      case 'CPUUtilization':
-        return ContainerServiceMetricName.cPUUtilization;
-      case 'MemoryUtilization':
-        return ContainerServiceMetricName.memoryUtilization;
-    }
-    throw Exception('$this is not known in enum ContainerServiceMetricName');
-  }
+  const ContainerServiceMetricName(this.value);
+
+  static ContainerServiceMetricName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ContainerServiceMetricName'));
 }
 
 /// Describes the powers that can be specified for an Amazon Lightsail container
@@ -14105,89 +13748,39 @@ class ContainerServicePower {
 }
 
 enum ContainerServicePowerName {
-  nano,
-  micro,
-  small,
-  medium,
-  large,
-  xlarge,
-}
+  nano('nano'),
+  micro('micro'),
+  small('small'),
+  medium('medium'),
+  large('large'),
+  xlarge('xlarge'),
+  ;
 
-extension ContainerServicePowerNameValueExtension on ContainerServicePowerName {
-  String toValue() {
-    switch (this) {
-      case ContainerServicePowerName.nano:
-        return 'nano';
-      case ContainerServicePowerName.micro:
-        return 'micro';
-      case ContainerServicePowerName.small:
-        return 'small';
-      case ContainerServicePowerName.medium:
-        return 'medium';
-      case ContainerServicePowerName.large:
-        return 'large';
-      case ContainerServicePowerName.xlarge:
-        return 'xlarge';
-    }
-  }
-}
+  final String value;
 
-extension ContainerServicePowerNameFromString on String {
-  ContainerServicePowerName toContainerServicePowerName() {
-    switch (this) {
-      case 'nano':
-        return ContainerServicePowerName.nano;
-      case 'micro':
-        return ContainerServicePowerName.micro;
-      case 'small':
-        return ContainerServicePowerName.small;
-      case 'medium':
-        return ContainerServicePowerName.medium;
-      case 'large':
-        return ContainerServicePowerName.large;
-      case 'xlarge':
-        return ContainerServicePowerName.xlarge;
-    }
-    throw Exception('$this is not known in enum ContainerServicePowerName');
-  }
+  const ContainerServicePowerName(this.value);
+
+  static ContainerServicePowerName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ContainerServicePowerName'));
 }
 
 enum ContainerServiceProtocol {
-  http,
-  https,
-  tcp,
-  udp,
-}
+  http('HTTP'),
+  https('HTTPS'),
+  tcp('TCP'),
+  udp('UDP'),
+  ;
 
-extension ContainerServiceProtocolValueExtension on ContainerServiceProtocol {
-  String toValue() {
-    switch (this) {
-      case ContainerServiceProtocol.http:
-        return 'HTTP';
-      case ContainerServiceProtocol.https:
-        return 'HTTPS';
-      case ContainerServiceProtocol.tcp:
-        return 'TCP';
-      case ContainerServiceProtocol.udp:
-        return 'UDP';
-    }
-  }
-}
+  final String value;
 
-extension ContainerServiceProtocolFromString on String {
-  ContainerServiceProtocol toContainerServiceProtocol() {
-    switch (this) {
-      case 'HTTP':
-        return ContainerServiceProtocol.http;
-      case 'HTTPS':
-        return ContainerServiceProtocol.https;
-      case 'TCP':
-        return ContainerServiceProtocol.tcp;
-      case 'UDP':
-        return ContainerServiceProtocol.udp;
-    }
-    throw Exception('$this is not known in enum ContainerServiceProtocol');
-  }
+  const ContainerServiceProtocol(this.value);
+
+  static ContainerServiceProtocol fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ContainerServiceProtocol'));
 }
 
 /// Describes the sign-in credentials for the container image registry of an
@@ -14244,56 +13837,23 @@ class ContainerServiceRegistryLogin {
 }
 
 enum ContainerServiceState {
-  pending,
-  ready,
-  running,
-  updating,
-  deleting,
-  disabled,
-  deploying,
-}
+  pending('PENDING'),
+  ready('READY'),
+  running('RUNNING'),
+  updating('UPDATING'),
+  deleting('DELETING'),
+  disabled('DISABLED'),
+  deploying('DEPLOYING'),
+  ;
 
-extension ContainerServiceStateValueExtension on ContainerServiceState {
-  String toValue() {
-    switch (this) {
-      case ContainerServiceState.pending:
-        return 'PENDING';
-      case ContainerServiceState.ready:
-        return 'READY';
-      case ContainerServiceState.running:
-        return 'RUNNING';
-      case ContainerServiceState.updating:
-        return 'UPDATING';
-      case ContainerServiceState.deleting:
-        return 'DELETING';
-      case ContainerServiceState.disabled:
-        return 'DISABLED';
-      case ContainerServiceState.deploying:
-        return 'DEPLOYING';
-    }
-  }
-}
+  final String value;
 
-extension ContainerServiceStateFromString on String {
-  ContainerServiceState toContainerServiceState() {
-    switch (this) {
-      case 'PENDING':
-        return ContainerServiceState.pending;
-      case 'READY':
-        return ContainerServiceState.ready;
-      case 'RUNNING':
-        return ContainerServiceState.running;
-      case 'UPDATING':
-        return ContainerServiceState.updating;
-      case 'DELETING':
-        return ContainerServiceState.deleting;
-      case 'DISABLED':
-        return ContainerServiceState.disabled;
-      case 'DEPLOYING':
-        return ContainerServiceState.deploying;
-    }
-    throw Exception('$this is not known in enum ContainerServiceState');
-  }
+  const ContainerServiceState(this.value);
+
+  static ContainerServiceState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ContainerServiceState'));
 }
 
 /// Describes the current state of a container service.
@@ -14369,7 +13929,8 @@ class ContainerServiceStateDetail {
 
   factory ContainerServiceStateDetail.fromJson(Map<String, dynamic> json) {
     return ContainerServiceStateDetail(
-      code: (json['code'] as String?)?.toContainerServiceStateDetailCode(),
+      code: (json['code'] as String?)
+          ?.let(ContainerServiceStateDetailCode.fromString),
       message: json['message'] as String?,
     );
   }
@@ -14378,75 +13939,32 @@ class ContainerServiceStateDetail {
     final code = this.code;
     final message = this.message;
     return {
-      if (code != null) 'code': code.toValue(),
+      if (code != null) 'code': code.value,
       if (message != null) 'message': message,
     };
   }
 }
 
 enum ContainerServiceStateDetailCode {
-  creatingSystemResources,
-  creatingNetworkInfrastructure,
-  provisioningCertificate,
-  provisioningService,
-  creatingDeployment,
-  evaluatingHealthCheck,
-  activatingDeployment,
-  certificateLimitExceeded,
-  unknownError,
-}
+  creatingSystemResources('CREATING_SYSTEM_RESOURCES'),
+  creatingNetworkInfrastructure('CREATING_NETWORK_INFRASTRUCTURE'),
+  provisioningCertificate('PROVISIONING_CERTIFICATE'),
+  provisioningService('PROVISIONING_SERVICE'),
+  creatingDeployment('CREATING_DEPLOYMENT'),
+  evaluatingHealthCheck('EVALUATING_HEALTH_CHECK'),
+  activatingDeployment('ACTIVATING_DEPLOYMENT'),
+  certificateLimitExceeded('CERTIFICATE_LIMIT_EXCEEDED'),
+  unknownError('UNKNOWN_ERROR'),
+  ;
 
-extension ContainerServiceStateDetailCodeValueExtension
-    on ContainerServiceStateDetailCode {
-  String toValue() {
-    switch (this) {
-      case ContainerServiceStateDetailCode.creatingSystemResources:
-        return 'CREATING_SYSTEM_RESOURCES';
-      case ContainerServiceStateDetailCode.creatingNetworkInfrastructure:
-        return 'CREATING_NETWORK_INFRASTRUCTURE';
-      case ContainerServiceStateDetailCode.provisioningCertificate:
-        return 'PROVISIONING_CERTIFICATE';
-      case ContainerServiceStateDetailCode.provisioningService:
-        return 'PROVISIONING_SERVICE';
-      case ContainerServiceStateDetailCode.creatingDeployment:
-        return 'CREATING_DEPLOYMENT';
-      case ContainerServiceStateDetailCode.evaluatingHealthCheck:
-        return 'EVALUATING_HEALTH_CHECK';
-      case ContainerServiceStateDetailCode.activatingDeployment:
-        return 'ACTIVATING_DEPLOYMENT';
-      case ContainerServiceStateDetailCode.certificateLimitExceeded:
-        return 'CERTIFICATE_LIMIT_EXCEEDED';
-      case ContainerServiceStateDetailCode.unknownError:
-        return 'UNKNOWN_ERROR';
-    }
-  }
-}
+  final String value;
 
-extension ContainerServiceStateDetailCodeFromString on String {
-  ContainerServiceStateDetailCode toContainerServiceStateDetailCode() {
-    switch (this) {
-      case 'CREATING_SYSTEM_RESOURCES':
-        return ContainerServiceStateDetailCode.creatingSystemResources;
-      case 'CREATING_NETWORK_INFRASTRUCTURE':
-        return ContainerServiceStateDetailCode.creatingNetworkInfrastructure;
-      case 'PROVISIONING_CERTIFICATE':
-        return ContainerServiceStateDetailCode.provisioningCertificate;
-      case 'PROVISIONING_SERVICE':
-        return ContainerServiceStateDetailCode.provisioningService;
-      case 'CREATING_DEPLOYMENT':
-        return ContainerServiceStateDetailCode.creatingDeployment;
-      case 'EVALUATING_HEALTH_CHECK':
-        return ContainerServiceStateDetailCode.evaluatingHealthCheck;
-      case 'ACTIVATING_DEPLOYMENT':
-        return ContainerServiceStateDetailCode.activatingDeployment;
-      case 'CERTIFICATE_LIMIT_EXCEEDED':
-        return ContainerServiceStateDetailCode.certificateLimitExceeded;
-      case 'UNKNOWN_ERROR':
-        return ContainerServiceStateDetailCode.unknownError;
-    }
-    throw Exception(
-        '$this is not known in enum ContainerServiceStateDetailCode');
-  }
+  const ContainerServiceStateDetailCode(this.value);
+
+  static ContainerServiceStateDetailCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ContainerServiceStateDetailCode'));
 }
 
 class ContainerServicesListResult {
@@ -14500,7 +14018,7 @@ class CookieObject {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      option: (json['option'] as String?)?.toForwardValues(),
+      option: (json['option'] as String?)?.let(ForwardValues.fromString),
     );
   }
 
@@ -14509,7 +14027,7 @@ class CookieObject {
     final option = this.option;
     return {
       if (cookiesAllowList != null) 'cookiesAllowList': cookiesAllowList,
-      if (option != null) 'option': option.toValue(),
+      if (option != null) 'option': option.value,
     };
   }
 }
@@ -15020,7 +14538,7 @@ class CreateGUISessionAccessDetailsResult {
           ?.whereNotNull()
           .map((e) => Session.fromJson(e as Map<String, dynamic>))
           .toList(),
-      status: (json['status'] as String?)?.toStatus(),
+      status: (json['status'] as String?)?.let(Status.fromString),
     );
   }
 
@@ -15035,7 +14553,7 @@ class CreateGUISessionAccessDetailsResult {
       if (percentageComplete != null) 'percentageComplete': percentageComplete,
       if (resourceName != null) 'resourceName': resourceName,
       if (sessions != null) 'sessions': sessions,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -15311,26 +14829,16 @@ class CreateRelationalDatabaseSnapshotResult {
 }
 
 enum Currency {
-  usd,
-}
+  usd('USD'),
+  ;
 
-extension CurrencyValueExtension on Currency {
-  String toValue() {
-    switch (this) {
-      case Currency.usd:
-        return 'USD';
-    }
-  }
-}
+  final String value;
 
-extension CurrencyFromString on String {
-  Currency toCurrency() {
-    switch (this) {
-      case 'USD':
-        return Currency.usd;
-    }
-    throw Exception('$this is not known in enum Currency');
-  }
+  const Currency(this.value);
+
+  static Currency fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Currency'));
 }
 
 class DeleteAlarmResult {
@@ -16140,7 +15648,7 @@ class Disk {
       attachedTo: json['attachedTo'] as String?,
       attachmentState: json['attachmentState'] as String?,
       autoMountStatus:
-          (json['autoMountStatus'] as String?)?.toAutoMountStatus(),
+          (json['autoMountStatus'] as String?)?.let(AutoMountStatus.fromString),
       createdAt: timeStampFromJson(json['createdAt']),
       gbInUse: json['gbInUse'] as int?,
       iops: json['iops'] as int?,
@@ -16151,9 +15659,10 @@ class Disk {
           : null,
       name: json['name'] as String?,
       path: json['path'] as String?,
-      resourceType: (json['resourceType'] as String?)?.toResourceType(),
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
       sizeInGb: json['sizeInGb'] as int?,
-      state: (json['state'] as String?)?.toDiskState(),
+      state: (json['state'] as String?)?.let(DiskState.fromString),
       supportCode: json['supportCode'] as String?,
       tags: (json['tags'] as List?)
           ?.whereNotNull()
@@ -16186,7 +15695,7 @@ class Disk {
       if (arn != null) 'arn': arn,
       if (attachedTo != null) 'attachedTo': attachedTo,
       if (attachmentState != null) 'attachmentState': attachmentState,
-      if (autoMountStatus != null) 'autoMountStatus': autoMountStatus.toValue(),
+      if (autoMountStatus != null) 'autoMountStatus': autoMountStatus.value,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (gbInUse != null) 'gbInUse': gbInUse,
       if (iops != null) 'iops': iops,
@@ -16195,9 +15704,9 @@ class Disk {
       if (location != null) 'location': location,
       if (name != null) 'name': name,
       if (path != null) 'path': path,
-      if (resourceType != null) 'resourceType': resourceType.toValue(),
+      if (resourceType != null) 'resourceType': resourceType.value,
       if (sizeInGb != null) 'sizeInGb': sizeInGb,
-      if (state != null) 'state': state.toValue(),
+      if (state != null) 'state': state.value,
       if (supportCode != null) 'supportCode': supportCode,
       if (tags != null) 'tags': tags,
     };
@@ -16361,9 +15870,10 @@ class DiskSnapshot {
           : null,
       name: json['name'] as String?,
       progress: json['progress'] as String?,
-      resourceType: (json['resourceType'] as String?)?.toResourceType(),
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
       sizeInGb: json['sizeInGb'] as int?,
-      state: (json['state'] as String?)?.toDiskSnapshotState(),
+      state: (json['state'] as String?)?.let(DiskSnapshotState.fromString),
       supportCode: json['supportCode'] as String?,
       tags: (json['tags'] as List?)
           ?.whereNotNull()
@@ -16399,9 +15909,9 @@ class DiskSnapshot {
       if (location != null) 'location': location,
       if (name != null) 'name': name,
       if (progress != null) 'progress': progress,
-      if (resourceType != null) 'resourceType': resourceType.toValue(),
+      if (resourceType != null) 'resourceType': resourceType.value,
       if (sizeInGb != null) 'sizeInGb': sizeInGb,
-      if (state != null) 'state': state.toValue(),
+      if (state != null) 'state': state.value,
       if (supportCode != null) 'supportCode': supportCode,
       if (tags != null) 'tags': tags,
     };
@@ -16432,84 +15942,37 @@ class DiskSnapshotInfo {
 }
 
 enum DiskSnapshotState {
-  pending,
-  completed,
-  error,
-  unknown,
-}
+  pending('pending'),
+  completed('completed'),
+  error('error'),
+  unknown('unknown'),
+  ;
 
-extension DiskSnapshotStateValueExtension on DiskSnapshotState {
-  String toValue() {
-    switch (this) {
-      case DiskSnapshotState.pending:
-        return 'pending';
-      case DiskSnapshotState.completed:
-        return 'completed';
-      case DiskSnapshotState.error:
-        return 'error';
-      case DiskSnapshotState.unknown:
-        return 'unknown';
-    }
-  }
-}
+  final String value;
 
-extension DiskSnapshotStateFromString on String {
-  DiskSnapshotState toDiskSnapshotState() {
-    switch (this) {
-      case 'pending':
-        return DiskSnapshotState.pending;
-      case 'completed':
-        return DiskSnapshotState.completed;
-      case 'error':
-        return DiskSnapshotState.error;
-      case 'unknown':
-        return DiskSnapshotState.unknown;
-    }
-    throw Exception('$this is not known in enum DiskSnapshotState');
-  }
+  const DiskSnapshotState(this.value);
+
+  static DiskSnapshotState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DiskSnapshotState'));
 }
 
 enum DiskState {
-  pending,
-  error,
-  available,
-  inUse,
-  unknown,
-}
+  pending('pending'),
+  error('error'),
+  available('available'),
+  inUse('in-use'),
+  unknown('unknown'),
+  ;
 
-extension DiskStateValueExtension on DiskState {
-  String toValue() {
-    switch (this) {
-      case DiskState.pending:
-        return 'pending';
-      case DiskState.error:
-        return 'error';
-      case DiskState.available:
-        return 'available';
-      case DiskState.inUse:
-        return 'in-use';
-      case DiskState.unknown:
-        return 'unknown';
-    }
-  }
-}
+  final String value;
 
-extension DiskStateFromString on String {
-  DiskState toDiskState() {
-    switch (this) {
-      case 'pending':
-        return DiskState.pending;
-      case 'error':
-        return DiskState.error;
-      case 'available':
-        return DiskState.available;
-      case 'in-use':
-        return DiskState.inUse;
-      case 'unknown':
-        return DiskState.unknown;
-    }
-    throw Exception('$this is not known in enum DiskState');
-  }
+  const DiskState(this.value);
+
+  static DiskState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum DiskState'));
 }
 
 /// Describes the specifications of a distribution bundle.
@@ -16566,51 +16029,22 @@ class DistributionBundle {
 }
 
 enum DistributionMetricName {
-  requests,
-  bytesDownloaded,
-  bytesUploaded,
-  totalErrorRate,
-  http4xxErrorRate,
-  http5xxErrorRate,
-}
+  requests('Requests'),
+  bytesDownloaded('BytesDownloaded'),
+  bytesUploaded('BytesUploaded'),
+  totalErrorRate('TotalErrorRate'),
+  http4xxErrorRate('Http4xxErrorRate'),
+  http5xxErrorRate('Http5xxErrorRate'),
+  ;
 
-extension DistributionMetricNameValueExtension on DistributionMetricName {
-  String toValue() {
-    switch (this) {
-      case DistributionMetricName.requests:
-        return 'Requests';
-      case DistributionMetricName.bytesDownloaded:
-        return 'BytesDownloaded';
-      case DistributionMetricName.bytesUploaded:
-        return 'BytesUploaded';
-      case DistributionMetricName.totalErrorRate:
-        return 'TotalErrorRate';
-      case DistributionMetricName.http4xxErrorRate:
-        return 'Http4xxErrorRate';
-      case DistributionMetricName.http5xxErrorRate:
-        return 'Http5xxErrorRate';
-    }
-  }
-}
+  final String value;
 
-extension DistributionMetricNameFromString on String {
-  DistributionMetricName toDistributionMetricName() {
-    switch (this) {
-      case 'Requests':
-        return DistributionMetricName.requests;
-      case 'BytesDownloaded':
-        return DistributionMetricName.bytesDownloaded;
-      case 'BytesUploaded':
-        return DistributionMetricName.bytesUploaded;
-      case 'TotalErrorRate':
-        return DistributionMetricName.totalErrorRate;
-      case 'Http4xxErrorRate':
-        return DistributionMetricName.http4xxErrorRate;
-      case 'Http5xxErrorRate':
-        return DistributionMetricName.http5xxErrorRate;
-    }
-    throw Exception('$this is not known in enum DistributionMetricName');
-  }
+  const DistributionMetricName(this.value);
+
+  static DistributionMetricName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DistributionMetricName'));
 }
 
 /// Describes the creation state of the canonical name (CNAME) records that are
@@ -16658,7 +16092,8 @@ class DnsRecordCreationState {
 
   factory DnsRecordCreationState.fromJson(Map<String, dynamic> json) {
     return DnsRecordCreationState(
-      code: (json['code'] as String?)?.toDnsRecordCreationStateCode(),
+      code:
+          (json['code'] as String?)?.let(DnsRecordCreationStateCode.fromString),
       message: json['message'] as String?,
     );
   }
@@ -16667,44 +16102,26 @@ class DnsRecordCreationState {
     final code = this.code;
     final message = this.message;
     return {
-      if (code != null) 'code': code.toValue(),
+      if (code != null) 'code': code.value,
       if (message != null) 'message': message,
     };
   }
 }
 
 enum DnsRecordCreationStateCode {
-  succeeded,
-  started,
-  failed,
-}
+  succeeded('SUCCEEDED'),
+  started('STARTED'),
+  failed('FAILED'),
+  ;
 
-extension DnsRecordCreationStateCodeValueExtension
-    on DnsRecordCreationStateCode {
-  String toValue() {
-    switch (this) {
-      case DnsRecordCreationStateCode.succeeded:
-        return 'SUCCEEDED';
-      case DnsRecordCreationStateCode.started:
-        return 'STARTED';
-      case DnsRecordCreationStateCode.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension DnsRecordCreationStateCodeFromString on String {
-  DnsRecordCreationStateCode toDnsRecordCreationStateCode() {
-    switch (this) {
-      case 'SUCCEEDED':
-        return DnsRecordCreationStateCode.succeeded;
-      case 'STARTED':
-        return DnsRecordCreationStateCode.started;
-      case 'FAILED':
-        return DnsRecordCreationStateCode.failed;
-    }
-    throw Exception('$this is not known in enum DnsRecordCreationStateCode');
-  }
+  const DnsRecordCreationStateCode(this.value);
+
+  static DnsRecordCreationStateCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DnsRecordCreationStateCode'));
 }
 
 /// Describes a domain where you are storing recordsets.
@@ -16773,7 +16190,8 @@ class Domain {
           ? RegisteredDomainDelegationInfo.fromJson(
               json['registeredDomainDelegationInfo'] as Map<String, dynamic>)
           : null,
-      resourceType: (json['resourceType'] as String?)?.toResourceType(),
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
       supportCode: json['supportCode'] as String?,
       tags: (json['tags'] as List?)
           ?.whereNotNull()
@@ -16800,7 +16218,7 @@ class Domain {
       if (name != null) 'name': name,
       if (registeredDomainDelegationInfo != null)
         'registeredDomainDelegationInfo': registeredDomainDelegationInfo,
-      if (resourceType != null) 'resourceType': resourceType.toValue(),
+      if (resourceType != null) 'resourceType': resourceType.value,
       if (supportCode != null) 'supportCode': supportCode,
       if (tags != null) 'tags': tags,
     };
@@ -16957,7 +16375,7 @@ class DomainValidationRecord {
               json['resourceRecord'] as Map<String, dynamic>)
           : null,
       validationStatus: (json['validationStatus'] as String?)
-          ?.toCertificateDomainValidationStatus(),
+          ?.let(CertificateDomainValidationStatus.fromString),
     );
   }
 
@@ -16971,8 +16389,7 @@ class DomainValidationRecord {
         'dnsRecordCreationState': dnsRecordCreationState,
       if (domainName != null) 'domainName': domainName,
       if (resourceRecord != null) 'resourceRecord': resourceRecord,
-      if (validationStatus != null)
-        'validationStatus': validationStatus.toValue(),
+      if (validationStatus != null) 'validationStatus': validationStatus.value,
     };
   }
 }
@@ -17099,8 +16516,9 @@ class EstimateByTime {
 
   factory EstimateByTime.fromJson(Map<String, dynamic> json) {
     return EstimateByTime(
-      currency: (json['currency'] as String?)?.toCurrency(),
-      pricingUnit: (json['pricingUnit'] as String?)?.toPricingUnit(),
+      currency: (json['currency'] as String?)?.let(Currency.fromString),
+      pricingUnit:
+          (json['pricingUnit'] as String?)?.let(PricingUnit.fromString),
       timePeriod: json['timePeriod'] != null
           ? TimePeriod.fromJson(json['timePeriod'] as Map<String, dynamic>)
           : null,
@@ -17116,8 +16534,8 @@ class EstimateByTime {
     final unit = this.unit;
     final usageCost = this.usageCost;
     return {
-      if (currency != null) 'currency': currency.toValue(),
-      if (pricingUnit != null) 'pricingUnit': pricingUnit.toValue(),
+      if (currency != null) 'currency': currency.value,
+      if (pricingUnit != null) 'pricingUnit': pricingUnit.value,
       if (timePeriod != null) 'timePeriod': timePeriod,
       if (unit != null) 'unit': unit,
       if (usageCost != null) 'usageCost': usageCost,
@@ -17175,12 +16593,13 @@ class ExportSnapshotRecord {
           ? ResourceLocation.fromJson(json['location'] as Map<String, dynamic>)
           : null,
       name: json['name'] as String?,
-      resourceType: (json['resourceType'] as String?)?.toResourceType(),
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
       sourceInfo: json['sourceInfo'] != null
           ? ExportSnapshotRecordSourceInfo.fromJson(
               json['sourceInfo'] as Map<String, dynamic>)
           : null,
-      state: (json['state'] as String?)?.toRecordState(),
+      state: (json['state'] as String?)?.let(RecordState.fromString),
     );
   }
 
@@ -17199,9 +16618,9 @@ class ExportSnapshotRecord {
       if (destinationInfo != null) 'destinationInfo': destinationInfo,
       if (location != null) 'location': location,
       if (name != null) 'name': name,
-      if (resourceType != null) 'resourceType': resourceType.toValue(),
+      if (resourceType != null) 'resourceType': resourceType.value,
       if (sourceInfo != null) 'sourceInfo': sourceInfo,
-      if (state != null) 'state': state.toValue(),
+      if (state != null) 'state': state.value,
     };
   }
 }
@@ -17259,8 +16678,8 @@ class ExportSnapshotRecordSourceInfo {
               json['instanceSnapshotInfo'] as Map<String, dynamic>)
           : null,
       name: json['name'] as String?,
-      resourceType:
-          (json['resourceType'] as String?)?.toExportSnapshotRecordSourceType(),
+      resourceType: (json['resourceType'] as String?)
+          ?.let(ExportSnapshotRecordSourceType.fromString),
     );
   }
 
@@ -17282,39 +16701,24 @@ class ExportSnapshotRecordSourceInfo {
       if (instanceSnapshotInfo != null)
         'instanceSnapshotInfo': instanceSnapshotInfo,
       if (name != null) 'name': name,
-      if (resourceType != null) 'resourceType': resourceType.toValue(),
+      if (resourceType != null) 'resourceType': resourceType.value,
     };
   }
 }
 
 enum ExportSnapshotRecordSourceType {
-  instanceSnapshot,
-  diskSnapshot,
-}
+  instanceSnapshot('InstanceSnapshot'),
+  diskSnapshot('DiskSnapshot'),
+  ;
 
-extension ExportSnapshotRecordSourceTypeValueExtension
-    on ExportSnapshotRecordSourceType {
-  String toValue() {
-    switch (this) {
-      case ExportSnapshotRecordSourceType.instanceSnapshot:
-        return 'InstanceSnapshot';
-      case ExportSnapshotRecordSourceType.diskSnapshot:
-        return 'DiskSnapshot';
-    }
-  }
-}
+  final String value;
 
-extension ExportSnapshotRecordSourceTypeFromString on String {
-  ExportSnapshotRecordSourceType toExportSnapshotRecordSourceType() {
-    switch (this) {
-      case 'InstanceSnapshot':
-        return ExportSnapshotRecordSourceType.instanceSnapshot;
-      case 'DiskSnapshot':
-        return ExportSnapshotRecordSourceType.diskSnapshot;
-    }
-    throw Exception(
-        '$this is not known in enum ExportSnapshotRecordSourceType');
-  }
+  const ExportSnapshotRecordSourceType(this.value);
+
+  static ExportSnapshotRecordSourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ExportSnapshotRecordSourceType'));
 }
 
 class ExportSnapshotResult {
@@ -17345,36 +16749,19 @@ class ExportSnapshotResult {
 }
 
 enum ForwardValues {
-  none,
-  allowList,
-  all,
-}
+  none('none'),
+  allowList('allow-list'),
+  all('all'),
+  ;
 
-extension ForwardValuesValueExtension on ForwardValues {
-  String toValue() {
-    switch (this) {
-      case ForwardValues.none:
-        return 'none';
-      case ForwardValues.allowList:
-        return 'allow-list';
-      case ForwardValues.all:
-        return 'all';
-    }
-  }
-}
+  final String value;
 
-extension ForwardValuesFromString on String {
-  ForwardValues toForwardValues() {
-    switch (this) {
-      case 'none':
-        return ForwardValues.none;
-      case 'allow-list':
-        return ForwardValues.allowList;
-      case 'all':
-        return ForwardValues.all;
-    }
-    throw Exception('$this is not known in enum ForwardValues');
-  }
+  const ForwardValues(this.value);
+
+  static ForwardValues fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ForwardValues'));
 }
 
 class GetActiveNamesResult {
@@ -17478,7 +16865,8 @@ class GetAutoSnapshotsResult {
           .map((e) => AutoSnapshotDetails.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourceName: json['resourceName'] as String?,
-      resourceType: (json['resourceType'] as String?)?.toResourceType(),
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
     );
   }
 
@@ -17489,7 +16877,7 @@ class GetAutoSnapshotsResult {
     return {
       if (autoSnapshots != null) 'autoSnapshots': autoSnapshots,
       if (resourceName != null) 'resourceName': resourceName,
-      if (resourceType != null) 'resourceType': resourceType.toValue(),
+      if (resourceType != null) 'resourceType': resourceType.value,
     };
   }
 }
@@ -17601,7 +16989,8 @@ class GetBucketMetricDataResult {
           ?.whereNotNull()
           .map((e) => MetricDatapoint.fromJson(e as Map<String, dynamic>))
           .toList(),
-      metricName: (json['metricName'] as String?)?.toBucketMetricName(),
+      metricName:
+          (json['metricName'] as String?)?.let(BucketMetricName.fromString),
     );
   }
 
@@ -17610,7 +16999,7 @@ class GetBucketMetricDataResult {
     final metricName = this.metricName;
     return {
       if (metricData != null) 'metricData': metricData,
-      if (metricName != null) 'metricName': metricName.toValue(),
+      if (metricName != null) 'metricName': metricName.value,
     };
   }
 }
@@ -17948,8 +17337,8 @@ class GetContainerServiceMetricDataResult {
           ?.whereNotNull()
           .map((e) => MetricDatapoint.fromJson(e as Map<String, dynamic>))
           .toList(),
-      metricName:
-          (json['metricName'] as String?)?.toContainerServiceMetricName(),
+      metricName: (json['metricName'] as String?)
+          ?.let(ContainerServiceMetricName.fromString),
     );
   }
 
@@ -17958,7 +17347,7 @@ class GetContainerServiceMetricDataResult {
     final metricName = this.metricName;
     return {
       if (metricData != null) 'metricData': metricData,
-      if (metricName != null) 'metricName': metricName.toValue(),
+      if (metricName != null) 'metricName': metricName.value,
     };
   }
 }
@@ -18215,7 +17604,8 @@ class GetDistributionMetricDataResult {
           ?.whereNotNull()
           .map((e) => MetricDatapoint.fromJson(e as Map<String, dynamic>))
           .toList(),
-      metricName: (json['metricName'] as String?)?.toDistributionMetricName(),
+      metricName: (json['metricName'] as String?)
+          ?.let(DistributionMetricName.fromString),
     );
   }
 
@@ -18224,7 +17614,7 @@ class GetDistributionMetricDataResult {
     final metricName = this.metricName;
     return {
       if (metricData != null) 'metricData': metricData,
-      if (metricName != null) 'metricName': metricName.toValue(),
+      if (metricName != null) 'metricName': metricName.value,
     };
   }
 }
@@ -18414,7 +17804,8 @@ class GetInstanceMetricDataResult {
           ?.whereNotNull()
           .map((e) => MetricDatapoint.fromJson(e as Map<String, dynamic>))
           .toList(),
-      metricName: (json['metricName'] as String?)?.toInstanceMetricName(),
+      metricName:
+          (json['metricName'] as String?)?.let(InstanceMetricName.fromString),
     );
   }
 
@@ -18423,7 +17814,7 @@ class GetInstanceMetricDataResult {
     final metricName = this.metricName;
     return {
       if (metricData != null) 'metricData': metricData,
-      if (metricName != null) 'metricName': metricName.toValue(),
+      if (metricName != null) 'metricName': metricName.value,
     };
   }
 }
@@ -18686,7 +18077,8 @@ class GetLoadBalancerMetricDataResult {
           ?.whereNotNull()
           .map((e) => MetricDatapoint.fromJson(e as Map<String, dynamic>))
           .toList(),
-      metricName: (json['metricName'] as String?)?.toLoadBalancerMetricName(),
+      metricName: (json['metricName'] as String?)
+          ?.let(LoadBalancerMetricName.fromString),
     );
   }
 
@@ -18695,7 +18087,7 @@ class GetLoadBalancerMetricDataResult {
     final metricName = this.metricName;
     return {
       if (metricData != null) 'metricData': metricData,
-      if (metricName != null) 'metricName': metricName.toValue(),
+      if (metricName != null) 'metricName': metricName.value,
     };
   }
 }
@@ -19217,8 +18609,8 @@ class GetRelationalDatabaseMetricDataResult {
           ?.whereNotNull()
           .map((e) => MetricDatapoint.fromJson(e as Map<String, dynamic>))
           .toList(),
-      metricName:
-          (json['metricName'] as String?)?.toRelationalDatabaseMetricName(),
+      metricName: (json['metricName'] as String?)
+          ?.let(RelationalDatabaseMetricName.fromString),
     );
   }
 
@@ -19227,7 +18619,7 @@ class GetRelationalDatabaseMetricDataResult {
     final metricName = this.metricName;
     return {
       if (metricData != null) 'metricData': metricData,
-      if (metricName != null) 'metricName': metricName.toValue(),
+      if (metricName != null) 'metricName': metricName.value,
     };
   }
 }
@@ -19510,96 +18902,30 @@ class GetStaticIpsResult {
 }
 
 enum HeaderEnum {
-  accept,
-  acceptCharset,
-  acceptDatetime,
-  acceptEncoding,
-  acceptLanguage,
-  authorization,
-  cloudFrontForwardedProto,
-  cloudFrontIsDesktopViewer,
-  cloudFrontIsMobileViewer,
-  cloudFrontIsSmartTVViewer,
-  cloudFrontIsTabletViewer,
-  cloudFrontViewerCountry,
-  host,
-  origin,
-  referer,
-}
+  accept('Accept'),
+  acceptCharset('Accept-Charset'),
+  acceptDatetime('Accept-Datetime'),
+  acceptEncoding('Accept-Encoding'),
+  acceptLanguage('Accept-Language'),
+  authorization('Authorization'),
+  cloudFrontForwardedProto('CloudFront-Forwarded-Proto'),
+  cloudFrontIsDesktopViewer('CloudFront-Is-Desktop-Viewer'),
+  cloudFrontIsMobileViewer('CloudFront-Is-Mobile-Viewer'),
+  cloudFrontIsSmartTVViewer('CloudFront-Is-SmartTV-Viewer'),
+  cloudFrontIsTabletViewer('CloudFront-Is-Tablet-Viewer'),
+  cloudFrontViewerCountry('CloudFront-Viewer-Country'),
+  host('Host'),
+  origin('Origin'),
+  referer('Referer'),
+  ;
 
-extension HeaderEnumValueExtension on HeaderEnum {
-  String toValue() {
-    switch (this) {
-      case HeaderEnum.accept:
-        return 'Accept';
-      case HeaderEnum.acceptCharset:
-        return 'Accept-Charset';
-      case HeaderEnum.acceptDatetime:
-        return 'Accept-Datetime';
-      case HeaderEnum.acceptEncoding:
-        return 'Accept-Encoding';
-      case HeaderEnum.acceptLanguage:
-        return 'Accept-Language';
-      case HeaderEnum.authorization:
-        return 'Authorization';
-      case HeaderEnum.cloudFrontForwardedProto:
-        return 'CloudFront-Forwarded-Proto';
-      case HeaderEnum.cloudFrontIsDesktopViewer:
-        return 'CloudFront-Is-Desktop-Viewer';
-      case HeaderEnum.cloudFrontIsMobileViewer:
-        return 'CloudFront-Is-Mobile-Viewer';
-      case HeaderEnum.cloudFrontIsSmartTVViewer:
-        return 'CloudFront-Is-SmartTV-Viewer';
-      case HeaderEnum.cloudFrontIsTabletViewer:
-        return 'CloudFront-Is-Tablet-Viewer';
-      case HeaderEnum.cloudFrontViewerCountry:
-        return 'CloudFront-Viewer-Country';
-      case HeaderEnum.host:
-        return 'Host';
-      case HeaderEnum.origin:
-        return 'Origin';
-      case HeaderEnum.referer:
-        return 'Referer';
-    }
-  }
-}
+  final String value;
 
-extension HeaderEnumFromString on String {
-  HeaderEnum toHeaderEnum() {
-    switch (this) {
-      case 'Accept':
-        return HeaderEnum.accept;
-      case 'Accept-Charset':
-        return HeaderEnum.acceptCharset;
-      case 'Accept-Datetime':
-        return HeaderEnum.acceptDatetime;
-      case 'Accept-Encoding':
-        return HeaderEnum.acceptEncoding;
-      case 'Accept-Language':
-        return HeaderEnum.acceptLanguage;
-      case 'Authorization':
-        return HeaderEnum.authorization;
-      case 'CloudFront-Forwarded-Proto':
-        return HeaderEnum.cloudFrontForwardedProto;
-      case 'CloudFront-Is-Desktop-Viewer':
-        return HeaderEnum.cloudFrontIsDesktopViewer;
-      case 'CloudFront-Is-Mobile-Viewer':
-        return HeaderEnum.cloudFrontIsMobileViewer;
-      case 'CloudFront-Is-SmartTV-Viewer':
-        return HeaderEnum.cloudFrontIsSmartTVViewer;
-      case 'CloudFront-Is-Tablet-Viewer':
-        return HeaderEnum.cloudFrontIsTabletViewer;
-      case 'CloudFront-Viewer-Country':
-        return HeaderEnum.cloudFrontViewerCountry;
-      case 'Host':
-        return HeaderEnum.host;
-      case 'Origin':
-        return HeaderEnum.origin;
-      case 'Referer':
-        return HeaderEnum.referer;
-    }
-    throw Exception('$this is not known in enum HeaderEnum');
-  }
+  const HeaderEnum(this.value);
+
+  static HeaderEnum fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum HeaderEnum'));
 }
 
 /// Describes the request headers that a Lightsail distribution bases caching
@@ -19645,9 +18971,9 @@ class HeaderObject {
     return HeaderObject(
       headersAllowList: (json['headersAllowList'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toHeaderEnum())
+          .map((e) => HeaderEnum.fromString((e as String)))
           .toList(),
-      option: (json['option'] as String?)?.toForwardValues(),
+      option: (json['option'] as String?)?.let(ForwardValues.fromString),
     );
   }
 
@@ -19656,8 +18982,8 @@ class HeaderObject {
     final option = this.option;
     return {
       if (headersAllowList != null)
-        'headersAllowList': headersAllowList.map((e) => e.toValue()).toList(),
-      if (option != null) 'option': option.toValue(),
+        'headersAllowList': headersAllowList.map((e) => e.value).toList(),
+      if (option != null) 'option': option.value,
     };
   }
 }
@@ -19764,87 +19090,47 @@ class HostKeyAttributes {
 }
 
 enum HttpEndpoint {
-  disabled,
-  enabled,
-}
+  disabled('disabled'),
+  enabled('enabled'),
+  ;
 
-extension HttpEndpointValueExtension on HttpEndpoint {
-  String toValue() {
-    switch (this) {
-      case HttpEndpoint.disabled:
-        return 'disabled';
-      case HttpEndpoint.enabled:
-        return 'enabled';
-    }
-  }
-}
+  final String value;
 
-extension HttpEndpointFromString on String {
-  HttpEndpoint toHttpEndpoint() {
-    switch (this) {
-      case 'disabled':
-        return HttpEndpoint.disabled;
-      case 'enabled':
-        return HttpEndpoint.enabled;
-    }
-    throw Exception('$this is not known in enum HttpEndpoint');
-  }
+  const HttpEndpoint(this.value);
+
+  static HttpEndpoint fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum HttpEndpoint'));
 }
 
 enum HttpProtocolIpv6 {
-  disabled,
-  enabled,
-}
+  disabled('disabled'),
+  enabled('enabled'),
+  ;
 
-extension HttpProtocolIpv6ValueExtension on HttpProtocolIpv6 {
-  String toValue() {
-    switch (this) {
-      case HttpProtocolIpv6.disabled:
-        return 'disabled';
-      case HttpProtocolIpv6.enabled:
-        return 'enabled';
-    }
-  }
-}
+  final String value;
 
-extension HttpProtocolIpv6FromString on String {
-  HttpProtocolIpv6 toHttpProtocolIpv6() {
-    switch (this) {
-      case 'disabled':
-        return HttpProtocolIpv6.disabled;
-      case 'enabled':
-        return HttpProtocolIpv6.enabled;
-    }
-    throw Exception('$this is not known in enum HttpProtocolIpv6');
-  }
+  const HttpProtocolIpv6(this.value);
+
+  static HttpProtocolIpv6 fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum HttpProtocolIpv6'));
 }
 
 enum HttpTokens {
-  optional,
-  required,
-}
+  optional('optional'),
+  required('required'),
+  ;
 
-extension HttpTokensValueExtension on HttpTokens {
-  String toValue() {
-    switch (this) {
-      case HttpTokens.optional:
-        return 'optional';
-      case HttpTokens.required:
-        return 'required';
-    }
-  }
-}
+  final String value;
 
-extension HttpTokensFromString on String {
-  HttpTokens toHttpTokens() {
-    switch (this) {
-      case 'optional':
-        return HttpTokens.optional;
-      case 'required':
-        return HttpTokens.required;
-    }
-    throw Exception('$this is not known in enum HttpTokens');
-  }
+  const HttpTokens(this.value);
+
+  static HttpTokens fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum HttpTokens'));
 }
 
 class ImportKeyPairResult {
@@ -19910,8 +19196,8 @@ class InputOrigin {
     final responseTimeout = this.responseTimeout;
     return {
       if (name != null) 'name': name,
-      if (protocolPolicy != null) 'protocolPolicy': protocolPolicy.toValue(),
-      if (regionName != null) 'regionName': regionName.toValue(),
+      if (protocolPolicy != null) 'protocolPolicy': protocolPolicy.value,
+      if (regionName != null) 'regionName': regionName.value,
       if (responseTimeout != null) 'responseTimeout': responseTimeout,
     };
   }
@@ -20037,7 +19323,8 @@ class Instance {
       hardware: json['hardware'] != null
           ? InstanceHardware.fromJson(json['hardware'] as Map<String, dynamic>)
           : null,
-      ipAddressType: (json['ipAddressType'] as String?)?.toIpAddressType(),
+      ipAddressType:
+          (json['ipAddressType'] as String?)?.let(IpAddressType.fromString),
       ipv6Addresses: (json['ipv6Addresses'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -20057,7 +19344,8 @@ class Instance {
           : null,
       privateIpAddress: json['privateIpAddress'] as String?,
       publicIpAddress: json['publicIpAddress'] as String?,
-      resourceType: (json['resourceType'] as String?)?.toResourceType(),
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
       sshKeyName: json['sshKeyName'] as String?,
       state: json['state'] != null
           ? InstanceState.fromJson(json['state'] as Map<String, dynamic>)
@@ -20102,7 +19390,7 @@ class Instance {
       if (bundleId != null) 'bundleId': bundleId,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (hardware != null) 'hardware': hardware,
-      if (ipAddressType != null) 'ipAddressType': ipAddressType.toValue(),
+      if (ipAddressType != null) 'ipAddressType': ipAddressType.value,
       if (ipv6Addresses != null) 'ipv6Addresses': ipv6Addresses,
       if (isStaticIp != null) 'isStaticIp': isStaticIp,
       if (location != null) 'location': location,
@@ -20111,7 +19399,7 @@ class Instance {
       if (networking != null) 'networking': networking,
       if (privateIpAddress != null) 'privateIpAddress': privateIpAddress,
       if (publicIpAddress != null) 'publicIpAddress': publicIpAddress,
-      if (resourceType != null) 'resourceType': resourceType.toValue(),
+      if (resourceType != null) 'resourceType': resourceType.value,
       if (sshKeyName != null) 'sshKeyName': sshKeyName,
       if (state != null) 'state': state,
       if (supportCode != null) 'supportCode': supportCode,
@@ -20210,7 +19498,8 @@ class InstanceAccessDetails {
           ? PasswordData.fromJson(json['passwordData'] as Map<String, dynamic>)
           : null,
       privateKey: json['privateKey'] as String?,
-      protocol: (json['protocol'] as String?)?.toInstanceAccessProtocol(),
+      protocol:
+          (json['protocol'] as String?)?.let(InstanceAccessProtocol.fromString),
       username: json['username'] as String?,
     );
   }
@@ -20237,38 +19526,25 @@ class InstanceAccessDetails {
       if (password != null) 'password': password,
       if (passwordData != null) 'passwordData': passwordData,
       if (privateKey != null) 'privateKey': privateKey,
-      if (protocol != null) 'protocol': protocol.toValue(),
+      if (protocol != null) 'protocol': protocol.value,
       if (username != null) 'username': username,
     };
   }
 }
 
 enum InstanceAccessProtocol {
-  ssh,
-  rdp,
-}
+  ssh('ssh'),
+  rdp('rdp'),
+  ;
 
-extension InstanceAccessProtocolValueExtension on InstanceAccessProtocol {
-  String toValue() {
-    switch (this) {
-      case InstanceAccessProtocol.ssh:
-        return 'ssh';
-      case InstanceAccessProtocol.rdp:
-        return 'rdp';
-    }
-  }
-}
+  final String value;
 
-extension InstanceAccessProtocolFromString on String {
-  InstanceAccessProtocol toInstanceAccessProtocol() {
-    switch (this) {
-      case 'ssh':
-        return InstanceAccessProtocol.ssh;
-      case 'rdp':
-        return InstanceAccessProtocol.rdp;
-    }
-    throw Exception('$this is not known in enum InstanceAccessProtocol');
-  }
+  const InstanceAccessProtocol(this.value);
+
+  static InstanceAccessProtocol fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum InstanceAccessProtocol'));
 }
 
 /// Describes the Amazon Elastic Compute Cloud instance and related resources to
@@ -20352,7 +19628,7 @@ class InstanceEntry {
     return {
       'availabilityZone': availabilityZone,
       'instanceType': instanceType,
-      'portInfoSource': portInfoSource.toValue(),
+      'portInfoSource': portInfoSource.value,
       'sourceName': sourceName,
       if (userData != null) 'userData': userData,
     };
@@ -20400,124 +19676,46 @@ class InstanceHardware {
 }
 
 enum InstanceHealthReason {
-  lbRegistrationInProgress,
-  lbInitialHealthChecking,
-  lbInternalError,
-  instanceResponseCodeMismatch,
-  instanceTimeout,
-  instanceFailedHealthChecks,
-  instanceNotRegistered,
-  instanceNotInUse,
-  instanceDeregistrationInProgress,
-  instanceInvalidState,
-  instanceIpUnusable,
-}
+  lbRegistrationInProgress('Lb.RegistrationInProgress'),
+  lbInitialHealthChecking('Lb.InitialHealthChecking'),
+  lbInternalError('Lb.InternalError'),
+  instanceResponseCodeMismatch('Instance.ResponseCodeMismatch'),
+  instanceTimeout('Instance.Timeout'),
+  instanceFailedHealthChecks('Instance.FailedHealthChecks'),
+  instanceNotRegistered('Instance.NotRegistered'),
+  instanceNotInUse('Instance.NotInUse'),
+  instanceDeregistrationInProgress('Instance.DeregistrationInProgress'),
+  instanceInvalidState('Instance.InvalidState'),
+  instanceIpUnusable('Instance.IpUnusable'),
+  ;
 
-extension InstanceHealthReasonValueExtension on InstanceHealthReason {
-  String toValue() {
-    switch (this) {
-      case InstanceHealthReason.lbRegistrationInProgress:
-        return 'Lb.RegistrationInProgress';
-      case InstanceHealthReason.lbInitialHealthChecking:
-        return 'Lb.InitialHealthChecking';
-      case InstanceHealthReason.lbInternalError:
-        return 'Lb.InternalError';
-      case InstanceHealthReason.instanceResponseCodeMismatch:
-        return 'Instance.ResponseCodeMismatch';
-      case InstanceHealthReason.instanceTimeout:
-        return 'Instance.Timeout';
-      case InstanceHealthReason.instanceFailedHealthChecks:
-        return 'Instance.FailedHealthChecks';
-      case InstanceHealthReason.instanceNotRegistered:
-        return 'Instance.NotRegistered';
-      case InstanceHealthReason.instanceNotInUse:
-        return 'Instance.NotInUse';
-      case InstanceHealthReason.instanceDeregistrationInProgress:
-        return 'Instance.DeregistrationInProgress';
-      case InstanceHealthReason.instanceInvalidState:
-        return 'Instance.InvalidState';
-      case InstanceHealthReason.instanceIpUnusable:
-        return 'Instance.IpUnusable';
-    }
-  }
-}
+  final String value;
 
-extension InstanceHealthReasonFromString on String {
-  InstanceHealthReason toInstanceHealthReason() {
-    switch (this) {
-      case 'Lb.RegistrationInProgress':
-        return InstanceHealthReason.lbRegistrationInProgress;
-      case 'Lb.InitialHealthChecking':
-        return InstanceHealthReason.lbInitialHealthChecking;
-      case 'Lb.InternalError':
-        return InstanceHealthReason.lbInternalError;
-      case 'Instance.ResponseCodeMismatch':
-        return InstanceHealthReason.instanceResponseCodeMismatch;
-      case 'Instance.Timeout':
-        return InstanceHealthReason.instanceTimeout;
-      case 'Instance.FailedHealthChecks':
-        return InstanceHealthReason.instanceFailedHealthChecks;
-      case 'Instance.NotRegistered':
-        return InstanceHealthReason.instanceNotRegistered;
-      case 'Instance.NotInUse':
-        return InstanceHealthReason.instanceNotInUse;
-      case 'Instance.DeregistrationInProgress':
-        return InstanceHealthReason.instanceDeregistrationInProgress;
-      case 'Instance.InvalidState':
-        return InstanceHealthReason.instanceInvalidState;
-      case 'Instance.IpUnusable':
-        return InstanceHealthReason.instanceIpUnusable;
-    }
-    throw Exception('$this is not known in enum InstanceHealthReason');
-  }
+  const InstanceHealthReason(this.value);
+
+  static InstanceHealthReason fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum InstanceHealthReason'));
 }
 
 enum InstanceHealthState {
-  initial,
-  healthy,
-  unhealthy,
-  unused,
-  draining,
-  unavailable,
-}
+  initial('initial'),
+  healthy('healthy'),
+  unhealthy('unhealthy'),
+  unused('unused'),
+  draining('draining'),
+  unavailable('unavailable'),
+  ;
 
-extension InstanceHealthStateValueExtension on InstanceHealthState {
-  String toValue() {
-    switch (this) {
-      case InstanceHealthState.initial:
-        return 'initial';
-      case InstanceHealthState.healthy:
-        return 'healthy';
-      case InstanceHealthState.unhealthy:
-        return 'unhealthy';
-      case InstanceHealthState.unused:
-        return 'unused';
-      case InstanceHealthState.draining:
-        return 'draining';
-      case InstanceHealthState.unavailable:
-        return 'unavailable';
-    }
-  }
-}
+  final String value;
 
-extension InstanceHealthStateFromString on String {
-  InstanceHealthState toInstanceHealthState() {
-    switch (this) {
-      case 'initial':
-        return InstanceHealthState.initial;
-      case 'healthy':
-        return InstanceHealthState.healthy;
-      case 'unhealthy':
-        return InstanceHealthState.unhealthy;
-      case 'unused':
-        return InstanceHealthState.unused;
-      case 'draining':
-        return InstanceHealthState.draining;
-      case 'unavailable':
-        return InstanceHealthState.unavailable;
-    }
-    throw Exception('$this is not known in enum InstanceHealthState');
-  }
+  const InstanceHealthState(this.value);
+
+  static InstanceHealthState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum InstanceHealthState'));
 }
 
 /// Describes information about the health of the instance.
@@ -20612,10 +19810,10 @@ class InstanceHealthSummary {
 
   factory InstanceHealthSummary.fromJson(Map<String, dynamic> json) {
     return InstanceHealthSummary(
-      instanceHealth:
-          (json['instanceHealth'] as String?)?.toInstanceHealthState(),
-      instanceHealthReason:
-          (json['instanceHealthReason'] as String?)?.toInstanceHealthReason(),
+      instanceHealth: (json['instanceHealth'] as String?)
+          ?.let(InstanceHealthState.fromString),
+      instanceHealthReason: (json['instanceHealthReason'] as String?)
+          ?.let(InstanceHealthReason.fromString),
       instanceName: json['instanceName'] as String?,
     );
   }
@@ -20625,9 +19823,9 @@ class InstanceHealthSummary {
     final instanceHealthReason = this.instanceHealthReason;
     final instanceName = this.instanceName;
     return {
-      if (instanceHealth != null) 'instanceHealth': instanceHealth.toValue(),
+      if (instanceHealth != null) 'instanceHealth': instanceHealth.value,
       if (instanceHealthReason != null)
-        'instanceHealthReason': instanceHealthReason.toValue(),
+        'instanceHealthReason': instanceHealthReason.value,
       if (instanceName != null) 'instanceName': instanceName,
     };
   }
@@ -20699,12 +19897,13 @@ class InstanceMetadataOptions {
 
   factory InstanceMetadataOptions.fromJson(Map<String, dynamic> json) {
     return InstanceMetadataOptions(
-      httpEndpoint: (json['httpEndpoint'] as String?)?.toHttpEndpoint(),
-      httpProtocolIpv6:
-          (json['httpProtocolIpv6'] as String?)?.toHttpProtocolIpv6(),
+      httpEndpoint:
+          (json['httpEndpoint'] as String?)?.let(HttpEndpoint.fromString),
+      httpProtocolIpv6: (json['httpProtocolIpv6'] as String?)
+          ?.let(HttpProtocolIpv6.fromString),
       httpPutResponseHopLimit: json['httpPutResponseHopLimit'] as int?,
-      httpTokens: (json['httpTokens'] as String?)?.toHttpTokens(),
-      state: (json['state'] as String?)?.toInstanceMetadataState(),
+      httpTokens: (json['httpTokens'] as String?)?.let(HttpTokens.fromString),
+      state: (json['state'] as String?)?.let(InstanceMetadataState.fromString),
     );
   }
 
@@ -20715,106 +19914,51 @@ class InstanceMetadataOptions {
     final httpTokens = this.httpTokens;
     final state = this.state;
     return {
-      if (httpEndpoint != null) 'httpEndpoint': httpEndpoint.toValue(),
-      if (httpProtocolIpv6 != null)
-        'httpProtocolIpv6': httpProtocolIpv6.toValue(),
+      if (httpEndpoint != null) 'httpEndpoint': httpEndpoint.value,
+      if (httpProtocolIpv6 != null) 'httpProtocolIpv6': httpProtocolIpv6.value,
       if (httpPutResponseHopLimit != null)
         'httpPutResponseHopLimit': httpPutResponseHopLimit,
-      if (httpTokens != null) 'httpTokens': httpTokens.toValue(),
-      if (state != null) 'state': state.toValue(),
+      if (httpTokens != null) 'httpTokens': httpTokens.value,
+      if (state != null) 'state': state.value,
     };
   }
 }
 
 enum InstanceMetadataState {
-  pending,
-  applied,
-}
+  pending('pending'),
+  applied('applied'),
+  ;
 
-extension InstanceMetadataStateValueExtension on InstanceMetadataState {
-  String toValue() {
-    switch (this) {
-      case InstanceMetadataState.pending:
-        return 'pending';
-      case InstanceMetadataState.applied:
-        return 'applied';
-    }
-  }
-}
+  final String value;
 
-extension InstanceMetadataStateFromString on String {
-  InstanceMetadataState toInstanceMetadataState() {
-    switch (this) {
-      case 'pending':
-        return InstanceMetadataState.pending;
-      case 'applied':
-        return InstanceMetadataState.applied;
-    }
-    throw Exception('$this is not known in enum InstanceMetadataState');
-  }
+  const InstanceMetadataState(this.value);
+
+  static InstanceMetadataState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum InstanceMetadataState'));
 }
 
 enum InstanceMetricName {
-  cPUUtilization,
-  networkIn,
-  networkOut,
-  statusCheckFailed,
-  statusCheckFailedInstance,
-  statusCheckFailedSystem,
-  burstCapacityTime,
-  burstCapacityPercentage,
-  metadataNoToken,
-}
+  cPUUtilization('CPUUtilization'),
+  networkIn('NetworkIn'),
+  networkOut('NetworkOut'),
+  statusCheckFailed('StatusCheckFailed'),
+  statusCheckFailedInstance('StatusCheckFailed_Instance'),
+  statusCheckFailedSystem('StatusCheckFailed_System'),
+  burstCapacityTime('BurstCapacityTime'),
+  burstCapacityPercentage('BurstCapacityPercentage'),
+  metadataNoToken('MetadataNoToken'),
+  ;
 
-extension InstanceMetricNameValueExtension on InstanceMetricName {
-  String toValue() {
-    switch (this) {
-      case InstanceMetricName.cPUUtilization:
-        return 'CPUUtilization';
-      case InstanceMetricName.networkIn:
-        return 'NetworkIn';
-      case InstanceMetricName.networkOut:
-        return 'NetworkOut';
-      case InstanceMetricName.statusCheckFailed:
-        return 'StatusCheckFailed';
-      case InstanceMetricName.statusCheckFailedInstance:
-        return 'StatusCheckFailed_Instance';
-      case InstanceMetricName.statusCheckFailedSystem:
-        return 'StatusCheckFailed_System';
-      case InstanceMetricName.burstCapacityTime:
-        return 'BurstCapacityTime';
-      case InstanceMetricName.burstCapacityPercentage:
-        return 'BurstCapacityPercentage';
-      case InstanceMetricName.metadataNoToken:
-        return 'MetadataNoToken';
-    }
-  }
-}
+  final String value;
 
-extension InstanceMetricNameFromString on String {
-  InstanceMetricName toInstanceMetricName() {
-    switch (this) {
-      case 'CPUUtilization':
-        return InstanceMetricName.cPUUtilization;
-      case 'NetworkIn':
-        return InstanceMetricName.networkIn;
-      case 'NetworkOut':
-        return InstanceMetricName.networkOut;
-      case 'StatusCheckFailed':
-        return InstanceMetricName.statusCheckFailed;
-      case 'StatusCheckFailed_Instance':
-        return InstanceMetricName.statusCheckFailedInstance;
-      case 'StatusCheckFailed_System':
-        return InstanceMetricName.statusCheckFailedSystem;
-      case 'BurstCapacityTime':
-        return InstanceMetricName.burstCapacityTime;
-      case 'BurstCapacityPercentage':
-        return InstanceMetricName.burstCapacityPercentage;
-      case 'MetadataNoToken':
-        return InstanceMetricName.metadataNoToken;
-    }
-    throw Exception('$this is not known in enum InstanceMetricName');
-  }
+  const InstanceMetricName(this.value);
+
+  static InstanceMetricName fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum InstanceMetricName'));
 }
 
 /// Describes monthly data transfer rates and port information for an instance.
@@ -20855,31 +19999,18 @@ class InstanceNetworking {
 }
 
 enum InstancePlatform {
-  linuxUnix,
-  windows,
-}
+  linuxUnix('LINUX_UNIX'),
+  windows('WINDOWS'),
+  ;
 
-extension InstancePlatformValueExtension on InstancePlatform {
-  String toValue() {
-    switch (this) {
-      case InstancePlatform.linuxUnix:
-        return 'LINUX_UNIX';
-      case InstancePlatform.windows:
-        return 'WINDOWS';
-    }
-  }
-}
+  final String value;
 
-extension InstancePlatformFromString on String {
-  InstancePlatform toInstancePlatform() {
-    switch (this) {
-      case 'LINUX_UNIX':
-        return InstancePlatform.linuxUnix;
-      case 'WINDOWS':
-        return InstancePlatform.windows;
-    }
-    throw Exception('$this is not known in enum InstancePlatform');
-  }
+  const InstancePlatform(this.value);
+
+  static InstancePlatform fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum InstancePlatform'));
 }
 
 /// Describes information about ports for an Amazon Lightsail instance.
@@ -21046,9 +20177,10 @@ class InstancePortInfo {
   factory InstancePortInfo.fromJson(Map<String, dynamic> json) {
     return InstancePortInfo(
       accessDirection:
-          (json['accessDirection'] as String?)?.toAccessDirection(),
+          (json['accessDirection'] as String?)?.let(AccessDirection.fromString),
       accessFrom: json['accessFrom'] as String?,
-      accessType: (json['accessType'] as String?)?.toPortAccessType(),
+      accessType:
+          (json['accessType'] as String?)?.let(PortAccessType.fromString),
       cidrListAliases: (json['cidrListAliases'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -21063,7 +20195,7 @@ class InstancePortInfo {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      protocol: (json['protocol'] as String?)?.toNetworkProtocol(),
+      protocol: (json['protocol'] as String?)?.let(NetworkProtocol.fromString),
       toPort: json['toPort'] as int?,
     );
   }
@@ -21080,15 +20212,15 @@ class InstancePortInfo {
     final protocol = this.protocol;
     final toPort = this.toPort;
     return {
-      if (accessDirection != null) 'accessDirection': accessDirection.toValue(),
+      if (accessDirection != null) 'accessDirection': accessDirection.value,
       if (accessFrom != null) 'accessFrom': accessFrom,
-      if (accessType != null) 'accessType': accessType.toValue(),
+      if (accessType != null) 'accessType': accessType.value,
       if (cidrListAliases != null) 'cidrListAliases': cidrListAliases,
       if (cidrs != null) 'cidrs': cidrs,
       if (commonName != null) 'commonName': commonName,
       if (fromPort != null) 'fromPort': fromPort,
       if (ipv6Cidrs != null) 'ipv6Cidrs': ipv6Cidrs,
-      if (protocol != null) 'protocol': protocol.toValue(),
+      if (protocol != null) 'protocol': protocol.value,
       if (toPort != null) 'toPort': toPort,
     };
   }
@@ -21258,8 +20390,8 @@ class InstancePortState {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      protocol: (json['protocol'] as String?)?.toNetworkProtocol(),
-      state: (json['state'] as String?)?.toPortState(),
+      protocol: (json['protocol'] as String?)?.let(NetworkProtocol.fromString),
+      state: (json['state'] as String?)?.let(PortState.fromString),
       toPort: json['toPort'] as int?,
     );
   }
@@ -21277,8 +20409,8 @@ class InstancePortState {
       if (cidrs != null) 'cidrs': cidrs,
       if (fromPort != null) 'fromPort': fromPort,
       if (ipv6Cidrs != null) 'ipv6Cidrs': ipv6Cidrs,
-      if (protocol != null) 'protocol': protocol.toValue(),
-      if (state != null) 'state': state.toValue(),
+      if (protocol != null) 'protocol': protocol.value,
+      if (state != null) 'state': state.value,
       if (toPort != null) 'toPort': toPort,
     };
   }
@@ -21387,9 +20519,10 @@ class InstanceSnapshot {
           : null,
       name: json['name'] as String?,
       progress: json['progress'] as String?,
-      resourceType: (json['resourceType'] as String?)?.toResourceType(),
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
       sizeInGb: json['sizeInGb'] as int?,
-      state: (json['state'] as String?)?.toInstanceSnapshotState(),
+      state: (json['state'] as String?)?.let(InstanceSnapshotState.fromString),
       supportCode: json['supportCode'] as String?,
       tags: (json['tags'] as List?)
           ?.whereNotNull()
@@ -21427,9 +20560,9 @@ class InstanceSnapshot {
       if (location != null) 'location': location,
       if (name != null) 'name': name,
       if (progress != null) 'progress': progress,
-      if (resourceType != null) 'resourceType': resourceType.toValue(),
+      if (resourceType != null) 'resourceType': resourceType.value,
       if (sizeInGb != null) 'sizeInGb': sizeInGb,
-      if (state != null) 'state': state.toValue(),
+      if (state != null) 'state': state.value,
       if (supportCode != null) 'supportCode': supportCode,
       if (tags != null) 'tags': tags,
     };
@@ -21480,36 +20613,19 @@ class InstanceSnapshotInfo {
 }
 
 enum InstanceSnapshotState {
-  pending,
-  error,
-  available,
-}
+  pending('pending'),
+  error('error'),
+  available('available'),
+  ;
 
-extension InstanceSnapshotStateValueExtension on InstanceSnapshotState {
-  String toValue() {
-    switch (this) {
-      case InstanceSnapshotState.pending:
-        return 'pending';
-      case InstanceSnapshotState.error:
-        return 'error';
-      case InstanceSnapshotState.available:
-        return 'available';
-    }
-  }
-}
+  final String value;
 
-extension InstanceSnapshotStateFromString on String {
-  InstanceSnapshotState toInstanceSnapshotState() {
-    switch (this) {
-      case 'pending':
-        return InstanceSnapshotState.pending;
-      case 'error':
-        return InstanceSnapshotState.error;
-      case 'available':
-        return InstanceSnapshotState.available;
-    }
-    throw Exception('$this is not known in enum InstanceSnapshotState');
-  }
+  const InstanceSnapshotState(this.value);
+
+  static InstanceSnapshotState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum InstanceSnapshotState'));
 }
 
 /// Describes the virtual private server (or <i>instance</i>) status.
@@ -21543,36 +20659,19 @@ class InstanceState {
 }
 
 enum IpAddressType {
-  dualstack,
-  ipv4,
-  ipv6,
-}
+  dualstack('dualstack'),
+  ipv4('ipv4'),
+  ipv6('ipv6'),
+  ;
 
-extension IpAddressTypeValueExtension on IpAddressType {
-  String toValue() {
-    switch (this) {
-      case IpAddressType.dualstack:
-        return 'dualstack';
-      case IpAddressType.ipv4:
-        return 'ipv4';
-      case IpAddressType.ipv6:
-        return 'ipv6';
-    }
-  }
-}
+  final String value;
 
-extension IpAddressTypeFromString on String {
-  IpAddressType toIpAddressType() {
-    switch (this) {
-      case 'dualstack':
-        return IpAddressType.dualstack;
-      case 'ipv4':
-        return IpAddressType.ipv4;
-      case 'ipv6':
-        return IpAddressType.ipv6;
-    }
-    throw Exception('$this is not known in enum IpAddressType');
-  }
+  const IpAddressType(this.value);
+
+  static IpAddressType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum IpAddressType'));
 }
 
 class IsVpcPeeredResult {
@@ -21650,7 +20749,8 @@ class KeyPair {
           ? ResourceLocation.fromJson(json['location'] as Map<String, dynamic>)
           : null,
       name: json['name'] as String?,
-      resourceType: (json['resourceType'] as String?)?.toResourceType(),
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
       supportCode: json['supportCode'] as String?,
       tags: (json['tags'] as List?)
           ?.whereNotNull()
@@ -21674,7 +20774,7 @@ class KeyPair {
       if (fingerprint != null) 'fingerprint': fingerprint,
       if (location != null) 'location': location,
       if (name != null) 'name': name,
-      if (resourceType != null) 'resourceType': resourceType.toValue(),
+      if (resourceType != null) 'resourceType': resourceType.value,
       if (supportCode != null) 'supportCode': supportCode,
       if (tags != null) 'tags': tags,
     };
@@ -21818,7 +20918,8 @@ class LightsailDistribution {
               json['defaultCacheBehavior'] as Map<String, dynamic>)
           : null,
       domainName: json['domainName'] as String?,
-      ipAddressType: (json['ipAddressType'] as String?)?.toIpAddressType(),
+      ipAddressType:
+          (json['ipAddressType'] as String?)?.let(IpAddressType.fromString),
       isEnabled: json['isEnabled'] as bool?,
       location: json['location'] != null
           ? ResourceLocation.fromJson(json['location'] as Map<String, dynamic>)
@@ -21828,7 +20929,8 @@ class LightsailDistribution {
           ? Origin.fromJson(json['origin'] as Map<String, dynamic>)
           : null,
       originPublicDNS: json['originPublicDNS'] as String?,
-      resourceType: (json['resourceType'] as String?)?.toResourceType(),
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
       status: json['status'] as String?,
       supportCode: json['supportCode'] as String?,
       tags: (json['tags'] as List?)
@@ -21877,13 +20979,13 @@ class LightsailDistribution {
       if (defaultCacheBehavior != null)
         'defaultCacheBehavior': defaultCacheBehavior,
       if (domainName != null) 'domainName': domainName,
-      if (ipAddressType != null) 'ipAddressType': ipAddressType.toValue(),
+      if (ipAddressType != null) 'ipAddressType': ipAddressType.value,
       if (isEnabled != null) 'isEnabled': isEnabled,
       if (location != null) 'location': location,
       if (name != null) 'name': name,
       if (origin != null) 'origin': origin,
       if (originPublicDNS != null) 'originPublicDNS': originPublicDNS,
-      if (resourceType != null) 'resourceType': resourceType.toValue(),
+      if (resourceType != null) 'resourceType': resourceType.value,
       if (status != null) 'status': status,
       if (supportCode != null) 'supportCode': supportCode,
       if (tags != null) 'tags': tags,
@@ -22001,8 +21103,8 @@ class LoadBalancer {
     return LoadBalancer(
       arn: json['arn'] as String?,
       configurationOptions:
-          (json['configurationOptions'] as Map<String, dynamic>?)?.map(
-              (k, e) => MapEntry(k.toLoadBalancerAttributeName(), e as String)),
+          (json['configurationOptions'] as Map<String, dynamic>?)?.map((k, e) =>
+              MapEntry(LoadBalancerAttributeName.fromString(k), e as String)),
       createdAt: timeStampFromJson(json['createdAt']),
       dnsName: json['dnsName'] as String?,
       healthCheckPath: json['healthCheckPath'] as String?,
@@ -22012,18 +21114,21 @@ class LoadBalancer {
           .map((e) => InstanceHealthSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       instancePort: json['instancePort'] as int?,
-      ipAddressType: (json['ipAddressType'] as String?)?.toIpAddressType(),
+      ipAddressType:
+          (json['ipAddressType'] as String?)?.let(IpAddressType.fromString),
       location: json['location'] != null
           ? ResourceLocation.fromJson(json['location'] as Map<String, dynamic>)
           : null,
       name: json['name'] as String?,
-      protocol: (json['protocol'] as String?)?.toLoadBalancerProtocol(),
+      protocol:
+          (json['protocol'] as String?)?.let(LoadBalancerProtocol.fromString),
       publicPorts: (json['publicPorts'] as List?)
           ?.whereNotNull()
           .map((e) => e as int)
           .toList(),
-      resourceType: (json['resourceType'] as String?)?.toResourceType(),
-      state: (json['state'] as String?)?.toLoadBalancerState(),
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
+      state: (json['state'] as String?)?.let(LoadBalancerState.fromString),
       supportCode: json['supportCode'] as String?,
       tags: (json['tags'] as List?)
           ?.whereNotNull()
@@ -22062,7 +21167,7 @@ class LoadBalancer {
       if (arn != null) 'arn': arn,
       if (configurationOptions != null)
         'configurationOptions':
-            configurationOptions.map((k, e) => MapEntry(k.toValue(), e)),
+            configurationOptions.map((k, e) => MapEntry(k.value, e)),
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (dnsName != null) 'dnsName': dnsName,
       if (healthCheckPath != null) 'healthCheckPath': healthCheckPath,
@@ -22071,13 +21176,13 @@ class LoadBalancer {
       if (instanceHealthSummary != null)
         'instanceHealthSummary': instanceHealthSummary,
       if (instancePort != null) 'instancePort': instancePort,
-      if (ipAddressType != null) 'ipAddressType': ipAddressType.toValue(),
+      if (ipAddressType != null) 'ipAddressType': ipAddressType.value,
       if (location != null) 'location': location,
       if (name != null) 'name': name,
-      if (protocol != null) 'protocol': protocol.toValue(),
+      if (protocol != null) 'protocol': protocol.value,
       if (publicPorts != null) 'publicPorts': publicPorts,
-      if (resourceType != null) 'resourceType': resourceType.toValue(),
-      if (state != null) 'state': state.toValue(),
+      if (resourceType != null) 'resourceType': resourceType.value,
+      if (state != null) 'state': state.value,
       if (supportCode != null) 'supportCode': supportCode,
       if (tags != null) 'tags': tags,
       if (tlsCertificateSummaries != null)
@@ -22088,196 +21193,80 @@ class LoadBalancer {
 }
 
 enum LoadBalancerAttributeName {
-  healthCheckPath,
-  sessionStickinessEnabled,
-  sessionStickinessLbCookieDurationSeconds,
-  httpsRedirectionEnabled,
-  tlsPolicyName,
-}
+  healthCheckPath('HealthCheckPath'),
+  sessionStickinessEnabled('SessionStickinessEnabled'),
+  sessionStickinessLbCookieDurationSeconds(
+      'SessionStickiness_LB_CookieDurationSeconds'),
+  httpsRedirectionEnabled('HttpsRedirectionEnabled'),
+  tlsPolicyName('TlsPolicyName'),
+  ;
 
-extension LoadBalancerAttributeNameValueExtension on LoadBalancerAttributeName {
-  String toValue() {
-    switch (this) {
-      case LoadBalancerAttributeName.healthCheckPath:
-        return 'HealthCheckPath';
-      case LoadBalancerAttributeName.sessionStickinessEnabled:
-        return 'SessionStickinessEnabled';
-      case LoadBalancerAttributeName.sessionStickinessLbCookieDurationSeconds:
-        return 'SessionStickiness_LB_CookieDurationSeconds';
-      case LoadBalancerAttributeName.httpsRedirectionEnabled:
-        return 'HttpsRedirectionEnabled';
-      case LoadBalancerAttributeName.tlsPolicyName:
-        return 'TlsPolicyName';
-    }
-  }
-}
+  final String value;
 
-extension LoadBalancerAttributeNameFromString on String {
-  LoadBalancerAttributeName toLoadBalancerAttributeName() {
-    switch (this) {
-      case 'HealthCheckPath':
-        return LoadBalancerAttributeName.healthCheckPath;
-      case 'SessionStickinessEnabled':
-        return LoadBalancerAttributeName.sessionStickinessEnabled;
-      case 'SessionStickiness_LB_CookieDurationSeconds':
-        return LoadBalancerAttributeName
-            .sessionStickinessLbCookieDurationSeconds;
-      case 'HttpsRedirectionEnabled':
-        return LoadBalancerAttributeName.httpsRedirectionEnabled;
-      case 'TlsPolicyName':
-        return LoadBalancerAttributeName.tlsPolicyName;
-    }
-    throw Exception('$this is not known in enum LoadBalancerAttributeName');
-  }
+  const LoadBalancerAttributeName(this.value);
+
+  static LoadBalancerAttributeName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum LoadBalancerAttributeName'));
 }
 
 enum LoadBalancerMetricName {
-  clientTLSNegotiationErrorCount,
-  healthyHostCount,
-  unhealthyHostCount,
-  hTTPCodeLb_4xxCount,
-  hTTPCodeLb_5xxCount,
-  hTTPCodeInstance_2xxCount,
-  hTTPCodeInstance_3xxCount,
-  hTTPCodeInstance_4xxCount,
-  hTTPCodeInstance_5xxCount,
-  instanceResponseTime,
-  rejectedConnectionCount,
-  requestCount,
-}
+  clientTLSNegotiationErrorCount('ClientTLSNegotiationErrorCount'),
+  healthyHostCount('HealthyHostCount'),
+  unhealthyHostCount('UnhealthyHostCount'),
+  hTTPCodeLb_4xxCount('HTTPCode_LB_4XX_Count'),
+  hTTPCodeLb_5xxCount('HTTPCode_LB_5XX_Count'),
+  hTTPCodeInstance_2xxCount('HTTPCode_Instance_2XX_Count'),
+  hTTPCodeInstance_3xxCount('HTTPCode_Instance_3XX_Count'),
+  hTTPCodeInstance_4xxCount('HTTPCode_Instance_4XX_Count'),
+  hTTPCodeInstance_5xxCount('HTTPCode_Instance_5XX_Count'),
+  instanceResponseTime('InstanceResponseTime'),
+  rejectedConnectionCount('RejectedConnectionCount'),
+  requestCount('RequestCount'),
+  ;
 
-extension LoadBalancerMetricNameValueExtension on LoadBalancerMetricName {
-  String toValue() {
-    switch (this) {
-      case LoadBalancerMetricName.clientTLSNegotiationErrorCount:
-        return 'ClientTLSNegotiationErrorCount';
-      case LoadBalancerMetricName.healthyHostCount:
-        return 'HealthyHostCount';
-      case LoadBalancerMetricName.unhealthyHostCount:
-        return 'UnhealthyHostCount';
-      case LoadBalancerMetricName.hTTPCodeLb_4xxCount:
-        return 'HTTPCode_LB_4XX_Count';
-      case LoadBalancerMetricName.hTTPCodeLb_5xxCount:
-        return 'HTTPCode_LB_5XX_Count';
-      case LoadBalancerMetricName.hTTPCodeInstance_2xxCount:
-        return 'HTTPCode_Instance_2XX_Count';
-      case LoadBalancerMetricName.hTTPCodeInstance_3xxCount:
-        return 'HTTPCode_Instance_3XX_Count';
-      case LoadBalancerMetricName.hTTPCodeInstance_4xxCount:
-        return 'HTTPCode_Instance_4XX_Count';
-      case LoadBalancerMetricName.hTTPCodeInstance_5xxCount:
-        return 'HTTPCode_Instance_5XX_Count';
-      case LoadBalancerMetricName.instanceResponseTime:
-        return 'InstanceResponseTime';
-      case LoadBalancerMetricName.rejectedConnectionCount:
-        return 'RejectedConnectionCount';
-      case LoadBalancerMetricName.requestCount:
-        return 'RequestCount';
-    }
-  }
-}
+  final String value;
 
-extension LoadBalancerMetricNameFromString on String {
-  LoadBalancerMetricName toLoadBalancerMetricName() {
-    switch (this) {
-      case 'ClientTLSNegotiationErrorCount':
-        return LoadBalancerMetricName.clientTLSNegotiationErrorCount;
-      case 'HealthyHostCount':
-        return LoadBalancerMetricName.healthyHostCount;
-      case 'UnhealthyHostCount':
-        return LoadBalancerMetricName.unhealthyHostCount;
-      case 'HTTPCode_LB_4XX_Count':
-        return LoadBalancerMetricName.hTTPCodeLb_4xxCount;
-      case 'HTTPCode_LB_5XX_Count':
-        return LoadBalancerMetricName.hTTPCodeLb_5xxCount;
-      case 'HTTPCode_Instance_2XX_Count':
-        return LoadBalancerMetricName.hTTPCodeInstance_2xxCount;
-      case 'HTTPCode_Instance_3XX_Count':
-        return LoadBalancerMetricName.hTTPCodeInstance_3xxCount;
-      case 'HTTPCode_Instance_4XX_Count':
-        return LoadBalancerMetricName.hTTPCodeInstance_4xxCount;
-      case 'HTTPCode_Instance_5XX_Count':
-        return LoadBalancerMetricName.hTTPCodeInstance_5xxCount;
-      case 'InstanceResponseTime':
-        return LoadBalancerMetricName.instanceResponseTime;
-      case 'RejectedConnectionCount':
-        return LoadBalancerMetricName.rejectedConnectionCount;
-      case 'RequestCount':
-        return LoadBalancerMetricName.requestCount;
-    }
-    throw Exception('$this is not known in enum LoadBalancerMetricName');
-  }
+  const LoadBalancerMetricName(this.value);
+
+  static LoadBalancerMetricName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum LoadBalancerMetricName'));
 }
 
 enum LoadBalancerProtocol {
-  httpHttps,
-  http,
-}
+  httpHttps('HTTP_HTTPS'),
+  http('HTTP'),
+  ;
 
-extension LoadBalancerProtocolValueExtension on LoadBalancerProtocol {
-  String toValue() {
-    switch (this) {
-      case LoadBalancerProtocol.httpHttps:
-        return 'HTTP_HTTPS';
-      case LoadBalancerProtocol.http:
-        return 'HTTP';
-    }
-  }
-}
+  final String value;
 
-extension LoadBalancerProtocolFromString on String {
-  LoadBalancerProtocol toLoadBalancerProtocol() {
-    switch (this) {
-      case 'HTTP_HTTPS':
-        return LoadBalancerProtocol.httpHttps;
-      case 'HTTP':
-        return LoadBalancerProtocol.http;
-    }
-    throw Exception('$this is not known in enum LoadBalancerProtocol');
-  }
+  const LoadBalancerProtocol(this.value);
+
+  static LoadBalancerProtocol fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum LoadBalancerProtocol'));
 }
 
 enum LoadBalancerState {
-  active,
-  provisioning,
-  activeImpaired,
-  failed,
-  unknown,
-}
+  active('active'),
+  provisioning('provisioning'),
+  activeImpaired('active_impaired'),
+  failed('failed'),
+  unknown('unknown'),
+  ;
 
-extension LoadBalancerStateValueExtension on LoadBalancerState {
-  String toValue() {
-    switch (this) {
-      case LoadBalancerState.active:
-        return 'active';
-      case LoadBalancerState.provisioning:
-        return 'provisioning';
-      case LoadBalancerState.activeImpaired:
-        return 'active_impaired';
-      case LoadBalancerState.failed:
-        return 'failed';
-      case LoadBalancerState.unknown:
-        return 'unknown';
-    }
-  }
-}
+  final String value;
 
-extension LoadBalancerStateFromString on String {
-  LoadBalancerState toLoadBalancerState() {
-    switch (this) {
-      case 'active':
-        return LoadBalancerState.active;
-      case 'provisioning':
-        return LoadBalancerState.provisioning;
-      case 'active_impaired':
-        return LoadBalancerState.activeImpaired;
-      case 'failed':
-        return LoadBalancerState.failed;
-      case 'unknown':
-        return LoadBalancerState.unknown;
-    }
-    throw Exception('$this is not known in enum LoadBalancerState');
-  }
+  const LoadBalancerState(this.value);
+
+  static LoadBalancerState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LoadBalancerState'));
 }
 
 /// Describes a load balancer SSL/TLS certificate.
@@ -22506,7 +21495,7 @@ class LoadBalancerTlsCertificate {
               e as Map<String, dynamic>))
           .toList(),
       failureReason: (json['failureReason'] as String?)
-          ?.toLoadBalancerTlsCertificateFailureReason(),
+          ?.let(LoadBalancerTlsCertificateFailureReason.fromString),
       isAttached: json['isAttached'] as bool?,
       issuedAt: timeStampFromJson(json['issuedAt']),
       issuer: json['issuer'] as String?,
@@ -22522,13 +21511,15 @@ class LoadBalancerTlsCertificate {
           ? LoadBalancerTlsCertificateRenewalSummary.fromJson(
               json['renewalSummary'] as Map<String, dynamic>)
           : null,
-      resourceType: (json['resourceType'] as String?)?.toResourceType(),
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
       revocationReason: (json['revocationReason'] as String?)
-          ?.toLoadBalancerTlsCertificateRevocationReason(),
+          ?.let(LoadBalancerTlsCertificateRevocationReason.fromString),
       revokedAt: timeStampFromJson(json['revokedAt']),
       serial: json['serial'] as String?,
       signatureAlgorithm: json['signatureAlgorithm'] as String?,
-      status: (json['status'] as String?)?.toLoadBalancerTlsCertificateStatus(),
+      status: (json['status'] as String?)
+          ?.let(LoadBalancerTlsCertificateStatus.fromString),
       subject: json['subject'] as String?,
       subjectAlternativeNames: (json['subjectAlternativeNames'] as List?)
           ?.whereNotNull()
@@ -22574,7 +21565,7 @@ class LoadBalancerTlsCertificate {
       if (domainName != null) 'domainName': domainName,
       if (domainValidationRecords != null)
         'domainValidationRecords': domainValidationRecords,
-      if (failureReason != null) 'failureReason': failureReason.toValue(),
+      if (failureReason != null) 'failureReason': failureReason.value,
       if (isAttached != null) 'isAttached': isAttached,
       if (issuedAt != null) 'issuedAt': unixTimestampToJson(issuedAt),
       if (issuer != null) 'issuer': issuer,
@@ -22585,13 +21576,12 @@ class LoadBalancerTlsCertificate {
       if (notAfter != null) 'notAfter': unixTimestampToJson(notAfter),
       if (notBefore != null) 'notBefore': unixTimestampToJson(notBefore),
       if (renewalSummary != null) 'renewalSummary': renewalSummary,
-      if (resourceType != null) 'resourceType': resourceType.toValue(),
-      if (revocationReason != null)
-        'revocationReason': revocationReason.toValue(),
+      if (resourceType != null) 'resourceType': resourceType.value,
+      if (revocationReason != null) 'revocationReason': revocationReason.value,
       if (revokedAt != null) 'revokedAt': unixTimestampToJson(revokedAt),
       if (serial != null) 'serial': serial,
       if (signatureAlgorithm != null) 'signatureAlgorithm': signatureAlgorithm,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (subject != null) 'subject': subject,
       if (subjectAlternativeNames != null)
         'subjectAlternativeNames': subjectAlternativeNames,
@@ -22633,8 +21623,8 @@ class LoadBalancerTlsCertificateDnsRecordCreationState {
   factory LoadBalancerTlsCertificateDnsRecordCreationState.fromJson(
       Map<String, dynamic> json) {
     return LoadBalancerTlsCertificateDnsRecordCreationState(
-      code: (json['code'] as String?)
-          ?.toLoadBalancerTlsCertificateDnsRecordCreationStateCode(),
+      code: (json['code'] as String?)?.let(
+          LoadBalancerTlsCertificateDnsRecordCreationStateCode.fromString),
       message: json['message'] as String?,
     );
   }
@@ -22643,83 +21633,43 @@ class LoadBalancerTlsCertificateDnsRecordCreationState {
     final code = this.code;
     final message = this.message;
     return {
-      if (code != null) 'code': code.toValue(),
+      if (code != null) 'code': code.value,
       if (message != null) 'message': message,
     };
   }
 }
 
 enum LoadBalancerTlsCertificateDnsRecordCreationStateCode {
-  succeeded,
-  started,
-  failed,
-}
+  succeeded('SUCCEEDED'),
+  started('STARTED'),
+  failed('FAILED'),
+  ;
 
-extension LoadBalancerTlsCertificateDnsRecordCreationStateCodeValueExtension
-    on LoadBalancerTlsCertificateDnsRecordCreationStateCode {
-  String toValue() {
-    switch (this) {
-      case LoadBalancerTlsCertificateDnsRecordCreationStateCode.succeeded:
-        return 'SUCCEEDED';
-      case LoadBalancerTlsCertificateDnsRecordCreationStateCode.started:
-        return 'STARTED';
-      case LoadBalancerTlsCertificateDnsRecordCreationStateCode.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension LoadBalancerTlsCertificateDnsRecordCreationStateCodeFromString
-    on String {
-  LoadBalancerTlsCertificateDnsRecordCreationStateCode
-      toLoadBalancerTlsCertificateDnsRecordCreationStateCode() {
-    switch (this) {
-      case 'SUCCEEDED':
-        return LoadBalancerTlsCertificateDnsRecordCreationStateCode.succeeded;
-      case 'STARTED':
-        return LoadBalancerTlsCertificateDnsRecordCreationStateCode.started;
-      case 'FAILED':
-        return LoadBalancerTlsCertificateDnsRecordCreationStateCode.failed;
-    }
-    throw Exception(
-        '$this is not known in enum LoadBalancerTlsCertificateDnsRecordCreationStateCode');
-  }
+  const LoadBalancerTlsCertificateDnsRecordCreationStateCode(this.value);
+
+  static LoadBalancerTlsCertificateDnsRecordCreationStateCode fromString(
+          String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum LoadBalancerTlsCertificateDnsRecordCreationStateCode'));
 }
 
 enum LoadBalancerTlsCertificateDomainStatus {
-  pendingValidation,
-  failed,
-  success,
-}
+  pendingValidation('PENDING_VALIDATION'),
+  failed('FAILED'),
+  success('SUCCESS'),
+  ;
 
-extension LoadBalancerTlsCertificateDomainStatusValueExtension
-    on LoadBalancerTlsCertificateDomainStatus {
-  String toValue() {
-    switch (this) {
-      case LoadBalancerTlsCertificateDomainStatus.pendingValidation:
-        return 'PENDING_VALIDATION';
-      case LoadBalancerTlsCertificateDomainStatus.failed:
-        return 'FAILED';
-      case LoadBalancerTlsCertificateDomainStatus.success:
-        return 'SUCCESS';
-    }
-  }
-}
+  final String value;
 
-extension LoadBalancerTlsCertificateDomainStatusFromString on String {
-  LoadBalancerTlsCertificateDomainStatus
-      toLoadBalancerTlsCertificateDomainStatus() {
-    switch (this) {
-      case 'PENDING_VALIDATION':
-        return LoadBalancerTlsCertificateDomainStatus.pendingValidation;
-      case 'FAILED':
-        return LoadBalancerTlsCertificateDomainStatus.failed;
-      case 'SUCCESS':
-        return LoadBalancerTlsCertificateDomainStatus.success;
-    }
-    throw Exception(
-        '$this is not known in enum LoadBalancerTlsCertificateDomainStatus');
-  }
+  const LoadBalancerTlsCertificateDomainStatus(this.value);
+
+  static LoadBalancerTlsCertificateDomainStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum LoadBalancerTlsCertificateDomainStatus'));
 }
 
 /// Contains information about the domain names on an SSL/TLS certificate that
@@ -22741,7 +21691,7 @@ class LoadBalancerTlsCertificateDomainValidationOption {
     return LoadBalancerTlsCertificateDomainValidationOption(
       domainName: json['domainName'] as String?,
       validationStatus: (json['validationStatus'] as String?)
-          ?.toLoadBalancerTlsCertificateDomainStatus(),
+          ?.let(LoadBalancerTlsCertificateDomainStatus.fromString),
     );
   }
 
@@ -22750,8 +21700,7 @@ class LoadBalancerTlsCertificateDomainValidationOption {
     final validationStatus = this.validationStatus;
     return {
       if (domainName != null) 'domainName': domainName,
-      if (validationStatus != null)
-        'validationStatus': validationStatus.toValue(),
+      if (validationStatus != null) 'validationStatus': validationStatus.value,
     };
   }
 }
@@ -22802,7 +21751,7 @@ class LoadBalancerTlsCertificateDomainValidationRecord {
       name: json['name'] as String?,
       type: json['type'] as String?,
       validationStatus: (json['validationStatus'] as String?)
-          ?.toLoadBalancerTlsCertificateDomainStatus(),
+          ?.let(LoadBalancerTlsCertificateDomainStatus.fromString),
       value: json['value'] as String?,
     );
   }
@@ -22820,100 +21769,45 @@ class LoadBalancerTlsCertificateDomainValidationRecord {
       if (domainName != null) 'domainName': domainName,
       if (name != null) 'name': name,
       if (type != null) 'type': type,
-      if (validationStatus != null)
-        'validationStatus': validationStatus.toValue(),
+      if (validationStatus != null) 'validationStatus': validationStatus.value,
       if (value != null) 'value': value,
     };
   }
 }
 
 enum LoadBalancerTlsCertificateFailureReason {
-  noAvailableContacts,
-  additionalVerificationRequired,
-  domainNotAllowed,
-  invalidPublicDomain,
-  other,
-}
+  noAvailableContacts('NO_AVAILABLE_CONTACTS'),
+  additionalVerificationRequired('ADDITIONAL_VERIFICATION_REQUIRED'),
+  domainNotAllowed('DOMAIN_NOT_ALLOWED'),
+  invalidPublicDomain('INVALID_PUBLIC_DOMAIN'),
+  other('OTHER'),
+  ;
 
-extension LoadBalancerTlsCertificateFailureReasonValueExtension
-    on LoadBalancerTlsCertificateFailureReason {
-  String toValue() {
-    switch (this) {
-      case LoadBalancerTlsCertificateFailureReason.noAvailableContacts:
-        return 'NO_AVAILABLE_CONTACTS';
-      case LoadBalancerTlsCertificateFailureReason
-            .additionalVerificationRequired:
-        return 'ADDITIONAL_VERIFICATION_REQUIRED';
-      case LoadBalancerTlsCertificateFailureReason.domainNotAllowed:
-        return 'DOMAIN_NOT_ALLOWED';
-      case LoadBalancerTlsCertificateFailureReason.invalidPublicDomain:
-        return 'INVALID_PUBLIC_DOMAIN';
-      case LoadBalancerTlsCertificateFailureReason.other:
-        return 'OTHER';
-    }
-  }
-}
+  final String value;
 
-extension LoadBalancerTlsCertificateFailureReasonFromString on String {
-  LoadBalancerTlsCertificateFailureReason
-      toLoadBalancerTlsCertificateFailureReason() {
-    switch (this) {
-      case 'NO_AVAILABLE_CONTACTS':
-        return LoadBalancerTlsCertificateFailureReason.noAvailableContacts;
-      case 'ADDITIONAL_VERIFICATION_REQUIRED':
-        return LoadBalancerTlsCertificateFailureReason
-            .additionalVerificationRequired;
-      case 'DOMAIN_NOT_ALLOWED':
-        return LoadBalancerTlsCertificateFailureReason.domainNotAllowed;
-      case 'INVALID_PUBLIC_DOMAIN':
-        return LoadBalancerTlsCertificateFailureReason.invalidPublicDomain;
-      case 'OTHER':
-        return LoadBalancerTlsCertificateFailureReason.other;
-    }
-    throw Exception(
-        '$this is not known in enum LoadBalancerTlsCertificateFailureReason');
-  }
+  const LoadBalancerTlsCertificateFailureReason(this.value);
+
+  static LoadBalancerTlsCertificateFailureReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum LoadBalancerTlsCertificateFailureReason'));
 }
 
 enum LoadBalancerTlsCertificateRenewalStatus {
-  pendingAutoRenewal,
-  pendingValidation,
-  success,
-  failed,
-}
+  pendingAutoRenewal('PENDING_AUTO_RENEWAL'),
+  pendingValidation('PENDING_VALIDATION'),
+  success('SUCCESS'),
+  failed('FAILED'),
+  ;
 
-extension LoadBalancerTlsCertificateRenewalStatusValueExtension
-    on LoadBalancerTlsCertificateRenewalStatus {
-  String toValue() {
-    switch (this) {
-      case LoadBalancerTlsCertificateRenewalStatus.pendingAutoRenewal:
-        return 'PENDING_AUTO_RENEWAL';
-      case LoadBalancerTlsCertificateRenewalStatus.pendingValidation:
-        return 'PENDING_VALIDATION';
-      case LoadBalancerTlsCertificateRenewalStatus.success:
-        return 'SUCCESS';
-      case LoadBalancerTlsCertificateRenewalStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension LoadBalancerTlsCertificateRenewalStatusFromString on String {
-  LoadBalancerTlsCertificateRenewalStatus
-      toLoadBalancerTlsCertificateRenewalStatus() {
-    switch (this) {
-      case 'PENDING_AUTO_RENEWAL':
-        return LoadBalancerTlsCertificateRenewalStatus.pendingAutoRenewal;
-      case 'PENDING_VALIDATION':
-        return LoadBalancerTlsCertificateRenewalStatus.pendingValidation;
-      case 'SUCCESS':
-        return LoadBalancerTlsCertificateRenewalStatus.success;
-      case 'FAILED':
-        return LoadBalancerTlsCertificateRenewalStatus.failed;
-    }
-    throw Exception(
-        '$this is not known in enum LoadBalancerTlsCertificateRenewalStatus');
-  }
+  const LoadBalancerTlsCertificateRenewalStatus(this.value);
+
+  static LoadBalancerTlsCertificateRenewalStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum LoadBalancerTlsCertificateRenewalStatus'));
 }
 
 /// Contains information about the status of Lightsail's managed renewal for the
@@ -23002,7 +21896,7 @@ class LoadBalancerTlsCertificateRenewalSummary {
               e as Map<String, dynamic>))
           .toList(),
       renewalStatus: (json['renewalStatus'] as String?)
-          ?.toLoadBalancerTlsCertificateRenewalStatus(),
+          ?.let(LoadBalancerTlsCertificateRenewalStatus.fromString),
     );
   }
 
@@ -23012,140 +21906,53 @@ class LoadBalancerTlsCertificateRenewalSummary {
     return {
       if (domainValidationOptions != null)
         'domainValidationOptions': domainValidationOptions,
-      if (renewalStatus != null) 'renewalStatus': renewalStatus.toValue(),
+      if (renewalStatus != null) 'renewalStatus': renewalStatus.value,
     };
   }
 }
 
 enum LoadBalancerTlsCertificateRevocationReason {
-  unspecified,
-  keyCompromise,
-  caCompromise,
-  affiliationChanged,
-  superceded,
-  cessationOfOperation,
-  certificateHold,
-  removeFromCrl,
-  privilegeWithdrawn,
-  aACompromise,
-}
+  unspecified('UNSPECIFIED'),
+  keyCompromise('KEY_COMPROMISE'),
+  caCompromise('CA_COMPROMISE'),
+  affiliationChanged('AFFILIATION_CHANGED'),
+  superceded('SUPERCEDED'),
+  cessationOfOperation('CESSATION_OF_OPERATION'),
+  certificateHold('CERTIFICATE_HOLD'),
+  removeFromCrl('REMOVE_FROM_CRL'),
+  privilegeWithdrawn('PRIVILEGE_WITHDRAWN'),
+  aACompromise('A_A_COMPROMISE'),
+  ;
 
-extension LoadBalancerTlsCertificateRevocationReasonValueExtension
-    on LoadBalancerTlsCertificateRevocationReason {
-  String toValue() {
-    switch (this) {
-      case LoadBalancerTlsCertificateRevocationReason.unspecified:
-        return 'UNSPECIFIED';
-      case LoadBalancerTlsCertificateRevocationReason.keyCompromise:
-        return 'KEY_COMPROMISE';
-      case LoadBalancerTlsCertificateRevocationReason.caCompromise:
-        return 'CA_COMPROMISE';
-      case LoadBalancerTlsCertificateRevocationReason.affiliationChanged:
-        return 'AFFILIATION_CHANGED';
-      case LoadBalancerTlsCertificateRevocationReason.superceded:
-        return 'SUPERCEDED';
-      case LoadBalancerTlsCertificateRevocationReason.cessationOfOperation:
-        return 'CESSATION_OF_OPERATION';
-      case LoadBalancerTlsCertificateRevocationReason.certificateHold:
-        return 'CERTIFICATE_HOLD';
-      case LoadBalancerTlsCertificateRevocationReason.removeFromCrl:
-        return 'REMOVE_FROM_CRL';
-      case LoadBalancerTlsCertificateRevocationReason.privilegeWithdrawn:
-        return 'PRIVILEGE_WITHDRAWN';
-      case LoadBalancerTlsCertificateRevocationReason.aACompromise:
-        return 'A_A_COMPROMISE';
-    }
-  }
-}
+  final String value;
 
-extension LoadBalancerTlsCertificateRevocationReasonFromString on String {
-  LoadBalancerTlsCertificateRevocationReason
-      toLoadBalancerTlsCertificateRevocationReason() {
-    switch (this) {
-      case 'UNSPECIFIED':
-        return LoadBalancerTlsCertificateRevocationReason.unspecified;
-      case 'KEY_COMPROMISE':
-        return LoadBalancerTlsCertificateRevocationReason.keyCompromise;
-      case 'CA_COMPROMISE':
-        return LoadBalancerTlsCertificateRevocationReason.caCompromise;
-      case 'AFFILIATION_CHANGED':
-        return LoadBalancerTlsCertificateRevocationReason.affiliationChanged;
-      case 'SUPERCEDED':
-        return LoadBalancerTlsCertificateRevocationReason.superceded;
-      case 'CESSATION_OF_OPERATION':
-        return LoadBalancerTlsCertificateRevocationReason.cessationOfOperation;
-      case 'CERTIFICATE_HOLD':
-        return LoadBalancerTlsCertificateRevocationReason.certificateHold;
-      case 'REMOVE_FROM_CRL':
-        return LoadBalancerTlsCertificateRevocationReason.removeFromCrl;
-      case 'PRIVILEGE_WITHDRAWN':
-        return LoadBalancerTlsCertificateRevocationReason.privilegeWithdrawn;
-      case 'A_A_COMPROMISE':
-        return LoadBalancerTlsCertificateRevocationReason.aACompromise;
-    }
-    throw Exception(
-        '$this is not known in enum LoadBalancerTlsCertificateRevocationReason');
-  }
+  const LoadBalancerTlsCertificateRevocationReason(this.value);
+
+  static LoadBalancerTlsCertificateRevocationReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum LoadBalancerTlsCertificateRevocationReason'));
 }
 
 enum LoadBalancerTlsCertificateStatus {
-  pendingValidation,
-  issued,
-  inactive,
-  expired,
-  validationTimedOut,
-  revoked,
-  failed,
-  unknown,
-}
+  pendingValidation('PENDING_VALIDATION'),
+  issued('ISSUED'),
+  inactive('INACTIVE'),
+  expired('EXPIRED'),
+  validationTimedOut('VALIDATION_TIMED_OUT'),
+  revoked('REVOKED'),
+  failed('FAILED'),
+  unknown('UNKNOWN'),
+  ;
 
-extension LoadBalancerTlsCertificateStatusValueExtension
-    on LoadBalancerTlsCertificateStatus {
-  String toValue() {
-    switch (this) {
-      case LoadBalancerTlsCertificateStatus.pendingValidation:
-        return 'PENDING_VALIDATION';
-      case LoadBalancerTlsCertificateStatus.issued:
-        return 'ISSUED';
-      case LoadBalancerTlsCertificateStatus.inactive:
-        return 'INACTIVE';
-      case LoadBalancerTlsCertificateStatus.expired:
-        return 'EXPIRED';
-      case LoadBalancerTlsCertificateStatus.validationTimedOut:
-        return 'VALIDATION_TIMED_OUT';
-      case LoadBalancerTlsCertificateStatus.revoked:
-        return 'REVOKED';
-      case LoadBalancerTlsCertificateStatus.failed:
-        return 'FAILED';
-      case LoadBalancerTlsCertificateStatus.unknown:
-        return 'UNKNOWN';
-    }
-  }
-}
+  final String value;
 
-extension LoadBalancerTlsCertificateStatusFromString on String {
-  LoadBalancerTlsCertificateStatus toLoadBalancerTlsCertificateStatus() {
-    switch (this) {
-      case 'PENDING_VALIDATION':
-        return LoadBalancerTlsCertificateStatus.pendingValidation;
-      case 'ISSUED':
-        return LoadBalancerTlsCertificateStatus.issued;
-      case 'INACTIVE':
-        return LoadBalancerTlsCertificateStatus.inactive;
-      case 'EXPIRED':
-        return LoadBalancerTlsCertificateStatus.expired;
-      case 'VALIDATION_TIMED_OUT':
-        return LoadBalancerTlsCertificateStatus.validationTimedOut;
-      case 'REVOKED':
-        return LoadBalancerTlsCertificateStatus.revoked;
-      case 'FAILED':
-        return LoadBalancerTlsCertificateStatus.failed;
-      case 'UNKNOWN':
-        return LoadBalancerTlsCertificateStatus.unknown;
-    }
-    throw Exception(
-        '$this is not known in enum LoadBalancerTlsCertificateStatus');
-  }
+  const LoadBalancerTlsCertificateStatus(this.value);
+
+  static LoadBalancerTlsCertificateStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum LoadBalancerTlsCertificateStatus'));
 }
 
 /// Provides a summary of SSL/TLS certificate metadata.
@@ -23317,7 +22124,7 @@ class MetricDatapoint {
       sampleCount: json['sampleCount'] as double?,
       sum: json['sum'] as double?,
       timestamp: timeStampFromJson(json['timestamp']),
-      unit: (json['unit'] as String?)?.toMetricUnit(),
+      unit: (json['unit'] as String?)?.let(MetricUnit.fromString),
     );
   }
 
@@ -23336,348 +22143,103 @@ class MetricDatapoint {
       if (sampleCount != null) 'sampleCount': sampleCount,
       if (sum != null) 'sum': sum,
       if (timestamp != null) 'timestamp': unixTimestampToJson(timestamp),
-      if (unit != null) 'unit': unit.toValue(),
+      if (unit != null) 'unit': unit.value,
     };
   }
 }
 
 enum MetricName {
-  cPUUtilization,
-  networkIn,
-  networkOut,
-  statusCheckFailed,
-  statusCheckFailedInstance,
-  statusCheckFailedSystem,
-  clientTLSNegotiationErrorCount,
-  healthyHostCount,
-  unhealthyHostCount,
-  hTTPCodeLb_4xxCount,
-  hTTPCodeLb_5xxCount,
-  hTTPCodeInstance_2xxCount,
-  hTTPCodeInstance_3xxCount,
-  hTTPCodeInstance_4xxCount,
-  hTTPCodeInstance_5xxCount,
-  instanceResponseTime,
-  rejectedConnectionCount,
-  requestCount,
-  databaseConnections,
-  diskQueueDepth,
-  freeStorageSpace,
-  networkReceiveThroughput,
-  networkTransmitThroughput,
-  burstCapacityTime,
-  burstCapacityPercentage,
-}
+  cPUUtilization('CPUUtilization'),
+  networkIn('NetworkIn'),
+  networkOut('NetworkOut'),
+  statusCheckFailed('StatusCheckFailed'),
+  statusCheckFailedInstance('StatusCheckFailed_Instance'),
+  statusCheckFailedSystem('StatusCheckFailed_System'),
+  clientTLSNegotiationErrorCount('ClientTLSNegotiationErrorCount'),
+  healthyHostCount('HealthyHostCount'),
+  unhealthyHostCount('UnhealthyHostCount'),
+  hTTPCodeLb_4xxCount('HTTPCode_LB_4XX_Count'),
+  hTTPCodeLb_5xxCount('HTTPCode_LB_5XX_Count'),
+  hTTPCodeInstance_2xxCount('HTTPCode_Instance_2XX_Count'),
+  hTTPCodeInstance_3xxCount('HTTPCode_Instance_3XX_Count'),
+  hTTPCodeInstance_4xxCount('HTTPCode_Instance_4XX_Count'),
+  hTTPCodeInstance_5xxCount('HTTPCode_Instance_5XX_Count'),
+  instanceResponseTime('InstanceResponseTime'),
+  rejectedConnectionCount('RejectedConnectionCount'),
+  requestCount('RequestCount'),
+  databaseConnections('DatabaseConnections'),
+  diskQueueDepth('DiskQueueDepth'),
+  freeStorageSpace('FreeStorageSpace'),
+  networkReceiveThroughput('NetworkReceiveThroughput'),
+  networkTransmitThroughput('NetworkTransmitThroughput'),
+  burstCapacityTime('BurstCapacityTime'),
+  burstCapacityPercentage('BurstCapacityPercentage'),
+  ;
 
-extension MetricNameValueExtension on MetricName {
-  String toValue() {
-    switch (this) {
-      case MetricName.cPUUtilization:
-        return 'CPUUtilization';
-      case MetricName.networkIn:
-        return 'NetworkIn';
-      case MetricName.networkOut:
-        return 'NetworkOut';
-      case MetricName.statusCheckFailed:
-        return 'StatusCheckFailed';
-      case MetricName.statusCheckFailedInstance:
-        return 'StatusCheckFailed_Instance';
-      case MetricName.statusCheckFailedSystem:
-        return 'StatusCheckFailed_System';
-      case MetricName.clientTLSNegotiationErrorCount:
-        return 'ClientTLSNegotiationErrorCount';
-      case MetricName.healthyHostCount:
-        return 'HealthyHostCount';
-      case MetricName.unhealthyHostCount:
-        return 'UnhealthyHostCount';
-      case MetricName.hTTPCodeLb_4xxCount:
-        return 'HTTPCode_LB_4XX_Count';
-      case MetricName.hTTPCodeLb_5xxCount:
-        return 'HTTPCode_LB_5XX_Count';
-      case MetricName.hTTPCodeInstance_2xxCount:
-        return 'HTTPCode_Instance_2XX_Count';
-      case MetricName.hTTPCodeInstance_3xxCount:
-        return 'HTTPCode_Instance_3XX_Count';
-      case MetricName.hTTPCodeInstance_4xxCount:
-        return 'HTTPCode_Instance_4XX_Count';
-      case MetricName.hTTPCodeInstance_5xxCount:
-        return 'HTTPCode_Instance_5XX_Count';
-      case MetricName.instanceResponseTime:
-        return 'InstanceResponseTime';
-      case MetricName.rejectedConnectionCount:
-        return 'RejectedConnectionCount';
-      case MetricName.requestCount:
-        return 'RequestCount';
-      case MetricName.databaseConnections:
-        return 'DatabaseConnections';
-      case MetricName.diskQueueDepth:
-        return 'DiskQueueDepth';
-      case MetricName.freeStorageSpace:
-        return 'FreeStorageSpace';
-      case MetricName.networkReceiveThroughput:
-        return 'NetworkReceiveThroughput';
-      case MetricName.networkTransmitThroughput:
-        return 'NetworkTransmitThroughput';
-      case MetricName.burstCapacityTime:
-        return 'BurstCapacityTime';
-      case MetricName.burstCapacityPercentage:
-        return 'BurstCapacityPercentage';
-    }
-  }
-}
+  final String value;
 
-extension MetricNameFromString on String {
-  MetricName toMetricName() {
-    switch (this) {
-      case 'CPUUtilization':
-        return MetricName.cPUUtilization;
-      case 'NetworkIn':
-        return MetricName.networkIn;
-      case 'NetworkOut':
-        return MetricName.networkOut;
-      case 'StatusCheckFailed':
-        return MetricName.statusCheckFailed;
-      case 'StatusCheckFailed_Instance':
-        return MetricName.statusCheckFailedInstance;
-      case 'StatusCheckFailed_System':
-        return MetricName.statusCheckFailedSystem;
-      case 'ClientTLSNegotiationErrorCount':
-        return MetricName.clientTLSNegotiationErrorCount;
-      case 'HealthyHostCount':
-        return MetricName.healthyHostCount;
-      case 'UnhealthyHostCount':
-        return MetricName.unhealthyHostCount;
-      case 'HTTPCode_LB_4XX_Count':
-        return MetricName.hTTPCodeLb_4xxCount;
-      case 'HTTPCode_LB_5XX_Count':
-        return MetricName.hTTPCodeLb_5xxCount;
-      case 'HTTPCode_Instance_2XX_Count':
-        return MetricName.hTTPCodeInstance_2xxCount;
-      case 'HTTPCode_Instance_3XX_Count':
-        return MetricName.hTTPCodeInstance_3xxCount;
-      case 'HTTPCode_Instance_4XX_Count':
-        return MetricName.hTTPCodeInstance_4xxCount;
-      case 'HTTPCode_Instance_5XX_Count':
-        return MetricName.hTTPCodeInstance_5xxCount;
-      case 'InstanceResponseTime':
-        return MetricName.instanceResponseTime;
-      case 'RejectedConnectionCount':
-        return MetricName.rejectedConnectionCount;
-      case 'RequestCount':
-        return MetricName.requestCount;
-      case 'DatabaseConnections':
-        return MetricName.databaseConnections;
-      case 'DiskQueueDepth':
-        return MetricName.diskQueueDepth;
-      case 'FreeStorageSpace':
-        return MetricName.freeStorageSpace;
-      case 'NetworkReceiveThroughput':
-        return MetricName.networkReceiveThroughput;
-      case 'NetworkTransmitThroughput':
-        return MetricName.networkTransmitThroughput;
-      case 'BurstCapacityTime':
-        return MetricName.burstCapacityTime;
-      case 'BurstCapacityPercentage':
-        return MetricName.burstCapacityPercentage;
-    }
-    throw Exception('$this is not known in enum MetricName');
-  }
+  const MetricName(this.value);
+
+  static MetricName fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum MetricName'));
 }
 
 enum MetricStatistic {
-  minimum,
-  maximum,
-  sum,
-  average,
-  sampleCount,
-}
+  minimum('Minimum'),
+  maximum('Maximum'),
+  sum('Sum'),
+  average('Average'),
+  sampleCount('SampleCount'),
+  ;
 
-extension MetricStatisticValueExtension on MetricStatistic {
-  String toValue() {
-    switch (this) {
-      case MetricStatistic.minimum:
-        return 'Minimum';
-      case MetricStatistic.maximum:
-        return 'Maximum';
-      case MetricStatistic.sum:
-        return 'Sum';
-      case MetricStatistic.average:
-        return 'Average';
-      case MetricStatistic.sampleCount:
-        return 'SampleCount';
-    }
-  }
-}
+  final String value;
 
-extension MetricStatisticFromString on String {
-  MetricStatistic toMetricStatistic() {
-    switch (this) {
-      case 'Minimum':
-        return MetricStatistic.minimum;
-      case 'Maximum':
-        return MetricStatistic.maximum;
-      case 'Sum':
-        return MetricStatistic.sum;
-      case 'Average':
-        return MetricStatistic.average;
-      case 'SampleCount':
-        return MetricStatistic.sampleCount;
-    }
-    throw Exception('$this is not known in enum MetricStatistic');
-  }
+  const MetricStatistic(this.value);
+
+  static MetricStatistic fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MetricStatistic'));
 }
 
 enum MetricUnit {
-  seconds,
-  microseconds,
-  milliseconds,
-  bytes,
-  kilobytes,
-  megabytes,
-  gigabytes,
-  terabytes,
-  bits,
-  kilobits,
-  megabits,
-  gigabits,
-  terabits,
-  percent,
-  count,
-  bytesSecond,
-  kilobytesSecond,
-  megabytesSecond,
-  gigabytesSecond,
-  terabytesSecond,
-  bitsSecond,
-  kilobitsSecond,
-  megabitsSecond,
-  gigabitsSecond,
-  terabitsSecond,
-  countSecond,
-  none,
-}
+  seconds('Seconds'),
+  microseconds('Microseconds'),
+  milliseconds('Milliseconds'),
+  bytes('Bytes'),
+  kilobytes('Kilobytes'),
+  megabytes('Megabytes'),
+  gigabytes('Gigabytes'),
+  terabytes('Terabytes'),
+  bits('Bits'),
+  kilobits('Kilobits'),
+  megabits('Megabits'),
+  gigabits('Gigabits'),
+  terabits('Terabits'),
+  percent('Percent'),
+  count('Count'),
+  bytesSecond('Bytes/Second'),
+  kilobytesSecond('Kilobytes/Second'),
+  megabytesSecond('Megabytes/Second'),
+  gigabytesSecond('Gigabytes/Second'),
+  terabytesSecond('Terabytes/Second'),
+  bitsSecond('Bits/Second'),
+  kilobitsSecond('Kilobits/Second'),
+  megabitsSecond('Megabits/Second'),
+  gigabitsSecond('Gigabits/Second'),
+  terabitsSecond('Terabits/Second'),
+  countSecond('Count/Second'),
+  none('None'),
+  ;
 
-extension MetricUnitValueExtension on MetricUnit {
-  String toValue() {
-    switch (this) {
-      case MetricUnit.seconds:
-        return 'Seconds';
-      case MetricUnit.microseconds:
-        return 'Microseconds';
-      case MetricUnit.milliseconds:
-        return 'Milliseconds';
-      case MetricUnit.bytes:
-        return 'Bytes';
-      case MetricUnit.kilobytes:
-        return 'Kilobytes';
-      case MetricUnit.megabytes:
-        return 'Megabytes';
-      case MetricUnit.gigabytes:
-        return 'Gigabytes';
-      case MetricUnit.terabytes:
-        return 'Terabytes';
-      case MetricUnit.bits:
-        return 'Bits';
-      case MetricUnit.kilobits:
-        return 'Kilobits';
-      case MetricUnit.megabits:
-        return 'Megabits';
-      case MetricUnit.gigabits:
-        return 'Gigabits';
-      case MetricUnit.terabits:
-        return 'Terabits';
-      case MetricUnit.percent:
-        return 'Percent';
-      case MetricUnit.count:
-        return 'Count';
-      case MetricUnit.bytesSecond:
-        return 'Bytes/Second';
-      case MetricUnit.kilobytesSecond:
-        return 'Kilobytes/Second';
-      case MetricUnit.megabytesSecond:
-        return 'Megabytes/Second';
-      case MetricUnit.gigabytesSecond:
-        return 'Gigabytes/Second';
-      case MetricUnit.terabytesSecond:
-        return 'Terabytes/Second';
-      case MetricUnit.bitsSecond:
-        return 'Bits/Second';
-      case MetricUnit.kilobitsSecond:
-        return 'Kilobits/Second';
-      case MetricUnit.megabitsSecond:
-        return 'Megabits/Second';
-      case MetricUnit.gigabitsSecond:
-        return 'Gigabits/Second';
-      case MetricUnit.terabitsSecond:
-        return 'Terabits/Second';
-      case MetricUnit.countSecond:
-        return 'Count/Second';
-      case MetricUnit.none:
-        return 'None';
-    }
-  }
-}
+  final String value;
 
-extension MetricUnitFromString on String {
-  MetricUnit toMetricUnit() {
-    switch (this) {
-      case 'Seconds':
-        return MetricUnit.seconds;
-      case 'Microseconds':
-        return MetricUnit.microseconds;
-      case 'Milliseconds':
-        return MetricUnit.milliseconds;
-      case 'Bytes':
-        return MetricUnit.bytes;
-      case 'Kilobytes':
-        return MetricUnit.kilobytes;
-      case 'Megabytes':
-        return MetricUnit.megabytes;
-      case 'Gigabytes':
-        return MetricUnit.gigabytes;
-      case 'Terabytes':
-        return MetricUnit.terabytes;
-      case 'Bits':
-        return MetricUnit.bits;
-      case 'Kilobits':
-        return MetricUnit.kilobits;
-      case 'Megabits':
-        return MetricUnit.megabits;
-      case 'Gigabits':
-        return MetricUnit.gigabits;
-      case 'Terabits':
-        return MetricUnit.terabits;
-      case 'Percent':
-        return MetricUnit.percent;
-      case 'Count':
-        return MetricUnit.count;
-      case 'Bytes/Second':
-        return MetricUnit.bytesSecond;
-      case 'Kilobytes/Second':
-        return MetricUnit.kilobytesSecond;
-      case 'Megabytes/Second':
-        return MetricUnit.megabytesSecond;
-      case 'Gigabytes/Second':
-        return MetricUnit.gigabytesSecond;
-      case 'Terabytes/Second':
-        return MetricUnit.terabytesSecond;
-      case 'Bits/Second':
-        return MetricUnit.bitsSecond;
-      case 'Kilobits/Second':
-        return MetricUnit.kilobitsSecond;
-      case 'Megabits/Second':
-        return MetricUnit.megabitsSecond;
-      case 'Gigabits/Second':
-        return MetricUnit.gigabitsSecond;
-      case 'Terabits/Second':
-        return MetricUnit.terabitsSecond;
-      case 'Count/Second':
-        return MetricUnit.countSecond;
-      case 'None':
-        return MetricUnit.none;
-    }
-    throw Exception('$this is not known in enum MetricUnit');
-  }
+  const MetricUnit(this.value);
+
+  static MetricUnit fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum MetricUnit'));
 }
 
 /// Describes resource being monitored by an alarm.
@@ -23709,7 +22271,8 @@ class MonitoredResourceInfo {
     return MonitoredResourceInfo(
       arn: json['arn'] as String?,
       name: json['name'] as String?,
-      resourceType: (json['resourceType'] as String?)?.toResourceType(),
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
     );
   }
 
@@ -23720,7 +22283,7 @@ class MonitoredResourceInfo {
     return {
       if (arn != null) 'arn': arn,
       if (name != null) 'name': name,
-      if (resourceType != null) 'resourceType': resourceType.toValue(),
+      if (resourceType != null) 'resourceType': resourceType.value,
     };
   }
 }
@@ -23787,7 +22350,8 @@ class NameServersUpdateState {
 
   factory NameServersUpdateState.fromJson(Map<String, dynamic> json) {
     return NameServersUpdateState(
-      code: (json['code'] as String?)?.toNameServersUpdateStateCode(),
+      code:
+          (json['code'] as String?)?.let(NameServersUpdateStateCode.fromString),
       message: json['message'] as String?,
     );
   }
@@ -23796,92 +22360,45 @@ class NameServersUpdateState {
     final code = this.code;
     final message = this.message;
     return {
-      if (code != null) 'code': code.toValue(),
+      if (code != null) 'code': code.value,
       if (message != null) 'message': message,
     };
   }
 }
 
 enum NameServersUpdateStateCode {
-  succeeded,
-  pending,
-  failed,
-  started,
-}
+  succeeded('SUCCEEDED'),
+  pending('PENDING'),
+  failed('FAILED'),
+  started('STARTED'),
+  ;
 
-extension NameServersUpdateStateCodeValueExtension
-    on NameServersUpdateStateCode {
-  String toValue() {
-    switch (this) {
-      case NameServersUpdateStateCode.succeeded:
-        return 'SUCCEEDED';
-      case NameServersUpdateStateCode.pending:
-        return 'PENDING';
-      case NameServersUpdateStateCode.failed:
-        return 'FAILED';
-      case NameServersUpdateStateCode.started:
-        return 'STARTED';
-    }
-  }
-}
+  final String value;
 
-extension NameServersUpdateStateCodeFromString on String {
-  NameServersUpdateStateCode toNameServersUpdateStateCode() {
-    switch (this) {
-      case 'SUCCEEDED':
-        return NameServersUpdateStateCode.succeeded;
-      case 'PENDING':
-        return NameServersUpdateStateCode.pending;
-      case 'FAILED':
-        return NameServersUpdateStateCode.failed;
-      case 'STARTED':
-        return NameServersUpdateStateCode.started;
-    }
-    throw Exception('$this is not known in enum NameServersUpdateStateCode');
-  }
+  const NameServersUpdateStateCode(this.value);
+
+  static NameServersUpdateStateCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum NameServersUpdateStateCode'));
 }
 
 enum NetworkProtocol {
-  tcp,
-  all,
-  udp,
-  icmp,
-  icmpv6,
-}
+  tcp('tcp'),
+  all('all'),
+  udp('udp'),
+  icmp('icmp'),
+  icmpv6('icmpv6'),
+  ;
 
-extension NetworkProtocolValueExtension on NetworkProtocol {
-  String toValue() {
-    switch (this) {
-      case NetworkProtocol.tcp:
-        return 'tcp';
-      case NetworkProtocol.all:
-        return 'all';
-      case NetworkProtocol.udp:
-        return 'udp';
-      case NetworkProtocol.icmp:
-        return 'icmp';
-      case NetworkProtocol.icmpv6:
-        return 'icmpv6';
-    }
-  }
-}
+  final String value;
 
-extension NetworkProtocolFromString on String {
-  NetworkProtocol toNetworkProtocol() {
-    switch (this) {
-      case 'tcp':
-        return NetworkProtocol.tcp;
-      case 'all':
-        return NetworkProtocol.all;
-      case 'udp':
-        return NetworkProtocol.udp;
-      case 'icmp':
-        return NetworkProtocol.icmp;
-      case 'icmpv6':
-        return NetworkProtocol.icmpv6;
-    }
-    throw Exception('$this is not known in enum NetworkProtocol');
-  }
+  const NetworkProtocol(this.value);
+
+  static NetworkProtocol fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum NetworkProtocol'));
 }
 
 class OpenInstancePublicPortsResult {
@@ -23975,10 +22492,12 @@ class Operation {
           ? ResourceLocation.fromJson(json['location'] as Map<String, dynamic>)
           : null,
       operationDetails: json['operationDetails'] as String?,
-      operationType: (json['operationType'] as String?)?.toOperationType(),
+      operationType:
+          (json['operationType'] as String?)?.let(OperationType.fromString),
       resourceName: json['resourceName'] as String?,
-      resourceType: (json['resourceType'] as String?)?.toResourceType(),
-      status: (json['status'] as String?)?.toOperationStatus(),
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
+      status: (json['status'] as String?)?.let(OperationStatus.fromString),
       statusChangedAt: timeStampFromJson(json['statusChangedAt']),
     );
   }
@@ -24004,10 +22523,10 @@ class Operation {
       if (isTerminal != null) 'isTerminal': isTerminal,
       if (location != null) 'location': location,
       if (operationDetails != null) 'operationDetails': operationDetails,
-      if (operationType != null) 'operationType': operationType.toValue(),
+      if (operationType != null) 'operationType': operationType.value,
       if (resourceName != null) 'resourceName': resourceName,
-      if (resourceType != null) 'resourceType': resourceType.toValue(),
-      if (status != null) 'status': status.toValue(),
+      if (resourceType != null) 'resourceType': resourceType.value,
+      if (status != null) 'status': status.value,
       if (statusChangedAt != null)
         'statusChangedAt': unixTimestampToJson(statusChangedAt),
     };
@@ -24015,479 +22534,117 @@ class Operation {
 }
 
 enum OperationStatus {
-  notStarted,
-  started,
-  failed,
-  completed,
-  succeeded,
-}
+  notStarted('NotStarted'),
+  started('Started'),
+  failed('Failed'),
+  completed('Completed'),
+  succeeded('Succeeded'),
+  ;
 
-extension OperationStatusValueExtension on OperationStatus {
-  String toValue() {
-    switch (this) {
-      case OperationStatus.notStarted:
-        return 'NotStarted';
-      case OperationStatus.started:
-        return 'Started';
-      case OperationStatus.failed:
-        return 'Failed';
-      case OperationStatus.completed:
-        return 'Completed';
-      case OperationStatus.succeeded:
-        return 'Succeeded';
-    }
-  }
-}
+  final String value;
 
-extension OperationStatusFromString on String {
-  OperationStatus toOperationStatus() {
-    switch (this) {
-      case 'NotStarted':
-        return OperationStatus.notStarted;
-      case 'Started':
-        return OperationStatus.started;
-      case 'Failed':
-        return OperationStatus.failed;
-      case 'Completed':
-        return OperationStatus.completed;
-      case 'Succeeded':
-        return OperationStatus.succeeded;
-    }
-    throw Exception('$this is not known in enum OperationStatus');
-  }
+  const OperationStatus(this.value);
+
+  static OperationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OperationStatus'));
 }
 
 enum OperationType {
-  deleteKnownHostKeys,
-  deleteInstance,
-  createInstance,
-  stopInstance,
-  startInstance,
-  rebootInstance,
-  openInstancePublicPorts,
-  putInstancePublicPorts,
-  closeInstancePublicPorts,
-  allocateStaticIp,
-  releaseStaticIp,
-  attachStaticIp,
-  detachStaticIp,
-  updateDomainEntry,
-  deleteDomainEntry,
-  createDomain,
-  deleteDomain,
-  createInstanceSnapshot,
-  deleteInstanceSnapshot,
-  createInstancesFromSnapshot,
-  createLoadBalancer,
-  deleteLoadBalancer,
-  attachInstancesToLoadBalancer,
-  detachInstancesFromLoadBalancer,
-  updateLoadBalancerAttribute,
-  createLoadBalancerTlsCertificate,
-  deleteLoadBalancerTlsCertificate,
-  attachLoadBalancerTlsCertificate,
-  createDisk,
-  deleteDisk,
-  attachDisk,
-  detachDisk,
-  createDiskSnapshot,
-  deleteDiskSnapshot,
-  createDiskFromSnapshot,
-  createRelationalDatabase,
-  updateRelationalDatabase,
-  deleteRelationalDatabase,
-  createRelationalDatabaseFromSnapshot,
-  createRelationalDatabaseSnapshot,
-  deleteRelationalDatabaseSnapshot,
-  updateRelationalDatabaseParameters,
-  startRelationalDatabase,
-  rebootRelationalDatabase,
-  stopRelationalDatabase,
-  enableAddOn,
-  disableAddOn,
-  putAlarm,
-  getAlarms,
-  deleteAlarm,
-  testAlarm,
-  createContactMethod,
-  getContactMethods,
-  sendContactMethodVerification,
-  deleteContactMethod,
-  createDistribution,
-  updateDistribution,
-  deleteDistribution,
-  resetDistributionCache,
-  attachCertificateToDistribution,
-  detachCertificateFromDistribution,
-  updateDistributionBundle,
-  setIpAddressType,
-  createCertificate,
-  deleteCertificate,
-  createContainerService,
-  updateContainerService,
-  deleteContainerService,
-  createContainerServiceDeployment,
-  createContainerServiceRegistryLogin,
-  registerContainerImage,
-  deleteContainerImage,
-  createBucket,
-  deleteBucket,
-  createBucketAccessKey,
-  deleteBucketAccessKey,
-  updateBucketBundle,
-  updateBucket,
-  setResourceAccessForBucket,
-  updateInstanceMetadataOptions,
-  startGUISession,
-  stopGUISession,
-  setupInstanceHttps,
-}
+  deleteKnownHostKeys('DeleteKnownHostKeys'),
+  deleteInstance('DeleteInstance'),
+  createInstance('CreateInstance'),
+  stopInstance('StopInstance'),
+  startInstance('StartInstance'),
+  rebootInstance('RebootInstance'),
+  openInstancePublicPorts('OpenInstancePublicPorts'),
+  putInstancePublicPorts('PutInstancePublicPorts'),
+  closeInstancePublicPorts('CloseInstancePublicPorts'),
+  allocateStaticIp('AllocateStaticIp'),
+  releaseStaticIp('ReleaseStaticIp'),
+  attachStaticIp('AttachStaticIp'),
+  detachStaticIp('DetachStaticIp'),
+  updateDomainEntry('UpdateDomainEntry'),
+  deleteDomainEntry('DeleteDomainEntry'),
+  createDomain('CreateDomain'),
+  deleteDomain('DeleteDomain'),
+  createInstanceSnapshot('CreateInstanceSnapshot'),
+  deleteInstanceSnapshot('DeleteInstanceSnapshot'),
+  createInstancesFromSnapshot('CreateInstancesFromSnapshot'),
+  createLoadBalancer('CreateLoadBalancer'),
+  deleteLoadBalancer('DeleteLoadBalancer'),
+  attachInstancesToLoadBalancer('AttachInstancesToLoadBalancer'),
+  detachInstancesFromLoadBalancer('DetachInstancesFromLoadBalancer'),
+  updateLoadBalancerAttribute('UpdateLoadBalancerAttribute'),
+  createLoadBalancerTlsCertificate('CreateLoadBalancerTlsCertificate'),
+  deleteLoadBalancerTlsCertificate('DeleteLoadBalancerTlsCertificate'),
+  attachLoadBalancerTlsCertificate('AttachLoadBalancerTlsCertificate'),
+  createDisk('CreateDisk'),
+  deleteDisk('DeleteDisk'),
+  attachDisk('AttachDisk'),
+  detachDisk('DetachDisk'),
+  createDiskSnapshot('CreateDiskSnapshot'),
+  deleteDiskSnapshot('DeleteDiskSnapshot'),
+  createDiskFromSnapshot('CreateDiskFromSnapshot'),
+  createRelationalDatabase('CreateRelationalDatabase'),
+  updateRelationalDatabase('UpdateRelationalDatabase'),
+  deleteRelationalDatabase('DeleteRelationalDatabase'),
+  createRelationalDatabaseFromSnapshot('CreateRelationalDatabaseFromSnapshot'),
+  createRelationalDatabaseSnapshot('CreateRelationalDatabaseSnapshot'),
+  deleteRelationalDatabaseSnapshot('DeleteRelationalDatabaseSnapshot'),
+  updateRelationalDatabaseParameters('UpdateRelationalDatabaseParameters'),
+  startRelationalDatabase('StartRelationalDatabase'),
+  rebootRelationalDatabase('RebootRelationalDatabase'),
+  stopRelationalDatabase('StopRelationalDatabase'),
+  enableAddOn('EnableAddOn'),
+  disableAddOn('DisableAddOn'),
+  putAlarm('PutAlarm'),
+  getAlarms('GetAlarms'),
+  deleteAlarm('DeleteAlarm'),
+  testAlarm('TestAlarm'),
+  createContactMethod('CreateContactMethod'),
+  getContactMethods('GetContactMethods'),
+  sendContactMethodVerification('SendContactMethodVerification'),
+  deleteContactMethod('DeleteContactMethod'),
+  createDistribution('CreateDistribution'),
+  updateDistribution('UpdateDistribution'),
+  deleteDistribution('DeleteDistribution'),
+  resetDistributionCache('ResetDistributionCache'),
+  attachCertificateToDistribution('AttachCertificateToDistribution'),
+  detachCertificateFromDistribution('DetachCertificateFromDistribution'),
+  updateDistributionBundle('UpdateDistributionBundle'),
+  setIpAddressType('SetIpAddressType'),
+  createCertificate('CreateCertificate'),
+  deleteCertificate('DeleteCertificate'),
+  createContainerService('CreateContainerService'),
+  updateContainerService('UpdateContainerService'),
+  deleteContainerService('DeleteContainerService'),
+  createContainerServiceDeployment('CreateContainerServiceDeployment'),
+  createContainerServiceRegistryLogin('CreateContainerServiceRegistryLogin'),
+  registerContainerImage('RegisterContainerImage'),
+  deleteContainerImage('DeleteContainerImage'),
+  createBucket('CreateBucket'),
+  deleteBucket('DeleteBucket'),
+  createBucketAccessKey('CreateBucketAccessKey'),
+  deleteBucketAccessKey('DeleteBucketAccessKey'),
+  updateBucketBundle('UpdateBucketBundle'),
+  updateBucket('UpdateBucket'),
+  setResourceAccessForBucket('SetResourceAccessForBucket'),
+  updateInstanceMetadataOptions('UpdateInstanceMetadataOptions'),
+  startGUISession('StartGUISession'),
+  stopGUISession('StopGUISession'),
+  setupInstanceHttps('SetupInstanceHttps'),
+  ;
 
-extension OperationTypeValueExtension on OperationType {
-  String toValue() {
-    switch (this) {
-      case OperationType.deleteKnownHostKeys:
-        return 'DeleteKnownHostKeys';
-      case OperationType.deleteInstance:
-        return 'DeleteInstance';
-      case OperationType.createInstance:
-        return 'CreateInstance';
-      case OperationType.stopInstance:
-        return 'StopInstance';
-      case OperationType.startInstance:
-        return 'StartInstance';
-      case OperationType.rebootInstance:
-        return 'RebootInstance';
-      case OperationType.openInstancePublicPorts:
-        return 'OpenInstancePublicPorts';
-      case OperationType.putInstancePublicPorts:
-        return 'PutInstancePublicPorts';
-      case OperationType.closeInstancePublicPorts:
-        return 'CloseInstancePublicPorts';
-      case OperationType.allocateStaticIp:
-        return 'AllocateStaticIp';
-      case OperationType.releaseStaticIp:
-        return 'ReleaseStaticIp';
-      case OperationType.attachStaticIp:
-        return 'AttachStaticIp';
-      case OperationType.detachStaticIp:
-        return 'DetachStaticIp';
-      case OperationType.updateDomainEntry:
-        return 'UpdateDomainEntry';
-      case OperationType.deleteDomainEntry:
-        return 'DeleteDomainEntry';
-      case OperationType.createDomain:
-        return 'CreateDomain';
-      case OperationType.deleteDomain:
-        return 'DeleteDomain';
-      case OperationType.createInstanceSnapshot:
-        return 'CreateInstanceSnapshot';
-      case OperationType.deleteInstanceSnapshot:
-        return 'DeleteInstanceSnapshot';
-      case OperationType.createInstancesFromSnapshot:
-        return 'CreateInstancesFromSnapshot';
-      case OperationType.createLoadBalancer:
-        return 'CreateLoadBalancer';
-      case OperationType.deleteLoadBalancer:
-        return 'DeleteLoadBalancer';
-      case OperationType.attachInstancesToLoadBalancer:
-        return 'AttachInstancesToLoadBalancer';
-      case OperationType.detachInstancesFromLoadBalancer:
-        return 'DetachInstancesFromLoadBalancer';
-      case OperationType.updateLoadBalancerAttribute:
-        return 'UpdateLoadBalancerAttribute';
-      case OperationType.createLoadBalancerTlsCertificate:
-        return 'CreateLoadBalancerTlsCertificate';
-      case OperationType.deleteLoadBalancerTlsCertificate:
-        return 'DeleteLoadBalancerTlsCertificate';
-      case OperationType.attachLoadBalancerTlsCertificate:
-        return 'AttachLoadBalancerTlsCertificate';
-      case OperationType.createDisk:
-        return 'CreateDisk';
-      case OperationType.deleteDisk:
-        return 'DeleteDisk';
-      case OperationType.attachDisk:
-        return 'AttachDisk';
-      case OperationType.detachDisk:
-        return 'DetachDisk';
-      case OperationType.createDiskSnapshot:
-        return 'CreateDiskSnapshot';
-      case OperationType.deleteDiskSnapshot:
-        return 'DeleteDiskSnapshot';
-      case OperationType.createDiskFromSnapshot:
-        return 'CreateDiskFromSnapshot';
-      case OperationType.createRelationalDatabase:
-        return 'CreateRelationalDatabase';
-      case OperationType.updateRelationalDatabase:
-        return 'UpdateRelationalDatabase';
-      case OperationType.deleteRelationalDatabase:
-        return 'DeleteRelationalDatabase';
-      case OperationType.createRelationalDatabaseFromSnapshot:
-        return 'CreateRelationalDatabaseFromSnapshot';
-      case OperationType.createRelationalDatabaseSnapshot:
-        return 'CreateRelationalDatabaseSnapshot';
-      case OperationType.deleteRelationalDatabaseSnapshot:
-        return 'DeleteRelationalDatabaseSnapshot';
-      case OperationType.updateRelationalDatabaseParameters:
-        return 'UpdateRelationalDatabaseParameters';
-      case OperationType.startRelationalDatabase:
-        return 'StartRelationalDatabase';
-      case OperationType.rebootRelationalDatabase:
-        return 'RebootRelationalDatabase';
-      case OperationType.stopRelationalDatabase:
-        return 'StopRelationalDatabase';
-      case OperationType.enableAddOn:
-        return 'EnableAddOn';
-      case OperationType.disableAddOn:
-        return 'DisableAddOn';
-      case OperationType.putAlarm:
-        return 'PutAlarm';
-      case OperationType.getAlarms:
-        return 'GetAlarms';
-      case OperationType.deleteAlarm:
-        return 'DeleteAlarm';
-      case OperationType.testAlarm:
-        return 'TestAlarm';
-      case OperationType.createContactMethod:
-        return 'CreateContactMethod';
-      case OperationType.getContactMethods:
-        return 'GetContactMethods';
-      case OperationType.sendContactMethodVerification:
-        return 'SendContactMethodVerification';
-      case OperationType.deleteContactMethod:
-        return 'DeleteContactMethod';
-      case OperationType.createDistribution:
-        return 'CreateDistribution';
-      case OperationType.updateDistribution:
-        return 'UpdateDistribution';
-      case OperationType.deleteDistribution:
-        return 'DeleteDistribution';
-      case OperationType.resetDistributionCache:
-        return 'ResetDistributionCache';
-      case OperationType.attachCertificateToDistribution:
-        return 'AttachCertificateToDistribution';
-      case OperationType.detachCertificateFromDistribution:
-        return 'DetachCertificateFromDistribution';
-      case OperationType.updateDistributionBundle:
-        return 'UpdateDistributionBundle';
-      case OperationType.setIpAddressType:
-        return 'SetIpAddressType';
-      case OperationType.createCertificate:
-        return 'CreateCertificate';
-      case OperationType.deleteCertificate:
-        return 'DeleteCertificate';
-      case OperationType.createContainerService:
-        return 'CreateContainerService';
-      case OperationType.updateContainerService:
-        return 'UpdateContainerService';
-      case OperationType.deleteContainerService:
-        return 'DeleteContainerService';
-      case OperationType.createContainerServiceDeployment:
-        return 'CreateContainerServiceDeployment';
-      case OperationType.createContainerServiceRegistryLogin:
-        return 'CreateContainerServiceRegistryLogin';
-      case OperationType.registerContainerImage:
-        return 'RegisterContainerImage';
-      case OperationType.deleteContainerImage:
-        return 'DeleteContainerImage';
-      case OperationType.createBucket:
-        return 'CreateBucket';
-      case OperationType.deleteBucket:
-        return 'DeleteBucket';
-      case OperationType.createBucketAccessKey:
-        return 'CreateBucketAccessKey';
-      case OperationType.deleteBucketAccessKey:
-        return 'DeleteBucketAccessKey';
-      case OperationType.updateBucketBundle:
-        return 'UpdateBucketBundle';
-      case OperationType.updateBucket:
-        return 'UpdateBucket';
-      case OperationType.setResourceAccessForBucket:
-        return 'SetResourceAccessForBucket';
-      case OperationType.updateInstanceMetadataOptions:
-        return 'UpdateInstanceMetadataOptions';
-      case OperationType.startGUISession:
-        return 'StartGUISession';
-      case OperationType.stopGUISession:
-        return 'StopGUISession';
-      case OperationType.setupInstanceHttps:
-        return 'SetupInstanceHttps';
-    }
-  }
-}
+  final String value;
 
-extension OperationTypeFromString on String {
-  OperationType toOperationType() {
-    switch (this) {
-      case 'DeleteKnownHostKeys':
-        return OperationType.deleteKnownHostKeys;
-      case 'DeleteInstance':
-        return OperationType.deleteInstance;
-      case 'CreateInstance':
-        return OperationType.createInstance;
-      case 'StopInstance':
-        return OperationType.stopInstance;
-      case 'StartInstance':
-        return OperationType.startInstance;
-      case 'RebootInstance':
-        return OperationType.rebootInstance;
-      case 'OpenInstancePublicPorts':
-        return OperationType.openInstancePublicPorts;
-      case 'PutInstancePublicPorts':
-        return OperationType.putInstancePublicPorts;
-      case 'CloseInstancePublicPorts':
-        return OperationType.closeInstancePublicPorts;
-      case 'AllocateStaticIp':
-        return OperationType.allocateStaticIp;
-      case 'ReleaseStaticIp':
-        return OperationType.releaseStaticIp;
-      case 'AttachStaticIp':
-        return OperationType.attachStaticIp;
-      case 'DetachStaticIp':
-        return OperationType.detachStaticIp;
-      case 'UpdateDomainEntry':
-        return OperationType.updateDomainEntry;
-      case 'DeleteDomainEntry':
-        return OperationType.deleteDomainEntry;
-      case 'CreateDomain':
-        return OperationType.createDomain;
-      case 'DeleteDomain':
-        return OperationType.deleteDomain;
-      case 'CreateInstanceSnapshot':
-        return OperationType.createInstanceSnapshot;
-      case 'DeleteInstanceSnapshot':
-        return OperationType.deleteInstanceSnapshot;
-      case 'CreateInstancesFromSnapshot':
-        return OperationType.createInstancesFromSnapshot;
-      case 'CreateLoadBalancer':
-        return OperationType.createLoadBalancer;
-      case 'DeleteLoadBalancer':
-        return OperationType.deleteLoadBalancer;
-      case 'AttachInstancesToLoadBalancer':
-        return OperationType.attachInstancesToLoadBalancer;
-      case 'DetachInstancesFromLoadBalancer':
-        return OperationType.detachInstancesFromLoadBalancer;
-      case 'UpdateLoadBalancerAttribute':
-        return OperationType.updateLoadBalancerAttribute;
-      case 'CreateLoadBalancerTlsCertificate':
-        return OperationType.createLoadBalancerTlsCertificate;
-      case 'DeleteLoadBalancerTlsCertificate':
-        return OperationType.deleteLoadBalancerTlsCertificate;
-      case 'AttachLoadBalancerTlsCertificate':
-        return OperationType.attachLoadBalancerTlsCertificate;
-      case 'CreateDisk':
-        return OperationType.createDisk;
-      case 'DeleteDisk':
-        return OperationType.deleteDisk;
-      case 'AttachDisk':
-        return OperationType.attachDisk;
-      case 'DetachDisk':
-        return OperationType.detachDisk;
-      case 'CreateDiskSnapshot':
-        return OperationType.createDiskSnapshot;
-      case 'DeleteDiskSnapshot':
-        return OperationType.deleteDiskSnapshot;
-      case 'CreateDiskFromSnapshot':
-        return OperationType.createDiskFromSnapshot;
-      case 'CreateRelationalDatabase':
-        return OperationType.createRelationalDatabase;
-      case 'UpdateRelationalDatabase':
-        return OperationType.updateRelationalDatabase;
-      case 'DeleteRelationalDatabase':
-        return OperationType.deleteRelationalDatabase;
-      case 'CreateRelationalDatabaseFromSnapshot':
-        return OperationType.createRelationalDatabaseFromSnapshot;
-      case 'CreateRelationalDatabaseSnapshot':
-        return OperationType.createRelationalDatabaseSnapshot;
-      case 'DeleteRelationalDatabaseSnapshot':
-        return OperationType.deleteRelationalDatabaseSnapshot;
-      case 'UpdateRelationalDatabaseParameters':
-        return OperationType.updateRelationalDatabaseParameters;
-      case 'StartRelationalDatabase':
-        return OperationType.startRelationalDatabase;
-      case 'RebootRelationalDatabase':
-        return OperationType.rebootRelationalDatabase;
-      case 'StopRelationalDatabase':
-        return OperationType.stopRelationalDatabase;
-      case 'EnableAddOn':
-        return OperationType.enableAddOn;
-      case 'DisableAddOn':
-        return OperationType.disableAddOn;
-      case 'PutAlarm':
-        return OperationType.putAlarm;
-      case 'GetAlarms':
-        return OperationType.getAlarms;
-      case 'DeleteAlarm':
-        return OperationType.deleteAlarm;
-      case 'TestAlarm':
-        return OperationType.testAlarm;
-      case 'CreateContactMethod':
-        return OperationType.createContactMethod;
-      case 'GetContactMethods':
-        return OperationType.getContactMethods;
-      case 'SendContactMethodVerification':
-        return OperationType.sendContactMethodVerification;
-      case 'DeleteContactMethod':
-        return OperationType.deleteContactMethod;
-      case 'CreateDistribution':
-        return OperationType.createDistribution;
-      case 'UpdateDistribution':
-        return OperationType.updateDistribution;
-      case 'DeleteDistribution':
-        return OperationType.deleteDistribution;
-      case 'ResetDistributionCache':
-        return OperationType.resetDistributionCache;
-      case 'AttachCertificateToDistribution':
-        return OperationType.attachCertificateToDistribution;
-      case 'DetachCertificateFromDistribution':
-        return OperationType.detachCertificateFromDistribution;
-      case 'UpdateDistributionBundle':
-        return OperationType.updateDistributionBundle;
-      case 'SetIpAddressType':
-        return OperationType.setIpAddressType;
-      case 'CreateCertificate':
-        return OperationType.createCertificate;
-      case 'DeleteCertificate':
-        return OperationType.deleteCertificate;
-      case 'CreateContainerService':
-        return OperationType.createContainerService;
-      case 'UpdateContainerService':
-        return OperationType.updateContainerService;
-      case 'DeleteContainerService':
-        return OperationType.deleteContainerService;
-      case 'CreateContainerServiceDeployment':
-        return OperationType.createContainerServiceDeployment;
-      case 'CreateContainerServiceRegistryLogin':
-        return OperationType.createContainerServiceRegistryLogin;
-      case 'RegisterContainerImage':
-        return OperationType.registerContainerImage;
-      case 'DeleteContainerImage':
-        return OperationType.deleteContainerImage;
-      case 'CreateBucket':
-        return OperationType.createBucket;
-      case 'DeleteBucket':
-        return OperationType.deleteBucket;
-      case 'CreateBucketAccessKey':
-        return OperationType.createBucketAccessKey;
-      case 'DeleteBucketAccessKey':
-        return OperationType.deleteBucketAccessKey;
-      case 'UpdateBucketBundle':
-        return OperationType.updateBucketBundle;
-      case 'UpdateBucket':
-        return OperationType.updateBucket;
-      case 'SetResourceAccessForBucket':
-        return OperationType.setResourceAccessForBucket;
-      case 'UpdateInstanceMetadataOptions':
-        return OperationType.updateInstanceMetadataOptions;
-      case 'StartGUISession':
-        return OperationType.startGUISession;
-      case 'StopGUISession':
-        return OperationType.stopGUISession;
-      case 'SetupInstanceHttps':
-        return OperationType.setupInstanceHttps;
-    }
-    throw Exception('$this is not known in enum OperationType');
-  }
+  const OperationType(this.value);
+
+  static OperationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OperationType'));
 }
 
 /// Describes the origin resource of an Amazon Lightsail content delivery
@@ -24527,10 +22684,11 @@ class Origin {
   factory Origin.fromJson(Map<String, dynamic> json) {
     return Origin(
       name: json['name'] as String?,
-      protocolPolicy:
-          (json['protocolPolicy'] as String?)?.toOriginProtocolPolicyEnum(),
-      regionName: (json['regionName'] as String?)?.toRegionName(),
-      resourceType: (json['resourceType'] as String?)?.toResourceType(),
+      protocolPolicy: (json['protocolPolicy'] as String?)
+          ?.let(OriginProtocolPolicyEnum.fromString),
+      regionName: (json['regionName'] as String?)?.let(RegionName.fromString),
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
       responseTimeout: json['responseTimeout'] as int?,
     );
   }
@@ -24543,40 +22701,27 @@ class Origin {
     final responseTimeout = this.responseTimeout;
     return {
       if (name != null) 'name': name,
-      if (protocolPolicy != null) 'protocolPolicy': protocolPolicy.toValue(),
-      if (regionName != null) 'regionName': regionName.toValue(),
-      if (resourceType != null) 'resourceType': resourceType.toValue(),
+      if (protocolPolicy != null) 'protocolPolicy': protocolPolicy.value,
+      if (regionName != null) 'regionName': regionName.value,
+      if (resourceType != null) 'resourceType': resourceType.value,
       if (responseTimeout != null) 'responseTimeout': responseTimeout,
     };
   }
 }
 
 enum OriginProtocolPolicyEnum {
-  httpOnly,
-  httpsOnly,
-}
+  httpOnly('http-only'),
+  httpsOnly('https-only'),
+  ;
 
-extension OriginProtocolPolicyEnumValueExtension on OriginProtocolPolicyEnum {
-  String toValue() {
-    switch (this) {
-      case OriginProtocolPolicyEnum.httpOnly:
-        return 'http-only';
-      case OriginProtocolPolicyEnum.httpsOnly:
-        return 'https-only';
-    }
-  }
-}
+  final String value;
 
-extension OriginProtocolPolicyEnumFromString on String {
-  OriginProtocolPolicyEnum toOriginProtocolPolicyEnum() {
-    switch (this) {
-      case 'http-only':
-        return OriginProtocolPolicyEnum.httpOnly;
-      case 'https-only':
-        return OriginProtocolPolicyEnum.httpsOnly;
-    }
-    throw Exception('$this is not known in enum OriginProtocolPolicyEnum');
-  }
+  const OriginProtocolPolicyEnum(this.value);
+
+  static OriginProtocolPolicyEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum OriginProtocolPolicyEnum'));
 }
 
 /// The password data for the Windows Server-based instance, including the
@@ -24735,31 +22880,18 @@ class PendingModifiedRelationalDatabaseValues {
 }
 
 enum PortAccessType {
-  public,
-  private,
-}
+  public('Public'),
+  private('Private'),
+  ;
 
-extension PortAccessTypeValueExtension on PortAccessType {
-  String toValue() {
-    switch (this) {
-      case PortAccessType.public:
-        return 'Public';
-      case PortAccessType.private:
-        return 'Private';
-    }
-  }
-}
+  final String value;
 
-extension PortAccessTypeFromString on String {
-  PortAccessType toPortAccessType() {
-    switch (this) {
-      case 'Public':
-        return PortAccessType.public;
-      case 'Private':
-        return PortAccessType.private;
-    }
-    throw Exception('$this is not known in enum PortAccessType');
-  }
+  const PortAccessType(this.value);
+
+  static PortAccessType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PortAccessType'));
 }
 
 /// Describes ports to open on an instance, the IP addresses allowed to connect
@@ -24927,119 +23059,58 @@ class PortInfo {
       if (cidrs != null) 'cidrs': cidrs,
       if (fromPort != null) 'fromPort': fromPort,
       if (ipv6Cidrs != null) 'ipv6Cidrs': ipv6Cidrs,
-      if (protocol != null) 'protocol': protocol.toValue(),
+      if (protocol != null) 'protocol': protocol.value,
       if (toPort != null) 'toPort': toPort,
     };
   }
 }
 
 enum PortInfoSourceType {
-  $default,
-  instance,
-  none,
-  closed,
-}
+  $default('DEFAULT'),
+  instance('INSTANCE'),
+  none('NONE'),
+  closed('CLOSED'),
+  ;
 
-extension PortInfoSourceTypeValueExtension on PortInfoSourceType {
-  String toValue() {
-    switch (this) {
-      case PortInfoSourceType.$default:
-        return 'DEFAULT';
-      case PortInfoSourceType.instance:
-        return 'INSTANCE';
-      case PortInfoSourceType.none:
-        return 'NONE';
-      case PortInfoSourceType.closed:
-        return 'CLOSED';
-    }
-  }
-}
+  final String value;
 
-extension PortInfoSourceTypeFromString on String {
-  PortInfoSourceType toPortInfoSourceType() {
-    switch (this) {
-      case 'DEFAULT':
-        return PortInfoSourceType.$default;
-      case 'INSTANCE':
-        return PortInfoSourceType.instance;
-      case 'NONE':
-        return PortInfoSourceType.none;
-      case 'CLOSED':
-        return PortInfoSourceType.closed;
-    }
-    throw Exception('$this is not known in enum PortInfoSourceType');
-  }
+  const PortInfoSourceType(this.value);
+
+  static PortInfoSourceType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum PortInfoSourceType'));
 }
 
 enum PortState {
-  open,
-  closed,
-}
+  open('open'),
+  closed('closed'),
+  ;
 
-extension PortStateValueExtension on PortState {
-  String toValue() {
-    switch (this) {
-      case PortState.open:
-        return 'open';
-      case PortState.closed:
-        return 'closed';
-    }
-  }
-}
+  final String value;
 
-extension PortStateFromString on String {
-  PortState toPortState() {
-    switch (this) {
-      case 'open':
-        return PortState.open;
-      case 'closed':
-        return PortState.closed;
-    }
-    throw Exception('$this is not known in enum PortState');
-  }
+  const PortState(this.value);
+
+  static PortState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum PortState'));
 }
 
 enum PricingUnit {
-  gb,
-  hrs,
-  gbMo,
-  bundles,
-  queries,
-}
+  gb('GB'),
+  hrs('Hrs'),
+  gbMo('GB-Mo'),
+  bundles('Bundles'),
+  queries('Queries'),
+  ;
 
-extension PricingUnitValueExtension on PricingUnit {
-  String toValue() {
-    switch (this) {
-      case PricingUnit.gb:
-        return 'GB';
-      case PricingUnit.hrs:
-        return 'Hrs';
-      case PricingUnit.gbMo:
-        return 'GB-Mo';
-      case PricingUnit.bundles:
-        return 'Bundles';
-      case PricingUnit.queries:
-        return 'Queries';
-    }
-  }
-}
+  final String value;
 
-extension PricingUnitFromString on String {
-  PricingUnit toPricingUnit() {
-    switch (this) {
-      case 'GB':
-        return PricingUnit.gb;
-      case 'Hrs':
-        return PricingUnit.hrs;
-      case 'GB-Mo':
-        return PricingUnit.gbMo;
-      case 'Bundles':
-        return PricingUnit.bundles;
-      case 'Queries':
-        return PricingUnit.queries;
-    }
-    throw Exception('$this is not known in enum PricingUnit');
-  }
+  const PricingUnit(this.value);
+
+  static PricingUnit fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum PricingUnit'));
 }
 
 /// Describes the configuration for an Amazon Lightsail container service to
@@ -25236,7 +23307,8 @@ class R53HostedZoneDeletionState {
 
   factory R53HostedZoneDeletionState.fromJson(Map<String, dynamic> json) {
     return R53HostedZoneDeletionState(
-      code: (json['code'] as String?)?.toR53HostedZoneDeletionStateCode(),
+      code: (json['code'] as String?)
+          ?.let(R53HostedZoneDeletionStateCode.fromString),
       message: json['message'] as String?,
     );
   }
@@ -25245,50 +23317,27 @@ class R53HostedZoneDeletionState {
     final code = this.code;
     final message = this.message;
     return {
-      if (code != null) 'code': code.toValue(),
+      if (code != null) 'code': code.value,
       if (message != null) 'message': message,
     };
   }
 }
 
 enum R53HostedZoneDeletionStateCode {
-  succeeded,
-  pending,
-  failed,
-  started,
-}
+  succeeded('SUCCEEDED'),
+  pending('PENDING'),
+  failed('FAILED'),
+  started('STARTED'),
+  ;
 
-extension R53HostedZoneDeletionStateCodeValueExtension
-    on R53HostedZoneDeletionStateCode {
-  String toValue() {
-    switch (this) {
-      case R53HostedZoneDeletionStateCode.succeeded:
-        return 'SUCCEEDED';
-      case R53HostedZoneDeletionStateCode.pending:
-        return 'PENDING';
-      case R53HostedZoneDeletionStateCode.failed:
-        return 'FAILED';
-      case R53HostedZoneDeletionStateCode.started:
-        return 'STARTED';
-    }
-  }
-}
+  final String value;
 
-extension R53HostedZoneDeletionStateCodeFromString on String {
-  R53HostedZoneDeletionStateCode toR53HostedZoneDeletionStateCode() {
-    switch (this) {
-      case 'SUCCEEDED':
-        return R53HostedZoneDeletionStateCode.succeeded;
-      case 'PENDING':
-        return R53HostedZoneDeletionStateCode.pending;
-      case 'FAILED':
-        return R53HostedZoneDeletionStateCode.failed;
-      case 'STARTED':
-        return R53HostedZoneDeletionStateCode.started;
-    }
-    throw Exception(
-        '$this is not known in enum R53HostedZoneDeletionStateCode');
-  }
+  const R53HostedZoneDeletionStateCode(this.value);
+
+  static R53HostedZoneDeletionStateCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum R53HostedZoneDeletionStateCode'));
 }
 
 class RebootInstanceResult {
@@ -25346,36 +23395,18 @@ class RebootRelationalDatabaseResult {
 }
 
 enum RecordState {
-  started,
-  succeeded,
-  failed,
-}
+  started('Started'),
+  succeeded('Succeeded'),
+  failed('Failed'),
+  ;
 
-extension RecordStateValueExtension on RecordState {
-  String toValue() {
-    switch (this) {
-      case RecordState.started:
-        return 'Started';
-      case RecordState.succeeded:
-        return 'Succeeded';
-      case RecordState.failed:
-        return 'Failed';
-    }
-  }
-}
+  final String value;
 
-extension RecordStateFromString on String {
-  RecordState toRecordState() {
-    switch (this) {
-      case 'Started':
-        return RecordState.started;
-      case 'Succeeded':
-        return RecordState.succeeded;
-      case 'Failed':
-        return RecordState.failed;
-    }
-    throw Exception('$this is not known in enum RecordState');
-  }
+  const RecordState(this.value);
+
+  static RecordState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum RecordState'));
 }
 
 /// Describes the Amazon Web Services Region.
@@ -25420,7 +23451,7 @@ class Region {
       continentCode: json['continentCode'] as String?,
       description: json['description'] as String?,
       displayName: json['displayName'] as String?,
-      name: (json['name'] as String?)?.toRegionName(),
+      name: (json['name'] as String?)?.let(RegionName.fromString),
       relationalDatabaseAvailabilityZones:
           (json['relationalDatabaseAvailabilityZones'] as List?)
               ?.whereNotNull()
@@ -25442,7 +23473,7 @@ class Region {
       if (continentCode != null) 'continentCode': continentCode,
       if (description != null) 'description': description,
       if (displayName != null) 'displayName': displayName,
-      if (name != null) 'name': name.toValue(),
+      if (name != null) 'name': name.value,
       if (relationalDatabaseAvailabilityZones != null)
         'relationalDatabaseAvailabilityZones':
             relationalDatabaseAvailabilityZones,
@@ -25451,96 +23482,30 @@ class Region {
 }
 
 enum RegionName {
-  usEast_1,
-  usEast_2,
-  usWest_1,
-  usWest_2,
-  euWest_1,
-  euWest_2,
-  euWest_3,
-  euCentral_1,
-  caCentral_1,
-  apSouth_1,
-  apSoutheast_1,
-  apSoutheast_2,
-  apNortheast_1,
-  apNortheast_2,
-  euNorth_1,
-}
+  usEast_1('us-east-1'),
+  usEast_2('us-east-2'),
+  usWest_1('us-west-1'),
+  usWest_2('us-west-2'),
+  euWest_1('eu-west-1'),
+  euWest_2('eu-west-2'),
+  euWest_3('eu-west-3'),
+  euCentral_1('eu-central-1'),
+  caCentral_1('ca-central-1'),
+  apSouth_1('ap-south-1'),
+  apSoutheast_1('ap-southeast-1'),
+  apSoutheast_2('ap-southeast-2'),
+  apNortheast_1('ap-northeast-1'),
+  apNortheast_2('ap-northeast-2'),
+  euNorth_1('eu-north-1'),
+  ;
 
-extension RegionNameValueExtension on RegionName {
-  String toValue() {
-    switch (this) {
-      case RegionName.usEast_1:
-        return 'us-east-1';
-      case RegionName.usEast_2:
-        return 'us-east-2';
-      case RegionName.usWest_1:
-        return 'us-west-1';
-      case RegionName.usWest_2:
-        return 'us-west-2';
-      case RegionName.euWest_1:
-        return 'eu-west-1';
-      case RegionName.euWest_2:
-        return 'eu-west-2';
-      case RegionName.euWest_3:
-        return 'eu-west-3';
-      case RegionName.euCentral_1:
-        return 'eu-central-1';
-      case RegionName.caCentral_1:
-        return 'ca-central-1';
-      case RegionName.apSouth_1:
-        return 'ap-south-1';
-      case RegionName.apSoutheast_1:
-        return 'ap-southeast-1';
-      case RegionName.apSoutheast_2:
-        return 'ap-southeast-2';
-      case RegionName.apNortheast_1:
-        return 'ap-northeast-1';
-      case RegionName.apNortheast_2:
-        return 'ap-northeast-2';
-      case RegionName.euNorth_1:
-        return 'eu-north-1';
-    }
-  }
-}
+  final String value;
 
-extension RegionNameFromString on String {
-  RegionName toRegionName() {
-    switch (this) {
-      case 'us-east-1':
-        return RegionName.usEast_1;
-      case 'us-east-2':
-        return RegionName.usEast_2;
-      case 'us-west-1':
-        return RegionName.usWest_1;
-      case 'us-west-2':
-        return RegionName.usWest_2;
-      case 'eu-west-1':
-        return RegionName.euWest_1;
-      case 'eu-west-2':
-        return RegionName.euWest_2;
-      case 'eu-west-3':
-        return RegionName.euWest_3;
-      case 'eu-central-1':
-        return RegionName.euCentral_1;
-      case 'ca-central-1':
-        return RegionName.caCentral_1;
-      case 'ap-south-1':
-        return RegionName.apSouth_1;
-      case 'ap-southeast-1':
-        return RegionName.apSoutheast_1;
-      case 'ap-southeast-2':
-        return RegionName.apSoutheast_2;
-      case 'ap-northeast-1':
-        return RegionName.apNortheast_1;
-      case 'ap-northeast-2':
-        return RegionName.apNortheast_2;
-      case 'eu-north-1':
-        return RegionName.euNorth_1;
-    }
-    throw Exception('$this is not known in enum RegionName');
-  }
+  const RegionName(this.value);
+
+  static RegionName fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum RegionName'));
 }
 
 class RegisterContainerImageResult {
@@ -25809,7 +23774,8 @@ class RelationalDatabase {
       relationalDatabaseBlueprintId:
           json['relationalDatabaseBlueprintId'] as String?,
       relationalDatabaseBundleId: json['relationalDatabaseBundleId'] as String?,
-      resourceType: (json['resourceType'] as String?)?.toResourceType(),
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
       secondaryAvailabilityZone: json['secondaryAvailabilityZone'] as String?,
       state: json['state'] as String?,
       supportCode: json['supportCode'] as String?,
@@ -25879,7 +23845,7 @@ class RelationalDatabase {
         'relationalDatabaseBlueprintId': relationalDatabaseBlueprintId,
       if (relationalDatabaseBundleId != null)
         'relationalDatabaseBundleId': relationalDatabaseBundleId,
-      if (resourceType != null) 'resourceType': resourceType.toValue(),
+      if (resourceType != null) 'resourceType': resourceType.value,
       if (secondaryAvailabilityZone != null)
         'secondaryAvailabilityZone': secondaryAvailabilityZone,
       if (state != null) 'state': state,
@@ -25925,7 +23891,8 @@ class RelationalDatabaseBlueprint {
   factory RelationalDatabaseBlueprint.fromJson(Map<String, dynamic> json) {
     return RelationalDatabaseBlueprint(
       blueprintId: json['blueprintId'] as String?,
-      engine: (json['engine'] as String?)?.toRelationalDatabaseEngine(),
+      engine:
+          (json['engine'] as String?)?.let(RelationalDatabaseEngine.fromString),
       engineDescription: json['engineDescription'] as String?,
       engineVersion: json['engineVersion'] as String?,
       engineVersionDescription: json['engineVersionDescription'] as String?,
@@ -25942,7 +23909,7 @@ class RelationalDatabaseBlueprint {
     final isEngineDefault = this.isEngineDefault;
     return {
       if (blueprintId != null) 'blueprintId': blueprintId,
-      if (engine != null) 'engine': engine.toValue(),
+      if (engine != null) 'engine': engine.value,
       if (engineDescription != null) 'engineDescription': engineDescription,
       if (engineVersion != null) 'engineVersion': engineVersion,
       if (engineVersionDescription != null)
@@ -26065,26 +24032,17 @@ class RelationalDatabaseEndpoint {
 }
 
 enum RelationalDatabaseEngine {
-  mysql,
-}
+  mysql('mysql'),
+  ;
 
-extension RelationalDatabaseEngineValueExtension on RelationalDatabaseEngine {
-  String toValue() {
-    switch (this) {
-      case RelationalDatabaseEngine.mysql:
-        return 'mysql';
-    }
-  }
-}
+  final String value;
 
-extension RelationalDatabaseEngineFromString on String {
-  RelationalDatabaseEngine toRelationalDatabaseEngine() {
-    switch (this) {
-      case 'mysql':
-        return RelationalDatabaseEngine.mysql;
-    }
-    throw Exception('$this is not known in enum RelationalDatabaseEngine');
-  }
+  const RelationalDatabaseEngine(this.value);
+
+  static RelationalDatabaseEngine fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RelationalDatabaseEngine'));
 }
 
 /// Describes an event for a database.
@@ -26172,52 +24130,22 @@ class RelationalDatabaseHardware {
 }
 
 enum RelationalDatabaseMetricName {
-  cPUUtilization,
-  databaseConnections,
-  diskQueueDepth,
-  freeStorageSpace,
-  networkReceiveThroughput,
-  networkTransmitThroughput,
-}
+  cPUUtilization('CPUUtilization'),
+  databaseConnections('DatabaseConnections'),
+  diskQueueDepth('DiskQueueDepth'),
+  freeStorageSpace('FreeStorageSpace'),
+  networkReceiveThroughput('NetworkReceiveThroughput'),
+  networkTransmitThroughput('NetworkTransmitThroughput'),
+  ;
 
-extension RelationalDatabaseMetricNameValueExtension
-    on RelationalDatabaseMetricName {
-  String toValue() {
-    switch (this) {
-      case RelationalDatabaseMetricName.cPUUtilization:
-        return 'CPUUtilization';
-      case RelationalDatabaseMetricName.databaseConnections:
-        return 'DatabaseConnections';
-      case RelationalDatabaseMetricName.diskQueueDepth:
-        return 'DiskQueueDepth';
-      case RelationalDatabaseMetricName.freeStorageSpace:
-        return 'FreeStorageSpace';
-      case RelationalDatabaseMetricName.networkReceiveThroughput:
-        return 'NetworkReceiveThroughput';
-      case RelationalDatabaseMetricName.networkTransmitThroughput:
-        return 'NetworkTransmitThroughput';
-    }
-  }
-}
+  final String value;
 
-extension RelationalDatabaseMetricNameFromString on String {
-  RelationalDatabaseMetricName toRelationalDatabaseMetricName() {
-    switch (this) {
-      case 'CPUUtilization':
-        return RelationalDatabaseMetricName.cPUUtilization;
-      case 'DatabaseConnections':
-        return RelationalDatabaseMetricName.databaseConnections;
-      case 'DiskQueueDepth':
-        return RelationalDatabaseMetricName.diskQueueDepth;
-      case 'FreeStorageSpace':
-        return RelationalDatabaseMetricName.freeStorageSpace;
-      case 'NetworkReceiveThroughput':
-        return RelationalDatabaseMetricName.networkReceiveThroughput;
-      case 'NetworkTransmitThroughput':
-        return RelationalDatabaseMetricName.networkTransmitThroughput;
-    }
-    throw Exception('$this is not known in enum RelationalDatabaseMetricName');
-  }
+  const RelationalDatabaseMetricName(this.value);
+
+  static RelationalDatabaseMetricName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RelationalDatabaseMetricName'));
 }
 
 /// Describes the parameters of a database.
@@ -26295,38 +24223,19 @@ class RelationalDatabaseParameter {
 }
 
 enum RelationalDatabasePasswordVersion {
-  current,
-  previous,
-  pending,
-}
+  current('CURRENT'),
+  previous('PREVIOUS'),
+  pending('PENDING'),
+  ;
 
-extension RelationalDatabasePasswordVersionValueExtension
-    on RelationalDatabasePasswordVersion {
-  String toValue() {
-    switch (this) {
-      case RelationalDatabasePasswordVersion.current:
-        return 'CURRENT';
-      case RelationalDatabasePasswordVersion.previous:
-        return 'PREVIOUS';
-      case RelationalDatabasePasswordVersion.pending:
-        return 'PENDING';
-    }
-  }
-}
+  final String value;
 
-extension RelationalDatabasePasswordVersionFromString on String {
-  RelationalDatabasePasswordVersion toRelationalDatabasePasswordVersion() {
-    switch (this) {
-      case 'CURRENT':
-        return RelationalDatabasePasswordVersion.current;
-      case 'PREVIOUS':
-        return RelationalDatabasePasswordVersion.previous;
-      case 'PENDING':
-        return RelationalDatabasePasswordVersion.pending;
-    }
-    throw Exception(
-        '$this is not known in enum RelationalDatabasePasswordVersion');
-  }
+  const RelationalDatabasePasswordVersion(this.value);
+
+  static RelationalDatabasePasswordVersion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RelationalDatabasePasswordVersion'));
 }
 
 /// Describes a database snapshot.
@@ -26422,7 +24331,8 @@ class RelationalDatabaseSnapshot {
           ? ResourceLocation.fromJson(json['location'] as Map<String, dynamic>)
           : null,
       name: json['name'] as String?,
-      resourceType: (json['resourceType'] as String?)?.toResourceType(),
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
       sizeInGb: json['sizeInGb'] as int?,
       state: json['state'] as String?,
       supportCode: json['supportCode'] as String?,
@@ -26465,7 +24375,7 @@ class RelationalDatabaseSnapshot {
         'fromRelationalDatabaseName': fromRelationalDatabaseName,
       if (location != null) 'location': location,
       if (name != null) 'name': name,
-      if (resourceType != null) 'resourceType': resourceType.toValue(),
+      if (resourceType != null) 'resourceType': resourceType.value,
       if (sizeInGb != null) 'sizeInGb': sizeInGb,
       if (state != null) 'state': state,
       if (supportCode != null) 'supportCode': supportCode,
@@ -26502,41 +24412,20 @@ class ReleaseStaticIpResult {
 }
 
 enum RenewalStatus {
-  pendingAutoRenewal,
-  pendingValidation,
-  success,
-  failed,
-}
+  pendingAutoRenewal('PendingAutoRenewal'),
+  pendingValidation('PendingValidation'),
+  success('Success'),
+  failed('Failed'),
+  ;
 
-extension RenewalStatusValueExtension on RenewalStatus {
-  String toValue() {
-    switch (this) {
-      case RenewalStatus.pendingAutoRenewal:
-        return 'PendingAutoRenewal';
-      case RenewalStatus.pendingValidation:
-        return 'PendingValidation';
-      case RenewalStatus.success:
-        return 'Success';
-      case RenewalStatus.failed:
-        return 'Failed';
-    }
-  }
-}
+  final String value;
 
-extension RenewalStatusFromString on String {
-  RenewalStatus toRenewalStatus() {
-    switch (this) {
-      case 'PendingAutoRenewal':
-        return RenewalStatus.pendingAutoRenewal;
-      case 'PendingValidation':
-        return RenewalStatus.pendingValidation;
-      case 'Success':
-        return RenewalStatus.success;
-      case 'Failed':
-        return RenewalStatus.failed;
-    }
-    throw Exception('$this is not known in enum RenewalStatus');
-  }
+  const RenewalStatus(this.value);
+
+  static RenewalStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RenewalStatus'));
 }
 
 /// Describes the status of a SSL/TLS certificate renewal managed by Amazon
@@ -26597,7 +24486,8 @@ class RenewalSummary {
           .map(
               (e) => DomainValidationRecord.fromJson(e as Map<String, dynamic>))
           .toList(),
-      renewalStatus: (json['renewalStatus'] as String?)?.toRenewalStatus(),
+      renewalStatus:
+          (json['renewalStatus'] as String?)?.let(RenewalStatus.fromString),
       renewalStatusReason: json['renewalStatusReason'] as String?,
       updatedAt: timeStampFromJson(json['updatedAt']),
     );
@@ -26611,7 +24501,7 @@ class RenewalSummary {
     return {
       if (domainValidationRecords != null)
         'domainValidationRecords': domainValidationRecords,
-      if (renewalStatus != null) 'renewalStatus': renewalStatus.toValue(),
+      if (renewalStatus != null) 'renewalStatus': renewalStatus.value,
       if (renewalStatusReason != null)
         'renewalStatusReason': renewalStatusReason,
       if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
@@ -26661,31 +24551,18 @@ class ResetDistributionCacheResult {
 }
 
 enum ResourceBucketAccess {
-  allow,
-  deny,
-}
+  allow('allow'),
+  deny('deny'),
+  ;
 
-extension ResourceBucketAccessValueExtension on ResourceBucketAccess {
-  String toValue() {
-    switch (this) {
-      case ResourceBucketAccess.allow:
-        return 'allow';
-      case ResourceBucketAccess.deny:
-        return 'deny';
-    }
-  }
-}
+  final String value;
 
-extension ResourceBucketAccessFromString on String {
-  ResourceBucketAccess toResourceBucketAccess() {
-    switch (this) {
-      case 'allow':
-        return ResourceBucketAccess.allow;
-      case 'deny':
-        return ResourceBucketAccess.deny;
-    }
-    throw Exception('$this is not known in enum ResourceBucketAccess');
-  }
+  const ResourceBucketAccess(this.value);
+
+  static ResourceBucketAccess fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ResourceBucketAccess'));
 }
 
 /// Describes the estimated cost or usage that a budget tracks.
@@ -26721,7 +24598,8 @@ class ResourceBudgetEstimate {
           .toList(),
       endTime: timeStampFromJson(json['endTime']),
       resourceName: json['resourceName'] as String?,
-      resourceType: (json['resourceType'] as String?)?.toResourceType(),
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
       startTime: timeStampFromJson(json['startTime']),
     );
   }
@@ -26736,7 +24614,7 @@ class ResourceBudgetEstimate {
       if (costEstimates != null) 'costEstimates': costEstimates,
       if (endTime != null) 'endTime': unixTimestampToJson(endTime),
       if (resourceName != null) 'resourceName': resourceName,
-      if (resourceType != null) 'resourceType': resourceType.toValue(),
+      if (resourceType != null) 'resourceType': resourceType.value,
       if (startTime != null) 'startTime': unixTimestampToJson(startTime),
     };
   }
@@ -26759,7 +24637,7 @@ class ResourceLocation {
   factory ResourceLocation.fromJson(Map<String, dynamic> json) {
     return ResourceLocation(
       availabilityZone: json['availabilityZone'] as String?,
-      regionName: (json['regionName'] as String?)?.toRegionName(),
+      regionName: (json['regionName'] as String?)?.let(RegionName.fromString),
     );
   }
 
@@ -26768,7 +24646,7 @@ class ResourceLocation {
     final regionName = this.regionName;
     return {
       if (availabilityZone != null) 'availabilityZone': availabilityZone,
-      if (regionName != null) 'regionName': regionName.toValue(),
+      if (regionName != null) 'regionName': regionName.value,
     };
   }
 }
@@ -26843,121 +24721,36 @@ class ResourceRecord {
 }
 
 enum ResourceType {
-  containerService,
-  instance,
-  staticIp,
-  keyPair,
-  instanceSnapshot,
-  domain,
-  peeredVpc,
-  loadBalancer,
-  loadBalancerTlsCertificate,
-  disk,
-  diskSnapshot,
-  relationalDatabase,
-  relationalDatabaseSnapshot,
-  exportSnapshotRecord,
-  cloudFormationStackRecord,
-  alarm,
-  contactMethod,
-  distribution,
-  certificate,
-  bucket,
-}
+  containerService('ContainerService'),
+  instance('Instance'),
+  staticIp('StaticIp'),
+  keyPair('KeyPair'),
+  instanceSnapshot('InstanceSnapshot'),
+  domain('Domain'),
+  peeredVpc('PeeredVpc'),
+  loadBalancer('LoadBalancer'),
+  loadBalancerTlsCertificate('LoadBalancerTlsCertificate'),
+  disk('Disk'),
+  diskSnapshot('DiskSnapshot'),
+  relationalDatabase('RelationalDatabase'),
+  relationalDatabaseSnapshot('RelationalDatabaseSnapshot'),
+  exportSnapshotRecord('ExportSnapshotRecord'),
+  cloudFormationStackRecord('CloudFormationStackRecord'),
+  alarm('Alarm'),
+  contactMethod('ContactMethod'),
+  distribution('Distribution'),
+  certificate('Certificate'),
+  bucket('Bucket'),
+  ;
 
-extension ResourceTypeValueExtension on ResourceType {
-  String toValue() {
-    switch (this) {
-      case ResourceType.containerService:
-        return 'ContainerService';
-      case ResourceType.instance:
-        return 'Instance';
-      case ResourceType.staticIp:
-        return 'StaticIp';
-      case ResourceType.keyPair:
-        return 'KeyPair';
-      case ResourceType.instanceSnapshot:
-        return 'InstanceSnapshot';
-      case ResourceType.domain:
-        return 'Domain';
-      case ResourceType.peeredVpc:
-        return 'PeeredVpc';
-      case ResourceType.loadBalancer:
-        return 'LoadBalancer';
-      case ResourceType.loadBalancerTlsCertificate:
-        return 'LoadBalancerTlsCertificate';
-      case ResourceType.disk:
-        return 'Disk';
-      case ResourceType.diskSnapshot:
-        return 'DiskSnapshot';
-      case ResourceType.relationalDatabase:
-        return 'RelationalDatabase';
-      case ResourceType.relationalDatabaseSnapshot:
-        return 'RelationalDatabaseSnapshot';
-      case ResourceType.exportSnapshotRecord:
-        return 'ExportSnapshotRecord';
-      case ResourceType.cloudFormationStackRecord:
-        return 'CloudFormationStackRecord';
-      case ResourceType.alarm:
-        return 'Alarm';
-      case ResourceType.contactMethod:
-        return 'ContactMethod';
-      case ResourceType.distribution:
-        return 'Distribution';
-      case ResourceType.certificate:
-        return 'Certificate';
-      case ResourceType.bucket:
-        return 'Bucket';
-    }
-  }
-}
+  final String value;
 
-extension ResourceTypeFromString on String {
-  ResourceType toResourceType() {
-    switch (this) {
-      case 'ContainerService':
-        return ResourceType.containerService;
-      case 'Instance':
-        return ResourceType.instance;
-      case 'StaticIp':
-        return ResourceType.staticIp;
-      case 'KeyPair':
-        return ResourceType.keyPair;
-      case 'InstanceSnapshot':
-        return ResourceType.instanceSnapshot;
-      case 'Domain':
-        return ResourceType.domain;
-      case 'PeeredVpc':
-        return ResourceType.peeredVpc;
-      case 'LoadBalancer':
-        return ResourceType.loadBalancer;
-      case 'LoadBalancerTlsCertificate':
-        return ResourceType.loadBalancerTlsCertificate;
-      case 'Disk':
-        return ResourceType.disk;
-      case 'DiskSnapshot':
-        return ResourceType.diskSnapshot;
-      case 'RelationalDatabase':
-        return ResourceType.relationalDatabase;
-      case 'RelationalDatabaseSnapshot':
-        return ResourceType.relationalDatabaseSnapshot;
-      case 'ExportSnapshotRecord':
-        return ResourceType.exportSnapshotRecord;
-      case 'CloudFormationStackRecord':
-        return ResourceType.cloudFormationStackRecord;
-      case 'Alarm':
-        return ResourceType.alarm;
-      case 'ContactMethod':
-        return ResourceType.contactMethod;
-      case 'Distribution':
-        return ResourceType.distribution;
-      case 'Certificate':
-        return ResourceType.certificate;
-      case 'Bucket':
-        return ResourceType.bucket;
-    }
-    throw Exception('$this is not known in enum ResourceType');
-  }
+  const ResourceType(this.value);
+
+  static ResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResourceType'));
 }
 
 class SendContactMethodVerificationResult {
@@ -27122,7 +24915,7 @@ class SetupExecutionDetails {
       name: json['name'] as String?,
       standardError: json['standardError'] as String?,
       standardOutput: json['standardOutput'] as String?,
-      status: (json['status'] as String?)?.toSetupStatus(),
+      status: (json['status'] as String?)?.let(SetupStatus.fromString),
       version: json['version'] as String?,
     );
   }
@@ -27141,7 +24934,7 @@ class SetupExecutionDetails {
       if (name != null) 'name': name,
       if (standardError != null) 'standardError': standardError,
       if (standardOutput != null) 'standardOutput': standardOutput,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (version != null) 'version': version,
     };
   }
@@ -27188,7 +24981,7 @@ class SetupHistory {
           ? SetupHistoryResource.fromJson(
               json['resource'] as Map<String, dynamic>)
           : null,
-      status: (json['status'] as String?)?.toSetupStatus(),
+      status: (json['status'] as String?)?.let(SetupStatus.fromString),
     );
   }
 
@@ -27203,7 +24996,7 @@ class SetupHistory {
       if (operationId != null) 'operationId': operationId,
       if (request != null) 'request': request,
       if (resource != null) 'resource': resource,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -27239,7 +25032,8 @@ class SetupHistoryResource {
           ? ResourceLocation.fromJson(json['location'] as Map<String, dynamic>)
           : null,
       name: json['name'] as String?,
-      resourceType: (json['resourceType'] as String?)?.toResourceType(),
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
     );
   }
 
@@ -27254,7 +25048,7 @@ class SetupHistoryResource {
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (location != null) 'location': location,
       if (name != null) 'name': name,
-      if (resourceType != null) 'resourceType': resourceType.toValue(),
+      if (resourceType != null) 'resourceType': resourceType.value,
     };
   }
 }
@@ -27305,8 +25099,8 @@ class SetupRequest {
 
   factory SetupRequest.fromJson(Map<String, dynamic> json) {
     return SetupRequest(
-      certificateProvider:
-          (json['certificateProvider'] as String?)?.toCertificateProvider(),
+      certificateProvider: (json['certificateProvider'] as String?)
+          ?.let(CertificateProvider.fromString),
       domainNames: (json['domainNames'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -27321,7 +25115,7 @@ class SetupRequest {
     final instanceName = this.instanceName;
     return {
       if (certificateProvider != null)
-        'certificateProvider': certificateProvider.toValue(),
+        'certificateProvider': certificateProvider.value,
       if (domainNames != null) 'domainNames': domainNames,
       if (instanceName != null) 'instanceName': instanceName,
     };
@@ -27329,36 +25123,18 @@ class SetupRequest {
 }
 
 enum SetupStatus {
-  succeeded,
-  failed,
-  inProgress,
-}
+  succeeded('succeeded'),
+  failed('failed'),
+  inProgress('inProgress'),
+  ;
 
-extension SetupStatusValueExtension on SetupStatus {
-  String toValue() {
-    switch (this) {
-      case SetupStatus.succeeded:
-        return 'succeeded';
-      case SetupStatus.failed:
-        return 'failed';
-      case SetupStatus.inProgress:
-        return 'inProgress';
-    }
-  }
-}
+  final String value;
 
-extension SetupStatusFromString on String {
-  SetupStatus toSetupStatus() {
-    switch (this) {
-      case 'succeeded':
-        return SetupStatus.succeeded;
-      case 'failed':
-        return SetupStatus.failed;
-      case 'inProgress':
-        return SetupStatus.inProgress;
-    }
-    throw Exception('$this is not known in enum SetupStatus');
-  }
+  const SetupStatus(this.value);
+
+  static SetupStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SetupStatus'));
 }
 
 class StartGUISessionResult {
@@ -27496,7 +25272,8 @@ class StaticIp {
           ? ResourceLocation.fromJson(json['location'] as Map<String, dynamic>)
           : null,
       name: json['name'] as String?,
-      resourceType: (json['resourceType'] as String?)?.toResourceType(),
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
       supportCode: json['supportCode'] as String?,
     );
   }
@@ -27519,106 +25296,46 @@ class StaticIp {
       if (isAttached != null) 'isAttached': isAttached,
       if (location != null) 'location': location,
       if (name != null) 'name': name,
-      if (resourceType != null) 'resourceType': resourceType.toValue(),
+      if (resourceType != null) 'resourceType': resourceType.value,
       if (supportCode != null) 'supportCode': supportCode,
     };
   }
 }
 
 enum Status {
-  startExpired,
-  notStarted,
-  started,
-  starting,
-  stopped,
-  stopping,
-  settingUpInstance,
-  failedInstanceCreation,
-  failedStartingGUISession,
-  failedStoppingGUISession,
-}
+  startExpired('startExpired'),
+  notStarted('notStarted'),
+  started('started'),
+  starting('starting'),
+  stopped('stopped'),
+  stopping('stopping'),
+  settingUpInstance('settingUpInstance'),
+  failedInstanceCreation('failedInstanceCreation'),
+  failedStartingGUISession('failedStartingGUISession'),
+  failedStoppingGUISession('failedStoppingGUISession'),
+  ;
 
-extension StatusValueExtension on Status {
-  String toValue() {
-    switch (this) {
-      case Status.startExpired:
-        return 'startExpired';
-      case Status.notStarted:
-        return 'notStarted';
-      case Status.started:
-        return 'started';
-      case Status.starting:
-        return 'starting';
-      case Status.stopped:
-        return 'stopped';
-      case Status.stopping:
-        return 'stopping';
-      case Status.settingUpInstance:
-        return 'settingUpInstance';
-      case Status.failedInstanceCreation:
-        return 'failedInstanceCreation';
-      case Status.failedStartingGUISession:
-        return 'failedStartingGUISession';
-      case Status.failedStoppingGUISession:
-        return 'failedStoppingGUISession';
-    }
-  }
-}
+  final String value;
 
-extension StatusFromString on String {
-  Status toStatus() {
-    switch (this) {
-      case 'startExpired':
-        return Status.startExpired;
-      case 'notStarted':
-        return Status.notStarted;
-      case 'started':
-        return Status.started;
-      case 'starting':
-        return Status.starting;
-      case 'stopped':
-        return Status.stopped;
-      case 'stopping':
-        return Status.stopping;
-      case 'settingUpInstance':
-        return Status.settingUpInstance;
-      case 'failedInstanceCreation':
-        return Status.failedInstanceCreation;
-      case 'failedStartingGUISession':
-        return Status.failedStartingGUISession;
-      case 'failedStoppingGUISession':
-        return Status.failedStoppingGUISession;
-    }
-    throw Exception('$this is not known in enum Status');
-  }
+  const Status(this.value);
+
+  static Status fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Status'));
 }
 
 enum StatusType {
-  active,
-  inactive,
-}
+  active('Active'),
+  inactive('Inactive'),
+  ;
 
-extension StatusTypeValueExtension on StatusType {
-  String toValue() {
-    switch (this) {
-      case StatusType.active:
-        return 'Active';
-      case StatusType.inactive:
-        return 'Inactive';
-    }
-  }
-}
+  final String value;
 
-extension StatusTypeFromString on String {
-  StatusType toStatusType() {
-    switch (this) {
-      case 'Active':
-        return StatusType.active;
-      case 'Inactive':
-        return StatusType.inactive;
-    }
-    throw Exception('$this is not known in enum StatusType');
-  }
+  const StatusType(this.value);
+
+  static StatusType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum StatusType'));
 }
 
 class StopGUISessionResult {
@@ -27866,41 +25583,20 @@ class TimePeriod {
 }
 
 enum TreatMissingData {
-  breaching,
-  notBreaching,
-  ignore,
-  missing,
-}
+  breaching('breaching'),
+  notBreaching('notBreaching'),
+  ignore('ignore'),
+  missing('missing'),
+  ;
 
-extension TreatMissingDataValueExtension on TreatMissingData {
-  String toValue() {
-    switch (this) {
-      case TreatMissingData.breaching:
-        return 'breaching';
-      case TreatMissingData.notBreaching:
-        return 'notBreaching';
-      case TreatMissingData.ignore:
-        return 'ignore';
-      case TreatMissingData.missing:
-        return 'missing';
-    }
-  }
-}
+  final String value;
 
-extension TreatMissingDataFromString on String {
-  TreatMissingData toTreatMissingData() {
-    switch (this) {
-      case 'breaching':
-        return TreatMissingData.breaching;
-      case 'notBreaching':
-        return TreatMissingData.notBreaching;
-      case 'ignore':
-        return TreatMissingData.ignore;
-      case 'missing':
-        return TreatMissingData.missing;
-    }
-    throw Exception('$this is not known in enum TreatMissingData');
-  }
+  const TreatMissingData(this.value);
+
+  static TreatMissingData fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TreatMissingData'));
 }
 
 class UnpeerVpcResult {
@@ -28234,43 +25930,20 @@ class UpdateRelationalDatabaseResult {
 }
 
 enum ViewerMinimumTlsProtocolVersionEnum {
-  tLSv1_1_2016,
-  tLSv1_2_2018,
-  tLSv1_2_2019,
-  tLSv1_2_2021,
-}
+  tLSv1_1_2016('TLSv1.1_2016'),
+  tLSv1_2_2018('TLSv1.2_2018'),
+  tLSv1_2_2019('TLSv1.2_2019'),
+  tLSv1_2_2021('TLSv1.2_2021'),
+  ;
 
-extension ViewerMinimumTlsProtocolVersionEnumValueExtension
-    on ViewerMinimumTlsProtocolVersionEnum {
-  String toValue() {
-    switch (this) {
-      case ViewerMinimumTlsProtocolVersionEnum.tLSv1_1_2016:
-        return 'TLSv1.1_2016';
-      case ViewerMinimumTlsProtocolVersionEnum.tLSv1_2_2018:
-        return 'TLSv1.2_2018';
-      case ViewerMinimumTlsProtocolVersionEnum.tLSv1_2_2019:
-        return 'TLSv1.2_2019';
-      case ViewerMinimumTlsProtocolVersionEnum.tLSv1_2_2021:
-        return 'TLSv1.2_2021';
-    }
-  }
-}
+  final String value;
 
-extension ViewerMinimumTlsProtocolVersionEnumFromString on String {
-  ViewerMinimumTlsProtocolVersionEnum toViewerMinimumTlsProtocolVersionEnum() {
-    switch (this) {
-      case 'TLSv1.1_2016':
-        return ViewerMinimumTlsProtocolVersionEnum.tLSv1_1_2016;
-      case 'TLSv1.2_2018':
-        return ViewerMinimumTlsProtocolVersionEnum.tLSv1_2_2018;
-      case 'TLSv1.2_2019':
-        return ViewerMinimumTlsProtocolVersionEnum.tLSv1_2_2019;
-      case 'TLSv1.2_2021':
-        return ViewerMinimumTlsProtocolVersionEnum.tLSv1_2_2021;
-    }
-    throw Exception(
-        '$this is not known in enum ViewerMinimumTlsProtocolVersionEnum');
-  }
+  const ViewerMinimumTlsProtocolVersionEnum(this.value);
+
+  static ViewerMinimumTlsProtocolVersionEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ViewerMinimumTlsProtocolVersionEnum'));
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

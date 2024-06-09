@@ -117,56 +117,22 @@ class FreeTier {
 }
 
 enum Dimension {
-  service,
-  operation,
-  usageType,
-  region,
-  freeTierType,
-  description,
-  usagePercentage,
-}
+  service('SERVICE'),
+  operation('OPERATION'),
+  usageType('USAGE_TYPE'),
+  region('REGION'),
+  freeTierType('FREE_TIER_TYPE'),
+  description('DESCRIPTION'),
+  usagePercentage('USAGE_PERCENTAGE'),
+  ;
 
-extension DimensionValueExtension on Dimension {
-  String toValue() {
-    switch (this) {
-      case Dimension.service:
-        return 'SERVICE';
-      case Dimension.operation:
-        return 'OPERATION';
-      case Dimension.usageType:
-        return 'USAGE_TYPE';
-      case Dimension.region:
-        return 'REGION';
-      case Dimension.freeTierType:
-        return 'FREE_TIER_TYPE';
-      case Dimension.description:
-        return 'DESCRIPTION';
-      case Dimension.usagePercentage:
-        return 'USAGE_PERCENTAGE';
-    }
-  }
-}
+  final String value;
 
-extension DimensionFromString on String {
-  Dimension toDimension() {
-    switch (this) {
-      case 'SERVICE':
-        return Dimension.service;
-      case 'OPERATION':
-        return Dimension.operation;
-      case 'USAGE_TYPE':
-        return Dimension.usageType;
-      case 'REGION':
-        return Dimension.region;
-      case 'FREE_TIER_TYPE':
-        return Dimension.freeTierType;
-      case 'DESCRIPTION':
-        return Dimension.description;
-      case 'USAGE_PERCENTAGE':
-        return Dimension.usagePercentage;
-    }
-    throw Exception('$this is not known in enum Dimension');
-  }
+  const Dimension(this.value);
+
+  static Dimension fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Dimension'));
 }
 
 /// Contains the specifications for the filters to use for your request.
@@ -193,8 +159,8 @@ class DimensionValues {
     final matchOptions = this.matchOptions;
     final values = this.values;
     return {
-      'Key': key.toValue(),
-      'MatchOptions': matchOptions.map((e) => e.toValue()).toList(),
+      'Key': key.value,
+      'MatchOptions': matchOptions.map((e) => e.value).toList(),
       'Values': values,
     };
   }
@@ -412,46 +378,20 @@ class GetFreeTierUsageResponse {
 }
 
 enum MatchOption {
-  equals,
-  startsWith,
-  endsWith,
-  contains,
-  greaterThanOrEqual,
-}
+  equals('EQUALS'),
+  startsWith('STARTS_WITH'),
+  endsWith('ENDS_WITH'),
+  contains('CONTAINS'),
+  greaterThanOrEqual('GREATER_THAN_OR_EQUAL'),
+  ;
 
-extension MatchOptionValueExtension on MatchOption {
-  String toValue() {
-    switch (this) {
-      case MatchOption.equals:
-        return 'EQUALS';
-      case MatchOption.startsWith:
-        return 'STARTS_WITH';
-      case MatchOption.endsWith:
-        return 'ENDS_WITH';
-      case MatchOption.contains:
-        return 'CONTAINS';
-      case MatchOption.greaterThanOrEqual:
-        return 'GREATER_THAN_OR_EQUAL';
-    }
-  }
-}
+  final String value;
 
-extension MatchOptionFromString on String {
-  MatchOption toMatchOption() {
-    switch (this) {
-      case 'EQUALS':
-        return MatchOption.equals;
-      case 'STARTS_WITH':
-        return MatchOption.startsWith;
-      case 'ENDS_WITH':
-        return MatchOption.endsWith;
-      case 'CONTAINS':
-        return MatchOption.contains;
-      case 'GREATER_THAN_OR_EQUAL':
-        return MatchOption.greaterThanOrEqual;
-    }
-    throw Exception('$this is not known in enum MatchOption');
-  }
+  const MatchOption(this.value);
+
+  static MatchOption fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum MatchOption'));
 }
 
 class InternalServerException extends _s.GenericAwsException {

@@ -1235,10 +1235,11 @@ class BaselineOperation {
     return BaselineOperation(
       endTime: timeStampFromJson(json['endTime']),
       operationIdentifier: json['operationIdentifier'] as String?,
-      operationType:
-          (json['operationType'] as String?)?.toBaselineOperationType(),
+      operationType: (json['operationType'] as String?)
+          ?.let(BaselineOperationType.fromString),
       startTime: timeStampFromJson(json['startTime']),
-      status: (json['status'] as String?)?.toBaselineOperationStatus(),
+      status:
+          (json['status'] as String?)?.let(BaselineOperationStatus.fromString),
       statusMessage: json['statusMessage'] as String?,
     );
   }
@@ -1254,83 +1255,45 @@ class BaselineOperation {
       if (endTime != null) 'endTime': iso8601ToJson(endTime),
       if (operationIdentifier != null)
         'operationIdentifier': operationIdentifier,
-      if (operationType != null) 'operationType': operationType.toValue(),
+      if (operationType != null) 'operationType': operationType.value,
       if (startTime != null) 'startTime': iso8601ToJson(startTime),
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (statusMessage != null) 'statusMessage': statusMessage,
     };
   }
 }
 
 enum BaselineOperationStatus {
-  succeeded,
-  failed,
-  inProgress,
-}
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  inProgress('IN_PROGRESS'),
+  ;
 
-extension BaselineOperationStatusValueExtension on BaselineOperationStatus {
-  String toValue() {
-    switch (this) {
-      case BaselineOperationStatus.succeeded:
-        return 'SUCCEEDED';
-      case BaselineOperationStatus.failed:
-        return 'FAILED';
-      case BaselineOperationStatus.inProgress:
-        return 'IN_PROGRESS';
-    }
-  }
-}
+  final String value;
 
-extension BaselineOperationStatusFromString on String {
-  BaselineOperationStatus toBaselineOperationStatus() {
-    switch (this) {
-      case 'SUCCEEDED':
-        return BaselineOperationStatus.succeeded;
-      case 'FAILED':
-        return BaselineOperationStatus.failed;
-      case 'IN_PROGRESS':
-        return BaselineOperationStatus.inProgress;
-    }
-    throw Exception('$this is not known in enum BaselineOperationStatus');
-  }
+  const BaselineOperationStatus(this.value);
+
+  static BaselineOperationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum BaselineOperationStatus'));
 }
 
 enum BaselineOperationType {
-  enableBaseline,
-  disableBaseline,
-  updateEnabledBaseline,
-  resetEnabledBaseline,
-}
+  enableBaseline('ENABLE_BASELINE'),
+  disableBaseline('DISABLE_BASELINE'),
+  updateEnabledBaseline('UPDATE_ENABLED_BASELINE'),
+  resetEnabledBaseline('RESET_ENABLED_BASELINE'),
+  ;
 
-extension BaselineOperationTypeValueExtension on BaselineOperationType {
-  String toValue() {
-    switch (this) {
-      case BaselineOperationType.enableBaseline:
-        return 'ENABLE_BASELINE';
-      case BaselineOperationType.disableBaseline:
-        return 'DISABLE_BASELINE';
-      case BaselineOperationType.updateEnabledBaseline:
-        return 'UPDATE_ENABLED_BASELINE';
-      case BaselineOperationType.resetEnabledBaseline:
-        return 'RESET_ENABLED_BASELINE';
-    }
-  }
-}
+  final String value;
 
-extension BaselineOperationTypeFromString on String {
-  BaselineOperationType toBaselineOperationType() {
-    switch (this) {
-      case 'ENABLE_BASELINE':
-        return BaselineOperationType.enableBaseline;
-      case 'DISABLE_BASELINE':
-        return BaselineOperationType.disableBaseline;
-      case 'UPDATE_ENABLED_BASELINE':
-        return BaselineOperationType.updateEnabledBaseline;
-      case 'RESET_ENABLED_BASELINE':
-        return BaselineOperationType.resetEnabledBaseline;
-    }
-    throw Exception('$this is not known in enum BaselineOperationType');
-  }
+  const BaselineOperationType(this.value);
+
+  static BaselineOperationType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum BaselineOperationType'));
 }
 
 /// Returns a summary of information about a <code>Baseline</code> object.
@@ -1419,10 +1382,11 @@ class ControlOperation {
       enabledControlIdentifier: json['enabledControlIdentifier'] as String?,
       endTime: timeStampFromJson(json['endTime']),
       operationIdentifier: json['operationIdentifier'] as String?,
-      operationType:
-          (json['operationType'] as String?)?.toControlOperationType(),
+      operationType: (json['operationType'] as String?)
+          ?.let(ControlOperationType.fromString),
       startTime: timeStampFromJson(json['startTime']),
-      status: (json['status'] as String?)?.toControlOperationStatus(),
+      status:
+          (json['status'] as String?)?.let(ControlOperationStatus.fromString),
       statusMessage: json['statusMessage'] as String?,
       targetIdentifier: json['targetIdentifier'] as String?,
     );
@@ -1445,9 +1409,9 @@ class ControlOperation {
       if (endTime != null) 'endTime': iso8601ToJson(endTime),
       if (operationIdentifier != null)
         'operationIdentifier': operationIdentifier,
-      if (operationType != null) 'operationType': operationType.toValue(),
+      if (operationType != null) 'operationType': operationType.value,
       if (startTime != null) 'startTime': iso8601ToJson(startTime),
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (statusMessage != null) 'statusMessage': statusMessage,
       if (targetIdentifier != null) 'targetIdentifier': targetIdentifier,
     };
@@ -1491,47 +1455,29 @@ class ControlOperationFilter {
       if (controlIdentifiers != null) 'controlIdentifiers': controlIdentifiers,
       if (controlOperationTypes != null)
         'controlOperationTypes':
-            controlOperationTypes.map((e) => e.toValue()).toList(),
+            controlOperationTypes.map((e) => e.value).toList(),
       if (enabledControlIdentifiers != null)
         'enabledControlIdentifiers': enabledControlIdentifiers,
-      if (statuses != null)
-        'statuses': statuses.map((e) => e.toValue()).toList(),
+      if (statuses != null) 'statuses': statuses.map((e) => e.value).toList(),
       if (targetIdentifiers != null) 'targetIdentifiers': targetIdentifiers,
     };
   }
 }
 
 enum ControlOperationStatus {
-  succeeded,
-  failed,
-  inProgress,
-}
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  inProgress('IN_PROGRESS'),
+  ;
 
-extension ControlOperationStatusValueExtension on ControlOperationStatus {
-  String toValue() {
-    switch (this) {
-      case ControlOperationStatus.succeeded:
-        return 'SUCCEEDED';
-      case ControlOperationStatus.failed:
-        return 'FAILED';
-      case ControlOperationStatus.inProgress:
-        return 'IN_PROGRESS';
-    }
-  }
-}
+  final String value;
 
-extension ControlOperationStatusFromString on String {
-  ControlOperationStatus toControlOperationStatus() {
-    switch (this) {
-      case 'SUCCEEDED':
-        return ControlOperationStatus.succeeded;
-      case 'FAILED':
-        return ControlOperationStatus.failed;
-      case 'IN_PROGRESS':
-        return ControlOperationStatus.inProgress;
-    }
-    throw Exception('$this is not known in enum ControlOperationStatus');
-  }
+  const ControlOperationStatus(this.value);
+
+  static ControlOperationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ControlOperationStatus'));
 }
 
 /// A summary of information about the specified control operation.
@@ -1581,10 +1527,11 @@ class ControlOperationSummary {
       enabledControlIdentifier: json['enabledControlIdentifier'] as String?,
       endTime: timeStampFromJson(json['endTime']),
       operationIdentifier: json['operationIdentifier'] as String?,
-      operationType:
-          (json['operationType'] as String?)?.toControlOperationType(),
+      operationType: (json['operationType'] as String?)
+          ?.let(ControlOperationType.fromString),
       startTime: timeStampFromJson(json['startTime']),
-      status: (json['status'] as String?)?.toControlOperationStatus(),
+      status:
+          (json['status'] as String?)?.let(ControlOperationStatus.fromString),
       statusMessage: json['statusMessage'] as String?,
       targetIdentifier: json['targetIdentifier'] as String?,
     );
@@ -1607,9 +1554,9 @@ class ControlOperationSummary {
       if (endTime != null) 'endTime': iso8601ToJson(endTime),
       if (operationIdentifier != null)
         'operationIdentifier': operationIdentifier,
-      if (operationType != null) 'operationType': operationType.toValue(),
+      if (operationType != null) 'operationType': operationType.value,
       if (startTime != null) 'startTime': iso8601ToJson(startTime),
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (statusMessage != null) 'statusMessage': statusMessage,
       if (targetIdentifier != null) 'targetIdentifier': targetIdentifier,
     };
@@ -1617,36 +1564,19 @@ class ControlOperationSummary {
 }
 
 enum ControlOperationType {
-  enableControl,
-  disableControl,
-  updateEnabledControl,
-}
+  enableControl('ENABLE_CONTROL'),
+  disableControl('DISABLE_CONTROL'),
+  updateEnabledControl('UPDATE_ENABLED_CONTROL'),
+  ;
 
-extension ControlOperationTypeValueExtension on ControlOperationType {
-  String toValue() {
-    switch (this) {
-      case ControlOperationType.enableControl:
-        return 'ENABLE_CONTROL';
-      case ControlOperationType.disableControl:
-        return 'DISABLE_CONTROL';
-      case ControlOperationType.updateEnabledControl:
-        return 'UPDATE_ENABLED_CONTROL';
-    }
-  }
-}
+  final String value;
 
-extension ControlOperationTypeFromString on String {
-  ControlOperationType toControlOperationType() {
-    switch (this) {
-      case 'ENABLE_CONTROL':
-        return ControlOperationType.enableControl;
-      case 'DISABLE_CONTROL':
-        return ControlOperationType.disableControl;
-      case 'UPDATE_ENABLED_CONTROL':
-        return ControlOperationType.updateEnabledControl;
-    }
-    throw Exception('$this is not known in enum ControlOperationType');
-  }
+  const ControlOperationType(this.value);
+
+  static ControlOperationType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ControlOperationType'));
 }
 
 class CreateLandingZoneOutput {
@@ -1764,41 +1694,19 @@ class Document {
 }
 
 enum DriftStatus {
-  drifted,
-  inSync,
-  notChecking,
-  unknown,
-}
+  drifted('DRIFTED'),
+  inSync('IN_SYNC'),
+  notChecking('NOT_CHECKING'),
+  unknown('UNKNOWN'),
+  ;
 
-extension DriftStatusValueExtension on DriftStatus {
-  String toValue() {
-    switch (this) {
-      case DriftStatus.drifted:
-        return 'DRIFTED';
-      case DriftStatus.inSync:
-        return 'IN_SYNC';
-      case DriftStatus.notChecking:
-        return 'NOT_CHECKING';
-      case DriftStatus.unknown:
-        return 'UNKNOWN';
-    }
-  }
-}
+  final String value;
 
-extension DriftStatusFromString on String {
-  DriftStatus toDriftStatus() {
-    switch (this) {
-      case 'DRIFTED':
-        return DriftStatus.drifted;
-      case 'IN_SYNC':
-        return DriftStatus.inSync;
-      case 'NOT_CHECKING':
-        return DriftStatus.notChecking;
-      case 'UNKNOWN':
-        return DriftStatus.unknown;
-    }
-    throw Exception('$this is not known in enum DriftStatus');
-  }
+  const DriftStatus(this.value);
+
+  static DriftStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum DriftStatus'));
 }
 
 /// The drift summary of the enabled control.
@@ -1840,14 +1748,15 @@ class DriftStatusSummary {
 
   factory DriftStatusSummary.fromJson(Map<String, dynamic> json) {
     return DriftStatusSummary(
-      driftStatus: (json['driftStatus'] as String?)?.toDriftStatus(),
+      driftStatus:
+          (json['driftStatus'] as String?)?.let(DriftStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final driftStatus = this.driftStatus;
     return {
-      if (driftStatus != null) 'driftStatus': driftStatus.toValue(),
+      if (driftStatus != null) 'driftStatus': driftStatus.value,
     };
   }
 }
@@ -2233,9 +2142,8 @@ class EnabledControlFilter {
     return {
       if (controlIdentifiers != null) 'controlIdentifiers': controlIdentifiers,
       if (driftStatuses != null)
-        'driftStatuses': driftStatuses.map((e) => e.toValue()).toList(),
-      if (statuses != null)
-        'statuses': statuses.map((e) => e.toValue()).toList(),
+        'driftStatuses': driftStatuses.map((e) => e.value).toList(),
+      if (statuses != null) 'statuses': statuses.map((e) => e.value).toList(),
     };
   }
 }
@@ -2352,36 +2260,19 @@ class EnabledControlSummary {
 }
 
 enum EnablementStatus {
-  succeeded,
-  failed,
-  underChange,
-}
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  underChange('UNDER_CHANGE'),
+  ;
 
-extension EnablementStatusValueExtension on EnablementStatus {
-  String toValue() {
-    switch (this) {
-      case EnablementStatus.succeeded:
-        return 'SUCCEEDED';
-      case EnablementStatus.failed:
-        return 'FAILED';
-      case EnablementStatus.underChange:
-        return 'UNDER_CHANGE';
-    }
-  }
-}
+  final String value;
 
-extension EnablementStatusFromString on String {
-  EnablementStatus toEnablementStatus() {
-    switch (this) {
-      case 'SUCCEEDED':
-        return EnablementStatus.succeeded;
-      case 'FAILED':
-        return EnablementStatus.failed;
-      case 'UNDER_CHANGE':
-        return EnablementStatus.underChange;
-    }
-    throw Exception('$this is not known in enum EnablementStatus');
-  }
+  const EnablementStatus(this.value);
+
+  static EnablementStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EnablementStatus'));
 }
 
 /// The deployment summary of the enabled control.
@@ -2417,7 +2308,7 @@ class EnablementStatusSummary {
   factory EnablementStatusSummary.fromJson(Map<String, dynamic> json) {
     return EnablementStatusSummary(
       lastOperationIdentifier: json['lastOperationIdentifier'] as String?,
-      status: (json['status'] as String?)?.toEnablementStatus(),
+      status: (json['status'] as String?)?.let(EnablementStatus.fromString),
     );
   }
 
@@ -2427,7 +2318,7 @@ class EnablementStatusSummary {
     return {
       if (lastOperationIdentifier != null)
         'lastOperationIdentifier': lastOperationIdentifier,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -2651,7 +2542,7 @@ class LandingZoneDetail {
               json['driftStatus'] as Map<String, dynamic>)
           : null,
       latestAvailableVersion: json['latestAvailableVersion'] as String?,
-      status: (json['status'] as String?)?.toLandingZoneStatus(),
+      status: (json['status'] as String?)?.let(LandingZoneStatus.fromString),
     );
   }
 
@@ -2669,37 +2560,24 @@ class LandingZoneDetail {
       if (driftStatus != null) 'driftStatus': driftStatus,
       if (latestAvailableVersion != null)
         'latestAvailableVersion': latestAvailableVersion,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
 
 enum LandingZoneDriftStatus {
-  drifted,
-  inSync,
-}
+  drifted('DRIFTED'),
+  inSync('IN_SYNC'),
+  ;
 
-extension LandingZoneDriftStatusValueExtension on LandingZoneDriftStatus {
-  String toValue() {
-    switch (this) {
-      case LandingZoneDriftStatus.drifted:
-        return 'DRIFTED';
-      case LandingZoneDriftStatus.inSync:
-        return 'IN_SYNC';
-    }
-  }
-}
+  final String value;
 
-extension LandingZoneDriftStatusFromString on String {
-  LandingZoneDriftStatus toLandingZoneDriftStatus() {
-    switch (this) {
-      case 'DRIFTED':
-        return LandingZoneDriftStatus.drifted;
-      case 'IN_SYNC':
-        return LandingZoneDriftStatus.inSync;
-    }
-    throw Exception('$this is not known in enum LandingZoneDriftStatus');
-  }
+  const LandingZoneDriftStatus(this.value);
+
+  static LandingZoneDriftStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum LandingZoneDriftStatus'));
 }
 
 /// The drift status summary of the landing zone.
@@ -2730,14 +2608,15 @@ class LandingZoneDriftStatusSummary {
 
   factory LandingZoneDriftStatusSummary.fromJson(Map<String, dynamic> json) {
     return LandingZoneDriftStatusSummary(
-      status: (json['status'] as String?)?.toLandingZoneDriftStatus(),
+      status:
+          (json['status'] as String?)?.let(LandingZoneDriftStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -2800,10 +2679,11 @@ class LandingZoneOperationDetail {
   factory LandingZoneOperationDetail.fromJson(Map<String, dynamic> json) {
     return LandingZoneOperationDetail(
       endTime: timeStampFromJson(json['endTime']),
-      operationType:
-          (json['operationType'] as String?)?.toLandingZoneOperationType(),
+      operationType: (json['operationType'] as String?)
+          ?.let(LandingZoneOperationType.fromString),
       startTime: timeStampFromJson(json['startTime']),
-      status: (json['status'] as String?)?.toLandingZoneOperationStatus(),
+      status: (json['status'] as String?)
+          ?.let(LandingZoneOperationStatus.fromString),
       statusMessage: json['statusMessage'] as String?,
     );
   }
@@ -2816,117 +2696,61 @@ class LandingZoneOperationDetail {
     final statusMessage = this.statusMessage;
     return {
       if (endTime != null) 'endTime': iso8601ToJson(endTime),
-      if (operationType != null) 'operationType': operationType.toValue(),
+      if (operationType != null) 'operationType': operationType.value,
       if (startTime != null) 'startTime': iso8601ToJson(startTime),
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (statusMessage != null) 'statusMessage': statusMessage,
     };
   }
 }
 
 enum LandingZoneOperationStatus {
-  succeeded,
-  failed,
-  inProgress,
-}
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  inProgress('IN_PROGRESS'),
+  ;
 
-extension LandingZoneOperationStatusValueExtension
-    on LandingZoneOperationStatus {
-  String toValue() {
-    switch (this) {
-      case LandingZoneOperationStatus.succeeded:
-        return 'SUCCEEDED';
-      case LandingZoneOperationStatus.failed:
-        return 'FAILED';
-      case LandingZoneOperationStatus.inProgress:
-        return 'IN_PROGRESS';
-    }
-  }
-}
+  final String value;
 
-extension LandingZoneOperationStatusFromString on String {
-  LandingZoneOperationStatus toLandingZoneOperationStatus() {
-    switch (this) {
-      case 'SUCCEEDED':
-        return LandingZoneOperationStatus.succeeded;
-      case 'FAILED':
-        return LandingZoneOperationStatus.failed;
-      case 'IN_PROGRESS':
-        return LandingZoneOperationStatus.inProgress;
-    }
-    throw Exception('$this is not known in enum LandingZoneOperationStatus');
-  }
+  const LandingZoneOperationStatus(this.value);
+
+  static LandingZoneOperationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum LandingZoneOperationStatus'));
 }
 
 enum LandingZoneOperationType {
-  delete,
-  create,
-  update,
-  reset,
-}
+  delete('DELETE'),
+  create('CREATE'),
+  update('UPDATE'),
+  reset('RESET'),
+  ;
 
-extension LandingZoneOperationTypeValueExtension on LandingZoneOperationType {
-  String toValue() {
-    switch (this) {
-      case LandingZoneOperationType.delete:
-        return 'DELETE';
-      case LandingZoneOperationType.create:
-        return 'CREATE';
-      case LandingZoneOperationType.update:
-        return 'UPDATE';
-      case LandingZoneOperationType.reset:
-        return 'RESET';
-    }
-  }
-}
+  final String value;
 
-extension LandingZoneOperationTypeFromString on String {
-  LandingZoneOperationType toLandingZoneOperationType() {
-    switch (this) {
-      case 'DELETE':
-        return LandingZoneOperationType.delete;
-      case 'CREATE':
-        return LandingZoneOperationType.create;
-      case 'UPDATE':
-        return LandingZoneOperationType.update;
-      case 'RESET':
-        return LandingZoneOperationType.reset;
-    }
-    throw Exception('$this is not known in enum LandingZoneOperationType');
-  }
+  const LandingZoneOperationType(this.value);
+
+  static LandingZoneOperationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum LandingZoneOperationType'));
 }
 
 enum LandingZoneStatus {
-  active,
-  processing,
-  failed,
-}
+  active('ACTIVE'),
+  processing('PROCESSING'),
+  failed('FAILED'),
+  ;
 
-extension LandingZoneStatusValueExtension on LandingZoneStatus {
-  String toValue() {
-    switch (this) {
-      case LandingZoneStatus.active:
-        return 'ACTIVE';
-      case LandingZoneStatus.processing:
-        return 'PROCESSING';
-      case LandingZoneStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension LandingZoneStatusFromString on String {
-  LandingZoneStatus toLandingZoneStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return LandingZoneStatus.active;
-      case 'PROCESSING':
-        return LandingZoneStatus.processing;
-      case 'FAILED':
-        return LandingZoneStatus.failed;
-    }
-    throw Exception('$this is not known in enum LandingZoneStatus');
-  }
+  const LandingZoneStatus(this.value);
+
+  static LandingZoneStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LandingZoneStatus'));
 }
 
 /// Returns a summary of information about a landing zone.

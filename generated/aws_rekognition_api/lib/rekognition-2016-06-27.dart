@@ -594,7 +594,7 @@ class Rekognition {
       payload: {
         'SourceImage': sourceImage,
         'TargetImage': targetImage,
-        if (qualityFilter != null) 'QualityFilter': qualityFilter.toValue(),
+        if (qualityFilter != null) 'QualityFilter': qualityFilter.value,
         if (similarityThreshold != null)
           'SimilarityThreshold': similarityThreshold,
       },
@@ -858,7 +858,7 @@ class Rekognition {
       // TODO queryParams
       headers: headers,
       payload: {
-        'DatasetType': datasetType.toValue(),
+        'DatasetType': datasetType.value,
         'ProjectArn': projectArn,
         if (datasetSource != null) 'DatasetSource': datasetSource,
       },
@@ -972,8 +972,8 @@ class Rekognition {
       headers: headers,
       payload: {
         'ProjectName': projectName,
-        if (autoUpdate != null) 'AutoUpdate': autoUpdate.toValue(),
-        if (feature != null) 'Feature': feature.toValue(),
+        if (autoUpdate != null) 'AutoUpdate': autoUpdate.value,
+        if (feature != null) 'Feature': feature.value,
       },
     );
 
@@ -1896,8 +1896,7 @@ class Rekognition {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (features != null)
-          'Features': features.map((e) => e.toValue()).toList(),
+        if (features != null) 'Features': features.map((e) => e.value).toList(),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (projectNames != null) 'ProjectNames': projectNames,
@@ -2143,7 +2142,7 @@ class Rekognition {
       payload: {
         'Image': image,
         if (attributes != null)
-          'Attributes': attributes.map((e) => e.toValue()).toList(),
+          'Attributes': attributes.map((e) => e.value).toList(),
       },
     );
 
@@ -2357,8 +2356,7 @@ class Rekognition {
       headers: headers,
       payload: {
         'Image': image,
-        if (features != null)
-          'Features': features.map((e) => e.toValue()).toList(),
+        if (features != null) 'Features': features.map((e) => e.value).toList(),
         if (maxLabels != null) 'MaxLabels': maxLabels,
         if (minConfidence != null) 'MinConfidence': minConfidence,
         if (settings != null) 'Settings': settings,
@@ -2904,7 +2902,7 @@ class Rekognition {
         'JobId': jobId,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
       },
     );
 
@@ -3019,10 +3017,10 @@ class Rekognition {
       headers: headers,
       payload: {
         'JobId': jobId,
-        if (aggregateBy != null) 'AggregateBy': aggregateBy.toValue(),
+        if (aggregateBy != null) 'AggregateBy': aggregateBy.value,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
       },
     );
 
@@ -3246,7 +3244,7 @@ class Rekognition {
         'JobId': jobId,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
       },
     );
 
@@ -3401,10 +3399,10 @@ class Rekognition {
       headers: headers,
       payload: {
         'JobId': jobId,
-        if (aggregateBy != null) 'AggregateBy': aggregateBy.toValue(),
+        if (aggregateBy != null) 'AggregateBy': aggregateBy.value,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
       },
     );
 
@@ -3541,7 +3539,7 @@ class Rekognition {
         'JobId': jobId,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
       },
     );
 
@@ -3952,10 +3950,10 @@ class Rekognition {
         'Image': image,
         if (detectionAttributes != null)
           'DetectionAttributes':
-              detectionAttributes.map((e) => e.toValue()).toList(),
+              detectionAttributes.map((e) => e.value).toList(),
         if (externalImageId != null) 'ExternalImageId': externalImageId,
         if (maxFaces != null) 'MaxFaces': maxFaces,
-        if (qualityFilter != null) 'QualityFilter': qualityFilter.toValue(),
+        if (qualityFilter != null) 'QualityFilter': qualityFilter.value,
       },
     );
 
@@ -4882,7 +4880,7 @@ class Rekognition {
         if (faceMatchThreshold != null)
           'FaceMatchThreshold': faceMatchThreshold,
         if (maxFaces != null) 'MaxFaces': maxFaces,
-        if (qualityFilter != null) 'QualityFilter': qualityFilter.toValue(),
+        if (qualityFilter != null) 'QualityFilter': qualityFilter.value,
       },
     );
 
@@ -5035,7 +5033,7 @@ class Rekognition {
         'CollectionId': collectionId,
         'Image': image,
         if (maxUsers != null) 'MaxUsers': maxUsers,
-        if (qualityFilter != null) 'QualityFilter': qualityFilter.toValue(),
+        if (qualityFilter != null) 'QualityFilter': qualityFilter.value,
         if (userMatchThreshold != null)
           'UserMatchThreshold': userMatchThreshold,
       },
@@ -5303,7 +5301,7 @@ class Rekognition {
         'Video': video,
         if (clientRequestToken != null)
           'ClientRequestToken': clientRequestToken,
-        if (faceAttributes != null) 'FaceAttributes': faceAttributes.toValue(),
+        if (faceAttributes != null) 'FaceAttributes': faceAttributes.value,
         if (jobTag != null) 'JobTag': jobTag,
         if (notificationChannel != null)
           'NotificationChannel': notificationChannel,
@@ -5528,8 +5526,7 @@ class Rekognition {
         'Video': video,
         if (clientRequestToken != null)
           'ClientRequestToken': clientRequestToken,
-        if (features != null)
-          'Features': features.map((e) => e.toValue()).toList(),
+        if (features != null) 'Features': features.map((e) => e.value).toList(),
         if (jobTag != null) 'JobTag': jobTag,
         if (minConfidence != null) 'MinConfidence': minConfidence,
         if (notificationChannel != null)
@@ -5845,7 +5842,7 @@ class Rekognition {
       // TODO queryParams
       headers: headers,
       payload: {
-        'SegmentTypes': segmentTypes.map((e) => e.toValue()).toList(),
+        'SegmentTypes': segmentTypes.map((e) => e.value).toList(),
         'Video': video,
         if (clientRequestToken != null)
           'ClientRequestToken': clientRequestToken,
@@ -6276,8 +6273,7 @@ class Rekognition {
         if (dataSharingPreferenceForUpdate != null)
           'DataSharingPreferenceForUpdate': dataSharingPreferenceForUpdate,
         if (parametersToDelete != null)
-          'ParametersToDelete':
-              parametersToDelete.map((e) => e.toValue()).toList(),
+          'ParametersToDelete': parametersToDelete.map((e) => e.value).toList(),
         if (regionsOfInterestForUpdate != null)
           'RegionsOfInterestForUpdate': regionsOfInterestForUpdate,
         if (settingsForUpdate != null) 'SettingsForUpdate': settingsForUpdate,
@@ -6373,7 +6369,7 @@ class AssociateFacesResponse {
           .map((e) =>
               UnsuccessfulFaceAssociation.fromJson(e as Map<String, dynamic>))
           .toList(),
-      userStatus: (json['UserStatus'] as String?)?.toUserStatus(),
+      userStatus: (json['UserStatus'] as String?)?.let(UserStatus.fromString),
     );
   }
 }
@@ -6396,91 +6392,29 @@ class AssociatedFace {
 }
 
 enum Attribute {
-  $default,
-  all,
-  ageRange,
-  beard,
-  emotions,
-  eyeDirection,
-  eyeglasses,
-  eyesOpen,
-  gender,
-  mouthOpen,
-  mustache,
-  faceOccluded,
-  smile,
-  sunglasses,
-}
+  $default('DEFAULT'),
+  all('ALL'),
+  ageRange('AGE_RANGE'),
+  beard('BEARD'),
+  emotions('EMOTIONS'),
+  eyeDirection('EYE_DIRECTION'),
+  eyeglasses('EYEGLASSES'),
+  eyesOpen('EYES_OPEN'),
+  gender('GENDER'),
+  mouthOpen('MOUTH_OPEN'),
+  mustache('MUSTACHE'),
+  faceOccluded('FACE_OCCLUDED'),
+  smile('SMILE'),
+  sunglasses('SUNGLASSES'),
+  ;
 
-extension AttributeValueExtension on Attribute {
-  String toValue() {
-    switch (this) {
-      case Attribute.$default:
-        return 'DEFAULT';
-      case Attribute.all:
-        return 'ALL';
-      case Attribute.ageRange:
-        return 'AGE_RANGE';
-      case Attribute.beard:
-        return 'BEARD';
-      case Attribute.emotions:
-        return 'EMOTIONS';
-      case Attribute.eyeDirection:
-        return 'EYE_DIRECTION';
-      case Attribute.eyeglasses:
-        return 'EYEGLASSES';
-      case Attribute.eyesOpen:
-        return 'EYES_OPEN';
-      case Attribute.gender:
-        return 'GENDER';
-      case Attribute.mouthOpen:
-        return 'MOUTH_OPEN';
-      case Attribute.mustache:
-        return 'MUSTACHE';
-      case Attribute.faceOccluded:
-        return 'FACE_OCCLUDED';
-      case Attribute.smile:
-        return 'SMILE';
-      case Attribute.sunglasses:
-        return 'SUNGLASSES';
-    }
-  }
-}
+  final String value;
 
-extension AttributeFromString on String {
-  Attribute toAttribute() {
-    switch (this) {
-      case 'DEFAULT':
-        return Attribute.$default;
-      case 'ALL':
-        return Attribute.all;
-      case 'AGE_RANGE':
-        return Attribute.ageRange;
-      case 'BEARD':
-        return Attribute.beard;
-      case 'EMOTIONS':
-        return Attribute.emotions;
-      case 'EYE_DIRECTION':
-        return Attribute.eyeDirection;
-      case 'EYEGLASSES':
-        return Attribute.eyeglasses;
-      case 'EYES_OPEN':
-        return Attribute.eyesOpen;
-      case 'GENDER':
-        return Attribute.gender;
-      case 'MOUTH_OPEN':
-        return Attribute.mouthOpen;
-      case 'MUSTACHE':
-        return Attribute.mustache;
-      case 'FACE_OCCLUDED':
-        return Attribute.faceOccluded;
-      case 'SMILE':
-        return Attribute.smile;
-      case 'SUNGLASSES':
-        return Attribute.sunglasses;
-    }
-    throw Exception('$this is not known in enum Attribute');
-  }
+  const Attribute(this.value);
+
+  static Attribute fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Attribute'));
 }
 
 /// Metadata information about an audio stream. An array of
@@ -6613,41 +6547,19 @@ class BlackFrame {
 }
 
 enum BodyPart {
-  face,
-  head,
-  leftHand,
-  rightHand,
-}
+  face('FACE'),
+  head('HEAD'),
+  leftHand('LEFT_HAND'),
+  rightHand('RIGHT_HAND'),
+  ;
 
-extension BodyPartValueExtension on BodyPart {
-  String toValue() {
-    switch (this) {
-      case BodyPart.face:
-        return 'FACE';
-      case BodyPart.head:
-        return 'HEAD';
-      case BodyPart.leftHand:
-        return 'LEFT_HAND';
-      case BodyPart.rightHand:
-        return 'RIGHT_HAND';
-    }
-  }
-}
+  final String value;
 
-extension BodyPartFromString on String {
-  BodyPart toBodyPart() {
-    switch (this) {
-      case 'FACE':
-        return BodyPart.face;
-      case 'HEAD':
-        return BodyPart.head;
-      case 'LEFT_HAND':
-        return BodyPart.leftHand;
-      case 'RIGHT_HAND':
-        return BodyPart.rightHand;
-    }
-    throw Exception('$this is not known in enum BodyPart');
-  }
+  const BodyPart(this.value);
+
+  static BodyPart fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum BodyPart'));
 }
 
 /// Identifies the bounding box around the label, face, text, object of
@@ -6851,32 +6763,18 @@ class CelebrityRecognition {
 }
 
 enum CelebrityRecognitionSortBy {
-  id,
-  timestamp,
-}
+  id('ID'),
+  timestamp('TIMESTAMP'),
+  ;
 
-extension CelebrityRecognitionSortByValueExtension
-    on CelebrityRecognitionSortBy {
-  String toValue() {
-    switch (this) {
-      case CelebrityRecognitionSortBy.id:
-        return 'ID';
-      case CelebrityRecognitionSortBy.timestamp:
-        return 'TIMESTAMP';
-    }
-  }
-}
+  final String value;
 
-extension CelebrityRecognitionSortByFromString on String {
-  CelebrityRecognitionSortBy toCelebrityRecognitionSortBy() {
-    switch (this) {
-      case 'ID':
-        return CelebrityRecognitionSortBy.id;
-      case 'TIMESTAMP':
-        return CelebrityRecognitionSortBy.timestamp;
-    }
-    throw Exception('$this is not known in enum CelebrityRecognitionSortBy');
-  }
+  const CelebrityRecognitionSortBy(this.value);
+
+  static CelebrityRecognitionSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CelebrityRecognitionSortBy'));
 }
 
 /// Provides information about a face in a target image that matches the source
@@ -6971,10 +6869,10 @@ class CompareFacesResponse {
           : null,
       sourceImageOrientationCorrection:
           (json['SourceImageOrientationCorrection'] as String?)
-              ?.toOrientationCorrection(),
+              ?.let(OrientationCorrection.fromString),
       targetImageOrientationCorrection:
           (json['TargetImageOrientationCorrection'] as String?)
-              ?.toOrientationCorrection(),
+              ?.let(OrientationCorrection.fromString),
       unmatchedFaces: (json['UnmatchedFaces'] as List?)
           ?.whereNotNull()
           .map((e) => ComparedFace.fromJson(e as Map<String, dynamic>))
@@ -7146,60 +7044,34 @@ class ConnectedHomeSettingsForUpdate {
 }
 
 enum ContentClassifier {
-  freeOfPersonallyIdentifiableInformation,
-  freeOfAdultContent,
-}
+  freeOfPersonallyIdentifiableInformation(
+      'FreeOfPersonallyIdentifiableInformation'),
+  freeOfAdultContent('FreeOfAdultContent'),
+  ;
 
-extension ContentClassifierValueExtension on ContentClassifier {
-  String toValue() {
-    switch (this) {
-      case ContentClassifier.freeOfPersonallyIdentifiableInformation:
-        return 'FreeOfPersonallyIdentifiableInformation';
-      case ContentClassifier.freeOfAdultContent:
-        return 'FreeOfAdultContent';
-    }
-  }
-}
+  final String value;
 
-extension ContentClassifierFromString on String {
-  ContentClassifier toContentClassifier() {
-    switch (this) {
-      case 'FreeOfPersonallyIdentifiableInformation':
-        return ContentClassifier.freeOfPersonallyIdentifiableInformation;
-      case 'FreeOfAdultContent':
-        return ContentClassifier.freeOfAdultContent;
-    }
-    throw Exception('$this is not known in enum ContentClassifier');
-  }
+  const ContentClassifier(this.value);
+
+  static ContentClassifier fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ContentClassifier'));
 }
 
 enum ContentModerationAggregateBy {
-  timestamps,
-  segments,
-}
+  timestamps('TIMESTAMPS'),
+  segments('SEGMENTS'),
+  ;
 
-extension ContentModerationAggregateByValueExtension
-    on ContentModerationAggregateBy {
-  String toValue() {
-    switch (this) {
-      case ContentModerationAggregateBy.timestamps:
-        return 'TIMESTAMPS';
-      case ContentModerationAggregateBy.segments:
-        return 'SEGMENTS';
-    }
-  }
-}
+  final String value;
 
-extension ContentModerationAggregateByFromString on String {
-  ContentModerationAggregateBy toContentModerationAggregateBy() {
-    switch (this) {
-      case 'TIMESTAMPS':
-        return ContentModerationAggregateBy.timestamps;
-      case 'SEGMENTS':
-        return ContentModerationAggregateBy.segments;
-    }
-    throw Exception('$this is not known in enum ContentModerationAggregateBy');
-  }
+  const ContentModerationAggregateBy(this.value);
+
+  static ContentModerationAggregateBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ContentModerationAggregateBy'));
 }
 
 /// Information about an inappropriate, unwanted, or offensive content label
@@ -7258,31 +7130,18 @@ class ContentModerationDetection {
 }
 
 enum ContentModerationSortBy {
-  name,
-  timestamp,
-}
+  name('NAME'),
+  timestamp('TIMESTAMP'),
+  ;
 
-extension ContentModerationSortByValueExtension on ContentModerationSortBy {
-  String toValue() {
-    switch (this) {
-      case ContentModerationSortBy.name:
-        return 'NAME';
-      case ContentModerationSortBy.timestamp:
-        return 'TIMESTAMP';
-    }
-  }
-}
+  final String value;
 
-extension ContentModerationSortByFromString on String {
-  ContentModerationSortBy toContentModerationSortBy() {
-    switch (this) {
-      case 'NAME':
-        return ContentModerationSortBy.name;
-      case 'TIMESTAMP':
-        return ContentModerationSortBy.timestamp;
-    }
-    throw Exception('$this is not known in enum ContentModerationSortBy');
-  }
+  const ContentModerationSortBy(this.value);
+
+  static ContentModerationSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ContentModerationSortBy'));
 }
 
 /// Contains information regarding the confidence and name of a detected content
@@ -7529,31 +7388,18 @@ class CustomLabel {
 }
 
 enum CustomizationFeature {
-  contentModeration,
-  customLabels,
-}
+  contentModeration('CONTENT_MODERATION'),
+  customLabels('CUSTOM_LABELS'),
+  ;
 
-extension CustomizationFeatureValueExtension on CustomizationFeature {
-  String toValue() {
-    switch (this) {
-      case CustomizationFeature.contentModeration:
-        return 'CONTENT_MODERATION';
-      case CustomizationFeature.customLabels:
-        return 'CUSTOM_LABELS';
-    }
-  }
-}
+  final String value;
 
-extension CustomizationFeatureFromString on String {
-  CustomizationFeature toCustomizationFeature() {
-    switch (this) {
-      case 'CONTENT_MODERATION':
-        return CustomizationFeature.contentModeration;
-      case 'CUSTOM_LABELS':
-        return CustomizationFeature.customLabels;
-    }
-    throw Exception('$this is not known in enum CustomizationFeature');
-  }
+  const CustomizationFeature(this.value);
+
+  static CustomizationFeature fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum CustomizationFeature'));
 }
 
 /// Feature specific configuration for the training job. Configuration provided
@@ -7683,10 +7529,10 @@ class DatasetDescription {
           ? DatasetStats.fromJson(json['DatasetStats'] as Map<String, dynamic>)
           : null,
       lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
-      status: (json['Status'] as String?)?.toDatasetStatus(),
+      status: (json['Status'] as String?)?.let(DatasetStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
-      statusMessageCode:
-          (json['StatusMessageCode'] as String?)?.toDatasetStatusMessageCode(),
+      statusMessageCode: (json['StatusMessageCode'] as String?)
+          ?.let(DatasetStatusMessageCode.fromString),
     );
   }
 }
@@ -7774,11 +7620,12 @@ class DatasetMetadata {
     return DatasetMetadata(
       creationTimestamp: timeStampFromJson(json['CreationTimestamp']),
       datasetArn: json['DatasetArn'] as String?,
-      datasetType: (json['DatasetType'] as String?)?.toDatasetType(),
-      status: (json['Status'] as String?)?.toDatasetStatus(),
+      datasetType:
+          (json['DatasetType'] as String?)?.let(DatasetType.fromString),
+      status: (json['Status'] as String?)?.let(DatasetStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
-      statusMessageCode:
-          (json['StatusMessageCode'] as String?)?.toDatasetStatusMessageCode(),
+      statusMessageCode: (json['StatusMessageCode'] as String?)
+          ?.let(DatasetStatusMessageCode.fromString),
     );
   }
 }
@@ -7851,117 +7698,53 @@ class DatasetStats {
 }
 
 enum DatasetStatus {
-  createInProgress,
-  createComplete,
-  createFailed,
-  updateInProgress,
-  updateComplete,
-  updateFailed,
-  deleteInProgress,
-}
+  createInProgress('CREATE_IN_PROGRESS'),
+  createComplete('CREATE_COMPLETE'),
+  createFailed('CREATE_FAILED'),
+  updateInProgress('UPDATE_IN_PROGRESS'),
+  updateComplete('UPDATE_COMPLETE'),
+  updateFailed('UPDATE_FAILED'),
+  deleteInProgress('DELETE_IN_PROGRESS'),
+  ;
 
-extension DatasetStatusValueExtension on DatasetStatus {
-  String toValue() {
-    switch (this) {
-      case DatasetStatus.createInProgress:
-        return 'CREATE_IN_PROGRESS';
-      case DatasetStatus.createComplete:
-        return 'CREATE_COMPLETE';
-      case DatasetStatus.createFailed:
-        return 'CREATE_FAILED';
-      case DatasetStatus.updateInProgress:
-        return 'UPDATE_IN_PROGRESS';
-      case DatasetStatus.updateComplete:
-        return 'UPDATE_COMPLETE';
-      case DatasetStatus.updateFailed:
-        return 'UPDATE_FAILED';
-      case DatasetStatus.deleteInProgress:
-        return 'DELETE_IN_PROGRESS';
-    }
-  }
-}
+  final String value;
 
-extension DatasetStatusFromString on String {
-  DatasetStatus toDatasetStatus() {
-    switch (this) {
-      case 'CREATE_IN_PROGRESS':
-        return DatasetStatus.createInProgress;
-      case 'CREATE_COMPLETE':
-        return DatasetStatus.createComplete;
-      case 'CREATE_FAILED':
-        return DatasetStatus.createFailed;
-      case 'UPDATE_IN_PROGRESS':
-        return DatasetStatus.updateInProgress;
-      case 'UPDATE_COMPLETE':
-        return DatasetStatus.updateComplete;
-      case 'UPDATE_FAILED':
-        return DatasetStatus.updateFailed;
-      case 'DELETE_IN_PROGRESS':
-        return DatasetStatus.deleteInProgress;
-    }
-    throw Exception('$this is not known in enum DatasetStatus');
-  }
+  const DatasetStatus(this.value);
+
+  static DatasetStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DatasetStatus'));
 }
 
 enum DatasetStatusMessageCode {
-  success,
-  serviceError,
-  clientError,
-}
+  success('SUCCESS'),
+  serviceError('SERVICE_ERROR'),
+  clientError('CLIENT_ERROR'),
+  ;
 
-extension DatasetStatusMessageCodeValueExtension on DatasetStatusMessageCode {
-  String toValue() {
-    switch (this) {
-      case DatasetStatusMessageCode.success:
-        return 'SUCCESS';
-      case DatasetStatusMessageCode.serviceError:
-        return 'SERVICE_ERROR';
-      case DatasetStatusMessageCode.clientError:
-        return 'CLIENT_ERROR';
-    }
-  }
-}
+  final String value;
 
-extension DatasetStatusMessageCodeFromString on String {
-  DatasetStatusMessageCode toDatasetStatusMessageCode() {
-    switch (this) {
-      case 'SUCCESS':
-        return DatasetStatusMessageCode.success;
-      case 'SERVICE_ERROR':
-        return DatasetStatusMessageCode.serviceError;
-      case 'CLIENT_ERROR':
-        return DatasetStatusMessageCode.clientError;
-    }
-    throw Exception('$this is not known in enum DatasetStatusMessageCode');
-  }
+  const DatasetStatusMessageCode(this.value);
+
+  static DatasetStatusMessageCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DatasetStatusMessageCode'));
 }
 
 enum DatasetType {
-  train,
-  test,
-}
+  train('TRAIN'),
+  test('TEST'),
+  ;
 
-extension DatasetTypeValueExtension on DatasetType {
-  String toValue() {
-    switch (this) {
-      case DatasetType.train:
-        return 'TRAIN';
-      case DatasetType.test:
-        return 'TEST';
-    }
-  }
-}
+  final String value;
 
-extension DatasetTypeFromString on String {
-  DatasetType toDatasetType() {
-    switch (this) {
-      case 'TRAIN':
-        return DatasetType.train;
-      case 'TEST':
-        return DatasetType.test;
-    }
-    throw Exception('$this is not known in enum DatasetType');
-  }
+  const DatasetType(this.value);
+
+  static DatasetType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum DatasetType'));
 }
 
 class DeleteCollectionResponse {
@@ -8032,7 +7815,7 @@ class DeleteProjectResponse {
 
   factory DeleteProjectResponse.fromJson(Map<String, dynamic> json) {
     return DeleteProjectResponse(
-      status: (json['Status'] as String?)?.toProjectStatus(),
+      status: (json['Status'] as String?)?.let(ProjectStatus.fromString),
     );
   }
 }
@@ -8047,7 +7830,7 @@ class DeleteProjectVersionResponse {
 
   factory DeleteProjectVersionResponse.fromJson(Map<String, dynamic> json) {
     return DeleteProjectVersionResponse(
-      status: (json['Status'] as String?)?.toProjectVersionStatus(),
+      status: (json['Status'] as String?)?.let(ProjectVersionStatus.fromString),
     );
   }
 }
@@ -8280,7 +8063,8 @@ class DescribeStreamProcessorResponse {
           ? StreamProcessorSettings.fromJson(
               json['Settings'] as Map<String, dynamic>)
           : null,
-      status: (json['Status'] as String?)?.toStreamProcessorStatus(),
+      status:
+          (json['Status'] as String?)?.let(StreamProcessorStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
       streamProcessorArn: json['StreamProcessorArn'] as String?,
     );
@@ -8335,38 +8119,25 @@ class DetectFacesResponse {
           ?.whereNotNull()
           .map((e) => FaceDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
-      orientationCorrection:
-          (json['OrientationCorrection'] as String?)?.toOrientationCorrection(),
+      orientationCorrection: (json['OrientationCorrection'] as String?)
+          ?.let(OrientationCorrection.fromString),
     );
   }
 }
 
 enum DetectLabelsFeatureName {
-  generalLabels,
-  imageProperties,
-}
+  generalLabels('GENERAL_LABELS'),
+  imageProperties('IMAGE_PROPERTIES'),
+  ;
 
-extension DetectLabelsFeatureNameValueExtension on DetectLabelsFeatureName {
-  String toValue() {
-    switch (this) {
-      case DetectLabelsFeatureName.generalLabels:
-        return 'GENERAL_LABELS';
-      case DetectLabelsFeatureName.imageProperties:
-        return 'IMAGE_PROPERTIES';
-    }
-  }
-}
+  final String value;
 
-extension DetectLabelsFeatureNameFromString on String {
-  DetectLabelsFeatureName toDetectLabelsFeatureName() {
-    switch (this) {
-      case 'GENERAL_LABELS':
-        return DetectLabelsFeatureName.generalLabels;
-      case 'IMAGE_PROPERTIES':
-        return DetectLabelsFeatureName.imageProperties;
-    }
-    throw Exception('$this is not known in enum DetectLabelsFeatureName');
-  }
+  const DetectLabelsFeatureName(this.value);
+
+  static DetectLabelsFeatureName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DetectLabelsFeatureName'));
 }
 
 /// The background of the image with regard to image quality and dominant
@@ -8571,8 +8342,8 @@ class DetectLabelsResponse {
           ?.whereNotNull()
           .map((e) => Label.fromJson(e as Map<String, dynamic>))
           .toList(),
-      orientationCorrection:
-          (json['OrientationCorrection'] as String?)?.toOrientationCorrection(),
+      orientationCorrection: (json['OrientationCorrection'] as String?)
+          ?.let(OrientationCorrection.fromString),
     );
   }
 }
@@ -8810,7 +8581,7 @@ class DisassociateFacesResponse {
               .map((e) => UnsuccessfulFaceDisassociation.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
-      userStatus: (json['UserStatus'] as String?)?.toUserStatus(),
+      userStatus: (json['UserStatus'] as String?)?.let(UserStatus.fromString),
     );
   }
 }
@@ -8925,72 +8696,30 @@ class Emotion {
   factory Emotion.fromJson(Map<String, dynamic> json) {
     return Emotion(
       confidence: json['Confidence'] as double?,
-      type: (json['Type'] as String?)?.toEmotionName(),
+      type: (json['Type'] as String?)?.let(EmotionName.fromString),
     );
   }
 }
 
 enum EmotionName {
-  happy,
-  sad,
-  angry,
-  confused,
-  disgusted,
-  surprised,
-  calm,
-  unknown,
-  fear,
-}
+  happy('HAPPY'),
+  sad('SAD'),
+  angry('ANGRY'),
+  confused('CONFUSED'),
+  disgusted('DISGUSTED'),
+  surprised('SURPRISED'),
+  calm('CALM'),
+  unknown('UNKNOWN'),
+  fear('FEAR'),
+  ;
 
-extension EmotionNameValueExtension on EmotionName {
-  String toValue() {
-    switch (this) {
-      case EmotionName.happy:
-        return 'HAPPY';
-      case EmotionName.sad:
-        return 'SAD';
-      case EmotionName.angry:
-        return 'ANGRY';
-      case EmotionName.confused:
-        return 'CONFUSED';
-      case EmotionName.disgusted:
-        return 'DISGUSTED';
-      case EmotionName.surprised:
-        return 'SURPRISED';
-      case EmotionName.calm:
-        return 'CALM';
-      case EmotionName.unknown:
-        return 'UNKNOWN';
-      case EmotionName.fear:
-        return 'FEAR';
-    }
-  }
-}
+  final String value;
 
-extension EmotionNameFromString on String {
-  EmotionName toEmotionName() {
-    switch (this) {
-      case 'HAPPY':
-        return EmotionName.happy;
-      case 'SAD':
-        return EmotionName.sad;
-      case 'ANGRY':
-        return EmotionName.angry;
-      case 'CONFUSED':
-        return EmotionName.confused;
-      case 'DISGUSTED':
-        return EmotionName.disgusted;
-      case 'SURPRISED':
-        return EmotionName.surprised;
-      case 'CALM':
-        return EmotionName.calm;
-      case 'UNKNOWN':
-        return EmotionName.unknown;
-      case 'FEAR':
-        return EmotionName.fear;
-    }
-    throw Exception('$this is not known in enum EmotionName');
-  }
+  const EmotionName(this.value);
+
+  static EmotionName fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum EmotionName'));
 }
 
 /// Information about an item of Personal Protective Equipment (PPE) detected by
@@ -9027,7 +8756,7 @@ class EquipmentDetection {
           ? CoversBodyPart.fromJson(
               json['CoversBodyPart'] as Map<String, dynamic>)
           : null,
-      type: (json['Type'] as String?)?.toProtectiveEquipmentType(),
+      type: (json['Type'] as String?)?.let(ProtectiveEquipmentType.fromString),
     );
   }
 }
@@ -9181,31 +8910,18 @@ class Face {
 }
 
 enum FaceAttributes {
-  $default,
-  all,
-}
+  $default('DEFAULT'),
+  all('ALL'),
+  ;
 
-extension FaceAttributesValueExtension on FaceAttributes {
-  String toValue() {
-    switch (this) {
-      case FaceAttributes.$default:
-        return 'DEFAULT';
-      case FaceAttributes.all:
-        return 'ALL';
-    }
-  }
-}
+  final String value;
 
-extension FaceAttributesFromString on String {
-  FaceAttributes toFaceAttributes() {
-    switch (this) {
-      case 'DEFAULT':
-        return FaceAttributes.$default;
-      case 'ALL':
-        return FaceAttributes.all;
-    }
-    throw Exception('$this is not known in enum FaceAttributes');
-  }
+  const FaceAttributes(this.value);
+
+  static FaceAttributes fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FaceAttributes'));
 }
 
 /// Structure containing attributes of the face that the algorithm detected.
@@ -9537,31 +9253,18 @@ class FaceSearchSettings {
 }
 
 enum FaceSearchSortBy {
-  $index,
-  timestamp,
-}
+  $index('INDEX'),
+  timestamp('TIMESTAMP'),
+  ;
 
-extension FaceSearchSortByValueExtension on FaceSearchSortBy {
-  String toValue() {
-    switch (this) {
-      case FaceSearchSortBy.$index:
-        return 'INDEX';
-      case FaceSearchSortBy.timestamp:
-        return 'TIMESTAMP';
-    }
-  }
-}
+  final String value;
 
-extension FaceSearchSortByFromString on String {
-  FaceSearchSortBy toFaceSearchSortBy() {
-    switch (this) {
-      case 'INDEX':
-        return FaceSearchSortBy.$index;
-      case 'TIMESTAMP':
-        return FaceSearchSortBy.timestamp;
-    }
-    throw Exception('$this is not known in enum FaceSearchSortBy');
-  }
+  const FaceSearchSortBy(this.value);
+
+  static FaceSearchSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FaceSearchSortBy'));
 }
 
 /// The predicted gender of a detected face.
@@ -9595,37 +9298,23 @@ class Gender {
   factory Gender.fromJson(Map<String, dynamic> json) {
     return Gender(
       confidence: json['Confidence'] as double?,
-      value: (json['Value'] as String?)?.toGenderType(),
+      value: (json['Value'] as String?)?.let(GenderType.fromString),
     );
   }
 }
 
 enum GenderType {
-  male,
-  female,
-}
+  male('Male'),
+  female('Female'),
+  ;
 
-extension GenderTypeValueExtension on GenderType {
-  String toValue() {
-    switch (this) {
-      case GenderType.male:
-        return 'Male';
-      case GenderType.female:
-        return 'Female';
-    }
-  }
-}
+  final String value;
 
-extension GenderTypeFromString on String {
-  GenderType toGenderType() {
-    switch (this) {
-      case 'Male':
-        return GenderType.male;
-      case 'Female':
-        return GenderType.female;
-    }
-    throw Exception('$this is not known in enum GenderType');
-  }
+  const GenderType(this.value);
+
+  static GenderType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum GenderType'));
 }
 
 /// Contains filters for the object labels returned by DetectLabels. Filters can
@@ -9782,7 +9471,7 @@ class GetCelebrityRecognitionResponse {
           .map((e) => CelebrityRecognition.fromJson(e as Map<String, dynamic>))
           .toList(),
       jobId: json['JobId'] as String?,
-      jobStatus: (json['JobStatus'] as String?)?.toVideoJobStatus(),
+      jobStatus: (json['JobStatus'] as String?)?.let(VideoJobStatus.fromString),
       jobTag: json['JobTag'] as String?,
       nextToken: json['NextToken'] as String?,
       statusMessage: json['StatusMessage'] as String?,
@@ -9814,9 +9503,10 @@ class GetContentModerationRequestMetadata {
   factory GetContentModerationRequestMetadata.fromJson(
       Map<String, dynamic> json) {
     return GetContentModerationRequestMetadata(
-      aggregateBy:
-          (json['AggregateBy'] as String?)?.toContentModerationAggregateBy(),
-      sortBy: (json['SortBy'] as String?)?.toContentModerationSortBy(),
+      aggregateBy: (json['AggregateBy'] as String?)
+          ?.let(ContentModerationAggregateBy.fromString),
+      sortBy:
+          (json['SortBy'] as String?)?.let(ContentModerationSortBy.fromString),
     );
   }
 }
@@ -9882,7 +9572,7 @@ class GetContentModerationResponse {
               json['GetRequestMetadata'] as Map<String, dynamic>)
           : null,
       jobId: json['JobId'] as String?,
-      jobStatus: (json['JobStatus'] as String?)?.toVideoJobStatus(),
+      jobStatus: (json['JobStatus'] as String?)?.let(VideoJobStatus.fromString),
       jobTag: json['JobTag'] as String?,
       moderationLabels: (json['ModerationLabels'] as List?)
           ?.whereNotNull()
@@ -9954,7 +9644,7 @@ class GetFaceDetectionResponse {
           .map((e) => FaceDetection.fromJson(e as Map<String, dynamic>))
           .toList(),
       jobId: json['JobId'] as String?,
-      jobStatus: (json['JobStatus'] as String?)?.toVideoJobStatus(),
+      jobStatus: (json['JobStatus'] as String?)?.let(VideoJobStatus.fromString),
       jobTag: json['JobTag'] as String?,
       nextToken: json['NextToken'] as String?,
       statusMessage: json['StatusMessage'] as String?,
@@ -10009,7 +9699,7 @@ class GetFaceLivenessSessionResultsResponse {
       Map<String, dynamic> json) {
     return GetFaceLivenessSessionResultsResponse(
       sessionId: json['SessionId'] as String,
-      status: (json['Status'] as String).toLivenessSessionStatus(),
+      status: LivenessSessionStatus.fromString((json['Status'] as String)),
       auditImages: (json['AuditImages'] as List?)
           ?.whereNotNull()
           .map((e) => AuditImage.fromJson(e as Map<String, dynamic>))
@@ -10075,7 +9765,7 @@ class GetFaceSearchResponse {
   factory GetFaceSearchResponse.fromJson(Map<String, dynamic> json) {
     return GetFaceSearchResponse(
       jobId: json['JobId'] as String?,
-      jobStatus: (json['JobStatus'] as String?)?.toVideoJobStatus(),
+      jobStatus: (json['JobStatus'] as String?)?.let(VideoJobStatus.fromString),
       jobTag: json['JobTag'] as String?,
       nextToken: json['NextToken'] as String?,
       persons: (json['Persons'] as List?)
@@ -10110,9 +9800,9 @@ class GetLabelDetectionRequestMetadata {
 
   factory GetLabelDetectionRequestMetadata.fromJson(Map<String, dynamic> json) {
     return GetLabelDetectionRequestMetadata(
-      aggregateBy:
-          (json['AggregateBy'] as String?)?.toLabelDetectionAggregateBy(),
-      sortBy: (json['SortBy'] as String?)?.toLabelDetectionSortBy(),
+      aggregateBy: (json['AggregateBy'] as String?)
+          ?.let(LabelDetectionAggregateBy.fromString),
+      sortBy: (json['SortBy'] as String?)?.let(LabelDetectionSortBy.fromString),
     );
   }
 }
@@ -10178,7 +9868,7 @@ class GetLabelDetectionResponse {
               json['GetRequestMetadata'] as Map<String, dynamic>)
           : null,
       jobId: json['JobId'] as String?,
-      jobStatus: (json['JobStatus'] as String?)?.toVideoJobStatus(),
+      jobStatus: (json['JobStatus'] as String?)?.let(VideoJobStatus.fromString),
       jobTag: json['JobTag'] as String?,
       labelModelVersion: json['LabelModelVersion'] as String?,
       labels: (json['Labels'] as List?)
@@ -10262,7 +9952,7 @@ class GetMediaAnalysisJobResponse {
           json['OperationsConfig'] as Map<String, dynamic>),
       outputConfig: MediaAnalysisOutputConfig.fromJson(
           json['OutputConfig'] as Map<String, dynamic>),
-      status: (json['Status'] as String).toMediaAnalysisJobStatus(),
+      status: MediaAnalysisJobStatus.fromString((json['Status'] as String)),
       completionTimestamp: timeStampFromJson(json['CompletionTimestamp']),
       failureDetails: json['FailureDetails'] != null
           ? MediaAnalysisJobFailureDetails.fromJson(
@@ -10330,7 +10020,7 @@ class GetPersonTrackingResponse {
   factory GetPersonTrackingResponse.fromJson(Map<String, dynamic> json) {
     return GetPersonTrackingResponse(
       jobId: json['JobId'] as String?,
-      jobStatus: (json['JobStatus'] as String?)?.toVideoJobStatus(),
+      jobStatus: (json['JobStatus'] as String?)?.let(VideoJobStatus.fromString),
       jobTag: json['JobTag'] as String?,
       nextToken: json['NextToken'] as String?,
       persons: (json['Persons'] as List?)
@@ -10420,7 +10110,7 @@ class GetSegmentDetectionResponse {
           .map((e) => AudioMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
       jobId: json['JobId'] as String?,
-      jobStatus: (json['JobStatus'] as String?)?.toVideoJobStatus(),
+      jobStatus: (json['JobStatus'] as String?)?.let(VideoJobStatus.fromString),
       jobTag: json['JobTag'] as String?,
       nextToken: json['NextToken'] as String?,
       segments: (json['Segments'] as List?)
@@ -10490,7 +10180,7 @@ class GetTextDetectionResponse {
   factory GetTextDetectionResponse.fromJson(Map<String, dynamic> json) {
     return GetTextDetectionResponse(
       jobId: json['JobId'] as String?,
-      jobStatus: (json['JobStatus'] as String?)?.toVideoJobStatus(),
+      jobStatus: (json['JobStatus'] as String?)?.let(VideoJobStatus.fromString),
       jobTag: json['JobTag'] as String?,
       nextToken: json['NextToken'] as String?,
       statusMessage: json['StatusMessage'] as String?,
@@ -10620,8 +10310,7 @@ class HumanLoopDataAttributes {
     final contentClassifiers = this.contentClassifiers;
     return {
       if (contentClassifiers != null)
-        'ContentClassifiers':
-            contentClassifiers.map((e) => e.toValue()).toList(),
+        'ContentClassifiers': contentClassifiers.map((e) => e.value).toList(),
     };
   }
 }
@@ -10762,8 +10451,8 @@ class IndexFacesResponse {
           ?.whereNotNull()
           .map((e) => FaceRecord.fromJson(e as Map<String, dynamic>))
           .toList(),
-      orientationCorrection:
-          (json['OrientationCorrection'] as String?)?.toOrientationCorrection(),
+      orientationCorrection: (json['OrientationCorrection'] as String?)
+          ?.let(OrientationCorrection.fromString),
       unindexedFaces: (json['UnindexedFaces'] as List?)
           ?.whereNotNull()
           .map((e) => UnindexedFace.fromJson(e as Map<String, dynamic>))
@@ -10898,48 +10587,27 @@ class KnownGender {
 
   factory KnownGender.fromJson(Map<String, dynamic> json) {
     return KnownGender(
-      type: (json['Type'] as String?)?.toKnownGenderType(),
+      type: (json['Type'] as String?)?.let(KnownGenderType.fromString),
     );
   }
 }
 
 /// A list of enum string of possible gender values that Celebrity returns.
 enum KnownGenderType {
-  male,
-  female,
-  nonbinary,
-  unlisted,
-}
+  male('Male'),
+  female('Female'),
+  nonbinary('Nonbinary'),
+  unlisted('Unlisted'),
+  ;
 
-extension KnownGenderTypeValueExtension on KnownGenderType {
-  String toValue() {
-    switch (this) {
-      case KnownGenderType.male:
-        return 'Male';
-      case KnownGenderType.female:
-        return 'Female';
-      case KnownGenderType.nonbinary:
-        return 'Nonbinary';
-      case KnownGenderType.unlisted:
-        return 'Unlisted';
-    }
-  }
-}
+  final String value;
 
-extension KnownGenderTypeFromString on String {
-  KnownGenderType toKnownGenderType() {
-    switch (this) {
-      case 'Male':
-        return KnownGenderType.male;
-      case 'Female':
-        return KnownGenderType.female;
-      case 'Nonbinary':
-        return KnownGenderType.nonbinary;
-      case 'Unlisted':
-        return KnownGenderType.unlisted;
-    }
-    throw Exception('$this is not known in enum KnownGenderType');
-  }
+  const KnownGenderType(this.value);
+
+  static KnownGenderType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum KnownGenderType'));
 }
 
 /// Structure containing details about the detected label, including the name,
@@ -11078,54 +10746,32 @@ class LabelDetection {
 }
 
 enum LabelDetectionAggregateBy {
-  timestamps,
-  segments,
-}
+  timestamps('TIMESTAMPS'),
+  segments('SEGMENTS'),
+  ;
 
-extension LabelDetectionAggregateByValueExtension on LabelDetectionAggregateBy {
-  String toValue() {
-    switch (this) {
-      case LabelDetectionAggregateBy.timestamps:
-        return 'TIMESTAMPS';
-      case LabelDetectionAggregateBy.segments:
-        return 'SEGMENTS';
-    }
-  }
-}
+  final String value;
 
-extension LabelDetectionAggregateByFromString on String {
-  LabelDetectionAggregateBy toLabelDetectionAggregateBy() {
-    switch (this) {
-      case 'TIMESTAMPS':
-        return LabelDetectionAggregateBy.timestamps;
-      case 'SEGMENTS':
-        return LabelDetectionAggregateBy.segments;
-    }
-    throw Exception('$this is not known in enum LabelDetectionAggregateBy');
-  }
+  const LabelDetectionAggregateBy(this.value);
+
+  static LabelDetectionAggregateBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum LabelDetectionAggregateBy'));
 }
 
 enum LabelDetectionFeatureName {
-  generalLabels,
-}
+  generalLabels('GENERAL_LABELS'),
+  ;
 
-extension LabelDetectionFeatureNameValueExtension on LabelDetectionFeatureName {
-  String toValue() {
-    switch (this) {
-      case LabelDetectionFeatureName.generalLabels:
-        return 'GENERAL_LABELS';
-    }
-  }
-}
+  final String value;
 
-extension LabelDetectionFeatureNameFromString on String {
-  LabelDetectionFeatureName toLabelDetectionFeatureName() {
-    switch (this) {
-      case 'GENERAL_LABELS':
-        return LabelDetectionFeatureName.generalLabels;
-    }
-    throw Exception('$this is not known in enum LabelDetectionFeatureName');
-  }
+  const LabelDetectionFeatureName(this.value);
+
+  static LabelDetectionFeatureName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum LabelDetectionFeatureName'));
 }
 
 /// Contains the specified filters that should be applied to a list of returned
@@ -11146,31 +10792,18 @@ class LabelDetectionSettings {
 }
 
 enum LabelDetectionSortBy {
-  name,
-  timestamp,
-}
+  name('NAME'),
+  timestamp('TIMESTAMP'),
+  ;
 
-extension LabelDetectionSortByValueExtension on LabelDetectionSortBy {
-  String toValue() {
-    switch (this) {
-      case LabelDetectionSortBy.name:
-        return 'NAME';
-      case LabelDetectionSortBy.timestamp:
-        return 'TIMESTAMP';
-    }
-  }
-}
+  final String value;
 
-extension LabelDetectionSortByFromString on String {
-  LabelDetectionSortBy toLabelDetectionSortBy() {
-    switch (this) {
-      case 'NAME':
-        return LabelDetectionSortBy.name;
-      case 'TIMESTAMP':
-        return LabelDetectionSortBy.timestamp;
-    }
-    throw Exception('$this is not known in enum LabelDetectionSortBy');
-  }
+  const LabelDetectionSortBy(this.value);
+
+  static LabelDetectionSortBy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum LabelDetectionSortBy'));
 }
 
 /// Indicates the location of the landmark on the face.
@@ -11198,7 +10831,7 @@ class Landmark {
 
   factory Landmark.fromJson(Map<String, dynamic> json) {
     return Landmark(
-      type: (json['Type'] as String?)?.toLandmarkType(),
+      type: (json['Type'] as String?)?.let(LandmarkType.fromString),
       x: json['X'] as double?,
       y: json['Y'] as double?,
     );
@@ -11206,171 +10839,46 @@ class Landmark {
 }
 
 enum LandmarkType {
-  eyeLeft,
-  eyeRight,
-  nose,
-  mouthLeft,
-  mouthRight,
-  leftEyeBrowLeft,
-  leftEyeBrowRight,
-  leftEyeBrowUp,
-  rightEyeBrowLeft,
-  rightEyeBrowRight,
-  rightEyeBrowUp,
-  leftEyeLeft,
-  leftEyeRight,
-  leftEyeUp,
-  leftEyeDown,
-  rightEyeLeft,
-  rightEyeRight,
-  rightEyeUp,
-  rightEyeDown,
-  noseLeft,
-  noseRight,
-  mouthUp,
-  mouthDown,
-  leftPupil,
-  rightPupil,
-  upperJawlineLeft,
-  midJawlineLeft,
-  chinBottom,
-  midJawlineRight,
-  upperJawlineRight,
-}
+  eyeLeft('eyeLeft'),
+  eyeRight('eyeRight'),
+  nose('nose'),
+  mouthLeft('mouthLeft'),
+  mouthRight('mouthRight'),
+  leftEyeBrowLeft('leftEyeBrowLeft'),
+  leftEyeBrowRight('leftEyeBrowRight'),
+  leftEyeBrowUp('leftEyeBrowUp'),
+  rightEyeBrowLeft('rightEyeBrowLeft'),
+  rightEyeBrowRight('rightEyeBrowRight'),
+  rightEyeBrowUp('rightEyeBrowUp'),
+  leftEyeLeft('leftEyeLeft'),
+  leftEyeRight('leftEyeRight'),
+  leftEyeUp('leftEyeUp'),
+  leftEyeDown('leftEyeDown'),
+  rightEyeLeft('rightEyeLeft'),
+  rightEyeRight('rightEyeRight'),
+  rightEyeUp('rightEyeUp'),
+  rightEyeDown('rightEyeDown'),
+  noseLeft('noseLeft'),
+  noseRight('noseRight'),
+  mouthUp('mouthUp'),
+  mouthDown('mouthDown'),
+  leftPupil('leftPupil'),
+  rightPupil('rightPupil'),
+  upperJawlineLeft('upperJawlineLeft'),
+  midJawlineLeft('midJawlineLeft'),
+  chinBottom('chinBottom'),
+  midJawlineRight('midJawlineRight'),
+  upperJawlineRight('upperJawlineRight'),
+  ;
 
-extension LandmarkTypeValueExtension on LandmarkType {
-  String toValue() {
-    switch (this) {
-      case LandmarkType.eyeLeft:
-        return 'eyeLeft';
-      case LandmarkType.eyeRight:
-        return 'eyeRight';
-      case LandmarkType.nose:
-        return 'nose';
-      case LandmarkType.mouthLeft:
-        return 'mouthLeft';
-      case LandmarkType.mouthRight:
-        return 'mouthRight';
-      case LandmarkType.leftEyeBrowLeft:
-        return 'leftEyeBrowLeft';
-      case LandmarkType.leftEyeBrowRight:
-        return 'leftEyeBrowRight';
-      case LandmarkType.leftEyeBrowUp:
-        return 'leftEyeBrowUp';
-      case LandmarkType.rightEyeBrowLeft:
-        return 'rightEyeBrowLeft';
-      case LandmarkType.rightEyeBrowRight:
-        return 'rightEyeBrowRight';
-      case LandmarkType.rightEyeBrowUp:
-        return 'rightEyeBrowUp';
-      case LandmarkType.leftEyeLeft:
-        return 'leftEyeLeft';
-      case LandmarkType.leftEyeRight:
-        return 'leftEyeRight';
-      case LandmarkType.leftEyeUp:
-        return 'leftEyeUp';
-      case LandmarkType.leftEyeDown:
-        return 'leftEyeDown';
-      case LandmarkType.rightEyeLeft:
-        return 'rightEyeLeft';
-      case LandmarkType.rightEyeRight:
-        return 'rightEyeRight';
-      case LandmarkType.rightEyeUp:
-        return 'rightEyeUp';
-      case LandmarkType.rightEyeDown:
-        return 'rightEyeDown';
-      case LandmarkType.noseLeft:
-        return 'noseLeft';
-      case LandmarkType.noseRight:
-        return 'noseRight';
-      case LandmarkType.mouthUp:
-        return 'mouthUp';
-      case LandmarkType.mouthDown:
-        return 'mouthDown';
-      case LandmarkType.leftPupil:
-        return 'leftPupil';
-      case LandmarkType.rightPupil:
-        return 'rightPupil';
-      case LandmarkType.upperJawlineLeft:
-        return 'upperJawlineLeft';
-      case LandmarkType.midJawlineLeft:
-        return 'midJawlineLeft';
-      case LandmarkType.chinBottom:
-        return 'chinBottom';
-      case LandmarkType.midJawlineRight:
-        return 'midJawlineRight';
-      case LandmarkType.upperJawlineRight:
-        return 'upperJawlineRight';
-    }
-  }
-}
+  final String value;
 
-extension LandmarkTypeFromString on String {
-  LandmarkType toLandmarkType() {
-    switch (this) {
-      case 'eyeLeft':
-        return LandmarkType.eyeLeft;
-      case 'eyeRight':
-        return LandmarkType.eyeRight;
-      case 'nose':
-        return LandmarkType.nose;
-      case 'mouthLeft':
-        return LandmarkType.mouthLeft;
-      case 'mouthRight':
-        return LandmarkType.mouthRight;
-      case 'leftEyeBrowLeft':
-        return LandmarkType.leftEyeBrowLeft;
-      case 'leftEyeBrowRight':
-        return LandmarkType.leftEyeBrowRight;
-      case 'leftEyeBrowUp':
-        return LandmarkType.leftEyeBrowUp;
-      case 'rightEyeBrowLeft':
-        return LandmarkType.rightEyeBrowLeft;
-      case 'rightEyeBrowRight':
-        return LandmarkType.rightEyeBrowRight;
-      case 'rightEyeBrowUp':
-        return LandmarkType.rightEyeBrowUp;
-      case 'leftEyeLeft':
-        return LandmarkType.leftEyeLeft;
-      case 'leftEyeRight':
-        return LandmarkType.leftEyeRight;
-      case 'leftEyeUp':
-        return LandmarkType.leftEyeUp;
-      case 'leftEyeDown':
-        return LandmarkType.leftEyeDown;
-      case 'rightEyeLeft':
-        return LandmarkType.rightEyeLeft;
-      case 'rightEyeRight':
-        return LandmarkType.rightEyeRight;
-      case 'rightEyeUp':
-        return LandmarkType.rightEyeUp;
-      case 'rightEyeDown':
-        return LandmarkType.rightEyeDown;
-      case 'noseLeft':
-        return LandmarkType.noseLeft;
-      case 'noseRight':
-        return LandmarkType.noseRight;
-      case 'mouthUp':
-        return LandmarkType.mouthUp;
-      case 'mouthDown':
-        return LandmarkType.mouthDown;
-      case 'leftPupil':
-        return LandmarkType.leftPupil;
-      case 'rightPupil':
-        return LandmarkType.rightPupil;
-      case 'upperJawlineLeft':
-        return LandmarkType.upperJawlineLeft;
-      case 'midJawlineLeft':
-        return LandmarkType.midJawlineLeft;
-      case 'chinBottom':
-        return LandmarkType.chinBottom;
-      case 'midJawlineRight':
-        return LandmarkType.midJawlineRight;
-      case 'upperJawlineRight':
-        return LandmarkType.upperJawlineRight;
-    }
-    throw Exception('$this is not known in enum LandmarkType');
-  }
+  const LandmarkType(this.value);
+
+  static LandmarkType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LandmarkType'));
 }
 
 class ListCollectionsResponse {
@@ -11636,46 +11144,21 @@ class LivenessOutputConfig {
 }
 
 enum LivenessSessionStatus {
-  created,
-  inProgress,
-  succeeded,
-  failed,
-  expired,
-}
+  created('CREATED'),
+  inProgress('IN_PROGRESS'),
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  expired('EXPIRED'),
+  ;
 
-extension LivenessSessionStatusValueExtension on LivenessSessionStatus {
-  String toValue() {
-    switch (this) {
-      case LivenessSessionStatus.created:
-        return 'CREATED';
-      case LivenessSessionStatus.inProgress:
-        return 'IN_PROGRESS';
-      case LivenessSessionStatus.succeeded:
-        return 'SUCCEEDED';
-      case LivenessSessionStatus.failed:
-        return 'FAILED';
-      case LivenessSessionStatus.expired:
-        return 'EXPIRED';
-    }
-  }
-}
+  final String value;
 
-extension LivenessSessionStatusFromString on String {
-  LivenessSessionStatus toLivenessSessionStatus() {
-    switch (this) {
-      case 'CREATED':
-        return LivenessSessionStatus.created;
-      case 'IN_PROGRESS':
-        return LivenessSessionStatus.inProgress;
-      case 'SUCCEEDED':
-        return LivenessSessionStatus.succeeded;
-      case 'FAILED':
-        return LivenessSessionStatus.failed;
-      case 'EXPIRED':
-        return LivenessSessionStatus.expired;
-    }
-    throw Exception('$this is not known in enum LivenessSessionStatus');
-  }
+  const LivenessSessionStatus(this.value);
+
+  static LivenessSessionStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum LivenessSessionStatus'));
 }
 
 /// Contains metadata for a UserID matched with a given face.
@@ -11694,7 +11177,7 @@ class MatchedUser {
   factory MatchedUser.fromJson(Map<String, dynamic> json) {
     return MatchedUser(
       userId: json['UserId'] as String?,
-      userStatus: (json['UserStatus'] as String?)?.toUserStatus(),
+      userStatus: (json['UserStatus'] as String?)?.let(UserStatus.fromString),
     );
   }
 }
@@ -11820,7 +11303,7 @@ class MediaAnalysisJobDescription {
           json['OperationsConfig'] as Map<String, dynamic>),
       outputConfig: MediaAnalysisOutputConfig.fromJson(
           json['OutputConfig'] as Map<String, dynamic>),
-      status: (json['Status'] as String).toMediaAnalysisJobStatus(),
+      status: MediaAnalysisJobStatus.fromString((json['Status'] as String)),
       completionTimestamp: timeStampFromJson(json['CompletionTimestamp']),
       failureDetails: json['FailureDetails'] != null
           ? MediaAnalysisJobFailureDetails.fromJson(
@@ -11841,67 +11324,25 @@ class MediaAnalysisJobDescription {
 }
 
 enum MediaAnalysisJobFailureCode {
-  internalError,
-  invalidS3Object,
-  invalidManifest,
-  invalidOutputConfig,
-  invalidKmsKey,
-  accessDenied,
-  resourceNotFound,
-  resourceNotReady,
-  throttled,
-}
+  internalError('INTERNAL_ERROR'),
+  invalidS3Object('INVALID_S3_OBJECT'),
+  invalidManifest('INVALID_MANIFEST'),
+  invalidOutputConfig('INVALID_OUTPUT_CONFIG'),
+  invalidKmsKey('INVALID_KMS_KEY'),
+  accessDenied('ACCESS_DENIED'),
+  resourceNotFound('RESOURCE_NOT_FOUND'),
+  resourceNotReady('RESOURCE_NOT_READY'),
+  throttled('THROTTLED'),
+  ;
 
-extension MediaAnalysisJobFailureCodeValueExtension
-    on MediaAnalysisJobFailureCode {
-  String toValue() {
-    switch (this) {
-      case MediaAnalysisJobFailureCode.internalError:
-        return 'INTERNAL_ERROR';
-      case MediaAnalysisJobFailureCode.invalidS3Object:
-        return 'INVALID_S3_OBJECT';
-      case MediaAnalysisJobFailureCode.invalidManifest:
-        return 'INVALID_MANIFEST';
-      case MediaAnalysisJobFailureCode.invalidOutputConfig:
-        return 'INVALID_OUTPUT_CONFIG';
-      case MediaAnalysisJobFailureCode.invalidKmsKey:
-        return 'INVALID_KMS_KEY';
-      case MediaAnalysisJobFailureCode.accessDenied:
-        return 'ACCESS_DENIED';
-      case MediaAnalysisJobFailureCode.resourceNotFound:
-        return 'RESOURCE_NOT_FOUND';
-      case MediaAnalysisJobFailureCode.resourceNotReady:
-        return 'RESOURCE_NOT_READY';
-      case MediaAnalysisJobFailureCode.throttled:
-        return 'THROTTLED';
-    }
-  }
-}
+  final String value;
 
-extension MediaAnalysisJobFailureCodeFromString on String {
-  MediaAnalysisJobFailureCode toMediaAnalysisJobFailureCode() {
-    switch (this) {
-      case 'INTERNAL_ERROR':
-        return MediaAnalysisJobFailureCode.internalError;
-      case 'INVALID_S3_OBJECT':
-        return MediaAnalysisJobFailureCode.invalidS3Object;
-      case 'INVALID_MANIFEST':
-        return MediaAnalysisJobFailureCode.invalidManifest;
-      case 'INVALID_OUTPUT_CONFIG':
-        return MediaAnalysisJobFailureCode.invalidOutputConfig;
-      case 'INVALID_KMS_KEY':
-        return MediaAnalysisJobFailureCode.invalidKmsKey;
-      case 'ACCESS_DENIED':
-        return MediaAnalysisJobFailureCode.accessDenied;
-      case 'RESOURCE_NOT_FOUND':
-        return MediaAnalysisJobFailureCode.resourceNotFound;
-      case 'RESOURCE_NOT_READY':
-        return MediaAnalysisJobFailureCode.resourceNotReady;
-      case 'THROTTLED':
-        return MediaAnalysisJobFailureCode.throttled;
-    }
-    throw Exception('$this is not known in enum MediaAnalysisJobFailureCode');
-  }
+  const MediaAnalysisJobFailureCode(this.value);
+
+  static MediaAnalysisJobFailureCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MediaAnalysisJobFailureCode'));
 }
 
 /// Details about the error that resulted in failure of the job.
@@ -11919,53 +11360,29 @@ class MediaAnalysisJobFailureDetails {
 
   factory MediaAnalysisJobFailureDetails.fromJson(Map<String, dynamic> json) {
     return MediaAnalysisJobFailureDetails(
-      code: (json['Code'] as String?)?.toMediaAnalysisJobFailureCode(),
+      code: (json['Code'] as String?)
+          ?.let(MediaAnalysisJobFailureCode.fromString),
       message: json['Message'] as String?,
     );
   }
 }
 
 enum MediaAnalysisJobStatus {
-  created,
-  queued,
-  inProgress,
-  succeeded,
-  failed,
-}
+  created('CREATED'),
+  queued('QUEUED'),
+  inProgress('IN_PROGRESS'),
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  ;
 
-extension MediaAnalysisJobStatusValueExtension on MediaAnalysisJobStatus {
-  String toValue() {
-    switch (this) {
-      case MediaAnalysisJobStatus.created:
-        return 'CREATED';
-      case MediaAnalysisJobStatus.queued:
-        return 'QUEUED';
-      case MediaAnalysisJobStatus.inProgress:
-        return 'IN_PROGRESS';
-      case MediaAnalysisJobStatus.succeeded:
-        return 'SUCCEEDED';
-      case MediaAnalysisJobStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension MediaAnalysisJobStatusFromString on String {
-  MediaAnalysisJobStatus toMediaAnalysisJobStatus() {
-    switch (this) {
-      case 'CREATED':
-        return MediaAnalysisJobStatus.created;
-      case 'QUEUED':
-        return MediaAnalysisJobStatus.queued;
-      case 'IN_PROGRESS':
-        return MediaAnalysisJobStatus.inProgress;
-      case 'SUCCEEDED':
-        return MediaAnalysisJobStatus.succeeded;
-      case 'FAILED':
-        return MediaAnalysisJobStatus.failed;
-    }
-    throw Exception('$this is not known in enum MediaAnalysisJobStatus');
-  }
+  const MediaAnalysisJobStatus(this.value);
+
+  static MediaAnalysisJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MediaAnalysisJobStatus'));
 }
 
 /// Summary that provides statistics on input manifest and errors identified in
@@ -12208,41 +11625,20 @@ class NotificationChannel {
 }
 
 enum OrientationCorrection {
-  rotate_0,
-  rotate_90,
-  rotate_180,
-  rotate_270,
-}
+  rotate_0('ROTATE_0'),
+  rotate_90('ROTATE_90'),
+  rotate_180('ROTATE_180'),
+  rotate_270('ROTATE_270'),
+  ;
 
-extension OrientationCorrectionValueExtension on OrientationCorrection {
-  String toValue() {
-    switch (this) {
-      case OrientationCorrection.rotate_0:
-        return 'ROTATE_0';
-      case OrientationCorrection.rotate_90:
-        return 'ROTATE_90';
-      case OrientationCorrection.rotate_180:
-        return 'ROTATE_180';
-      case OrientationCorrection.rotate_270:
-        return 'ROTATE_270';
-    }
-  }
-}
+  final String value;
 
-extension OrientationCorrectionFromString on String {
-  OrientationCorrection toOrientationCorrection() {
-    switch (this) {
-      case 'ROTATE_0':
-        return OrientationCorrection.rotate_0;
-      case 'ROTATE_90':
-        return OrientationCorrection.rotate_90;
-      case 'ROTATE_180':
-        return OrientationCorrection.rotate_180;
-      case 'ROTATE_270':
-        return OrientationCorrection.rotate_270;
-    }
-    throw Exception('$this is not known in enum OrientationCorrection');
-  }
+  const OrientationCorrection(this.value);
+
+  static OrientationCorrection fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum OrientationCorrection'));
 }
 
 /// The S3 bucket and folder location where training output is placed.
@@ -12393,31 +11789,18 @@ class PersonMatch {
 }
 
 enum PersonTrackingSortBy {
-  $index,
-  timestamp,
-}
+  $index('INDEX'),
+  timestamp('TIMESTAMP'),
+  ;
 
-extension PersonTrackingSortByValueExtension on PersonTrackingSortBy {
-  String toValue() {
-    switch (this) {
-      case PersonTrackingSortBy.$index:
-        return 'INDEX';
-      case PersonTrackingSortBy.timestamp:
-        return 'TIMESTAMP';
-    }
-  }
-}
+  final String value;
 
-extension PersonTrackingSortByFromString on String {
-  PersonTrackingSortBy toPersonTrackingSortBy() {
-    switch (this) {
-      case 'INDEX':
-        return PersonTrackingSortBy.$index;
-      case 'TIMESTAMP':
-        return PersonTrackingSortBy.timestamp;
-    }
-    throw Exception('$this is not known in enum PersonTrackingSortBy');
-  }
+  const PersonTrackingSortBy(this.value);
+
+  static PersonTrackingSortBy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum PersonTrackingSortBy'));
 }
 
 /// The X and Y coordinates of a point on an image or video frame. The X and Y
@@ -12486,31 +11869,18 @@ class Pose {
 }
 
 enum ProjectAutoUpdate {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension ProjectAutoUpdateValueExtension on ProjectAutoUpdate {
-  String toValue() {
-    switch (this) {
-      case ProjectAutoUpdate.enabled:
-        return 'ENABLED';
-      case ProjectAutoUpdate.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension ProjectAutoUpdateFromString on String {
-  ProjectAutoUpdate toProjectAutoUpdate() {
-    switch (this) {
-      case 'ENABLED':
-        return ProjectAutoUpdate.enabled;
-      case 'DISABLED':
-        return ProjectAutoUpdate.disabled;
-    }
-    throw Exception('$this is not known in enum ProjectAutoUpdate');
-  }
+  const ProjectAutoUpdate(this.value);
+
+  static ProjectAutoUpdate fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ProjectAutoUpdate'));
 }
 
 /// A description of an Amazon Rekognition Custom Labels project. For more
@@ -12546,15 +11916,17 @@ class ProjectDescription {
 
   factory ProjectDescription.fromJson(Map<String, dynamic> json) {
     return ProjectDescription(
-      autoUpdate: (json['AutoUpdate'] as String?)?.toProjectAutoUpdate(),
+      autoUpdate:
+          (json['AutoUpdate'] as String?)?.let(ProjectAutoUpdate.fromString),
       creationTimestamp: timeStampFromJson(json['CreationTimestamp']),
       datasets: (json['Datasets'] as List?)
           ?.whereNotNull()
           .map((e) => DatasetMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
-      feature: (json['Feature'] as String?)?.toCustomizationFeature(),
+      feature:
+          (json['Feature'] as String?)?.let(CustomizationFeature.fromString),
       projectArn: json['ProjectArn'] as String?,
-      status: (json['Status'] as String?)?.toProjectStatus(),
+      status: (json['Status'] as String?)?.let(ProjectStatus.fromString),
     );
   }
 }
@@ -12604,36 +11976,19 @@ class ProjectPolicy {
 }
 
 enum ProjectStatus {
-  creating,
-  created,
-  deleting,
-}
+  creating('CREATING'),
+  created('CREATED'),
+  deleting('DELETING'),
+  ;
 
-extension ProjectStatusValueExtension on ProjectStatus {
-  String toValue() {
-    switch (this) {
-      case ProjectStatus.creating:
-        return 'CREATING';
-      case ProjectStatus.created:
-        return 'CREATED';
-      case ProjectStatus.deleting:
-        return 'DELETING';
-    }
-  }
-}
+  final String value;
 
-extension ProjectStatusFromString on String {
-  ProjectStatus toProjectStatus() {
-    switch (this) {
-      case 'CREATING':
-        return ProjectStatus.creating;
-      case 'CREATED':
-        return ProjectStatus.created;
-      case 'DELETING':
-        return ProjectStatus.deleting;
-    }
-    throw Exception('$this is not known in enum ProjectStatus');
-  }
+  const ProjectStatus(this.value);
+
+  static ProjectStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ProjectStatus'));
 }
 
 /// A description of a version of a Amazon Rekognition project version.
@@ -12738,7 +12093,8 @@ class ProjectVersionDescription {
           ? EvaluationResult.fromJson(
               json['EvaluationResult'] as Map<String, dynamic>)
           : null,
-      feature: (json['Feature'] as String?)?.toCustomizationFeature(),
+      feature:
+          (json['Feature'] as String?)?.let(CustomizationFeature.fromString),
       featureConfig: json['FeatureConfig'] != null
           ? CustomizationFeatureConfig.fromJson(
               json['FeatureConfig'] as Map<String, dynamic>)
@@ -12755,7 +12111,7 @@ class ProjectVersionDescription {
           : null,
       projectVersionArn: json['ProjectVersionArn'] as String?,
       sourceProjectVersionArn: json['SourceProjectVersionArn'] as String?,
-      status: (json['Status'] as String?)?.toProjectVersionStatus(),
+      status: (json['Status'] as String?)?.let(ProjectVersionStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
       testingDataResult: json['TestingDataResult'] != null
           ? TestingDataResult.fromJson(
@@ -12772,91 +12128,30 @@ class ProjectVersionDescription {
 }
 
 enum ProjectVersionStatus {
-  trainingInProgress,
-  trainingCompleted,
-  trainingFailed,
-  starting,
-  running,
-  failed,
-  stopping,
-  stopped,
-  deleting,
-  copyingInProgress,
-  copyingCompleted,
-  copyingFailed,
-  deprecated,
-  expired,
-}
+  trainingInProgress('TRAINING_IN_PROGRESS'),
+  trainingCompleted('TRAINING_COMPLETED'),
+  trainingFailed('TRAINING_FAILED'),
+  starting('STARTING'),
+  running('RUNNING'),
+  failed('FAILED'),
+  stopping('STOPPING'),
+  stopped('STOPPED'),
+  deleting('DELETING'),
+  copyingInProgress('COPYING_IN_PROGRESS'),
+  copyingCompleted('COPYING_COMPLETED'),
+  copyingFailed('COPYING_FAILED'),
+  deprecated('DEPRECATED'),
+  expired('EXPIRED'),
+  ;
 
-extension ProjectVersionStatusValueExtension on ProjectVersionStatus {
-  String toValue() {
-    switch (this) {
-      case ProjectVersionStatus.trainingInProgress:
-        return 'TRAINING_IN_PROGRESS';
-      case ProjectVersionStatus.trainingCompleted:
-        return 'TRAINING_COMPLETED';
-      case ProjectVersionStatus.trainingFailed:
-        return 'TRAINING_FAILED';
-      case ProjectVersionStatus.starting:
-        return 'STARTING';
-      case ProjectVersionStatus.running:
-        return 'RUNNING';
-      case ProjectVersionStatus.failed:
-        return 'FAILED';
-      case ProjectVersionStatus.stopping:
-        return 'STOPPING';
-      case ProjectVersionStatus.stopped:
-        return 'STOPPED';
-      case ProjectVersionStatus.deleting:
-        return 'DELETING';
-      case ProjectVersionStatus.copyingInProgress:
-        return 'COPYING_IN_PROGRESS';
-      case ProjectVersionStatus.copyingCompleted:
-        return 'COPYING_COMPLETED';
-      case ProjectVersionStatus.copyingFailed:
-        return 'COPYING_FAILED';
-      case ProjectVersionStatus.deprecated:
-        return 'DEPRECATED';
-      case ProjectVersionStatus.expired:
-        return 'EXPIRED';
-    }
-  }
-}
+  final String value;
 
-extension ProjectVersionStatusFromString on String {
-  ProjectVersionStatus toProjectVersionStatus() {
-    switch (this) {
-      case 'TRAINING_IN_PROGRESS':
-        return ProjectVersionStatus.trainingInProgress;
-      case 'TRAINING_COMPLETED':
-        return ProjectVersionStatus.trainingCompleted;
-      case 'TRAINING_FAILED':
-        return ProjectVersionStatus.trainingFailed;
-      case 'STARTING':
-        return ProjectVersionStatus.starting;
-      case 'RUNNING':
-        return ProjectVersionStatus.running;
-      case 'FAILED':
-        return ProjectVersionStatus.failed;
-      case 'STOPPING':
-        return ProjectVersionStatus.stopping;
-      case 'STOPPED':
-        return ProjectVersionStatus.stopped;
-      case 'DELETING':
-        return ProjectVersionStatus.deleting;
-      case 'COPYING_IN_PROGRESS':
-        return ProjectVersionStatus.copyingInProgress;
-      case 'COPYING_COMPLETED':
-        return ProjectVersionStatus.copyingCompleted;
-      case 'COPYING_FAILED':
-        return ProjectVersionStatus.copyingFailed;
-      case 'DEPRECATED':
-        return ProjectVersionStatus.deprecated;
-      case 'EXPIRED':
-        return ProjectVersionStatus.expired;
-    }
-    throw Exception('$this is not known in enum ProjectVersionStatus');
-  }
+  const ProjectVersionStatus(this.value);
+
+  static ProjectVersionStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ProjectVersionStatus'));
 }
 
 /// Information about a body part detected by <a>DetectProtectiveEquipment</a>
@@ -12887,7 +12182,7 @@ class ProtectiveEquipmentBodyPart {
           ?.whereNotNull()
           .map((e) => EquipmentDetection.fromJson(e as Map<String, dynamic>))
           .toList(),
-      name: (json['Name'] as String?)?.toBodyPart(),
+      name: (json['Name'] as String?)?.let(BodyPart.fromString),
     );
   }
 }
@@ -12977,7 +12272,7 @@ class ProtectiveEquipmentSummarizationAttributes {
     return {
       'MinConfidence': minConfidence,
       'RequiredEquipmentTypes':
-          requiredEquipmentTypes.map((e) => e.toValue()).toList(),
+          requiredEquipmentTypes.map((e) => e.value).toList(),
     };
   }
 }
@@ -13041,36 +12336,19 @@ class ProtectiveEquipmentSummary {
 }
 
 enum ProtectiveEquipmentType {
-  faceCover,
-  handCover,
-  headCover,
-}
+  faceCover('FACE_COVER'),
+  handCover('HAND_COVER'),
+  headCover('HEAD_COVER'),
+  ;
 
-extension ProtectiveEquipmentTypeValueExtension on ProtectiveEquipmentType {
-  String toValue() {
-    switch (this) {
-      case ProtectiveEquipmentType.faceCover:
-        return 'FACE_COVER';
-      case ProtectiveEquipmentType.handCover:
-        return 'HAND_COVER';
-      case ProtectiveEquipmentType.headCover:
-        return 'HEAD_COVER';
-    }
-  }
-}
+  final String value;
 
-extension ProtectiveEquipmentTypeFromString on String {
-  ProtectiveEquipmentType toProtectiveEquipmentType() {
-    switch (this) {
-      case 'FACE_COVER':
-        return ProtectiveEquipmentType.faceCover;
-      case 'HAND_COVER':
-        return ProtectiveEquipmentType.handCover;
-      case 'HEAD_COVER':
-        return ProtectiveEquipmentType.headCover;
-    }
-    throw Exception('$this is not known in enum ProtectiveEquipmentType');
-  }
+  const ProtectiveEquipmentType(this.value);
+
+  static ProtectiveEquipmentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ProtectiveEquipmentType'));
 }
 
 class PutProjectPolicyResponse {
@@ -13089,99 +12367,40 @@ class PutProjectPolicyResponse {
 }
 
 enum QualityFilter {
-  none,
-  auto,
-  low,
-  medium,
-  high,
-}
+  none('NONE'),
+  auto('AUTO'),
+  low('LOW'),
+  medium('MEDIUM'),
+  high('HIGH'),
+  ;
 
-extension QualityFilterValueExtension on QualityFilter {
-  String toValue() {
-    switch (this) {
-      case QualityFilter.none:
-        return 'NONE';
-      case QualityFilter.auto:
-        return 'AUTO';
-      case QualityFilter.low:
-        return 'LOW';
-      case QualityFilter.medium:
-        return 'MEDIUM';
-      case QualityFilter.high:
-        return 'HIGH';
-    }
-  }
-}
+  final String value;
 
-extension QualityFilterFromString on String {
-  QualityFilter toQualityFilter() {
-    switch (this) {
-      case 'NONE':
-        return QualityFilter.none;
-      case 'AUTO':
-        return QualityFilter.auto;
-      case 'LOW':
-        return QualityFilter.low;
-      case 'MEDIUM':
-        return QualityFilter.medium;
-      case 'HIGH':
-        return QualityFilter.high;
-    }
-    throw Exception('$this is not known in enum QualityFilter');
-  }
+  const QualityFilter(this.value);
+
+  static QualityFilter fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum QualityFilter'));
 }
 
 enum Reason {
-  exceedsMaxFaces,
-  extremePose,
-  lowBrightness,
-  lowSharpness,
-  lowConfidence,
-  smallBoundingBox,
-  lowFaceQuality,
-}
+  exceedsMaxFaces('EXCEEDS_MAX_FACES'),
+  extremePose('EXTREME_POSE'),
+  lowBrightness('LOW_BRIGHTNESS'),
+  lowSharpness('LOW_SHARPNESS'),
+  lowConfidence('LOW_CONFIDENCE'),
+  smallBoundingBox('SMALL_BOUNDING_BOX'),
+  lowFaceQuality('LOW_FACE_QUALITY'),
+  ;
 
-extension ReasonValueExtension on Reason {
-  String toValue() {
-    switch (this) {
-      case Reason.exceedsMaxFaces:
-        return 'EXCEEDS_MAX_FACES';
-      case Reason.extremePose:
-        return 'EXTREME_POSE';
-      case Reason.lowBrightness:
-        return 'LOW_BRIGHTNESS';
-      case Reason.lowSharpness:
-        return 'LOW_SHARPNESS';
-      case Reason.lowConfidence:
-        return 'LOW_CONFIDENCE';
-      case Reason.smallBoundingBox:
-        return 'SMALL_BOUNDING_BOX';
-      case Reason.lowFaceQuality:
-        return 'LOW_FACE_QUALITY';
-    }
-  }
-}
+  final String value;
 
-extension ReasonFromString on String {
-  Reason toReason() {
-    switch (this) {
-      case 'EXCEEDS_MAX_FACES':
-        return Reason.exceedsMaxFaces;
-      case 'EXTREME_POSE':
-        return Reason.extremePose;
-      case 'LOW_BRIGHTNESS':
-        return Reason.lowBrightness;
-      case 'LOW_SHARPNESS':
-        return Reason.lowSharpness;
-      case 'LOW_CONFIDENCE':
-        return Reason.lowConfidence;
-      case 'SMALL_BOUNDING_BOX':
-        return Reason.smallBoundingBox;
-      case 'LOW_FACE_QUALITY':
-        return Reason.lowFaceQuality;
-    }
-    throw Exception('$this is not known in enum Reason');
-  }
+  const Reason(this.value);
+
+  static Reason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Reason'));
 }
 
 class RecognizeCelebritiesResponse {
@@ -13230,8 +12449,8 @@ class RecognizeCelebritiesResponse {
           ?.whereNotNull()
           .map((e) => Celebrity.fromJson(e as Map<String, dynamic>))
           .toList(),
-      orientationCorrection:
-          (json['OrientationCorrection'] as String?)?.toOrientationCorrection(),
+      orientationCorrection: (json['OrientationCorrection'] as String?)
+          ?.let(OrientationCorrection.fromString),
       unrecognizedFaces: (json['UnrecognizedFaces'] as List?)
           ?.whereNotNull()
           .map((e) => ComparedFace.fromJson(e as Map<String, dynamic>))
@@ -13659,37 +12878,23 @@ class SegmentDetection {
           ? TechnicalCueSegment.fromJson(
               json['TechnicalCueSegment'] as Map<String, dynamic>)
           : null,
-      type: (json['Type'] as String?)?.toSegmentType(),
+      type: (json['Type'] as String?)?.let(SegmentType.fromString),
     );
   }
 }
 
 enum SegmentType {
-  technicalCue,
-  shot,
-}
+  technicalCue('TECHNICAL_CUE'),
+  shot('SHOT'),
+  ;
 
-extension SegmentTypeValueExtension on SegmentType {
-  String toValue() {
-    switch (this) {
-      case SegmentType.technicalCue:
-        return 'TECHNICAL_CUE';
-      case SegmentType.shot:
-        return 'SHOT';
-    }
-  }
-}
+  final String value;
 
-extension SegmentTypeFromString on String {
-  SegmentType toSegmentType() {
-    switch (this) {
-      case 'TECHNICAL_CUE':
-        return SegmentType.technicalCue;
-      case 'SHOT':
-        return SegmentType.shot;
-    }
-    throw Exception('$this is not known in enum SegmentType');
-  }
+  const SegmentType(this.value);
+
+  static SegmentType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SegmentType'));
 }
 
 /// Information about the type of a segment requested in a call to
@@ -13710,7 +12915,7 @@ class SegmentTypeInfo {
   factory SegmentTypeInfo.fromJson(Map<String, dynamic> json) {
     return SegmentTypeInfo(
       modelVersion: json['ModelVersion'] as String?,
-      type: (json['Type'] as String?)?.toSegmentType(),
+      type: (json['Type'] as String?)?.let(SegmentType.fromString),
     );
   }
 }
@@ -13883,7 +13088,7 @@ class StartProjectVersionResponse {
 
   factory StartProjectVersionResponse.fromJson(Map<String, dynamic> json) {
     return StartProjectVersionResponse(
-      status: (json['Status'] as String?)?.toProjectVersionStatus(),
+      status: (json['Status'] as String?)?.let(ProjectVersionStatus.fromString),
     );
   }
 }
@@ -14061,7 +13266,7 @@ class StopProjectVersionResponse {
 
   factory StopProjectVersionResponse.fromJson(Map<String, dynamic> json) {
     return StopProjectVersionResponse(
-      status: (json['Status'] as String?)?.toProjectVersionStatus(),
+      status: (json['Status'] as String?)?.let(ProjectVersionStatus.fromString),
     );
   }
 }
@@ -14136,7 +13341,8 @@ class StreamProcessor {
   factory StreamProcessor.fromJson(Map<String, dynamic> json) {
     return StreamProcessor(
       name: json['Name'] as String?,
-      status: (json['Status'] as String?)?.toStreamProcessorStatus(),
+      status:
+          (json['Status'] as String?)?.let(StreamProcessorStatus.fromString),
     );
   }
 }
@@ -14273,33 +13479,18 @@ class StreamProcessorOutput {
 }
 
 enum StreamProcessorParameterToDelete {
-  connectedHomeMinConfidence,
-  regionsOfInterest,
-}
+  connectedHomeMinConfidence('ConnectedHomeMinConfidence'),
+  regionsOfInterest('RegionsOfInterest'),
+  ;
 
-extension StreamProcessorParameterToDeleteValueExtension
-    on StreamProcessorParameterToDelete {
-  String toValue() {
-    switch (this) {
-      case StreamProcessorParameterToDelete.connectedHomeMinConfidence:
-        return 'ConnectedHomeMinConfidence';
-      case StreamProcessorParameterToDelete.regionsOfInterest:
-        return 'RegionsOfInterest';
-    }
-  }
-}
+  final String value;
 
-extension StreamProcessorParameterToDeleteFromString on String {
-  StreamProcessorParameterToDelete toStreamProcessorParameterToDelete() {
-    switch (this) {
-      case 'ConnectedHomeMinConfidence':
-        return StreamProcessorParameterToDelete.connectedHomeMinConfidence;
-      case 'RegionsOfInterest':
-        return StreamProcessorParameterToDelete.regionsOfInterest;
-    }
-    throw Exception(
-        '$this is not known in enum StreamProcessorParameterToDelete');
-  }
+  const StreamProcessorParameterToDelete(this.value);
+
+  static StreamProcessorParameterToDelete fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum StreamProcessorParameterToDelete'));
 }
 
 /// Input parameters used in a streaming video analyzed by a Amazon Rekognition
@@ -14361,51 +13552,22 @@ class StreamProcessorSettingsForUpdate {
 }
 
 enum StreamProcessorStatus {
-  stopped,
-  starting,
-  running,
-  failed,
-  stopping,
-  updating,
-}
+  stopped('STOPPED'),
+  starting('STARTING'),
+  running('RUNNING'),
+  failed('FAILED'),
+  stopping('STOPPING'),
+  updating('UPDATING'),
+  ;
 
-extension StreamProcessorStatusValueExtension on StreamProcessorStatus {
-  String toValue() {
-    switch (this) {
-      case StreamProcessorStatus.stopped:
-        return 'STOPPED';
-      case StreamProcessorStatus.starting:
-        return 'STARTING';
-      case StreamProcessorStatus.running:
-        return 'RUNNING';
-      case StreamProcessorStatus.failed:
-        return 'FAILED';
-      case StreamProcessorStatus.stopping:
-        return 'STOPPING';
-      case StreamProcessorStatus.updating:
-        return 'UPDATING';
-    }
-  }
-}
+  final String value;
 
-extension StreamProcessorStatusFromString on String {
-  StreamProcessorStatus toStreamProcessorStatus() {
-    switch (this) {
-      case 'STOPPED':
-        return StreamProcessorStatus.stopped;
-      case 'STARTING':
-        return StreamProcessorStatus.starting;
-      case 'RUNNING':
-        return StreamProcessorStatus.running;
-      case 'FAILED':
-        return StreamProcessorStatus.failed;
-      case 'STOPPING':
-        return StreamProcessorStatus.stopping;
-      case 'UPDATING':
-        return StreamProcessorStatus.updating;
-    }
-    throw Exception('$this is not known in enum StreamProcessorStatus');
-  }
+  const StreamProcessorStatus(this.value);
+
+  static StreamProcessorStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum StreamProcessorStatus'));
 }
 
 /// The S3 bucket that contains the training summary. The training summary
@@ -14478,62 +13640,29 @@ class TechnicalCueSegment {
   factory TechnicalCueSegment.fromJson(Map<String, dynamic> json) {
     return TechnicalCueSegment(
       confidence: json['Confidence'] as double?,
-      type: (json['Type'] as String?)?.toTechnicalCueType(),
+      type: (json['Type'] as String?)?.let(TechnicalCueType.fromString),
     );
   }
 }
 
 enum TechnicalCueType {
-  colorBars,
-  endCredits,
-  blackFrames,
-  openingCredits,
-  studioLogo,
-  slate,
-  content,
-}
+  colorBars('ColorBars'),
+  endCredits('EndCredits'),
+  blackFrames('BlackFrames'),
+  openingCredits('OpeningCredits'),
+  studioLogo('StudioLogo'),
+  slate('Slate'),
+  content('Content'),
+  ;
 
-extension TechnicalCueTypeValueExtension on TechnicalCueType {
-  String toValue() {
-    switch (this) {
-      case TechnicalCueType.colorBars:
-        return 'ColorBars';
-      case TechnicalCueType.endCredits:
-        return 'EndCredits';
-      case TechnicalCueType.blackFrames:
-        return 'BlackFrames';
-      case TechnicalCueType.openingCredits:
-        return 'OpeningCredits';
-      case TechnicalCueType.studioLogo:
-        return 'StudioLogo';
-      case TechnicalCueType.slate:
-        return 'Slate';
-      case TechnicalCueType.content:
-        return 'Content';
-    }
-  }
-}
+  final String value;
 
-extension TechnicalCueTypeFromString on String {
-  TechnicalCueType toTechnicalCueType() {
-    switch (this) {
-      case 'ColorBars':
-        return TechnicalCueType.colorBars;
-      case 'EndCredits':
-        return TechnicalCueType.endCredits;
-      case 'BlackFrames':
-        return TechnicalCueType.blackFrames;
-      case 'OpeningCredits':
-        return TechnicalCueType.openingCredits;
-      case 'StudioLogo':
-        return TechnicalCueType.studioLogo;
-      case 'Slate':
-        return TechnicalCueType.slate;
-      case 'Content':
-        return TechnicalCueType.content;
-    }
-    throw Exception('$this is not known in enum TechnicalCueType');
-  }
+  const TechnicalCueType(this.value);
+
+  static TechnicalCueType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TechnicalCueType'));
 }
 
 /// The dataset used for testing. Optionally, if <code>AutoCreate</code> is set,
@@ -14662,7 +13791,7 @@ class TextDetection {
           : null,
       id: json['Id'] as int?,
       parentId: json['ParentId'] as int?,
-      type: (json['Type'] as String?)?.toTextTypes(),
+      type: (json['Type'] as String?)?.let(TextTypes.fromString),
     );
   }
 }
@@ -14696,31 +13825,17 @@ class TextDetectionResult {
 }
 
 enum TextTypes {
-  line,
-  word,
-}
+  line('LINE'),
+  word('WORD'),
+  ;
 
-extension TextTypesValueExtension on TextTypes {
-  String toValue() {
-    switch (this) {
-      case TextTypes.line:
-        return 'LINE';
-      case TextTypes.word:
-        return 'WORD';
-    }
-  }
-}
+  final String value;
 
-extension TextTypesFromString on String {
-  TextTypes toTextTypes() {
-    switch (this) {
-      case 'LINE':
-        return TextTypes.line;
-      case 'WORD':
-        return TextTypes.word;
-    }
-    throw Exception('$this is not known in enum TextTypes');
-  }
+  const TextTypes(this.value);
+
+  static TextTypes fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TextTypes'));
 }
 
 /// The dataset used for training.
@@ -14832,7 +13947,7 @@ class UnindexedFace {
           : null,
       reasons: (json['Reasons'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toReason())
+          .map((e) => Reason.fromString((e as String)))
           .toList(),
     );
   }
@@ -14858,68 +13973,31 @@ class UnsearchedFace {
           : null,
       reasons: (json['Reasons'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toUnsearchedFaceReason())
+          .map((e) => UnsearchedFaceReason.fromString((e as String)))
           .toList(),
     );
   }
 }
 
 enum UnsearchedFaceReason {
-  faceNotLargest,
-  exceedsMaxFaces,
-  extremePose,
-  lowBrightness,
-  lowSharpness,
-  lowConfidence,
-  smallBoundingBox,
-  lowFaceQuality,
-}
+  faceNotLargest('FACE_NOT_LARGEST'),
+  exceedsMaxFaces('EXCEEDS_MAX_FACES'),
+  extremePose('EXTREME_POSE'),
+  lowBrightness('LOW_BRIGHTNESS'),
+  lowSharpness('LOW_SHARPNESS'),
+  lowConfidence('LOW_CONFIDENCE'),
+  smallBoundingBox('SMALL_BOUNDING_BOX'),
+  lowFaceQuality('LOW_FACE_QUALITY'),
+  ;
 
-extension UnsearchedFaceReasonValueExtension on UnsearchedFaceReason {
-  String toValue() {
-    switch (this) {
-      case UnsearchedFaceReason.faceNotLargest:
-        return 'FACE_NOT_LARGEST';
-      case UnsearchedFaceReason.exceedsMaxFaces:
-        return 'EXCEEDS_MAX_FACES';
-      case UnsearchedFaceReason.extremePose:
-        return 'EXTREME_POSE';
-      case UnsearchedFaceReason.lowBrightness:
-        return 'LOW_BRIGHTNESS';
-      case UnsearchedFaceReason.lowSharpness:
-        return 'LOW_SHARPNESS';
-      case UnsearchedFaceReason.lowConfidence:
-        return 'LOW_CONFIDENCE';
-      case UnsearchedFaceReason.smallBoundingBox:
-        return 'SMALL_BOUNDING_BOX';
-      case UnsearchedFaceReason.lowFaceQuality:
-        return 'LOW_FACE_QUALITY';
-    }
-  }
-}
+  final String value;
 
-extension UnsearchedFaceReasonFromString on String {
-  UnsearchedFaceReason toUnsearchedFaceReason() {
-    switch (this) {
-      case 'FACE_NOT_LARGEST':
-        return UnsearchedFaceReason.faceNotLargest;
-      case 'EXCEEDS_MAX_FACES':
-        return UnsearchedFaceReason.exceedsMaxFaces;
-      case 'EXTREME_POSE':
-        return UnsearchedFaceReason.extremePose;
-      case 'LOW_BRIGHTNESS':
-        return UnsearchedFaceReason.lowBrightness;
-      case 'LOW_SHARPNESS':
-        return UnsearchedFaceReason.lowSharpness;
-      case 'LOW_CONFIDENCE':
-        return UnsearchedFaceReason.lowConfidence;
-      case 'SMALL_BOUNDING_BOX':
-        return UnsearchedFaceReason.smallBoundingBox;
-      case 'LOW_FACE_QUALITY':
-        return UnsearchedFaceReason.lowFaceQuality;
-    }
-    throw Exception('$this is not known in enum UnsearchedFaceReason');
-  }
+  const UnsearchedFaceReason(this.value);
+
+  static UnsearchedFaceReason fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum UnsearchedFaceReason'));
 }
 
 /// Contains metadata like FaceId, UserID, and Reasons, for a face that was
@@ -14951,7 +14029,8 @@ class UnsuccessfulFaceAssociation {
       faceId: json['FaceId'] as String?,
       reasons: (json['Reasons'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toUnsuccessfulFaceAssociationReason())
+          .map((e) =>
+              UnsuccessfulFaceAssociationReason.fromString((e as String)))
           .toList(),
       userId: json['UserId'] as String?,
     );
@@ -14959,38 +14038,19 @@ class UnsuccessfulFaceAssociation {
 }
 
 enum UnsuccessfulFaceAssociationReason {
-  faceNotFound,
-  associatedToADifferentUser,
-  lowMatchConfidence,
-}
+  faceNotFound('FACE_NOT_FOUND'),
+  associatedToADifferentUser('ASSOCIATED_TO_A_DIFFERENT_USER'),
+  lowMatchConfidence('LOW_MATCH_CONFIDENCE'),
+  ;
 
-extension UnsuccessfulFaceAssociationReasonValueExtension
-    on UnsuccessfulFaceAssociationReason {
-  String toValue() {
-    switch (this) {
-      case UnsuccessfulFaceAssociationReason.faceNotFound:
-        return 'FACE_NOT_FOUND';
-      case UnsuccessfulFaceAssociationReason.associatedToADifferentUser:
-        return 'ASSOCIATED_TO_A_DIFFERENT_USER';
-      case UnsuccessfulFaceAssociationReason.lowMatchConfidence:
-        return 'LOW_MATCH_CONFIDENCE';
-    }
-  }
-}
+  final String value;
 
-extension UnsuccessfulFaceAssociationReasonFromString on String {
-  UnsuccessfulFaceAssociationReason toUnsuccessfulFaceAssociationReason() {
-    switch (this) {
-      case 'FACE_NOT_FOUND':
-        return UnsuccessfulFaceAssociationReason.faceNotFound;
-      case 'ASSOCIATED_TO_A_DIFFERENT_USER':
-        return UnsuccessfulFaceAssociationReason.associatedToADifferentUser;
-      case 'LOW_MATCH_CONFIDENCE':
-        return UnsuccessfulFaceAssociationReason.lowMatchConfidence;
-    }
-    throw Exception(
-        '$this is not known in enum UnsuccessfulFaceAssociationReason');
-  }
+  const UnsuccessfulFaceAssociationReason(this.value);
+
+  static UnsuccessfulFaceAssociationReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum UnsuccessfulFaceAssociationReason'));
 }
 
 /// Contains metadata like FaceId, UserID, and Reasons, for a face that was
@@ -15016,7 +14076,7 @@ class UnsuccessfulFaceDeletion {
       faceId: json['FaceId'] as String?,
       reasons: (json['Reasons'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toUnsuccessfulFaceDeletionReason())
+          .map((e) => UnsuccessfulFaceDeletionReason.fromString((e as String)))
           .toList(),
       userId: json['UserId'] as String?,
     );
@@ -15024,33 +14084,18 @@ class UnsuccessfulFaceDeletion {
 }
 
 enum UnsuccessfulFaceDeletionReason {
-  associatedToAnExistingUser,
-  faceNotFound,
-}
+  associatedToAnExistingUser('ASSOCIATED_TO_AN_EXISTING_USER'),
+  faceNotFound('FACE_NOT_FOUND'),
+  ;
 
-extension UnsuccessfulFaceDeletionReasonValueExtension
-    on UnsuccessfulFaceDeletionReason {
-  String toValue() {
-    switch (this) {
-      case UnsuccessfulFaceDeletionReason.associatedToAnExistingUser:
-        return 'ASSOCIATED_TO_AN_EXISTING_USER';
-      case UnsuccessfulFaceDeletionReason.faceNotFound:
-        return 'FACE_NOT_FOUND';
-    }
-  }
-}
+  final String value;
 
-extension UnsuccessfulFaceDeletionReasonFromString on String {
-  UnsuccessfulFaceDeletionReason toUnsuccessfulFaceDeletionReason() {
-    switch (this) {
-      case 'ASSOCIATED_TO_AN_EXISTING_USER':
-        return UnsuccessfulFaceDeletionReason.associatedToAnExistingUser;
-      case 'FACE_NOT_FOUND':
-        return UnsuccessfulFaceDeletionReason.faceNotFound;
-    }
-    throw Exception(
-        '$this is not known in enum UnsuccessfulFaceDeletionReason');
-  }
+  const UnsuccessfulFaceDeletionReason(this.value);
+
+  static UnsuccessfulFaceDeletionReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum UnsuccessfulFaceDeletionReason'));
 }
 
 /// Contains metadata like FaceId, UserID, and Reasons, for a face that was
@@ -15076,7 +14121,8 @@ class UnsuccessfulFaceDisassociation {
       faceId: json['FaceId'] as String?,
       reasons: (json['Reasons'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toUnsuccessfulFaceDisassociationReason())
+          .map((e) =>
+              UnsuccessfulFaceDisassociationReason.fromString((e as String)))
           .toList(),
       userId: json['UserId'] as String?,
     );
@@ -15084,34 +14130,18 @@ class UnsuccessfulFaceDisassociation {
 }
 
 enum UnsuccessfulFaceDisassociationReason {
-  faceNotFound,
-  associatedToADifferentUser,
-}
+  faceNotFound('FACE_NOT_FOUND'),
+  associatedToADifferentUser('ASSOCIATED_TO_A_DIFFERENT_USER'),
+  ;
 
-extension UnsuccessfulFaceDisassociationReasonValueExtension
-    on UnsuccessfulFaceDisassociationReason {
-  String toValue() {
-    switch (this) {
-      case UnsuccessfulFaceDisassociationReason.faceNotFound:
-        return 'FACE_NOT_FOUND';
-      case UnsuccessfulFaceDisassociationReason.associatedToADifferentUser:
-        return 'ASSOCIATED_TO_A_DIFFERENT_USER';
-    }
-  }
-}
+  final String value;
 
-extension UnsuccessfulFaceDisassociationReasonFromString on String {
-  UnsuccessfulFaceDisassociationReason
-      toUnsuccessfulFaceDisassociationReason() {
-    switch (this) {
-      case 'FACE_NOT_FOUND':
-        return UnsuccessfulFaceDisassociationReason.faceNotFound;
-      case 'ASSOCIATED_TO_A_DIFFERENT_USER':
-        return UnsuccessfulFaceDisassociationReason.associatedToADifferentUser;
-    }
-    throw Exception(
-        '$this is not known in enum UnsuccessfulFaceDisassociationReason');
-  }
+  const UnsuccessfulFaceDisassociationReason(this.value);
+
+  static UnsuccessfulFaceDisassociationReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum UnsuccessfulFaceDisassociationReason'));
 }
 
 class UntagResourceResponse {
@@ -15155,7 +14185,7 @@ class User {
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       userId: json['UserId'] as String?,
-      userStatus: (json['UserStatus'] as String?)?.toUserStatus(),
+      userStatus: (json['UserStatus'] as String?)?.let(UserStatus.fromString),
     );
   }
 }
@@ -15185,41 +14215,19 @@ class UserMatch {
 }
 
 enum UserStatus {
-  active,
-  updating,
-  creating,
-  created,
-}
+  active('ACTIVE'),
+  updating('UPDATING'),
+  creating('CREATING'),
+  created('CREATED'),
+  ;
 
-extension UserStatusValueExtension on UserStatus {
-  String toValue() {
-    switch (this) {
-      case UserStatus.active:
-        return 'ACTIVE';
-      case UserStatus.updating:
-        return 'UPDATING';
-      case UserStatus.creating:
-        return 'CREATING';
-      case UserStatus.created:
-        return 'CREATED';
-    }
-  }
-}
+  final String value;
 
-extension UserStatusFromString on String {
-  UserStatus toUserStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return UserStatus.active;
-      case 'UPDATING':
-        return UserStatus.updating;
-      case 'CREATING':
-        return UserStatus.creating;
-      case 'CREATED':
-        return UserStatus.created;
-    }
-    throw Exception('$this is not known in enum UserStatus');
-  }
+  const UserStatus(this.value);
+
+  static UserStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum UserStatus'));
 }
 
 /// Contains the Amazon S3 bucket location of the validation data for a model
@@ -15283,64 +14291,34 @@ class Video {
 }
 
 enum VideoColorRange {
-  full,
-  limited,
-}
+  full('FULL'),
+  limited('LIMITED'),
+  ;
 
-extension VideoColorRangeValueExtension on VideoColorRange {
-  String toValue() {
-    switch (this) {
-      case VideoColorRange.full:
-        return 'FULL';
-      case VideoColorRange.limited:
-        return 'LIMITED';
-    }
-  }
-}
+  final String value;
 
-extension VideoColorRangeFromString on String {
-  VideoColorRange toVideoColorRange() {
-    switch (this) {
-      case 'FULL':
-        return VideoColorRange.full;
-      case 'LIMITED':
-        return VideoColorRange.limited;
-    }
-    throw Exception('$this is not known in enum VideoColorRange');
-  }
+  const VideoColorRange(this.value);
+
+  static VideoColorRange fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum VideoColorRange'));
 }
 
 enum VideoJobStatus {
-  inProgress,
-  succeeded,
-  failed,
-}
+  inProgress('IN_PROGRESS'),
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  ;
 
-extension VideoJobStatusValueExtension on VideoJobStatus {
-  String toValue() {
-    switch (this) {
-      case VideoJobStatus.inProgress:
-        return 'IN_PROGRESS';
-      case VideoJobStatus.succeeded:
-        return 'SUCCEEDED';
-      case VideoJobStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension VideoJobStatusFromString on String {
-  VideoJobStatus toVideoJobStatus() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return VideoJobStatus.inProgress;
-      case 'SUCCEEDED':
-        return VideoJobStatus.succeeded;
-      case 'FAILED':
-        return VideoJobStatus.failed;
-    }
-    throw Exception('$this is not known in enum VideoJobStatus');
-  }
+  const VideoJobStatus(this.value);
+
+  static VideoJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum VideoJobStatus'));
 }
 
 /// Information about a video that Amazon Rekognition analyzed.
@@ -15382,7 +14360,8 @@ class VideoMetadata {
   factory VideoMetadata.fromJson(Map<String, dynamic> json) {
     return VideoMetadata(
       codec: json['Codec'] as String?,
-      colorRange: (json['ColorRange'] as String?)?.toVideoColorRange(),
+      colorRange:
+          (json['ColorRange'] as String?)?.let(VideoColorRange.fromString),
       durationMillis: json['DurationMillis'] as int?,
       format: json['Format'] as String?,
       frameHeight: json['FrameHeight'] as int?,

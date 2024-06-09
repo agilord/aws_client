@@ -60,7 +60,12 @@ String extractJsonCode(Shape shape, String variable,
     if (variableType != 'String') {
       variableAccessor = '($variableAccessor as String$nullAware)';
     }
-    return '$variableAccessor$nullAware.to${shape.className}()';
+    final enumCreator = '${shape.className}.fromString';
+    if (nullability.outputNullable) {
+      return '$variableAccessor?.let($enumCreator)';
+    } else {
+      return '$enumCreator($variableAccessor)';
+    }
   } else if (shape.type == 'timestamp') {
     final method = nullability.outputNullable
         ? 'timeStampFromJson'
@@ -117,7 +122,7 @@ String encodeJsonCode(Shape shape, String variable,
     }
   } else if (shape.enumeration != null) {
     shape.isTopLevelInputEnum = true;
-    return '$variable${nullability.inputNullAware}.toValue()${nullability == Nullability.input ? "?? ''" : ''}';
+    return '$variable${nullability.inputNullAware}.value${nullability == Nullability.input ? "?? ''" : ''}';
   } else if (shape.type == 'timestamp') {
     final timestampFormat = member != null
         ? calculateDateTimeToJson(member)
@@ -196,7 +201,7 @@ String encodeXmlCode(Shape shape, String variable,
   if (shape.enumeration != null) {
     shape.isTopLevelInputEnum = true;
     variable =
-        "$variable${nullability.inputNullAware}.toValue()${nullability == Nullability.input ? " ?? ''" : ''}";
+        "$variable${nullability.inputNullAware}.value${nullability == Nullability.input ? " ?? ''" : ''}";
   }
 
   final dartType = shape.type.getDartType(shape.api);

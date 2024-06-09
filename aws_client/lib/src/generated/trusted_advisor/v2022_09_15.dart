@@ -166,11 +166,11 @@ class TrustedAdvisorPublicApi {
     );
     final $query = <String, List<String>>{
       if (awsService != null) 'awsService': [awsService],
-      if (language != null) 'language': [language.toValue()],
+      if (language != null) 'language': [language.value],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (pillar != null) 'pillar': [pillar.toValue()],
-      if (source != null) 'source': [source.toValue()],
+      if (pillar != null) 'pillar': [pillar.value],
+      if (source != null) 'source': [source.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -280,12 +280,11 @@ class TrustedAdvisorPublicApi {
     );
     final $query = <String, List<String>>{
       if (affectedAccountId != null) 'affectedAccountId': [affectedAccountId],
-      if (exclusionStatus != null)
-        'exclusionStatus': [exclusionStatus.toValue()],
+      if (exclusionStatus != null) 'exclusionStatus': [exclusionStatus.value],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
       if (regionCode != null) 'regionCode': [regionCode],
-      if (status != null) 'status': [status.toValue()],
+      if (status != null) 'status': [status.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -366,10 +365,10 @@ class TrustedAdvisorPublicApi {
       if (checkIdentifier != null) 'checkIdentifier': [checkIdentifier],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (pillar != null) 'pillar': [pillar.toValue()],
-      if (source != null) 'source': [source.toValue()],
-      if (status != null) 'status': [status.toValue()],
-      if (type != null) 'type': [type.toValue()],
+      if (pillar != null) 'pillar': [pillar.value],
+      if (source != null) 'source': [source.value],
+      if (status != null) 'status': [status.value],
+      if (type != null) 'type': [type.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -422,12 +421,11 @@ class TrustedAdvisorPublicApi {
       200,
     );
     final $query = <String, List<String>>{
-      if (exclusionStatus != null)
-        'exclusionStatus': [exclusionStatus.toValue()],
+      if (exclusionStatus != null) 'exclusionStatus': [exclusionStatus.value],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
       if (regionCode != null) 'regionCode': [regionCode],
-      if (status != null) 'status': [status.toValue()],
+      if (status != null) 'status': [status.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -506,10 +504,10 @@ class TrustedAdvisorPublicApi {
       if (checkIdentifier != null) 'checkIdentifier': [checkIdentifier],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (pillar != null) 'pillar': [pillar.toValue()],
-      if (source != null) 'source': [source.toValue()],
-      if (status != null) 'status': [status.toValue()],
-      if (type != null) 'type': [type.toValue()],
+      if (pillar != null) 'pillar': [pillar.value],
+      if (source != null) 'source': [source.value],
+      if (status != null) 'status': [status.value],
+      if (type != null) 'type': [type.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -550,10 +548,9 @@ class TrustedAdvisorPublicApi {
     UpdateRecommendationLifecycleStageReasonCode? updateReasonCode,
   }) async {
     final $payload = <String, dynamic>{
-      'lifecycleStage': lifecycleStage.toValue(),
+      'lifecycleStage': lifecycleStage.value,
       if (updateReason != null) 'updateReason': updateReason,
-      if (updateReasonCode != null)
-        'updateReasonCode': updateReasonCode.toValue(),
+      if (updateReasonCode != null) 'updateReasonCode': updateReasonCode.value,
     };
     await _protocol.send(
       payload: $payload,
@@ -593,10 +590,9 @@ class TrustedAdvisorPublicApi {
     UpdateRecommendationLifecycleStageReasonCode? updateReasonCode,
   }) async {
     final $payload = <String, dynamic>{
-      'lifecycleStage': lifecycleStage.toValue(),
+      'lifecycleStage': lifecycleStage.value,
       if (updateReason != null) 'updateReason': updateReason,
-      if (updateReasonCode != null)
-        'updateReasonCode': updateReasonCode.toValue(),
+      if (updateReasonCode != null) 'updateReasonCode': updateReasonCode.value,
     };
     await _protocol.send(
       payload: $payload,
@@ -658,11 +654,11 @@ class AccountRecommendationLifecycleSummary {
       accountId: json['accountId'] as String?,
       accountRecommendationArn: json['accountRecommendationArn'] as String?,
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
-      lifecycleStage:
-          (json['lifecycleStage'] as String?)?.toRecommendationLifecycleStage(),
+      lifecycleStage: (json['lifecycleStage'] as String?)
+          ?.let(RecommendationLifecycleStage.fromString),
       updateReason: json['updateReason'] as String?,
       updateReasonCode: (json['updateReasonCode'] as String?)
-          ?.toUpdateRecommendationLifecycleStageReasonCode(),
+          ?.let(UpdateRecommendationLifecycleStageReasonCode.fromString),
       updatedOnBehalfOf: json['updatedOnBehalfOf'] as String?,
       updatedOnBehalfOfJobTitle: json['updatedOnBehalfOfJobTitle'] as String?,
     );
@@ -682,10 +678,9 @@ class AccountRecommendationLifecycleSummary {
       if (accountRecommendationArn != null)
         'accountRecommendationArn': accountRecommendationArn,
       if (lastUpdatedAt != null) 'lastUpdatedAt': iso8601ToJson(lastUpdatedAt),
-      if (lifecycleStage != null) 'lifecycleStage': lifecycleStage.toValue(),
+      if (lifecycleStage != null) 'lifecycleStage': lifecycleStage.value,
       if (updateReason != null) 'updateReason': updateReason,
-      if (updateReasonCode != null)
-        'updateReasonCode': updateReasonCode.toValue(),
+      if (updateReasonCode != null) 'updateReasonCode': updateReasonCode.value,
       if (updatedOnBehalfOf != null) 'updatedOnBehalfOf': updatedOnBehalfOf,
       if (updatedOnBehalfOfJobTitle != null)
         'updatedOnBehalfOfJobTitle': updatedOnBehalfOfJobTitle,
@@ -776,9 +771,9 @@ class CheckSummary {
       name: json['name'] as String,
       pillars: (json['pillars'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toRecommendationPillar())
+          .map((e) => RecommendationPillar.fromString((e as String)))
           .toList(),
-      source: (json['source'] as String).toRecommendationSource(),
+      source: RecommendationSource.fromString((json['source'] as String)),
     );
   }
 
@@ -798,38 +793,25 @@ class CheckSummary {
       'id': id,
       'metadata': metadata,
       'name': name,
-      'pillars': pillars.map((e) => e.toValue()).toList(),
-      'source': source.toValue(),
+      'pillars': pillars.map((e) => e.value).toList(),
+      'source': source.value,
     };
   }
 }
 
 enum ExclusionStatus {
-  excluded,
-  included,
-}
+  excluded('excluded'),
+  included('included'),
+  ;
 
-extension ExclusionStatusValueExtension on ExclusionStatus {
-  String toValue() {
-    switch (this) {
-      case ExclusionStatus.excluded:
-        return 'excluded';
-      case ExclusionStatus.included:
-        return 'included';
-    }
-  }
-}
+  final String value;
 
-extension ExclusionStatusFromString on String {
-  ExclusionStatus toExclusionStatus() {
-    switch (this) {
-      case 'excluded':
-        return ExclusionStatus.excluded;
-      case 'included':
-        return ExclusionStatus.included;
-    }
-    throw Exception('$this is not known in enum ExclusionStatus');
-  }
+  const ExclusionStatus(this.value);
+
+  static ExclusionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ExclusionStatus'));
 }
 
 class GetOrganizationRecommendationResponse {
@@ -1210,13 +1192,13 @@ class OrganizationRecommendation {
       name: json['name'] as String,
       pillars: (json['pillars'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toRecommendationPillar())
+          .map((e) => RecommendationPillar.fromString((e as String)))
           .toList(),
       resourcesAggregates: RecommendationResourcesAggregates.fromJson(
           json['resourcesAggregates'] as Map<String, dynamic>),
-      source: (json['source'] as String).toRecommendationSource(),
-      status: (json['status'] as String).toRecommendationStatus(),
-      type: (json['type'] as String).toRecommendationType(),
+      source: RecommendationSource.fromString((json['source'] as String)),
+      status: RecommendationStatus.fromString((json['status'] as String)),
+      type: RecommendationType.fromString((json['type'] as String)),
       awsServices: (json['awsServices'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -1225,8 +1207,8 @@ class OrganizationRecommendation {
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
-      lifecycleStage:
-          (json['lifecycleStage'] as String?)?.toRecommendationLifecycleStage(),
+      lifecycleStage: (json['lifecycleStage'] as String?)
+          ?.let(RecommendationLifecycleStage.fromString),
       pillarSpecificAggregates: json['pillarSpecificAggregates'] != null
           ? RecommendationPillarSpecificAggregates.fromJson(
               json['pillarSpecificAggregates'] as Map<String, dynamic>)
@@ -1234,7 +1216,7 @@ class OrganizationRecommendation {
       resolvedAt: timeStampFromJson(json['resolvedAt']),
       updateReason: json['updateReason'] as String?,
       updateReasonCode: (json['updateReasonCode'] as String?)
-          ?.toUpdateRecommendationLifecycleStageReasonCode(),
+          ?.let(UpdateRecommendationLifecycleStageReasonCode.fromString),
       updatedOnBehalfOf: json['updatedOnBehalfOf'] as String?,
       updatedOnBehalfOfJobTitle: json['updatedOnBehalfOfJobTitle'] as String?,
     );
@@ -1267,23 +1249,22 @@ class OrganizationRecommendation {
       'description': description,
       'id': id,
       'name': name,
-      'pillars': pillars.map((e) => e.toValue()).toList(),
+      'pillars': pillars.map((e) => e.value).toList(),
       'resourcesAggregates': resourcesAggregates,
-      'source': source.toValue(),
-      'status': status.toValue(),
-      'type': type.toValue(),
+      'source': source.value,
+      'status': status.value,
+      'type': type.value,
       if (awsServices != null) 'awsServices': awsServices,
       if (checkArn != null) 'checkArn': checkArn,
       if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
       if (createdBy != null) 'createdBy': createdBy,
       if (lastUpdatedAt != null) 'lastUpdatedAt': iso8601ToJson(lastUpdatedAt),
-      if (lifecycleStage != null) 'lifecycleStage': lifecycleStage.toValue(),
+      if (lifecycleStage != null) 'lifecycleStage': lifecycleStage.value,
       if (pillarSpecificAggregates != null)
         'pillarSpecificAggregates': pillarSpecificAggregates,
       if (resolvedAt != null) 'resolvedAt': iso8601ToJson(resolvedAt),
       if (updateReason != null) 'updateReason': updateReason,
-      if (updateReasonCode != null)
-        'updateReasonCode': updateReasonCode.toValue(),
+      if (updateReasonCode != null) 'updateReasonCode': updateReasonCode.value,
       if (updatedOnBehalfOf != null) 'updatedOnBehalfOf': updatedOnBehalfOf,
       if (updatedOnBehalfOfJobTitle != null)
         'updatedOnBehalfOfJobTitle': updatedOnBehalfOfJobTitle,
@@ -1348,10 +1329,10 @@ class OrganizationRecommendationResourceSummary {
           .map((k, e) => MapEntry(k, e as String)),
       recommendationArn: json['recommendationArn'] as String,
       regionCode: json['regionCode'] as String,
-      status: (json['status'] as String).toResourceStatus(),
+      status: ResourceStatus.fromString((json['status'] as String)),
       accountId: json['accountId'] as String?,
       exclusionStatus:
-          (json['exclusionStatus'] as String?)?.toExclusionStatus(),
+          (json['exclusionStatus'] as String?)?.let(ExclusionStatus.fromString),
     );
   }
 
@@ -1374,9 +1355,9 @@ class OrganizationRecommendationResourceSummary {
       'metadata': metadata,
       'recommendationArn': recommendationArn,
       'regionCode': regionCode,
-      'status': status.toValue(),
+      'status': status.value,
       if (accountId != null) 'accountId': accountId,
-      if (exclusionStatus != null) 'exclusionStatus': exclusionStatus.toValue(),
+      if (exclusionStatus != null) 'exclusionStatus': exclusionStatus.value,
     };
   }
 }
@@ -1452,13 +1433,13 @@ class OrganizationRecommendationSummary {
       name: json['name'] as String,
       pillars: (json['pillars'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toRecommendationPillar())
+          .map((e) => RecommendationPillar.fromString((e as String)))
           .toList(),
       resourcesAggregates: RecommendationResourcesAggregates.fromJson(
           json['resourcesAggregates'] as Map<String, dynamic>),
-      source: (json['source'] as String).toRecommendationSource(),
-      status: (json['status'] as String).toRecommendationStatus(),
-      type: (json['type'] as String).toRecommendationType(),
+      source: RecommendationSource.fromString((json['source'] as String)),
+      status: RecommendationStatus.fromString((json['status'] as String)),
+      type: RecommendationType.fromString((json['type'] as String)),
       awsServices: (json['awsServices'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -1466,8 +1447,8 @@ class OrganizationRecommendationSummary {
       checkArn: json['checkArn'] as String?,
       createdAt: timeStampFromJson(json['createdAt']),
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
-      lifecycleStage:
-          (json['lifecycleStage'] as String?)?.toRecommendationLifecycleStage(),
+      lifecycleStage: (json['lifecycleStage'] as String?)
+          ?.let(RecommendationLifecycleStage.fromString),
       pillarSpecificAggregates: json['pillarSpecificAggregates'] != null
           ? RecommendationPillarSpecificAggregates.fromJson(
               json['pillarSpecificAggregates'] as Map<String, dynamic>)
@@ -1494,16 +1475,16 @@ class OrganizationRecommendationSummary {
       'arn': arn,
       'id': id,
       'name': name,
-      'pillars': pillars.map((e) => e.toValue()).toList(),
+      'pillars': pillars.map((e) => e.value).toList(),
       'resourcesAggregates': resourcesAggregates,
-      'source': source.toValue(),
-      'status': status.toValue(),
-      'type': type.toValue(),
+      'source': source.value,
+      'status': status.value,
+      'type': type.value,
       if (awsServices != null) 'awsServices': awsServices,
       if (checkArn != null) 'checkArn': checkArn,
       if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
       if (lastUpdatedAt != null) 'lastUpdatedAt': iso8601ToJson(lastUpdatedAt),
-      if (lifecycleStage != null) 'lifecycleStage': lifecycleStage.toValue(),
+      if (lifecycleStage != null) 'lifecycleStage': lifecycleStage.value,
       if (pillarSpecificAggregates != null)
         'pillarSpecificAggregates': pillarSpecificAggregates,
     };
@@ -1615,13 +1596,13 @@ class Recommendation {
       name: json['name'] as String,
       pillars: (json['pillars'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toRecommendationPillar())
+          .map((e) => RecommendationPillar.fromString((e as String)))
           .toList(),
       resourcesAggregates: RecommendationResourcesAggregates.fromJson(
           json['resourcesAggregates'] as Map<String, dynamic>),
-      source: (json['source'] as String).toRecommendationSource(),
-      status: (json['status'] as String).toRecommendationStatus(),
-      type: (json['type'] as String).toRecommendationType(),
+      source: RecommendationSource.fromString((json['source'] as String)),
+      status: RecommendationStatus.fromString((json['status'] as String)),
+      type: RecommendationType.fromString((json['type'] as String)),
       awsServices: (json['awsServices'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -1630,8 +1611,8 @@ class Recommendation {
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
-      lifecycleStage:
-          (json['lifecycleStage'] as String?)?.toRecommendationLifecycleStage(),
+      lifecycleStage: (json['lifecycleStage'] as String?)
+          ?.let(RecommendationLifecycleStage.fromString),
       pillarSpecificAggregates: json['pillarSpecificAggregates'] != null
           ? RecommendationPillarSpecificAggregates.fromJson(
               json['pillarSpecificAggregates'] as Map<String, dynamic>)
@@ -1639,7 +1620,7 @@ class Recommendation {
       resolvedAt: timeStampFromJson(json['resolvedAt']),
       updateReason: json['updateReason'] as String?,
       updateReasonCode: (json['updateReasonCode'] as String?)
-          ?.toUpdateRecommendationLifecycleStageReasonCode(),
+          ?.let(UpdateRecommendationLifecycleStageReasonCode.fromString),
       updatedOnBehalfOf: json['updatedOnBehalfOf'] as String?,
       updatedOnBehalfOfJobTitle: json['updatedOnBehalfOfJobTitle'] as String?,
     );
@@ -1672,23 +1653,22 @@ class Recommendation {
       'description': description,
       'id': id,
       'name': name,
-      'pillars': pillars.map((e) => e.toValue()).toList(),
+      'pillars': pillars.map((e) => e.value).toList(),
       'resourcesAggregates': resourcesAggregates,
-      'source': source.toValue(),
-      'status': status.toValue(),
-      'type': type.toValue(),
+      'source': source.value,
+      'status': status.value,
+      'type': type.value,
       if (awsServices != null) 'awsServices': awsServices,
       if (checkArn != null) 'checkArn': checkArn,
       if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
       if (createdBy != null) 'createdBy': createdBy,
       if (lastUpdatedAt != null) 'lastUpdatedAt': iso8601ToJson(lastUpdatedAt),
-      if (lifecycleStage != null) 'lifecycleStage': lifecycleStage.toValue(),
+      if (lifecycleStage != null) 'lifecycleStage': lifecycleStage.value,
       if (pillarSpecificAggregates != null)
         'pillarSpecificAggregates': pillarSpecificAggregates,
       if (resolvedAt != null) 'resolvedAt': iso8601ToJson(resolvedAt),
       if (updateReason != null) 'updateReason': updateReason,
-      if (updateReasonCode != null)
-        'updateReasonCode': updateReasonCode.toValue(),
+      if (updateReasonCode != null) 'updateReasonCode': updateReasonCode.value,
       if (updatedOnBehalfOf != null) 'updatedOnBehalfOf': updatedOnBehalfOf,
       if (updatedOnBehalfOfJobTitle != null)
         'updatedOnBehalfOfJobTitle': updatedOnBehalfOfJobTitle,
@@ -1729,163 +1709,63 @@ class RecommendationCostOptimizingAggregates {
 }
 
 enum RecommendationLanguage {
-  en,
-  ja,
-  zh,
-  fr,
-  de,
-  ko,
-  zhTw,
-  it,
-  es,
-  ptBr,
-  id,
-}
+  en('en'),
+  ja('ja'),
+  zh('zh'),
+  fr('fr'),
+  de('de'),
+  ko('ko'),
+  zhTw('zh_TW'),
+  it('it'),
+  es('es'),
+  ptBr('pt_BR'),
+  id('id'),
+  ;
 
-extension RecommendationLanguageValueExtension on RecommendationLanguage {
-  String toValue() {
-    switch (this) {
-      case RecommendationLanguage.en:
-        return 'en';
-      case RecommendationLanguage.ja:
-        return 'ja';
-      case RecommendationLanguage.zh:
-        return 'zh';
-      case RecommendationLanguage.fr:
-        return 'fr';
-      case RecommendationLanguage.de:
-        return 'de';
-      case RecommendationLanguage.ko:
-        return 'ko';
-      case RecommendationLanguage.zhTw:
-        return 'zh_TW';
-      case RecommendationLanguage.it:
-        return 'it';
-      case RecommendationLanguage.es:
-        return 'es';
-      case RecommendationLanguage.ptBr:
-        return 'pt_BR';
-      case RecommendationLanguage.id:
-        return 'id';
-    }
-  }
-}
+  final String value;
 
-extension RecommendationLanguageFromString on String {
-  RecommendationLanguage toRecommendationLanguage() {
-    switch (this) {
-      case 'en':
-        return RecommendationLanguage.en;
-      case 'ja':
-        return RecommendationLanguage.ja;
-      case 'zh':
-        return RecommendationLanguage.zh;
-      case 'fr':
-        return RecommendationLanguage.fr;
-      case 'de':
-        return RecommendationLanguage.de;
-      case 'ko':
-        return RecommendationLanguage.ko;
-      case 'zh_TW':
-        return RecommendationLanguage.zhTw;
-      case 'it':
-        return RecommendationLanguage.it;
-      case 'es':
-        return RecommendationLanguage.es;
-      case 'pt_BR':
-        return RecommendationLanguage.ptBr;
-      case 'id':
-        return RecommendationLanguage.id;
-    }
-    throw Exception('$this is not known in enum RecommendationLanguage');
-  }
+  const RecommendationLanguage(this.value);
+
+  static RecommendationLanguage fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RecommendationLanguage'));
 }
 
 enum RecommendationLifecycleStage {
-  inProgress,
-  pendingResponse,
-  dismissed,
-  resolved,
-}
+  inProgress('in_progress'),
+  pendingResponse('pending_response'),
+  dismissed('dismissed'),
+  resolved('resolved'),
+  ;
 
-extension RecommendationLifecycleStageValueExtension
-    on RecommendationLifecycleStage {
-  String toValue() {
-    switch (this) {
-      case RecommendationLifecycleStage.inProgress:
-        return 'in_progress';
-      case RecommendationLifecycleStage.pendingResponse:
-        return 'pending_response';
-      case RecommendationLifecycleStage.dismissed:
-        return 'dismissed';
-      case RecommendationLifecycleStage.resolved:
-        return 'resolved';
-    }
-  }
-}
+  final String value;
 
-extension RecommendationLifecycleStageFromString on String {
-  RecommendationLifecycleStage toRecommendationLifecycleStage() {
-    switch (this) {
-      case 'in_progress':
-        return RecommendationLifecycleStage.inProgress;
-      case 'pending_response':
-        return RecommendationLifecycleStage.pendingResponse;
-      case 'dismissed':
-        return RecommendationLifecycleStage.dismissed;
-      case 'resolved':
-        return RecommendationLifecycleStage.resolved;
-    }
-    throw Exception('$this is not known in enum RecommendationLifecycleStage');
-  }
+  const RecommendationLifecycleStage(this.value);
+
+  static RecommendationLifecycleStage fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RecommendationLifecycleStage'));
 }
 
 enum RecommendationPillar {
-  costOptimizing,
-  performance,
-  security,
-  serviceLimits,
-  faultTolerance,
-  operationalExcellence,
-}
+  costOptimizing('cost_optimizing'),
+  performance('performance'),
+  security('security'),
+  serviceLimits('service_limits'),
+  faultTolerance('fault_tolerance'),
+  operationalExcellence('operational_excellence'),
+  ;
 
-extension RecommendationPillarValueExtension on RecommendationPillar {
-  String toValue() {
-    switch (this) {
-      case RecommendationPillar.costOptimizing:
-        return 'cost_optimizing';
-      case RecommendationPillar.performance:
-        return 'performance';
-      case RecommendationPillar.security:
-        return 'security';
-      case RecommendationPillar.serviceLimits:
-        return 'service_limits';
-      case RecommendationPillar.faultTolerance:
-        return 'fault_tolerance';
-      case RecommendationPillar.operationalExcellence:
-        return 'operational_excellence';
-    }
-  }
-}
+  final String value;
 
-extension RecommendationPillarFromString on String {
-  RecommendationPillar toRecommendationPillar() {
-    switch (this) {
-      case 'cost_optimizing':
-        return RecommendationPillar.costOptimizing;
-      case 'performance':
-        return RecommendationPillar.performance;
-      case 'security':
-        return RecommendationPillar.security;
-      case 'service_limits':
-        return RecommendationPillar.serviceLimits;
-      case 'fault_tolerance':
-        return RecommendationPillar.faultTolerance;
-      case 'operational_excellence':
-        return RecommendationPillar.operationalExcellence;
-    }
-    throw Exception('$this is not known in enum RecommendationPillar');
-  }
+  const RecommendationPillar(this.value);
+
+  static RecommendationPillar fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RecommendationPillar'));
 }
 
 /// Recommendation pillar aggregates
@@ -1992,9 +1872,9 @@ class RecommendationResourceSummary {
           .map((k, e) => MapEntry(k, e as String)),
       recommendationArn: json['recommendationArn'] as String,
       regionCode: json['regionCode'] as String,
-      status: (json['status'] as String).toResourceStatus(),
+      status: ResourceStatus.fromString((json['status'] as String)),
       exclusionStatus:
-          (json['exclusionStatus'] as String?)?.toExclusionStatus(),
+          (json['exclusionStatus'] as String?)?.let(ExclusionStatus.fromString),
     );
   }
 
@@ -2016,8 +1896,8 @@ class RecommendationResourceSummary {
       'metadata': metadata,
       'recommendationArn': recommendationArn,
       'regionCode': regionCode,
-      'status': status.toValue(),
-      if (exclusionStatus != null) 'exclusionStatus': exclusionStatus.toValue(),
+      'status': status.value,
+      if (exclusionStatus != null) 'exclusionStatus': exclusionStatus.value,
     };
   }
 }
@@ -2064,119 +1944,45 @@ class RecommendationResourcesAggregates {
 }
 
 enum RecommendationSource {
-  awsConfig,
-  computeOptimizer,
-  costExplorer,
-  lse,
-  manual,
-  pse,
-  rds,
-  resilience,
-  resilienceHub,
-  securityHub,
-  stir,
-  taCheck,
-  wellArchitected,
-}
+  awsConfig('aws_config'),
+  computeOptimizer('compute_optimizer'),
+  costExplorer('cost_explorer'),
+  lse('lse'),
+  manual('manual'),
+  pse('pse'),
+  rds('rds'),
+  resilience('resilience'),
+  resilienceHub('resilience_hub'),
+  securityHub('security_hub'),
+  stir('stir'),
+  taCheck('ta_check'),
+  wellArchitected('well_architected'),
+  ;
 
-extension RecommendationSourceValueExtension on RecommendationSource {
-  String toValue() {
-    switch (this) {
-      case RecommendationSource.awsConfig:
-        return 'aws_config';
-      case RecommendationSource.computeOptimizer:
-        return 'compute_optimizer';
-      case RecommendationSource.costExplorer:
-        return 'cost_explorer';
-      case RecommendationSource.lse:
-        return 'lse';
-      case RecommendationSource.manual:
-        return 'manual';
-      case RecommendationSource.pse:
-        return 'pse';
-      case RecommendationSource.rds:
-        return 'rds';
-      case RecommendationSource.resilience:
-        return 'resilience';
-      case RecommendationSource.resilienceHub:
-        return 'resilience_hub';
-      case RecommendationSource.securityHub:
-        return 'security_hub';
-      case RecommendationSource.stir:
-        return 'stir';
-      case RecommendationSource.taCheck:
-        return 'ta_check';
-      case RecommendationSource.wellArchitected:
-        return 'well_architected';
-    }
-  }
-}
+  final String value;
 
-extension RecommendationSourceFromString on String {
-  RecommendationSource toRecommendationSource() {
-    switch (this) {
-      case 'aws_config':
-        return RecommendationSource.awsConfig;
-      case 'compute_optimizer':
-        return RecommendationSource.computeOptimizer;
-      case 'cost_explorer':
-        return RecommendationSource.costExplorer;
-      case 'lse':
-        return RecommendationSource.lse;
-      case 'manual':
-        return RecommendationSource.manual;
-      case 'pse':
-        return RecommendationSource.pse;
-      case 'rds':
-        return RecommendationSource.rds;
-      case 'resilience':
-        return RecommendationSource.resilience;
-      case 'resilience_hub':
-        return RecommendationSource.resilienceHub;
-      case 'security_hub':
-        return RecommendationSource.securityHub;
-      case 'stir':
-        return RecommendationSource.stir;
-      case 'ta_check':
-        return RecommendationSource.taCheck;
-      case 'well_architected':
-        return RecommendationSource.wellArchitected;
-    }
-    throw Exception('$this is not known in enum RecommendationSource');
-  }
+  const RecommendationSource(this.value);
+
+  static RecommendationSource fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RecommendationSource'));
 }
 
 enum RecommendationStatus {
-  ok,
-  warning,
-  error,
-}
+  ok('ok'),
+  warning('warning'),
+  error('error'),
+  ;
 
-extension RecommendationStatusValueExtension on RecommendationStatus {
-  String toValue() {
-    switch (this) {
-      case RecommendationStatus.ok:
-        return 'ok';
-      case RecommendationStatus.warning:
-        return 'warning';
-      case RecommendationStatus.error:
-        return 'error';
-    }
-  }
-}
+  final String value;
 
-extension RecommendationStatusFromString on String {
-  RecommendationStatus toRecommendationStatus() {
-    switch (this) {
-      case 'ok':
-        return RecommendationStatus.ok;
-      case 'warning':
-        return RecommendationStatus.warning;
-      case 'error':
-        return RecommendationStatus.error;
-    }
-    throw Exception('$this is not known in enum RecommendationStatus');
-  }
+  const RecommendationStatus(this.value);
+
+  static RecommendationStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RecommendationStatus'));
 }
 
 /// Summary of Recommendation for an Account
@@ -2249,13 +2055,13 @@ class RecommendationSummary {
       name: json['name'] as String,
       pillars: (json['pillars'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toRecommendationPillar())
+          .map((e) => RecommendationPillar.fromString((e as String)))
           .toList(),
       resourcesAggregates: RecommendationResourcesAggregates.fromJson(
           json['resourcesAggregates'] as Map<String, dynamic>),
-      source: (json['source'] as String).toRecommendationSource(),
-      status: (json['status'] as String).toRecommendationStatus(),
-      type: (json['type'] as String).toRecommendationType(),
+      source: RecommendationSource.fromString((json['source'] as String)),
+      status: RecommendationStatus.fromString((json['status'] as String)),
+      type: RecommendationType.fromString((json['type'] as String)),
       awsServices: (json['awsServices'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -2263,8 +2069,8 @@ class RecommendationSummary {
       checkArn: json['checkArn'] as String?,
       createdAt: timeStampFromJson(json['createdAt']),
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
-      lifecycleStage:
-          (json['lifecycleStage'] as String?)?.toRecommendationLifecycleStage(),
+      lifecycleStage: (json['lifecycleStage'] as String?)
+          ?.let(RecommendationLifecycleStage.fromString),
       pillarSpecificAggregates: json['pillarSpecificAggregates'] != null
           ? RecommendationPillarSpecificAggregates.fromJson(
               json['pillarSpecificAggregates'] as Map<String, dynamic>)
@@ -2291,16 +2097,16 @@ class RecommendationSummary {
       'arn': arn,
       'id': id,
       'name': name,
-      'pillars': pillars.map((e) => e.toValue()).toList(),
+      'pillars': pillars.map((e) => e.value).toList(),
       'resourcesAggregates': resourcesAggregates,
-      'source': source.toValue(),
-      'status': status.toValue(),
-      'type': type.toValue(),
+      'source': source.value,
+      'status': status.value,
+      'type': type.value,
       if (awsServices != null) 'awsServices': awsServices,
       if (checkArn != null) 'checkArn': checkArn,
       if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
       if (lastUpdatedAt != null) 'lastUpdatedAt': iso8601ToJson(lastUpdatedAt),
-      if (lifecycleStage != null) 'lifecycleStage': lifecycleStage.toValue(),
+      if (lifecycleStage != null) 'lifecycleStage': lifecycleStage.value,
       if (pillarSpecificAggregates != null)
         'pillarSpecificAggregates': pillarSpecificAggregates,
     };
@@ -2308,161 +2114,72 @@ class RecommendationSummary {
 }
 
 enum RecommendationType {
-  standard,
-  priority,
-}
+  standard('standard'),
+  priority('priority'),
+  ;
 
-extension RecommendationTypeValueExtension on RecommendationType {
-  String toValue() {
-    switch (this) {
-      case RecommendationType.standard:
-        return 'standard';
-      case RecommendationType.priority:
-        return 'priority';
-    }
-  }
-}
+  final String value;
 
-extension RecommendationTypeFromString on String {
-  RecommendationType toRecommendationType() {
-    switch (this) {
-      case 'standard':
-        return RecommendationType.standard;
-      case 'priority':
-        return RecommendationType.priority;
-    }
-    throw Exception('$this is not known in enum RecommendationType');
-  }
+  const RecommendationType(this.value);
+
+  static RecommendationType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RecommendationType'));
 }
 
 enum ResourceStatus {
-  ok,
-  warning,
-  error,
-}
+  ok('ok'),
+  warning('warning'),
+  error('error'),
+  ;
 
-extension ResourceStatusValueExtension on ResourceStatus {
-  String toValue() {
-    switch (this) {
-      case ResourceStatus.ok:
-        return 'ok';
-      case ResourceStatus.warning:
-        return 'warning';
-      case ResourceStatus.error:
-        return 'error';
-    }
-  }
-}
+  final String value;
 
-extension ResourceStatusFromString on String {
-  ResourceStatus toResourceStatus() {
-    switch (this) {
-      case 'ok':
-        return ResourceStatus.ok;
-      case 'warning':
-        return ResourceStatus.warning;
-      case 'error':
-        return ResourceStatus.error;
-    }
-    throw Exception('$this is not known in enum ResourceStatus');
-  }
+  const ResourceStatus(this.value);
+
+  static ResourceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResourceStatus'));
 }
 
 enum UpdateRecommendationLifecycleStage {
-  pendingResponse,
-  inProgress,
-  dismissed,
-  resolved,
-}
+  pendingResponse('pending_response'),
+  inProgress('in_progress'),
+  dismissed('dismissed'),
+  resolved('resolved'),
+  ;
 
-extension UpdateRecommendationLifecycleStageValueExtension
-    on UpdateRecommendationLifecycleStage {
-  String toValue() {
-    switch (this) {
-      case UpdateRecommendationLifecycleStage.pendingResponse:
-        return 'pending_response';
-      case UpdateRecommendationLifecycleStage.inProgress:
-        return 'in_progress';
-      case UpdateRecommendationLifecycleStage.dismissed:
-        return 'dismissed';
-      case UpdateRecommendationLifecycleStage.resolved:
-        return 'resolved';
-    }
-  }
-}
+  final String value;
 
-extension UpdateRecommendationLifecycleStageFromString on String {
-  UpdateRecommendationLifecycleStage toUpdateRecommendationLifecycleStage() {
-    switch (this) {
-      case 'pending_response':
-        return UpdateRecommendationLifecycleStage.pendingResponse;
-      case 'in_progress':
-        return UpdateRecommendationLifecycleStage.inProgress;
-      case 'dismissed':
-        return UpdateRecommendationLifecycleStage.dismissed;
-      case 'resolved':
-        return UpdateRecommendationLifecycleStage.resolved;
-    }
-    throw Exception(
-        '$this is not known in enum UpdateRecommendationLifecycleStage');
-  }
+  const UpdateRecommendationLifecycleStage(this.value);
+
+  static UpdateRecommendationLifecycleStage fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum UpdateRecommendationLifecycleStage'));
 }
 
 enum UpdateRecommendationLifecycleStageReasonCode {
-  nonCriticalAccount,
-  temporaryAccount,
-  validBusinessCase,
-  otherMethodsAvailable,
-  lowPriority,
-  notApplicable,
-  other,
-}
+  nonCriticalAccount('non_critical_account'),
+  temporaryAccount('temporary_account'),
+  validBusinessCase('valid_business_case'),
+  otherMethodsAvailable('other_methods_available'),
+  lowPriority('low_priority'),
+  notApplicable('not_applicable'),
+  other('other'),
+  ;
 
-extension UpdateRecommendationLifecycleStageReasonCodeValueExtension
-    on UpdateRecommendationLifecycleStageReasonCode {
-  String toValue() {
-    switch (this) {
-      case UpdateRecommendationLifecycleStageReasonCode.nonCriticalAccount:
-        return 'non_critical_account';
-      case UpdateRecommendationLifecycleStageReasonCode.temporaryAccount:
-        return 'temporary_account';
-      case UpdateRecommendationLifecycleStageReasonCode.validBusinessCase:
-        return 'valid_business_case';
-      case UpdateRecommendationLifecycleStageReasonCode.otherMethodsAvailable:
-        return 'other_methods_available';
-      case UpdateRecommendationLifecycleStageReasonCode.lowPriority:
-        return 'low_priority';
-      case UpdateRecommendationLifecycleStageReasonCode.notApplicable:
-        return 'not_applicable';
-      case UpdateRecommendationLifecycleStageReasonCode.other:
-        return 'other';
-    }
-  }
-}
+  final String value;
 
-extension UpdateRecommendationLifecycleStageReasonCodeFromString on String {
-  UpdateRecommendationLifecycleStageReasonCode
-      toUpdateRecommendationLifecycleStageReasonCode() {
-    switch (this) {
-      case 'non_critical_account':
-        return UpdateRecommendationLifecycleStageReasonCode.nonCriticalAccount;
-      case 'temporary_account':
-        return UpdateRecommendationLifecycleStageReasonCode.temporaryAccount;
-      case 'valid_business_case':
-        return UpdateRecommendationLifecycleStageReasonCode.validBusinessCase;
-      case 'other_methods_available':
-        return UpdateRecommendationLifecycleStageReasonCode
-            .otherMethodsAvailable;
-      case 'low_priority':
-        return UpdateRecommendationLifecycleStageReasonCode.lowPriority;
-      case 'not_applicable':
-        return UpdateRecommendationLifecycleStageReasonCode.notApplicable;
-      case 'other':
-        return UpdateRecommendationLifecycleStageReasonCode.other;
-    }
-    throw Exception(
-        '$this is not known in enum UpdateRecommendationLifecycleStageReasonCode');
-  }
+  const UpdateRecommendationLifecycleStageReasonCode(this.value);
+
+  static UpdateRecommendationLifecycleStageReasonCode fromString(
+          String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum UpdateRecommendationLifecycleStageReasonCode'));
 }
 
 /// The error entry for Recommendation Resource exclusion. Each entry is a

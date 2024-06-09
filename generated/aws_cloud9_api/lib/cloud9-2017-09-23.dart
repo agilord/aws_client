@@ -207,7 +207,7 @@ class Cloud9 {
           'automaticStopTimeMinutes': automaticStopTimeMinutes,
         if (clientRequestToken != null)
           'clientRequestToken': clientRequestToken,
-        if (connectionType != null) 'connectionType': connectionType.toValue(),
+        if (connectionType != null) 'connectionType': connectionType.value,
         if (description != null) 'description': description,
         if (dryRun != null) 'dryRun': dryRun,
         if (ownerArn != null) 'ownerArn': ownerArn,
@@ -266,7 +266,7 @@ class Cloud9 {
       headers: headers,
       payload: {
         'environmentId': environmentId,
-        'permissions': permissions.toValue(),
+        'permissions': permissions.value,
         'userArn': userArn,
       },
     );
@@ -420,7 +420,7 @@ class Cloud9 {
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
         if (permissions != null)
-          'permissions': permissions.map((e) => e.toValue()).toList(),
+          'permissions': permissions.map((e) => e.value).toList(),
         if (userArn != null) 'userArn': userArn,
       },
     );
@@ -704,7 +704,7 @@ class Cloud9 {
         'environmentId': environmentId,
         if (description != null) 'description': description,
         if (managedCredentialsAction != null)
-          'managedCredentialsAction': managedCredentialsAction.toValue(),
+          'managedCredentialsAction': managedCredentialsAction.value,
         if (name != null) 'name': name,
       },
     );
@@ -759,7 +759,7 @@ class Cloud9 {
       headers: headers,
       payload: {
         'environmentId': environmentId,
-        'permissions': permissions.toValue(),
+        'permissions': permissions.value,
         'userArn': userArn,
       },
     );
@@ -769,31 +769,18 @@ class Cloud9 {
 }
 
 enum ConnectionType {
-  connectSsh,
-  connectSsm,
-}
+  connectSsh('CONNECT_SSH'),
+  connectSsm('CONNECT_SSM'),
+  ;
 
-extension ConnectionTypeValueExtension on ConnectionType {
-  String toValue() {
-    switch (this) {
-      case ConnectionType.connectSsh:
-        return 'CONNECT_SSH';
-      case ConnectionType.connectSsm:
-        return 'CONNECT_SSM';
-    }
-  }
-}
+  final String value;
 
-extension ConnectionTypeFromString on String {
-  ConnectionType toConnectionType() {
-    switch (this) {
-      case 'CONNECT_SSH':
-        return ConnectionType.connectSsh;
-      case 'CONNECT_SSM':
-        return ConnectionType.connectSsm;
-    }
-    throw Exception('$this is not known in enum ConnectionType');
-  }
+  const ConnectionType(this.value);
+
+  static ConnectionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ConnectionType'));
 }
 
 class CreateEnvironmentEC2Result {
@@ -910,7 +897,7 @@ class DescribeEnvironmentStatusResult {
   factory DescribeEnvironmentStatusResult.fromJson(Map<String, dynamic> json) {
     return DescribeEnvironmentStatusResult(
       message: json['message'] as String,
-      status: (json['status'] as String).toEnvironmentStatus(),
+      status: EnvironmentStatus.fromString((json['status'] as String)),
     );
   }
 }
@@ -1023,8 +1010,9 @@ class Environment {
     return Environment(
       arn: json['arn'] as String,
       ownerArn: json['ownerArn'] as String,
-      type: (json['type'] as String).toEnvironmentType(),
-      connectionType: (json['connectionType'] as String?)?.toConnectionType(),
+      type: EnvironmentType.fromString((json['type'] as String)),
+      connectionType:
+          (json['connectionType'] as String?)?.let(ConnectionType.fromString),
       description: json['description'] as String?,
       id: json['id'] as String?,
       lifecycle: json['lifecycle'] != null
@@ -1032,7 +1020,7 @@ class Environment {
               json['lifecycle'] as Map<String, dynamic>)
           : null,
       managedCredentialsStatus: (json['managedCredentialsStatus'] as String?)
-          ?.toManagedCredentialsStatus(),
+          ?.let(ManagedCredentialsStatus.fromString),
       name: json['name'] as String?,
     );
   }
@@ -1079,53 +1067,28 @@ class EnvironmentLifecycle {
     return EnvironmentLifecycle(
       failureResource: json['failureResource'] as String?,
       reason: json['reason'] as String?,
-      status: (json['status'] as String?)?.toEnvironmentLifecycleStatus(),
+      status: (json['status'] as String?)
+          ?.let(EnvironmentLifecycleStatus.fromString),
     );
   }
 }
 
 enum EnvironmentLifecycleStatus {
-  creating,
-  created,
-  createFailed,
-  deleting,
-  deleteFailed,
-}
+  creating('CREATING'),
+  created('CREATED'),
+  createFailed('CREATE_FAILED'),
+  deleting('DELETING'),
+  deleteFailed('DELETE_FAILED'),
+  ;
 
-extension EnvironmentLifecycleStatusValueExtension
-    on EnvironmentLifecycleStatus {
-  String toValue() {
-    switch (this) {
-      case EnvironmentLifecycleStatus.creating:
-        return 'CREATING';
-      case EnvironmentLifecycleStatus.created:
-        return 'CREATED';
-      case EnvironmentLifecycleStatus.createFailed:
-        return 'CREATE_FAILED';
-      case EnvironmentLifecycleStatus.deleting:
-        return 'DELETING';
-      case EnvironmentLifecycleStatus.deleteFailed:
-        return 'DELETE_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension EnvironmentLifecycleStatusFromString on String {
-  EnvironmentLifecycleStatus toEnvironmentLifecycleStatus() {
-    switch (this) {
-      case 'CREATING':
-        return EnvironmentLifecycleStatus.creating;
-      case 'CREATED':
-        return EnvironmentLifecycleStatus.created;
-      case 'CREATE_FAILED':
-        return EnvironmentLifecycleStatus.createFailed;
-      case 'DELETING':
-        return EnvironmentLifecycleStatus.deleting;
-      case 'DELETE_FAILED':
-        return EnvironmentLifecycleStatus.deleteFailed;
-    }
-    throw Exception('$this is not known in enum EnvironmentLifecycleStatus');
-  }
+  const EnvironmentLifecycleStatus(this.value);
+
+  static EnvironmentLifecycleStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum EnvironmentLifecycleStatus'));
 }
 
 /// Information about an environment member for an Cloud9 development
@@ -1172,7 +1135,7 @@ class EnvironmentMember {
   factory EnvironmentMember.fromJson(Map<String, dynamic> json) {
     return EnvironmentMember(
       environmentId: json['environmentId'] as String,
-      permissions: (json['permissions'] as String).toPermissions(),
+      permissions: Permissions.fromString((json['permissions'] as String)),
       userArn: json['userArn'] as String,
       userId: json['userId'] as String,
       lastAccess: timeStampFromJson(json['lastAccess']),
@@ -1181,84 +1144,38 @@ class EnvironmentMember {
 }
 
 enum EnvironmentStatus {
-  error,
-  creating,
-  connecting,
-  ready,
-  stopping,
-  stopped,
-  deleting,
-}
+  error('error'),
+  creating('creating'),
+  connecting('connecting'),
+  ready('ready'),
+  stopping('stopping'),
+  stopped('stopped'),
+  deleting('deleting'),
+  ;
 
-extension EnvironmentStatusValueExtension on EnvironmentStatus {
-  String toValue() {
-    switch (this) {
-      case EnvironmentStatus.error:
-        return 'error';
-      case EnvironmentStatus.creating:
-        return 'creating';
-      case EnvironmentStatus.connecting:
-        return 'connecting';
-      case EnvironmentStatus.ready:
-        return 'ready';
-      case EnvironmentStatus.stopping:
-        return 'stopping';
-      case EnvironmentStatus.stopped:
-        return 'stopped';
-      case EnvironmentStatus.deleting:
-        return 'deleting';
-    }
-  }
-}
+  final String value;
 
-extension EnvironmentStatusFromString on String {
-  EnvironmentStatus toEnvironmentStatus() {
-    switch (this) {
-      case 'error':
-        return EnvironmentStatus.error;
-      case 'creating':
-        return EnvironmentStatus.creating;
-      case 'connecting':
-        return EnvironmentStatus.connecting;
-      case 'ready':
-        return EnvironmentStatus.ready;
-      case 'stopping':
-        return EnvironmentStatus.stopping;
-      case 'stopped':
-        return EnvironmentStatus.stopped;
-      case 'deleting':
-        return EnvironmentStatus.deleting;
-    }
-    throw Exception('$this is not known in enum EnvironmentStatus');
-  }
+  const EnvironmentStatus(this.value);
+
+  static EnvironmentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EnvironmentStatus'));
 }
 
 enum EnvironmentType {
-  ssh,
-  ec2,
-}
+  ssh('ssh'),
+  ec2('ec2'),
+  ;
 
-extension EnvironmentTypeValueExtension on EnvironmentType {
-  String toValue() {
-    switch (this) {
-      case EnvironmentType.ssh:
-        return 'ssh';
-      case EnvironmentType.ec2:
-        return 'ec2';
-    }
-  }
-}
+  final String value;
 
-extension EnvironmentTypeFromString on String {
-  EnvironmentType toEnvironmentType() {
-    switch (this) {
-      case 'ssh':
-        return EnvironmentType.ssh;
-      case 'ec2':
-        return EnvironmentType.ec2;
-    }
-    throw Exception('$this is not known in enum EnvironmentType');
-  }
+  const EnvironmentType(this.value);
+
+  static EnvironmentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EnvironmentType'));
 }
 
 class ListEnvironmentsResult {
@@ -1306,165 +1223,72 @@ class ListTagsForResourceResponse {
 }
 
 enum ManagedCredentialsAction {
-  enable,
-  disable,
-}
+  enable('ENABLE'),
+  disable('DISABLE'),
+  ;
 
-extension ManagedCredentialsActionValueExtension on ManagedCredentialsAction {
-  String toValue() {
-    switch (this) {
-      case ManagedCredentialsAction.enable:
-        return 'ENABLE';
-      case ManagedCredentialsAction.disable:
-        return 'DISABLE';
-    }
-  }
-}
+  final String value;
 
-extension ManagedCredentialsActionFromString on String {
-  ManagedCredentialsAction toManagedCredentialsAction() {
-    switch (this) {
-      case 'ENABLE':
-        return ManagedCredentialsAction.enable;
-      case 'DISABLE':
-        return ManagedCredentialsAction.disable;
-    }
-    throw Exception('$this is not known in enum ManagedCredentialsAction');
-  }
+  const ManagedCredentialsAction(this.value);
+
+  static ManagedCredentialsAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ManagedCredentialsAction'));
 }
 
 enum ManagedCredentialsStatus {
-  enabledOnCreate,
-  enabledByOwner,
-  disabledByDefault,
-  disabledByOwner,
-  disabledByCollaborator,
-  pendingRemovalByCollaborator,
-  pendingStartRemovalByCollaborator,
-  pendingRemovalByOwner,
-  pendingStartRemovalByOwner,
-  failedRemovalByCollaborator,
-  failedRemovalByOwner,
-}
+  enabledOnCreate('ENABLED_ON_CREATE'),
+  enabledByOwner('ENABLED_BY_OWNER'),
+  disabledByDefault('DISABLED_BY_DEFAULT'),
+  disabledByOwner('DISABLED_BY_OWNER'),
+  disabledByCollaborator('DISABLED_BY_COLLABORATOR'),
+  pendingRemovalByCollaborator('PENDING_REMOVAL_BY_COLLABORATOR'),
+  pendingStartRemovalByCollaborator('PENDING_START_REMOVAL_BY_COLLABORATOR'),
+  pendingRemovalByOwner('PENDING_REMOVAL_BY_OWNER'),
+  pendingStartRemovalByOwner('PENDING_START_REMOVAL_BY_OWNER'),
+  failedRemovalByCollaborator('FAILED_REMOVAL_BY_COLLABORATOR'),
+  failedRemovalByOwner('FAILED_REMOVAL_BY_OWNER'),
+  ;
 
-extension ManagedCredentialsStatusValueExtension on ManagedCredentialsStatus {
-  String toValue() {
-    switch (this) {
-      case ManagedCredentialsStatus.enabledOnCreate:
-        return 'ENABLED_ON_CREATE';
-      case ManagedCredentialsStatus.enabledByOwner:
-        return 'ENABLED_BY_OWNER';
-      case ManagedCredentialsStatus.disabledByDefault:
-        return 'DISABLED_BY_DEFAULT';
-      case ManagedCredentialsStatus.disabledByOwner:
-        return 'DISABLED_BY_OWNER';
-      case ManagedCredentialsStatus.disabledByCollaborator:
-        return 'DISABLED_BY_COLLABORATOR';
-      case ManagedCredentialsStatus.pendingRemovalByCollaborator:
-        return 'PENDING_REMOVAL_BY_COLLABORATOR';
-      case ManagedCredentialsStatus.pendingStartRemovalByCollaborator:
-        return 'PENDING_START_REMOVAL_BY_COLLABORATOR';
-      case ManagedCredentialsStatus.pendingRemovalByOwner:
-        return 'PENDING_REMOVAL_BY_OWNER';
-      case ManagedCredentialsStatus.pendingStartRemovalByOwner:
-        return 'PENDING_START_REMOVAL_BY_OWNER';
-      case ManagedCredentialsStatus.failedRemovalByCollaborator:
-        return 'FAILED_REMOVAL_BY_COLLABORATOR';
-      case ManagedCredentialsStatus.failedRemovalByOwner:
-        return 'FAILED_REMOVAL_BY_OWNER';
-    }
-  }
-}
+  final String value;
 
-extension ManagedCredentialsStatusFromString on String {
-  ManagedCredentialsStatus toManagedCredentialsStatus() {
-    switch (this) {
-      case 'ENABLED_ON_CREATE':
-        return ManagedCredentialsStatus.enabledOnCreate;
-      case 'ENABLED_BY_OWNER':
-        return ManagedCredentialsStatus.enabledByOwner;
-      case 'DISABLED_BY_DEFAULT':
-        return ManagedCredentialsStatus.disabledByDefault;
-      case 'DISABLED_BY_OWNER':
-        return ManagedCredentialsStatus.disabledByOwner;
-      case 'DISABLED_BY_COLLABORATOR':
-        return ManagedCredentialsStatus.disabledByCollaborator;
-      case 'PENDING_REMOVAL_BY_COLLABORATOR':
-        return ManagedCredentialsStatus.pendingRemovalByCollaborator;
-      case 'PENDING_START_REMOVAL_BY_COLLABORATOR':
-        return ManagedCredentialsStatus.pendingStartRemovalByCollaborator;
-      case 'PENDING_REMOVAL_BY_OWNER':
-        return ManagedCredentialsStatus.pendingRemovalByOwner;
-      case 'PENDING_START_REMOVAL_BY_OWNER':
-        return ManagedCredentialsStatus.pendingStartRemovalByOwner;
-      case 'FAILED_REMOVAL_BY_COLLABORATOR':
-        return ManagedCredentialsStatus.failedRemovalByCollaborator;
-      case 'FAILED_REMOVAL_BY_OWNER':
-        return ManagedCredentialsStatus.failedRemovalByOwner;
-    }
-    throw Exception('$this is not known in enum ManagedCredentialsStatus');
-  }
+  const ManagedCredentialsStatus(this.value);
+
+  static ManagedCredentialsStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ManagedCredentialsStatus'));
 }
 
 enum MemberPermissions {
-  readWrite,
-  readOnly,
-}
+  readWrite('read-write'),
+  readOnly('read-only'),
+  ;
 
-extension MemberPermissionsValueExtension on MemberPermissions {
-  String toValue() {
-    switch (this) {
-      case MemberPermissions.readWrite:
-        return 'read-write';
-      case MemberPermissions.readOnly:
-        return 'read-only';
-    }
-  }
-}
+  final String value;
 
-extension MemberPermissionsFromString on String {
-  MemberPermissions toMemberPermissions() {
-    switch (this) {
-      case 'read-write':
-        return MemberPermissions.readWrite;
-      case 'read-only':
-        return MemberPermissions.readOnly;
-    }
-    throw Exception('$this is not known in enum MemberPermissions');
-  }
+  const MemberPermissions(this.value);
+
+  static MemberPermissions fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MemberPermissions'));
 }
 
 enum Permissions {
-  owner,
-  readWrite,
-  readOnly,
-}
+  owner('owner'),
+  readWrite('read-write'),
+  readOnly('read-only'),
+  ;
 
-extension PermissionsValueExtension on Permissions {
-  String toValue() {
-    switch (this) {
-      case Permissions.owner:
-        return 'owner';
-      case Permissions.readWrite:
-        return 'read-write';
-      case Permissions.readOnly:
-        return 'read-only';
-    }
-  }
-}
+  final String value;
 
-extension PermissionsFromString on String {
-  Permissions toPermissions() {
-    switch (this) {
-      case 'owner':
-        return Permissions.owner;
-      case 'read-write':
-        return Permissions.readWrite;
-      case 'read-only':
-        return Permissions.readOnly;
-    }
-    throw Exception('$this is not known in enum Permissions');
-  }
+  const Permissions(this.value);
+
+  static Permissions fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Permissions'));
 }
 
 /// Metadata that is associated with Amazon Web Services resources. In

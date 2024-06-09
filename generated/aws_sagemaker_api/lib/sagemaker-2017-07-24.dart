@@ -122,8 +122,7 @@ class SageMaker {
       payload: {
         'DestinationArn': destinationArn,
         'SourceArn': sourceArn,
-        if (associationType != null)
-          'AssociationType': associationType.toValue(),
+        if (associationType != null) 'AssociationType': associationType.value,
       },
     );
 
@@ -315,7 +314,7 @@ class SageMaker {
         if (metadataProperties != null)
           'MetadataProperties': metadataProperties,
         if (properties != null) 'Properties': properties,
-        if (status != null) 'Status': status.toValue(),
+        if (status != null) 'Status': status.value,
         if (tags != null) 'Tags': tags,
       },
     );
@@ -498,7 +497,7 @@ class SageMaker {
       headers: headers,
       payload: {
         'AppName': appName,
-        'AppType': appType.toValue(),
+        'AppType': appType.value,
         'DomainId': domainId,
         if (resourceSpec != null) 'ResourceSpec': resourceSpec,
         if (spaceName != null) 'SpaceName': spaceName,
@@ -738,7 +737,7 @@ class SageMaker {
         if (generateCandidateDefinitionsOnly != null)
           'GenerateCandidateDefinitionsOnly': generateCandidateDefinitionsOnly,
         if (modelDeployConfig != null) 'ModelDeployConfig': modelDeployConfig,
-        if (problemType != null) 'ProblemType': problemType.toValue(),
+        if (problemType != null) 'ProblemType': problemType.value,
         if (tags != null) 'Tags': tags,
       },
     );
@@ -1496,15 +1495,15 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuthMode': authMode.toValue(),
+        'AuthMode': authMode.value,
         'DefaultUserSettings': defaultUserSettings,
         'DomainName': domainName,
         'SubnetIds': subnetIds,
         'VpcId': vpcId,
         if (appNetworkAccessType != null)
-          'AppNetworkAccessType': appNetworkAccessType.toValue(),
+          'AppNetworkAccessType': appNetworkAccessType.value,
         if (appSecurityGroupManagement != null)
-          'AppSecurityGroupManagement': appSecurityGroupManagement.toValue(),
+          'AppSecurityGroupManagement': appSecurityGroupManagement.value,
         if (defaultSpaceSettings != null)
           'DefaultSpaceSettings': defaultSpaceSettings,
         if (domainSettings != null) 'DomainSettings': domainSettings,
@@ -2765,12 +2764,12 @@ class SageMaker {
         if (aliases != null) 'Aliases': aliases,
         'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (horovod != null) 'Horovod': horovod,
-        if (jobType != null) 'JobType': jobType.toValue(),
+        if (jobType != null) 'JobType': jobType.value,
         if (mLFramework != null) 'MLFramework': mLFramework,
-        if (processor != null) 'Processor': processor.toValue(),
+        if (processor != null) 'Processor': processor.value,
         if (programmingLang != null) 'ProgrammingLang': programmingLang,
         if (releaseNotes != null) 'ReleaseNotes': releaseNotes,
-        if (vendorGuidance != null) 'VendorGuidance': vendorGuidance.toValue(),
+        if (vendorGuidance != null) 'VendorGuidance': vendorGuidance.value,
       },
     );
 
@@ -3005,7 +3004,7 @@ class SageMaker {
         'Name': name,
         'RoleArn': roleArn,
         'ShadowModeConfig': shadowModeConfig,
-        'Type': type.toValue(),
+        'Type': type.value,
         if (dataStorageConfig != null) 'DataStorageConfig': dataStorageConfig,
         if (description != null) 'Description': description,
         if (kmsKey != null) 'KmsKey': kmsKey,
@@ -3087,7 +3086,7 @@ class SageMaker {
       payload: {
         'InputConfig': inputConfig,
         'JobName': jobName,
-        'JobType': jobType.toValue(),
+        'JobType': jobType.value,
         'RoleArn': roleArn,
         if (jobDescription != null) 'JobDescription': jobDescription,
         if (outputConfig != null) 'OutputConfig': outputConfig,
@@ -3628,7 +3627,7 @@ class SageMaker {
       payload: {
         'Content': content,
         'ModelCardName': modelCardName,
-        'ModelCardStatus': modelCardStatus.toValue(),
+        'ModelCardStatus': modelCardStatus.value,
         if (securityConfig != null) 'SecurityConfig': securityConfig,
         if (tags != null) 'Tags': tags,
       },
@@ -3982,7 +3981,7 @@ class SageMaker {
         if (metadataProperties != null)
           'MetadataProperties': metadataProperties,
         if (modelApprovalStatus != null)
-          'ModelApprovalStatus': modelApprovalStatus.toValue(),
+          'ModelApprovalStatus': modelApprovalStatus.value,
         if (modelCard != null) 'ModelCard': modelCard,
         if (modelMetrics != null) 'ModelMetrics': modelMetrics,
         if (modelPackageDescription != null)
@@ -3993,7 +3992,7 @@ class SageMaker {
         if (samplePayloadUrl != null) 'SamplePayloadUrl': samplePayloadUrl,
         if (securityConfig != null) 'SecurityConfig': securityConfig,
         if (skipModelValidation != null)
-          'SkipModelValidation': skipModelValidation.toValue(),
+          'SkipModelValidation': skipModelValidation.value,
         if (sourceAlgorithmSpecification != null)
           'SourceAlgorithmSpecification': sourceAlgorithmSpecification,
         if (sourceUri != null) 'SourceUri': sourceUri,
@@ -4361,17 +4360,17 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'InstanceType': instanceType.toValue(),
+        'InstanceType': instanceType.value,
         'NotebookInstanceName': notebookInstanceName,
         'RoleArn': roleArn,
         if (acceleratorTypes != null)
-          'AcceleratorTypes': acceleratorTypes.map((e) => e.toValue()).toList(),
+          'AcceleratorTypes': acceleratorTypes.map((e) => e.value).toList(),
         if (additionalCodeRepositories != null)
           'AdditionalCodeRepositories': additionalCodeRepositories,
         if (defaultCodeRepository != null)
           'DefaultCodeRepository': defaultCodeRepository,
         if (directInternetAccess != null)
-          'DirectInternetAccess': directInternetAccess.toValue(),
+          'DirectInternetAccess': directInternetAccess.value,
         if (instanceMetadataServiceConfiguration != null)
           'InstanceMetadataServiceConfiguration':
               instanceMetadataServiceConfiguration,
@@ -4380,7 +4379,7 @@ class SageMaker {
           'LifecycleConfigName': lifecycleConfigName,
         if (platformIdentifier != null)
           'PlatformIdentifier': platformIdentifier,
-        if (rootAccess != null) 'RootAccess': rootAccess.toValue(),
+        if (rootAccess != null) 'RootAccess': rootAccess.value,
         if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
         if (subnetId != null) 'SubnetId': subnetId,
         if (tags != null) 'Tags': tags,
@@ -4959,7 +4958,7 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'StudioLifecycleConfigAppType': studioLifecycleConfigAppType.toValue(),
+        'StudioLifecycleConfigAppType': studioLifecycleConfigAppType.value,
         'StudioLifecycleConfigContent': studioLifecycleConfigContent,
         'StudioLifecycleConfigName': studioLifecycleConfigName,
         if (tags != null) 'Tags': tags,
@@ -5479,7 +5478,7 @@ class SageMaker {
         'TransformJobName': transformJobName,
         'TransformOutput': transformOutput,
         'TransformResources': transformResources,
-        if (batchStrategy != null) 'BatchStrategy': batchStrategy.toValue(),
+        if (batchStrategy != null) 'BatchStrategy': batchStrategy.value,
         if (dataCaptureConfig != null) 'DataCaptureConfig': dataCaptureConfig,
         if (dataProcessing != null) 'DataProcessing': dataProcessing,
         if (environment != null) 'Environment': environment,
@@ -6013,7 +6012,7 @@ class SageMaker {
       headers: headers,
       payload: {
         'AppName': appName,
-        'AppType': appType.toValue(),
+        'AppType': appType.value,
         'DomainId': domainId,
         if (spaceName != null) 'SpaceName': spaceName,
         if (userProfileName != null) 'UserProfileName': userProfileName,
@@ -6596,7 +6595,7 @@ class SageMaker {
       headers: headers,
       payload: {
         'HubContentName': hubContentName,
-        'HubContentType': hubContentType.toValue(),
+        'HubContentType': hubContentType.value,
         'HubContentVersion': hubContentVersion,
         'HubName': hubName,
       },
@@ -7518,7 +7517,7 @@ class SageMaker {
       headers: headers,
       payload: {
         'AppName': appName,
-        'AppType': appType.toValue(),
+        'AppType': appType.value,
         'DomainId': domainId,
         if (spaceName != null) 'SpaceName': spaceName,
         if (userProfileName != null) 'UserProfileName': userProfileName,
@@ -8222,7 +8221,7 @@ class SageMaker {
       headers: headers,
       payload: {
         'HubContentName': hubContentName,
-        'HubContentType': hubContentType.toValue(),
+        'HubContentType': hubContentType.value,
         'HubName': hubName,
         if (hubContentVersion != null) 'HubContentVersion': hubContentVersion,
       },
@@ -9528,7 +9527,7 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Resource': resource.toValue(),
+        'Resource': resource.value,
         if (suggestionQuery != null) 'SuggestionQuery': suggestionQuery,
       },
     );
@@ -9606,7 +9605,7 @@ class SageMaker {
         'DocumentSchemaVersion': documentSchemaVersion,
         'HubContentDocument': hubContentDocument,
         'HubContentName': hubContentName,
-        'HubContentType': hubContentType.toValue(),
+        'HubContentType': hubContentType.value,
         'HubName': hubName,
         if (hubContentDescription != null)
           'HubContentDescription': hubContentDescription,
@@ -9690,8 +9689,8 @@ class SageMaker {
           'CreatedBefore': unixTimestampToJson(createdBefore),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
         if (sourceUri != null) 'SourceUri': sourceUri,
       },
     );
@@ -9760,8 +9759,8 @@ class SageMaker {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -9911,8 +9910,8 @@ class SageMaker {
           'ModifiedTimeBefore': unixTimestampToJson(modifiedTimeBefore),
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -9979,8 +9978,8 @@ class SageMaker {
         if (domainIdEquals != null) 'DomainIdEquals': domainIdEquals,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
         if (spaceNameEquals != null) 'SpaceNameEquals': spaceNameEquals,
         if (userProfileNameEquals != null)
           'UserProfileNameEquals': userProfileNameEquals,
@@ -10057,8 +10056,8 @@ class SageMaker {
           'CreatedBefore': unixTimestampToJson(createdBefore),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
         if (sourceUri != null) 'SourceUri': sourceUri,
       },
     );
@@ -10140,8 +10139,7 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (associationType != null)
-          'AssociationType': associationType.toValue(),
+        if (associationType != null) 'AssociationType': associationType.value,
         if (createdAfter != null)
           'CreatedAfter': unixTimestampToJson(createdAfter),
         if (createdBefore != null)
@@ -10150,8 +10148,8 @@ class SageMaker {
         if (destinationType != null) 'DestinationType': destinationType,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
         if (sourceArn != null) 'SourceArn': sourceArn,
         if (sourceType != null) 'SourceType': sourceType,
       },
@@ -10233,9 +10231,9 @@ class SageMaker {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
+        if (statusEquals != null) 'StatusEquals': statusEquals.value,
       },
     );
 
@@ -10299,9 +10297,9 @@ class SageMaker {
           'CandidateNameEquals': candidateNameEquals,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
+        if (statusEquals != null) 'StatusEquals': statusEquals.value,
       },
     );
 
@@ -10408,8 +10406,8 @@ class SageMaker {
           'InstanceGroupNameContains': instanceGroupNameContains,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -10504,8 +10502,8 @@ class SageMaker {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -10586,8 +10584,8 @@ class SageMaker {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -10680,9 +10678,9 @@ class SageMaker {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
+        if (statusEquals != null) 'StatusEquals': statusEquals.value,
       },
     );
 
@@ -10756,8 +10754,8 @@ class SageMaker {
           'CreatedBefore': unixTimestampToJson(createdBefore),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
         if (sourceUri != null) 'SourceUri': sourceUri,
       },
     );
@@ -10835,8 +10833,8 @@ class SageMaker {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -10912,8 +10910,8 @@ class SageMaker {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -11094,8 +11092,8 @@ class SageMaker {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -11179,9 +11177,9 @@ class SageMaker {
         if (modelNameContains != null) 'ModelNameContains': modelNameContains,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
+        if (statusEquals != null) 'StatusEquals': statusEquals.value,
       },
     );
 
@@ -11248,8 +11246,8 @@ class SageMaker {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -11335,9 +11333,9 @@ class SageMaker {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
+        if (statusEquals != null) 'StatusEquals': statusEquals.value,
       },
     );
 
@@ -11400,8 +11398,8 @@ class SageMaker {
           'CreatedBefore': unixTimestampToJson(createdBefore),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -11474,14 +11472,14 @@ class SageMaker {
         if (creationTimeBefore != null)
           'CreationTimeBefore': unixTimestampToJson(creationTimeBefore),
         if (featureGroupStatusEquals != null)
-          'FeatureGroupStatusEquals': featureGroupStatusEquals.toValue(),
+          'FeatureGroupStatusEquals': featureGroupStatusEquals.value,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
         if (offlineStoreStatusEquals != null)
-          'OfflineStoreStatusEquals': offlineStoreStatusEquals.toValue(),
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+          'OfflineStoreStatusEquals': offlineStoreStatusEquals.value,
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -11540,7 +11538,7 @@ class SageMaker {
           'CreationTimeBefore': unixTimestampToJson(creationTimeBefore),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -11620,7 +11618,7 @@ class SageMaker {
       headers: headers,
       payload: {
         'HubContentName': hubContentName,
-        'HubContentType': hubContentType.toValue(),
+        'HubContentType': hubContentType.value,
         'HubName': hubName,
         if (creationTimeAfter != null)
           'CreationTimeAfter': unixTimestampToJson(creationTimeAfter),
@@ -11630,8 +11628,8 @@ class SageMaker {
         if (maxSchemaVersion != null) 'MaxSchemaVersion': maxSchemaVersion,
         if (minVersion != null) 'MinVersion': minVersion,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -11705,7 +11703,7 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'HubContentType': hubContentType.toValue(),
+        'HubContentType': hubContentType.value,
         'HubName': hubName,
         if (creationTimeAfter != null)
           'CreationTimeAfter': unixTimestampToJson(creationTimeAfter),
@@ -11715,8 +11713,8 @@ class SageMaker {
         if (maxSchemaVersion != null) 'MaxSchemaVersion': maxSchemaVersion,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -11795,8 +11793,8 @@ class SageMaker {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -11855,7 +11853,7 @@ class SageMaker {
           'CreationTimeBefore': unixTimestampToJson(creationTimeBefore),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -11943,9 +11941,9 @@ class SageMaker {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
+        if (statusEquals != null) 'StatusEquals': statusEquals.value,
       },
     );
 
@@ -12030,8 +12028,8 @@ class SageMaker {
           'LastModifiedTimeBefore': unixTimestampToJson(lastModifiedTimeBefore),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -12112,8 +12110,8 @@ class SageMaker {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -12215,9 +12213,9 @@ class SageMaker {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
+        if (statusEquals != null) 'StatusEquals': statusEquals.value,
         if (variantNameEquals != null) 'VariantNameEquals': variantNameEquals,
       },
     );
@@ -12307,10 +12305,10 @@ class SageMaker {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals.toValue(),
-        if (type != null) 'Type': type.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
+        if (statusEquals != null) 'StatusEquals': statusEquals.value,
+        if (type != null) 'Type': type.value,
       },
     );
 
@@ -12371,8 +12369,8 @@ class SageMaker {
         'JobName': jobName,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (status != null) 'Status': status.toValue(),
-        if (stepType != null) 'StepType': stepType.toValue(),
+        if (status != null) 'Status': status.value,
+        if (stepType != null) 'StepType': stepType.value,
       },
     );
 
@@ -12473,9 +12471,9 @@ class SageMaker {
           'ModelPackageVersionArnEquals': modelPackageVersionArnEquals,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
+        if (statusEquals != null) 'StatusEquals': statusEquals.value,
       },
     );
 
@@ -12561,9 +12559,9 @@ class SageMaker {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
+        if (statusEquals != null) 'StatusEquals': statusEquals.value,
       },
     );
 
@@ -12640,8 +12638,8 @@ class SageMaker {
           'JobReferenceCodeContains': jobReferenceCodeContains,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -12707,8 +12705,8 @@ class SageMaker {
           'CreatedBefore': unixTimestampToJson(createdBefore),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -12780,8 +12778,8 @@ class SageMaker {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -12864,9 +12862,9 @@ class SageMaker {
           'ModelCardExportJobNameContains': modelCardExportJobNameContains,
         if (modelCardVersion != null) 'ModelCardVersion': modelCardVersion,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
+        if (statusEquals != null) 'StatusEquals': statusEquals.value,
       },
     );
 
@@ -12936,11 +12934,10 @@ class SageMaker {
         if (creationTimeBefore != null)
           'CreationTimeBefore': unixTimestampToJson(creationTimeBefore),
         if (maxResults != null) 'MaxResults': maxResults,
-        if (modelCardStatus != null)
-          'ModelCardStatus': modelCardStatus.toValue(),
+        if (modelCardStatus != null) 'ModelCardStatus': modelCardStatus.value,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -13007,12 +13004,11 @@ class SageMaker {
         if (creationTimeBefore != null)
           'CreationTimeBefore': unixTimestampToJson(creationTimeBefore),
         if (maxResults != null) 'MaxResults': maxResults,
-        if (modelCardStatus != null)
-          'ModelCardStatus': modelCardStatus.toValue(),
+        if (modelCardStatus != null) 'ModelCardStatus': modelCardStatus.value,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -13087,8 +13083,8 @@ class SageMaker {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -13202,8 +13198,8 @@ class SageMaker {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -13298,15 +13294,15 @@ class SageMaker {
           'CreationTimeBefore': unixTimestampToJson(creationTimeBefore),
         if (maxResults != null) 'MaxResults': maxResults,
         if (modelApprovalStatus != null)
-          'ModelApprovalStatus': modelApprovalStatus.toValue(),
+          'ModelApprovalStatus': modelApprovalStatus.value,
         if (modelPackageGroupName != null)
           'ModelPackageGroupName': modelPackageGroupName,
         if (modelPackageType != null)
-          'ModelPackageType': modelPackageType.toValue(),
+          'ModelPackageType': modelPackageType.value,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -13383,8 +13379,8 @@ class SageMaker {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -13451,8 +13447,8 @@ class SageMaker {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -13531,9 +13527,9 @@ class SageMaker {
         if (monitoringScheduleName != null)
           'MonitoringScheduleName': monitoringScheduleName,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
+        if (statusEquals != null) 'StatusEquals': statusEquals.value,
       },
     );
 
@@ -13687,15 +13683,15 @@ class SageMaker {
         if (monitoringScheduleName != null)
           'MonitoringScheduleName': monitoringScheduleName,
         if (monitoringTypeEquals != null)
-          'MonitoringTypeEquals': monitoringTypeEquals.toValue(),
+          'MonitoringTypeEquals': monitoringTypeEquals.value,
         if (nextToken != null) 'NextToken': nextToken,
         if (scheduledTimeAfter != null)
           'ScheduledTimeAfter': unixTimestampToJson(scheduledTimeAfter),
         if (scheduledTimeBefore != null)
           'ScheduledTimeBefore': unixTimestampToJson(scheduledTimeBefore),
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
+        if (statusEquals != null) 'StatusEquals': statusEquals.value,
       },
     );
 
@@ -13799,12 +13795,12 @@ class SageMaker {
         if (monitoringJobDefinitionName != null)
           'MonitoringJobDefinitionName': monitoringJobDefinitionName,
         if (monitoringTypeEquals != null)
-          'MonitoringTypeEquals': monitoringTypeEquals.toValue(),
+          'MonitoringTypeEquals': monitoringTypeEquals.value,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
+        if (statusEquals != null) 'StatusEquals': statusEquals.value,
       },
     );
 
@@ -13889,8 +13885,8 @@ class SageMaker {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -14008,9 +14004,9 @@ class SageMaker {
         if (notebookInstanceLifecycleConfigNameContains != null)
           'NotebookInstanceLifecycleConfigNameContains':
               notebookInstanceLifecycleConfigNameContains,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
+        if (statusEquals != null) 'StatusEquals': statusEquals.value,
       },
     );
 
@@ -14063,7 +14059,7 @@ class SageMaker {
         if (nextToken != null) 'NextToken': nextToken,
         if (pipelineExecutionArn != null)
           'PipelineExecutionArn': pipelineExecutionArn,
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -14132,8 +14128,8 @@ class SageMaker {
           'CreatedBefore': unixTimestampToJson(createdBefore),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -14249,8 +14245,8 @@ class SageMaker {
         if (nextToken != null) 'NextToken': nextToken,
         if (pipelineNamePrefix != null)
           'PipelineNamePrefix': pipelineNamePrefix,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -14335,9 +14331,9 @@ class SageMaker {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
+        if (statusEquals != null) 'StatusEquals': statusEquals.value,
       },
     );
 
@@ -14404,8 +14400,8 @@ class SageMaker {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -14472,8 +14468,8 @@ class SageMaker {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -14535,8 +14531,8 @@ class SageMaker {
         if (domainIdEquals != null) 'DomainIdEquals': domainIdEquals,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
         if (spaceNameContains != null) 'SpaceNameContains': spaceNameContains,
       },
     );
@@ -14674,7 +14670,7 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (appTypeEquals != null) 'AppTypeEquals': appTypeEquals.toValue(),
+        if (appTypeEquals != null) 'AppTypeEquals': appTypeEquals.value,
         if (creationTimeAfter != null)
           'CreationTimeAfter': unixTimestampToJson(creationTimeAfter),
         if (creationTimeBefore != null)
@@ -14686,8 +14682,8 @@ class SageMaker {
           'ModifiedTimeBefore': unixTimestampToJson(modifiedTimeBefore),
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -14890,11 +14886,11 @@ class SageMaker {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
+        if (statusEquals != null) 'StatusEquals': statusEquals.value,
         if (warmPoolStatusEquals != null)
-          'WarmPoolStatusEquals': warmPoolStatusEquals.toValue(),
+          'WarmPoolStatusEquals': warmPoolStatusEquals.value,
       },
     );
 
@@ -14960,9 +14956,9 @@ class SageMaker {
         'HyperParameterTuningJobName': hyperParameterTuningJobName,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
+        if (statusEquals != null) 'StatusEquals': statusEquals.value,
       },
     );
 
@@ -15049,9 +15045,9 @@ class SageMaker {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
+        if (statusEquals != null) 'StatusEquals': statusEquals.value,
       },
     );
 
@@ -15148,8 +15144,8 @@ class SageMaker {
         if (experimentName != null) 'ExperimentName': experimentName,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
         if (sourceArn != null) 'SourceArn': sourceArn,
         if (trialName != null) 'TrialName': trialName,
       },
@@ -15229,8 +15225,8 @@ class SageMaker {
         if (experimentName != null) 'ExperimentName': experimentName,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
         if (trialComponentName != null)
           'TrialComponentName': trialComponentName,
       },
@@ -15293,8 +15289,8 @@ class SageMaker {
         if (domainIdEquals != null) 'DomainIdEquals': domainIdEquals,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
         if (userProfileNameContains != null)
           'UserProfileNameContains': userProfileNameContains,
       },
@@ -15349,8 +15345,8 @@ class SageMaker {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -15405,8 +15401,8 @@ class SageMaker {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -15543,7 +15539,7 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (direction != null) 'Direction': direction.toValue(),
+        if (direction != null) 'Direction': direction.value,
         if (filters != null) 'Filters': filters,
         if (includeEdges != null) 'IncludeEdges': includeEdges,
         if (maxDepth != null) 'MaxDepth': maxDepth,
@@ -15770,14 +15766,14 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Resource': resource.toValue(),
+        'Resource': resource.value,
         if (crossAccountFilterOption != null)
-          'CrossAccountFilterOption': crossAccountFilterOption.toValue(),
+          'CrossAccountFilterOption': crossAccountFilterOption.value,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (searchExpression != null) 'SearchExpression': searchExpression,
         if (sortBy != null) 'SortBy': sortBy,
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
         if (visibilityConditions != null)
           'VisibilityConditions': visibilityConditions,
       },
@@ -16266,11 +16262,11 @@ class SageMaker {
       headers: headers,
       payload: {
         'ModelVariantActions':
-            modelVariantActions.map((k, e) => MapEntry(k, e.toValue())),
+            modelVariantActions.map((k, e) => MapEntry(k, e.value)),
         'Name': name,
         if (desiredModelVariants != null)
           'DesiredModelVariants': desiredModelVariants,
-        if (desiredState != null) 'DesiredState': desiredState.toValue(),
+        if (desiredState != null) 'DesiredState': desiredState.value,
         if (reason != null) 'Reason': reason,
       },
     );
@@ -16579,7 +16575,7 @@ class SageMaker {
         if (properties != null) 'Properties': properties,
         if (propertiesToRemove != null)
           'PropertiesToRemove': propertiesToRemove,
-        if (status != null) 'Status': status.toValue(),
+        if (status != null) 'Status': status.value,
       },
     );
 
@@ -16978,9 +16974,9 @@ class SageMaker {
       payload: {
         'DomainId': domainId,
         if (appNetworkAccessType != null)
-          'AppNetworkAccessType': appNetworkAccessType.toValue(),
+          'AppNetworkAccessType': appNetworkAccessType.value,
         if (appSecurityGroupManagement != null)
-          'AppSecurityGroupManagement': appSecurityGroupManagement.toValue(),
+          'AppSecurityGroupManagement': appSecurityGroupManagement.value,
         if (defaultSpaceSettings != null)
           'DefaultSpaceSettings': defaultSpaceSettings,
         if (defaultUserSettings != null)
@@ -17500,12 +17496,12 @@ class SageMaker {
         if (aliasesToAdd != null) 'AliasesToAdd': aliasesToAdd,
         if (aliasesToDelete != null) 'AliasesToDelete': aliasesToDelete,
         if (horovod != null) 'Horovod': horovod,
-        if (jobType != null) 'JobType': jobType.toValue(),
+        if (jobType != null) 'JobType': jobType.value,
         if (mLFramework != null) 'MLFramework': mLFramework,
-        if (processor != null) 'Processor': processor.toValue(),
+        if (processor != null) 'Processor': processor.value,
         if (programmingLang != null) 'ProgrammingLang': programmingLang,
         if (releaseNotes != null) 'ReleaseNotes': releaseNotes,
-        if (vendorGuidance != null) 'VendorGuidance': vendorGuidance.toValue(),
+        if (vendorGuidance != null) 'VendorGuidance': vendorGuidance.value,
         if (version != null) 'Version': version,
       },
     );
@@ -17710,8 +17706,7 @@ class SageMaker {
       payload: {
         'ModelCardName': modelCardName,
         if (content != null) 'Content': content,
-        if (modelCardStatus != null)
-          'ModelCardStatus': modelCardStatus.toValue(),
+        if (modelCardStatus != null) 'ModelCardStatus': modelCardStatus.value,
       },
     );
 
@@ -17817,7 +17812,7 @@ class SageMaker {
         if (inferenceSpecification != null)
           'InferenceSpecification': inferenceSpecification,
         if (modelApprovalStatus != null)
-          'ModelApprovalStatus': modelApprovalStatus.toValue(),
+          'ModelApprovalStatus': modelApprovalStatus.value,
         if (modelCard != null) 'ModelCard': modelCard,
         if (sourceUri != null) 'SourceUri': sourceUri,
       },
@@ -18057,7 +18052,7 @@ class SageMaker {
       payload: {
         'NotebookInstanceName': notebookInstanceName,
         if (acceleratorTypes != null)
-          'AcceleratorTypes': acceleratorTypes.map((e) => e.toValue()).toList(),
+          'AcceleratorTypes': acceleratorTypes.map((e) => e.value).toList(),
         if (additionalCodeRepositories != null)
           'AdditionalCodeRepositories': additionalCodeRepositories,
         if (defaultCodeRepository != null)
@@ -18075,11 +18070,11 @@ class SageMaker {
         if (instanceMetadataServiceConfiguration != null)
           'InstanceMetadataServiceConfiguration':
               instanceMetadataServiceConfiguration,
-        if (instanceType != null) 'InstanceType': instanceType.toValue(),
+        if (instanceType != null) 'InstanceType': instanceType.value,
         if (lifecycleConfigName != null)
           'LifecycleConfigName': lifecycleConfigName,
         if (roleArn != null) 'RoleArn': roleArn,
-        if (rootAccess != null) 'RootAccess': rootAccess.toValue(),
+        if (rootAccess != null) 'RootAccess': rootAccess.value,
         if (volumeSizeInGB != null) 'VolumeSizeInGB': volumeSizeInGB,
       },
     );
@@ -18779,51 +18774,22 @@ class ActionSource {
 }
 
 enum ActionStatus {
-  unknown,
-  inProgress,
-  completed,
-  failed,
-  stopping,
-  stopped,
-}
+  unknown('Unknown'),
+  inProgress('InProgress'),
+  completed('Completed'),
+  failed('Failed'),
+  stopping('Stopping'),
+  stopped('Stopped'),
+  ;
 
-extension ActionStatusValueExtension on ActionStatus {
-  String toValue() {
-    switch (this) {
-      case ActionStatus.unknown:
-        return 'Unknown';
-      case ActionStatus.inProgress:
-        return 'InProgress';
-      case ActionStatus.completed:
-        return 'Completed';
-      case ActionStatus.failed:
-        return 'Failed';
-      case ActionStatus.stopping:
-        return 'Stopping';
-      case ActionStatus.stopped:
-        return 'Stopped';
-    }
-  }
-}
+  final String value;
 
-extension ActionStatusFromString on String {
-  ActionStatus toActionStatus() {
-    switch (this) {
-      case 'Unknown':
-        return ActionStatus.unknown;
-      case 'InProgress':
-        return ActionStatus.inProgress;
-      case 'Completed':
-        return ActionStatus.completed;
-      case 'Failed':
-        return ActionStatus.failed;
-      case 'Stopping':
-        return ActionStatus.stopping;
-      case 'Stopped':
-        return ActionStatus.stopped;
-    }
-    throw Exception('$this is not known in enum ActionStatus');
-  }
+  const ActionStatus(this.value);
+
+  static ActionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ActionStatus'));
 }
 
 /// Lists the properties of an <i>action</i>. An action represents an action or
@@ -18872,7 +18838,7 @@ class ActionSummary {
       source: json['Source'] != null
           ? ActionSource.fromJson(json['Source'] as Map<String, dynamic>)
           : null,
-      status: (json['Status'] as String?)?.toActionStatus(),
+      status: (json['Status'] as String?)?.let(ActionStatus.fromString),
     );
   }
 }
@@ -18970,11 +18936,11 @@ class AdditionalInferenceSpecificationDefinition {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      supportedRealtimeInferenceInstanceTypes:
-          (json['SupportedRealtimeInferenceInstanceTypes'] as List?)
-              ?.whereNotNull()
-              .map((e) => (e as String).toProductionVariantInstanceType())
-              .toList(),
+      supportedRealtimeInferenceInstanceTypes: (json[
+              'SupportedRealtimeInferenceInstanceTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => ProductionVariantInstanceType.fromString((e as String)))
+          .toList(),
       supportedResponseMIMETypes: (json['SupportedResponseMIMETypes'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -18982,7 +18948,7 @@ class AdditionalInferenceSpecificationDefinition {
       supportedTransformInstanceTypes:
           (json['SupportedTransformInstanceTypes'] as List?)
               ?.whereNotNull()
-              .map((e) => (e as String).toTransformInstanceType())
+              .map((e) => TransformInstanceType.fromString((e as String)))
               .toList(),
     );
   }
@@ -19006,13 +18972,13 @@ class AdditionalInferenceSpecificationDefinition {
       if (supportedRealtimeInferenceInstanceTypes != null)
         'SupportedRealtimeInferenceInstanceTypes':
             supportedRealtimeInferenceInstanceTypes
-                .map((e) => e.toValue())
+                .map((e) => e.value)
                 .toList(),
       if (supportedResponseMIMETypes != null)
         'SupportedResponseMIMETypes': supportedResponseMIMETypes,
       if (supportedTransformInstanceTypes != null)
         'SupportedTransformInstanceTypes':
-            supportedTransformInstanceTypes.map((e) => e.toValue()).toList(),
+            supportedTransformInstanceTypes.map((e) => e.value).toList(),
     };
   }
 }
@@ -19041,11 +19007,11 @@ class AdditionalS3DataSource {
 
   factory AdditionalS3DataSource.fromJson(Map<String, dynamic> json) {
     return AdditionalS3DataSource(
-      s3DataType:
-          (json['S3DataType'] as String).toAdditionalS3DataSourceDataType(),
+      s3DataType: AdditionalS3DataSourceDataType.fromString(
+          (json['S3DataType'] as String)),
       s3Uri: json['S3Uri'] as String,
       compressionType:
-          (json['CompressionType'] as String?)?.toCompressionType(),
+          (json['CompressionType'] as String?)?.let(CompressionType.fromString),
     );
   }
 
@@ -19054,41 +19020,26 @@ class AdditionalS3DataSource {
     final s3Uri = this.s3Uri;
     final compressionType = this.compressionType;
     return {
-      'S3DataType': s3DataType.toValue(),
+      'S3DataType': s3DataType.value,
       'S3Uri': s3Uri,
-      if (compressionType != null) 'CompressionType': compressionType.toValue(),
+      if (compressionType != null) 'CompressionType': compressionType.value,
     };
   }
 }
 
 enum AdditionalS3DataSourceDataType {
-  s3Object,
-  s3Prefix,
-}
+  s3Object('S3Object'),
+  s3Prefix('S3Prefix'),
+  ;
 
-extension AdditionalS3DataSourceDataTypeValueExtension
-    on AdditionalS3DataSourceDataType {
-  String toValue() {
-    switch (this) {
-      case AdditionalS3DataSourceDataType.s3Object:
-        return 'S3Object';
-      case AdditionalS3DataSourceDataType.s3Prefix:
-        return 'S3Prefix';
-    }
-  }
-}
+  final String value;
 
-extension AdditionalS3DataSourceDataTypeFromString on String {
-  AdditionalS3DataSourceDataType toAdditionalS3DataSourceDataType() {
-    switch (this) {
-      case 'S3Object':
-        return AdditionalS3DataSourceDataType.s3Object;
-      case 'S3Prefix':
-        return AdditionalS3DataSourceDataType.s3Prefix;
-    }
-    throw Exception(
-        '$this is not known in enum AdditionalS3DataSourceDataType');
-  }
+  const AdditionalS3DataSourceDataType(this.value);
+
+  static AdditionalS3DataSourceDataType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AdditionalS3DataSourceDataType'));
 }
 
 /// Edge Manager agent version.
@@ -19113,48 +19064,21 @@ class AgentVersion {
 }
 
 enum AggregationTransformationValue {
-  sum,
-  avg,
-  first,
-  min,
-  max,
-}
+  sum('sum'),
+  avg('avg'),
+  first('first'),
+  min('min'),
+  max('max'),
+  ;
 
-extension AggregationTransformationValueValueExtension
-    on AggregationTransformationValue {
-  String toValue() {
-    switch (this) {
-      case AggregationTransformationValue.sum:
-        return 'sum';
-      case AggregationTransformationValue.avg:
-        return 'avg';
-      case AggregationTransformationValue.first:
-        return 'first';
-      case AggregationTransformationValue.min:
-        return 'min';
-      case AggregationTransformationValue.max:
-        return 'max';
-    }
-  }
-}
+  final String value;
 
-extension AggregationTransformationValueFromString on String {
-  AggregationTransformationValue toAggregationTransformationValue() {
-    switch (this) {
-      case 'sum':
-        return AggregationTransformationValue.sum;
-      case 'avg':
-        return AggregationTransformationValue.avg;
-      case 'first':
-        return AggregationTransformationValue.first;
-      case 'min':
-        return AggregationTransformationValue.min;
-      case 'max':
-        return AggregationTransformationValue.max;
-    }
-    throw Exception(
-        '$this is not known in enum AggregationTransformationValue');
-  }
+  const AggregationTransformationValue(this.value);
+
+  static AggregationTransformationValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AggregationTransformationValue'));
 }
 
 /// An Amazon CloudWatch alarm configured to monitor metrics on an endpoint.
@@ -19181,31 +19105,18 @@ class Alarm {
 }
 
 enum AlgorithmSortBy {
-  name,
-  creationTime,
-}
+  name('Name'),
+  creationTime('CreationTime'),
+  ;
 
-extension AlgorithmSortByValueExtension on AlgorithmSortBy {
-  String toValue() {
-    switch (this) {
-      case AlgorithmSortBy.name:
-        return 'Name';
-      case AlgorithmSortBy.creationTime:
-        return 'CreationTime';
-    }
-  }
-}
+  final String value;
 
-extension AlgorithmSortByFromString on String {
-  AlgorithmSortBy toAlgorithmSortBy() {
-    switch (this) {
-      case 'Name':
-        return AlgorithmSortBy.name;
-      case 'CreationTime':
-        return AlgorithmSortBy.creationTime;
-    }
-    throw Exception('$this is not known in enum AlgorithmSortBy');
-  }
+  const AlgorithmSortBy(this.value);
+
+  static AlgorithmSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AlgorithmSortBy'));
 }
 
 /// Specifies the training algorithm to use in a <a
@@ -19325,7 +19236,7 @@ class AlgorithmSpecification {
   factory AlgorithmSpecification.fromJson(Map<String, dynamic> json) {
     return AlgorithmSpecification(
       trainingInputMode:
-          (json['TrainingInputMode'] as String).toTrainingInputMode(),
+          TrainingInputMode.fromString((json['TrainingInputMode'] as String)),
       algorithmName: json['AlgorithmName'] as String?,
       containerArguments: (json['ContainerArguments'] as List?)
           ?.whereNotNull()
@@ -19360,7 +19271,7 @@ class AlgorithmSpecification {
     final trainingImage = this.trainingImage;
     final trainingImageConfig = this.trainingImageConfig;
     return {
-      'TrainingInputMode': trainingInputMode.toValue(),
+      'TrainingInputMode': trainingInputMode.value,
       if (algorithmName != null) 'AlgorithmName': algorithmName,
       if (containerArguments != null) 'ContainerArguments': containerArguments,
       if (containerEntrypoint != null)
@@ -19376,46 +19287,21 @@ class AlgorithmSpecification {
 }
 
 enum AlgorithmStatus {
-  pending,
-  inProgress,
-  completed,
-  failed,
-  deleting,
-}
+  pending('Pending'),
+  inProgress('InProgress'),
+  completed('Completed'),
+  failed('Failed'),
+  deleting('Deleting'),
+  ;
 
-extension AlgorithmStatusValueExtension on AlgorithmStatus {
-  String toValue() {
-    switch (this) {
-      case AlgorithmStatus.pending:
-        return 'Pending';
-      case AlgorithmStatus.inProgress:
-        return 'InProgress';
-      case AlgorithmStatus.completed:
-        return 'Completed';
-      case AlgorithmStatus.failed:
-        return 'Failed';
-      case AlgorithmStatus.deleting:
-        return 'Deleting';
-    }
-  }
-}
+  final String value;
 
-extension AlgorithmStatusFromString on String {
-  AlgorithmStatus toAlgorithmStatus() {
-    switch (this) {
-      case 'Pending':
-        return AlgorithmStatus.pending;
-      case 'InProgress':
-        return AlgorithmStatus.inProgress;
-      case 'Completed':
-        return AlgorithmStatus.completed;
-      case 'Failed':
-        return AlgorithmStatus.failed;
-      case 'Deleting':
-        return AlgorithmStatus.deleting;
-    }
-    throw Exception('$this is not known in enum AlgorithmStatus');
-  }
+  const AlgorithmStatus(this.value);
+
+  static AlgorithmStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AlgorithmStatus'));
 }
 
 /// Specifies the validation and image scan statuses of the algorithm.
@@ -19465,7 +19351,7 @@ class AlgorithmStatusItem {
   factory AlgorithmStatusItem.fromJson(Map<String, dynamic> json) {
     return AlgorithmStatusItem(
       name: json['Name'] as String,
-      status: (json['Status'] as String).toDetailedAlgorithmStatus(),
+      status: DetailedAlgorithmStatus.fromString((json['Status'] as String)),
       failureReason: json['FailureReason'] as String?,
     );
   }
@@ -19500,7 +19386,8 @@ class AlgorithmSummary {
     return AlgorithmSummary(
       algorithmArn: json['AlgorithmArn'] as String,
       algorithmName: json['AlgorithmName'] as String,
-      algorithmStatus: (json['AlgorithmStatus'] as String).toAlgorithmStatus(),
+      algorithmStatus:
+          AlgorithmStatus.fromString((json['AlgorithmStatus'] as String)),
       creationTime:
           nonNullableTimeStampFromJson(json['CreationTime'] as Object),
       algorithmDescription: json['AlgorithmDescription'] as String?,
@@ -20609,14 +20496,14 @@ class AppDetails {
   factory AppDetails.fromJson(Map<String, dynamic> json) {
     return AppDetails(
       appName: json['AppName'] as String?,
-      appType: (json['AppType'] as String?)?.toAppType(),
+      appType: (json['AppType'] as String?)?.let(AppType.fromString),
       creationTime: timeStampFromJson(json['CreationTime']),
       domainId: json['DomainId'] as String?,
       resourceSpec: json['ResourceSpec'] != null
           ? ResourceSpec.fromJson(json['ResourceSpec'] as Map<String, dynamic>)
           : null,
       spaceName: json['SpaceName'] as String?,
-      status: (json['Status'] as String?)?.toAppStatus(),
+      status: (json['Status'] as String?)?.let(AppStatus.fromString),
       userProfileName: json['UserProfileName'] as String?,
     );
   }
@@ -20680,899 +20567,228 @@ class AppImageConfigDetails {
 }
 
 enum AppImageConfigSortKey {
-  creationTime,
-  lastModifiedTime,
-  name,
-}
+  creationTime('CreationTime'),
+  lastModifiedTime('LastModifiedTime'),
+  name('Name'),
+  ;
 
-extension AppImageConfigSortKeyValueExtension on AppImageConfigSortKey {
-  String toValue() {
-    switch (this) {
-      case AppImageConfigSortKey.creationTime:
-        return 'CreationTime';
-      case AppImageConfigSortKey.lastModifiedTime:
-        return 'LastModifiedTime';
-      case AppImageConfigSortKey.name:
-        return 'Name';
-    }
-  }
-}
+  final String value;
 
-extension AppImageConfigSortKeyFromString on String {
-  AppImageConfigSortKey toAppImageConfigSortKey() {
-    switch (this) {
-      case 'CreationTime':
-        return AppImageConfigSortKey.creationTime;
-      case 'LastModifiedTime':
-        return AppImageConfigSortKey.lastModifiedTime;
-      case 'Name':
-        return AppImageConfigSortKey.name;
-    }
-    throw Exception('$this is not known in enum AppImageConfigSortKey');
-  }
+  const AppImageConfigSortKey(this.value);
+
+  static AppImageConfigSortKey fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AppImageConfigSortKey'));
 }
 
 enum AppInstanceType {
-  system,
-  mlT3Micro,
-  mlT3Small,
-  mlT3Medium,
-  mlT3Large,
-  mlT3Xlarge,
-  mlT3_2xlarge,
-  mlM5Large,
-  mlM5Xlarge,
-  mlM5_2xlarge,
-  mlM5_4xlarge,
-  mlM5_8xlarge,
-  mlM5_12xlarge,
-  mlM5_16xlarge,
-  mlM5_24xlarge,
-  mlM5dLarge,
-  mlM5dXlarge,
-  mlM5d_2xlarge,
-  mlM5d_4xlarge,
-  mlM5d_8xlarge,
-  mlM5d_12xlarge,
-  mlM5d_16xlarge,
-  mlM5d_24xlarge,
-  mlC5Large,
-  mlC5Xlarge,
-  mlC5_2xlarge,
-  mlC5_4xlarge,
-  mlC5_9xlarge,
-  mlC5_12xlarge,
-  mlC5_18xlarge,
-  mlC5_24xlarge,
-  mlP3_2xlarge,
-  mlP3_8xlarge,
-  mlP3_16xlarge,
-  mlP3dn_24xlarge,
-  mlG4dnXlarge,
-  mlG4dn_2xlarge,
-  mlG4dn_4xlarge,
-  mlG4dn_8xlarge,
-  mlG4dn_12xlarge,
-  mlG4dn_16xlarge,
-  mlR5Large,
-  mlR5Xlarge,
-  mlR5_2xlarge,
-  mlR5_4xlarge,
-  mlR5_8xlarge,
-  mlR5_12xlarge,
-  mlR5_16xlarge,
-  mlR5_24xlarge,
-  mlG5Xlarge,
-  mlG5_2xlarge,
-  mlG5_4xlarge,
-  mlG5_8xlarge,
-  mlG5_16xlarge,
-  mlG5_12xlarge,
-  mlG5_24xlarge,
-  mlG5_48xlarge,
-  mlG6Xlarge,
-  mlG6_2xlarge,
-  mlG6_4xlarge,
-  mlG6_8xlarge,
-  mlG6_12xlarge,
-  mlG6_16xlarge,
-  mlG6_24xlarge,
-  mlG6_48xlarge,
-  mlGeospatialInteractive,
-  mlP4d_24xlarge,
-  mlP4de_24xlarge,
-  mlTrn1_2xlarge,
-  mlTrn1_32xlarge,
-  mlTrn1n_32xlarge,
-  mlP5_48xlarge,
-  mlM6iLarge,
-  mlM6iXlarge,
-  mlM6i_2xlarge,
-  mlM6i_4xlarge,
-  mlM6i_8xlarge,
-  mlM6i_12xlarge,
-  mlM6i_16xlarge,
-  mlM6i_24xlarge,
-  mlM6i_32xlarge,
-  mlM7iLarge,
-  mlM7iXlarge,
-  mlM7i_2xlarge,
-  mlM7i_4xlarge,
-  mlM7i_8xlarge,
-  mlM7i_12xlarge,
-  mlM7i_16xlarge,
-  mlM7i_24xlarge,
-  mlM7i_48xlarge,
-  mlC6iLarge,
-  mlC6iXlarge,
-  mlC6i_2xlarge,
-  mlC6i_4xlarge,
-  mlC6i_8xlarge,
-  mlC6i_12xlarge,
-  mlC6i_16xlarge,
-  mlC6i_24xlarge,
-  mlC6i_32xlarge,
-  mlC7iLarge,
-  mlC7iXlarge,
-  mlC7i_2xlarge,
-  mlC7i_4xlarge,
-  mlC7i_8xlarge,
-  mlC7i_12xlarge,
-  mlC7i_16xlarge,
-  mlC7i_24xlarge,
-  mlC7i_48xlarge,
-  mlR6iLarge,
-  mlR6iXlarge,
-  mlR6i_2xlarge,
-  mlR6i_4xlarge,
-  mlR6i_8xlarge,
-  mlR6i_12xlarge,
-  mlR6i_16xlarge,
-  mlR6i_24xlarge,
-  mlR6i_32xlarge,
-  mlR7iLarge,
-  mlR7iXlarge,
-  mlR7i_2xlarge,
-  mlR7i_4xlarge,
-  mlR7i_8xlarge,
-  mlR7i_12xlarge,
-  mlR7i_16xlarge,
-  mlR7i_24xlarge,
-  mlR7i_48xlarge,
-  mlM6idLarge,
-  mlM6idXlarge,
-  mlM6id_2xlarge,
-  mlM6id_4xlarge,
-  mlM6id_8xlarge,
-  mlM6id_12xlarge,
-  mlM6id_16xlarge,
-  mlM6id_24xlarge,
-  mlM6id_32xlarge,
-  mlC6idLarge,
-  mlC6idXlarge,
-  mlC6id_2xlarge,
-  mlC6id_4xlarge,
-  mlC6id_8xlarge,
-  mlC6id_12xlarge,
-  mlC6id_16xlarge,
-  mlC6id_24xlarge,
-  mlC6id_32xlarge,
-  mlR6idLarge,
-  mlR6idXlarge,
-  mlR6id_2xlarge,
-  mlR6id_4xlarge,
-  mlR6id_8xlarge,
-  mlR6id_12xlarge,
-  mlR6id_16xlarge,
-  mlR6id_24xlarge,
-  mlR6id_32xlarge,
-}
+  system('system'),
+  mlT3Micro('ml.t3.micro'),
+  mlT3Small('ml.t3.small'),
+  mlT3Medium('ml.t3.medium'),
+  mlT3Large('ml.t3.large'),
+  mlT3Xlarge('ml.t3.xlarge'),
+  mlT3_2xlarge('ml.t3.2xlarge'),
+  mlM5Large('ml.m5.large'),
+  mlM5Xlarge('ml.m5.xlarge'),
+  mlM5_2xlarge('ml.m5.2xlarge'),
+  mlM5_4xlarge('ml.m5.4xlarge'),
+  mlM5_8xlarge('ml.m5.8xlarge'),
+  mlM5_12xlarge('ml.m5.12xlarge'),
+  mlM5_16xlarge('ml.m5.16xlarge'),
+  mlM5_24xlarge('ml.m5.24xlarge'),
+  mlM5dLarge('ml.m5d.large'),
+  mlM5dXlarge('ml.m5d.xlarge'),
+  mlM5d_2xlarge('ml.m5d.2xlarge'),
+  mlM5d_4xlarge('ml.m5d.4xlarge'),
+  mlM5d_8xlarge('ml.m5d.8xlarge'),
+  mlM5d_12xlarge('ml.m5d.12xlarge'),
+  mlM5d_16xlarge('ml.m5d.16xlarge'),
+  mlM5d_24xlarge('ml.m5d.24xlarge'),
+  mlC5Large('ml.c5.large'),
+  mlC5Xlarge('ml.c5.xlarge'),
+  mlC5_2xlarge('ml.c5.2xlarge'),
+  mlC5_4xlarge('ml.c5.4xlarge'),
+  mlC5_9xlarge('ml.c5.9xlarge'),
+  mlC5_12xlarge('ml.c5.12xlarge'),
+  mlC5_18xlarge('ml.c5.18xlarge'),
+  mlC5_24xlarge('ml.c5.24xlarge'),
+  mlP3_2xlarge('ml.p3.2xlarge'),
+  mlP3_8xlarge('ml.p3.8xlarge'),
+  mlP3_16xlarge('ml.p3.16xlarge'),
+  mlP3dn_24xlarge('ml.p3dn.24xlarge'),
+  mlG4dnXlarge('ml.g4dn.xlarge'),
+  mlG4dn_2xlarge('ml.g4dn.2xlarge'),
+  mlG4dn_4xlarge('ml.g4dn.4xlarge'),
+  mlG4dn_8xlarge('ml.g4dn.8xlarge'),
+  mlG4dn_12xlarge('ml.g4dn.12xlarge'),
+  mlG4dn_16xlarge('ml.g4dn.16xlarge'),
+  mlR5Large('ml.r5.large'),
+  mlR5Xlarge('ml.r5.xlarge'),
+  mlR5_2xlarge('ml.r5.2xlarge'),
+  mlR5_4xlarge('ml.r5.4xlarge'),
+  mlR5_8xlarge('ml.r5.8xlarge'),
+  mlR5_12xlarge('ml.r5.12xlarge'),
+  mlR5_16xlarge('ml.r5.16xlarge'),
+  mlR5_24xlarge('ml.r5.24xlarge'),
+  mlG5Xlarge('ml.g5.xlarge'),
+  mlG5_2xlarge('ml.g5.2xlarge'),
+  mlG5_4xlarge('ml.g5.4xlarge'),
+  mlG5_8xlarge('ml.g5.8xlarge'),
+  mlG5_16xlarge('ml.g5.16xlarge'),
+  mlG5_12xlarge('ml.g5.12xlarge'),
+  mlG5_24xlarge('ml.g5.24xlarge'),
+  mlG5_48xlarge('ml.g5.48xlarge'),
+  mlG6Xlarge('ml.g6.xlarge'),
+  mlG6_2xlarge('ml.g6.2xlarge'),
+  mlG6_4xlarge('ml.g6.4xlarge'),
+  mlG6_8xlarge('ml.g6.8xlarge'),
+  mlG6_12xlarge('ml.g6.12xlarge'),
+  mlG6_16xlarge('ml.g6.16xlarge'),
+  mlG6_24xlarge('ml.g6.24xlarge'),
+  mlG6_48xlarge('ml.g6.48xlarge'),
+  mlGeospatialInteractive('ml.geospatial.interactive'),
+  mlP4d_24xlarge('ml.p4d.24xlarge'),
+  mlP4de_24xlarge('ml.p4de.24xlarge'),
+  mlTrn1_2xlarge('ml.trn1.2xlarge'),
+  mlTrn1_32xlarge('ml.trn1.32xlarge'),
+  mlTrn1n_32xlarge('ml.trn1n.32xlarge'),
+  mlP5_48xlarge('ml.p5.48xlarge'),
+  mlM6iLarge('ml.m6i.large'),
+  mlM6iXlarge('ml.m6i.xlarge'),
+  mlM6i_2xlarge('ml.m6i.2xlarge'),
+  mlM6i_4xlarge('ml.m6i.4xlarge'),
+  mlM6i_8xlarge('ml.m6i.8xlarge'),
+  mlM6i_12xlarge('ml.m6i.12xlarge'),
+  mlM6i_16xlarge('ml.m6i.16xlarge'),
+  mlM6i_24xlarge('ml.m6i.24xlarge'),
+  mlM6i_32xlarge('ml.m6i.32xlarge'),
+  mlM7iLarge('ml.m7i.large'),
+  mlM7iXlarge('ml.m7i.xlarge'),
+  mlM7i_2xlarge('ml.m7i.2xlarge'),
+  mlM7i_4xlarge('ml.m7i.4xlarge'),
+  mlM7i_8xlarge('ml.m7i.8xlarge'),
+  mlM7i_12xlarge('ml.m7i.12xlarge'),
+  mlM7i_16xlarge('ml.m7i.16xlarge'),
+  mlM7i_24xlarge('ml.m7i.24xlarge'),
+  mlM7i_48xlarge('ml.m7i.48xlarge'),
+  mlC6iLarge('ml.c6i.large'),
+  mlC6iXlarge('ml.c6i.xlarge'),
+  mlC6i_2xlarge('ml.c6i.2xlarge'),
+  mlC6i_4xlarge('ml.c6i.4xlarge'),
+  mlC6i_8xlarge('ml.c6i.8xlarge'),
+  mlC6i_12xlarge('ml.c6i.12xlarge'),
+  mlC6i_16xlarge('ml.c6i.16xlarge'),
+  mlC6i_24xlarge('ml.c6i.24xlarge'),
+  mlC6i_32xlarge('ml.c6i.32xlarge'),
+  mlC7iLarge('ml.c7i.large'),
+  mlC7iXlarge('ml.c7i.xlarge'),
+  mlC7i_2xlarge('ml.c7i.2xlarge'),
+  mlC7i_4xlarge('ml.c7i.4xlarge'),
+  mlC7i_8xlarge('ml.c7i.8xlarge'),
+  mlC7i_12xlarge('ml.c7i.12xlarge'),
+  mlC7i_16xlarge('ml.c7i.16xlarge'),
+  mlC7i_24xlarge('ml.c7i.24xlarge'),
+  mlC7i_48xlarge('ml.c7i.48xlarge'),
+  mlR6iLarge('ml.r6i.large'),
+  mlR6iXlarge('ml.r6i.xlarge'),
+  mlR6i_2xlarge('ml.r6i.2xlarge'),
+  mlR6i_4xlarge('ml.r6i.4xlarge'),
+  mlR6i_8xlarge('ml.r6i.8xlarge'),
+  mlR6i_12xlarge('ml.r6i.12xlarge'),
+  mlR6i_16xlarge('ml.r6i.16xlarge'),
+  mlR6i_24xlarge('ml.r6i.24xlarge'),
+  mlR6i_32xlarge('ml.r6i.32xlarge'),
+  mlR7iLarge('ml.r7i.large'),
+  mlR7iXlarge('ml.r7i.xlarge'),
+  mlR7i_2xlarge('ml.r7i.2xlarge'),
+  mlR7i_4xlarge('ml.r7i.4xlarge'),
+  mlR7i_8xlarge('ml.r7i.8xlarge'),
+  mlR7i_12xlarge('ml.r7i.12xlarge'),
+  mlR7i_16xlarge('ml.r7i.16xlarge'),
+  mlR7i_24xlarge('ml.r7i.24xlarge'),
+  mlR7i_48xlarge('ml.r7i.48xlarge'),
+  mlM6idLarge('ml.m6id.large'),
+  mlM6idXlarge('ml.m6id.xlarge'),
+  mlM6id_2xlarge('ml.m6id.2xlarge'),
+  mlM6id_4xlarge('ml.m6id.4xlarge'),
+  mlM6id_8xlarge('ml.m6id.8xlarge'),
+  mlM6id_12xlarge('ml.m6id.12xlarge'),
+  mlM6id_16xlarge('ml.m6id.16xlarge'),
+  mlM6id_24xlarge('ml.m6id.24xlarge'),
+  mlM6id_32xlarge('ml.m6id.32xlarge'),
+  mlC6idLarge('ml.c6id.large'),
+  mlC6idXlarge('ml.c6id.xlarge'),
+  mlC6id_2xlarge('ml.c6id.2xlarge'),
+  mlC6id_4xlarge('ml.c6id.4xlarge'),
+  mlC6id_8xlarge('ml.c6id.8xlarge'),
+  mlC6id_12xlarge('ml.c6id.12xlarge'),
+  mlC6id_16xlarge('ml.c6id.16xlarge'),
+  mlC6id_24xlarge('ml.c6id.24xlarge'),
+  mlC6id_32xlarge('ml.c6id.32xlarge'),
+  mlR6idLarge('ml.r6id.large'),
+  mlR6idXlarge('ml.r6id.xlarge'),
+  mlR6id_2xlarge('ml.r6id.2xlarge'),
+  mlR6id_4xlarge('ml.r6id.4xlarge'),
+  mlR6id_8xlarge('ml.r6id.8xlarge'),
+  mlR6id_12xlarge('ml.r6id.12xlarge'),
+  mlR6id_16xlarge('ml.r6id.16xlarge'),
+  mlR6id_24xlarge('ml.r6id.24xlarge'),
+  mlR6id_32xlarge('ml.r6id.32xlarge'),
+  ;
 
-extension AppInstanceTypeValueExtension on AppInstanceType {
-  String toValue() {
-    switch (this) {
-      case AppInstanceType.system:
-        return 'system';
-      case AppInstanceType.mlT3Micro:
-        return 'ml.t3.micro';
-      case AppInstanceType.mlT3Small:
-        return 'ml.t3.small';
-      case AppInstanceType.mlT3Medium:
-        return 'ml.t3.medium';
-      case AppInstanceType.mlT3Large:
-        return 'ml.t3.large';
-      case AppInstanceType.mlT3Xlarge:
-        return 'ml.t3.xlarge';
-      case AppInstanceType.mlT3_2xlarge:
-        return 'ml.t3.2xlarge';
-      case AppInstanceType.mlM5Large:
-        return 'ml.m5.large';
-      case AppInstanceType.mlM5Xlarge:
-        return 'ml.m5.xlarge';
-      case AppInstanceType.mlM5_2xlarge:
-        return 'ml.m5.2xlarge';
-      case AppInstanceType.mlM5_4xlarge:
-        return 'ml.m5.4xlarge';
-      case AppInstanceType.mlM5_8xlarge:
-        return 'ml.m5.8xlarge';
-      case AppInstanceType.mlM5_12xlarge:
-        return 'ml.m5.12xlarge';
-      case AppInstanceType.mlM5_16xlarge:
-        return 'ml.m5.16xlarge';
-      case AppInstanceType.mlM5_24xlarge:
-        return 'ml.m5.24xlarge';
-      case AppInstanceType.mlM5dLarge:
-        return 'ml.m5d.large';
-      case AppInstanceType.mlM5dXlarge:
-        return 'ml.m5d.xlarge';
-      case AppInstanceType.mlM5d_2xlarge:
-        return 'ml.m5d.2xlarge';
-      case AppInstanceType.mlM5d_4xlarge:
-        return 'ml.m5d.4xlarge';
-      case AppInstanceType.mlM5d_8xlarge:
-        return 'ml.m5d.8xlarge';
-      case AppInstanceType.mlM5d_12xlarge:
-        return 'ml.m5d.12xlarge';
-      case AppInstanceType.mlM5d_16xlarge:
-        return 'ml.m5d.16xlarge';
-      case AppInstanceType.mlM5d_24xlarge:
-        return 'ml.m5d.24xlarge';
-      case AppInstanceType.mlC5Large:
-        return 'ml.c5.large';
-      case AppInstanceType.mlC5Xlarge:
-        return 'ml.c5.xlarge';
-      case AppInstanceType.mlC5_2xlarge:
-        return 'ml.c5.2xlarge';
-      case AppInstanceType.mlC5_4xlarge:
-        return 'ml.c5.4xlarge';
-      case AppInstanceType.mlC5_9xlarge:
-        return 'ml.c5.9xlarge';
-      case AppInstanceType.mlC5_12xlarge:
-        return 'ml.c5.12xlarge';
-      case AppInstanceType.mlC5_18xlarge:
-        return 'ml.c5.18xlarge';
-      case AppInstanceType.mlC5_24xlarge:
-        return 'ml.c5.24xlarge';
-      case AppInstanceType.mlP3_2xlarge:
-        return 'ml.p3.2xlarge';
-      case AppInstanceType.mlP3_8xlarge:
-        return 'ml.p3.8xlarge';
-      case AppInstanceType.mlP3_16xlarge:
-        return 'ml.p3.16xlarge';
-      case AppInstanceType.mlP3dn_24xlarge:
-        return 'ml.p3dn.24xlarge';
-      case AppInstanceType.mlG4dnXlarge:
-        return 'ml.g4dn.xlarge';
-      case AppInstanceType.mlG4dn_2xlarge:
-        return 'ml.g4dn.2xlarge';
-      case AppInstanceType.mlG4dn_4xlarge:
-        return 'ml.g4dn.4xlarge';
-      case AppInstanceType.mlG4dn_8xlarge:
-        return 'ml.g4dn.8xlarge';
-      case AppInstanceType.mlG4dn_12xlarge:
-        return 'ml.g4dn.12xlarge';
-      case AppInstanceType.mlG4dn_16xlarge:
-        return 'ml.g4dn.16xlarge';
-      case AppInstanceType.mlR5Large:
-        return 'ml.r5.large';
-      case AppInstanceType.mlR5Xlarge:
-        return 'ml.r5.xlarge';
-      case AppInstanceType.mlR5_2xlarge:
-        return 'ml.r5.2xlarge';
-      case AppInstanceType.mlR5_4xlarge:
-        return 'ml.r5.4xlarge';
-      case AppInstanceType.mlR5_8xlarge:
-        return 'ml.r5.8xlarge';
-      case AppInstanceType.mlR5_12xlarge:
-        return 'ml.r5.12xlarge';
-      case AppInstanceType.mlR5_16xlarge:
-        return 'ml.r5.16xlarge';
-      case AppInstanceType.mlR5_24xlarge:
-        return 'ml.r5.24xlarge';
-      case AppInstanceType.mlG5Xlarge:
-        return 'ml.g5.xlarge';
-      case AppInstanceType.mlG5_2xlarge:
-        return 'ml.g5.2xlarge';
-      case AppInstanceType.mlG5_4xlarge:
-        return 'ml.g5.4xlarge';
-      case AppInstanceType.mlG5_8xlarge:
-        return 'ml.g5.8xlarge';
-      case AppInstanceType.mlG5_16xlarge:
-        return 'ml.g5.16xlarge';
-      case AppInstanceType.mlG5_12xlarge:
-        return 'ml.g5.12xlarge';
-      case AppInstanceType.mlG5_24xlarge:
-        return 'ml.g5.24xlarge';
-      case AppInstanceType.mlG5_48xlarge:
-        return 'ml.g5.48xlarge';
-      case AppInstanceType.mlG6Xlarge:
-        return 'ml.g6.xlarge';
-      case AppInstanceType.mlG6_2xlarge:
-        return 'ml.g6.2xlarge';
-      case AppInstanceType.mlG6_4xlarge:
-        return 'ml.g6.4xlarge';
-      case AppInstanceType.mlG6_8xlarge:
-        return 'ml.g6.8xlarge';
-      case AppInstanceType.mlG6_12xlarge:
-        return 'ml.g6.12xlarge';
-      case AppInstanceType.mlG6_16xlarge:
-        return 'ml.g6.16xlarge';
-      case AppInstanceType.mlG6_24xlarge:
-        return 'ml.g6.24xlarge';
-      case AppInstanceType.mlG6_48xlarge:
-        return 'ml.g6.48xlarge';
-      case AppInstanceType.mlGeospatialInteractive:
-        return 'ml.geospatial.interactive';
-      case AppInstanceType.mlP4d_24xlarge:
-        return 'ml.p4d.24xlarge';
-      case AppInstanceType.mlP4de_24xlarge:
-        return 'ml.p4de.24xlarge';
-      case AppInstanceType.mlTrn1_2xlarge:
-        return 'ml.trn1.2xlarge';
-      case AppInstanceType.mlTrn1_32xlarge:
-        return 'ml.trn1.32xlarge';
-      case AppInstanceType.mlTrn1n_32xlarge:
-        return 'ml.trn1n.32xlarge';
-      case AppInstanceType.mlP5_48xlarge:
-        return 'ml.p5.48xlarge';
-      case AppInstanceType.mlM6iLarge:
-        return 'ml.m6i.large';
-      case AppInstanceType.mlM6iXlarge:
-        return 'ml.m6i.xlarge';
-      case AppInstanceType.mlM6i_2xlarge:
-        return 'ml.m6i.2xlarge';
-      case AppInstanceType.mlM6i_4xlarge:
-        return 'ml.m6i.4xlarge';
-      case AppInstanceType.mlM6i_8xlarge:
-        return 'ml.m6i.8xlarge';
-      case AppInstanceType.mlM6i_12xlarge:
-        return 'ml.m6i.12xlarge';
-      case AppInstanceType.mlM6i_16xlarge:
-        return 'ml.m6i.16xlarge';
-      case AppInstanceType.mlM6i_24xlarge:
-        return 'ml.m6i.24xlarge';
-      case AppInstanceType.mlM6i_32xlarge:
-        return 'ml.m6i.32xlarge';
-      case AppInstanceType.mlM7iLarge:
-        return 'ml.m7i.large';
-      case AppInstanceType.mlM7iXlarge:
-        return 'ml.m7i.xlarge';
-      case AppInstanceType.mlM7i_2xlarge:
-        return 'ml.m7i.2xlarge';
-      case AppInstanceType.mlM7i_4xlarge:
-        return 'ml.m7i.4xlarge';
-      case AppInstanceType.mlM7i_8xlarge:
-        return 'ml.m7i.8xlarge';
-      case AppInstanceType.mlM7i_12xlarge:
-        return 'ml.m7i.12xlarge';
-      case AppInstanceType.mlM7i_16xlarge:
-        return 'ml.m7i.16xlarge';
-      case AppInstanceType.mlM7i_24xlarge:
-        return 'ml.m7i.24xlarge';
-      case AppInstanceType.mlM7i_48xlarge:
-        return 'ml.m7i.48xlarge';
-      case AppInstanceType.mlC6iLarge:
-        return 'ml.c6i.large';
-      case AppInstanceType.mlC6iXlarge:
-        return 'ml.c6i.xlarge';
-      case AppInstanceType.mlC6i_2xlarge:
-        return 'ml.c6i.2xlarge';
-      case AppInstanceType.mlC6i_4xlarge:
-        return 'ml.c6i.4xlarge';
-      case AppInstanceType.mlC6i_8xlarge:
-        return 'ml.c6i.8xlarge';
-      case AppInstanceType.mlC6i_12xlarge:
-        return 'ml.c6i.12xlarge';
-      case AppInstanceType.mlC6i_16xlarge:
-        return 'ml.c6i.16xlarge';
-      case AppInstanceType.mlC6i_24xlarge:
-        return 'ml.c6i.24xlarge';
-      case AppInstanceType.mlC6i_32xlarge:
-        return 'ml.c6i.32xlarge';
-      case AppInstanceType.mlC7iLarge:
-        return 'ml.c7i.large';
-      case AppInstanceType.mlC7iXlarge:
-        return 'ml.c7i.xlarge';
-      case AppInstanceType.mlC7i_2xlarge:
-        return 'ml.c7i.2xlarge';
-      case AppInstanceType.mlC7i_4xlarge:
-        return 'ml.c7i.4xlarge';
-      case AppInstanceType.mlC7i_8xlarge:
-        return 'ml.c7i.8xlarge';
-      case AppInstanceType.mlC7i_12xlarge:
-        return 'ml.c7i.12xlarge';
-      case AppInstanceType.mlC7i_16xlarge:
-        return 'ml.c7i.16xlarge';
-      case AppInstanceType.mlC7i_24xlarge:
-        return 'ml.c7i.24xlarge';
-      case AppInstanceType.mlC7i_48xlarge:
-        return 'ml.c7i.48xlarge';
-      case AppInstanceType.mlR6iLarge:
-        return 'ml.r6i.large';
-      case AppInstanceType.mlR6iXlarge:
-        return 'ml.r6i.xlarge';
-      case AppInstanceType.mlR6i_2xlarge:
-        return 'ml.r6i.2xlarge';
-      case AppInstanceType.mlR6i_4xlarge:
-        return 'ml.r6i.4xlarge';
-      case AppInstanceType.mlR6i_8xlarge:
-        return 'ml.r6i.8xlarge';
-      case AppInstanceType.mlR6i_12xlarge:
-        return 'ml.r6i.12xlarge';
-      case AppInstanceType.mlR6i_16xlarge:
-        return 'ml.r6i.16xlarge';
-      case AppInstanceType.mlR6i_24xlarge:
-        return 'ml.r6i.24xlarge';
-      case AppInstanceType.mlR6i_32xlarge:
-        return 'ml.r6i.32xlarge';
-      case AppInstanceType.mlR7iLarge:
-        return 'ml.r7i.large';
-      case AppInstanceType.mlR7iXlarge:
-        return 'ml.r7i.xlarge';
-      case AppInstanceType.mlR7i_2xlarge:
-        return 'ml.r7i.2xlarge';
-      case AppInstanceType.mlR7i_4xlarge:
-        return 'ml.r7i.4xlarge';
-      case AppInstanceType.mlR7i_8xlarge:
-        return 'ml.r7i.8xlarge';
-      case AppInstanceType.mlR7i_12xlarge:
-        return 'ml.r7i.12xlarge';
-      case AppInstanceType.mlR7i_16xlarge:
-        return 'ml.r7i.16xlarge';
-      case AppInstanceType.mlR7i_24xlarge:
-        return 'ml.r7i.24xlarge';
-      case AppInstanceType.mlR7i_48xlarge:
-        return 'ml.r7i.48xlarge';
-      case AppInstanceType.mlM6idLarge:
-        return 'ml.m6id.large';
-      case AppInstanceType.mlM6idXlarge:
-        return 'ml.m6id.xlarge';
-      case AppInstanceType.mlM6id_2xlarge:
-        return 'ml.m6id.2xlarge';
-      case AppInstanceType.mlM6id_4xlarge:
-        return 'ml.m6id.4xlarge';
-      case AppInstanceType.mlM6id_8xlarge:
-        return 'ml.m6id.8xlarge';
-      case AppInstanceType.mlM6id_12xlarge:
-        return 'ml.m6id.12xlarge';
-      case AppInstanceType.mlM6id_16xlarge:
-        return 'ml.m6id.16xlarge';
-      case AppInstanceType.mlM6id_24xlarge:
-        return 'ml.m6id.24xlarge';
-      case AppInstanceType.mlM6id_32xlarge:
-        return 'ml.m6id.32xlarge';
-      case AppInstanceType.mlC6idLarge:
-        return 'ml.c6id.large';
-      case AppInstanceType.mlC6idXlarge:
-        return 'ml.c6id.xlarge';
-      case AppInstanceType.mlC6id_2xlarge:
-        return 'ml.c6id.2xlarge';
-      case AppInstanceType.mlC6id_4xlarge:
-        return 'ml.c6id.4xlarge';
-      case AppInstanceType.mlC6id_8xlarge:
-        return 'ml.c6id.8xlarge';
-      case AppInstanceType.mlC6id_12xlarge:
-        return 'ml.c6id.12xlarge';
-      case AppInstanceType.mlC6id_16xlarge:
-        return 'ml.c6id.16xlarge';
-      case AppInstanceType.mlC6id_24xlarge:
-        return 'ml.c6id.24xlarge';
-      case AppInstanceType.mlC6id_32xlarge:
-        return 'ml.c6id.32xlarge';
-      case AppInstanceType.mlR6idLarge:
-        return 'ml.r6id.large';
-      case AppInstanceType.mlR6idXlarge:
-        return 'ml.r6id.xlarge';
-      case AppInstanceType.mlR6id_2xlarge:
-        return 'ml.r6id.2xlarge';
-      case AppInstanceType.mlR6id_4xlarge:
-        return 'ml.r6id.4xlarge';
-      case AppInstanceType.mlR6id_8xlarge:
-        return 'ml.r6id.8xlarge';
-      case AppInstanceType.mlR6id_12xlarge:
-        return 'ml.r6id.12xlarge';
-      case AppInstanceType.mlR6id_16xlarge:
-        return 'ml.r6id.16xlarge';
-      case AppInstanceType.mlR6id_24xlarge:
-        return 'ml.r6id.24xlarge';
-      case AppInstanceType.mlR6id_32xlarge:
-        return 'ml.r6id.32xlarge';
-    }
-  }
-}
+  final String value;
 
-extension AppInstanceTypeFromString on String {
-  AppInstanceType toAppInstanceType() {
-    switch (this) {
-      case 'system':
-        return AppInstanceType.system;
-      case 'ml.t3.micro':
-        return AppInstanceType.mlT3Micro;
-      case 'ml.t3.small':
-        return AppInstanceType.mlT3Small;
-      case 'ml.t3.medium':
-        return AppInstanceType.mlT3Medium;
-      case 'ml.t3.large':
-        return AppInstanceType.mlT3Large;
-      case 'ml.t3.xlarge':
-        return AppInstanceType.mlT3Xlarge;
-      case 'ml.t3.2xlarge':
-        return AppInstanceType.mlT3_2xlarge;
-      case 'ml.m5.large':
-        return AppInstanceType.mlM5Large;
-      case 'ml.m5.xlarge':
-        return AppInstanceType.mlM5Xlarge;
-      case 'ml.m5.2xlarge':
-        return AppInstanceType.mlM5_2xlarge;
-      case 'ml.m5.4xlarge':
-        return AppInstanceType.mlM5_4xlarge;
-      case 'ml.m5.8xlarge':
-        return AppInstanceType.mlM5_8xlarge;
-      case 'ml.m5.12xlarge':
-        return AppInstanceType.mlM5_12xlarge;
-      case 'ml.m5.16xlarge':
-        return AppInstanceType.mlM5_16xlarge;
-      case 'ml.m5.24xlarge':
-        return AppInstanceType.mlM5_24xlarge;
-      case 'ml.m5d.large':
-        return AppInstanceType.mlM5dLarge;
-      case 'ml.m5d.xlarge':
-        return AppInstanceType.mlM5dXlarge;
-      case 'ml.m5d.2xlarge':
-        return AppInstanceType.mlM5d_2xlarge;
-      case 'ml.m5d.4xlarge':
-        return AppInstanceType.mlM5d_4xlarge;
-      case 'ml.m5d.8xlarge':
-        return AppInstanceType.mlM5d_8xlarge;
-      case 'ml.m5d.12xlarge':
-        return AppInstanceType.mlM5d_12xlarge;
-      case 'ml.m5d.16xlarge':
-        return AppInstanceType.mlM5d_16xlarge;
-      case 'ml.m5d.24xlarge':
-        return AppInstanceType.mlM5d_24xlarge;
-      case 'ml.c5.large':
-        return AppInstanceType.mlC5Large;
-      case 'ml.c5.xlarge':
-        return AppInstanceType.mlC5Xlarge;
-      case 'ml.c5.2xlarge':
-        return AppInstanceType.mlC5_2xlarge;
-      case 'ml.c5.4xlarge':
-        return AppInstanceType.mlC5_4xlarge;
-      case 'ml.c5.9xlarge':
-        return AppInstanceType.mlC5_9xlarge;
-      case 'ml.c5.12xlarge':
-        return AppInstanceType.mlC5_12xlarge;
-      case 'ml.c5.18xlarge':
-        return AppInstanceType.mlC5_18xlarge;
-      case 'ml.c5.24xlarge':
-        return AppInstanceType.mlC5_24xlarge;
-      case 'ml.p3.2xlarge':
-        return AppInstanceType.mlP3_2xlarge;
-      case 'ml.p3.8xlarge':
-        return AppInstanceType.mlP3_8xlarge;
-      case 'ml.p3.16xlarge':
-        return AppInstanceType.mlP3_16xlarge;
-      case 'ml.p3dn.24xlarge':
-        return AppInstanceType.mlP3dn_24xlarge;
-      case 'ml.g4dn.xlarge':
-        return AppInstanceType.mlG4dnXlarge;
-      case 'ml.g4dn.2xlarge':
-        return AppInstanceType.mlG4dn_2xlarge;
-      case 'ml.g4dn.4xlarge':
-        return AppInstanceType.mlG4dn_4xlarge;
-      case 'ml.g4dn.8xlarge':
-        return AppInstanceType.mlG4dn_8xlarge;
-      case 'ml.g4dn.12xlarge':
-        return AppInstanceType.mlG4dn_12xlarge;
-      case 'ml.g4dn.16xlarge':
-        return AppInstanceType.mlG4dn_16xlarge;
-      case 'ml.r5.large':
-        return AppInstanceType.mlR5Large;
-      case 'ml.r5.xlarge':
-        return AppInstanceType.mlR5Xlarge;
-      case 'ml.r5.2xlarge':
-        return AppInstanceType.mlR5_2xlarge;
-      case 'ml.r5.4xlarge':
-        return AppInstanceType.mlR5_4xlarge;
-      case 'ml.r5.8xlarge':
-        return AppInstanceType.mlR5_8xlarge;
-      case 'ml.r5.12xlarge':
-        return AppInstanceType.mlR5_12xlarge;
-      case 'ml.r5.16xlarge':
-        return AppInstanceType.mlR5_16xlarge;
-      case 'ml.r5.24xlarge':
-        return AppInstanceType.mlR5_24xlarge;
-      case 'ml.g5.xlarge':
-        return AppInstanceType.mlG5Xlarge;
-      case 'ml.g5.2xlarge':
-        return AppInstanceType.mlG5_2xlarge;
-      case 'ml.g5.4xlarge':
-        return AppInstanceType.mlG5_4xlarge;
-      case 'ml.g5.8xlarge':
-        return AppInstanceType.mlG5_8xlarge;
-      case 'ml.g5.16xlarge':
-        return AppInstanceType.mlG5_16xlarge;
-      case 'ml.g5.12xlarge':
-        return AppInstanceType.mlG5_12xlarge;
-      case 'ml.g5.24xlarge':
-        return AppInstanceType.mlG5_24xlarge;
-      case 'ml.g5.48xlarge':
-        return AppInstanceType.mlG5_48xlarge;
-      case 'ml.g6.xlarge':
-        return AppInstanceType.mlG6Xlarge;
-      case 'ml.g6.2xlarge':
-        return AppInstanceType.mlG6_2xlarge;
-      case 'ml.g6.4xlarge':
-        return AppInstanceType.mlG6_4xlarge;
-      case 'ml.g6.8xlarge':
-        return AppInstanceType.mlG6_8xlarge;
-      case 'ml.g6.12xlarge':
-        return AppInstanceType.mlG6_12xlarge;
-      case 'ml.g6.16xlarge':
-        return AppInstanceType.mlG6_16xlarge;
-      case 'ml.g6.24xlarge':
-        return AppInstanceType.mlG6_24xlarge;
-      case 'ml.g6.48xlarge':
-        return AppInstanceType.mlG6_48xlarge;
-      case 'ml.geospatial.interactive':
-        return AppInstanceType.mlGeospatialInteractive;
-      case 'ml.p4d.24xlarge':
-        return AppInstanceType.mlP4d_24xlarge;
-      case 'ml.p4de.24xlarge':
-        return AppInstanceType.mlP4de_24xlarge;
-      case 'ml.trn1.2xlarge':
-        return AppInstanceType.mlTrn1_2xlarge;
-      case 'ml.trn1.32xlarge':
-        return AppInstanceType.mlTrn1_32xlarge;
-      case 'ml.trn1n.32xlarge':
-        return AppInstanceType.mlTrn1n_32xlarge;
-      case 'ml.p5.48xlarge':
-        return AppInstanceType.mlP5_48xlarge;
-      case 'ml.m6i.large':
-        return AppInstanceType.mlM6iLarge;
-      case 'ml.m6i.xlarge':
-        return AppInstanceType.mlM6iXlarge;
-      case 'ml.m6i.2xlarge':
-        return AppInstanceType.mlM6i_2xlarge;
-      case 'ml.m6i.4xlarge':
-        return AppInstanceType.mlM6i_4xlarge;
-      case 'ml.m6i.8xlarge':
-        return AppInstanceType.mlM6i_8xlarge;
-      case 'ml.m6i.12xlarge':
-        return AppInstanceType.mlM6i_12xlarge;
-      case 'ml.m6i.16xlarge':
-        return AppInstanceType.mlM6i_16xlarge;
-      case 'ml.m6i.24xlarge':
-        return AppInstanceType.mlM6i_24xlarge;
-      case 'ml.m6i.32xlarge':
-        return AppInstanceType.mlM6i_32xlarge;
-      case 'ml.m7i.large':
-        return AppInstanceType.mlM7iLarge;
-      case 'ml.m7i.xlarge':
-        return AppInstanceType.mlM7iXlarge;
-      case 'ml.m7i.2xlarge':
-        return AppInstanceType.mlM7i_2xlarge;
-      case 'ml.m7i.4xlarge':
-        return AppInstanceType.mlM7i_4xlarge;
-      case 'ml.m7i.8xlarge':
-        return AppInstanceType.mlM7i_8xlarge;
-      case 'ml.m7i.12xlarge':
-        return AppInstanceType.mlM7i_12xlarge;
-      case 'ml.m7i.16xlarge':
-        return AppInstanceType.mlM7i_16xlarge;
-      case 'ml.m7i.24xlarge':
-        return AppInstanceType.mlM7i_24xlarge;
-      case 'ml.m7i.48xlarge':
-        return AppInstanceType.mlM7i_48xlarge;
-      case 'ml.c6i.large':
-        return AppInstanceType.mlC6iLarge;
-      case 'ml.c6i.xlarge':
-        return AppInstanceType.mlC6iXlarge;
-      case 'ml.c6i.2xlarge':
-        return AppInstanceType.mlC6i_2xlarge;
-      case 'ml.c6i.4xlarge':
-        return AppInstanceType.mlC6i_4xlarge;
-      case 'ml.c6i.8xlarge':
-        return AppInstanceType.mlC6i_8xlarge;
-      case 'ml.c6i.12xlarge':
-        return AppInstanceType.mlC6i_12xlarge;
-      case 'ml.c6i.16xlarge':
-        return AppInstanceType.mlC6i_16xlarge;
-      case 'ml.c6i.24xlarge':
-        return AppInstanceType.mlC6i_24xlarge;
-      case 'ml.c6i.32xlarge':
-        return AppInstanceType.mlC6i_32xlarge;
-      case 'ml.c7i.large':
-        return AppInstanceType.mlC7iLarge;
-      case 'ml.c7i.xlarge':
-        return AppInstanceType.mlC7iXlarge;
-      case 'ml.c7i.2xlarge':
-        return AppInstanceType.mlC7i_2xlarge;
-      case 'ml.c7i.4xlarge':
-        return AppInstanceType.mlC7i_4xlarge;
-      case 'ml.c7i.8xlarge':
-        return AppInstanceType.mlC7i_8xlarge;
-      case 'ml.c7i.12xlarge':
-        return AppInstanceType.mlC7i_12xlarge;
-      case 'ml.c7i.16xlarge':
-        return AppInstanceType.mlC7i_16xlarge;
-      case 'ml.c7i.24xlarge':
-        return AppInstanceType.mlC7i_24xlarge;
-      case 'ml.c7i.48xlarge':
-        return AppInstanceType.mlC7i_48xlarge;
-      case 'ml.r6i.large':
-        return AppInstanceType.mlR6iLarge;
-      case 'ml.r6i.xlarge':
-        return AppInstanceType.mlR6iXlarge;
-      case 'ml.r6i.2xlarge':
-        return AppInstanceType.mlR6i_2xlarge;
-      case 'ml.r6i.4xlarge':
-        return AppInstanceType.mlR6i_4xlarge;
-      case 'ml.r6i.8xlarge':
-        return AppInstanceType.mlR6i_8xlarge;
-      case 'ml.r6i.12xlarge':
-        return AppInstanceType.mlR6i_12xlarge;
-      case 'ml.r6i.16xlarge':
-        return AppInstanceType.mlR6i_16xlarge;
-      case 'ml.r6i.24xlarge':
-        return AppInstanceType.mlR6i_24xlarge;
-      case 'ml.r6i.32xlarge':
-        return AppInstanceType.mlR6i_32xlarge;
-      case 'ml.r7i.large':
-        return AppInstanceType.mlR7iLarge;
-      case 'ml.r7i.xlarge':
-        return AppInstanceType.mlR7iXlarge;
-      case 'ml.r7i.2xlarge':
-        return AppInstanceType.mlR7i_2xlarge;
-      case 'ml.r7i.4xlarge':
-        return AppInstanceType.mlR7i_4xlarge;
-      case 'ml.r7i.8xlarge':
-        return AppInstanceType.mlR7i_8xlarge;
-      case 'ml.r7i.12xlarge':
-        return AppInstanceType.mlR7i_12xlarge;
-      case 'ml.r7i.16xlarge':
-        return AppInstanceType.mlR7i_16xlarge;
-      case 'ml.r7i.24xlarge':
-        return AppInstanceType.mlR7i_24xlarge;
-      case 'ml.r7i.48xlarge':
-        return AppInstanceType.mlR7i_48xlarge;
-      case 'ml.m6id.large':
-        return AppInstanceType.mlM6idLarge;
-      case 'ml.m6id.xlarge':
-        return AppInstanceType.mlM6idXlarge;
-      case 'ml.m6id.2xlarge':
-        return AppInstanceType.mlM6id_2xlarge;
-      case 'ml.m6id.4xlarge':
-        return AppInstanceType.mlM6id_4xlarge;
-      case 'ml.m6id.8xlarge':
-        return AppInstanceType.mlM6id_8xlarge;
-      case 'ml.m6id.12xlarge':
-        return AppInstanceType.mlM6id_12xlarge;
-      case 'ml.m6id.16xlarge':
-        return AppInstanceType.mlM6id_16xlarge;
-      case 'ml.m6id.24xlarge':
-        return AppInstanceType.mlM6id_24xlarge;
-      case 'ml.m6id.32xlarge':
-        return AppInstanceType.mlM6id_32xlarge;
-      case 'ml.c6id.large':
-        return AppInstanceType.mlC6idLarge;
-      case 'ml.c6id.xlarge':
-        return AppInstanceType.mlC6idXlarge;
-      case 'ml.c6id.2xlarge':
-        return AppInstanceType.mlC6id_2xlarge;
-      case 'ml.c6id.4xlarge':
-        return AppInstanceType.mlC6id_4xlarge;
-      case 'ml.c6id.8xlarge':
-        return AppInstanceType.mlC6id_8xlarge;
-      case 'ml.c6id.12xlarge':
-        return AppInstanceType.mlC6id_12xlarge;
-      case 'ml.c6id.16xlarge':
-        return AppInstanceType.mlC6id_16xlarge;
-      case 'ml.c6id.24xlarge':
-        return AppInstanceType.mlC6id_24xlarge;
-      case 'ml.c6id.32xlarge':
-        return AppInstanceType.mlC6id_32xlarge;
-      case 'ml.r6id.large':
-        return AppInstanceType.mlR6idLarge;
-      case 'ml.r6id.xlarge':
-        return AppInstanceType.mlR6idXlarge;
-      case 'ml.r6id.2xlarge':
-        return AppInstanceType.mlR6id_2xlarge;
-      case 'ml.r6id.4xlarge':
-        return AppInstanceType.mlR6id_4xlarge;
-      case 'ml.r6id.8xlarge':
-        return AppInstanceType.mlR6id_8xlarge;
-      case 'ml.r6id.12xlarge':
-        return AppInstanceType.mlR6id_12xlarge;
-      case 'ml.r6id.16xlarge':
-        return AppInstanceType.mlR6id_16xlarge;
-      case 'ml.r6id.24xlarge':
-        return AppInstanceType.mlR6id_24xlarge;
-      case 'ml.r6id.32xlarge':
-        return AppInstanceType.mlR6id_32xlarge;
-    }
-    throw Exception('$this is not known in enum AppInstanceType');
-  }
+  const AppInstanceType(this.value);
+
+  static AppInstanceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AppInstanceType'));
 }
 
 enum AppNetworkAccessType {
-  publicInternetOnly,
-  vpcOnly,
-}
+  publicInternetOnly('PublicInternetOnly'),
+  vpcOnly('VpcOnly'),
+  ;
 
-extension AppNetworkAccessTypeValueExtension on AppNetworkAccessType {
-  String toValue() {
-    switch (this) {
-      case AppNetworkAccessType.publicInternetOnly:
-        return 'PublicInternetOnly';
-      case AppNetworkAccessType.vpcOnly:
-        return 'VpcOnly';
-    }
-  }
-}
+  final String value;
 
-extension AppNetworkAccessTypeFromString on String {
-  AppNetworkAccessType toAppNetworkAccessType() {
-    switch (this) {
-      case 'PublicInternetOnly':
-        return AppNetworkAccessType.publicInternetOnly;
-      case 'VpcOnly':
-        return AppNetworkAccessType.vpcOnly;
-    }
-    throw Exception('$this is not known in enum AppNetworkAccessType');
-  }
+  const AppNetworkAccessType(this.value);
+
+  static AppNetworkAccessType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AppNetworkAccessType'));
 }
 
 enum AppSecurityGroupManagement {
-  service,
-  customer,
-}
+  service('Service'),
+  customer('Customer'),
+  ;
 
-extension AppSecurityGroupManagementValueExtension
-    on AppSecurityGroupManagement {
-  String toValue() {
-    switch (this) {
-      case AppSecurityGroupManagement.service:
-        return 'Service';
-      case AppSecurityGroupManagement.customer:
-        return 'Customer';
-    }
-  }
-}
+  final String value;
 
-extension AppSecurityGroupManagementFromString on String {
-  AppSecurityGroupManagement toAppSecurityGroupManagement() {
-    switch (this) {
-      case 'Service':
-        return AppSecurityGroupManagement.service;
-      case 'Customer':
-        return AppSecurityGroupManagement.customer;
-    }
-    throw Exception('$this is not known in enum AppSecurityGroupManagement');
-  }
+  const AppSecurityGroupManagement(this.value);
+
+  static AppSecurityGroupManagement fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AppSecurityGroupManagement'));
 }
 
 enum AppSortKey {
-  creationTime,
-}
+  creationTime('CreationTime'),
+  ;
 
-extension AppSortKeyValueExtension on AppSortKey {
-  String toValue() {
-    switch (this) {
-      case AppSortKey.creationTime:
-        return 'CreationTime';
-    }
-  }
-}
+  final String value;
 
-extension AppSortKeyFromString on String {
-  AppSortKey toAppSortKey() {
-    switch (this) {
-      case 'CreationTime':
-        return AppSortKey.creationTime;
-    }
-    throw Exception('$this is not known in enum AppSortKey');
-  }
+  const AppSortKey(this.value);
+
+  static AppSortKey fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AppSortKey'));
 }
 
 /// Configuration to run a processing job in a specified container image.
@@ -21620,109 +20836,41 @@ class AppSpecification {
 }
 
 enum AppStatus {
-  deleted,
-  deleting,
-  failed,
-  inService,
-  pending,
-}
+  deleted('Deleted'),
+  deleting('Deleting'),
+  failed('Failed'),
+  inService('InService'),
+  pending('Pending'),
+  ;
 
-extension AppStatusValueExtension on AppStatus {
-  String toValue() {
-    switch (this) {
-      case AppStatus.deleted:
-        return 'Deleted';
-      case AppStatus.deleting:
-        return 'Deleting';
-      case AppStatus.failed:
-        return 'Failed';
-      case AppStatus.inService:
-        return 'InService';
-      case AppStatus.pending:
-        return 'Pending';
-    }
-  }
-}
+  final String value;
 
-extension AppStatusFromString on String {
-  AppStatus toAppStatus() {
-    switch (this) {
-      case 'Deleted':
-        return AppStatus.deleted;
-      case 'Deleting':
-        return AppStatus.deleting;
-      case 'Failed':
-        return AppStatus.failed;
-      case 'InService':
-        return AppStatus.inService;
-      case 'Pending':
-        return AppStatus.pending;
-    }
-    throw Exception('$this is not known in enum AppStatus');
-  }
+  const AppStatus(this.value);
+
+  static AppStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AppStatus'));
 }
 
 enum AppType {
-  jupyterServer,
-  kernelGateway,
-  detailedProfiler,
-  tensorBoard,
-  codeEditor,
-  jupyterLab,
-  rStudioServerPro,
-  rSessionGateway,
-  canvas,
-}
+  jupyterServer('JupyterServer'),
+  kernelGateway('KernelGateway'),
+  detailedProfiler('DetailedProfiler'),
+  tensorBoard('TensorBoard'),
+  codeEditor('CodeEditor'),
+  jupyterLab('JupyterLab'),
+  rStudioServerPro('RStudioServerPro'),
+  rSessionGateway('RSessionGateway'),
+  canvas('Canvas'),
+  ;
 
-extension AppTypeValueExtension on AppType {
-  String toValue() {
-    switch (this) {
-      case AppType.jupyterServer:
-        return 'JupyterServer';
-      case AppType.kernelGateway:
-        return 'KernelGateway';
-      case AppType.detailedProfiler:
-        return 'DetailedProfiler';
-      case AppType.tensorBoard:
-        return 'TensorBoard';
-      case AppType.codeEditor:
-        return 'CodeEditor';
-      case AppType.jupyterLab:
-        return 'JupyterLab';
-      case AppType.rStudioServerPro:
-        return 'RStudioServerPro';
-      case AppType.rSessionGateway:
-        return 'RSessionGateway';
-      case AppType.canvas:
-        return 'Canvas';
-    }
-  }
-}
+  final String value;
 
-extension AppTypeFromString on String {
-  AppType toAppType() {
-    switch (this) {
-      case 'JupyterServer':
-        return AppType.jupyterServer;
-      case 'KernelGateway':
-        return AppType.kernelGateway;
-      case 'DetailedProfiler':
-        return AppType.detailedProfiler;
-      case 'TensorBoard':
-        return AppType.tensorBoard;
-      case 'CodeEditor':
-        return AppType.codeEditor;
-      case 'JupyterLab':
-        return AppType.jupyterLab;
-      case 'RStudioServerPro':
-        return AppType.rStudioServerPro;
-      case 'RSessionGateway':
-        return AppType.rSessionGateway;
-      case 'Canvas':
-        return AppType.canvas;
-    }
-    throw Exception('$this is not known in enum AppType');
-  }
+  const AppType(this.value);
+
+  static AppType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum AppType'));
 }
 
 /// A structure describing the source of an artifact.
@@ -21759,41 +20907,20 @@ class ArtifactSource {
 }
 
 enum ArtifactSourceIdType {
-  mD5Hash,
-  s3ETag,
-  s3Version,
-  custom,
-}
+  mD5Hash('MD5Hash'),
+  s3ETag('S3ETag'),
+  s3Version('S3Version'),
+  custom('Custom'),
+  ;
 
-extension ArtifactSourceIdTypeValueExtension on ArtifactSourceIdType {
-  String toValue() {
-    switch (this) {
-      case ArtifactSourceIdType.mD5Hash:
-        return 'MD5Hash';
-      case ArtifactSourceIdType.s3ETag:
-        return 'S3ETag';
-      case ArtifactSourceIdType.s3Version:
-        return 'S3Version';
-      case ArtifactSourceIdType.custom:
-        return 'Custom';
-    }
-  }
-}
+  final String value;
 
-extension ArtifactSourceIdTypeFromString on String {
-  ArtifactSourceIdType toArtifactSourceIdType() {
-    switch (this) {
-      case 'MD5Hash':
-        return ArtifactSourceIdType.mD5Hash;
-      case 'S3ETag':
-        return ArtifactSourceIdType.s3ETag;
-      case 'S3Version':
-        return ArtifactSourceIdType.s3Version;
-      case 'Custom':
-        return ArtifactSourceIdType.custom;
-    }
-    throw Exception('$this is not known in enum ArtifactSourceIdType');
-  }
+  const ArtifactSourceIdType(this.value);
+
+  static ArtifactSourceIdType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ArtifactSourceIdType'));
 }
 
 /// The ID and ID type of an artifact source.
@@ -21811,7 +20938,8 @@ class ArtifactSourceType {
 
   factory ArtifactSourceType.fromJson(Map<String, dynamic> json) {
     return ArtifactSourceType(
-      sourceIdType: (json['SourceIdType'] as String).toArtifactSourceIdType(),
+      sourceIdType:
+          ArtifactSourceIdType.fromString((json['SourceIdType'] as String)),
       value: json['Value'] as String,
     );
   }
@@ -21820,7 +20948,7 @@ class ArtifactSourceType {
     final sourceIdType = this.sourceIdType;
     final value = this.value;
     return {
-      'SourceIdType': sourceIdType.toValue(),
+      'SourceIdType': sourceIdType.value,
       'Value': value,
     };
   }
@@ -21871,31 +20999,18 @@ class ArtifactSummary {
 }
 
 enum AssemblyType {
-  none,
-  line,
-}
+  none('None'),
+  line('Line'),
+  ;
 
-extension AssemblyTypeValueExtension on AssemblyType {
-  String toValue() {
-    switch (this) {
-      case AssemblyType.none:
-        return 'None';
-      case AssemblyType.line:
-        return 'Line';
-    }
-  }
-}
+  final String value;
 
-extension AssemblyTypeFromString on String {
-  AssemblyType toAssemblyType() {
-    switch (this) {
-      case 'None':
-        return AssemblyType.none;
-      case 'Line':
-        return AssemblyType.line;
-    }
-    throw Exception('$this is not known in enum AssemblyType');
-  }
+  const AssemblyType(this.value);
+
+  static AssemblyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AssemblyType'));
 }
 
 class AssociateTrialComponentResponse {
@@ -21919,46 +21034,21 @@ class AssociateTrialComponentResponse {
 }
 
 enum AssociationEdgeType {
-  contributedTo,
-  associatedWith,
-  derivedFrom,
-  produced,
-  sameAs,
-}
+  contributedTo('ContributedTo'),
+  associatedWith('AssociatedWith'),
+  derivedFrom('DerivedFrom'),
+  produced('Produced'),
+  sameAs('SameAs'),
+  ;
 
-extension AssociationEdgeTypeValueExtension on AssociationEdgeType {
-  String toValue() {
-    switch (this) {
-      case AssociationEdgeType.contributedTo:
-        return 'ContributedTo';
-      case AssociationEdgeType.associatedWith:
-        return 'AssociatedWith';
-      case AssociationEdgeType.derivedFrom:
-        return 'DerivedFrom';
-      case AssociationEdgeType.produced:
-        return 'Produced';
-      case AssociationEdgeType.sameAs:
-        return 'SameAs';
-    }
-  }
-}
+  final String value;
 
-extension AssociationEdgeTypeFromString on String {
-  AssociationEdgeType toAssociationEdgeType() {
-    switch (this) {
-      case 'ContributedTo':
-        return AssociationEdgeType.contributedTo;
-      case 'AssociatedWith':
-        return AssociationEdgeType.associatedWith;
-      case 'DerivedFrom':
-        return AssociationEdgeType.derivedFrom;
-      case 'Produced':
-        return AssociationEdgeType.produced;
-      case 'SameAs':
-        return AssociationEdgeType.sameAs;
-    }
-    throw Exception('$this is not known in enum AssociationEdgeType');
-  }
+  const AssociationEdgeType(this.value);
+
+  static AssociationEdgeType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AssociationEdgeType'));
 }
 
 /// Lists a summary of the properties of an association. An association is an
@@ -22004,8 +21094,8 @@ class AssociationSummary {
 
   factory AssociationSummary.fromJson(Map<String, dynamic> json) {
     return AssociationSummary(
-      associationType:
-          (json['AssociationType'] as String?)?.toAssociationEdgeType(),
+      associationType: (json['AssociationType'] as String?)
+          ?.let(AssociationEdgeType.fromString),
       createdBy: json['CreatedBy'] != null
           ? UserContext.fromJson(json['CreatedBy'] as Map<String, dynamic>)
           : null,
@@ -22114,7 +21204,7 @@ class AsyncInferenceNotificationConfig {
       errorTopic: json['ErrorTopic'] as String?,
       includeInferenceResponseIn: (json['IncludeInferenceResponseIn'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toAsyncNotificationTopicTypes())
+          .map((e) => AsyncNotificationTopicTypes.fromString((e as String)))
           .toList(),
       successTopic: json['SuccessTopic'] as String?,
     );
@@ -22128,7 +21218,7 @@ class AsyncInferenceNotificationConfig {
       if (errorTopic != null) 'ErrorTopic': errorTopic,
       if (includeInferenceResponseIn != null)
         'IncludeInferenceResponseIn':
-            includeInferenceResponseIn.map((e) => e.toValue()).toList(),
+            includeInferenceResponseIn.map((e) => e.value).toList(),
       if (successTopic != null) 'SuccessTopic': successTopic,
     };
   }
@@ -22186,32 +21276,18 @@ class AsyncInferenceOutputConfig {
 }
 
 enum AsyncNotificationTopicTypes {
-  successNotificationTopic,
-  errorNotificationTopic,
-}
+  successNotificationTopic('SUCCESS_NOTIFICATION_TOPIC'),
+  errorNotificationTopic('ERROR_NOTIFICATION_TOPIC'),
+  ;
 
-extension AsyncNotificationTopicTypesValueExtension
-    on AsyncNotificationTopicTypes {
-  String toValue() {
-    switch (this) {
-      case AsyncNotificationTopicTypes.successNotificationTopic:
-        return 'SUCCESS_NOTIFICATION_TOPIC';
-      case AsyncNotificationTopicTypes.errorNotificationTopic:
-        return 'ERROR_NOTIFICATION_TOPIC';
-    }
-  }
-}
+  final String value;
 
-extension AsyncNotificationTopicTypesFromString on String {
-  AsyncNotificationTopicTypes toAsyncNotificationTopicTypes() {
-    switch (this) {
-      case 'SUCCESS_NOTIFICATION_TOPIC':
-        return AsyncNotificationTopicTypes.successNotificationTopic;
-      case 'ERROR_NOTIFICATION_TOPIC':
-        return AsyncNotificationTopicTypes.errorNotificationTopic;
-    }
-    throw Exception('$this is not known in enum AsyncNotificationTopicTypes');
-  }
+  const AsyncNotificationTopicTypes(this.value);
+
+  static AsyncNotificationTopicTypes fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AsyncNotificationTopicTypes'));
 }
 
 /// Configuration for Athena Dataset Definition input.
@@ -22246,12 +21322,13 @@ class AthenaDatasetDefinition {
     return AthenaDatasetDefinition(
       catalog: json['Catalog'] as String,
       database: json['Database'] as String,
-      outputFormat: (json['OutputFormat'] as String).toAthenaResultFormat(),
+      outputFormat:
+          AthenaResultFormat.fromString((json['OutputFormat'] as String)),
       outputS3Uri: json['OutputS3Uri'] as String,
       queryString: json['QueryString'] as String,
       kmsKeyId: json['KmsKeyId'] as String?,
       outputCompression: (json['OutputCompression'] as String?)
-          ?.toAthenaResultCompressionType(),
+          ?.let(AthenaResultCompressionType.fromString),
       workGroup: json['WorkGroup'] as String?,
     );
   }
@@ -22268,12 +21345,12 @@ class AthenaDatasetDefinition {
     return {
       'Catalog': catalog,
       'Database': database,
-      'OutputFormat': outputFormat.toValue(),
+      'OutputFormat': outputFormat.value,
       'OutputS3Uri': outputS3Uri,
       'QueryString': queryString,
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
       if (outputCompression != null)
-        'OutputCompression': outputCompression.toValue(),
+        'OutputCompression': outputCompression.value,
       if (workGroup != null) 'WorkGroup': workGroup,
     };
   }
@@ -22281,202 +21358,80 @@ class AthenaDatasetDefinition {
 
 /// The compression used for Athena query results.
 enum AthenaResultCompressionType {
-  gzip,
-  snappy,
-  zlib,
-}
+  gzip('GZIP'),
+  snappy('SNAPPY'),
+  zlib('ZLIB'),
+  ;
 
-extension AthenaResultCompressionTypeValueExtension
-    on AthenaResultCompressionType {
-  String toValue() {
-    switch (this) {
-      case AthenaResultCompressionType.gzip:
-        return 'GZIP';
-      case AthenaResultCompressionType.snappy:
-        return 'SNAPPY';
-      case AthenaResultCompressionType.zlib:
-        return 'ZLIB';
-    }
-  }
-}
+  final String value;
 
-extension AthenaResultCompressionTypeFromString on String {
-  AthenaResultCompressionType toAthenaResultCompressionType() {
-    switch (this) {
-      case 'GZIP':
-        return AthenaResultCompressionType.gzip;
-      case 'SNAPPY':
-        return AthenaResultCompressionType.snappy;
-      case 'ZLIB':
-        return AthenaResultCompressionType.zlib;
-    }
-    throw Exception('$this is not known in enum AthenaResultCompressionType');
-  }
+  const AthenaResultCompressionType(this.value);
+
+  static AthenaResultCompressionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AthenaResultCompressionType'));
 }
 
 /// The data storage format for Athena query results.
 enum AthenaResultFormat {
-  parquet,
-  orc,
-  avro,
-  json,
-  textfile,
-}
+  parquet('PARQUET'),
+  orc('ORC'),
+  avro('AVRO'),
+  json('JSON'),
+  textfile('TEXTFILE'),
+  ;
 
-extension AthenaResultFormatValueExtension on AthenaResultFormat {
-  String toValue() {
-    switch (this) {
-      case AthenaResultFormat.parquet:
-        return 'PARQUET';
-      case AthenaResultFormat.orc:
-        return 'ORC';
-      case AthenaResultFormat.avro:
-        return 'AVRO';
-      case AthenaResultFormat.json:
-        return 'JSON';
-      case AthenaResultFormat.textfile:
-        return 'TEXTFILE';
-    }
-  }
-}
+  final String value;
 
-extension AthenaResultFormatFromString on String {
-  AthenaResultFormat toAthenaResultFormat() {
-    switch (this) {
-      case 'PARQUET':
-        return AthenaResultFormat.parquet;
-      case 'ORC':
-        return AthenaResultFormat.orc;
-      case 'AVRO':
-        return AthenaResultFormat.avro;
-      case 'JSON':
-        return AthenaResultFormat.json;
-      case 'TEXTFILE':
-        return AthenaResultFormat.textfile;
-    }
-    throw Exception('$this is not known in enum AthenaResultFormat');
-  }
+  const AthenaResultFormat(this.value);
+
+  static AthenaResultFormat fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AthenaResultFormat'));
 }
 
 enum AuthMode {
-  sso,
-  iam,
-}
+  sso('SSO'),
+  iam('IAM'),
+  ;
 
-extension AuthModeValueExtension on AuthMode {
-  String toValue() {
-    switch (this) {
-      case AuthMode.sso:
-        return 'SSO';
-      case AuthMode.iam:
-        return 'IAM';
-    }
-  }
-}
+  final String value;
 
-extension AuthModeFromString on String {
-  AuthMode toAuthMode() {
-    switch (this) {
-      case 'SSO':
-        return AuthMode.sso;
-      case 'IAM':
-        return AuthMode.iam;
-    }
-    throw Exception('$this is not known in enum AuthMode');
-  }
+  const AuthMode(this.value);
+
+  static AuthMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AuthMode'));
 }
 
 enum AutoMLAlgorithm {
-  xgboost,
-  linearLearner,
-  mlp,
-  lightgbm,
-  catboost,
-  randomforest,
-  extraTrees,
-  nnTorch,
-  fastai,
-  cnnQr,
-  deepar,
-  prophet,
-  npts,
-  arima,
-  ets,
-}
+  xgboost('xgboost'),
+  linearLearner('linear-learner'),
+  mlp('mlp'),
+  lightgbm('lightgbm'),
+  catboost('catboost'),
+  randomforest('randomforest'),
+  extraTrees('extra-trees'),
+  nnTorch('nn-torch'),
+  fastai('fastai'),
+  cnnQr('cnn-qr'),
+  deepar('deepar'),
+  prophet('prophet'),
+  npts('npts'),
+  arima('arima'),
+  ets('ets'),
+  ;
 
-extension AutoMLAlgorithmValueExtension on AutoMLAlgorithm {
-  String toValue() {
-    switch (this) {
-      case AutoMLAlgorithm.xgboost:
-        return 'xgboost';
-      case AutoMLAlgorithm.linearLearner:
-        return 'linear-learner';
-      case AutoMLAlgorithm.mlp:
-        return 'mlp';
-      case AutoMLAlgorithm.lightgbm:
-        return 'lightgbm';
-      case AutoMLAlgorithm.catboost:
-        return 'catboost';
-      case AutoMLAlgorithm.randomforest:
-        return 'randomforest';
-      case AutoMLAlgorithm.extraTrees:
-        return 'extra-trees';
-      case AutoMLAlgorithm.nnTorch:
-        return 'nn-torch';
-      case AutoMLAlgorithm.fastai:
-        return 'fastai';
-      case AutoMLAlgorithm.cnnQr:
-        return 'cnn-qr';
-      case AutoMLAlgorithm.deepar:
-        return 'deepar';
-      case AutoMLAlgorithm.prophet:
-        return 'prophet';
-      case AutoMLAlgorithm.npts:
-        return 'npts';
-      case AutoMLAlgorithm.arima:
-        return 'arima';
-      case AutoMLAlgorithm.ets:
-        return 'ets';
-    }
-  }
-}
+  final String value;
 
-extension AutoMLAlgorithmFromString on String {
-  AutoMLAlgorithm toAutoMLAlgorithm() {
-    switch (this) {
-      case 'xgboost':
-        return AutoMLAlgorithm.xgboost;
-      case 'linear-learner':
-        return AutoMLAlgorithm.linearLearner;
-      case 'mlp':
-        return AutoMLAlgorithm.mlp;
-      case 'lightgbm':
-        return AutoMLAlgorithm.lightgbm;
-      case 'catboost':
-        return AutoMLAlgorithm.catboost;
-      case 'randomforest':
-        return AutoMLAlgorithm.randomforest;
-      case 'extra-trees':
-        return AutoMLAlgorithm.extraTrees;
-      case 'nn-torch':
-        return AutoMLAlgorithm.nnTorch;
-      case 'fastai':
-        return AutoMLAlgorithm.fastai;
-      case 'cnn-qr':
-        return AutoMLAlgorithm.cnnQr;
-      case 'deepar':
-        return AutoMLAlgorithm.deepar;
-      case 'prophet':
-        return AutoMLAlgorithm.prophet;
-      case 'npts':
-        return AutoMLAlgorithm.npts;
-      case 'arima':
-        return AutoMLAlgorithm.arima;
-      case 'ets':
-        return AutoMLAlgorithm.ets;
-    }
-    throw Exception('$this is not known in enum AutoMLAlgorithm');
-  }
+  const AutoMLAlgorithm(this.value);
+
+  static AutoMLAlgorithm fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AutoMLAlgorithm'));
 }
 
 /// The selection of algorithms trained on your dataset to generate the model
@@ -22580,7 +21535,7 @@ class AutoMLAlgorithmConfig {
     return AutoMLAlgorithmConfig(
       autoMLAlgorithms: (json['AutoMLAlgorithms'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toAutoMLAlgorithm())
+          .map((e) => AutoMLAlgorithm.fromString((e as String)))
           .toList(),
     );
   }
@@ -22588,7 +21543,7 @@ class AutoMLAlgorithmConfig {
   Map<String, dynamic> toJson() {
     final autoMLAlgorithms = this.autoMLAlgorithms;
     return {
-      'AutoMLAlgorithms': autoMLAlgorithms.map((e) => e.toValue()).toList(),
+      'AutoMLAlgorithms': autoMLAlgorithms.map((e) => e.value).toList(),
     };
   }
 }
@@ -22653,7 +21608,8 @@ class AutoMLCandidate {
   factory AutoMLCandidate.fromJson(Map<String, dynamic> json) {
     return AutoMLCandidate(
       candidateName: json['CandidateName'] as String,
-      candidateStatus: (json['CandidateStatus'] as String).toCandidateStatus(),
+      candidateStatus:
+          CandidateStatus.fromString((json['CandidateStatus'] as String)),
       candidateSteps: (json['CandidateSteps'] as List)
           .whereNotNull()
           .map((e) => AutoMLCandidateStep.fromJson(e as Map<String, dynamic>))
@@ -22662,7 +21618,8 @@ class AutoMLCandidate {
           nonNullableTimeStampFromJson(json['CreationTime'] as Object),
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] as Object),
-      objectiveStatus: (json['ObjectiveStatus'] as String).toObjectiveStatus(),
+      objectiveStatus:
+          ObjectiveStatus.fromString((json['ObjectiveStatus'] as String)),
       candidateProperties: json['CandidateProperties'] != null
           ? CandidateProperties.fromJson(
               json['CandidateProperties'] as Map<String, dynamic>)
@@ -22677,7 +21634,7 @@ class AutoMLCandidate {
       inferenceContainerDefinitions:
           (json['InferenceContainerDefinitions'] as Map<String, dynamic>?)?.map(
               (k, e) => MapEntry(
-                  k.toAutoMLProcessingUnit(),
+                  AutoMLProcessingUnit.fromString(k),
                   (e as List)
                       .whereNotNull()
                       .map((e) => AutoMLContainerDefinition.fromJson(
@@ -22815,7 +21772,7 @@ class AutoMLCandidateStep {
       candidateStepArn: json['CandidateStepArn'] as String,
       candidateStepName: json['CandidateStepName'] as String,
       candidateStepType:
-          (json['CandidateStepType'] as String).toCandidateStepType(),
+          CandidateStepType.fromString((json['CandidateStepType'] as String)),
     );
   }
 }
@@ -22884,9 +21841,10 @@ class AutoMLChannel {
   factory AutoMLChannel.fromJson(Map<String, dynamic> json) {
     return AutoMLChannel(
       targetAttributeName: json['TargetAttributeName'] as String,
-      channelType: (json['ChannelType'] as String?)?.toAutoMLChannelType(),
+      channelType:
+          (json['ChannelType'] as String?)?.let(AutoMLChannelType.fromString),
       compressionType:
-          (json['CompressionType'] as String?)?.toCompressionType(),
+          (json['CompressionType'] as String?)?.let(CompressionType.fromString),
       contentType: json['ContentType'] as String?,
       dataSource: json['DataSource'] != null
           ? AutoMLDataSource.fromJson(
@@ -22905,8 +21863,8 @@ class AutoMLChannel {
     final sampleWeightAttributeName = this.sampleWeightAttributeName;
     return {
       'TargetAttributeName': targetAttributeName,
-      if (channelType != null) 'ChannelType': channelType.toValue(),
-      if (compressionType != null) 'CompressionType': compressionType.toValue(),
+      if (channelType != null) 'ChannelType': channelType.value,
+      if (compressionType != null) 'CompressionType': compressionType.value,
       if (contentType != null) 'ContentType': contentType,
       if (dataSource != null) 'DataSource': dataSource,
       if (sampleWeightAttributeName != null)
@@ -22916,31 +21874,18 @@ class AutoMLChannel {
 }
 
 enum AutoMLChannelType {
-  training,
-  validation,
-}
+  training('training'),
+  validation('validation'),
+  ;
 
-extension AutoMLChannelTypeValueExtension on AutoMLChannelType {
-  String toValue() {
-    switch (this) {
-      case AutoMLChannelType.training:
-        return 'training';
-      case AutoMLChannelType.validation:
-        return 'validation';
-    }
-  }
-}
+  final String value;
 
-extension AutoMLChannelTypeFromString on String {
-  AutoMLChannelType toAutoMLChannelType() {
-    switch (this) {
-      case 'training':
-        return AutoMLChannelType.training;
-      case 'validation':
-        return AutoMLChannelType.validation;
-    }
-    throw Exception('$this is not known in enum AutoMLChannelType');
-  }
+  const AutoMLChannelType(this.value);
+
+  static AutoMLChannelType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AutoMLChannelType'));
 }
 
 /// A list of container definitions that describe the different containers that
@@ -23123,9 +22068,10 @@ class AutoMLJobChannel {
 
   factory AutoMLJobChannel.fromJson(Map<String, dynamic> json) {
     return AutoMLJobChannel(
-      channelType: (json['ChannelType'] as String?)?.toAutoMLChannelType(),
+      channelType:
+          (json['ChannelType'] as String?)?.let(AutoMLChannelType.fromString),
       compressionType:
-          (json['CompressionType'] as String?)?.toCompressionType(),
+          (json['CompressionType'] as String?)?.let(CompressionType.fromString),
       contentType: json['ContentType'] as String?,
       dataSource: json['DataSource'] != null
           ? AutoMLDataSource.fromJson(
@@ -23140,8 +22086,8 @@ class AutoMLJobChannel {
     final contentType = this.contentType;
     final dataSource = this.dataSource;
     return {
-      if (channelType != null) 'ChannelType': channelType.toValue(),
-      if (compressionType != null) 'CompressionType': compressionType.toValue(),
+      if (channelType != null) 'ChannelType': channelType.value,
+      if (compressionType != null) 'CompressionType': compressionType.value,
       if (contentType != null) 'ContentType': contentType,
       if (dataSource != null) 'DataSource': dataSource,
     };
@@ -23279,7 +22225,7 @@ class AutoMLJobConfig {
           ? AutoMLDataSplitConfig.fromJson(
               json['DataSplitConfig'] as Map<String, dynamic>)
           : null,
-      mode: (json['Mode'] as String?)?.toAutoMLMode(),
+      mode: (json['Mode'] as String?)?.let(AutoMLMode.fromString),
       securityConfig: json['SecurityConfig'] != null
           ? AutoMLSecurityConfig.fromJson(
               json['SecurityConfig'] as Map<String, dynamic>)
@@ -23298,7 +22244,7 @@ class AutoMLJobConfig {
         'CandidateGenerationConfig': candidateGenerationConfig,
       if (completionCriteria != null) 'CompletionCriteria': completionCriteria,
       if (dataSplitConfig != null) 'DataSplitConfig': dataSplitConfig,
-      if (mode != null) 'Mode': mode.toValue(),
+      if (mode != null) 'Mode': mode.value,
       if (securityConfig != null) 'SecurityConfig': securityConfig,
     };
   }
@@ -23412,200 +22358,81 @@ class AutoMLJobObjective {
 
   factory AutoMLJobObjective.fromJson(Map<String, dynamic> json) {
     return AutoMLJobObjective(
-      metricName: (json['MetricName'] as String).toAutoMLMetricEnum(),
+      metricName: AutoMLMetricEnum.fromString((json['MetricName'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final metricName = this.metricName;
     return {
-      'MetricName': metricName.toValue(),
+      'MetricName': metricName.value,
     };
   }
 }
 
 enum AutoMLJobObjectiveType {
-  maximize,
-  minimize,
-}
+  maximize('Maximize'),
+  minimize('Minimize'),
+  ;
 
-extension AutoMLJobObjectiveTypeValueExtension on AutoMLJobObjectiveType {
-  String toValue() {
-    switch (this) {
-      case AutoMLJobObjectiveType.maximize:
-        return 'Maximize';
-      case AutoMLJobObjectiveType.minimize:
-        return 'Minimize';
-    }
-  }
-}
+  final String value;
 
-extension AutoMLJobObjectiveTypeFromString on String {
-  AutoMLJobObjectiveType toAutoMLJobObjectiveType() {
-    switch (this) {
-      case 'Maximize':
-        return AutoMLJobObjectiveType.maximize;
-      case 'Minimize':
-        return AutoMLJobObjectiveType.minimize;
-    }
-    throw Exception('$this is not known in enum AutoMLJobObjectiveType');
-  }
+  const AutoMLJobObjectiveType(this.value);
+
+  static AutoMLJobObjectiveType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AutoMLJobObjectiveType'));
 }
 
 enum AutoMLJobSecondaryStatus {
-  starting,
-  maxCandidatesReached,
-  failed,
-  stopped,
-  maxAutoMLJobRuntimeReached,
-  stopping,
-  candidateDefinitionsGenerated,
-  completed,
-  explainabilityError,
-  deployingModel,
-  modelDeploymentError,
-  generatingModelInsightsReport,
-  modelInsightsError,
-  analyzingData,
-  featureEngineering,
-  modelTuning,
-  generatingExplainabilityReport,
-  trainingModels,
-  preTraining,
-}
+  starting('Starting'),
+  maxCandidatesReached('MaxCandidatesReached'),
+  failed('Failed'),
+  stopped('Stopped'),
+  maxAutoMLJobRuntimeReached('MaxAutoMLJobRuntimeReached'),
+  stopping('Stopping'),
+  candidateDefinitionsGenerated('CandidateDefinitionsGenerated'),
+  completed('Completed'),
+  explainabilityError('ExplainabilityError'),
+  deployingModel('DeployingModel'),
+  modelDeploymentError('ModelDeploymentError'),
+  generatingModelInsightsReport('GeneratingModelInsightsReport'),
+  modelInsightsError('ModelInsightsError'),
+  analyzingData('AnalyzingData'),
+  featureEngineering('FeatureEngineering'),
+  modelTuning('ModelTuning'),
+  generatingExplainabilityReport('GeneratingExplainabilityReport'),
+  trainingModels('TrainingModels'),
+  preTraining('PreTraining'),
+  ;
 
-extension AutoMLJobSecondaryStatusValueExtension on AutoMLJobSecondaryStatus {
-  String toValue() {
-    switch (this) {
-      case AutoMLJobSecondaryStatus.starting:
-        return 'Starting';
-      case AutoMLJobSecondaryStatus.maxCandidatesReached:
-        return 'MaxCandidatesReached';
-      case AutoMLJobSecondaryStatus.failed:
-        return 'Failed';
-      case AutoMLJobSecondaryStatus.stopped:
-        return 'Stopped';
-      case AutoMLJobSecondaryStatus.maxAutoMLJobRuntimeReached:
-        return 'MaxAutoMLJobRuntimeReached';
-      case AutoMLJobSecondaryStatus.stopping:
-        return 'Stopping';
-      case AutoMLJobSecondaryStatus.candidateDefinitionsGenerated:
-        return 'CandidateDefinitionsGenerated';
-      case AutoMLJobSecondaryStatus.completed:
-        return 'Completed';
-      case AutoMLJobSecondaryStatus.explainabilityError:
-        return 'ExplainabilityError';
-      case AutoMLJobSecondaryStatus.deployingModel:
-        return 'DeployingModel';
-      case AutoMLJobSecondaryStatus.modelDeploymentError:
-        return 'ModelDeploymentError';
-      case AutoMLJobSecondaryStatus.generatingModelInsightsReport:
-        return 'GeneratingModelInsightsReport';
-      case AutoMLJobSecondaryStatus.modelInsightsError:
-        return 'ModelInsightsError';
-      case AutoMLJobSecondaryStatus.analyzingData:
-        return 'AnalyzingData';
-      case AutoMLJobSecondaryStatus.featureEngineering:
-        return 'FeatureEngineering';
-      case AutoMLJobSecondaryStatus.modelTuning:
-        return 'ModelTuning';
-      case AutoMLJobSecondaryStatus.generatingExplainabilityReport:
-        return 'GeneratingExplainabilityReport';
-      case AutoMLJobSecondaryStatus.trainingModels:
-        return 'TrainingModels';
-      case AutoMLJobSecondaryStatus.preTraining:
-        return 'PreTraining';
-    }
-  }
-}
+  final String value;
 
-extension AutoMLJobSecondaryStatusFromString on String {
-  AutoMLJobSecondaryStatus toAutoMLJobSecondaryStatus() {
-    switch (this) {
-      case 'Starting':
-        return AutoMLJobSecondaryStatus.starting;
-      case 'MaxCandidatesReached':
-        return AutoMLJobSecondaryStatus.maxCandidatesReached;
-      case 'Failed':
-        return AutoMLJobSecondaryStatus.failed;
-      case 'Stopped':
-        return AutoMLJobSecondaryStatus.stopped;
-      case 'MaxAutoMLJobRuntimeReached':
-        return AutoMLJobSecondaryStatus.maxAutoMLJobRuntimeReached;
-      case 'Stopping':
-        return AutoMLJobSecondaryStatus.stopping;
-      case 'CandidateDefinitionsGenerated':
-        return AutoMLJobSecondaryStatus.candidateDefinitionsGenerated;
-      case 'Completed':
-        return AutoMLJobSecondaryStatus.completed;
-      case 'ExplainabilityError':
-        return AutoMLJobSecondaryStatus.explainabilityError;
-      case 'DeployingModel':
-        return AutoMLJobSecondaryStatus.deployingModel;
-      case 'ModelDeploymentError':
-        return AutoMLJobSecondaryStatus.modelDeploymentError;
-      case 'GeneratingModelInsightsReport':
-        return AutoMLJobSecondaryStatus.generatingModelInsightsReport;
-      case 'ModelInsightsError':
-        return AutoMLJobSecondaryStatus.modelInsightsError;
-      case 'AnalyzingData':
-        return AutoMLJobSecondaryStatus.analyzingData;
-      case 'FeatureEngineering':
-        return AutoMLJobSecondaryStatus.featureEngineering;
-      case 'ModelTuning':
-        return AutoMLJobSecondaryStatus.modelTuning;
-      case 'GeneratingExplainabilityReport':
-        return AutoMLJobSecondaryStatus.generatingExplainabilityReport;
-      case 'TrainingModels':
-        return AutoMLJobSecondaryStatus.trainingModels;
-      case 'PreTraining':
-        return AutoMLJobSecondaryStatus.preTraining;
-    }
-    throw Exception('$this is not known in enum AutoMLJobSecondaryStatus');
-  }
+  const AutoMLJobSecondaryStatus(this.value);
+
+  static AutoMLJobSecondaryStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AutoMLJobSecondaryStatus'));
 }
 
 enum AutoMLJobStatus {
-  completed,
-  inProgress,
-  failed,
-  stopped,
-  stopping,
-}
+  completed('Completed'),
+  inProgress('InProgress'),
+  failed('Failed'),
+  stopped('Stopped'),
+  stopping('Stopping'),
+  ;
 
-extension AutoMLJobStatusValueExtension on AutoMLJobStatus {
-  String toValue() {
-    switch (this) {
-      case AutoMLJobStatus.completed:
-        return 'Completed';
-      case AutoMLJobStatus.inProgress:
-        return 'InProgress';
-      case AutoMLJobStatus.failed:
-        return 'Failed';
-      case AutoMLJobStatus.stopped:
-        return 'Stopped';
-      case AutoMLJobStatus.stopping:
-        return 'Stopping';
-    }
-  }
-}
+  final String value;
 
-extension AutoMLJobStatusFromString on String {
-  AutoMLJobStatus toAutoMLJobStatus() {
-    switch (this) {
-      case 'Completed':
-        return AutoMLJobStatus.completed;
-      case 'InProgress':
-        return AutoMLJobStatus.inProgress;
-      case 'Failed':
-        return AutoMLJobStatus.failed;
-      case 'Stopped':
-        return AutoMLJobStatus.stopped;
-      case 'Stopping':
-        return AutoMLJobStatus.stopping;
-    }
-    throw Exception('$this is not known in enum AutoMLJobStatus');
-  }
+  const AutoMLJobStatus(this.value);
+
+  static AutoMLJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AutoMLJobStatus'));
 }
 
 /// Metadata for an AutoML job step.
@@ -23669,9 +22496,10 @@ class AutoMLJobSummary {
     return AutoMLJobSummary(
       autoMLJobArn: json['AutoMLJobArn'] as String,
       autoMLJobName: json['AutoMLJobName'] as String,
-      autoMLJobSecondaryStatus: (json['AutoMLJobSecondaryStatus'] as String)
-          .toAutoMLJobSecondaryStatus(),
-      autoMLJobStatus: (json['AutoMLJobStatus'] as String).toAutoMLJobStatus(),
+      autoMLJobSecondaryStatus: AutoMLJobSecondaryStatus.fromString(
+          (json['AutoMLJobSecondaryStatus'] as String)),
+      autoMLJobStatus:
+          AutoMLJobStatus.fromString((json['AutoMLJobStatus'] as String)),
       creationTime:
           nonNullableTimeStampFromJson(json['CreationTime'] as Object),
       lastModifiedTime:
@@ -23688,287 +22516,87 @@ class AutoMLJobSummary {
 }
 
 enum AutoMLMetricEnum {
-  accuracy,
-  mse,
-  f1,
-  f1macro,
-  auc,
-  rmse,
-  balancedAccuracy,
-  r2,
-  recall,
-  recallMacro,
-  precision,
-  precisionMacro,
-  mae,
-  mape,
-  mase,
-  wape,
-  averageWeightedQuantileLoss,
-}
+  accuracy('Accuracy'),
+  mse('MSE'),
+  f1('F1'),
+  f1macro('F1macro'),
+  auc('AUC'),
+  rmse('RMSE'),
+  balancedAccuracy('BalancedAccuracy'),
+  r2('R2'),
+  recall('Recall'),
+  recallMacro('RecallMacro'),
+  precision('Precision'),
+  precisionMacro('PrecisionMacro'),
+  mae('MAE'),
+  mape('MAPE'),
+  mase('MASE'),
+  wape('WAPE'),
+  averageWeightedQuantileLoss('AverageWeightedQuantileLoss'),
+  ;
 
-extension AutoMLMetricEnumValueExtension on AutoMLMetricEnum {
-  String toValue() {
-    switch (this) {
-      case AutoMLMetricEnum.accuracy:
-        return 'Accuracy';
-      case AutoMLMetricEnum.mse:
-        return 'MSE';
-      case AutoMLMetricEnum.f1:
-        return 'F1';
-      case AutoMLMetricEnum.f1macro:
-        return 'F1macro';
-      case AutoMLMetricEnum.auc:
-        return 'AUC';
-      case AutoMLMetricEnum.rmse:
-        return 'RMSE';
-      case AutoMLMetricEnum.balancedAccuracy:
-        return 'BalancedAccuracy';
-      case AutoMLMetricEnum.r2:
-        return 'R2';
-      case AutoMLMetricEnum.recall:
-        return 'Recall';
-      case AutoMLMetricEnum.recallMacro:
-        return 'RecallMacro';
-      case AutoMLMetricEnum.precision:
-        return 'Precision';
-      case AutoMLMetricEnum.precisionMacro:
-        return 'PrecisionMacro';
-      case AutoMLMetricEnum.mae:
-        return 'MAE';
-      case AutoMLMetricEnum.mape:
-        return 'MAPE';
-      case AutoMLMetricEnum.mase:
-        return 'MASE';
-      case AutoMLMetricEnum.wape:
-        return 'WAPE';
-      case AutoMLMetricEnum.averageWeightedQuantileLoss:
-        return 'AverageWeightedQuantileLoss';
-    }
-  }
-}
+  final String value;
 
-extension AutoMLMetricEnumFromString on String {
-  AutoMLMetricEnum toAutoMLMetricEnum() {
-    switch (this) {
-      case 'Accuracy':
-        return AutoMLMetricEnum.accuracy;
-      case 'MSE':
-        return AutoMLMetricEnum.mse;
-      case 'F1':
-        return AutoMLMetricEnum.f1;
-      case 'F1macro':
-        return AutoMLMetricEnum.f1macro;
-      case 'AUC':
-        return AutoMLMetricEnum.auc;
-      case 'RMSE':
-        return AutoMLMetricEnum.rmse;
-      case 'BalancedAccuracy':
-        return AutoMLMetricEnum.balancedAccuracy;
-      case 'R2':
-        return AutoMLMetricEnum.r2;
-      case 'Recall':
-        return AutoMLMetricEnum.recall;
-      case 'RecallMacro':
-        return AutoMLMetricEnum.recallMacro;
-      case 'Precision':
-        return AutoMLMetricEnum.precision;
-      case 'PrecisionMacro':
-        return AutoMLMetricEnum.precisionMacro;
-      case 'MAE':
-        return AutoMLMetricEnum.mae;
-      case 'MAPE':
-        return AutoMLMetricEnum.mape;
-      case 'MASE':
-        return AutoMLMetricEnum.mase;
-      case 'WAPE':
-        return AutoMLMetricEnum.wape;
-      case 'AverageWeightedQuantileLoss':
-        return AutoMLMetricEnum.averageWeightedQuantileLoss;
-    }
-    throw Exception('$this is not known in enum AutoMLMetricEnum');
-  }
+  const AutoMLMetricEnum(this.value);
+
+  static AutoMLMetricEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AutoMLMetricEnum'));
 }
 
 enum AutoMLMetricExtendedEnum {
-  accuracy,
-  mse,
-  f1,
-  f1macro,
-  auc,
-  rmse,
-  mae,
-  r2,
-  balancedAccuracy,
-  precision,
-  precisionMacro,
-  recall,
-  recallMacro,
-  logLoss,
-  inferenceLatency,
-  mape,
-  mase,
-  wape,
-  averageWeightedQuantileLoss,
-  rouge1,
-  rouge2,
-  rougeL,
-  rougeLSum,
-  perplexity,
-  validationLoss,
-  trainingLoss,
-}
+  accuracy('Accuracy'),
+  mse('MSE'),
+  f1('F1'),
+  f1macro('F1macro'),
+  auc('AUC'),
+  rmse('RMSE'),
+  mae('MAE'),
+  r2('R2'),
+  balancedAccuracy('BalancedAccuracy'),
+  precision('Precision'),
+  precisionMacro('PrecisionMacro'),
+  recall('Recall'),
+  recallMacro('RecallMacro'),
+  logLoss('LogLoss'),
+  inferenceLatency('InferenceLatency'),
+  mape('MAPE'),
+  mase('MASE'),
+  wape('WAPE'),
+  averageWeightedQuantileLoss('AverageWeightedQuantileLoss'),
+  rouge1('Rouge1'),
+  rouge2('Rouge2'),
+  rougeL('RougeL'),
+  rougeLSum('RougeLSum'),
+  perplexity('Perplexity'),
+  validationLoss('ValidationLoss'),
+  trainingLoss('TrainingLoss'),
+  ;
 
-extension AutoMLMetricExtendedEnumValueExtension on AutoMLMetricExtendedEnum {
-  String toValue() {
-    switch (this) {
-      case AutoMLMetricExtendedEnum.accuracy:
-        return 'Accuracy';
-      case AutoMLMetricExtendedEnum.mse:
-        return 'MSE';
-      case AutoMLMetricExtendedEnum.f1:
-        return 'F1';
-      case AutoMLMetricExtendedEnum.f1macro:
-        return 'F1macro';
-      case AutoMLMetricExtendedEnum.auc:
-        return 'AUC';
-      case AutoMLMetricExtendedEnum.rmse:
-        return 'RMSE';
-      case AutoMLMetricExtendedEnum.mae:
-        return 'MAE';
-      case AutoMLMetricExtendedEnum.r2:
-        return 'R2';
-      case AutoMLMetricExtendedEnum.balancedAccuracy:
-        return 'BalancedAccuracy';
-      case AutoMLMetricExtendedEnum.precision:
-        return 'Precision';
-      case AutoMLMetricExtendedEnum.precisionMacro:
-        return 'PrecisionMacro';
-      case AutoMLMetricExtendedEnum.recall:
-        return 'Recall';
-      case AutoMLMetricExtendedEnum.recallMacro:
-        return 'RecallMacro';
-      case AutoMLMetricExtendedEnum.logLoss:
-        return 'LogLoss';
-      case AutoMLMetricExtendedEnum.inferenceLatency:
-        return 'InferenceLatency';
-      case AutoMLMetricExtendedEnum.mape:
-        return 'MAPE';
-      case AutoMLMetricExtendedEnum.mase:
-        return 'MASE';
-      case AutoMLMetricExtendedEnum.wape:
-        return 'WAPE';
-      case AutoMLMetricExtendedEnum.averageWeightedQuantileLoss:
-        return 'AverageWeightedQuantileLoss';
-      case AutoMLMetricExtendedEnum.rouge1:
-        return 'Rouge1';
-      case AutoMLMetricExtendedEnum.rouge2:
-        return 'Rouge2';
-      case AutoMLMetricExtendedEnum.rougeL:
-        return 'RougeL';
-      case AutoMLMetricExtendedEnum.rougeLSum:
-        return 'RougeLSum';
-      case AutoMLMetricExtendedEnum.perplexity:
-        return 'Perplexity';
-      case AutoMLMetricExtendedEnum.validationLoss:
-        return 'ValidationLoss';
-      case AutoMLMetricExtendedEnum.trainingLoss:
-        return 'TrainingLoss';
-    }
-  }
-}
+  final String value;
 
-extension AutoMLMetricExtendedEnumFromString on String {
-  AutoMLMetricExtendedEnum toAutoMLMetricExtendedEnum() {
-    switch (this) {
-      case 'Accuracy':
-        return AutoMLMetricExtendedEnum.accuracy;
-      case 'MSE':
-        return AutoMLMetricExtendedEnum.mse;
-      case 'F1':
-        return AutoMLMetricExtendedEnum.f1;
-      case 'F1macro':
-        return AutoMLMetricExtendedEnum.f1macro;
-      case 'AUC':
-        return AutoMLMetricExtendedEnum.auc;
-      case 'RMSE':
-        return AutoMLMetricExtendedEnum.rmse;
-      case 'MAE':
-        return AutoMLMetricExtendedEnum.mae;
-      case 'R2':
-        return AutoMLMetricExtendedEnum.r2;
-      case 'BalancedAccuracy':
-        return AutoMLMetricExtendedEnum.balancedAccuracy;
-      case 'Precision':
-        return AutoMLMetricExtendedEnum.precision;
-      case 'PrecisionMacro':
-        return AutoMLMetricExtendedEnum.precisionMacro;
-      case 'Recall':
-        return AutoMLMetricExtendedEnum.recall;
-      case 'RecallMacro':
-        return AutoMLMetricExtendedEnum.recallMacro;
-      case 'LogLoss':
-        return AutoMLMetricExtendedEnum.logLoss;
-      case 'InferenceLatency':
-        return AutoMLMetricExtendedEnum.inferenceLatency;
-      case 'MAPE':
-        return AutoMLMetricExtendedEnum.mape;
-      case 'MASE':
-        return AutoMLMetricExtendedEnum.mase;
-      case 'WAPE':
-        return AutoMLMetricExtendedEnum.wape;
-      case 'AverageWeightedQuantileLoss':
-        return AutoMLMetricExtendedEnum.averageWeightedQuantileLoss;
-      case 'Rouge1':
-        return AutoMLMetricExtendedEnum.rouge1;
-      case 'Rouge2':
-        return AutoMLMetricExtendedEnum.rouge2;
-      case 'RougeL':
-        return AutoMLMetricExtendedEnum.rougeL;
-      case 'RougeLSum':
-        return AutoMLMetricExtendedEnum.rougeLSum;
-      case 'Perplexity':
-        return AutoMLMetricExtendedEnum.perplexity;
-      case 'ValidationLoss':
-        return AutoMLMetricExtendedEnum.validationLoss;
-      case 'TrainingLoss':
-        return AutoMLMetricExtendedEnum.trainingLoss;
-    }
-    throw Exception('$this is not known in enum AutoMLMetricExtendedEnum');
-  }
+  const AutoMLMetricExtendedEnum(this.value);
+
+  static AutoMLMetricExtendedEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AutoMLMetricExtendedEnum'));
 }
 
 enum AutoMLMode {
-  auto,
-  ensembling,
-  hyperparameterTuning,
-}
+  auto('AUTO'),
+  ensembling('ENSEMBLING'),
+  hyperparameterTuning('HYPERPARAMETER_TUNING'),
+  ;
 
-extension AutoMLModeValueExtension on AutoMLMode {
-  String toValue() {
-    switch (this) {
-      case AutoMLMode.auto:
-        return 'AUTO';
-      case AutoMLMode.ensembling:
-        return 'ENSEMBLING';
-      case AutoMLMode.hyperparameterTuning:
-        return 'HYPERPARAMETER_TUNING';
-    }
-  }
-}
+  final String value;
 
-extension AutoMLModeFromString on String {
-  AutoMLMode toAutoMLMode() {
-    switch (this) {
-      case 'AUTO':
-        return AutoMLMode.auto;
-      case 'ENSEMBLING':
-        return AutoMLMode.ensembling;
-      case 'HYPERPARAMETER_TUNING':
-        return AutoMLMode.hyperparameterTuning;
-    }
-    throw Exception('$this is not known in enum AutoMLMode');
-  }
+  const AutoMLMode(this.value);
+
+  static AutoMLMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AutoMLMode'));
 }
 
 /// The output data configuration.
@@ -24102,47 +22730,21 @@ class AutoMLProblemTypeConfig {
 }
 
 enum AutoMLProblemTypeConfigName {
-  imageClassification,
-  textClassification,
-  timeSeriesForecasting,
-  tabular,
-  textGeneration,
-}
+  imageClassification('ImageClassification'),
+  textClassification('TextClassification'),
+  timeSeriesForecasting('TimeSeriesForecasting'),
+  tabular('Tabular'),
+  textGeneration('TextGeneration'),
+  ;
 
-extension AutoMLProblemTypeConfigNameValueExtension
-    on AutoMLProblemTypeConfigName {
-  String toValue() {
-    switch (this) {
-      case AutoMLProblemTypeConfigName.imageClassification:
-        return 'ImageClassification';
-      case AutoMLProblemTypeConfigName.textClassification:
-        return 'TextClassification';
-      case AutoMLProblemTypeConfigName.timeSeriesForecasting:
-        return 'TimeSeriesForecasting';
-      case AutoMLProblemTypeConfigName.tabular:
-        return 'Tabular';
-      case AutoMLProblemTypeConfigName.textGeneration:
-        return 'TextGeneration';
-    }
-  }
-}
+  final String value;
 
-extension AutoMLProblemTypeConfigNameFromString on String {
-  AutoMLProblemTypeConfigName toAutoMLProblemTypeConfigName() {
-    switch (this) {
-      case 'ImageClassification':
-        return AutoMLProblemTypeConfigName.imageClassification;
-      case 'TextClassification':
-        return AutoMLProblemTypeConfigName.textClassification;
-      case 'TimeSeriesForecasting':
-        return AutoMLProblemTypeConfigName.timeSeriesForecasting;
-      case 'Tabular':
-        return AutoMLProblemTypeConfigName.tabular;
-      case 'TextGeneration':
-        return AutoMLProblemTypeConfigName.textGeneration;
-    }
-    throw Exception('$this is not known in enum AutoMLProblemTypeConfigName');
-  }
+  const AutoMLProblemTypeConfigName(this.value);
+
+  static AutoMLProblemTypeConfigName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AutoMLProblemTypeConfigName'));
 }
 
 /// Stores resolved attributes specific to the problem type of an AutoML job V2.
@@ -24176,31 +22778,18 @@ class AutoMLProblemTypeResolvedAttributes {
 }
 
 enum AutoMLProcessingUnit {
-  cpu,
-  gpu,
-}
+  cpu('CPU'),
+  gpu('GPU'),
+  ;
 
-extension AutoMLProcessingUnitValueExtension on AutoMLProcessingUnit {
-  String toValue() {
-    switch (this) {
-      case AutoMLProcessingUnit.cpu:
-        return 'CPU';
-      case AutoMLProcessingUnit.gpu:
-        return 'GPU';
-    }
-  }
-}
+  final String value;
 
-extension AutoMLProcessingUnitFromString on String {
-  AutoMLProcessingUnit toAutoMLProcessingUnit() {
-    switch (this) {
-      case 'CPU':
-        return AutoMLProcessingUnit.cpu;
-      case 'GPU':
-        return AutoMLProcessingUnit.gpu;
-    }
-    throw Exception('$this is not known in enum AutoMLProcessingUnit');
-  }
+  const AutoMLProcessingUnit(this.value);
+
+  static AutoMLProcessingUnit fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AutoMLProcessingUnit'));
 }
 
 /// The resolved attributes used to configure an AutoML job V2.
@@ -24301,7 +22890,7 @@ class AutoMLS3DataSource {
 
   factory AutoMLS3DataSource.fromJson(Map<String, dynamic> json) {
     return AutoMLS3DataSource(
-      s3DataType: (json['S3DataType'] as String).toAutoMLS3DataType(),
+      s3DataType: AutoMLS3DataType.fromString((json['S3DataType'] as String)),
       s3Uri: json['S3Uri'] as String,
     );
   }
@@ -24310,43 +22899,26 @@ class AutoMLS3DataSource {
     final s3DataType = this.s3DataType;
     final s3Uri = this.s3Uri;
     return {
-      'S3DataType': s3DataType.toValue(),
+      'S3DataType': s3DataType.value,
       'S3Uri': s3Uri,
     };
   }
 }
 
 enum AutoMLS3DataType {
-  manifestFile,
-  s3Prefix,
-  augmentedManifestFile,
-}
+  manifestFile('ManifestFile'),
+  s3Prefix('S3Prefix'),
+  augmentedManifestFile('AugmentedManifestFile'),
+  ;
 
-extension AutoMLS3DataTypeValueExtension on AutoMLS3DataType {
-  String toValue() {
-    switch (this) {
-      case AutoMLS3DataType.manifestFile:
-        return 'ManifestFile';
-      case AutoMLS3DataType.s3Prefix:
-        return 'S3Prefix';
-      case AutoMLS3DataType.augmentedManifestFile:
-        return 'AugmentedManifestFile';
-    }
-  }
-}
+  final String value;
 
-extension AutoMLS3DataTypeFromString on String {
-  AutoMLS3DataType toAutoMLS3DataType() {
-    switch (this) {
-      case 'ManifestFile':
-        return AutoMLS3DataType.manifestFile;
-      case 'S3Prefix':
-        return AutoMLS3DataType.s3Prefix;
-      case 'AugmentedManifestFile':
-        return AutoMLS3DataType.augmentedManifestFile;
-    }
-    throw Exception('$this is not known in enum AutoMLS3DataType');
-  }
+  const AutoMLS3DataType(this.value);
+
+  static AutoMLS3DataType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AutoMLS3DataType'));
 }
 
 /// Security options.
@@ -24393,64 +22965,34 @@ class AutoMLSecurityConfig {
 }
 
 enum AutoMLSortBy {
-  name,
-  creationTime,
-  status,
-}
+  name('Name'),
+  creationTime('CreationTime'),
+  status('Status'),
+  ;
 
-extension AutoMLSortByValueExtension on AutoMLSortBy {
-  String toValue() {
-    switch (this) {
-      case AutoMLSortBy.name:
-        return 'Name';
-      case AutoMLSortBy.creationTime:
-        return 'CreationTime';
-      case AutoMLSortBy.status:
-        return 'Status';
-    }
-  }
-}
+  final String value;
 
-extension AutoMLSortByFromString on String {
-  AutoMLSortBy toAutoMLSortBy() {
-    switch (this) {
-      case 'Name':
-        return AutoMLSortBy.name;
-      case 'CreationTime':
-        return AutoMLSortBy.creationTime;
-      case 'Status':
-        return AutoMLSortBy.status;
-    }
-    throw Exception('$this is not known in enum AutoMLSortBy');
-  }
+  const AutoMLSortBy(this.value);
+
+  static AutoMLSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AutoMLSortBy'));
 }
 
 enum AutoMLSortOrder {
-  ascending,
-  descending,
-}
+  ascending('Ascending'),
+  descending('Descending'),
+  ;
 
-extension AutoMLSortOrderValueExtension on AutoMLSortOrder {
-  String toValue() {
-    switch (this) {
-      case AutoMLSortOrder.ascending:
-        return 'Ascending';
-      case AutoMLSortOrder.descending:
-        return 'Descending';
-    }
-  }
-}
+  final String value;
 
-extension AutoMLSortOrderFromString on String {
-  AutoMLSortOrder toAutoMLSortOrder() {
-    switch (this) {
-      case 'Ascending':
-        return AutoMLSortOrder.ascending;
-      case 'Descending':
-        return AutoMLSortOrder.descending;
-    }
-    throw Exception('$this is not known in enum AutoMLSortOrder');
-  }
+  const AutoMLSortOrder(this.value);
+
+  static AutoMLSortOrder fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AutoMLSortOrder'));
 }
 
 /// The name and an example value of the hyperparameter that you want to use in
@@ -24566,72 +23108,46 @@ class Autotune {
 
   factory Autotune.fromJson(Map<String, dynamic> json) {
     return Autotune(
-      mode: (json['Mode'] as String).toAutotuneMode(),
+      mode: AutotuneMode.fromString((json['Mode'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final mode = this.mode;
     return {
-      'Mode': mode.toValue(),
+      'Mode': mode.value,
     };
   }
 }
 
 enum AutotuneMode {
-  enabled,
-}
+  enabled('Enabled'),
+  ;
 
-extension AutotuneModeValueExtension on AutotuneMode {
-  String toValue() {
-    switch (this) {
-      case AutotuneMode.enabled:
-        return 'Enabled';
-    }
-  }
-}
+  final String value;
 
-extension AutotuneModeFromString on String {
-  AutotuneMode toAutotuneMode() {
-    switch (this) {
-      case 'Enabled':
-        return AutotuneMode.enabled;
-    }
-    throw Exception('$this is not known in enum AutotuneMode');
-  }
+  const AutotuneMode(this.value);
+
+  static AutotuneMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AutotuneMode'));
 }
 
 enum AwsManagedHumanLoopRequestSource {
-  awsRekognitionDetectModerationLabelsImageV3,
-  awsTextractAnalyzeDocumentFormsV1,
-}
+  awsRekognitionDetectModerationLabelsImageV3(
+      'AWS/Rekognition/DetectModerationLabels/Image/V3'),
+  awsTextractAnalyzeDocumentFormsV1('AWS/Textract/AnalyzeDocument/Forms/V1'),
+  ;
 
-extension AwsManagedHumanLoopRequestSourceValueExtension
-    on AwsManagedHumanLoopRequestSource {
-  String toValue() {
-    switch (this) {
-      case AwsManagedHumanLoopRequestSource
-            .awsRekognitionDetectModerationLabelsImageV3:
-        return 'AWS/Rekognition/DetectModerationLabels/Image/V3';
-      case AwsManagedHumanLoopRequestSource.awsTextractAnalyzeDocumentFormsV1:
-        return 'AWS/Textract/AnalyzeDocument/Forms/V1';
-    }
-  }
-}
+  final String value;
 
-extension AwsManagedHumanLoopRequestSourceFromString on String {
-  AwsManagedHumanLoopRequestSource toAwsManagedHumanLoopRequestSource() {
-    switch (this) {
-      case 'AWS/Rekognition/DetectModerationLabels/Image/V3':
-        return AwsManagedHumanLoopRequestSource
-            .awsRekognitionDetectModerationLabelsImageV3;
-      case 'AWS/Textract/AnalyzeDocument/Forms/V1':
-        return AwsManagedHumanLoopRequestSource
-            .awsTextractAnalyzeDocumentFormsV1;
-    }
-    throw Exception(
-        '$this is not known in enum AwsManagedHumanLoopRequestSource');
-  }
+  const AwsManagedHumanLoopRequestSource(this.value);
+
+  static AwsManagedHumanLoopRequestSource fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AwsManagedHumanLoopRequestSource'));
 }
 
 /// Configuration to control how SageMaker captures inference data for batch
@@ -24791,9 +23307,9 @@ class BatchDescribeModelPackageSummary {
       modelPackageArn: json['ModelPackageArn'] as String,
       modelPackageGroupName: json['ModelPackageGroupName'] as String,
       modelPackageStatus:
-          (json['ModelPackageStatus'] as String).toModelPackageStatus(),
-      modelApprovalStatus:
-          (json['ModelApprovalStatus'] as String?)?.toModelApprovalStatus(),
+          ModelPackageStatus.fromString((json['ModelPackageStatus'] as String)),
+      modelApprovalStatus: (json['ModelApprovalStatus'] as String?)
+          ?.let(ModelApprovalStatus.fromString),
       modelPackageDescription: json['ModelPackageDescription'] as String?,
       modelPackageVersion: json['ModelPackageVersion'] as int?,
     );
@@ -24801,31 +23317,18 @@ class BatchDescribeModelPackageSummary {
 }
 
 enum BatchStrategy {
-  multiRecord,
-  singleRecord,
-}
+  multiRecord('MultiRecord'),
+  singleRecord('SingleRecord'),
+  ;
 
-extension BatchStrategyValueExtension on BatchStrategy {
-  String toValue() {
-    switch (this) {
-      case BatchStrategy.multiRecord:
-        return 'MultiRecord';
-      case BatchStrategy.singleRecord:
-        return 'SingleRecord';
-    }
-  }
-}
+  final String value;
 
-extension BatchStrategyFromString on String {
-  BatchStrategy toBatchStrategy() {
-    switch (this) {
-      case 'MultiRecord':
-        return BatchStrategy.multiRecord;
-      case 'SingleRecord':
-        return BatchStrategy.singleRecord;
-    }
-    throw Exception('$this is not known in enum BatchStrategy');
-  }
+  const BatchStrategy(this.value);
+
+  static BatchStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum BatchStrategy'));
 }
 
 /// Input object for the batch transform job.
@@ -24909,8 +23412,9 @@ class BatchTransformInput {
       probabilityThresholdAttribute:
           json['ProbabilityThresholdAttribute'] as double?,
       s3DataDistributionType: (json['S3DataDistributionType'] as String?)
-          ?.toProcessingS3DataDistributionType(),
-      s3InputMode: (json['S3InputMode'] as String?)?.toProcessingS3InputMode(),
+          ?.let(ProcessingS3DataDistributionType.fromString),
+      s3InputMode: (json['S3InputMode'] as String?)
+          ?.let(ProcessingS3InputMode.fromString),
       startTimeOffset: json['StartTimeOffset'] as String?,
     );
   }
@@ -24942,8 +23446,8 @@ class BatchTransformInput {
       if (probabilityThresholdAttribute != null)
         'ProbabilityThresholdAttribute': probabilityThresholdAttribute,
       if (s3DataDistributionType != null)
-        'S3DataDistributionType': s3DataDistributionType.toValue(),
-      if (s3InputMode != null) 'S3InputMode': s3InputMode.toValue(),
+        'S3DataDistributionType': s3DataDistributionType.value,
+      if (s3InputMode != null) 'S3InputMode': s3InputMode.value,
       if (startTimeOffset != null) 'StartTimeOffset': startTimeOffset,
     };
   }
@@ -25079,31 +23583,18 @@ class BlueGreenUpdatePolicy {
 }
 
 enum BooleanOperator {
-  and,
-  or,
-}
+  and('And'),
+  or('Or'),
+  ;
 
-extension BooleanOperatorValueExtension on BooleanOperator {
-  String toValue() {
-    switch (this) {
-      case BooleanOperator.and:
-        return 'And';
-      case BooleanOperator.or:
-        return 'Or';
-    }
-  }
-}
+  final String value;
 
-extension BooleanOperatorFromString on String {
-  BooleanOperator toBooleanOperator() {
-    switch (this) {
-      case 'And':
-        return BooleanOperator.and;
-      case 'Or':
-        return BooleanOperator.or;
-    }
-    throw Exception('$this is not known in enum BooleanOperator');
-  }
+  const BooleanOperator(this.value);
+
+  static BooleanOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum BooleanOperator'));
 }
 
 /// Details on the cache hit of a pipeline execution step.
@@ -25308,112 +23799,53 @@ class CandidateProperties {
 }
 
 enum CandidateSortBy {
-  creationTime,
-  status,
-  finalObjectiveMetricValue,
-}
+  creationTime('CreationTime'),
+  status('Status'),
+  finalObjectiveMetricValue('FinalObjectiveMetricValue'),
+  ;
 
-extension CandidateSortByValueExtension on CandidateSortBy {
-  String toValue() {
-    switch (this) {
-      case CandidateSortBy.creationTime:
-        return 'CreationTime';
-      case CandidateSortBy.status:
-        return 'Status';
-      case CandidateSortBy.finalObjectiveMetricValue:
-        return 'FinalObjectiveMetricValue';
-    }
-  }
-}
+  final String value;
 
-extension CandidateSortByFromString on String {
-  CandidateSortBy toCandidateSortBy() {
-    switch (this) {
-      case 'CreationTime':
-        return CandidateSortBy.creationTime;
-      case 'Status':
-        return CandidateSortBy.status;
-      case 'FinalObjectiveMetricValue':
-        return CandidateSortBy.finalObjectiveMetricValue;
-    }
-    throw Exception('$this is not known in enum CandidateSortBy');
-  }
+  const CandidateSortBy(this.value);
+
+  static CandidateSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CandidateSortBy'));
 }
 
 enum CandidateStatus {
-  completed,
-  inProgress,
-  failed,
-  stopped,
-  stopping,
-}
+  completed('Completed'),
+  inProgress('InProgress'),
+  failed('Failed'),
+  stopped('Stopped'),
+  stopping('Stopping'),
+  ;
 
-extension CandidateStatusValueExtension on CandidateStatus {
-  String toValue() {
-    switch (this) {
-      case CandidateStatus.completed:
-        return 'Completed';
-      case CandidateStatus.inProgress:
-        return 'InProgress';
-      case CandidateStatus.failed:
-        return 'Failed';
-      case CandidateStatus.stopped:
-        return 'Stopped';
-      case CandidateStatus.stopping:
-        return 'Stopping';
-    }
-  }
-}
+  final String value;
 
-extension CandidateStatusFromString on String {
-  CandidateStatus toCandidateStatus() {
-    switch (this) {
-      case 'Completed':
-        return CandidateStatus.completed;
-      case 'InProgress':
-        return CandidateStatus.inProgress;
-      case 'Failed':
-        return CandidateStatus.failed;
-      case 'Stopped':
-        return CandidateStatus.stopped;
-      case 'Stopping':
-        return CandidateStatus.stopping;
-    }
-    throw Exception('$this is not known in enum CandidateStatus');
-  }
+  const CandidateStatus(this.value);
+
+  static CandidateStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CandidateStatus'));
 }
 
 enum CandidateStepType {
-  awsSageMakerTrainingJob,
-  awsSageMakerTransformJob,
-  awsSageMakerProcessingJob,
-}
+  awsSageMakerTrainingJob('AWS::SageMaker::TrainingJob'),
+  awsSageMakerTransformJob('AWS::SageMaker::TransformJob'),
+  awsSageMakerProcessingJob('AWS::SageMaker::ProcessingJob'),
+  ;
 
-extension CandidateStepTypeValueExtension on CandidateStepType {
-  String toValue() {
-    switch (this) {
-      case CandidateStepType.awsSageMakerTrainingJob:
-        return 'AWS::SageMaker::TrainingJob';
-      case CandidateStepType.awsSageMakerTransformJob:
-        return 'AWS::SageMaker::TransformJob';
-      case CandidateStepType.awsSageMakerProcessingJob:
-        return 'AWS::SageMaker::ProcessingJob';
-    }
-  }
-}
+  final String value;
 
-extension CandidateStepTypeFromString on String {
-  CandidateStepType toCandidateStepType() {
-    switch (this) {
-      case 'AWS::SageMaker::TrainingJob':
-        return CandidateStepType.awsSageMakerTrainingJob;
-      case 'AWS::SageMaker::TransformJob':
-        return CandidateStepType.awsSageMakerTransformJob;
-      case 'AWS::SageMaker::ProcessingJob':
-        return CandidateStepType.awsSageMakerProcessingJob;
-    }
-    throw Exception('$this is not known in enum CandidateStepType');
-  }
+  const CandidateStepType(this.value);
+
+  static CandidateStepType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CandidateStepType'));
 }
 
 /// The SageMaker Canvas application settings.
@@ -25544,7 +23976,7 @@ class CapacitySize {
 
   factory CapacitySize.fromJson(Map<String, dynamic> json) {
     return CapacitySize(
-      type: (json['Type'] as String).toCapacitySizeType(),
+      type: CapacitySizeType.fromString((json['Type'] as String)),
       value: json['Value'] as int,
     );
   }
@@ -25553,38 +23985,25 @@ class CapacitySize {
     final type = this.type;
     final value = this.value;
     return {
-      'Type': type.toValue(),
+      'Type': type.value,
       'Value': value,
     };
   }
 }
 
 enum CapacitySizeType {
-  instanceCount,
-  capacityPercent,
-}
+  instanceCount('INSTANCE_COUNT'),
+  capacityPercent('CAPACITY_PERCENT'),
+  ;
 
-extension CapacitySizeTypeValueExtension on CapacitySizeType {
-  String toValue() {
-    switch (this) {
-      case CapacitySizeType.instanceCount:
-        return 'INSTANCE_COUNT';
-      case CapacitySizeType.capacityPercent:
-        return 'CAPACITY_PERCENT';
-    }
-  }
-}
+  final String value;
 
-extension CapacitySizeTypeFromString on String {
-  CapacitySizeType toCapacitySizeType() {
-    switch (this) {
-      case 'INSTANCE_COUNT':
-        return CapacitySizeType.instanceCount;
-      case 'CAPACITY_PERCENT':
-        return CapacitySizeType.capacityPercent;
-    }
-    throw Exception('$this is not known in enum CapacitySizeType');
-  }
+  const CapacitySizeType(this.value);
+
+  static CapacitySizeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CapacitySizeType'));
 }
 
 /// Configuration specifying how to treat different headers. If no headers are
@@ -25628,36 +24047,18 @@ class CaptureContentTypeHeader {
 }
 
 enum CaptureMode {
-  input,
-  output,
-  inputAndOutput,
-}
+  input('Input'),
+  output('Output'),
+  inputAndOutput('InputAndOutput'),
+  ;
 
-extension CaptureModeValueExtension on CaptureMode {
-  String toValue() {
-    switch (this) {
-      case CaptureMode.input:
-        return 'Input';
-      case CaptureMode.output:
-        return 'Output';
-      case CaptureMode.inputAndOutput:
-        return 'InputAndOutput';
-    }
-  }
-}
+  final String value;
 
-extension CaptureModeFromString on String {
-  CaptureMode toCaptureMode() {
-    switch (this) {
-      case 'Input':
-        return CaptureMode.input;
-      case 'Output':
-        return CaptureMode.output;
-      case 'InputAndOutput':
-        return CaptureMode.inputAndOutput;
-    }
-    throw Exception('$this is not known in enum CaptureMode');
-  }
+  const CaptureMode(this.value);
+
+  static CaptureMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum CaptureMode'));
 }
 
 /// Specifies data Model Monitor will capture.
@@ -25671,44 +24072,31 @@ class CaptureOption {
 
   factory CaptureOption.fromJson(Map<String, dynamic> json) {
     return CaptureOption(
-      captureMode: (json['CaptureMode'] as String).toCaptureMode(),
+      captureMode: CaptureMode.fromString((json['CaptureMode'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final captureMode = this.captureMode;
     return {
-      'CaptureMode': captureMode.toValue(),
+      'CaptureMode': captureMode.value,
     };
   }
 }
 
 enum CaptureStatus {
-  started,
-  stopped,
-}
+  started('Started'),
+  stopped('Stopped'),
+  ;
 
-extension CaptureStatusValueExtension on CaptureStatus {
-  String toValue() {
-    switch (this) {
-      case CaptureStatus.started:
-        return 'Started';
-      case CaptureStatus.stopped:
-        return 'Stopped';
-    }
-  }
-}
+  final String value;
 
-extension CaptureStatusFromString on String {
-  CaptureStatus toCaptureStatus() {
-    switch (this) {
-      case 'Started':
-        return CaptureStatus.started;
-      case 'Stopped':
-        return CaptureStatus.stopped;
-    }
-    throw Exception('$this is not known in enum CaptureStatus');
-  }
+  const CaptureStatus(this.value);
+
+  static CaptureStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CaptureStatus'));
 }
 
 /// Environment parameters you want to benchmark your load test against.
@@ -25881,11 +24269,12 @@ class Channel {
       dataSource:
           DataSource.fromJson(json['DataSource'] as Map<String, dynamic>),
       compressionType:
-          (json['CompressionType'] as String?)?.toCompressionType(),
+          (json['CompressionType'] as String?)?.let(CompressionType.fromString),
       contentType: json['ContentType'] as String?,
-      inputMode: (json['InputMode'] as String?)?.toTrainingInputMode(),
+      inputMode:
+          (json['InputMode'] as String?)?.let(TrainingInputMode.fromString),
       recordWrapperType:
-          (json['RecordWrapperType'] as String?)?.toRecordWrapper(),
+          (json['RecordWrapperType'] as String?)?.let(RecordWrapper.fromString),
       shuffleConfig: json['ShuffleConfig'] != null
           ? ShuffleConfig.fromJson(
               json['ShuffleConfig'] as Map<String, dynamic>)
@@ -25904,11 +24293,11 @@ class Channel {
     return {
       'ChannelName': channelName,
       'DataSource': dataSource,
-      if (compressionType != null) 'CompressionType': compressionType.toValue(),
+      if (compressionType != null) 'CompressionType': compressionType.value,
       if (contentType != null) 'ContentType': contentType,
-      if (inputMode != null) 'InputMode': inputMode.toValue(),
+      if (inputMode != null) 'InputMode': inputMode.value,
       if (recordWrapperType != null)
-        'RecordWrapperType': recordWrapperType.toValue(),
+        'RecordWrapperType': recordWrapperType.value,
       if (shuffleConfig != null) 'ShuffleConfig': shuffleConfig,
     };
   }
@@ -25959,13 +24348,13 @@ class ChannelSpecification {
           .toList(),
       supportedInputModes: (json['SupportedInputModes'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toTrainingInputMode())
+          .map((e) => TrainingInputMode.fromString((e as String)))
           .toList(),
       description: json['Description'] as String?,
       isRequired: json['IsRequired'] as bool?,
       supportedCompressionTypes: (json['SupportedCompressionTypes'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toCompressionType())
+          .map((e) => CompressionType.fromString((e as String)))
           .toList(),
     );
   }
@@ -25980,13 +24369,12 @@ class ChannelSpecification {
     return {
       'Name': name,
       'SupportedContentTypes': supportedContentTypes,
-      'SupportedInputModes':
-          supportedInputModes.map((e) => e.toValue()).toList(),
+      'SupportedInputModes': supportedInputModes.map((e) => e.value).toList(),
       if (description != null) 'Description': description,
       if (isRequired != null) 'IsRequired': isRequired,
       if (supportedCompressionTypes != null)
         'SupportedCompressionTypes':
-            supportedCompressionTypes.map((e) => e.toValue()).toList(),
+            supportedCompressionTypes.map((e) => e.value).toList(),
     };
   }
 }
@@ -26134,36 +24522,19 @@ class ClarifyExplainerConfig {
 }
 
 enum ClarifyFeatureType {
-  numerical,
-  categorical,
-  text,
-}
+  numerical('numerical'),
+  categorical('categorical'),
+  text('text'),
+  ;
 
-extension ClarifyFeatureTypeValueExtension on ClarifyFeatureType {
-  String toValue() {
-    switch (this) {
-      case ClarifyFeatureType.numerical:
-        return 'numerical';
-      case ClarifyFeatureType.categorical:
-        return 'categorical';
-      case ClarifyFeatureType.text:
-        return 'text';
-    }
-  }
-}
+  final String value;
 
-extension ClarifyFeatureTypeFromString on String {
-  ClarifyFeatureType toClarifyFeatureType() {
-    switch (this) {
-      case 'numerical':
-        return ClarifyFeatureType.numerical;
-      case 'categorical':
-        return ClarifyFeatureType.categorical;
-      case 'text':
-        return ClarifyFeatureType.text;
-    }
-    throw Exception('$this is not known in enum ClarifyFeatureType');
-  }
+  const ClarifyFeatureType(this.value);
+
+  static ClarifyFeatureType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ClarifyFeatureType'));
 }
 
 /// The inference configuration parameter for the model container.
@@ -26296,7 +24667,7 @@ class ClarifyInferenceConfig {
           .toList(),
       featureTypes: (json['FeatureTypes'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toClarifyFeatureType())
+          .map((e) => ClarifyFeatureType.fromString((e as String)))
           .toList(),
       featuresAttribute: json['FeaturesAttribute'] as String?,
       labelAttribute: json['LabelAttribute'] as String?,
@@ -26328,7 +24699,7 @@ class ClarifyInferenceConfig {
       if (contentTemplate != null) 'ContentTemplate': contentTemplate,
       if (featureHeaders != null) 'FeatureHeaders': featureHeaders,
       if (featureTypes != null)
-        'FeatureTypes': featureTypes.map((e) => e.toValue()).toList(),
+        'FeatureTypes': featureTypes.map((e) => e.value).toList(),
       if (featuresAttribute != null) 'FeaturesAttribute': featuresAttribute,
       if (labelAttribute != null) 'LabelAttribute': labelAttribute,
       if (labelHeaders != null) 'LabelHeaders': labelHeaders,
@@ -26513,8 +24884,9 @@ class ClarifyTextConfig {
 
   factory ClarifyTextConfig.fromJson(Map<String, dynamic> json) {
     return ClarifyTextConfig(
-      granularity: (json['Granularity'] as String).toClarifyTextGranularity(),
-      language: (json['Language'] as String).toClarifyTextLanguage(),
+      granularity:
+          ClarifyTextGranularity.fromString((json['Granularity'] as String)),
+      language: ClarifyTextLanguage.fromString((json['Language'] as String)),
     );
   }
 
@@ -26522,361 +24894,99 @@ class ClarifyTextConfig {
     final granularity = this.granularity;
     final language = this.language;
     return {
-      'Granularity': granularity.toValue(),
-      'Language': language.toValue(),
+      'Granularity': granularity.value,
+      'Language': language.value,
     };
   }
 }
 
 enum ClarifyTextGranularity {
-  token,
-  sentence,
-  paragraph,
-}
+  token('token'),
+  sentence('sentence'),
+  paragraph('paragraph'),
+  ;
 
-extension ClarifyTextGranularityValueExtension on ClarifyTextGranularity {
-  String toValue() {
-    switch (this) {
-      case ClarifyTextGranularity.token:
-        return 'token';
-      case ClarifyTextGranularity.sentence:
-        return 'sentence';
-      case ClarifyTextGranularity.paragraph:
-        return 'paragraph';
-    }
-  }
-}
+  final String value;
 
-extension ClarifyTextGranularityFromString on String {
-  ClarifyTextGranularity toClarifyTextGranularity() {
-    switch (this) {
-      case 'token':
-        return ClarifyTextGranularity.token;
-      case 'sentence':
-        return ClarifyTextGranularity.sentence;
-      case 'paragraph':
-        return ClarifyTextGranularity.paragraph;
-    }
-    throw Exception('$this is not known in enum ClarifyTextGranularity');
-  }
+  const ClarifyTextGranularity(this.value);
+
+  static ClarifyTextGranularity fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ClarifyTextGranularity'));
 }
 
 enum ClarifyTextLanguage {
-  af,
-  sq,
-  ar,
-  hy,
-  eu,
-  bn,
-  bg,
-  ca,
-  zh,
-  hr,
-  cs,
-  da,
-  nl,
-  en,
-  et,
-  fi,
-  fr,
-  de,
-  el,
-  gu,
-  he,
-  hi,
-  hu,
-  $is,
-  id,
-  ga,
-  it,
-  kn,
-  ky,
-  lv,
-  lt,
-  lb,
-  mk,
-  ml,
-  mr,
-  ne,
-  nb,
-  fa,
-  pl,
-  pt,
-  ro,
-  ru,
-  sa,
-  sr,
-  tn,
-  si,
-  sk,
-  sl,
-  es,
-  sv,
-  tl,
-  ta,
-  tt,
-  te,
-  tr,
-  uk,
-  ur,
-  yo,
-  lij,
-  xx,
-}
+  af('af'),
+  sq('sq'),
+  ar('ar'),
+  hy('hy'),
+  eu('eu'),
+  bn('bn'),
+  bg('bg'),
+  ca('ca'),
+  zh('zh'),
+  hr('hr'),
+  cs('cs'),
+  da('da'),
+  nl('nl'),
+  en('en'),
+  et('et'),
+  fi('fi'),
+  fr('fr'),
+  de('de'),
+  el('el'),
+  gu('gu'),
+  he('he'),
+  hi('hi'),
+  hu('hu'),
+  $is('is'),
+  id('id'),
+  ga('ga'),
+  it('it'),
+  kn('kn'),
+  ky('ky'),
+  lv('lv'),
+  lt('lt'),
+  lb('lb'),
+  mk('mk'),
+  ml('ml'),
+  mr('mr'),
+  ne('ne'),
+  nb('nb'),
+  fa('fa'),
+  pl('pl'),
+  pt('pt'),
+  ro('ro'),
+  ru('ru'),
+  sa('sa'),
+  sr('sr'),
+  tn('tn'),
+  si('si'),
+  sk('sk'),
+  sl('sl'),
+  es('es'),
+  sv('sv'),
+  tl('tl'),
+  ta('ta'),
+  tt('tt'),
+  te('te'),
+  tr('tr'),
+  uk('uk'),
+  ur('ur'),
+  yo('yo'),
+  lij('lij'),
+  xx('xx'),
+  ;
 
-extension ClarifyTextLanguageValueExtension on ClarifyTextLanguage {
-  String toValue() {
-    switch (this) {
-      case ClarifyTextLanguage.af:
-        return 'af';
-      case ClarifyTextLanguage.sq:
-        return 'sq';
-      case ClarifyTextLanguage.ar:
-        return 'ar';
-      case ClarifyTextLanguage.hy:
-        return 'hy';
-      case ClarifyTextLanguage.eu:
-        return 'eu';
-      case ClarifyTextLanguage.bn:
-        return 'bn';
-      case ClarifyTextLanguage.bg:
-        return 'bg';
-      case ClarifyTextLanguage.ca:
-        return 'ca';
-      case ClarifyTextLanguage.zh:
-        return 'zh';
-      case ClarifyTextLanguage.hr:
-        return 'hr';
-      case ClarifyTextLanguage.cs:
-        return 'cs';
-      case ClarifyTextLanguage.da:
-        return 'da';
-      case ClarifyTextLanguage.nl:
-        return 'nl';
-      case ClarifyTextLanguage.en:
-        return 'en';
-      case ClarifyTextLanguage.et:
-        return 'et';
-      case ClarifyTextLanguage.fi:
-        return 'fi';
-      case ClarifyTextLanguage.fr:
-        return 'fr';
-      case ClarifyTextLanguage.de:
-        return 'de';
-      case ClarifyTextLanguage.el:
-        return 'el';
-      case ClarifyTextLanguage.gu:
-        return 'gu';
-      case ClarifyTextLanguage.he:
-        return 'he';
-      case ClarifyTextLanguage.hi:
-        return 'hi';
-      case ClarifyTextLanguage.hu:
-        return 'hu';
-      case ClarifyTextLanguage.$is:
-        return 'is';
-      case ClarifyTextLanguage.id:
-        return 'id';
-      case ClarifyTextLanguage.ga:
-        return 'ga';
-      case ClarifyTextLanguage.it:
-        return 'it';
-      case ClarifyTextLanguage.kn:
-        return 'kn';
-      case ClarifyTextLanguage.ky:
-        return 'ky';
-      case ClarifyTextLanguage.lv:
-        return 'lv';
-      case ClarifyTextLanguage.lt:
-        return 'lt';
-      case ClarifyTextLanguage.lb:
-        return 'lb';
-      case ClarifyTextLanguage.mk:
-        return 'mk';
-      case ClarifyTextLanguage.ml:
-        return 'ml';
-      case ClarifyTextLanguage.mr:
-        return 'mr';
-      case ClarifyTextLanguage.ne:
-        return 'ne';
-      case ClarifyTextLanguage.nb:
-        return 'nb';
-      case ClarifyTextLanguage.fa:
-        return 'fa';
-      case ClarifyTextLanguage.pl:
-        return 'pl';
-      case ClarifyTextLanguage.pt:
-        return 'pt';
-      case ClarifyTextLanguage.ro:
-        return 'ro';
-      case ClarifyTextLanguage.ru:
-        return 'ru';
-      case ClarifyTextLanguage.sa:
-        return 'sa';
-      case ClarifyTextLanguage.sr:
-        return 'sr';
-      case ClarifyTextLanguage.tn:
-        return 'tn';
-      case ClarifyTextLanguage.si:
-        return 'si';
-      case ClarifyTextLanguage.sk:
-        return 'sk';
-      case ClarifyTextLanguage.sl:
-        return 'sl';
-      case ClarifyTextLanguage.es:
-        return 'es';
-      case ClarifyTextLanguage.sv:
-        return 'sv';
-      case ClarifyTextLanguage.tl:
-        return 'tl';
-      case ClarifyTextLanguage.ta:
-        return 'ta';
-      case ClarifyTextLanguage.tt:
-        return 'tt';
-      case ClarifyTextLanguage.te:
-        return 'te';
-      case ClarifyTextLanguage.tr:
-        return 'tr';
-      case ClarifyTextLanguage.uk:
-        return 'uk';
-      case ClarifyTextLanguage.ur:
-        return 'ur';
-      case ClarifyTextLanguage.yo:
-        return 'yo';
-      case ClarifyTextLanguage.lij:
-        return 'lij';
-      case ClarifyTextLanguage.xx:
-        return 'xx';
-    }
-  }
-}
+  final String value;
 
-extension ClarifyTextLanguageFromString on String {
-  ClarifyTextLanguage toClarifyTextLanguage() {
-    switch (this) {
-      case 'af':
-        return ClarifyTextLanguage.af;
-      case 'sq':
-        return ClarifyTextLanguage.sq;
-      case 'ar':
-        return ClarifyTextLanguage.ar;
-      case 'hy':
-        return ClarifyTextLanguage.hy;
-      case 'eu':
-        return ClarifyTextLanguage.eu;
-      case 'bn':
-        return ClarifyTextLanguage.bn;
-      case 'bg':
-        return ClarifyTextLanguage.bg;
-      case 'ca':
-        return ClarifyTextLanguage.ca;
-      case 'zh':
-        return ClarifyTextLanguage.zh;
-      case 'hr':
-        return ClarifyTextLanguage.hr;
-      case 'cs':
-        return ClarifyTextLanguage.cs;
-      case 'da':
-        return ClarifyTextLanguage.da;
-      case 'nl':
-        return ClarifyTextLanguage.nl;
-      case 'en':
-        return ClarifyTextLanguage.en;
-      case 'et':
-        return ClarifyTextLanguage.et;
-      case 'fi':
-        return ClarifyTextLanguage.fi;
-      case 'fr':
-        return ClarifyTextLanguage.fr;
-      case 'de':
-        return ClarifyTextLanguage.de;
-      case 'el':
-        return ClarifyTextLanguage.el;
-      case 'gu':
-        return ClarifyTextLanguage.gu;
-      case 'he':
-        return ClarifyTextLanguage.he;
-      case 'hi':
-        return ClarifyTextLanguage.hi;
-      case 'hu':
-        return ClarifyTextLanguage.hu;
-      case 'is':
-        return ClarifyTextLanguage.$is;
-      case 'id':
-        return ClarifyTextLanguage.id;
-      case 'ga':
-        return ClarifyTextLanguage.ga;
-      case 'it':
-        return ClarifyTextLanguage.it;
-      case 'kn':
-        return ClarifyTextLanguage.kn;
-      case 'ky':
-        return ClarifyTextLanguage.ky;
-      case 'lv':
-        return ClarifyTextLanguage.lv;
-      case 'lt':
-        return ClarifyTextLanguage.lt;
-      case 'lb':
-        return ClarifyTextLanguage.lb;
-      case 'mk':
-        return ClarifyTextLanguage.mk;
-      case 'ml':
-        return ClarifyTextLanguage.ml;
-      case 'mr':
-        return ClarifyTextLanguage.mr;
-      case 'ne':
-        return ClarifyTextLanguage.ne;
-      case 'nb':
-        return ClarifyTextLanguage.nb;
-      case 'fa':
-        return ClarifyTextLanguage.fa;
-      case 'pl':
-        return ClarifyTextLanguage.pl;
-      case 'pt':
-        return ClarifyTextLanguage.pt;
-      case 'ro':
-        return ClarifyTextLanguage.ro;
-      case 'ru':
-        return ClarifyTextLanguage.ru;
-      case 'sa':
-        return ClarifyTextLanguage.sa;
-      case 'sr':
-        return ClarifyTextLanguage.sr;
-      case 'tn':
-        return ClarifyTextLanguage.tn;
-      case 'si':
-        return ClarifyTextLanguage.si;
-      case 'sk':
-        return ClarifyTextLanguage.sk;
-      case 'sl':
-        return ClarifyTextLanguage.sl;
-      case 'es':
-        return ClarifyTextLanguage.es;
-      case 'sv':
-        return ClarifyTextLanguage.sv;
-      case 'tl':
-        return ClarifyTextLanguage.tl;
-      case 'ta':
-        return ClarifyTextLanguage.ta;
-      case 'tt':
-        return ClarifyTextLanguage.tt;
-      case 'te':
-        return ClarifyTextLanguage.te;
-      case 'tr':
-        return ClarifyTextLanguage.tr;
-      case 'uk':
-        return ClarifyTextLanguage.uk;
-      case 'ur':
-        return ClarifyTextLanguage.ur;
-      case 'yo':
-        return ClarifyTextLanguage.yo;
-      case 'lij':
-        return ClarifyTextLanguage.lij;
-      case 'xx':
-        return ClarifyTextLanguage.xx;
-    }
-    throw Exception('$this is not known in enum ClarifyTextLanguage');
-  }
+  const ClarifyTextLanguage(this.value);
+
+  static ClarifyTextLanguage fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ClarifyTextLanguage'));
 }
 
 /// Details of an instance group in a SageMaker HyperPod cluster.
@@ -26926,7 +25036,8 @@ class ClusterInstanceGroupDetails {
       currentCount: json['CurrentCount'] as int?,
       executionRole: json['ExecutionRole'] as String?,
       instanceGroupName: json['InstanceGroupName'] as String?,
-      instanceType: (json['InstanceType'] as String?)?.toClusterInstanceType(),
+      instanceType: (json['InstanceType'] as String?)
+          ?.let(ClusterInstanceType.fromString),
       lifeCycleConfig: json['LifeCycleConfig'] != null
           ? ClusterLifeCycleConfig.fromJson(
               json['LifeCycleConfig'] as Map<String, dynamic>)
@@ -26985,7 +25096,7 @@ class ClusterInstanceGroupSpecification {
       'ExecutionRole': executionRole,
       'InstanceCount': instanceCount,
       'InstanceGroupName': instanceGroupName,
-      'InstanceType': instanceType.toValue(),
+      'InstanceType': instanceType.value,
       'LifeCycleConfig': lifeCycleConfig,
       if (threadsPerCore != null) 'ThreadsPerCore': threadsPerCore,
     };
@@ -27018,46 +25129,21 @@ class ClusterInstancePlacement {
 }
 
 enum ClusterInstanceStatus {
-  running,
-  failure,
-  pending,
-  shuttingDown,
-  systemUpdating,
-}
+  running('Running'),
+  failure('Failure'),
+  pending('Pending'),
+  shuttingDown('ShuttingDown'),
+  systemUpdating('SystemUpdating'),
+  ;
 
-extension ClusterInstanceStatusValueExtension on ClusterInstanceStatus {
-  String toValue() {
-    switch (this) {
-      case ClusterInstanceStatus.running:
-        return 'Running';
-      case ClusterInstanceStatus.failure:
-        return 'Failure';
-      case ClusterInstanceStatus.pending:
-        return 'Pending';
-      case ClusterInstanceStatus.shuttingDown:
-        return 'ShuttingDown';
-      case ClusterInstanceStatus.systemUpdating:
-        return 'SystemUpdating';
-    }
-  }
-}
+  final String value;
 
-extension ClusterInstanceStatusFromString on String {
-  ClusterInstanceStatus toClusterInstanceStatus() {
-    switch (this) {
-      case 'Running':
-        return ClusterInstanceStatus.running;
-      case 'Failure':
-        return ClusterInstanceStatus.failure;
-      case 'Pending':
-        return ClusterInstanceStatus.pending;
-      case 'ShuttingDown':
-        return ClusterInstanceStatus.shuttingDown;
-      case 'SystemUpdating':
-        return ClusterInstanceStatus.systemUpdating;
-    }
-    throw Exception('$this is not known in enum ClusterInstanceStatus');
-  }
+  const ClusterInstanceStatus(this.value);
+
+  static ClusterInstanceStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ClusterInstanceStatus'));
 }
 
 /// Details of an instance in a SageMaker HyperPod cluster.
@@ -27075,218 +25161,61 @@ class ClusterInstanceStatusDetails {
 
   factory ClusterInstanceStatusDetails.fromJson(Map<String, dynamic> json) {
     return ClusterInstanceStatusDetails(
-      status: (json['Status'] as String).toClusterInstanceStatus(),
+      status: ClusterInstanceStatus.fromString((json['Status'] as String)),
       message: json['Message'] as String?,
     );
   }
 }
 
 enum ClusterInstanceType {
-  mlP4d_24xlarge,
-  mlP4de_24xlarge,
-  mlP5_48xlarge,
-  mlTrn1_32xlarge,
-  mlTrn1n_32xlarge,
-  mlG5Xlarge,
-  mlG5_2xlarge,
-  mlG5_4xlarge,
-  mlG5_8xlarge,
-  mlG5_12xlarge,
-  mlG5_16xlarge,
-  mlG5_24xlarge,
-  mlG5_48xlarge,
-  mlC5Large,
-  mlC5Xlarge,
-  mlC5_2xlarge,
-  mlC5_4xlarge,
-  mlC5_9xlarge,
-  mlC5_12xlarge,
-  mlC5_18xlarge,
-  mlC5_24xlarge,
-  mlC5nLarge,
-  mlC5n_2xlarge,
-  mlC5n_4xlarge,
-  mlC5n_9xlarge,
-  mlC5n_18xlarge,
-  mlM5Large,
-  mlM5Xlarge,
-  mlM5_2xlarge,
-  mlM5_4xlarge,
-  mlM5_8xlarge,
-  mlM5_12xlarge,
-  mlM5_16xlarge,
-  mlM5_24xlarge,
-  mlT3Medium,
-  mlT3Large,
-  mlT3Xlarge,
-  mlT3_2xlarge,
-}
+  mlP4d_24xlarge('ml.p4d.24xlarge'),
+  mlP4de_24xlarge('ml.p4de.24xlarge'),
+  mlP5_48xlarge('ml.p5.48xlarge'),
+  mlTrn1_32xlarge('ml.trn1.32xlarge'),
+  mlTrn1n_32xlarge('ml.trn1n.32xlarge'),
+  mlG5Xlarge('ml.g5.xlarge'),
+  mlG5_2xlarge('ml.g5.2xlarge'),
+  mlG5_4xlarge('ml.g5.4xlarge'),
+  mlG5_8xlarge('ml.g5.8xlarge'),
+  mlG5_12xlarge('ml.g5.12xlarge'),
+  mlG5_16xlarge('ml.g5.16xlarge'),
+  mlG5_24xlarge('ml.g5.24xlarge'),
+  mlG5_48xlarge('ml.g5.48xlarge'),
+  mlC5Large('ml.c5.large'),
+  mlC5Xlarge('ml.c5.xlarge'),
+  mlC5_2xlarge('ml.c5.2xlarge'),
+  mlC5_4xlarge('ml.c5.4xlarge'),
+  mlC5_9xlarge('ml.c5.9xlarge'),
+  mlC5_12xlarge('ml.c5.12xlarge'),
+  mlC5_18xlarge('ml.c5.18xlarge'),
+  mlC5_24xlarge('ml.c5.24xlarge'),
+  mlC5nLarge('ml.c5n.large'),
+  mlC5n_2xlarge('ml.c5n.2xlarge'),
+  mlC5n_4xlarge('ml.c5n.4xlarge'),
+  mlC5n_9xlarge('ml.c5n.9xlarge'),
+  mlC5n_18xlarge('ml.c5n.18xlarge'),
+  mlM5Large('ml.m5.large'),
+  mlM5Xlarge('ml.m5.xlarge'),
+  mlM5_2xlarge('ml.m5.2xlarge'),
+  mlM5_4xlarge('ml.m5.4xlarge'),
+  mlM5_8xlarge('ml.m5.8xlarge'),
+  mlM5_12xlarge('ml.m5.12xlarge'),
+  mlM5_16xlarge('ml.m5.16xlarge'),
+  mlM5_24xlarge('ml.m5.24xlarge'),
+  mlT3Medium('ml.t3.medium'),
+  mlT3Large('ml.t3.large'),
+  mlT3Xlarge('ml.t3.xlarge'),
+  mlT3_2xlarge('ml.t3.2xlarge'),
+  ;
 
-extension ClusterInstanceTypeValueExtension on ClusterInstanceType {
-  String toValue() {
-    switch (this) {
-      case ClusterInstanceType.mlP4d_24xlarge:
-        return 'ml.p4d.24xlarge';
-      case ClusterInstanceType.mlP4de_24xlarge:
-        return 'ml.p4de.24xlarge';
-      case ClusterInstanceType.mlP5_48xlarge:
-        return 'ml.p5.48xlarge';
-      case ClusterInstanceType.mlTrn1_32xlarge:
-        return 'ml.trn1.32xlarge';
-      case ClusterInstanceType.mlTrn1n_32xlarge:
-        return 'ml.trn1n.32xlarge';
-      case ClusterInstanceType.mlG5Xlarge:
-        return 'ml.g5.xlarge';
-      case ClusterInstanceType.mlG5_2xlarge:
-        return 'ml.g5.2xlarge';
-      case ClusterInstanceType.mlG5_4xlarge:
-        return 'ml.g5.4xlarge';
-      case ClusterInstanceType.mlG5_8xlarge:
-        return 'ml.g5.8xlarge';
-      case ClusterInstanceType.mlG5_12xlarge:
-        return 'ml.g5.12xlarge';
-      case ClusterInstanceType.mlG5_16xlarge:
-        return 'ml.g5.16xlarge';
-      case ClusterInstanceType.mlG5_24xlarge:
-        return 'ml.g5.24xlarge';
-      case ClusterInstanceType.mlG5_48xlarge:
-        return 'ml.g5.48xlarge';
-      case ClusterInstanceType.mlC5Large:
-        return 'ml.c5.large';
-      case ClusterInstanceType.mlC5Xlarge:
-        return 'ml.c5.xlarge';
-      case ClusterInstanceType.mlC5_2xlarge:
-        return 'ml.c5.2xlarge';
-      case ClusterInstanceType.mlC5_4xlarge:
-        return 'ml.c5.4xlarge';
-      case ClusterInstanceType.mlC5_9xlarge:
-        return 'ml.c5.9xlarge';
-      case ClusterInstanceType.mlC5_12xlarge:
-        return 'ml.c5.12xlarge';
-      case ClusterInstanceType.mlC5_18xlarge:
-        return 'ml.c5.18xlarge';
-      case ClusterInstanceType.mlC5_24xlarge:
-        return 'ml.c5.24xlarge';
-      case ClusterInstanceType.mlC5nLarge:
-        return 'ml.c5n.large';
-      case ClusterInstanceType.mlC5n_2xlarge:
-        return 'ml.c5n.2xlarge';
-      case ClusterInstanceType.mlC5n_4xlarge:
-        return 'ml.c5n.4xlarge';
-      case ClusterInstanceType.mlC5n_9xlarge:
-        return 'ml.c5n.9xlarge';
-      case ClusterInstanceType.mlC5n_18xlarge:
-        return 'ml.c5n.18xlarge';
-      case ClusterInstanceType.mlM5Large:
-        return 'ml.m5.large';
-      case ClusterInstanceType.mlM5Xlarge:
-        return 'ml.m5.xlarge';
-      case ClusterInstanceType.mlM5_2xlarge:
-        return 'ml.m5.2xlarge';
-      case ClusterInstanceType.mlM5_4xlarge:
-        return 'ml.m5.4xlarge';
-      case ClusterInstanceType.mlM5_8xlarge:
-        return 'ml.m5.8xlarge';
-      case ClusterInstanceType.mlM5_12xlarge:
-        return 'ml.m5.12xlarge';
-      case ClusterInstanceType.mlM5_16xlarge:
-        return 'ml.m5.16xlarge';
-      case ClusterInstanceType.mlM5_24xlarge:
-        return 'ml.m5.24xlarge';
-      case ClusterInstanceType.mlT3Medium:
-        return 'ml.t3.medium';
-      case ClusterInstanceType.mlT3Large:
-        return 'ml.t3.large';
-      case ClusterInstanceType.mlT3Xlarge:
-        return 'ml.t3.xlarge';
-      case ClusterInstanceType.mlT3_2xlarge:
-        return 'ml.t3.2xlarge';
-    }
-  }
-}
+  final String value;
 
-extension ClusterInstanceTypeFromString on String {
-  ClusterInstanceType toClusterInstanceType() {
-    switch (this) {
-      case 'ml.p4d.24xlarge':
-        return ClusterInstanceType.mlP4d_24xlarge;
-      case 'ml.p4de.24xlarge':
-        return ClusterInstanceType.mlP4de_24xlarge;
-      case 'ml.p5.48xlarge':
-        return ClusterInstanceType.mlP5_48xlarge;
-      case 'ml.trn1.32xlarge':
-        return ClusterInstanceType.mlTrn1_32xlarge;
-      case 'ml.trn1n.32xlarge':
-        return ClusterInstanceType.mlTrn1n_32xlarge;
-      case 'ml.g5.xlarge':
-        return ClusterInstanceType.mlG5Xlarge;
-      case 'ml.g5.2xlarge':
-        return ClusterInstanceType.mlG5_2xlarge;
-      case 'ml.g5.4xlarge':
-        return ClusterInstanceType.mlG5_4xlarge;
-      case 'ml.g5.8xlarge':
-        return ClusterInstanceType.mlG5_8xlarge;
-      case 'ml.g5.12xlarge':
-        return ClusterInstanceType.mlG5_12xlarge;
-      case 'ml.g5.16xlarge':
-        return ClusterInstanceType.mlG5_16xlarge;
-      case 'ml.g5.24xlarge':
-        return ClusterInstanceType.mlG5_24xlarge;
-      case 'ml.g5.48xlarge':
-        return ClusterInstanceType.mlG5_48xlarge;
-      case 'ml.c5.large':
-        return ClusterInstanceType.mlC5Large;
-      case 'ml.c5.xlarge':
-        return ClusterInstanceType.mlC5Xlarge;
-      case 'ml.c5.2xlarge':
-        return ClusterInstanceType.mlC5_2xlarge;
-      case 'ml.c5.4xlarge':
-        return ClusterInstanceType.mlC5_4xlarge;
-      case 'ml.c5.9xlarge':
-        return ClusterInstanceType.mlC5_9xlarge;
-      case 'ml.c5.12xlarge':
-        return ClusterInstanceType.mlC5_12xlarge;
-      case 'ml.c5.18xlarge':
-        return ClusterInstanceType.mlC5_18xlarge;
-      case 'ml.c5.24xlarge':
-        return ClusterInstanceType.mlC5_24xlarge;
-      case 'ml.c5n.large':
-        return ClusterInstanceType.mlC5nLarge;
-      case 'ml.c5n.2xlarge':
-        return ClusterInstanceType.mlC5n_2xlarge;
-      case 'ml.c5n.4xlarge':
-        return ClusterInstanceType.mlC5n_4xlarge;
-      case 'ml.c5n.9xlarge':
-        return ClusterInstanceType.mlC5n_9xlarge;
-      case 'ml.c5n.18xlarge':
-        return ClusterInstanceType.mlC5n_18xlarge;
-      case 'ml.m5.large':
-        return ClusterInstanceType.mlM5Large;
-      case 'ml.m5.xlarge':
-        return ClusterInstanceType.mlM5Xlarge;
-      case 'ml.m5.2xlarge':
-        return ClusterInstanceType.mlM5_2xlarge;
-      case 'ml.m5.4xlarge':
-        return ClusterInstanceType.mlM5_4xlarge;
-      case 'ml.m5.8xlarge':
-        return ClusterInstanceType.mlM5_8xlarge;
-      case 'ml.m5.12xlarge':
-        return ClusterInstanceType.mlM5_12xlarge;
-      case 'ml.m5.16xlarge':
-        return ClusterInstanceType.mlM5_16xlarge;
-      case 'ml.m5.24xlarge':
-        return ClusterInstanceType.mlM5_24xlarge;
-      case 'ml.t3.medium':
-        return ClusterInstanceType.mlT3Medium;
-      case 'ml.t3.large':
-        return ClusterInstanceType.mlT3Large;
-      case 'ml.t3.xlarge':
-        return ClusterInstanceType.mlT3Xlarge;
-      case 'ml.t3.2xlarge':
-        return ClusterInstanceType.mlT3_2xlarge;
-    }
-    throw Exception('$this is not known in enum ClusterInstanceType');
-  }
+  const ClusterInstanceType(this.value);
+
+  static ClusterInstanceType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ClusterInstanceType'));
 }
 
 /// The lifecycle configuration for a SageMaker HyperPod cluster.
@@ -27386,7 +25315,8 @@ class ClusterNodeDetails {
           ? ClusterInstanceStatusDetails.fromJson(
               json['InstanceStatus'] as Map<String, dynamic>)
           : null,
-      instanceType: (json['InstanceType'] as String?)?.toClusterInstanceType(),
+      instanceType: (json['InstanceType'] as String?)
+          ?.let(ClusterInstanceType.fromString),
       launchTime: timeStampFromJson(json['LaunchTime']),
       lifeCycleConfig: json['LifeCycleConfig'] != null
           ? ClusterLifeCycleConfig.fromJson(
@@ -27435,91 +25365,46 @@ class ClusterNodeSummary {
       instanceId: json['InstanceId'] as String,
       instanceStatus: ClusterInstanceStatusDetails.fromJson(
           json['InstanceStatus'] as Map<String, dynamic>),
-      instanceType: (json['InstanceType'] as String).toClusterInstanceType(),
+      instanceType:
+          ClusterInstanceType.fromString((json['InstanceType'] as String)),
       launchTime: nonNullableTimeStampFromJson(json['LaunchTime'] as Object),
     );
   }
 }
 
 enum ClusterSortBy {
-  creationTime,
-  name,
-}
+  creationTime('CREATION_TIME'),
+  name('NAME'),
+  ;
 
-extension ClusterSortByValueExtension on ClusterSortBy {
-  String toValue() {
-    switch (this) {
-      case ClusterSortBy.creationTime:
-        return 'CREATION_TIME';
-      case ClusterSortBy.name:
-        return 'NAME';
-    }
-  }
-}
+  final String value;
 
-extension ClusterSortByFromString on String {
-  ClusterSortBy toClusterSortBy() {
-    switch (this) {
-      case 'CREATION_TIME':
-        return ClusterSortBy.creationTime;
-      case 'NAME':
-        return ClusterSortBy.name;
-    }
-    throw Exception('$this is not known in enum ClusterSortBy');
-  }
+  const ClusterSortBy(this.value);
+
+  static ClusterSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ClusterSortBy'));
 }
 
 enum ClusterStatus {
-  creating,
-  deleting,
-  failed,
-  inService,
-  rollingBack,
-  systemUpdating,
-  updating,
-}
+  creating('Creating'),
+  deleting('Deleting'),
+  failed('Failed'),
+  inService('InService'),
+  rollingBack('RollingBack'),
+  systemUpdating('SystemUpdating'),
+  updating('Updating'),
+  ;
 
-extension ClusterStatusValueExtension on ClusterStatus {
-  String toValue() {
-    switch (this) {
-      case ClusterStatus.creating:
-        return 'Creating';
-      case ClusterStatus.deleting:
-        return 'Deleting';
-      case ClusterStatus.failed:
-        return 'Failed';
-      case ClusterStatus.inService:
-        return 'InService';
-      case ClusterStatus.rollingBack:
-        return 'RollingBack';
-      case ClusterStatus.systemUpdating:
-        return 'SystemUpdating';
-      case ClusterStatus.updating:
-        return 'Updating';
-    }
-  }
-}
+  final String value;
 
-extension ClusterStatusFromString on String {
-  ClusterStatus toClusterStatus() {
-    switch (this) {
-      case 'Creating':
-        return ClusterStatus.creating;
-      case 'Deleting':
-        return ClusterStatus.deleting;
-      case 'Failed':
-        return ClusterStatus.failed;
-      case 'InService':
-        return ClusterStatus.inService;
-      case 'RollingBack':
-        return ClusterStatus.rollingBack;
-      case 'SystemUpdating':
-        return ClusterStatus.systemUpdating;
-      case 'Updating':
-        return ClusterStatus.updating;
-    }
-    throw Exception('$this is not known in enum ClusterStatus');
-  }
+  const ClusterStatus(this.value);
+
+  static ClusterStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ClusterStatus'));
 }
 
 /// Lists a summary of the properties of a SageMaker HyperPod cluster.
@@ -27547,7 +25432,8 @@ class ClusterSummary {
     return ClusterSummary(
       clusterArn: json['ClusterArn'] as String,
       clusterName: json['ClusterName'] as String,
-      clusterStatus: (json['ClusterStatus'] as String).toClusterStatus(),
+      clusterStatus:
+          ClusterStatus.fromString((json['ClusterStatus'] as String)),
       creationTime:
           nonNullableTimeStampFromJson(json['CreationTime'] as Object),
     );
@@ -27666,64 +25552,34 @@ class CodeRepository {
 }
 
 enum CodeRepositorySortBy {
-  name,
-  creationTime,
-  lastModifiedTime,
-}
+  name('Name'),
+  creationTime('CreationTime'),
+  lastModifiedTime('LastModifiedTime'),
+  ;
 
-extension CodeRepositorySortByValueExtension on CodeRepositorySortBy {
-  String toValue() {
-    switch (this) {
-      case CodeRepositorySortBy.name:
-        return 'Name';
-      case CodeRepositorySortBy.creationTime:
-        return 'CreationTime';
-      case CodeRepositorySortBy.lastModifiedTime:
-        return 'LastModifiedTime';
-    }
-  }
-}
+  final String value;
 
-extension CodeRepositorySortByFromString on String {
-  CodeRepositorySortBy toCodeRepositorySortBy() {
-    switch (this) {
-      case 'Name':
-        return CodeRepositorySortBy.name;
-      case 'CreationTime':
-        return CodeRepositorySortBy.creationTime;
-      case 'LastModifiedTime':
-        return CodeRepositorySortBy.lastModifiedTime;
-    }
-    throw Exception('$this is not known in enum CodeRepositorySortBy');
-  }
+  const CodeRepositorySortBy(this.value);
+
+  static CodeRepositorySortBy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum CodeRepositorySortBy'));
 }
 
 enum CodeRepositorySortOrder {
-  ascending,
-  descending,
-}
+  ascending('Ascending'),
+  descending('Descending'),
+  ;
 
-extension CodeRepositorySortOrderValueExtension on CodeRepositorySortOrder {
-  String toValue() {
-    switch (this) {
-      case CodeRepositorySortOrder.ascending:
-        return 'Ascending';
-      case CodeRepositorySortOrder.descending:
-        return 'Descending';
-    }
-  }
-}
+  final String value;
 
-extension CodeRepositorySortOrderFromString on String {
-  CodeRepositorySortOrder toCodeRepositorySortOrder() {
-    switch (this) {
-      case 'Ascending':
-        return CodeRepositorySortOrder.ascending;
-      case 'Descending':
-        return CodeRepositorySortOrder.descending;
-    }
-    throw Exception('$this is not known in enum CodeRepositorySortOrder');
-  }
+  const CodeRepositorySortOrder(this.value);
+
+  static CodeRepositorySortOrder fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CodeRepositorySortOrder'));
 }
 
 /// Specifies summary information about a Git repository.
@@ -27916,84 +25772,38 @@ class CollectionConfiguration {
 }
 
 enum CollectionType {
-  list,
-  set,
-  vector,
-}
+  list('List'),
+  set('Set'),
+  vector('Vector'),
+  ;
 
-extension CollectionTypeValueExtension on CollectionType {
-  String toValue() {
-    switch (this) {
-      case CollectionType.list:
-        return 'List';
-      case CollectionType.set:
-        return 'Set';
-      case CollectionType.vector:
-        return 'Vector';
-    }
-  }
-}
+  final String value;
 
-extension CollectionTypeFromString on String {
-  CollectionType toCollectionType() {
-    switch (this) {
-      case 'List':
-        return CollectionType.list;
-      case 'Set':
-        return CollectionType.set;
-      case 'Vector':
-        return CollectionType.vector;
-    }
-    throw Exception('$this is not known in enum CollectionType');
-  }
+  const CollectionType(this.value);
+
+  static CollectionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CollectionType'));
 }
 
 enum CompilationJobStatus {
-  inprogress,
-  completed,
-  failed,
-  starting,
-  stopping,
-  stopped,
-}
+  inprogress('INPROGRESS'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  starting('STARTING'),
+  stopping('STOPPING'),
+  stopped('STOPPED'),
+  ;
 
-extension CompilationJobStatusValueExtension on CompilationJobStatus {
-  String toValue() {
-    switch (this) {
-      case CompilationJobStatus.inprogress:
-        return 'INPROGRESS';
-      case CompilationJobStatus.completed:
-        return 'COMPLETED';
-      case CompilationJobStatus.failed:
-        return 'FAILED';
-      case CompilationJobStatus.starting:
-        return 'STARTING';
-      case CompilationJobStatus.stopping:
-        return 'STOPPING';
-      case CompilationJobStatus.stopped:
-        return 'STOPPED';
-    }
-  }
-}
+  final String value;
 
-extension CompilationJobStatusFromString on String {
-  CompilationJobStatus toCompilationJobStatus() {
-    switch (this) {
-      case 'INPROGRESS':
-        return CompilationJobStatus.inprogress;
-      case 'COMPLETED':
-        return CompilationJobStatus.completed;
-      case 'FAILED':
-        return CompilationJobStatus.failed;
-      case 'STARTING':
-        return CompilationJobStatus.starting;
-      case 'STOPPING':
-        return CompilationJobStatus.stopping;
-      case 'STOPPED':
-        return CompilationJobStatus.stopped;
-    }
-    throw Exception('$this is not known in enum CompilationJobStatus');
-  }
+  const CompilationJobStatus(this.value);
+
+  static CompilationJobStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum CompilationJobStatus'));
 }
 
 /// A summary of a model compilation job.
@@ -28053,110 +25863,71 @@ class CompilationJobSummary {
     return CompilationJobSummary(
       compilationJobArn: json['CompilationJobArn'] as String,
       compilationJobName: json['CompilationJobName'] as String,
-      compilationJobStatus:
-          (json['CompilationJobStatus'] as String).toCompilationJobStatus(),
+      compilationJobStatus: CompilationJobStatus.fromString(
+          (json['CompilationJobStatus'] as String)),
       creationTime:
           nonNullableTimeStampFromJson(json['CreationTime'] as Object),
       compilationEndTime: timeStampFromJson(json['CompilationEndTime']),
       compilationStartTime: timeStampFromJson(json['CompilationStartTime']),
-      compilationTargetDevice:
-          (json['CompilationTargetDevice'] as String?)?.toTargetDevice(),
+      compilationTargetDevice: (json['CompilationTargetDevice'] as String?)
+          ?.let(TargetDevice.fromString),
       compilationTargetPlatformAccelerator:
           (json['CompilationTargetPlatformAccelerator'] as String?)
-              ?.toTargetPlatformAccelerator(),
+              ?.let(TargetPlatformAccelerator.fromString),
       compilationTargetPlatformArch:
           (json['CompilationTargetPlatformArch'] as String?)
-              ?.toTargetPlatformArch(),
+              ?.let(TargetPlatformArch.fromString),
       compilationTargetPlatformOs:
           (json['CompilationTargetPlatformOs'] as String?)
-              ?.toTargetPlatformOs(),
+              ?.let(TargetPlatformOs.fromString),
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
     );
   }
 }
 
 enum CompleteOnConvergence {
-  disabled,
-  enabled,
-}
+  disabled('Disabled'),
+  enabled('Enabled'),
+  ;
 
-extension CompleteOnConvergenceValueExtension on CompleteOnConvergence {
-  String toValue() {
-    switch (this) {
-      case CompleteOnConvergence.disabled:
-        return 'Disabled';
-      case CompleteOnConvergence.enabled:
-        return 'Enabled';
-    }
-  }
-}
+  final String value;
 
-extension CompleteOnConvergenceFromString on String {
-  CompleteOnConvergence toCompleteOnConvergence() {
-    switch (this) {
-      case 'Disabled':
-        return CompleteOnConvergence.disabled;
-      case 'Enabled':
-        return CompleteOnConvergence.enabled;
-    }
-    throw Exception('$this is not known in enum CompleteOnConvergence');
-  }
+  const CompleteOnConvergence(this.value);
+
+  static CompleteOnConvergence fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum CompleteOnConvergence'));
 }
 
 enum CompressionType {
-  none,
-  gzip,
-}
+  none('None'),
+  gzip('Gzip'),
+  ;
 
-extension CompressionTypeValueExtension on CompressionType {
-  String toValue() {
-    switch (this) {
-      case CompressionType.none:
-        return 'None';
-      case CompressionType.gzip:
-        return 'Gzip';
-    }
-  }
-}
+  final String value;
 
-extension CompressionTypeFromString on String {
-  CompressionType toCompressionType() {
-    switch (this) {
-      case 'None':
-        return CompressionType.none;
-      case 'Gzip':
-        return CompressionType.gzip;
-    }
-    throw Exception('$this is not known in enum CompressionType');
-  }
+  const CompressionType(this.value);
+
+  static CompressionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CompressionType'));
 }
 
 enum ConditionOutcome {
-  $true,
-  $false,
-}
+  $true('True'),
+  $false('False'),
+  ;
 
-extension ConditionOutcomeValueExtension on ConditionOutcome {
-  String toValue() {
-    switch (this) {
-      case ConditionOutcome.$true:
-        return 'True';
-      case ConditionOutcome.$false:
-        return 'False';
-    }
-  }
-}
+  final String value;
 
-extension ConditionOutcomeFromString on String {
-  ConditionOutcome toConditionOutcome() {
-    switch (this) {
-      case 'True':
-        return ConditionOutcome.$true;
-      case 'False':
-        return ConditionOutcome.$false;
-    }
-    throw Exception('$this is not known in enum ConditionOutcome');
-  }
+  const ConditionOutcome(this.value);
+
+  static ConditionOutcome fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ConditionOutcome'));
 }
 
 /// Metadata for a Condition step.
@@ -28170,7 +25941,7 @@ class ConditionStepMetadata {
 
   factory ConditionStepMetadata.fromJson(Map<String, dynamic> json) {
     return ConditionStepMetadata(
-      outcome: (json['Outcome'] as String?)?.toConditionOutcome(),
+      outcome: (json['Outcome'] as String?)?.let(ConditionOutcome.fromString),
     );
   }
 }
@@ -28350,7 +26121,7 @@ class ContainerDefinition {
           ? ImageConfig.fromJson(json['ImageConfig'] as Map<String, dynamic>)
           : null,
       inferenceSpecificationName: json['InferenceSpecificationName'] as String?,
-      mode: (json['Mode'] as String?)?.toContainerMode(),
+      mode: (json['Mode'] as String?)?.let(ContainerMode.fromString),
       modelDataSource: json['ModelDataSource'] != null
           ? ModelDataSource.fromJson(
               json['ModelDataSource'] as Map<String, dynamic>)
@@ -28382,7 +26153,7 @@ class ContainerDefinition {
       if (imageConfig != null) 'ImageConfig': imageConfig,
       if (inferenceSpecificationName != null)
         'InferenceSpecificationName': inferenceSpecificationName,
-      if (mode != null) 'Mode': mode.toValue(),
+      if (mode != null) 'Mode': mode.value,
       if (modelDataSource != null) 'ModelDataSource': modelDataSource,
       if (modelDataUrl != null) 'ModelDataUrl': modelDataUrl,
       if (modelPackageName != null) 'ModelPackageName': modelPackageName,
@@ -28392,59 +26163,34 @@ class ContainerDefinition {
 }
 
 enum ContainerMode {
-  singleModel,
-  multiModel,
-}
+  singleModel('SingleModel'),
+  multiModel('MultiModel'),
+  ;
 
-extension ContainerModeValueExtension on ContainerMode {
-  String toValue() {
-    switch (this) {
-      case ContainerMode.singleModel:
-        return 'SingleModel';
-      case ContainerMode.multiModel:
-        return 'MultiModel';
-    }
-  }
-}
+  final String value;
 
-extension ContainerModeFromString on String {
-  ContainerMode toContainerMode() {
-    switch (this) {
-      case 'SingleModel':
-        return ContainerMode.singleModel;
-      case 'MultiModel':
-        return ContainerMode.multiModel;
-    }
-    throw Exception('$this is not known in enum ContainerMode');
-  }
+  const ContainerMode(this.value);
+
+  static ContainerMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ContainerMode'));
 }
 
 enum ContentClassifier {
-  freeOfPersonallyIdentifiableInformation,
-  freeOfAdultContent,
-}
+  freeOfPersonallyIdentifiableInformation(
+      'FreeOfPersonallyIdentifiableInformation'),
+  freeOfAdultContent('FreeOfAdultContent'),
+  ;
 
-extension ContentClassifierValueExtension on ContentClassifier {
-  String toValue() {
-    switch (this) {
-      case ContentClassifier.freeOfPersonallyIdentifiableInformation:
-        return 'FreeOfPersonallyIdentifiableInformation';
-      case ContentClassifier.freeOfAdultContent:
-        return 'FreeOfAdultContent';
-    }
-  }
-}
+  final String value;
 
-extension ContentClassifierFromString on String {
-  ContentClassifier toContentClassifier() {
-    switch (this) {
-      case 'FreeOfPersonallyIdentifiableInformation':
-        return ContentClassifier.freeOfPersonallyIdentifiableInformation;
-      case 'FreeOfAdultContent':
-        return ContentClassifier.freeOfAdultContent;
-    }
-    throw Exception('$this is not known in enum ContentClassifier');
-  }
+  const ContentClassifier(this.value);
+
+  static ContentClassifier fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ContentClassifier'));
 }
 
 /// A structure describing the source of a context.
@@ -28578,8 +26324,8 @@ class ContinuousParameterRange {
       maxValue: json['MaxValue'] as String,
       minValue: json['MinValue'] as String,
       name: json['Name'] as String,
-      scalingType:
-          (json['ScalingType'] as String?)?.toHyperParameterScalingType(),
+      scalingType: (json['ScalingType'] as String?)
+          ?.let(HyperParameterScalingType.fromString),
     );
   }
 
@@ -28592,7 +26338,7 @@ class ContinuousParameterRange {
       'MaxValue': maxValue,
       'MinValue': minValue,
       'Name': name,
-      if (scalingType != null) 'ScalingType': scalingType.toValue(),
+      if (scalingType != null) 'ScalingType': scalingType.value,
     };
   }
 }
@@ -28642,8 +26388,8 @@ class ConvergenceDetected {
 
   factory ConvergenceDetected.fromJson(Map<String, dynamic> json) {
     return ConvergenceDetected(
-      completeOnConvergence:
-          (json['CompleteOnConvergence'] as String?)?.toCompleteOnConvergence(),
+      completeOnConvergence: (json['CompleteOnConvergence'] as String?)
+          ?.let(CompleteOnConvergence.fromString),
     );
   }
 
@@ -28651,7 +26397,7 @@ class ConvergenceDetected {
     final completeOnConvergence = this.completeOnConvergence;
     return {
       if (completeOnConvergence != null)
-        'CompleteOnConvergence': completeOnConvergence.toValue(),
+        'CompleteOnConvergence': completeOnConvergence.value,
     };
   }
 }
@@ -29486,31 +27232,18 @@ class CreateWorkteamResponse {
 }
 
 enum CrossAccountFilterOption {
-  sameAccount,
-  crossAccount,
-}
+  sameAccount('SameAccount'),
+  crossAccount('CrossAccount'),
+  ;
 
-extension CrossAccountFilterOptionValueExtension on CrossAccountFilterOption {
-  String toValue() {
-    switch (this) {
-      case CrossAccountFilterOption.sameAccount:
-        return 'SameAccount';
-      case CrossAccountFilterOption.crossAccount:
-        return 'CrossAccount';
-    }
-  }
-}
+  final String value;
 
-extension CrossAccountFilterOptionFromString on String {
-  CrossAccountFilterOption toCrossAccountFilterOption() {
-    switch (this) {
-      case 'SameAccount':
-        return CrossAccountFilterOption.sameAccount;
-      case 'CrossAccount':
-        return CrossAccountFilterOption.crossAccount;
-    }
-    throw Exception('$this is not known in enum CrossAccountFilterOption');
-  }
+  const CrossAccountFilterOption(this.value);
+
+  static CrossAccountFilterOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CrossAccountFilterOption'));
 }
 
 /// A file system, created by you, that you assign to a user profile or space
@@ -29660,7 +27393,7 @@ class CustomizedMetricSpecification {
     return CustomizedMetricSpecification(
       metricName: json['MetricName'] as String?,
       namespace: json['Namespace'] as String?,
-      statistic: (json['Statistic'] as String?)?.toStatistic(),
+      statistic: (json['Statistic'] as String?)?.let(Statistic.fromString),
     );
   }
 }
@@ -29781,7 +27514,8 @@ class DataCaptureConfigSummary {
 
   factory DataCaptureConfigSummary.fromJson(Map<String, dynamic> json) {
     return DataCaptureConfigSummary(
-      captureStatus: (json['CaptureStatus'] as String).toCaptureStatus(),
+      captureStatus:
+          CaptureStatus.fromString((json['CaptureStatus'] as String)),
       currentSamplingPercentage: json['CurrentSamplingPercentage'] as int,
       destinationS3Uri: json['DestinationS3Uri'] as String,
       enableCapture: json['EnableCapture'] as bool,
@@ -29829,31 +27563,18 @@ class DataCatalogConfig {
 }
 
 enum DataDistributionType {
-  fullyReplicated,
-  shardedByS3Key,
-}
+  fullyReplicated('FullyReplicated'),
+  shardedByS3Key('ShardedByS3Key'),
+  ;
 
-extension DataDistributionTypeValueExtension on DataDistributionType {
-  String toValue() {
-    switch (this) {
-      case DataDistributionType.fullyReplicated:
-        return 'FullyReplicated';
-      case DataDistributionType.shardedByS3Key:
-        return 'ShardedByS3Key';
-    }
-  }
-}
+  final String value;
 
-extension DataDistributionTypeFromString on String {
-  DataDistributionType toDataDistributionType() {
-    switch (this) {
-      case 'FullyReplicated':
-        return DataDistributionType.fullyReplicated;
-      case 'ShardedByS3Key':
-        return DataDistributionType.shardedByS3Key;
-    }
-    throw Exception('$this is not known in enum DataDistributionType');
-  }
+  const DataDistributionType(this.value);
+
+  static DataDistributionType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DataDistributionType'));
 }
 
 /// The data structure used to specify the data to be used for inference in a
@@ -29925,7 +27646,7 @@ class DataProcessing {
   factory DataProcessing.fromJson(Map<String, dynamic> json) {
     return DataProcessing(
       inputFilter: json['InputFilter'] as String?,
-      joinSource: (json['JoinSource'] as String?)?.toJoinSource(),
+      joinSource: (json['JoinSource'] as String?)?.let(JoinSource.fromString),
       outputFilter: json['OutputFilter'] as String?,
     );
   }
@@ -29936,7 +27657,7 @@ class DataProcessing {
     final outputFilter = this.outputFilter;
     return {
       if (inputFilter != null) 'InputFilter': inputFilter,
-      if (joinSource != null) 'JoinSource': joinSource.toValue(),
+      if (joinSource != null) 'JoinSource': joinSource.value,
       if (outputFilter != null) 'OutputFilter': outputFilter,
     };
   }
@@ -30134,31 +27855,18 @@ class DataSource {
 }
 
 enum DataSourceName {
-  salesforceGenie,
-  snowflake,
-}
+  salesforceGenie('SalesforceGenie'),
+  snowflake('Snowflake'),
+  ;
 
-extension DataSourceNameValueExtension on DataSourceName {
-  String toValue() {
-    switch (this) {
-      case DataSourceName.salesforceGenie:
-        return 'SalesforceGenie';
-      case DataSourceName.snowflake:
-        return 'Snowflake';
-    }
-  }
-}
+  final String value;
 
-extension DataSourceNameFromString on String {
-  DataSourceName toDataSourceName() {
-    switch (this) {
-      case 'SalesforceGenie':
-        return DataSourceName.salesforceGenie;
-      case 'Snowflake':
-        return DataSourceName.snowflake;
-    }
-    throw Exception('$this is not known in enum DataSourceName');
-  }
+  const DataSourceName(this.value);
+
+  static DataSourceName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DataSourceName'));
 }
 
 /// Configuration for Dataset Definition inputs. The Dataset Definition input
@@ -30200,9 +27908,9 @@ class DatasetDefinition {
           ? AthenaDatasetDefinition.fromJson(
               json['AthenaDatasetDefinition'] as Map<String, dynamic>)
           : null,
-      dataDistributionType:
-          (json['DataDistributionType'] as String?)?.toDataDistributionType(),
-      inputMode: (json['InputMode'] as String?)?.toInputMode(),
+      dataDistributionType: (json['DataDistributionType'] as String?)
+          ?.let(DataDistributionType.fromString),
+      inputMode: (json['InputMode'] as String?)?.let(InputMode.fromString),
       localPath: json['LocalPath'] as String?,
       redshiftDatasetDefinition: json['RedshiftDatasetDefinition'] != null
           ? RedshiftDatasetDefinition.fromJson(
@@ -30221,8 +27929,8 @@ class DatasetDefinition {
       if (athenaDatasetDefinition != null)
         'AthenaDatasetDefinition': athenaDatasetDefinition,
       if (dataDistributionType != null)
-        'DataDistributionType': dataDistributionType.toValue(),
-      if (inputMode != null) 'InputMode': inputMode.toValue(),
+        'DataDistributionType': dataDistributionType.value,
+      if (inputMode != null) 'InputMode': inputMode.value,
       if (localPath != null) 'LocalPath': localPath,
       if (redshiftDatasetDefinition != null)
         'RedshiftDatasetDefinition': redshiftDatasetDefinition,
@@ -30336,8 +28044,8 @@ class DebugRuleConfiguration {
     return DebugRuleConfiguration(
       ruleConfigurationName: json['RuleConfigurationName'] as String,
       ruleEvaluatorImage: json['RuleEvaluatorImage'] as String,
-      instanceType:
-          (json['InstanceType'] as String?)?.toProcessingInstanceType(),
+      instanceType: (json['InstanceType'] as String?)
+          ?.let(ProcessingInstanceType.fromString),
       localPath: json['LocalPath'] as String?,
       ruleParameters: (json['RuleParameters'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -30357,7 +28065,7 @@ class DebugRuleConfiguration {
     return {
       'RuleConfigurationName': ruleConfigurationName,
       'RuleEvaluatorImage': ruleEvaluatorImage,
-      if (instanceType != null) 'InstanceType': instanceType.toValue(),
+      if (instanceType != null) 'InstanceType': instanceType.value,
       if (localPath != null) 'LocalPath': localPath,
       if (ruleParameters != null) 'RuleParameters': ruleParameters,
       if (s3OutputPath != null) 'S3OutputPath': s3OutputPath,
@@ -30396,8 +28104,8 @@ class DebugRuleEvaluationStatus {
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       ruleConfigurationName: json['RuleConfigurationName'] as String?,
       ruleEvaluationJobArn: json['RuleEvaluationJobArn'] as String?,
-      ruleEvaluationStatus:
-          (json['RuleEvaluationStatus'] as String?)?.toRuleEvaluationStatus(),
+      ruleEvaluationStatus: (json['RuleEvaluationStatus'] as String?)
+          ?.let(RuleEvaluationStatus.fromString),
       statusDetails: json['StatusDetails'] as String?,
     );
   }
@@ -30893,8 +28601,8 @@ class DeploymentRecommendation {
 
   factory DeploymentRecommendation.fromJson(Map<String, dynamic> json) {
     return DeploymentRecommendation(
-      recommendationStatus:
-          (json['RecommendationStatus'] as String).toRecommendationStatus(),
+      recommendationStatus: RecommendationStatus.fromString(
+          (json['RecommendationStatus'] as String)),
       realTimeInferenceRecommendations:
           (json['RealTimeInferenceRecommendations'] as List?)
               ?.whereNotNull()
@@ -31060,7 +28768,7 @@ class DescribeActionResponse {
       source: json['Source'] != null
           ? ActionSource.fromJson(json['Source'] as Map<String, dynamic>)
           : null,
-      status: (json['Status'] as String?)?.toActionStatus(),
+      status: (json['Status'] as String?)?.let(ActionStatus.fromString),
     );
   }
 }
@@ -31119,7 +28827,8 @@ class DescribeAlgorithmOutput {
     return DescribeAlgorithmOutput(
       algorithmArn: json['AlgorithmArn'] as String,
       algorithmName: json['AlgorithmName'] as String,
-      algorithmStatus: (json['AlgorithmStatus'] as String).toAlgorithmStatus(),
+      algorithmStatus:
+          AlgorithmStatus.fromString((json['AlgorithmStatus'] as String)),
       algorithmStatusDetails: AlgorithmStatusDetails.fromJson(
           json['AlgorithmStatusDetails'] as Map<String, dynamic>),
       creationTime:
@@ -31264,7 +28973,7 @@ class DescribeAppResponse {
     return DescribeAppResponse(
       appArn: json['AppArn'] as String?,
       appName: json['AppName'] as String?,
-      appType: (json['AppType'] as String?)?.toAppType(),
+      appType: (json['AppType'] as String?)?.let(AppType.fromString),
       creationTime: timeStampFromJson(json['CreationTime']),
       domainId: json['DomainId'] as String?,
       failureReason: json['FailureReason'] as String?,
@@ -31276,7 +28985,7 @@ class DescribeAppResponse {
           ? ResourceSpec.fromJson(json['ResourceSpec'] as Map<String, dynamic>)
           : null,
       spaceName: json['SpaceName'] as String?,
-      status: (json['Status'] as String?)?.toAppStatus(),
+      status: (json['Status'] as String?)?.let(AppStatus.fromString),
       userProfileName: json['UserProfileName'] as String?,
     );
   }
@@ -31452,9 +29161,10 @@ class DescribeAutoMLJobResponse {
     return DescribeAutoMLJobResponse(
       autoMLJobArn: json['AutoMLJobArn'] as String,
       autoMLJobName: json['AutoMLJobName'] as String,
-      autoMLJobSecondaryStatus: (json['AutoMLJobSecondaryStatus'] as String)
-          .toAutoMLJobSecondaryStatus(),
-      autoMLJobStatus: (json['AutoMLJobStatus'] as String).toAutoMLJobStatus(),
+      autoMLJobSecondaryStatus: AutoMLJobSecondaryStatus.fromString(
+          (json['AutoMLJobSecondaryStatus'] as String)),
+      autoMLJobStatus:
+          AutoMLJobStatus.fromString((json['AutoMLJobStatus'] as String)),
       creationTime:
           nonNullableTimeStampFromJson(json['CreationTime'] as Object),
       inputDataConfig: (json['InputDataConfig'] as List)
@@ -31499,7 +29209,8 @@ class DescribeAutoMLJobResponse {
           .map((e) =>
               AutoMLPartialFailureReason.fromJson(e as Map<String, dynamic>))
           .toList(),
-      problemType: (json['ProblemType'] as String?)?.toProblemType(),
+      problemType:
+          (json['ProblemType'] as String?)?.let(ProblemType.fromString),
       resolvedAttributes: json['ResolvedAttributes'] != null
           ? ResolvedAttributes.fromJson(
               json['ResolvedAttributes'] as Map<String, dynamic>)
@@ -31614,9 +29325,10 @@ class DescribeAutoMLJobV2Response {
           .map((e) => AutoMLJobChannel.fromJson(e as Map<String, dynamic>))
           .toList(),
       autoMLJobName: json['AutoMLJobName'] as String,
-      autoMLJobSecondaryStatus: (json['AutoMLJobSecondaryStatus'] as String)
-          .toAutoMLJobSecondaryStatus(),
-      autoMLJobStatus: (json['AutoMLJobStatus'] as String).toAutoMLJobStatus(),
+      autoMLJobSecondaryStatus: AutoMLJobSecondaryStatus.fromString(
+          (json['AutoMLJobSecondaryStatus'] as String)),
+      autoMLJobStatus:
+          AutoMLJobStatus.fromString((json['AutoMLJobStatus'] as String)),
       creationTime:
           nonNullableTimeStampFromJson(json['CreationTime'] as Object),
       lastModifiedTime:
@@ -31638,7 +29350,7 @@ class DescribeAutoMLJobV2Response {
           : null,
       autoMLProblemTypeConfigName:
           (json['AutoMLProblemTypeConfigName'] as String?)
-              ?.toAutoMLProblemTypeConfigName(),
+              ?.let(AutoMLProblemTypeConfigName.fromString),
       bestCandidate: json['BestCandidate'] != null
           ? AutoMLCandidate.fromJson(
               json['BestCandidate'] as Map<String, dynamic>)
@@ -31723,7 +29435,8 @@ class DescribeClusterResponse {
   factory DescribeClusterResponse.fromJson(Map<String, dynamic> json) {
     return DescribeClusterResponse(
       clusterArn: json['ClusterArn'] as String,
-      clusterStatus: (json['ClusterStatus'] as String).toClusterStatus(),
+      clusterStatus:
+          ClusterStatus.fromString((json['ClusterStatus'] as String)),
       instanceGroups: (json['InstanceGroups'] as List)
           .whereNotNull()
           .map((e) =>
@@ -31887,8 +29600,8 @@ class DescribeCompilationJobResponse {
     return DescribeCompilationJobResponse(
       compilationJobArn: json['CompilationJobArn'] as String,
       compilationJobName: json['CompilationJobName'] as String,
-      compilationJobStatus:
-          (json['CompilationJobStatus'] as String).toCompilationJobStatus(),
+      compilationJobStatus: CompilationJobStatus.fromString(
+          (json['CompilationJobStatus'] as String)),
       creationTime:
           nonNullableTimeStampFromJson(json['CreationTime'] as Object),
       failureReason: json['FailureReason'] as String,
@@ -32307,12 +30020,12 @@ class DescribeDomainResponse {
 
   factory DescribeDomainResponse.fromJson(Map<String, dynamic> json) {
     return DescribeDomainResponse(
-      appNetworkAccessType:
-          (json['AppNetworkAccessType'] as String?)?.toAppNetworkAccessType(),
+      appNetworkAccessType: (json['AppNetworkAccessType'] as String?)
+          ?.let(AppNetworkAccessType.fromString),
       appSecurityGroupManagement:
           (json['AppSecurityGroupManagement'] as String?)
-              ?.toAppSecurityGroupManagement(),
-      authMode: (json['AuthMode'] as String?)?.toAuthMode(),
+              ?.let(AppSecurityGroupManagement.fromString),
+      authMode: (json['AuthMode'] as String?)?.let(AuthMode.fromString),
       creationTime: timeStampFromJson(json['CreationTime']),
       defaultSpaceSettings: json['DefaultSpaceSettings'] != null
           ? DefaultSpaceSettings.fromJson(
@@ -32339,7 +30052,7 @@ class DescribeDomainResponse {
       singleSignOnApplicationArn: json['SingleSignOnApplicationArn'] as String?,
       singleSignOnManagedApplicationInstanceId:
           json['SingleSignOnManagedApplicationInstanceId'] as String?,
-      status: (json['Status'] as String?)?.toDomainStatus(),
+      status: (json['Status'] as String?)?.let(DomainStatus.fromString),
       subnetIds: (json['SubnetIds'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -32496,8 +30209,8 @@ class DescribeEdgePackagingJobResponse {
     return DescribeEdgePackagingJobResponse(
       edgePackagingJobArn: json['EdgePackagingJobArn'] as String,
       edgePackagingJobName: json['EdgePackagingJobName'] as String,
-      edgePackagingJobStatus:
-          (json['EdgePackagingJobStatus'] as String).toEdgePackagingJobStatus(),
+      edgePackagingJobStatus: EdgePackagingJobStatus.fromString(
+          (json['EdgePackagingJobStatus'] as String)),
       compilationJobName: json['CompilationJobName'] as String?,
       creationTime: timeStampFromJson(json['CreationTime']),
       edgePackagingJobStatusMessage:
@@ -32750,7 +30463,8 @@ class DescribeEndpointOutput {
           nonNullableTimeStampFromJson(json['CreationTime'] as Object),
       endpointArn: json['EndpointArn'] as String,
       endpointName: json['EndpointName'] as String,
-      endpointStatus: (json['EndpointStatus'] as String).toEndpointStatus(),
+      endpointStatus:
+          EndpointStatus.fromString((json['EndpointStatus'] as String)),
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] as Object),
       asyncInferenceConfig: json['AsyncInferenceConfig'] != null
@@ -32987,8 +30701,8 @@ class DescribeFeatureGroupResponse {
           json['RecordIdentifierFeatureName'] as String,
       description: json['Description'] as String?,
       failureReason: json['FailureReason'] as String?,
-      featureGroupStatus:
-          (json['FeatureGroupStatus'] as String?)?.toFeatureGroupStatus(),
+      featureGroupStatus: (json['FeatureGroupStatus'] as String?)
+          ?.let(FeatureGroupStatus.fromString),
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       lastUpdateStatus: json['LastUpdateStatus'] != null
           ? LastUpdateStatus.fromJson(
@@ -33062,7 +30776,7 @@ class DescribeFeatureMetadataResponse {
       featureGroupArn: json['FeatureGroupArn'] as String,
       featureGroupName: json['FeatureGroupName'] as String,
       featureName: json['FeatureName'] as String,
-      featureType: (json['FeatureType'] as String).toFeatureType(),
+      featureType: FeatureType.fromString((json['FeatureType'] as String)),
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] as Object),
       description: json['Description'] as String?,
@@ -33128,8 +30842,8 @@ class DescribeFlowDefinitionResponse {
           nonNullableTimeStampFromJson(json['CreationTime'] as Object),
       flowDefinitionArn: json['FlowDefinitionArn'] as String,
       flowDefinitionName: json['FlowDefinitionName'] as String,
-      flowDefinitionStatus:
-          (json['FlowDefinitionStatus'] as String).toFlowDefinitionStatus(),
+      flowDefinitionStatus: FlowDefinitionStatus.fromString(
+          (json['FlowDefinitionStatus'] as String)),
       outputConfig: FlowDefinitionOutputConfig.fromJson(
           json['OutputConfig'] as Map<String, dynamic>),
       roleArn: json['RoleArn'] as String,
@@ -33231,8 +30945,9 @@ class DescribeHubContentResponse {
       hubContentDocument: json['HubContentDocument'] as String,
       hubContentName: json['HubContentName'] as String,
       hubContentStatus:
-          (json['HubContentStatus'] as String).toHubContentStatus(),
-      hubContentType: (json['HubContentType'] as String).toHubContentType(),
+          HubContentStatus.fromString((json['HubContentStatus'] as String)),
+      hubContentType:
+          HubContentType.fromString((json['HubContentType'] as String)),
       hubContentVersion: json['HubContentVersion'] as String,
       hubName: json['HubName'] as String,
       failureReason: json['FailureReason'] as String?,
@@ -33301,7 +31016,7 @@ class DescribeHubResponse {
           nonNullableTimeStampFromJson(json['CreationTime'] as Object),
       hubArn: json['HubArn'] as String,
       hubName: json['HubName'] as String,
-      hubStatus: (json['HubStatus'] as String).toHubStatus(),
+      hubStatus: HubStatus.fromString((json['HubStatus'] as String)),
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] as Object),
       failureReason: json['FailureReason'] as String?,
@@ -33351,8 +31066,8 @@ class DescribeHumanTaskUiResponse {
       humanTaskUiName: json['HumanTaskUiName'] as String,
       uiTemplate:
           UiTemplateInfo.fromJson(json['UiTemplate'] as Map<String, dynamic>),
-      humanTaskUiStatus:
-          (json['HumanTaskUiStatus'] as String?)?.toHumanTaskUiStatus(),
+      humanTaskUiStatus: (json['HumanTaskUiStatus'] as String?)
+          ?.let(HumanTaskUiStatus.fromString),
     );
   }
 }
@@ -33470,9 +31185,8 @@ class DescribeHyperParameterTuningJobResponse {
           json['HyperParameterTuningJobConfig'] as Map<String, dynamic>),
       hyperParameterTuningJobName:
           json['HyperParameterTuningJobName'] as String,
-      hyperParameterTuningJobStatus:
-          (json['HyperParameterTuningJobStatus'] as String)
-              .toHyperParameterTuningJobStatus(),
+      hyperParameterTuningJobStatus: HyperParameterTuningJobStatus.fromString(
+          (json['HyperParameterTuningJobStatus'] as String)),
       objectiveStatusCounters: ObjectiveStatusCounters.fromJson(
           json['ObjectiveStatusCounters'] as Map<String, dynamic>),
       trainingJobStatusCounters: TrainingJobStatusCounters.fromJson(
@@ -33567,7 +31281,8 @@ class DescribeImageResponse {
       failureReason: json['FailureReason'] as String?,
       imageArn: json['ImageArn'] as String?,
       imageName: json['ImageName'] as String?,
-      imageStatus: (json['ImageStatus'] as String?)?.toImageStatus(),
+      imageStatus:
+          (json['ImageStatus'] as String?)?.let(ImageStatus.fromString),
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       roleArn: json['RoleArn'] as String?,
     );
@@ -33695,15 +31410,16 @@ class DescribeImageVersionResponse {
       horovod: json['Horovod'] as bool?,
       imageArn: json['ImageArn'] as String?,
       imageVersionArn: json['ImageVersionArn'] as String?,
-      imageVersionStatus:
-          (json['ImageVersionStatus'] as String?)?.toImageVersionStatus(),
-      jobType: (json['JobType'] as String?)?.toJobType(),
+      imageVersionStatus: (json['ImageVersionStatus'] as String?)
+          ?.let(ImageVersionStatus.fromString),
+      jobType: (json['JobType'] as String?)?.let(JobType.fromString),
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       mLFramework: json['MLFramework'] as String?,
-      processor: (json['Processor'] as String?)?.toProcessor(),
+      processor: (json['Processor'] as String?)?.let(Processor.fromString),
       programmingLang: json['ProgrammingLang'] as String?,
       releaseNotes: json['ReleaseNotes'] as String?,
-      vendorGuidance: (json['VendorGuidance'] as String?)?.toVendorGuidance(),
+      vendorGuidance:
+          (json['VendorGuidance'] as String?)?.let(VendorGuidance.fromString),
       version: json['Version'] as int?,
     );
   }
@@ -33772,7 +31488,7 @@ class DescribeInferenceComponentOutput {
           nonNullableTimeStampFromJson(json['LastModifiedTime'] as Object),
       failureReason: json['FailureReason'] as String?,
       inferenceComponentStatus: (json['InferenceComponentStatus'] as String?)
-          ?.toInferenceComponentStatus(),
+          ?.let(InferenceComponentStatus.fromString),
       runtimeConfig: json['RuntimeConfig'] != null
           ? InferenceComponentRuntimeConfigSummary.fromJson(
               json['RuntimeConfig'] as Map<String, dynamic>)
@@ -33916,8 +31632,8 @@ class DescribeInferenceExperimentResponse {
               ModelVariantConfigSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['Name'] as String,
-      status: (json['Status'] as String).toInferenceExperimentStatus(),
-      type: (json['Type'] as String).toInferenceExperimentType(),
+      status: InferenceExperimentStatus.fromString((json['Status'] as String)),
+      type: InferenceExperimentType.fromString((json['Type'] as String)),
       completionTime: timeStampFromJson(json['CompletionTime']),
       creationTime: timeStampFromJson(json['CreationTime']),
       dataStorageConfig: json['DataStorageConfig'] != null
@@ -34015,11 +31731,11 @@ class DescribeInferenceRecommendationsJobResponse {
           json['InputConfig'] as Map<String, dynamic>),
       jobArn: json['JobArn'] as String,
       jobName: json['JobName'] as String,
-      jobType: (json['JobType'] as String).toRecommendationJobType(),
+      jobType: RecommendationJobType.fromString((json['JobType'] as String)),
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] as Object),
       roleArn: json['RoleArn'] as String,
-      status: (json['Status'] as String).toRecommendationJobStatus(),
+      status: RecommendationJobStatus.fromString((json['Status'] as String)),
       completionTime: timeStampFromJson(json['CompletionTime']),
       endpointPerformances: (json['EndpointPerformances'] as List?)
           ?.whereNotNull()
@@ -34184,7 +31900,7 @@ class DescribeLabelingJobResponse {
       labelingJobArn: json['LabelingJobArn'] as String,
       labelingJobName: json['LabelingJobName'] as String,
       labelingJobStatus:
-          (json['LabelingJobStatus'] as String).toLabelingJobStatus(),
+          LabelingJobStatus.fromString((json['LabelingJobStatus'] as String)),
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] as Object),
       outputConfig: LabelingJobOutputConfig.fromJson(
@@ -34412,7 +32128,7 @@ class DescribeModelCardExportJobResponse {
       modelCardVersion: json['ModelCardVersion'] as int,
       outputConfig: ModelCardExportOutputConfig.fromJson(
           json['OutputConfig'] as Map<String, dynamic>),
-      status: (json['Status'] as String).toModelCardExportJobStatus(),
+      status: ModelCardExportJobStatus.fromString((json['Status'] as String)),
       exportArtifacts: json['ExportArtifacts'] != null
           ? ModelCardExportArtifacts.fromJson(
               json['ExportArtifacts'] as Map<String, dynamic>)
@@ -34517,14 +32233,15 @@ class DescribeModelCardResponse {
           nonNullableTimeStampFromJson(json['CreationTime'] as Object),
       modelCardArn: json['ModelCardArn'] as String,
       modelCardName: json['ModelCardName'] as String,
-      modelCardStatus: (json['ModelCardStatus'] as String).toModelCardStatus(),
+      modelCardStatus:
+          ModelCardStatus.fromString((json['ModelCardStatus'] as String)),
       modelCardVersion: json['ModelCardVersion'] as int,
       lastModifiedBy: json['LastModifiedBy'] != null
           ? UserContext.fromJson(json['LastModifiedBy'] as Map<String, dynamic>)
           : null,
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       modelCardProcessingStatus: (json['ModelCardProcessingStatus'] as String?)
-          ?.toModelCardProcessingStatus(),
+          ?.let(ModelCardProcessingStatus.fromString),
       securityConfig: json['SecurityConfig'] != null
           ? ModelCardSecurityConfig.fromJson(
               json['SecurityConfig'] as Map<String, dynamic>)
@@ -34735,8 +32452,8 @@ class DescribeModelPackageGroupOutput {
           nonNullableTimeStampFromJson(json['CreationTime'] as Object),
       modelPackageGroupArn: json['ModelPackageGroupArn'] as String,
       modelPackageGroupName: json['ModelPackageGroupName'] as String,
-      modelPackageGroupStatus: (json['ModelPackageGroupStatus'] as String)
-          .toModelPackageGroupStatus(),
+      modelPackageGroupStatus: ModelPackageGroupStatus.fromString(
+          (json['ModelPackageGroupStatus'] as String)),
       modelPackageGroupDescription:
           json['ModelPackageGroupDescription'] as String?,
     );
@@ -34892,7 +32609,7 @@ class DescribeModelPackageOutput {
       modelPackageArn: json['ModelPackageArn'] as String,
       modelPackageName: json['ModelPackageName'] as String,
       modelPackageStatus:
-          (json['ModelPackageStatus'] as String).toModelPackageStatus(),
+          ModelPackageStatus.fromString((json['ModelPackageStatus'] as String)),
       modelPackageStatusDetails: ModelPackageStatusDetails.fromJson(
           json['ModelPackageStatusDetails'] as Map<String, dynamic>),
       additionalInferenceSpecifications:
@@ -34926,8 +32643,8 @@ class DescribeModelPackageOutput {
           ? MetadataProperties.fromJson(
               json['MetadataProperties'] as Map<String, dynamic>)
           : null,
-      modelApprovalStatus:
-          (json['ModelApprovalStatus'] as String?)?.toModelApprovalStatus(),
+      modelApprovalStatus: (json['ModelApprovalStatus'] as String?)
+          ?.let(ModelApprovalStatus.fromString),
       modelCard: json['ModelCard'] != null
           ? ModelPackageModelCard.fromJson(
               json['ModelCard'] as Map<String, dynamic>)
@@ -34943,8 +32660,8 @@ class DescribeModelPackageOutput {
           ? ModelPackageSecurityConfig.fromJson(
               json['SecurityConfig'] as Map<String, dynamic>)
           : null,
-      skipModelValidation:
-          (json['SkipModelValidation'] as String?)?.toSkipModelValidation(),
+      skipModelValidation: (json['SkipModelValidation'] as String?)
+          ?.let(SkipModelValidation.fromString),
       sourceAlgorithmSpecification: json['SourceAlgorithmSpecification'] != null
           ? SourceAlgorithmSpecification.fromJson(
               json['SourceAlgorithmSpecification'] as Map<String, dynamic>)
@@ -35111,8 +32828,8 @@ class DescribeMonitoringScheduleResponse {
       monitoringScheduleConfig: MonitoringScheduleConfig.fromJson(
           json['MonitoringScheduleConfig'] as Map<String, dynamic>),
       monitoringScheduleName: json['MonitoringScheduleName'] as String,
-      monitoringScheduleStatus:
-          (json['MonitoringScheduleStatus'] as String).toScheduleStatus(),
+      monitoringScheduleStatus: ScheduleStatus.fromString(
+          (json['MonitoringScheduleStatus'] as String)),
       endpointName: json['EndpointName'] as String?,
       failureReason: json['FailureReason'] as String?,
       lastMonitoringExecutionSummary: json['LastMonitoringExecutionSummary'] !=
@@ -35120,7 +32837,8 @@ class DescribeMonitoringScheduleResponse {
           ? MonitoringExecutionSummary.fromJson(
               json['LastMonitoringExecutionSummary'] as Map<String, dynamic>)
           : null,
-      monitoringType: (json['MonitoringType'] as String?)?.toMonitoringType(),
+      monitoringType:
+          (json['MonitoringType'] as String?)?.let(MonitoringType.fromString),
     );
   }
 }
@@ -35317,7 +33035,7 @@ class DescribeNotebookInstanceOutput {
     return DescribeNotebookInstanceOutput(
       acceleratorTypes: (json['AcceleratorTypes'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toNotebookInstanceAcceleratorType())
+          .map((e) => NotebookInstanceAcceleratorType.fromString((e as String)))
           .toList(),
       additionalCodeRepositories: (json['AdditionalCodeRepositories'] as List?)
           ?.whereNotNull()
@@ -35325,8 +33043,8 @@ class DescribeNotebookInstanceOutput {
           .toList(),
       creationTime: timeStampFromJson(json['CreationTime']),
       defaultCodeRepository: json['DefaultCodeRepository'] as String?,
-      directInternetAccess:
-          (json['DirectInternetAccess'] as String?)?.toDirectInternetAccess(),
+      directInternetAccess: (json['DirectInternetAccess'] as String?)
+          ?.let(DirectInternetAccess.fromString),
       failureReason: json['FailureReason'] as String?,
       instanceMetadataServiceConfiguration:
           json['InstanceMetadataServiceConfiguration'] != null
@@ -35334,7 +33052,8 @@ class DescribeNotebookInstanceOutput {
                   json['InstanceMetadataServiceConfiguration']
                       as Map<String, dynamic>)
               : null,
-      instanceType: (json['InstanceType'] as String?)?.toInstanceType(),
+      instanceType:
+          (json['InstanceType'] as String?)?.let(InstanceType.fromString),
       kmsKeyId: json['KmsKeyId'] as String?,
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       networkInterfaceId: json['NetworkInterfaceId'] as String?,
@@ -35343,10 +33062,10 @@ class DescribeNotebookInstanceOutput {
           json['NotebookInstanceLifecycleConfigName'] as String?,
       notebookInstanceName: json['NotebookInstanceName'] as String?,
       notebookInstanceStatus: (json['NotebookInstanceStatus'] as String?)
-          ?.toNotebookInstanceStatus(),
+          ?.let(NotebookInstanceStatus.fromString),
       platformIdentifier: json['PlatformIdentifier'] as String?,
       roleArn: json['RoleArn'] as String?,
-      rootAccess: (json['RootAccess'] as String?)?.toRootAccess(),
+      rootAccess: (json['RootAccess'] as String?)?.let(RootAccess.fromString),
       securityGroups: (json['SecurityGroups'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -35453,7 +33172,7 @@ class DescribePipelineExecutionResponse {
       pipelineExecutionDisplayName:
           json['PipelineExecutionDisplayName'] as String?,
       pipelineExecutionStatus: (json['PipelineExecutionStatus'] as String?)
-          ?.toPipelineExecutionStatus(),
+          ?.let(PipelineExecutionStatus.fromString),
       pipelineExperimentConfig: json['PipelineExperimentConfig'] != null
           ? PipelineExperimentConfig.fromJson(
               json['PipelineExperimentConfig'] as Map<String, dynamic>)
@@ -35539,7 +33258,8 @@ class DescribePipelineResponse {
       pipelineDescription: json['PipelineDescription'] as String?,
       pipelineDisplayName: json['PipelineDisplayName'] as String?,
       pipelineName: json['PipelineName'] as String?,
-      pipelineStatus: (json['PipelineStatus'] as String?)?.toPipelineStatus(),
+      pipelineStatus:
+          (json['PipelineStatus'] as String?)?.let(PipelineStatus.fromString),
       roleArn: json['RoleArn'] as String?,
     );
   }
@@ -35648,8 +33368,8 @@ class DescribeProcessingJobResponse {
           nonNullableTimeStampFromJson(json['CreationTime'] as Object),
       processingJobArn: json['ProcessingJobArn'] as String,
       processingJobName: json['ProcessingJobName'] as String,
-      processingJobStatus:
-          (json['ProcessingJobStatus'] as String).toProcessingJobStatus(),
+      processingJobStatus: ProcessingJobStatus.fromString(
+          (json['ProcessingJobStatus'] as String)),
       processingResources: ProcessingResources.fromJson(
           json['ProcessingResources'] as Map<String, dynamic>),
       autoMLJobArn: json['AutoMLJobArn'] as String?,
@@ -35742,7 +33462,8 @@ class DescribeProjectOutput {
       projectArn: json['ProjectArn'] as String,
       projectId: json['ProjectId'] as String,
       projectName: json['ProjectName'] as String,
-      projectStatus: (json['ProjectStatus'] as String).toProjectStatus(),
+      projectStatus:
+          ProjectStatus.fromString((json['ProjectStatus'] as String)),
       serviceCatalogProvisioningDetails:
           ServiceCatalogProvisioningDetails.fromJson(
               json['ServiceCatalogProvisioningDetails']
@@ -35862,7 +33583,7 @@ class DescribeSpaceResponse {
           ? SpaceSharingSettings.fromJson(
               json['SpaceSharingSettings'] as Map<String, dynamic>)
           : null,
-      status: (json['Status'] as String?)?.toSpaceStatus(),
+      status: (json['Status'] as String?)?.let(SpaceStatus.fromString),
       url: json['Url'] as String?,
     );
   }
@@ -35905,7 +33626,7 @@ class DescribeStudioLifecycleConfigResponse {
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       studioLifecycleConfigAppType:
           (json['StudioLifecycleConfigAppType'] as String?)
-              ?.toStudioLifecycleConfigAppType(),
+              ?.let(StudioLifecycleConfigAppType.fromString),
       studioLifecycleConfigArn: json['StudioLifecycleConfigArn'] as String?,
       studioLifecycleConfigContent:
           json['StudioLifecycleConfigContent'] as String?,
@@ -36267,13 +33988,14 @@ class DescribeTrainingJobResponse {
           json['ModelArtifacts'] as Map<String, dynamic>),
       resourceConfig: ResourceConfig.fromJson(
           json['ResourceConfig'] as Map<String, dynamic>),
-      secondaryStatus: (json['SecondaryStatus'] as String).toSecondaryStatus(),
+      secondaryStatus:
+          SecondaryStatus.fromString((json['SecondaryStatus'] as String)),
       stoppingCondition: StoppingCondition.fromJson(
           json['StoppingCondition'] as Map<String, dynamic>),
       trainingJobArn: json['TrainingJobArn'] as String,
       trainingJobName: json['TrainingJobName'] as String,
       trainingJobStatus:
-          (json['TrainingJobStatus'] as String).toTrainingJobStatus(),
+          TrainingJobStatus.fromString((json['TrainingJobStatus'] as String)),
       autoMLJobArn: json['AutoMLJobArn'] as String?,
       billableTimeInSeconds: json['BillableTimeInSeconds'] as int?,
       checkpointConfig: json['CheckpointConfig'] != null
@@ -36342,7 +34064,7 @@ class DescribeTrainingJobResponse {
               ProfilerRuleEvaluationStatus.fromJson(e as Map<String, dynamic>))
           .toList(),
       profilingStatus:
-          (json['ProfilingStatus'] as String?)?.toProfilingStatus(),
+          (json['ProfilingStatus'] as String?)?.let(ProfilingStatus.fromString),
       remoteDebugConfig: json['RemoteDebugConfig'] != null
           ? RemoteDebugConfig.fromJson(
               json['RemoteDebugConfig'] as Map<String, dynamic>)
@@ -36492,11 +34214,12 @@ class DescribeTransformJobResponse {
       transformJobArn: json['TransformJobArn'] as String,
       transformJobName: json['TransformJobName'] as String,
       transformJobStatus:
-          (json['TransformJobStatus'] as String).toTransformJobStatus(),
+          TransformJobStatus.fromString((json['TransformJobStatus'] as String)),
       transformResources: TransformResources.fromJson(
           json['TransformResources'] as Map<String, dynamic>),
       autoMLJobArn: json['AutoMLJobArn'] as String?,
-      batchStrategy: (json['BatchStrategy'] as String?)?.toBatchStrategy(),
+      batchStrategy:
+          (json['BatchStrategy'] as String?)?.let(BatchStrategy.fromString),
       dataCaptureConfig: json['DataCaptureConfig'] != null
           ? BatchDataCaptureConfig.fromJson(
               json['DataCaptureConfig'] as Map<String, dynamic>)
@@ -36794,7 +34517,7 @@ class DescribeUserProfileResponse {
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       singleSignOnUserIdentifier: json['SingleSignOnUserIdentifier'] as String?,
       singleSignOnUserValue: json['SingleSignOnUserValue'] as String?,
-      status: (json['Status'] as String?)?.toUserProfileStatus(),
+      status: (json['Status'] as String?)?.let(UserProfileStatus.fromString),
       userProfileArn: json['UserProfileArn'] as String?,
       userProfileName: json['UserProfileName'] as String?,
       userSettings: json['UserSettings'] != null
@@ -36880,80 +34603,37 @@ class DesiredWeightAndCapacity {
 }
 
 enum DetailedAlgorithmStatus {
-  notStarted,
-  inProgress,
-  completed,
-  failed,
-}
+  notStarted('NotStarted'),
+  inProgress('InProgress'),
+  completed('Completed'),
+  failed('Failed'),
+  ;
 
-extension DetailedAlgorithmStatusValueExtension on DetailedAlgorithmStatus {
-  String toValue() {
-    switch (this) {
-      case DetailedAlgorithmStatus.notStarted:
-        return 'NotStarted';
-      case DetailedAlgorithmStatus.inProgress:
-        return 'InProgress';
-      case DetailedAlgorithmStatus.completed:
-        return 'Completed';
-      case DetailedAlgorithmStatus.failed:
-        return 'Failed';
-    }
-  }
-}
+  final String value;
 
-extension DetailedAlgorithmStatusFromString on String {
-  DetailedAlgorithmStatus toDetailedAlgorithmStatus() {
-    switch (this) {
-      case 'NotStarted':
-        return DetailedAlgorithmStatus.notStarted;
-      case 'InProgress':
-        return DetailedAlgorithmStatus.inProgress;
-      case 'Completed':
-        return DetailedAlgorithmStatus.completed;
-      case 'Failed':
-        return DetailedAlgorithmStatus.failed;
-    }
-    throw Exception('$this is not known in enum DetailedAlgorithmStatus');
-  }
+  const DetailedAlgorithmStatus(this.value);
+
+  static DetailedAlgorithmStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DetailedAlgorithmStatus'));
 }
 
 enum DetailedModelPackageStatus {
-  notStarted,
-  inProgress,
-  completed,
-  failed,
-}
+  notStarted('NotStarted'),
+  inProgress('InProgress'),
+  completed('Completed'),
+  failed('Failed'),
+  ;
 
-extension DetailedModelPackageStatusValueExtension
-    on DetailedModelPackageStatus {
-  String toValue() {
-    switch (this) {
-      case DetailedModelPackageStatus.notStarted:
-        return 'NotStarted';
-      case DetailedModelPackageStatus.inProgress:
-        return 'InProgress';
-      case DetailedModelPackageStatus.completed:
-        return 'Completed';
-      case DetailedModelPackageStatus.failed:
-        return 'Failed';
-    }
-  }
-}
+  final String value;
 
-extension DetailedModelPackageStatusFromString on String {
-  DetailedModelPackageStatus toDetailedModelPackageStatus() {
-    switch (this) {
-      case 'NotStarted':
-        return DetailedModelPackageStatus.notStarted;
-      case 'InProgress':
-        return DetailedModelPackageStatus.inProgress;
-      case 'Completed':
-        return DetailedModelPackageStatus.completed;
-      case 'Failed':
-        return DetailedModelPackageStatus.failed;
-    }
-    throw Exception('$this is not known in enum DetailedModelPackageStatus');
-  }
+  const DetailedModelPackageStatus(this.value);
+
+  static DetailedModelPackageStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DetailedModelPackageStatus'));
 }
 
 /// Information of a particular device.
@@ -36986,51 +34666,22 @@ class Device {
 }
 
 enum DeviceDeploymentStatus {
-  readytodeploy,
-  inprogress,
-  deployed,
-  failed,
-  stopping,
-  stopped,
-}
+  readytodeploy('READYTODEPLOY'),
+  inprogress('INPROGRESS'),
+  deployed('DEPLOYED'),
+  failed('FAILED'),
+  stopping('STOPPING'),
+  stopped('STOPPED'),
+  ;
 
-extension DeviceDeploymentStatusValueExtension on DeviceDeploymentStatus {
-  String toValue() {
-    switch (this) {
-      case DeviceDeploymentStatus.readytodeploy:
-        return 'READYTODEPLOY';
-      case DeviceDeploymentStatus.inprogress:
-        return 'INPROGRESS';
-      case DeviceDeploymentStatus.deployed:
-        return 'DEPLOYED';
-      case DeviceDeploymentStatus.failed:
-        return 'FAILED';
-      case DeviceDeploymentStatus.stopping:
-        return 'STOPPING';
-      case DeviceDeploymentStatus.stopped:
-        return 'STOPPED';
-    }
-  }
-}
+  final String value;
 
-extension DeviceDeploymentStatusFromString on String {
-  DeviceDeploymentStatus toDeviceDeploymentStatus() {
-    switch (this) {
-      case 'READYTODEPLOY':
-        return DeviceDeploymentStatus.readytodeploy;
-      case 'INPROGRESS':
-        return DeviceDeploymentStatus.inprogress;
-      case 'DEPLOYED':
-        return DeviceDeploymentStatus.deployed;
-      case 'FAILED':
-        return DeviceDeploymentStatus.failed;
-      case 'STOPPING':
-        return DeviceDeploymentStatus.stopping;
-      case 'STOPPED':
-        return DeviceDeploymentStatus.stopped;
-    }
-    throw Exception('$this is not known in enum DeviceDeploymentStatus');
-  }
+  const DeviceDeploymentStatus(this.value);
+
+  static DeviceDeploymentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DeviceDeploymentStatus'));
 }
 
 /// Contains information summarizing device details and deployment status.
@@ -37093,7 +34744,7 @@ class DeviceDeploymentSummary {
       deploymentStartTime: timeStampFromJson(json['DeploymentStartTime']),
       description: json['Description'] as String?,
       deviceDeploymentStatus: (json['DeviceDeploymentStatus'] as String?)
-          ?.toDeviceDeploymentStatus(),
+          ?.let(DeviceDeploymentStatus.fromString),
       deviceDeploymentStatusMessage:
           json['DeviceDeploymentStatusMessage'] as String?,
       deviceFleetName: json['DeviceFleetName'] as String?,
@@ -37156,7 +34807,7 @@ class DeviceSelectionConfig {
   factory DeviceSelectionConfig.fromJson(Map<String, dynamic> json) {
     return DeviceSelectionConfig(
       deviceSubsetType:
-          (json['DeviceSubsetType'] as String).toDeviceSubsetType(),
+          DeviceSubsetType.fromString((json['DeviceSubsetType'] as String)),
       deviceNameContains: json['DeviceNameContains'] as String?,
       deviceNames: (json['DeviceNames'] as List?)
           ?.whereNotNull()
@@ -37172,7 +34823,7 @@ class DeviceSelectionConfig {
     final deviceNames = this.deviceNames;
     final percentage = this.percentage;
     return {
-      'DeviceSubsetType': deviceSubsetType.toValue(),
+      'DeviceSubsetType': deviceSubsetType.value,
       if (deviceNameContains != null) 'DeviceNameContains': deviceNameContains,
       if (deviceNames != null) 'DeviceNames': deviceNames,
       if (percentage != null) 'Percentage': percentage,
@@ -37202,36 +34853,19 @@ class DeviceStats {
 }
 
 enum DeviceSubsetType {
-  percentage,
-  selection,
-  namecontains,
-}
+  percentage('PERCENTAGE'),
+  selection('SELECTION'),
+  namecontains('NAMECONTAINS'),
+  ;
 
-extension DeviceSubsetTypeValueExtension on DeviceSubsetType {
-  String toValue() {
-    switch (this) {
-      case DeviceSubsetType.percentage:
-        return 'PERCENTAGE';
-      case DeviceSubsetType.selection:
-        return 'SELECTION';
-      case DeviceSubsetType.namecontains:
-        return 'NAMECONTAINS';
-    }
-  }
-}
+  final String value;
 
-extension DeviceSubsetTypeFromString on String {
-  DeviceSubsetType toDeviceSubsetType() {
-    switch (this) {
-      case 'PERCENTAGE':
-        return DeviceSubsetType.percentage;
-      case 'SELECTION':
-        return DeviceSubsetType.selection;
-      case 'NAMECONTAINS':
-        return DeviceSubsetType.namecontains;
-    }
-    throw Exception('$this is not known in enum DeviceSubsetType');
-  }
+  const DeviceSubsetType(this.value);
+
+  static DeviceSubsetType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DeviceSubsetType'));
 }
 
 /// Summary of the device.
@@ -37313,77 +34947,46 @@ class DirectDeploySettings {
 
   factory DirectDeploySettings.fromJson(Map<String, dynamic> json) {
     return DirectDeploySettings(
-      status: (json['Status'] as String?)?.toFeatureStatus(),
+      status: (json['Status'] as String?)?.let(FeatureStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
 
 enum DirectInternetAccess {
-  enabled,
-  disabled,
-}
+  enabled('Enabled'),
+  disabled('Disabled'),
+  ;
 
-extension DirectInternetAccessValueExtension on DirectInternetAccess {
-  String toValue() {
-    switch (this) {
-      case DirectInternetAccess.enabled:
-        return 'Enabled';
-      case DirectInternetAccess.disabled:
-        return 'Disabled';
-    }
-  }
-}
+  final String value;
 
-extension DirectInternetAccessFromString on String {
-  DirectInternetAccess toDirectInternetAccess() {
-    switch (this) {
-      case 'Enabled':
-        return DirectInternetAccess.enabled;
-      case 'Disabled':
-        return DirectInternetAccess.disabled;
-    }
-    throw Exception('$this is not known in enum DirectInternetAccess');
-  }
+  const DirectInternetAccess(this.value);
+
+  static DirectInternetAccess fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DirectInternetAccess'));
 }
 
 enum Direction {
-  both,
-  ascendants,
-  descendants,
-}
+  both('Both'),
+  ascendants('Ascendants'),
+  descendants('Descendants'),
+  ;
 
-extension DirectionValueExtension on Direction {
-  String toValue() {
-    switch (this) {
-      case Direction.both:
-        return 'Both';
-      case Direction.ascendants:
-        return 'Ascendants';
-      case Direction.descendants:
-        return 'Descendants';
-    }
-  }
-}
+  final String value;
 
-extension DirectionFromString on String {
-  Direction toDirection() {
-    switch (this) {
-      case 'Both':
-        return Direction.both;
-      case 'Ascendants':
-        return Direction.ascendants;
-      case 'Descendants':
-        return Direction.descendants;
-    }
-    throw Exception('$this is not known in enum Direction');
-  }
+  const Direction(this.value);
+
+  static Direction fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Direction'));
 }
 
 class DisableSagemakerServicecatalogPortfolioOutput {
@@ -37432,8 +35035,8 @@ class DockerSettings {
 
   factory DockerSettings.fromJson(Map<String, dynamic> json) {
     return DockerSettings(
-      enableDockerAccess:
-          (json['EnableDockerAccess'] as String?)?.toFeatureStatus(),
+      enableDockerAccess: (json['EnableDockerAccess'] as String?)
+          ?.let(FeatureStatus.fromString),
       vpcOnlyTrustedAccounts: (json['VpcOnlyTrustedAccounts'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -37446,7 +35049,7 @@ class DockerSettings {
     final vpcOnlyTrustedAccounts = this.vpcOnlyTrustedAccounts;
     return {
       if (enableDockerAccess != null)
-        'EnableDockerAccess': enableDockerAccess.toValue(),
+        'EnableDockerAccess': enableDockerAccess.value,
       if (vpcOnlyTrustedAccounts != null)
         'VpcOnlyTrustedAccounts': vpcOnlyTrustedAccounts,
     };
@@ -37493,7 +35096,7 @@ class DomainDetails {
       domainId: json['DomainId'] as String?,
       domainName: json['DomainName'] as String?,
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
-      status: (json['Status'] as String?)?.toDomainStatus(),
+      status: (json['Status'] as String?)?.let(DomainStatus.fromString),
       url: json['Url'] as String?,
     );
   }
@@ -37535,7 +35138,7 @@ class DomainSettings {
           : null,
       executionRoleIdentityConfig:
           (json['ExecutionRoleIdentityConfig'] as String?)
-              ?.toExecutionRoleIdentityConfig(),
+              ?.let(ExecutionRoleIdentityConfig.fromString),
       rStudioServerProDomainSettings: json['RStudioServerProDomainSettings'] !=
               null
           ? RStudioServerProDomainSettings.fromJson(
@@ -37556,7 +35159,7 @@ class DomainSettings {
     return {
       if (dockerSettings != null) 'DockerSettings': dockerSettings,
       if (executionRoleIdentityConfig != null)
-        'ExecutionRoleIdentityConfig': executionRoleIdentityConfig.toValue(),
+        'ExecutionRoleIdentityConfig': executionRoleIdentityConfig.value,
       if (rStudioServerProDomainSettings != null)
         'RStudioServerProDomainSettings': rStudioServerProDomainSettings,
       if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
@@ -37603,7 +35206,7 @@ class DomainSettingsForUpdate {
     return {
       if (dockerSettings != null) 'DockerSettings': dockerSettings,
       if (executionRoleIdentityConfig != null)
-        'ExecutionRoleIdentityConfig': executionRoleIdentityConfig.toValue(),
+        'ExecutionRoleIdentityConfig': executionRoleIdentityConfig.value,
       if (rStudioServerProDomainSettingsForUpdate != null)
         'RStudioServerProDomainSettingsForUpdate':
             rStudioServerProDomainSettingsForUpdate,
@@ -37613,56 +35216,23 @@ class DomainSettingsForUpdate {
 }
 
 enum DomainStatus {
-  deleting,
-  failed,
-  inService,
-  pending,
-  updating,
-  updateFailed,
-  deleteFailed,
-}
+  deleting('Deleting'),
+  failed('Failed'),
+  inService('InService'),
+  pending('Pending'),
+  updating('Updating'),
+  updateFailed('Update_Failed'),
+  deleteFailed('Delete_Failed'),
+  ;
 
-extension DomainStatusValueExtension on DomainStatus {
-  String toValue() {
-    switch (this) {
-      case DomainStatus.deleting:
-        return 'Deleting';
-      case DomainStatus.failed:
-        return 'Failed';
-      case DomainStatus.inService:
-        return 'InService';
-      case DomainStatus.pending:
-        return 'Pending';
-      case DomainStatus.updating:
-        return 'Updating';
-      case DomainStatus.updateFailed:
-        return 'Update_Failed';
-      case DomainStatus.deleteFailed:
-        return 'Delete_Failed';
-    }
-  }
-}
+  final String value;
 
-extension DomainStatusFromString on String {
-  DomainStatus toDomainStatus() {
-    switch (this) {
-      case 'Deleting':
-        return DomainStatus.deleting;
-      case 'Failed':
-        return DomainStatus.failed;
-      case 'InService':
-        return DomainStatus.inService;
-      case 'Pending':
-        return DomainStatus.pending;
-      case 'Updating':
-        return DomainStatus.updating;
-      case 'Update_Failed':
-        return DomainStatus.updateFailed;
-      case 'Delete_Failed':
-        return DomainStatus.deleteFailed;
-    }
-    throw Exception('$this is not known in enum DomainStatus');
-  }
+  const DomainStatus(this.value);
+
+  static DomainStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DomainStatus'));
 }
 
 /// Represents the drift check baselines that can be used when the model monitor
@@ -38054,8 +35624,8 @@ class Edge {
 
   factory Edge.fromJson(Map<String, dynamic> json) {
     return Edge(
-      associationType:
-          (json['AssociationType'] as String?)?.toAssociationEdgeType(),
+      associationType: (json['AssociationType'] as String?)
+          ?.let(AssociationEdgeType.fromString),
       destinationArn: json['DestinationArn'] as String?,
       sourceArn: json['SourceArn'] as String?,
     );
@@ -38075,15 +35645,15 @@ class EdgeDeploymentConfig {
 
   factory EdgeDeploymentConfig.fromJson(Map<String, dynamic> json) {
     return EdgeDeploymentConfig(
-      failureHandlingPolicy:
-          (json['FailureHandlingPolicy'] as String).toFailureHandlingPolicy(),
+      failureHandlingPolicy: FailureHandlingPolicy.fromString(
+          (json['FailureHandlingPolicy'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final failureHandlingPolicy = this.failureHandlingPolicy;
     return {
-      'FailureHandlingPolicy': failureHandlingPolicy.toValue(),
+      'FailureHandlingPolicy': failureHandlingPolicy.value,
     };
   }
 }
@@ -38205,7 +35775,7 @@ class EdgeDeploymentStatus {
       edgeDeploymentFailedInStage: json['EdgeDeploymentFailedInStage'] as int,
       edgeDeploymentPendingInStage: json['EdgeDeploymentPendingInStage'] as int,
       edgeDeploymentSuccessInStage: json['EdgeDeploymentSuccessInStage'] as int,
-      stageStatus: (json['StageStatus'] as String).toStageStatus(),
+      stageStatus: StageStatus.fromString((json['StageStatus'] as String)),
       edgeDeploymentStageStartTime:
           timeStampFromJson(json['EdgeDeploymentStageStartTime']),
       edgeDeploymentStatusMessage:
@@ -38375,7 +35945,7 @@ class EdgeOutputConfig {
       kmsKeyId: json['KmsKeyId'] as String?,
       presetDeploymentConfig: json['PresetDeploymentConfig'] as String?,
       presetDeploymentType: (json['PresetDeploymentType'] as String?)
-          ?.toEdgePresetDeploymentType(),
+          ?.let(EdgePresetDeploymentType.fromString),
     );
   }
 
@@ -38390,57 +35960,28 @@ class EdgeOutputConfig {
       if (presetDeploymentConfig != null)
         'PresetDeploymentConfig': presetDeploymentConfig,
       if (presetDeploymentType != null)
-        'PresetDeploymentType': presetDeploymentType.toValue(),
+        'PresetDeploymentType': presetDeploymentType.value,
     };
   }
 }
 
 enum EdgePackagingJobStatus {
-  starting,
-  inprogress,
-  completed,
-  failed,
-  stopping,
-  stopped,
-}
+  starting('STARTING'),
+  inprogress('INPROGRESS'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  stopping('STOPPING'),
+  stopped('STOPPED'),
+  ;
 
-extension EdgePackagingJobStatusValueExtension on EdgePackagingJobStatus {
-  String toValue() {
-    switch (this) {
-      case EdgePackagingJobStatus.starting:
-        return 'STARTING';
-      case EdgePackagingJobStatus.inprogress:
-        return 'INPROGRESS';
-      case EdgePackagingJobStatus.completed:
-        return 'COMPLETED';
-      case EdgePackagingJobStatus.failed:
-        return 'FAILED';
-      case EdgePackagingJobStatus.stopping:
-        return 'STOPPING';
-      case EdgePackagingJobStatus.stopped:
-        return 'STOPPED';
-    }
-  }
-}
+  final String value;
 
-extension EdgePackagingJobStatusFromString on String {
-  EdgePackagingJobStatus toEdgePackagingJobStatus() {
-    switch (this) {
-      case 'STARTING':
-        return EdgePackagingJobStatus.starting;
-      case 'INPROGRESS':
-        return EdgePackagingJobStatus.inprogress;
-      case 'COMPLETED':
-        return EdgePackagingJobStatus.completed;
-      case 'FAILED':
-        return EdgePackagingJobStatus.failed;
-      case 'STOPPING':
-        return EdgePackagingJobStatus.stopping;
-      case 'STOPPED':
-        return EdgePackagingJobStatus.stopped;
-    }
-    throw Exception('$this is not known in enum EdgePackagingJobStatus');
-  }
+  const EdgePackagingJobStatus(this.value);
+
+  static EdgePackagingJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum EdgePackagingJobStatus'));
 }
 
 /// Summary of edge packaging job.
@@ -38484,8 +36025,8 @@ class EdgePackagingJobSummary {
     return EdgePackagingJobSummary(
       edgePackagingJobArn: json['EdgePackagingJobArn'] as String,
       edgePackagingJobName: json['EdgePackagingJobName'] as String,
-      edgePackagingJobStatus:
-          (json['EdgePackagingJobStatus'] as String).toEdgePackagingJobStatus(),
+      edgePackagingJobStatus: EdgePackagingJobStatus.fromString(
+          (json['EdgePackagingJobStatus'] as String)),
       compilationJobName: json['CompilationJobName'] as String?,
       creationTime: timeStampFromJson(json['CreationTime']),
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
@@ -38519,64 +36060,42 @@ class EdgePresetDeploymentOutput {
 
   factory EdgePresetDeploymentOutput.fromJson(Map<String, dynamic> json) {
     return EdgePresetDeploymentOutput(
-      type: (json['Type'] as String).toEdgePresetDeploymentType(),
+      type: EdgePresetDeploymentType.fromString((json['Type'] as String)),
       artifact: json['Artifact'] as String?,
-      status: (json['Status'] as String?)?.toEdgePresetDeploymentStatus(),
+      status: (json['Status'] as String?)
+          ?.let(EdgePresetDeploymentStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
     );
   }
 }
 
 enum EdgePresetDeploymentStatus {
-  completed,
-  failed,
-}
+  completed('COMPLETED'),
+  failed('FAILED'),
+  ;
 
-extension EdgePresetDeploymentStatusValueExtension
-    on EdgePresetDeploymentStatus {
-  String toValue() {
-    switch (this) {
-      case EdgePresetDeploymentStatus.completed:
-        return 'COMPLETED';
-      case EdgePresetDeploymentStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension EdgePresetDeploymentStatusFromString on String {
-  EdgePresetDeploymentStatus toEdgePresetDeploymentStatus() {
-    switch (this) {
-      case 'COMPLETED':
-        return EdgePresetDeploymentStatus.completed;
-      case 'FAILED':
-        return EdgePresetDeploymentStatus.failed;
-    }
-    throw Exception('$this is not known in enum EdgePresetDeploymentStatus');
-  }
+  const EdgePresetDeploymentStatus(this.value);
+
+  static EdgePresetDeploymentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum EdgePresetDeploymentStatus'));
 }
 
 enum EdgePresetDeploymentType {
-  greengrassV2Component,
-}
+  greengrassV2Component('GreengrassV2Component'),
+  ;
 
-extension EdgePresetDeploymentTypeValueExtension on EdgePresetDeploymentType {
-  String toValue() {
-    switch (this) {
-      case EdgePresetDeploymentType.greengrassV2Component:
-        return 'GreengrassV2Component';
-    }
-  }
-}
+  final String value;
 
-extension EdgePresetDeploymentTypeFromString on String {
-  EdgePresetDeploymentType toEdgePresetDeploymentType() {
-    switch (this) {
-      case 'GreengrassV2Component':
-        return EdgePresetDeploymentType.greengrassV2Component;
-    }
-    throw Exception('$this is not known in enum EdgePresetDeploymentType');
-  }
+  const EdgePresetDeploymentType(this.value);
+
+  static EdgePresetDeploymentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum EdgePresetDeploymentType'));
 }
 
 class EnableSagemakerServicecatalogPortfolioOutput {
@@ -38589,31 +36108,18 @@ class EnableSagemakerServicecatalogPortfolioOutput {
 }
 
 enum EnabledOrDisabled {
-  enabled,
-  disabled,
-}
+  enabled('Enabled'),
+  disabled('Disabled'),
+  ;
 
-extension EnabledOrDisabledValueExtension on EnabledOrDisabled {
-  String toValue() {
-    switch (this) {
-      case EnabledOrDisabled.enabled:
-        return 'Enabled';
-      case EnabledOrDisabled.disabled:
-        return 'Disabled';
-    }
-  }
-}
+  final String value;
 
-extension EnabledOrDisabledFromString on String {
-  EnabledOrDisabled toEnabledOrDisabled() {
-    switch (this) {
-      case 'Enabled':
-        return EnabledOrDisabled.enabled;
-      case 'Disabled':
-        return EnabledOrDisabled.disabled;
-    }
-    throw Exception('$this is not known in enum EnabledOrDisabled');
-  }
+  const EnabledOrDisabled(this.value);
+
+  static EnabledOrDisabled fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EnabledOrDisabled'));
 }
 
 /// A hosted endpoint for real-time inference.
@@ -38684,7 +36190,8 @@ class Endpoint {
       endpointArn: json['EndpointArn'] as String,
       endpointConfigName: json['EndpointConfigName'] as String,
       endpointName: json['EndpointName'] as String,
-      endpointStatus: (json['EndpointStatus'] as String).toEndpointStatus(),
+      endpointStatus:
+          EndpointStatus.fromString((json['EndpointStatus'] as String)),
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] as Object),
       dataCaptureConfig: json['DataCaptureConfig'] != null
@@ -38715,31 +36222,18 @@ class Endpoint {
 }
 
 enum EndpointConfigSortKey {
-  name,
-  creationTime,
-}
+  name('Name'),
+  creationTime('CreationTime'),
+  ;
 
-extension EndpointConfigSortKeyValueExtension on EndpointConfigSortKey {
-  String toValue() {
-    switch (this) {
-      case EndpointConfigSortKey.name:
-        return 'Name';
-      case EndpointConfigSortKey.creationTime:
-        return 'CreationTime';
-    }
-  }
-}
+  final String value;
 
-extension EndpointConfigSortKeyFromString on String {
-  EndpointConfigSortKey toEndpointConfigSortKey() {
-    switch (this) {
-      case 'Name':
-        return EndpointConfigSortKey.name;
-      case 'CreationTime':
-        return EndpointConfigSortKey.creationTime;
-    }
-    throw Exception('$this is not known in enum EndpointConfigSortKey');
-  }
+  const EndpointConfigSortKey(this.value);
+
+  static EndpointConfigSortKey fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum EndpointConfigSortKey'));
 }
 
 /// Provides summary information for an endpoint configuration.
@@ -38868,8 +36362,9 @@ class EndpointInput {
       probabilityThresholdAttribute:
           json['ProbabilityThresholdAttribute'] as double?,
       s3DataDistributionType: (json['S3DataDistributionType'] as String?)
-          ?.toProcessingS3DataDistributionType(),
-      s3InputMode: (json['S3InputMode'] as String?)?.toProcessingS3InputMode(),
+          ?.let(ProcessingS3DataDistributionType.fromString),
+      s3InputMode: (json['S3InputMode'] as String?)
+          ?.let(ProcessingS3InputMode.fromString),
       startTimeOffset: json['StartTimeOffset'] as String?,
     );
   }
@@ -38899,8 +36394,8 @@ class EndpointInput {
       if (probabilityThresholdAttribute != null)
         'ProbabilityThresholdAttribute': probabilityThresholdAttribute,
       if (s3DataDistributionType != null)
-        'S3DataDistributionType': s3DataDistributionType.toValue(),
-      if (s3InputMode != null) 'S3InputMode': s3InputMode.toValue(),
+        'S3DataDistributionType': s3DataDistributionType.value,
+      if (s3InputMode != null) 'S3InputMode': s3InputMode.value,
       if (startTimeOffset != null) 'StartTimeOffset': startTimeOffset,
     };
   }
@@ -38932,8 +36427,8 @@ class EndpointInputConfiguration {
               json['EnvironmentParameterRanges'] as Map<String, dynamic>)
           : null,
       inferenceSpecificationName: json['InferenceSpecificationName'] as String?,
-      instanceType:
-          (json['InstanceType'] as String?)?.toProductionVariantInstanceType(),
+      instanceType: (json['InstanceType'] as String?)
+          ?.let(ProductionVariantInstanceType.fromString),
       serverlessConfig: json['ServerlessConfig'] != null
           ? ProductionVariantServerlessConfig.fromJson(
               json['ServerlessConfig'] as Map<String, dynamic>)
@@ -38951,7 +36446,7 @@ class EndpointInputConfiguration {
         'EnvironmentParameterRanges': environmentParameterRanges,
       if (inferenceSpecificationName != null)
         'InferenceSpecificationName': inferenceSpecificationName,
-      if (instanceType != null) 'InstanceType': instanceType.toValue(),
+      if (instanceType != null) 'InstanceType': instanceType.value,
       if (serverlessConfig != null) 'ServerlessConfig': serverlessConfig,
     };
   }
@@ -38986,7 +36481,8 @@ class EndpointMetadata {
     return EndpointMetadata(
       endpointName: json['EndpointName'] as String,
       endpointConfigName: json['EndpointConfigName'] as String?,
-      endpointStatus: (json['EndpointStatus'] as String?)?.toEndpointStatus(),
+      endpointStatus:
+          (json['EndpointStatus'] as String?)?.let(EndpointStatus.fromString),
       failureReason: json['FailureReason'] as String?,
     );
   }
@@ -39022,8 +36518,8 @@ class EndpointOutputConfiguration {
       endpointName: json['EndpointName'] as String,
       variantName: json['VariantName'] as String,
       initialInstanceCount: json['InitialInstanceCount'] as int?,
-      instanceType:
-          (json['InstanceType'] as String?)?.toProductionVariantInstanceType(),
+      instanceType: (json['InstanceType'] as String?)
+          ?.let(ProductionVariantInstanceType.fromString),
       serverlessConfig: json['ServerlessConfig'] != null
           ? ProductionVariantServerlessConfig.fromJson(
               json['ServerlessConfig'] as Map<String, dynamic>)
@@ -39056,99 +36552,41 @@ class EndpointPerformance {
 }
 
 enum EndpointSortKey {
-  name,
-  creationTime,
-  status,
-}
+  name('Name'),
+  creationTime('CreationTime'),
+  status('Status'),
+  ;
 
-extension EndpointSortKeyValueExtension on EndpointSortKey {
-  String toValue() {
-    switch (this) {
-      case EndpointSortKey.name:
-        return 'Name';
-      case EndpointSortKey.creationTime:
-        return 'CreationTime';
-      case EndpointSortKey.status:
-        return 'Status';
-    }
-  }
-}
+  final String value;
 
-extension EndpointSortKeyFromString on String {
-  EndpointSortKey toEndpointSortKey() {
-    switch (this) {
-      case 'Name':
-        return EndpointSortKey.name;
-      case 'CreationTime':
-        return EndpointSortKey.creationTime;
-      case 'Status':
-        return EndpointSortKey.status;
-    }
-    throw Exception('$this is not known in enum EndpointSortKey');
-  }
+  const EndpointSortKey(this.value);
+
+  static EndpointSortKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EndpointSortKey'));
 }
 
 enum EndpointStatus {
-  outOfService,
-  creating,
-  updating,
-  systemUpdating,
-  rollingBack,
-  inService,
-  deleting,
-  failed,
-  updateRollbackFailed,
-}
+  outOfService('OutOfService'),
+  creating('Creating'),
+  updating('Updating'),
+  systemUpdating('SystemUpdating'),
+  rollingBack('RollingBack'),
+  inService('InService'),
+  deleting('Deleting'),
+  failed('Failed'),
+  updateRollbackFailed('UpdateRollbackFailed'),
+  ;
 
-extension EndpointStatusValueExtension on EndpointStatus {
-  String toValue() {
-    switch (this) {
-      case EndpointStatus.outOfService:
-        return 'OutOfService';
-      case EndpointStatus.creating:
-        return 'Creating';
-      case EndpointStatus.updating:
-        return 'Updating';
-      case EndpointStatus.systemUpdating:
-        return 'SystemUpdating';
-      case EndpointStatus.rollingBack:
-        return 'RollingBack';
-      case EndpointStatus.inService:
-        return 'InService';
-      case EndpointStatus.deleting:
-        return 'Deleting';
-      case EndpointStatus.failed:
-        return 'Failed';
-      case EndpointStatus.updateRollbackFailed:
-        return 'UpdateRollbackFailed';
-    }
-  }
-}
+  final String value;
 
-extension EndpointStatusFromString on String {
-  EndpointStatus toEndpointStatus() {
-    switch (this) {
-      case 'OutOfService':
-        return EndpointStatus.outOfService;
-      case 'Creating':
-        return EndpointStatus.creating;
-      case 'Updating':
-        return EndpointStatus.updating;
-      case 'SystemUpdating':
-        return EndpointStatus.systemUpdating;
-      case 'RollingBack':
-        return EndpointStatus.rollingBack;
-      case 'InService':
-        return EndpointStatus.inService;
-      case 'Deleting':
-        return EndpointStatus.deleting;
-      case 'Failed':
-        return EndpointStatus.failed;
-      case 'UpdateRollbackFailed':
-        return EndpointStatus.updateRollbackFailed;
-    }
-    throw Exception('$this is not known in enum EndpointStatus');
-  }
+  const EndpointStatus(this.value);
+
+  static EndpointStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EndpointStatus'));
 }
 
 /// Provides summary information for an endpoint.
@@ -39237,7 +36675,8 @@ class EndpointSummary {
           nonNullableTimeStampFromJson(json['CreationTime'] as Object),
       endpointArn: json['EndpointArn'] as String,
       endpointName: json['EndpointName'] as String,
-      endpointStatus: (json['EndpointStatus'] as String).toEndpointStatus(),
+      endpointStatus:
+          EndpointStatus.fromString((json['EndpointStatus'] as String)),
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] as Object),
     );
@@ -39299,85 +36738,38 @@ class EnvironmentParameterRanges {
 }
 
 enum ExecutionRoleIdentityConfig {
-  userProfileName,
-  disabled,
-}
+  userProfileName('USER_PROFILE_NAME'),
+  disabled('DISABLED'),
+  ;
 
-extension ExecutionRoleIdentityConfigValueExtension
-    on ExecutionRoleIdentityConfig {
-  String toValue() {
-    switch (this) {
-      case ExecutionRoleIdentityConfig.userProfileName:
-        return 'USER_PROFILE_NAME';
-      case ExecutionRoleIdentityConfig.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension ExecutionRoleIdentityConfigFromString on String {
-  ExecutionRoleIdentityConfig toExecutionRoleIdentityConfig() {
-    switch (this) {
-      case 'USER_PROFILE_NAME':
-        return ExecutionRoleIdentityConfig.userProfileName;
-      case 'DISABLED':
-        return ExecutionRoleIdentityConfig.disabled;
-    }
-    throw Exception('$this is not known in enum ExecutionRoleIdentityConfig');
-  }
+  const ExecutionRoleIdentityConfig(this.value);
+
+  static ExecutionRoleIdentityConfig fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ExecutionRoleIdentityConfig'));
 }
 
 enum ExecutionStatus {
-  pending,
-  completed,
-  completedWithViolations,
-  inProgress,
-  failed,
-  stopping,
-  stopped,
-}
+  pending('Pending'),
+  completed('Completed'),
+  completedWithViolations('CompletedWithViolations'),
+  inProgress('InProgress'),
+  failed('Failed'),
+  stopping('Stopping'),
+  stopped('Stopped'),
+  ;
 
-extension ExecutionStatusValueExtension on ExecutionStatus {
-  String toValue() {
-    switch (this) {
-      case ExecutionStatus.pending:
-        return 'Pending';
-      case ExecutionStatus.completed:
-        return 'Completed';
-      case ExecutionStatus.completedWithViolations:
-        return 'CompletedWithViolations';
-      case ExecutionStatus.inProgress:
-        return 'InProgress';
-      case ExecutionStatus.failed:
-        return 'Failed';
-      case ExecutionStatus.stopping:
-        return 'Stopping';
-      case ExecutionStatus.stopped:
-        return 'Stopped';
-    }
-  }
-}
+  final String value;
 
-extension ExecutionStatusFromString on String {
-  ExecutionStatus toExecutionStatus() {
-    switch (this) {
-      case 'Pending':
-        return ExecutionStatus.pending;
-      case 'Completed':
-        return ExecutionStatus.completed;
-      case 'CompletedWithViolations':
-        return ExecutionStatus.completedWithViolations;
-      case 'InProgress':
-        return ExecutionStatus.inProgress;
-      case 'Failed':
-        return ExecutionStatus.failed;
-      case 'Stopping':
-        return ExecutionStatus.stopping;
-      case 'Stopped':
-        return ExecutionStatus.stopped;
-    }
-    throw Exception('$this is not known in enum ExecutionStatus');
-  }
+  const ExecutionStatus(this.value);
+
+  static ExecutionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ExecutionStatus'));
 }
 
 /// The properties of an experiment as returned by the <a
@@ -39652,31 +37044,18 @@ class FailStepMetadata {
 }
 
 enum FailureHandlingPolicy {
-  rollbackOnFailure,
-  doNothing,
-}
+  rollbackOnFailure('ROLLBACK_ON_FAILURE'),
+  doNothing('DO_NOTHING'),
+  ;
 
-extension FailureHandlingPolicyValueExtension on FailureHandlingPolicy {
-  String toValue() {
-    switch (this) {
-      case FailureHandlingPolicy.rollbackOnFailure:
-        return 'ROLLBACK_ON_FAILURE';
-      case FailureHandlingPolicy.doNothing:
-        return 'DO_NOTHING';
-    }
-  }
-}
+  final String value;
 
-extension FailureHandlingPolicyFromString on String {
-  FailureHandlingPolicy toFailureHandlingPolicy() {
-    switch (this) {
-      case 'ROLLBACK_ON_FAILURE':
-        return FailureHandlingPolicy.rollbackOnFailure;
-      case 'DO_NOTHING':
-        return FailureHandlingPolicy.doNothing;
-    }
-    throw Exception('$this is not known in enum FailureHandlingPolicy');
-  }
+  const FailureHandlingPolicy(this.value);
+
+  static FailureHandlingPolicy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum FailureHandlingPolicy'));
 }
 
 /// A list of features. You must include <code>FeatureName</code> and
@@ -39736,12 +37115,13 @@ class FeatureDefinition {
   factory FeatureDefinition.fromJson(Map<String, dynamic> json) {
     return FeatureDefinition(
       featureName: json['FeatureName'] as String,
-      featureType: (json['FeatureType'] as String).toFeatureType(),
+      featureType: FeatureType.fromString((json['FeatureType'] as String)),
       collectionConfig: json['CollectionConfig'] != null
           ? CollectionConfig.fromJson(
               json['CollectionConfig'] as Map<String, dynamic>)
           : null,
-      collectionType: (json['CollectionType'] as String?)?.toCollectionType(),
+      collectionType:
+          (json['CollectionType'] as String?)?.let(CollectionType.fromString),
     );
   }
 
@@ -39752,9 +37132,9 @@ class FeatureDefinition {
     final collectionType = this.collectionType;
     return {
       'FeatureName': featureName,
-      'FeatureType': featureType.toValue(),
+      'FeatureType': featureType.value,
       if (collectionConfig != null) 'CollectionConfig': collectionConfig,
-      if (collectionType != null) 'CollectionType': collectionType.toValue(),
+      if (collectionType != null) 'CollectionType': collectionType.value,
     };
   }
 }
@@ -39861,8 +37241,8 @@ class FeatureGroup {
           .toList(),
       featureGroupArn: json['FeatureGroupArn'] as String?,
       featureGroupName: json['FeatureGroupName'] as String?,
-      featureGroupStatus:
-          (json['FeatureGroupStatus'] as String?)?.toFeatureGroupStatus(),
+      featureGroupStatus: (json['FeatureGroupStatus'] as String?)
+          ?.let(FeatureGroupStatus.fromString),
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       lastUpdateStatus: json['LastUpdateStatus'] != null
           ? LastUpdateStatus.fromJson(
@@ -39892,112 +37272,53 @@ class FeatureGroup {
 }
 
 enum FeatureGroupSortBy {
-  name,
-  featureGroupStatus,
-  offlineStoreStatus,
-  creationTime,
-}
+  name('Name'),
+  featureGroupStatus('FeatureGroupStatus'),
+  offlineStoreStatus('OfflineStoreStatus'),
+  creationTime('CreationTime'),
+  ;
 
-extension FeatureGroupSortByValueExtension on FeatureGroupSortBy {
-  String toValue() {
-    switch (this) {
-      case FeatureGroupSortBy.name:
-        return 'Name';
-      case FeatureGroupSortBy.featureGroupStatus:
-        return 'FeatureGroupStatus';
-      case FeatureGroupSortBy.offlineStoreStatus:
-        return 'OfflineStoreStatus';
-      case FeatureGroupSortBy.creationTime:
-        return 'CreationTime';
-    }
-  }
-}
+  final String value;
 
-extension FeatureGroupSortByFromString on String {
-  FeatureGroupSortBy toFeatureGroupSortBy() {
-    switch (this) {
-      case 'Name':
-        return FeatureGroupSortBy.name;
-      case 'FeatureGroupStatus':
-        return FeatureGroupSortBy.featureGroupStatus;
-      case 'OfflineStoreStatus':
-        return FeatureGroupSortBy.offlineStoreStatus;
-      case 'CreationTime':
-        return FeatureGroupSortBy.creationTime;
-    }
-    throw Exception('$this is not known in enum FeatureGroupSortBy');
-  }
+  const FeatureGroupSortBy(this.value);
+
+  static FeatureGroupSortBy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum FeatureGroupSortBy'));
 }
 
 enum FeatureGroupSortOrder {
-  ascending,
-  descending,
-}
+  ascending('Ascending'),
+  descending('Descending'),
+  ;
 
-extension FeatureGroupSortOrderValueExtension on FeatureGroupSortOrder {
-  String toValue() {
-    switch (this) {
-      case FeatureGroupSortOrder.ascending:
-        return 'Ascending';
-      case FeatureGroupSortOrder.descending:
-        return 'Descending';
-    }
-  }
-}
+  final String value;
 
-extension FeatureGroupSortOrderFromString on String {
-  FeatureGroupSortOrder toFeatureGroupSortOrder() {
-    switch (this) {
-      case 'Ascending':
-        return FeatureGroupSortOrder.ascending;
-      case 'Descending':
-        return FeatureGroupSortOrder.descending;
-    }
-    throw Exception('$this is not known in enum FeatureGroupSortOrder');
-  }
+  const FeatureGroupSortOrder(this.value);
+
+  static FeatureGroupSortOrder fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum FeatureGroupSortOrder'));
 }
 
 enum FeatureGroupStatus {
-  creating,
-  created,
-  createFailed,
-  deleting,
-  deleteFailed,
-}
+  creating('Creating'),
+  created('Created'),
+  createFailed('CreateFailed'),
+  deleting('Deleting'),
+  deleteFailed('DeleteFailed'),
+  ;
 
-extension FeatureGroupStatusValueExtension on FeatureGroupStatus {
-  String toValue() {
-    switch (this) {
-      case FeatureGroupStatus.creating:
-        return 'Creating';
-      case FeatureGroupStatus.created:
-        return 'Created';
-      case FeatureGroupStatus.createFailed:
-        return 'CreateFailed';
-      case FeatureGroupStatus.deleting:
-        return 'Deleting';
-      case FeatureGroupStatus.deleteFailed:
-        return 'DeleteFailed';
-    }
-  }
-}
+  final String value;
 
-extension FeatureGroupStatusFromString on String {
-  FeatureGroupStatus toFeatureGroupStatus() {
-    switch (this) {
-      case 'Creating':
-        return FeatureGroupStatus.creating;
-      case 'Created':
-        return FeatureGroupStatus.created;
-      case 'CreateFailed':
-        return FeatureGroupStatus.createFailed;
-      case 'Deleting':
-        return FeatureGroupStatus.deleting;
-      case 'DeleteFailed':
-        return FeatureGroupStatus.deleteFailed;
-    }
-    throw Exception('$this is not known in enum FeatureGroupStatus');
-  }
+  const FeatureGroupStatus(this.value);
+
+  static FeatureGroupStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum FeatureGroupStatus'));
 }
 
 /// The name, ARN, <code>CreationTime</code>, <code>FeatureGroup</code> values,
@@ -40037,8 +37358,8 @@ class FeatureGroupSummary {
           nonNullableTimeStampFromJson(json['CreationTime'] as Object),
       featureGroupArn: json['FeatureGroupArn'] as String,
       featureGroupName: json['FeatureGroupName'] as String,
-      featureGroupStatus:
-          (json['FeatureGroupStatus'] as String?)?.toFeatureGroupStatus(),
+      featureGroupStatus: (json['FeatureGroupStatus'] as String?)
+          ?.let(FeatureGroupStatus.fromString),
       offlineStoreStatus: json['OfflineStoreStatus'] != null
           ? OfflineStoreStatus.fromJson(
               json['OfflineStoreStatus'] as Map<String, dynamic>)
@@ -40092,7 +37413,8 @@ class FeatureMetadata {
       featureGroupArn: json['FeatureGroupArn'] as String?,
       featureGroupName: json['FeatureGroupName'] as String?,
       featureName: json['FeatureName'] as String?,
-      featureType: (json['FeatureType'] as String?)?.toFeatureType(),
+      featureType:
+          (json['FeatureType'] as String?)?.let(FeatureType.fromString),
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       parameters: (json['Parameters'] as List?)
           ?.whereNotNull()
@@ -40133,64 +37455,33 @@ class FeatureParameter {
 }
 
 enum FeatureStatus {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension FeatureStatusValueExtension on FeatureStatus {
-  String toValue() {
-    switch (this) {
-      case FeatureStatus.enabled:
-        return 'ENABLED';
-      case FeatureStatus.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension FeatureStatusFromString on String {
-  FeatureStatus toFeatureStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return FeatureStatus.enabled;
-      case 'DISABLED':
-        return FeatureStatus.disabled;
-    }
-    throw Exception('$this is not known in enum FeatureStatus');
-  }
+  const FeatureStatus(this.value);
+
+  static FeatureStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FeatureStatus'));
 }
 
 enum FeatureType {
-  integral,
-  fractional,
-  string,
-}
+  integral('Integral'),
+  fractional('Fractional'),
+  string('String'),
+  ;
 
-extension FeatureTypeValueExtension on FeatureType {
-  String toValue() {
-    switch (this) {
-      case FeatureType.integral:
-        return 'Integral';
-      case FeatureType.fractional:
-        return 'Fractional';
-      case FeatureType.string:
-        return 'String';
-    }
-  }
-}
+  final String value;
 
-extension FeatureTypeFromString on String {
-  FeatureType toFeatureType() {
-    switch (this) {
-      case 'Integral':
-        return FeatureType.integral;
-      case 'Fractional':
-        return FeatureType.fractional;
-      case 'String':
-        return FeatureType.string;
-    }
-    throw Exception('$this is not known in enum FeatureType');
-  }
+  const FeatureType(this.value);
+
+  static FeatureType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum FeatureType'));
 }
 
 /// Contains details regarding the file source.
@@ -40231,31 +37522,18 @@ class FileSource {
 }
 
 enum FileSystemAccessMode {
-  rw,
-  ro,
-}
+  rw('rw'),
+  ro('ro'),
+  ;
 
-extension FileSystemAccessModeValueExtension on FileSystemAccessMode {
-  String toValue() {
-    switch (this) {
-      case FileSystemAccessMode.rw:
-        return 'rw';
-      case FileSystemAccessMode.ro:
-        return 'ro';
-    }
-  }
-}
+  final String value;
 
-extension FileSystemAccessModeFromString on String {
-  FileSystemAccessMode toFileSystemAccessMode() {
-    switch (this) {
-      case 'rw':
-        return FileSystemAccessMode.rw;
-      case 'ro':
-        return FileSystemAccessMode.ro;
-    }
-    throw Exception('$this is not known in enum FileSystemAccessMode');
-  }
+  const FileSystemAccessMode(this.value);
+
+  static FileSystemAccessMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum FileSystemAccessMode'));
 }
 
 /// The Amazon Elastic File System storage configuration for a SageMaker image.
@@ -40325,10 +37603,11 @@ class FileSystemDataSource {
   factory FileSystemDataSource.fromJson(Map<String, dynamic> json) {
     return FileSystemDataSource(
       directoryPath: json['DirectoryPath'] as String,
-      fileSystemAccessMode:
-          (json['FileSystemAccessMode'] as String).toFileSystemAccessMode(),
+      fileSystemAccessMode: FileSystemAccessMode.fromString(
+          (json['FileSystemAccessMode'] as String)),
       fileSystemId: json['FileSystemId'] as String,
-      fileSystemType: (json['FileSystemType'] as String).toFileSystemType(),
+      fileSystemType:
+          FileSystemType.fromString((json['FileSystemType'] as String)),
     );
   }
 
@@ -40339,97 +37618,46 @@ class FileSystemDataSource {
     final fileSystemType = this.fileSystemType;
     return {
       'DirectoryPath': directoryPath,
-      'FileSystemAccessMode': fileSystemAccessMode.toValue(),
+      'FileSystemAccessMode': fileSystemAccessMode.value,
       'FileSystemId': fileSystemId,
-      'FileSystemType': fileSystemType.toValue(),
+      'FileSystemType': fileSystemType.value,
     };
   }
 }
 
 enum FileSystemType {
-  efs,
-  fSxLustre,
-}
+  efs('EFS'),
+  fSxLustre('FSxLustre'),
+  ;
 
-extension FileSystemTypeValueExtension on FileSystemType {
-  String toValue() {
-    switch (this) {
-      case FileSystemType.efs:
-        return 'EFS';
-      case FileSystemType.fSxLustre:
-        return 'FSxLustre';
-    }
-  }
-}
+  final String value;
 
-extension FileSystemTypeFromString on String {
-  FileSystemType toFileSystemType() {
-    switch (this) {
-      case 'EFS':
-        return FileSystemType.efs;
-      case 'FSxLustre':
-        return FileSystemType.fSxLustre;
-    }
-    throw Exception('$this is not known in enum FileSystemType');
-  }
+  const FileSystemType(this.value);
+
+  static FileSystemType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FileSystemType'));
 }
 
 enum FillingType {
-  frontfill,
-  middlefill,
-  backfill,
-  futurefill,
-  frontfillValue,
-  middlefillValue,
-  backfillValue,
-  futurefillValue,
-}
+  frontfill('frontfill'),
+  middlefill('middlefill'),
+  backfill('backfill'),
+  futurefill('futurefill'),
+  frontfillValue('frontfill_value'),
+  middlefillValue('middlefill_value'),
+  backfillValue('backfill_value'),
+  futurefillValue('futurefill_value'),
+  ;
 
-extension FillingTypeValueExtension on FillingType {
-  String toValue() {
-    switch (this) {
-      case FillingType.frontfill:
-        return 'frontfill';
-      case FillingType.middlefill:
-        return 'middlefill';
-      case FillingType.backfill:
-        return 'backfill';
-      case FillingType.futurefill:
-        return 'futurefill';
-      case FillingType.frontfillValue:
-        return 'frontfill_value';
-      case FillingType.middlefillValue:
-        return 'middlefill_value';
-      case FillingType.backfillValue:
-        return 'backfill_value';
-      case FillingType.futurefillValue:
-        return 'futurefill_value';
-    }
-  }
-}
+  final String value;
 
-extension FillingTypeFromString on String {
-  FillingType toFillingType() {
-    switch (this) {
-      case 'frontfill':
-        return FillingType.frontfill;
-      case 'middlefill':
-        return FillingType.middlefill;
-      case 'backfill':
-        return FillingType.backfill;
-      case 'futurefill':
-        return FillingType.futurefill;
-      case 'frontfill_value':
-        return FillingType.frontfillValue;
-      case 'middlefill_value':
-        return FillingType.middlefillValue;
-      case 'backfill_value':
-        return FillingType.backfillValue;
-      case 'futurefill_value':
-        return FillingType.futurefillValue;
-    }
-    throw Exception('$this is not known in enum FillingType');
-  }
+  const FillingType(this.value);
+
+  static FillingType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum FillingType'));
 }
 
 /// A conditional statement for a search expression that includes a resource
@@ -40582,7 +37810,7 @@ class Filter {
     final value = this.value;
     return {
       'Name': name,
-      if (operator != null) 'Operator': operator.toValue(),
+      if (operator != null) 'Operator': operator.value,
       if (value != null) 'Value': value,
     };
   }
@@ -40616,11 +37844,11 @@ class FinalAutoMLJobObjectiveMetric {
 
   factory FinalAutoMLJobObjectiveMetric.fromJson(Map<String, dynamic> json) {
     return FinalAutoMLJobObjectiveMetric(
-      metricName: (json['MetricName'] as String).toAutoMLMetricEnum(),
+      metricName: AutoMLMetricEnum.fromString((json['MetricName'] as String)),
       value: json['Value'] as double,
-      standardMetricName:
-          (json['StandardMetricName'] as String?)?.toAutoMLMetricEnum(),
-      type: (json['Type'] as String?)?.toAutoMLJobObjectiveType(),
+      standardMetricName: (json['StandardMetricName'] as String?)
+          ?.let(AutoMLMetricEnum.fromString),
+      type: (json['Type'] as String?)?.let(AutoMLJobObjectiveType.fromString),
     );
   }
 }
@@ -40657,37 +37885,25 @@ class FinalHyperParameterTuningJobObjectiveMetric {
     return FinalHyperParameterTuningJobObjectiveMetric(
       metricName: json['MetricName'] as String,
       value: json['Value'] as double,
-      type: (json['Type'] as String?)?.toHyperParameterTuningJobObjectiveType(),
+      type: (json['Type'] as String?)
+          ?.let(HyperParameterTuningJobObjectiveType.fromString),
     );
   }
 }
 
 enum FlatInvocations {
-  $continue,
-  stop,
-}
+  $continue('Continue'),
+  stop('Stop'),
+  ;
 
-extension FlatInvocationsValueExtension on FlatInvocations {
-  String toValue() {
-    switch (this) {
-      case FlatInvocations.$continue:
-        return 'Continue';
-      case FlatInvocations.stop:
-        return 'Stop';
-    }
-  }
-}
+  final String value;
 
-extension FlatInvocationsFromString on String {
-  FlatInvocations toFlatInvocations() {
-    switch (this) {
-      case 'Continue':
-        return FlatInvocations.$continue;
-      case 'Stop':
-        return FlatInvocations.stop;
-    }
-    throw Exception('$this is not known in enum FlatInvocations');
-  }
+  const FlatInvocations(this.value);
+
+  static FlatInvocations fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FlatInvocations'));
 }
 
 /// Contains information about where human output will be stored.
@@ -40726,41 +37942,20 @@ class FlowDefinitionOutputConfig {
 }
 
 enum FlowDefinitionStatus {
-  initializing,
-  active,
-  failed,
-  deleting,
-}
+  initializing('Initializing'),
+  active('Active'),
+  failed('Failed'),
+  deleting('Deleting'),
+  ;
 
-extension FlowDefinitionStatusValueExtension on FlowDefinitionStatus {
-  String toValue() {
-    switch (this) {
-      case FlowDefinitionStatus.initializing:
-        return 'Initializing';
-      case FlowDefinitionStatus.active:
-        return 'Active';
-      case FlowDefinitionStatus.failed:
-        return 'Failed';
-      case FlowDefinitionStatus.deleting:
-        return 'Deleting';
-    }
-  }
-}
+  final String value;
 
-extension FlowDefinitionStatusFromString on String {
-  FlowDefinitionStatus toFlowDefinitionStatus() {
-    switch (this) {
-      case 'Initializing':
-        return FlowDefinitionStatus.initializing;
-      case 'Active':
-        return FlowDefinitionStatus.active;
-      case 'Failed':
-        return FlowDefinitionStatus.failed;
-      case 'Deleting':
-        return FlowDefinitionStatus.deleting;
-    }
-    throw Exception('$this is not known in enum FlowDefinitionStatus');
-  }
+  const FlowDefinitionStatus(this.value);
+
+  static FlowDefinitionStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum FlowDefinitionStatus'));
 }
 
 /// Contains summary information about the flow definition.
@@ -40795,74 +37990,32 @@ class FlowDefinitionSummary {
           nonNullableTimeStampFromJson(json['CreationTime'] as Object),
       flowDefinitionArn: json['FlowDefinitionArn'] as String,
       flowDefinitionName: json['FlowDefinitionName'] as String,
-      flowDefinitionStatus:
-          (json['FlowDefinitionStatus'] as String).toFlowDefinitionStatus(),
+      flowDefinitionStatus: FlowDefinitionStatus.fromString(
+          (json['FlowDefinitionStatus'] as String)),
       failureReason: json['FailureReason'] as String?,
     );
   }
 }
 
 enum Framework {
-  tensorflow,
-  keras,
-  mxnet,
-  onnx,
-  pytorch,
-  xgboost,
-  tflite,
-  darknet,
-  sklearn,
-}
+  tensorflow('TENSORFLOW'),
+  keras('KERAS'),
+  mxnet('MXNET'),
+  onnx('ONNX'),
+  pytorch('PYTORCH'),
+  xgboost('XGBOOST'),
+  tflite('TFLITE'),
+  darknet('DARKNET'),
+  sklearn('SKLEARN'),
+  ;
 
-extension FrameworkValueExtension on Framework {
-  String toValue() {
-    switch (this) {
-      case Framework.tensorflow:
-        return 'TENSORFLOW';
-      case Framework.keras:
-        return 'KERAS';
-      case Framework.mxnet:
-        return 'MXNET';
-      case Framework.onnx:
-        return 'ONNX';
-      case Framework.pytorch:
-        return 'PYTORCH';
-      case Framework.xgboost:
-        return 'XGBOOST';
-      case Framework.tflite:
-        return 'TFLITE';
-      case Framework.darknet:
-        return 'DARKNET';
-      case Framework.sklearn:
-        return 'SKLEARN';
-    }
-  }
-}
+  final String value;
 
-extension FrameworkFromString on String {
-  Framework toFramework() {
-    switch (this) {
-      case 'TENSORFLOW':
-        return Framework.tensorflow;
-      case 'KERAS':
-        return Framework.keras;
-      case 'MXNET':
-        return Framework.mxnet;
-      case 'ONNX':
-        return Framework.onnx;
-      case 'PYTORCH':
-        return Framework.pytorch;
-      case 'XGBOOST':
-        return Framework.xgboost;
-      case 'TFLITE':
-        return Framework.tflite;
-      case 'DARKNET':
-        return Framework.darknet;
-      case 'SKLEARN':
-        return Framework.sklearn;
-    }
-    throw Exception('$this is not known in enum Framework');
-  }
+  const Framework(this.value);
+
+  static Framework fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Framework'));
 }
 
 /// The generative AI settings for the SageMaker Canvas application.
@@ -41005,7 +38158,8 @@ class GetSagemakerServicecatalogPortfolioStatusOutput {
   factory GetSagemakerServicecatalogPortfolioStatusOutput.fromJson(
       Map<String, dynamic> json) {
     return GetSagemakerServicecatalogPortfolioStatusOutput(
-      status: (json['Status'] as String?)?.toSagemakerServicecatalogStatus(),
+      status: (json['Status'] as String?)
+          ?.let(SagemakerServicecatalogStatus.fromString),
     );
   }
 }
@@ -41260,8 +38414,9 @@ class HubContentInfo {
       hubContentArn: json['HubContentArn'] as String,
       hubContentName: json['HubContentName'] as String,
       hubContentStatus:
-          (json['HubContentStatus'] as String).toHubContentStatus(),
-      hubContentType: (json['HubContentType'] as String).toHubContentType(),
+          HubContentStatus.fromString((json['HubContentStatus'] as String)),
+      hubContentType:
+          HubContentType.fromString((json['HubContentType'] as String)),
       hubContentVersion: json['HubContentVersion'] as String,
       hubContentDescription: json['HubContentDescription'] as String?,
       hubContentDisplayName: json['HubContentDisplayName'] as String?,
@@ -41274,107 +38429,52 @@ class HubContentInfo {
 }
 
 enum HubContentSortBy {
-  hubContentName,
-  creationTime,
-  hubContentStatus,
-}
+  hubContentName('HubContentName'),
+  creationTime('CreationTime'),
+  hubContentStatus('HubContentStatus'),
+  ;
 
-extension HubContentSortByValueExtension on HubContentSortBy {
-  String toValue() {
-    switch (this) {
-      case HubContentSortBy.hubContentName:
-        return 'HubContentName';
-      case HubContentSortBy.creationTime:
-        return 'CreationTime';
-      case HubContentSortBy.hubContentStatus:
-        return 'HubContentStatus';
-    }
-  }
-}
+  final String value;
 
-extension HubContentSortByFromString on String {
-  HubContentSortBy toHubContentSortBy() {
-    switch (this) {
-      case 'HubContentName':
-        return HubContentSortBy.hubContentName;
-      case 'CreationTime':
-        return HubContentSortBy.creationTime;
-      case 'HubContentStatus':
-        return HubContentSortBy.hubContentStatus;
-    }
-    throw Exception('$this is not known in enum HubContentSortBy');
-  }
+  const HubContentSortBy(this.value);
+
+  static HubContentSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum HubContentSortBy'));
 }
 
 enum HubContentStatus {
-  available,
-  importing,
-  deleting,
-  importFailed,
-  deleteFailed,
-}
+  available('Available'),
+  importing('Importing'),
+  deleting('Deleting'),
+  importFailed('ImportFailed'),
+  deleteFailed('DeleteFailed'),
+  ;
 
-extension HubContentStatusValueExtension on HubContentStatus {
-  String toValue() {
-    switch (this) {
-      case HubContentStatus.available:
-        return 'Available';
-      case HubContentStatus.importing:
-        return 'Importing';
-      case HubContentStatus.deleting:
-        return 'Deleting';
-      case HubContentStatus.importFailed:
-        return 'ImportFailed';
-      case HubContentStatus.deleteFailed:
-        return 'DeleteFailed';
-    }
-  }
-}
+  final String value;
 
-extension HubContentStatusFromString on String {
-  HubContentStatus toHubContentStatus() {
-    switch (this) {
-      case 'Available':
-        return HubContentStatus.available;
-      case 'Importing':
-        return HubContentStatus.importing;
-      case 'Deleting':
-        return HubContentStatus.deleting;
-      case 'ImportFailed':
-        return HubContentStatus.importFailed;
-      case 'DeleteFailed':
-        return HubContentStatus.deleteFailed;
-    }
-    throw Exception('$this is not known in enum HubContentStatus');
-  }
+  const HubContentStatus(this.value);
+
+  static HubContentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum HubContentStatus'));
 }
 
 enum HubContentType {
-  model,
-  notebook,
-}
+  model('Model'),
+  notebook('Notebook'),
+  ;
 
-extension HubContentTypeValueExtension on HubContentType {
-  String toValue() {
-    switch (this) {
-      case HubContentType.model:
-        return 'Model';
-      case HubContentType.notebook:
-        return 'Notebook';
-    }
-  }
-}
+  final String value;
 
-extension HubContentTypeFromString on String {
-  HubContentType toHubContentType() {
-    switch (this) {
-      case 'Model':
-        return HubContentType.model;
-      case 'Notebook':
-        return HubContentType.notebook;
-    }
-    throw Exception('$this is not known in enum HubContentType');
-  }
+  const HubContentType(this.value);
+
+  static HubContentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum HubContentType'));
 }
 
 /// Information about a hub.
@@ -41420,7 +38520,7 @@ class HubInfo {
           nonNullableTimeStampFromJson(json['CreationTime'] as Object),
       hubArn: json['HubArn'] as String,
       hubName: json['HubName'] as String,
-      hubStatus: (json['HubStatus'] as String).toHubStatus(),
+      hubStatus: HubStatus.fromString((json['HubStatus'] as String)),
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] as Object),
       hubDescription: json['HubDescription'] as String?,
@@ -41457,94 +38557,38 @@ class HubS3StorageConfig {
 }
 
 enum HubSortBy {
-  hubName,
-  creationTime,
-  hubStatus,
-  accountIdOwner,
-}
+  hubName('HubName'),
+  creationTime('CreationTime'),
+  hubStatus('HubStatus'),
+  accountIdOwner('AccountIdOwner'),
+  ;
 
-extension HubSortByValueExtension on HubSortBy {
-  String toValue() {
-    switch (this) {
-      case HubSortBy.hubName:
-        return 'HubName';
-      case HubSortBy.creationTime:
-        return 'CreationTime';
-      case HubSortBy.hubStatus:
-        return 'HubStatus';
-      case HubSortBy.accountIdOwner:
-        return 'AccountIdOwner';
-    }
-  }
-}
+  final String value;
 
-extension HubSortByFromString on String {
-  HubSortBy toHubSortBy() {
-    switch (this) {
-      case 'HubName':
-        return HubSortBy.hubName;
-      case 'CreationTime':
-        return HubSortBy.creationTime;
-      case 'HubStatus':
-        return HubSortBy.hubStatus;
-      case 'AccountIdOwner':
-        return HubSortBy.accountIdOwner;
-    }
-    throw Exception('$this is not known in enum HubSortBy');
-  }
+  const HubSortBy(this.value);
+
+  static HubSortBy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum HubSortBy'));
 }
 
 enum HubStatus {
-  inService,
-  creating,
-  updating,
-  deleting,
-  createFailed,
-  updateFailed,
-  deleteFailed,
-}
+  inService('InService'),
+  creating('Creating'),
+  updating('Updating'),
+  deleting('Deleting'),
+  createFailed('CreateFailed'),
+  updateFailed('UpdateFailed'),
+  deleteFailed('DeleteFailed'),
+  ;
 
-extension HubStatusValueExtension on HubStatus {
-  String toValue() {
-    switch (this) {
-      case HubStatus.inService:
-        return 'InService';
-      case HubStatus.creating:
-        return 'Creating';
-      case HubStatus.updating:
-        return 'Updating';
-      case HubStatus.deleting:
-        return 'Deleting';
-      case HubStatus.createFailed:
-        return 'CreateFailed';
-      case HubStatus.updateFailed:
-        return 'UpdateFailed';
-      case HubStatus.deleteFailed:
-        return 'DeleteFailed';
-    }
-  }
-}
+  final String value;
 
-extension HubStatusFromString on String {
-  HubStatus toHubStatus() {
-    switch (this) {
-      case 'InService':
-        return HubStatus.inService;
-      case 'Creating':
-        return HubStatus.creating;
-      case 'Updating':
-        return HubStatus.updating;
-      case 'Deleting':
-        return HubStatus.deleting;
-      case 'CreateFailed':
-        return HubStatus.createFailed;
-      case 'UpdateFailed':
-        return HubStatus.updateFailed;
-      case 'DeleteFailed':
-        return HubStatus.deleteFailed;
-    }
-    throw Exception('$this is not known in enum HubStatus');
-  }
+  const HubStatus(this.value);
+
+  static HubStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum HubStatus'));
 }
 
 /// Defines under what conditions SageMaker creates a human loop. Used within <a
@@ -41737,8 +38781,8 @@ class HumanLoopRequestSource {
   factory HumanLoopRequestSource.fromJson(Map<String, dynamic> json) {
     return HumanLoopRequestSource(
       awsManagedHumanLoopRequestSource:
-          (json['AwsManagedHumanLoopRequestSource'] as String)
-              .toAwsManagedHumanLoopRequestSource(),
+          AwsManagedHumanLoopRequestSource.fromString(
+              (json['AwsManagedHumanLoopRequestSource'] as String)),
     );
   }
 
@@ -41747,7 +38791,7 @@ class HumanLoopRequestSource {
         this.awsManagedHumanLoopRequestSource;
     return {
       'AwsManagedHumanLoopRequestSource':
-          awsManagedHumanLoopRequestSource.toValue(),
+          awsManagedHumanLoopRequestSource.value,
     };
   }
 }
@@ -42867,31 +39911,18 @@ class HumanTaskConfig {
 }
 
 enum HumanTaskUiStatus {
-  active,
-  deleting,
-}
+  active('Active'),
+  deleting('Deleting'),
+  ;
 
-extension HumanTaskUiStatusValueExtension on HumanTaskUiStatus {
-  String toValue() {
-    switch (this) {
-      case HumanTaskUiStatus.active:
-        return 'Active';
-      case HumanTaskUiStatus.deleting:
-        return 'Deleting';
-    }
-  }
-}
+  final String value;
 
-extension HumanTaskUiStatusFromString on String {
-  HumanTaskUiStatus toHumanTaskUiStatus() {
-    switch (this) {
-      case 'Active':
-        return HumanTaskUiStatus.active;
-      case 'Deleting':
-        return HumanTaskUiStatus.deleting;
-    }
-    throw Exception('$this is not known in enum HumanTaskUiStatus');
-  }
+  const HumanTaskUiStatus(this.value);
+
+  static HumanTaskUiStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum HumanTaskUiStatus'));
 }
 
 /// Container for human task user interface information.
@@ -42958,7 +39989,7 @@ class HyperParameterAlgorithmSpecification {
       Map<String, dynamic> json) {
     return HyperParameterAlgorithmSpecification(
       trainingInputMode:
-          (json['TrainingInputMode'] as String).toTrainingInputMode(),
+          TrainingInputMode.fromString((json['TrainingInputMode'] as String)),
       algorithmName: json['AlgorithmName'] as String?,
       metricDefinitions: (json['MetricDefinitions'] as List?)
           ?.whereNotNull()
@@ -42974,7 +40005,7 @@ class HyperParameterAlgorithmSpecification {
     final metricDefinitions = this.metricDefinitions;
     final trainingImage = this.trainingImage;
     return {
-      'TrainingInputMode': trainingInputMode.toValue(),
+      'TrainingInputMode': trainingInputMode.value,
       if (algorithmName != null) 'AlgorithmName': algorithmName,
       if (metricDefinitions != null) 'MetricDefinitions': metricDefinitions,
       if (trainingImage != null) 'TrainingImage': trainingImage,
@@ -42983,41 +40014,20 @@ class HyperParameterAlgorithmSpecification {
 }
 
 enum HyperParameterScalingType {
-  auto,
-  linear,
-  logarithmic,
-  reverseLogarithmic,
-}
+  auto('Auto'),
+  linear('Linear'),
+  logarithmic('Logarithmic'),
+  reverseLogarithmic('ReverseLogarithmic'),
+  ;
 
-extension HyperParameterScalingTypeValueExtension on HyperParameterScalingType {
-  String toValue() {
-    switch (this) {
-      case HyperParameterScalingType.auto:
-        return 'Auto';
-      case HyperParameterScalingType.linear:
-        return 'Linear';
-      case HyperParameterScalingType.logarithmic:
-        return 'Logarithmic';
-      case HyperParameterScalingType.reverseLogarithmic:
-        return 'ReverseLogarithmic';
-    }
-  }
-}
+  final String value;
 
-extension HyperParameterScalingTypeFromString on String {
-  HyperParameterScalingType toHyperParameterScalingType() {
-    switch (this) {
-      case 'Auto':
-        return HyperParameterScalingType.auto;
-      case 'Linear':
-        return HyperParameterScalingType.linear;
-      case 'Logarithmic':
-        return HyperParameterScalingType.logarithmic;
-      case 'ReverseLogarithmic':
-        return HyperParameterScalingType.reverseLogarithmic;
-    }
-    throw Exception('$this is not known in enum HyperParameterScalingType');
-  }
+  const HyperParameterScalingType(this.value);
+
+  static HyperParameterScalingType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum HyperParameterScalingType'));
 }
 
 /// Defines a hyperparameter to be used by an algorithm.
@@ -43060,7 +40070,7 @@ class HyperParameterSpecification {
   factory HyperParameterSpecification.fromJson(Map<String, dynamic> json) {
     return HyperParameterSpecification(
       name: json['Name'] as String,
-      type: (json['Type'] as String).toParameterType(),
+      type: ParameterType.fromString((json['Type'] as String)),
       defaultValue: json['DefaultValue'] as String?,
       description: json['Description'] as String?,
       isRequired: json['IsRequired'] as bool?,
@@ -43081,7 +40091,7 @@ class HyperParameterSpecification {
     final range = this.range;
     return {
       'Name': name,
-      'Type': type.toValue(),
+      'Type': type.value,
       if (defaultValue != null) 'DefaultValue': defaultValue,
       if (description != null) 'Description': description,
       if (isRequired != null) 'IsRequired': isRequired,
@@ -43419,7 +40429,7 @@ class HyperParameterTrainingJobSummary {
       trainingJobArn: json['TrainingJobArn'] as String,
       trainingJobName: json['TrainingJobName'] as String,
       trainingJobStatus:
-          (json['TrainingJobStatus'] as String).toTrainingJobStatus(),
+          TrainingJobStatus.fromString((json['TrainingJobStatus'] as String)),
       tunedHyperParameters:
           (json['TunedHyperParameters'] as Map<String, dynamic>)
               .map((k, e) => MapEntry(k, e as String)),
@@ -43431,7 +40441,7 @@ class HyperParameterTrainingJobSummary {
                       as Map<String, dynamic>)
               : null,
       objectiveStatus:
-          (json['ObjectiveStatus'] as String?)?.toObjectiveStatus(),
+          (json['ObjectiveStatus'] as String?)?.let(ObjectiveStatus.fromString),
       trainingEndTime: timeStampFromJson(json['TrainingEndTime']),
       trainingJobDefinitionName: json['TrainingJobDefinitionName'] as String?,
       trainingStartTime: timeStampFromJson(json['TrainingStartTime']),
@@ -43441,29 +40451,17 @@ class HyperParameterTrainingJobSummary {
 }
 
 enum HyperParameterTuningAllocationStrategy {
-  prioritized,
-}
+  prioritized('Prioritized'),
+  ;
 
-extension HyperParameterTuningAllocationStrategyValueExtension
-    on HyperParameterTuningAllocationStrategy {
-  String toValue() {
-    switch (this) {
-      case HyperParameterTuningAllocationStrategy.prioritized:
-        return 'Prioritized';
-    }
-  }
-}
+  final String value;
 
-extension HyperParameterTuningAllocationStrategyFromString on String {
-  HyperParameterTuningAllocationStrategy
-      toHyperParameterTuningAllocationStrategy() {
-    switch (this) {
-      case 'Prioritized':
-        return HyperParameterTuningAllocationStrategy.prioritized;
-    }
-    throw Exception(
-        '$this is not known in enum HyperParameterTuningAllocationStrategy');
-  }
+  const HyperParameterTuningAllocationStrategy(this.value);
+
+  static HyperParameterTuningAllocationStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum HyperParameterTuningAllocationStrategy'));
 }
 
 /// The configuration for hyperparameter tuning resources for use in training
@@ -43502,7 +40500,8 @@ class HyperParameterTuningInstanceConfig {
       Map<String, dynamic> json) {
     return HyperParameterTuningInstanceConfig(
       instanceCount: json['InstanceCount'] as int,
-      instanceType: (json['InstanceType'] as String).toTrainingInstanceType(),
+      instanceType:
+          TrainingInstanceType.fromString((json['InstanceType'] as String)),
       volumeSizeInGB: json['VolumeSizeInGB'] as int,
     );
   }
@@ -43513,7 +40512,7 @@ class HyperParameterTuningInstanceConfig {
     final volumeSizeInGB = this.volumeSizeInGB;
     return {
       'InstanceCount': instanceCount,
-      'InstanceType': instanceType.toValue(),
+      'InstanceType': instanceType.value,
       'VolumeSizeInGB': volumeSizeInGB,
     };
   }
@@ -43623,8 +40622,8 @@ class HyperParameterTuningJobConfig {
     return HyperParameterTuningJobConfig(
       resourceLimits: ResourceLimits.fromJson(
           json['ResourceLimits'] as Map<String, dynamic>),
-      strategy:
-          (json['Strategy'] as String).toHyperParameterTuningJobStrategyType(),
+      strategy: HyperParameterTuningJobStrategyType.fromString(
+          (json['Strategy'] as String)),
       hyperParameterTuningJobObjective:
           json['HyperParameterTuningJobObjective'] != null
               ? HyperParameterTuningJobObjective.fromJson(
@@ -43642,7 +40641,7 @@ class HyperParameterTuningJobConfig {
           : null,
       trainingJobEarlyStoppingType:
           (json['TrainingJobEarlyStoppingType'] as String?)
-              ?.toTrainingJobEarlyStoppingType(),
+              ?.let(TrainingJobEarlyStoppingType.fromString),
       tuningJobCompletionCriteria: json['TuningJobCompletionCriteria'] != null
           ? TuningJobCompletionCriteria.fromJson(
               json['TuningJobCompletionCriteria'] as Map<String, dynamic>)
@@ -43662,14 +40661,14 @@ class HyperParameterTuningJobConfig {
     final tuningJobCompletionCriteria = this.tuningJobCompletionCriteria;
     return {
       'ResourceLimits': resourceLimits,
-      'Strategy': strategy.toValue(),
+      'Strategy': strategy.value,
       if (hyperParameterTuningJobObjective != null)
         'HyperParameterTuningJobObjective': hyperParameterTuningJobObjective,
       if (parameterRanges != null) 'ParameterRanges': parameterRanges,
       if (randomSeed != null) 'RandomSeed': randomSeed,
       if (strategyConfig != null) 'StrategyConfig': strategyConfig,
       if (trainingJobEarlyStoppingType != null)
-        'TrainingJobEarlyStoppingType': trainingJobEarlyStoppingType.toValue(),
+        'TrainingJobEarlyStoppingType': trainingJobEarlyStoppingType.value,
       if (tuningJobCompletionCriteria != null)
         'TuningJobCompletionCriteria': tuningJobCompletionCriteria,
     };
@@ -43716,7 +40715,8 @@ class HyperParameterTuningJobObjective {
   factory HyperParameterTuningJobObjective.fromJson(Map<String, dynamic> json) {
     return HyperParameterTuningJobObjective(
       metricName: json['MetricName'] as String,
-      type: (json['Type'] as String).toHyperParameterTuningJobObjectiveType(),
+      type: HyperParameterTuningJobObjectiveType.fromString(
+          (json['Type'] as String)),
     );
   }
 
@@ -43725,40 +40725,24 @@ class HyperParameterTuningJobObjective {
     final type = this.type;
     return {
       'MetricName': metricName,
-      'Type': type.toValue(),
+      'Type': type.value,
     };
   }
 }
 
 enum HyperParameterTuningJobObjectiveType {
-  maximize,
-  minimize,
-}
+  maximize('Maximize'),
+  minimize('Minimize'),
+  ;
 
-extension HyperParameterTuningJobObjectiveTypeValueExtension
-    on HyperParameterTuningJobObjectiveType {
-  String toValue() {
-    switch (this) {
-      case HyperParameterTuningJobObjectiveType.maximize:
-        return 'Maximize';
-      case HyperParameterTuningJobObjectiveType.minimize:
-        return 'Minimize';
-    }
-  }
-}
+  final String value;
 
-extension HyperParameterTuningJobObjectiveTypeFromString on String {
-  HyperParameterTuningJobObjectiveType
-      toHyperParameterTuningJobObjectiveType() {
-    switch (this) {
-      case 'Maximize':
-        return HyperParameterTuningJobObjectiveType.maximize;
-      case 'Minimize':
-        return HyperParameterTuningJobObjectiveType.minimize;
-    }
-    throw Exception(
-        '$this is not known in enum HyperParameterTuningJobObjectiveType');
-  }
+  const HyperParameterTuningJobObjectiveType(this.value);
+
+  static HyperParameterTuningJobObjectiveType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum HyperParameterTuningJobObjectiveType'));
 }
 
 /// An entity returned by the <a
@@ -43855,7 +40839,7 @@ class HyperParameterTuningJobSearchEntity {
           json['HyperParameterTuningJobName'] as String?,
       hyperParameterTuningJobStatus:
           (json['HyperParameterTuningJobStatus'] as String?)
-              ?.toHyperParameterTuningJobStatus(),
+              ?.let(HyperParameterTuningJobStatus.fromString),
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       objectiveStatusCounters: json['ObjectiveStatusCounters'] != null
           ? ObjectiveStatusCounters.fromJson(
@@ -43895,93 +40879,39 @@ class HyperParameterTuningJobSearchEntity {
 }
 
 enum HyperParameterTuningJobSortByOptions {
-  name,
-  status,
-  creationTime,
-}
+  name('Name'),
+  status('Status'),
+  creationTime('CreationTime'),
+  ;
 
-extension HyperParameterTuningJobSortByOptionsValueExtension
-    on HyperParameterTuningJobSortByOptions {
-  String toValue() {
-    switch (this) {
-      case HyperParameterTuningJobSortByOptions.name:
-        return 'Name';
-      case HyperParameterTuningJobSortByOptions.status:
-        return 'Status';
-      case HyperParameterTuningJobSortByOptions.creationTime:
-        return 'CreationTime';
-    }
-  }
-}
+  final String value;
 
-extension HyperParameterTuningJobSortByOptionsFromString on String {
-  HyperParameterTuningJobSortByOptions
-      toHyperParameterTuningJobSortByOptions() {
-    switch (this) {
-      case 'Name':
-        return HyperParameterTuningJobSortByOptions.name;
-      case 'Status':
-        return HyperParameterTuningJobSortByOptions.status;
-      case 'CreationTime':
-        return HyperParameterTuningJobSortByOptions.creationTime;
-    }
-    throw Exception(
-        '$this is not known in enum HyperParameterTuningJobSortByOptions');
-  }
+  const HyperParameterTuningJobSortByOptions(this.value);
+
+  static HyperParameterTuningJobSortByOptions fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum HyperParameterTuningJobSortByOptions'));
 }
 
 enum HyperParameterTuningJobStatus {
-  completed,
-  inProgress,
-  failed,
-  stopped,
-  stopping,
-  deleting,
-  deleteFailed,
-}
+  completed('Completed'),
+  inProgress('InProgress'),
+  failed('Failed'),
+  stopped('Stopped'),
+  stopping('Stopping'),
+  deleting('Deleting'),
+  deleteFailed('DeleteFailed'),
+  ;
 
-extension HyperParameterTuningJobStatusValueExtension
-    on HyperParameterTuningJobStatus {
-  String toValue() {
-    switch (this) {
-      case HyperParameterTuningJobStatus.completed:
-        return 'Completed';
-      case HyperParameterTuningJobStatus.inProgress:
-        return 'InProgress';
-      case HyperParameterTuningJobStatus.failed:
-        return 'Failed';
-      case HyperParameterTuningJobStatus.stopped:
-        return 'Stopped';
-      case HyperParameterTuningJobStatus.stopping:
-        return 'Stopping';
-      case HyperParameterTuningJobStatus.deleting:
-        return 'Deleting';
-      case HyperParameterTuningJobStatus.deleteFailed:
-        return 'DeleteFailed';
-    }
-  }
-}
+  final String value;
 
-extension HyperParameterTuningJobStatusFromString on String {
-  HyperParameterTuningJobStatus toHyperParameterTuningJobStatus() {
-    switch (this) {
-      case 'Completed':
-        return HyperParameterTuningJobStatus.completed;
-      case 'InProgress':
-        return HyperParameterTuningJobStatus.inProgress;
-      case 'Failed':
-        return HyperParameterTuningJobStatus.failed;
-      case 'Stopped':
-        return HyperParameterTuningJobStatus.stopped;
-      case 'Stopping':
-        return HyperParameterTuningJobStatus.stopping;
-      case 'Deleting':
-        return HyperParameterTuningJobStatus.deleting;
-      case 'DeleteFailed':
-        return HyperParameterTuningJobStatus.deleteFailed;
-    }
-    throw Exception('$this is not known in enum HyperParameterTuningJobStatus');
-  }
+  const HyperParameterTuningJobStatus(this.value);
+
+  static HyperParameterTuningJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum HyperParameterTuningJobStatus'));
 }
 
 /// The configuration for a training job launched by a hyperparameter tuning
@@ -44025,43 +40955,20 @@ class HyperParameterTuningJobStrategyConfig {
 /// The strategy hyperparameter tuning uses to find the best combination of
 /// hyperparameters for your model.
 enum HyperParameterTuningJobStrategyType {
-  bayesian,
-  random,
-  hyperband,
-  grid,
-}
+  bayesian('Bayesian'),
+  random('Random'),
+  hyperband('Hyperband'),
+  grid('Grid'),
+  ;
 
-extension HyperParameterTuningJobStrategyTypeValueExtension
-    on HyperParameterTuningJobStrategyType {
-  String toValue() {
-    switch (this) {
-      case HyperParameterTuningJobStrategyType.bayesian:
-        return 'Bayesian';
-      case HyperParameterTuningJobStrategyType.random:
-        return 'Random';
-      case HyperParameterTuningJobStrategyType.hyperband:
-        return 'Hyperband';
-      case HyperParameterTuningJobStrategyType.grid:
-        return 'Grid';
-    }
-  }
-}
+  final String value;
 
-extension HyperParameterTuningJobStrategyTypeFromString on String {
-  HyperParameterTuningJobStrategyType toHyperParameterTuningJobStrategyType() {
-    switch (this) {
-      case 'Bayesian':
-        return HyperParameterTuningJobStrategyType.bayesian;
-      case 'Random':
-        return HyperParameterTuningJobStrategyType.random;
-      case 'Hyperband':
-        return HyperParameterTuningJobStrategyType.hyperband;
-      case 'Grid':
-        return HyperParameterTuningJobStrategyType.grid;
-    }
-    throw Exception(
-        '$this is not known in enum HyperParameterTuningJobStrategyType');
-  }
+  const HyperParameterTuningJobStrategyType(this.value);
+
+  static HyperParameterTuningJobStrategyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum HyperParameterTuningJobStrategyType'));
 }
 
 /// Provides summary information about a hyperparameter tuning job.
@@ -44126,13 +41033,12 @@ class HyperParameterTuningJobSummary {
       hyperParameterTuningJobArn: json['HyperParameterTuningJobArn'] as String,
       hyperParameterTuningJobName:
           json['HyperParameterTuningJobName'] as String,
-      hyperParameterTuningJobStatus:
-          (json['HyperParameterTuningJobStatus'] as String)
-              .toHyperParameterTuningJobStatus(),
+      hyperParameterTuningJobStatus: HyperParameterTuningJobStatus.fromString(
+          (json['HyperParameterTuningJobStatus'] as String)),
       objectiveStatusCounters: ObjectiveStatusCounters.fromJson(
           json['ObjectiveStatusCounters'] as Map<String, dynamic>),
-      strategy:
-          (json['Strategy'] as String).toHyperParameterTuningJobStrategyType(),
+      strategy: HyperParameterTuningJobStrategyType.fromString(
+          (json['Strategy'] as String)),
       trainingJobStatusCounters: TrainingJobStatusCounters.fromJson(
           json['TrainingJobStatusCounters'] as Map<String, dynamic>),
       hyperParameterTuningEndTime:
@@ -44212,8 +41118,8 @@ class HyperParameterTuningJobWarmStartConfig {
           .map((e) =>
               ParentHyperParameterTuningJob.fromJson(e as Map<String, dynamic>))
           .toList(),
-      warmStartType: (json['WarmStartType'] as String)
-          .toHyperParameterTuningJobWarmStartType(),
+      warmStartType: HyperParameterTuningJobWarmStartType.fromString(
+          (json['WarmStartType'] as String)),
     );
   }
 
@@ -44222,40 +41128,24 @@ class HyperParameterTuningJobWarmStartConfig {
     final warmStartType = this.warmStartType;
     return {
       'ParentHyperParameterTuningJobs': parentHyperParameterTuningJobs,
-      'WarmStartType': warmStartType.toValue(),
+      'WarmStartType': warmStartType.value,
     };
   }
 }
 
 enum HyperParameterTuningJobWarmStartType {
-  identicalDataAndAlgorithm,
-  transferLearning,
-}
+  identicalDataAndAlgorithm('IdenticalDataAndAlgorithm'),
+  transferLearning('TransferLearning'),
+  ;
 
-extension HyperParameterTuningJobWarmStartTypeValueExtension
-    on HyperParameterTuningJobWarmStartType {
-  String toValue() {
-    switch (this) {
-      case HyperParameterTuningJobWarmStartType.identicalDataAndAlgorithm:
-        return 'IdenticalDataAndAlgorithm';
-      case HyperParameterTuningJobWarmStartType.transferLearning:
-        return 'TransferLearning';
-    }
-  }
-}
+  final String value;
 
-extension HyperParameterTuningJobWarmStartTypeFromString on String {
-  HyperParameterTuningJobWarmStartType
-      toHyperParameterTuningJobWarmStartType() {
-    switch (this) {
-      case 'IdenticalDataAndAlgorithm':
-        return HyperParameterTuningJobWarmStartType.identicalDataAndAlgorithm;
-      case 'TransferLearning':
-        return HyperParameterTuningJobWarmStartType.transferLearning;
-    }
-    throw Exception(
-        '$this is not known in enum HyperParameterTuningJobWarmStartType');
-  }
+  const HyperParameterTuningJobWarmStartType(this.value);
+
+  static HyperParameterTuningJobWarmStartType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum HyperParameterTuningJobWarmStartType'));
 }
 
 /// The configuration of resources, including compute instances and storage
@@ -44360,14 +41250,15 @@ class HyperParameterTuningResourceConfig {
       Map<String, dynamic> json) {
     return HyperParameterTuningResourceConfig(
       allocationStrategy: (json['AllocationStrategy'] as String?)
-          ?.toHyperParameterTuningAllocationStrategy(),
+          ?.let(HyperParameterTuningAllocationStrategy.fromString),
       instanceConfigs: (json['InstanceConfigs'] as List?)
           ?.whereNotNull()
           .map((e) => HyperParameterTuningInstanceConfig.fromJson(
               e as Map<String, dynamic>))
           .toList(),
       instanceCount: json['InstanceCount'] as int?,
-      instanceType: (json['InstanceType'] as String?)?.toTrainingInstanceType(),
+      instanceType: (json['InstanceType'] as String?)
+          ?.let(TrainingInstanceType.fromString),
       volumeKmsKeyId: json['VolumeKmsKeyId'] as String?,
       volumeSizeInGB: json['VolumeSizeInGB'] as int?,
     );
@@ -44382,10 +41273,10 @@ class HyperParameterTuningResourceConfig {
     final volumeSizeInGB = this.volumeSizeInGB;
     return {
       if (allocationStrategy != null)
-        'AllocationStrategy': allocationStrategy.toValue(),
+        'AllocationStrategy': allocationStrategy.value,
       if (instanceConfigs != null) 'InstanceConfigs': instanceConfigs,
       if (instanceCount != null) 'InstanceCount': instanceCount,
-      if (instanceType != null) 'InstanceType': instanceType.toValue(),
+      if (instanceType != null) 'InstanceType': instanceType.value,
       if (volumeKmsKeyId != null) 'VolumeKmsKeyId': volumeKmsKeyId,
       if (volumeSizeInGB != null) 'VolumeSizeInGB': volumeSizeInGB,
     };
@@ -44523,8 +41414,10 @@ class IamPolicyConstraints {
 
   factory IamPolicyConstraints.fromJson(Map<String, dynamic> json) {
     return IamPolicyConstraints(
-      sourceIp: (json['SourceIp'] as String?)?.toEnabledOrDisabled(),
-      vpcSourceIp: (json['VpcSourceIp'] as String?)?.toEnabledOrDisabled(),
+      sourceIp:
+          (json['SourceIp'] as String?)?.let(EnabledOrDisabled.fromString),
+      vpcSourceIp:
+          (json['VpcSourceIp'] as String?)?.let(EnabledOrDisabled.fromString),
     );
   }
 
@@ -44532,8 +41425,8 @@ class IamPolicyConstraints {
     final sourceIp = this.sourceIp;
     final vpcSourceIp = this.vpcSourceIp;
     return {
-      if (sourceIp != null) 'SourceIp': sourceIp.toValue(),
-      if (vpcSourceIp != null) 'VpcSourceIp': vpcSourceIp.toValue(),
+      if (sourceIp != null) 'SourceIp': sourceIp.value,
+      if (vpcSourceIp != null) 'VpcSourceIp': vpcSourceIp.value,
     };
   }
 }
@@ -44562,9 +41455,10 @@ class IdentityProviderOAuthSetting {
 
   factory IdentityProviderOAuthSetting.fromJson(Map<String, dynamic> json) {
     return IdentityProviderOAuthSetting(
-      dataSourceName: (json['DataSourceName'] as String?)?.toDataSourceName(),
+      dataSourceName:
+          (json['DataSourceName'] as String?)?.let(DataSourceName.fromString),
       secretArn: json['SecretArn'] as String?,
-      status: (json['Status'] as String?)?.toFeatureStatus(),
+      status: (json['Status'] as String?)?.let(FeatureStatus.fromString),
     );
   }
 
@@ -44573,9 +41467,9 @@ class IdentityProviderOAuthSetting {
     final secretArn = this.secretArn;
     final status = this.status;
     return {
-      if (dataSourceName != null) 'DataSourceName': dataSourceName.toValue(),
+      if (dataSourceName != null) 'DataSourceName': dataSourceName.value,
       if (secretArn != null) 'SecretArn': secretArn,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -44626,7 +41520,7 @@ class Image {
           nonNullableTimeStampFromJson(json['CreationTime'] as Object),
       imageArn: json['ImageArn'] as String,
       imageName: json['ImageName'] as String,
-      imageStatus: (json['ImageStatus'] as String).toImageStatus(),
+      imageStatus: ImageStatus.fromString((json['ImageStatus'] as String)),
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] as Object),
       description: json['Description'] as String?,
@@ -44694,8 +41588,8 @@ class ImageConfig {
 
   factory ImageConfig.fromJson(Map<String, dynamic> json) {
     return ImageConfig(
-      repositoryAccessMode:
-          (json['RepositoryAccessMode'] as String).toRepositoryAccessMode(),
+      repositoryAccessMode: RepositoryAccessMode.fromString(
+          (json['RepositoryAccessMode'] as String)),
       repositoryAuthConfig: json['RepositoryAuthConfig'] != null
           ? RepositoryAuthConfig.fromJson(
               json['RepositoryAuthConfig'] as Map<String, dynamic>)
@@ -44707,7 +41601,7 @@ class ImageConfig {
     final repositoryAccessMode = this.repositoryAccessMode;
     final repositoryAuthConfig = this.repositoryAuthConfig;
     return {
-      'RepositoryAccessMode': repositoryAccessMode.toValue(),
+      'RepositoryAccessMode': repositoryAccessMode.value,
       if (repositoryAuthConfig != null)
         'RepositoryAuthConfig': repositoryAuthConfig,
     };
@@ -44715,117 +41609,52 @@ class ImageConfig {
 }
 
 enum ImageSortBy {
-  creationTime,
-  lastModifiedTime,
-  imageName,
-}
+  creationTime('CREATION_TIME'),
+  lastModifiedTime('LAST_MODIFIED_TIME'),
+  imageName('IMAGE_NAME'),
+  ;
 
-extension ImageSortByValueExtension on ImageSortBy {
-  String toValue() {
-    switch (this) {
-      case ImageSortBy.creationTime:
-        return 'CREATION_TIME';
-      case ImageSortBy.lastModifiedTime:
-        return 'LAST_MODIFIED_TIME';
-      case ImageSortBy.imageName:
-        return 'IMAGE_NAME';
-    }
-  }
-}
+  final String value;
 
-extension ImageSortByFromString on String {
-  ImageSortBy toImageSortBy() {
-    switch (this) {
-      case 'CREATION_TIME':
-        return ImageSortBy.creationTime;
-      case 'LAST_MODIFIED_TIME':
-        return ImageSortBy.lastModifiedTime;
-      case 'IMAGE_NAME':
-        return ImageSortBy.imageName;
-    }
-    throw Exception('$this is not known in enum ImageSortBy');
-  }
+  const ImageSortBy(this.value);
+
+  static ImageSortBy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ImageSortBy'));
 }
 
 enum ImageSortOrder {
-  ascending,
-  descending,
-}
+  ascending('ASCENDING'),
+  descending('DESCENDING'),
+  ;
 
-extension ImageSortOrderValueExtension on ImageSortOrder {
-  String toValue() {
-    switch (this) {
-      case ImageSortOrder.ascending:
-        return 'ASCENDING';
-      case ImageSortOrder.descending:
-        return 'DESCENDING';
-    }
-  }
-}
+  final String value;
 
-extension ImageSortOrderFromString on String {
-  ImageSortOrder toImageSortOrder() {
-    switch (this) {
-      case 'ASCENDING':
-        return ImageSortOrder.ascending;
-      case 'DESCENDING':
-        return ImageSortOrder.descending;
-    }
-    throw Exception('$this is not known in enum ImageSortOrder');
-  }
+  const ImageSortOrder(this.value);
+
+  static ImageSortOrder fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ImageSortOrder'));
 }
 
 enum ImageStatus {
-  creating,
-  created,
-  createFailed,
-  updating,
-  updateFailed,
-  deleting,
-  deleteFailed,
-}
+  creating('CREATING'),
+  created('CREATED'),
+  createFailed('CREATE_FAILED'),
+  updating('UPDATING'),
+  updateFailed('UPDATE_FAILED'),
+  deleting('DELETING'),
+  deleteFailed('DELETE_FAILED'),
+  ;
 
-extension ImageStatusValueExtension on ImageStatus {
-  String toValue() {
-    switch (this) {
-      case ImageStatus.creating:
-        return 'CREATING';
-      case ImageStatus.created:
-        return 'CREATED';
-      case ImageStatus.createFailed:
-        return 'CREATE_FAILED';
-      case ImageStatus.updating:
-        return 'UPDATING';
-      case ImageStatus.updateFailed:
-        return 'UPDATE_FAILED';
-      case ImageStatus.deleting:
-        return 'DELETING';
-      case ImageStatus.deleteFailed:
-        return 'DELETE_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ImageStatusFromString on String {
-  ImageStatus toImageStatus() {
-    switch (this) {
-      case 'CREATING':
-        return ImageStatus.creating;
-      case 'CREATED':
-        return ImageStatus.created;
-      case 'CREATE_FAILED':
-        return ImageStatus.createFailed;
-      case 'UPDATING':
-        return ImageStatus.updating;
-      case 'UPDATE_FAILED':
-        return ImageStatus.updateFailed;
-      case 'DELETING':
-        return ImageStatus.deleting;
-      case 'DELETE_FAILED':
-        return ImageStatus.deleteFailed;
-    }
-    throw Exception('$this is not known in enum ImageStatus');
-  }
+  const ImageStatus(this.value);
+
+  static ImageStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ImageStatus'));
 }
 
 /// A version of a SageMaker <code>Image</code>. A version represents an
@@ -44869,7 +41698,7 @@ class ImageVersion {
       imageArn: json['ImageArn'] as String,
       imageVersionArn: json['ImageVersionArn'] as String,
       imageVersionStatus:
-          (json['ImageVersionStatus'] as String).toImageVersionStatus(),
+          ImageVersionStatus.fromString((json['ImageVersionStatus'] as String)),
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] as Object),
       version: json['Version'] as int,
@@ -44879,107 +41708,52 @@ class ImageVersion {
 }
 
 enum ImageVersionSortBy {
-  creationTime,
-  lastModifiedTime,
-  version,
-}
+  creationTime('CREATION_TIME'),
+  lastModifiedTime('LAST_MODIFIED_TIME'),
+  version('VERSION'),
+  ;
 
-extension ImageVersionSortByValueExtension on ImageVersionSortBy {
-  String toValue() {
-    switch (this) {
-      case ImageVersionSortBy.creationTime:
-        return 'CREATION_TIME';
-      case ImageVersionSortBy.lastModifiedTime:
-        return 'LAST_MODIFIED_TIME';
-      case ImageVersionSortBy.version:
-        return 'VERSION';
-    }
-  }
-}
+  final String value;
 
-extension ImageVersionSortByFromString on String {
-  ImageVersionSortBy toImageVersionSortBy() {
-    switch (this) {
-      case 'CREATION_TIME':
-        return ImageVersionSortBy.creationTime;
-      case 'LAST_MODIFIED_TIME':
-        return ImageVersionSortBy.lastModifiedTime;
-      case 'VERSION':
-        return ImageVersionSortBy.version;
-    }
-    throw Exception('$this is not known in enum ImageVersionSortBy');
-  }
+  const ImageVersionSortBy(this.value);
+
+  static ImageVersionSortBy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ImageVersionSortBy'));
 }
 
 enum ImageVersionSortOrder {
-  ascending,
-  descending,
-}
+  ascending('ASCENDING'),
+  descending('DESCENDING'),
+  ;
 
-extension ImageVersionSortOrderValueExtension on ImageVersionSortOrder {
-  String toValue() {
-    switch (this) {
-      case ImageVersionSortOrder.ascending:
-        return 'ASCENDING';
-      case ImageVersionSortOrder.descending:
-        return 'DESCENDING';
-    }
-  }
-}
+  final String value;
 
-extension ImageVersionSortOrderFromString on String {
-  ImageVersionSortOrder toImageVersionSortOrder() {
-    switch (this) {
-      case 'ASCENDING':
-        return ImageVersionSortOrder.ascending;
-      case 'DESCENDING':
-        return ImageVersionSortOrder.descending;
-    }
-    throw Exception('$this is not known in enum ImageVersionSortOrder');
-  }
+  const ImageVersionSortOrder(this.value);
+
+  static ImageVersionSortOrder fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ImageVersionSortOrder'));
 }
 
 enum ImageVersionStatus {
-  creating,
-  created,
-  createFailed,
-  deleting,
-  deleteFailed,
-}
+  creating('CREATING'),
+  created('CREATED'),
+  createFailed('CREATE_FAILED'),
+  deleting('DELETING'),
+  deleteFailed('DELETE_FAILED'),
+  ;
 
-extension ImageVersionStatusValueExtension on ImageVersionStatus {
-  String toValue() {
-    switch (this) {
-      case ImageVersionStatus.creating:
-        return 'CREATING';
-      case ImageVersionStatus.created:
-        return 'CREATED';
-      case ImageVersionStatus.createFailed:
-        return 'CREATE_FAILED';
-      case ImageVersionStatus.deleting:
-        return 'DELETING';
-      case ImageVersionStatus.deleteFailed:
-        return 'DELETE_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ImageVersionStatusFromString on String {
-  ImageVersionStatus toImageVersionStatus() {
-    switch (this) {
-      case 'CREATING':
-        return ImageVersionStatus.creating;
-      case 'CREATED':
-        return ImageVersionStatus.created;
-      case 'CREATE_FAILED':
-        return ImageVersionStatus.createFailed;
-      case 'DELETING':
-        return ImageVersionStatus.deleting;
-      case 'DELETE_FAILED':
-        return ImageVersionStatus.deleteFailed;
-    }
-    throw Exception('$this is not known in enum ImageVersionStatus');
-  }
+  const ImageVersionStatus(this.value);
+
+  static ImageVersionStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ImageVersionStatus'));
 }
 
 class ImportHubContentResponse {
@@ -45168,36 +41942,19 @@ class InferenceComponentRuntimeConfigSummary {
 }
 
 enum InferenceComponentSortKey {
-  name,
-  creationTime,
-  status,
-}
+  name('Name'),
+  creationTime('CreationTime'),
+  status('Status'),
+  ;
 
-extension InferenceComponentSortKeyValueExtension on InferenceComponentSortKey {
-  String toValue() {
-    switch (this) {
-      case InferenceComponentSortKey.name:
-        return 'Name';
-      case InferenceComponentSortKey.creationTime:
-        return 'CreationTime';
-      case InferenceComponentSortKey.status:
-        return 'Status';
-    }
-  }
-}
+  final String value;
 
-extension InferenceComponentSortKeyFromString on String {
-  InferenceComponentSortKey toInferenceComponentSortKey() {
-    switch (this) {
-      case 'Name':
-        return InferenceComponentSortKey.name;
-      case 'CreationTime':
-        return InferenceComponentSortKey.creationTime;
-      case 'Status':
-        return InferenceComponentSortKey.status;
-    }
-    throw Exception('$this is not known in enum InferenceComponentSortKey');
-  }
+  const InferenceComponentSortKey(this.value);
+
+  static InferenceComponentSortKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum InferenceComponentSortKey'));
 }
 
 /// Details about the resources to deploy with this inference component,
@@ -45329,46 +42086,21 @@ class InferenceComponentStartupParameters {
 }
 
 enum InferenceComponentStatus {
-  inService,
-  creating,
-  updating,
-  failed,
-  deleting,
-}
+  inService('InService'),
+  creating('Creating'),
+  updating('Updating'),
+  failed('Failed'),
+  deleting('Deleting'),
+  ;
 
-extension InferenceComponentStatusValueExtension on InferenceComponentStatus {
-  String toValue() {
-    switch (this) {
-      case InferenceComponentStatus.inService:
-        return 'InService';
-      case InferenceComponentStatus.creating:
-        return 'Creating';
-      case InferenceComponentStatus.updating:
-        return 'Updating';
-      case InferenceComponentStatus.failed:
-        return 'Failed';
-      case InferenceComponentStatus.deleting:
-        return 'Deleting';
-    }
-  }
-}
+  final String value;
 
-extension InferenceComponentStatusFromString on String {
-  InferenceComponentStatus toInferenceComponentStatus() {
-    switch (this) {
-      case 'InService':
-        return InferenceComponentStatus.inService;
-      case 'Creating':
-        return InferenceComponentStatus.creating;
-      case 'Updating':
-        return InferenceComponentStatus.updating;
-      case 'Failed':
-        return InferenceComponentStatus.failed;
-      case 'Deleting':
-        return InferenceComponentStatus.deleting;
-    }
-    throw Exception('$this is not known in enum InferenceComponentStatus');
-  }
+  const InferenceComponentStatus(this.value);
+
+  static InferenceComponentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum InferenceComponentStatus'));
 }
 
 /// A summary of the properties of an inference component.
@@ -45421,7 +42153,7 @@ class InferenceComponentSummary {
           nonNullableTimeStampFromJson(json['LastModifiedTime'] as Object),
       variantName: json['VariantName'] as String,
       inferenceComponentStatus: (json['InferenceComponentStatus'] as String?)
-          ?.toInferenceComponentStatus(),
+          ?.let(InferenceComponentStatus.fromString),
     );
   }
 }
@@ -45447,44 +42179,31 @@ class InferenceExecutionConfig {
 
   factory InferenceExecutionConfig.fromJson(Map<String, dynamic> json) {
     return InferenceExecutionConfig(
-      mode: (json['Mode'] as String).toInferenceExecutionMode(),
+      mode: InferenceExecutionMode.fromString((json['Mode'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final mode = this.mode;
     return {
-      'Mode': mode.toValue(),
+      'Mode': mode.value,
     };
   }
 }
 
 enum InferenceExecutionMode {
-  serial,
-  direct,
-}
+  serial('Serial'),
+  direct('Direct'),
+  ;
 
-extension InferenceExecutionModeValueExtension on InferenceExecutionMode {
-  String toValue() {
-    switch (this) {
-      case InferenceExecutionMode.serial:
-        return 'Serial';
-      case InferenceExecutionMode.direct:
-        return 'Direct';
-    }
-  }
-}
+  final String value;
 
-extension InferenceExecutionModeFromString on String {
-  InferenceExecutionMode toInferenceExecutionMode() {
-    switch (this) {
-      case 'Serial':
-        return InferenceExecutionMode.serial;
-      case 'Direct':
-        return InferenceExecutionMode.direct;
-    }
-    throw Exception('$this is not known in enum InferenceExecutionMode');
-  }
+  const InferenceExecutionMode(this.value);
+
+  static InferenceExecutionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum InferenceExecutionMode'));
 }
 
 /// The Amazon S3 location and configuration for storing inference request and
@@ -45564,91 +42283,39 @@ class InferenceExperimentSchedule {
 }
 
 enum InferenceExperimentStatus {
-  creating,
-  created,
-  updating,
-  running,
-  starting,
-  stopping,
-  completed,
-  cancelled,
-}
+  creating('Creating'),
+  created('Created'),
+  updating('Updating'),
+  running('Running'),
+  starting('Starting'),
+  stopping('Stopping'),
+  completed('Completed'),
+  cancelled('Cancelled'),
+  ;
 
-extension InferenceExperimentStatusValueExtension on InferenceExperimentStatus {
-  String toValue() {
-    switch (this) {
-      case InferenceExperimentStatus.creating:
-        return 'Creating';
-      case InferenceExperimentStatus.created:
-        return 'Created';
-      case InferenceExperimentStatus.updating:
-        return 'Updating';
-      case InferenceExperimentStatus.running:
-        return 'Running';
-      case InferenceExperimentStatus.starting:
-        return 'Starting';
-      case InferenceExperimentStatus.stopping:
-        return 'Stopping';
-      case InferenceExperimentStatus.completed:
-        return 'Completed';
-      case InferenceExperimentStatus.cancelled:
-        return 'Cancelled';
-    }
-  }
-}
+  final String value;
 
-extension InferenceExperimentStatusFromString on String {
-  InferenceExperimentStatus toInferenceExperimentStatus() {
-    switch (this) {
-      case 'Creating':
-        return InferenceExperimentStatus.creating;
-      case 'Created':
-        return InferenceExperimentStatus.created;
-      case 'Updating':
-        return InferenceExperimentStatus.updating;
-      case 'Running':
-        return InferenceExperimentStatus.running;
-      case 'Starting':
-        return InferenceExperimentStatus.starting;
-      case 'Stopping':
-        return InferenceExperimentStatus.stopping;
-      case 'Completed':
-        return InferenceExperimentStatus.completed;
-      case 'Cancelled':
-        return InferenceExperimentStatus.cancelled;
-    }
-    throw Exception('$this is not known in enum InferenceExperimentStatus');
-  }
+  const InferenceExperimentStatus(this.value);
+
+  static InferenceExperimentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum InferenceExperimentStatus'));
 }
 
 enum InferenceExperimentStopDesiredState {
-  completed,
-  cancelled,
-}
+  completed('Completed'),
+  cancelled('Cancelled'),
+  ;
 
-extension InferenceExperimentStopDesiredStateValueExtension
-    on InferenceExperimentStopDesiredState {
-  String toValue() {
-    switch (this) {
-      case InferenceExperimentStopDesiredState.completed:
-        return 'Completed';
-      case InferenceExperimentStopDesiredState.cancelled:
-        return 'Cancelled';
-    }
-  }
-}
+  final String value;
 
-extension InferenceExperimentStopDesiredStateFromString on String {
-  InferenceExperimentStopDesiredState toInferenceExperimentStopDesiredState() {
-    switch (this) {
-      case 'Completed':
-        return InferenceExperimentStopDesiredState.completed;
-      case 'Cancelled':
-        return InferenceExperimentStopDesiredState.cancelled;
-    }
-    throw Exception(
-        '$this is not known in enum InferenceExperimentStopDesiredState');
-  }
+  const InferenceExperimentStopDesiredState(this.value);
+
+  static InferenceExperimentStopDesiredState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum InferenceExperimentStopDesiredState'));
 }
 
 /// Lists a summary of properties of an inference experiment.
@@ -45708,8 +42375,8 @@ class InferenceExperimentSummary {
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] as Object),
       name: json['Name'] as String,
-      status: (json['Status'] as String).toInferenceExperimentStatus(),
-      type: (json['Type'] as String).toInferenceExperimentType(),
+      status: InferenceExperimentStatus.fromString((json['Status'] as String)),
+      type: InferenceExperimentType.fromString((json['Type'] as String)),
       completionTime: timeStampFromJson(json['CompletionTime']),
       description: json['Description'] as String?,
       roleArn: json['RoleArn'] as String?,
@@ -45723,26 +42390,17 @@ class InferenceExperimentSummary {
 }
 
 enum InferenceExperimentType {
-  shadowMode,
-}
+  shadowMode('ShadowMode'),
+  ;
 
-extension InferenceExperimentTypeValueExtension on InferenceExperimentType {
-  String toValue() {
-    switch (this) {
-      case InferenceExperimentType.shadowMode:
-        return 'ShadowMode';
-    }
-  }
-}
+  final String value;
 
-extension InferenceExperimentTypeFromString on String {
-  InferenceExperimentType toInferenceExperimentType() {
-    switch (this) {
-      case 'ShadowMode':
-        return InferenceExperimentType.shadowMode;
-    }
-    throw Exception('$this is not known in enum InferenceExperimentType');
-  }
+  const InferenceExperimentType(this.value);
+
+  static InferenceExperimentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum InferenceExperimentType'));
 }
 
 /// The metrics for an existing endpoint compared in an Inference Recommender
@@ -45879,11 +42537,11 @@ class InferenceRecommendationsJob {
       jobArn: json['JobArn'] as String,
       jobDescription: json['JobDescription'] as String,
       jobName: json['JobName'] as String,
-      jobType: (json['JobType'] as String).toRecommendationJobType(),
+      jobType: RecommendationJobType.fromString((json['JobType'] as String)),
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] as Object),
       roleArn: json['RoleArn'] as String,
-      status: (json['Status'] as String).toRecommendationJobStatus(),
+      status: RecommendationJobStatus.fromString((json['Status'] as String)),
       completionTime: timeStampFromJson(json['CompletionTime']),
       failureReason: json['FailureReason'] as String?,
       modelName: json['ModelName'] as String?,
@@ -45922,8 +42580,8 @@ class InferenceRecommendationsJobStep {
   factory InferenceRecommendationsJobStep.fromJson(Map<String, dynamic> json) {
     return InferenceRecommendationsJobStep(
       jobName: json['JobName'] as String,
-      status: (json['Status'] as String).toRecommendationJobStatus(),
-      stepType: (json['StepType'] as String).toRecommendationStepType(),
+      status: RecommendationJobStatus.fromString((json['Status'] as String)),
+      stepType: RecommendationStepType.fromString((json['StepType'] as String)),
       inferenceBenchmark: json['InferenceBenchmark'] != null
           ? RecommendationJobInferenceBenchmark.fromJson(
               json['InferenceBenchmark'] as Map<String, dynamic>)
@@ -45978,11 +42636,11 @@ class InferenceSpecification {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      supportedRealtimeInferenceInstanceTypes:
-          (json['SupportedRealtimeInferenceInstanceTypes'] as List?)
-              ?.whereNotNull()
-              .map((e) => (e as String).toProductionVariantInstanceType())
-              .toList(),
+      supportedRealtimeInferenceInstanceTypes: (json[
+              'SupportedRealtimeInferenceInstanceTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => ProductionVariantInstanceType.fromString((e as String)))
+          .toList(),
       supportedResponseMIMETypes: (json['SupportedResponseMIMETypes'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -45990,7 +42648,7 @@ class InferenceSpecification {
       supportedTransformInstanceTypes:
           (json['SupportedTransformInstanceTypes'] as List?)
               ?.whereNotNull()
-              .map((e) => (e as String).toTransformInstanceType())
+              .map((e) => TransformInstanceType.fromString((e as String)))
               .toList(),
     );
   }
@@ -46010,13 +42668,13 @@ class InferenceSpecification {
       if (supportedRealtimeInferenceInstanceTypes != null)
         'SupportedRealtimeInferenceInstanceTypes':
             supportedRealtimeInferenceInstanceTypes
-                .map((e) => e.toValue())
+                .map((e) => e.value)
                 .toList(),
       if (supportedResponseMIMETypes != null)
         'SupportedResponseMIMETypes': supportedResponseMIMETypes,
       if (supportedTransformInstanceTypes != null)
         'SupportedTransformInstanceTypes':
-            supportedTransformInstanceTypes.map((e) => e.toValue()).toList(),
+            supportedTransformInstanceTypes.map((e) => e.value).toList(),
     };
   }
 }
@@ -46360,7 +43018,7 @@ class InputConfig {
 
   factory InputConfig.fromJson(Map<String, dynamic> json) {
     return InputConfig(
-      framework: (json['Framework'] as String).toFramework(),
+      framework: Framework.fromString((json['Framework'] as String)),
       s3Uri: json['S3Uri'] as String,
       dataInputConfig: json['DataInputConfig'] as String?,
       frameworkVersion: json['FrameworkVersion'] as String?,
@@ -46373,7 +43031,7 @@ class InputConfig {
     final dataInputConfig = this.dataInputConfig;
     final frameworkVersion = this.frameworkVersion;
     return {
-      'Framework': framework.toValue(),
+      'Framework': framework.value,
       'S3Uri': s3Uri,
       if (dataInputConfig != null) 'DataInputConfig': dataInputConfig,
       if (frameworkVersion != null) 'FrameworkVersion': frameworkVersion,
@@ -46382,31 +43040,17 @@ class InputConfig {
 }
 
 enum InputMode {
-  pipe,
-  file,
-}
+  pipe('Pipe'),
+  file('File'),
+  ;
 
-extension InputModeValueExtension on InputMode {
-  String toValue() {
-    switch (this) {
-      case InputMode.pipe:
-        return 'Pipe';
-      case InputMode.file:
-        return 'File';
-    }
-  }
-}
+  final String value;
 
-extension InputModeFromString on String {
-  InputMode toInputMode() {
-    switch (this) {
-      case 'Pipe':
-        return InputMode.pipe;
-      case 'File':
-        return InputMode.file;
-    }
-    throw Exception('$this is not known in enum InputMode');
-  }
+  const InputMode(this.value);
+
+  static InputMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum InputMode'));
 }
 
 /// Defines an instance group for heterogeneous cluster training. When
@@ -46433,7 +43077,8 @@ class InstanceGroup {
     return InstanceGroup(
       instanceCount: json['InstanceCount'] as int,
       instanceGroupName: json['InstanceGroupName'] as String,
-      instanceType: (json['InstanceType'] as String).toTrainingInstanceType(),
+      instanceType:
+          TrainingInstanceType.fromString((json['InstanceType'] as String)),
     );
   }
 
@@ -46444,7 +43089,7 @@ class InstanceGroup {
     return {
       'InstanceCount': instanceCount,
       'InstanceGroupName': instanceGroupName,
-      'InstanceType': instanceType.toValue(),
+      'InstanceType': instanceType.value,
     };
   }
 }
@@ -46481,846 +43126,181 @@ class InstanceMetadataServiceConfiguration {
 }
 
 enum InstanceType {
-  mlT2Medium,
-  mlT2Large,
-  mlT2Xlarge,
-  mlT2_2xlarge,
-  mlT3Medium,
-  mlT3Large,
-  mlT3Xlarge,
-  mlT3_2xlarge,
-  mlM4Xlarge,
-  mlM4_2xlarge,
-  mlM4_4xlarge,
-  mlM4_10xlarge,
-  mlM4_16xlarge,
-  mlM5Xlarge,
-  mlM5_2xlarge,
-  mlM5_4xlarge,
-  mlM5_12xlarge,
-  mlM5_24xlarge,
-  mlM5dLarge,
-  mlM5dXlarge,
-  mlM5d_2xlarge,
-  mlM5d_4xlarge,
-  mlM5d_8xlarge,
-  mlM5d_12xlarge,
-  mlM5d_16xlarge,
-  mlM5d_24xlarge,
-  mlC4Xlarge,
-  mlC4_2xlarge,
-  mlC4_4xlarge,
-  mlC4_8xlarge,
-  mlC5Xlarge,
-  mlC5_2xlarge,
-  mlC5_4xlarge,
-  mlC5_9xlarge,
-  mlC5_18xlarge,
-  mlC5dXlarge,
-  mlC5d_2xlarge,
-  mlC5d_4xlarge,
-  mlC5d_9xlarge,
-  mlC5d_18xlarge,
-  mlP2Xlarge,
-  mlP2_8xlarge,
-  mlP2_16xlarge,
-  mlP3_2xlarge,
-  mlP3_8xlarge,
-  mlP3_16xlarge,
-  mlP3dn_24xlarge,
-  mlG4dnXlarge,
-  mlG4dn_2xlarge,
-  mlG4dn_4xlarge,
-  mlG4dn_8xlarge,
-  mlG4dn_12xlarge,
-  mlG4dn_16xlarge,
-  mlR5Large,
-  mlR5Xlarge,
-  mlR5_2xlarge,
-  mlR5_4xlarge,
-  mlR5_8xlarge,
-  mlR5_12xlarge,
-  mlR5_16xlarge,
-  mlR5_24xlarge,
-  mlG5Xlarge,
-  mlG5_2xlarge,
-  mlG5_4xlarge,
-  mlG5_8xlarge,
-  mlG5_16xlarge,
-  mlG5_12xlarge,
-  mlG5_24xlarge,
-  mlG5_48xlarge,
-  mlInf1Xlarge,
-  mlInf1_2xlarge,
-  mlInf1_6xlarge,
-  mlInf1_24xlarge,
-  mlP4d_24xlarge,
-  mlP4de_24xlarge,
-  mlP5_48xlarge,
-  mlM6iLarge,
-  mlM6iXlarge,
-  mlM6i_2xlarge,
-  mlM6i_4xlarge,
-  mlM6i_8xlarge,
-  mlM6i_12xlarge,
-  mlM6i_16xlarge,
-  mlM6i_24xlarge,
-  mlM6i_32xlarge,
-  mlM7iLarge,
-  mlM7iXlarge,
-  mlM7i_2xlarge,
-  mlM7i_4xlarge,
-  mlM7i_8xlarge,
-  mlM7i_12xlarge,
-  mlM7i_16xlarge,
-  mlM7i_24xlarge,
-  mlM7i_48xlarge,
-  mlC6iLarge,
-  mlC6iXlarge,
-  mlC6i_2xlarge,
-  mlC6i_4xlarge,
-  mlC6i_8xlarge,
-  mlC6i_12xlarge,
-  mlC6i_16xlarge,
-  mlC6i_24xlarge,
-  mlC6i_32xlarge,
-  mlC7iLarge,
-  mlC7iXlarge,
-  mlC7i_2xlarge,
-  mlC7i_4xlarge,
-  mlC7i_8xlarge,
-  mlC7i_12xlarge,
-  mlC7i_16xlarge,
-  mlC7i_24xlarge,
-  mlC7i_48xlarge,
-  mlR6iLarge,
-  mlR6iXlarge,
-  mlR6i_2xlarge,
-  mlR6i_4xlarge,
-  mlR6i_8xlarge,
-  mlR6i_12xlarge,
-  mlR6i_16xlarge,
-  mlR6i_24xlarge,
-  mlR6i_32xlarge,
-  mlR7iLarge,
-  mlR7iXlarge,
-  mlR7i_2xlarge,
-  mlR7i_4xlarge,
-  mlR7i_8xlarge,
-  mlR7i_12xlarge,
-  mlR7i_16xlarge,
-  mlR7i_24xlarge,
-  mlR7i_48xlarge,
-  mlM6idLarge,
-  mlM6idXlarge,
-  mlM6id_2xlarge,
-  mlM6id_4xlarge,
-  mlM6id_8xlarge,
-  mlM6id_12xlarge,
-  mlM6id_16xlarge,
-  mlM6id_24xlarge,
-  mlM6id_32xlarge,
-  mlC6idLarge,
-  mlC6idXlarge,
-  mlC6id_2xlarge,
-  mlC6id_4xlarge,
-  mlC6id_8xlarge,
-  mlC6id_12xlarge,
-  mlC6id_16xlarge,
-  mlC6id_24xlarge,
-  mlC6id_32xlarge,
-  mlR6idLarge,
-  mlR6idXlarge,
-  mlR6id_2xlarge,
-  mlR6id_4xlarge,
-  mlR6id_8xlarge,
-  mlR6id_12xlarge,
-  mlR6id_16xlarge,
-  mlR6id_24xlarge,
-  mlR6id_32xlarge,
-  mlG6Xlarge,
-  mlG6_2xlarge,
-  mlG6_4xlarge,
-  mlG6_8xlarge,
-  mlG6_12xlarge,
-  mlG6_16xlarge,
-  mlG6_24xlarge,
-  mlG6_48xlarge,
-}
+  mlT2Medium('ml.t2.medium'),
+  mlT2Large('ml.t2.large'),
+  mlT2Xlarge('ml.t2.xlarge'),
+  mlT2_2xlarge('ml.t2.2xlarge'),
+  mlT3Medium('ml.t3.medium'),
+  mlT3Large('ml.t3.large'),
+  mlT3Xlarge('ml.t3.xlarge'),
+  mlT3_2xlarge('ml.t3.2xlarge'),
+  mlM4Xlarge('ml.m4.xlarge'),
+  mlM4_2xlarge('ml.m4.2xlarge'),
+  mlM4_4xlarge('ml.m4.4xlarge'),
+  mlM4_10xlarge('ml.m4.10xlarge'),
+  mlM4_16xlarge('ml.m4.16xlarge'),
+  mlM5Xlarge('ml.m5.xlarge'),
+  mlM5_2xlarge('ml.m5.2xlarge'),
+  mlM5_4xlarge('ml.m5.4xlarge'),
+  mlM5_12xlarge('ml.m5.12xlarge'),
+  mlM5_24xlarge('ml.m5.24xlarge'),
+  mlM5dLarge('ml.m5d.large'),
+  mlM5dXlarge('ml.m5d.xlarge'),
+  mlM5d_2xlarge('ml.m5d.2xlarge'),
+  mlM5d_4xlarge('ml.m5d.4xlarge'),
+  mlM5d_8xlarge('ml.m5d.8xlarge'),
+  mlM5d_12xlarge('ml.m5d.12xlarge'),
+  mlM5d_16xlarge('ml.m5d.16xlarge'),
+  mlM5d_24xlarge('ml.m5d.24xlarge'),
+  mlC4Xlarge('ml.c4.xlarge'),
+  mlC4_2xlarge('ml.c4.2xlarge'),
+  mlC4_4xlarge('ml.c4.4xlarge'),
+  mlC4_8xlarge('ml.c4.8xlarge'),
+  mlC5Xlarge('ml.c5.xlarge'),
+  mlC5_2xlarge('ml.c5.2xlarge'),
+  mlC5_4xlarge('ml.c5.4xlarge'),
+  mlC5_9xlarge('ml.c5.9xlarge'),
+  mlC5_18xlarge('ml.c5.18xlarge'),
+  mlC5dXlarge('ml.c5d.xlarge'),
+  mlC5d_2xlarge('ml.c5d.2xlarge'),
+  mlC5d_4xlarge('ml.c5d.4xlarge'),
+  mlC5d_9xlarge('ml.c5d.9xlarge'),
+  mlC5d_18xlarge('ml.c5d.18xlarge'),
+  mlP2Xlarge('ml.p2.xlarge'),
+  mlP2_8xlarge('ml.p2.8xlarge'),
+  mlP2_16xlarge('ml.p2.16xlarge'),
+  mlP3_2xlarge('ml.p3.2xlarge'),
+  mlP3_8xlarge('ml.p3.8xlarge'),
+  mlP3_16xlarge('ml.p3.16xlarge'),
+  mlP3dn_24xlarge('ml.p3dn.24xlarge'),
+  mlG4dnXlarge('ml.g4dn.xlarge'),
+  mlG4dn_2xlarge('ml.g4dn.2xlarge'),
+  mlG4dn_4xlarge('ml.g4dn.4xlarge'),
+  mlG4dn_8xlarge('ml.g4dn.8xlarge'),
+  mlG4dn_12xlarge('ml.g4dn.12xlarge'),
+  mlG4dn_16xlarge('ml.g4dn.16xlarge'),
+  mlR5Large('ml.r5.large'),
+  mlR5Xlarge('ml.r5.xlarge'),
+  mlR5_2xlarge('ml.r5.2xlarge'),
+  mlR5_4xlarge('ml.r5.4xlarge'),
+  mlR5_8xlarge('ml.r5.8xlarge'),
+  mlR5_12xlarge('ml.r5.12xlarge'),
+  mlR5_16xlarge('ml.r5.16xlarge'),
+  mlR5_24xlarge('ml.r5.24xlarge'),
+  mlG5Xlarge('ml.g5.xlarge'),
+  mlG5_2xlarge('ml.g5.2xlarge'),
+  mlG5_4xlarge('ml.g5.4xlarge'),
+  mlG5_8xlarge('ml.g5.8xlarge'),
+  mlG5_16xlarge('ml.g5.16xlarge'),
+  mlG5_12xlarge('ml.g5.12xlarge'),
+  mlG5_24xlarge('ml.g5.24xlarge'),
+  mlG5_48xlarge('ml.g5.48xlarge'),
+  mlInf1Xlarge('ml.inf1.xlarge'),
+  mlInf1_2xlarge('ml.inf1.2xlarge'),
+  mlInf1_6xlarge('ml.inf1.6xlarge'),
+  mlInf1_24xlarge('ml.inf1.24xlarge'),
+  mlP4d_24xlarge('ml.p4d.24xlarge'),
+  mlP4de_24xlarge('ml.p4de.24xlarge'),
+  mlP5_48xlarge('ml.p5.48xlarge'),
+  mlM6iLarge('ml.m6i.large'),
+  mlM6iXlarge('ml.m6i.xlarge'),
+  mlM6i_2xlarge('ml.m6i.2xlarge'),
+  mlM6i_4xlarge('ml.m6i.4xlarge'),
+  mlM6i_8xlarge('ml.m6i.8xlarge'),
+  mlM6i_12xlarge('ml.m6i.12xlarge'),
+  mlM6i_16xlarge('ml.m6i.16xlarge'),
+  mlM6i_24xlarge('ml.m6i.24xlarge'),
+  mlM6i_32xlarge('ml.m6i.32xlarge'),
+  mlM7iLarge('ml.m7i.large'),
+  mlM7iXlarge('ml.m7i.xlarge'),
+  mlM7i_2xlarge('ml.m7i.2xlarge'),
+  mlM7i_4xlarge('ml.m7i.4xlarge'),
+  mlM7i_8xlarge('ml.m7i.8xlarge'),
+  mlM7i_12xlarge('ml.m7i.12xlarge'),
+  mlM7i_16xlarge('ml.m7i.16xlarge'),
+  mlM7i_24xlarge('ml.m7i.24xlarge'),
+  mlM7i_48xlarge('ml.m7i.48xlarge'),
+  mlC6iLarge('ml.c6i.large'),
+  mlC6iXlarge('ml.c6i.xlarge'),
+  mlC6i_2xlarge('ml.c6i.2xlarge'),
+  mlC6i_4xlarge('ml.c6i.4xlarge'),
+  mlC6i_8xlarge('ml.c6i.8xlarge'),
+  mlC6i_12xlarge('ml.c6i.12xlarge'),
+  mlC6i_16xlarge('ml.c6i.16xlarge'),
+  mlC6i_24xlarge('ml.c6i.24xlarge'),
+  mlC6i_32xlarge('ml.c6i.32xlarge'),
+  mlC7iLarge('ml.c7i.large'),
+  mlC7iXlarge('ml.c7i.xlarge'),
+  mlC7i_2xlarge('ml.c7i.2xlarge'),
+  mlC7i_4xlarge('ml.c7i.4xlarge'),
+  mlC7i_8xlarge('ml.c7i.8xlarge'),
+  mlC7i_12xlarge('ml.c7i.12xlarge'),
+  mlC7i_16xlarge('ml.c7i.16xlarge'),
+  mlC7i_24xlarge('ml.c7i.24xlarge'),
+  mlC7i_48xlarge('ml.c7i.48xlarge'),
+  mlR6iLarge('ml.r6i.large'),
+  mlR6iXlarge('ml.r6i.xlarge'),
+  mlR6i_2xlarge('ml.r6i.2xlarge'),
+  mlR6i_4xlarge('ml.r6i.4xlarge'),
+  mlR6i_8xlarge('ml.r6i.8xlarge'),
+  mlR6i_12xlarge('ml.r6i.12xlarge'),
+  mlR6i_16xlarge('ml.r6i.16xlarge'),
+  mlR6i_24xlarge('ml.r6i.24xlarge'),
+  mlR6i_32xlarge('ml.r6i.32xlarge'),
+  mlR7iLarge('ml.r7i.large'),
+  mlR7iXlarge('ml.r7i.xlarge'),
+  mlR7i_2xlarge('ml.r7i.2xlarge'),
+  mlR7i_4xlarge('ml.r7i.4xlarge'),
+  mlR7i_8xlarge('ml.r7i.8xlarge'),
+  mlR7i_12xlarge('ml.r7i.12xlarge'),
+  mlR7i_16xlarge('ml.r7i.16xlarge'),
+  mlR7i_24xlarge('ml.r7i.24xlarge'),
+  mlR7i_48xlarge('ml.r7i.48xlarge'),
+  mlM6idLarge('ml.m6id.large'),
+  mlM6idXlarge('ml.m6id.xlarge'),
+  mlM6id_2xlarge('ml.m6id.2xlarge'),
+  mlM6id_4xlarge('ml.m6id.4xlarge'),
+  mlM6id_8xlarge('ml.m6id.8xlarge'),
+  mlM6id_12xlarge('ml.m6id.12xlarge'),
+  mlM6id_16xlarge('ml.m6id.16xlarge'),
+  mlM6id_24xlarge('ml.m6id.24xlarge'),
+  mlM6id_32xlarge('ml.m6id.32xlarge'),
+  mlC6idLarge('ml.c6id.large'),
+  mlC6idXlarge('ml.c6id.xlarge'),
+  mlC6id_2xlarge('ml.c6id.2xlarge'),
+  mlC6id_4xlarge('ml.c6id.4xlarge'),
+  mlC6id_8xlarge('ml.c6id.8xlarge'),
+  mlC6id_12xlarge('ml.c6id.12xlarge'),
+  mlC6id_16xlarge('ml.c6id.16xlarge'),
+  mlC6id_24xlarge('ml.c6id.24xlarge'),
+  mlC6id_32xlarge('ml.c6id.32xlarge'),
+  mlR6idLarge('ml.r6id.large'),
+  mlR6idXlarge('ml.r6id.xlarge'),
+  mlR6id_2xlarge('ml.r6id.2xlarge'),
+  mlR6id_4xlarge('ml.r6id.4xlarge'),
+  mlR6id_8xlarge('ml.r6id.8xlarge'),
+  mlR6id_12xlarge('ml.r6id.12xlarge'),
+  mlR6id_16xlarge('ml.r6id.16xlarge'),
+  mlR6id_24xlarge('ml.r6id.24xlarge'),
+  mlR6id_32xlarge('ml.r6id.32xlarge'),
+  mlG6Xlarge('ml.g6.xlarge'),
+  mlG6_2xlarge('ml.g6.2xlarge'),
+  mlG6_4xlarge('ml.g6.4xlarge'),
+  mlG6_8xlarge('ml.g6.8xlarge'),
+  mlG6_12xlarge('ml.g6.12xlarge'),
+  mlG6_16xlarge('ml.g6.16xlarge'),
+  mlG6_24xlarge('ml.g6.24xlarge'),
+  mlG6_48xlarge('ml.g6.48xlarge'),
+  ;
 
-extension InstanceTypeValueExtension on InstanceType {
-  String toValue() {
-    switch (this) {
-      case InstanceType.mlT2Medium:
-        return 'ml.t2.medium';
-      case InstanceType.mlT2Large:
-        return 'ml.t2.large';
-      case InstanceType.mlT2Xlarge:
-        return 'ml.t2.xlarge';
-      case InstanceType.mlT2_2xlarge:
-        return 'ml.t2.2xlarge';
-      case InstanceType.mlT3Medium:
-        return 'ml.t3.medium';
-      case InstanceType.mlT3Large:
-        return 'ml.t3.large';
-      case InstanceType.mlT3Xlarge:
-        return 'ml.t3.xlarge';
-      case InstanceType.mlT3_2xlarge:
-        return 'ml.t3.2xlarge';
-      case InstanceType.mlM4Xlarge:
-        return 'ml.m4.xlarge';
-      case InstanceType.mlM4_2xlarge:
-        return 'ml.m4.2xlarge';
-      case InstanceType.mlM4_4xlarge:
-        return 'ml.m4.4xlarge';
-      case InstanceType.mlM4_10xlarge:
-        return 'ml.m4.10xlarge';
-      case InstanceType.mlM4_16xlarge:
-        return 'ml.m4.16xlarge';
-      case InstanceType.mlM5Xlarge:
-        return 'ml.m5.xlarge';
-      case InstanceType.mlM5_2xlarge:
-        return 'ml.m5.2xlarge';
-      case InstanceType.mlM5_4xlarge:
-        return 'ml.m5.4xlarge';
-      case InstanceType.mlM5_12xlarge:
-        return 'ml.m5.12xlarge';
-      case InstanceType.mlM5_24xlarge:
-        return 'ml.m5.24xlarge';
-      case InstanceType.mlM5dLarge:
-        return 'ml.m5d.large';
-      case InstanceType.mlM5dXlarge:
-        return 'ml.m5d.xlarge';
-      case InstanceType.mlM5d_2xlarge:
-        return 'ml.m5d.2xlarge';
-      case InstanceType.mlM5d_4xlarge:
-        return 'ml.m5d.4xlarge';
-      case InstanceType.mlM5d_8xlarge:
-        return 'ml.m5d.8xlarge';
-      case InstanceType.mlM5d_12xlarge:
-        return 'ml.m5d.12xlarge';
-      case InstanceType.mlM5d_16xlarge:
-        return 'ml.m5d.16xlarge';
-      case InstanceType.mlM5d_24xlarge:
-        return 'ml.m5d.24xlarge';
-      case InstanceType.mlC4Xlarge:
-        return 'ml.c4.xlarge';
-      case InstanceType.mlC4_2xlarge:
-        return 'ml.c4.2xlarge';
-      case InstanceType.mlC4_4xlarge:
-        return 'ml.c4.4xlarge';
-      case InstanceType.mlC4_8xlarge:
-        return 'ml.c4.8xlarge';
-      case InstanceType.mlC5Xlarge:
-        return 'ml.c5.xlarge';
-      case InstanceType.mlC5_2xlarge:
-        return 'ml.c5.2xlarge';
-      case InstanceType.mlC5_4xlarge:
-        return 'ml.c5.4xlarge';
-      case InstanceType.mlC5_9xlarge:
-        return 'ml.c5.9xlarge';
-      case InstanceType.mlC5_18xlarge:
-        return 'ml.c5.18xlarge';
-      case InstanceType.mlC5dXlarge:
-        return 'ml.c5d.xlarge';
-      case InstanceType.mlC5d_2xlarge:
-        return 'ml.c5d.2xlarge';
-      case InstanceType.mlC5d_4xlarge:
-        return 'ml.c5d.4xlarge';
-      case InstanceType.mlC5d_9xlarge:
-        return 'ml.c5d.9xlarge';
-      case InstanceType.mlC5d_18xlarge:
-        return 'ml.c5d.18xlarge';
-      case InstanceType.mlP2Xlarge:
-        return 'ml.p2.xlarge';
-      case InstanceType.mlP2_8xlarge:
-        return 'ml.p2.8xlarge';
-      case InstanceType.mlP2_16xlarge:
-        return 'ml.p2.16xlarge';
-      case InstanceType.mlP3_2xlarge:
-        return 'ml.p3.2xlarge';
-      case InstanceType.mlP3_8xlarge:
-        return 'ml.p3.8xlarge';
-      case InstanceType.mlP3_16xlarge:
-        return 'ml.p3.16xlarge';
-      case InstanceType.mlP3dn_24xlarge:
-        return 'ml.p3dn.24xlarge';
-      case InstanceType.mlG4dnXlarge:
-        return 'ml.g4dn.xlarge';
-      case InstanceType.mlG4dn_2xlarge:
-        return 'ml.g4dn.2xlarge';
-      case InstanceType.mlG4dn_4xlarge:
-        return 'ml.g4dn.4xlarge';
-      case InstanceType.mlG4dn_8xlarge:
-        return 'ml.g4dn.8xlarge';
-      case InstanceType.mlG4dn_12xlarge:
-        return 'ml.g4dn.12xlarge';
-      case InstanceType.mlG4dn_16xlarge:
-        return 'ml.g4dn.16xlarge';
-      case InstanceType.mlR5Large:
-        return 'ml.r5.large';
-      case InstanceType.mlR5Xlarge:
-        return 'ml.r5.xlarge';
-      case InstanceType.mlR5_2xlarge:
-        return 'ml.r5.2xlarge';
-      case InstanceType.mlR5_4xlarge:
-        return 'ml.r5.4xlarge';
-      case InstanceType.mlR5_8xlarge:
-        return 'ml.r5.8xlarge';
-      case InstanceType.mlR5_12xlarge:
-        return 'ml.r5.12xlarge';
-      case InstanceType.mlR5_16xlarge:
-        return 'ml.r5.16xlarge';
-      case InstanceType.mlR5_24xlarge:
-        return 'ml.r5.24xlarge';
-      case InstanceType.mlG5Xlarge:
-        return 'ml.g5.xlarge';
-      case InstanceType.mlG5_2xlarge:
-        return 'ml.g5.2xlarge';
-      case InstanceType.mlG5_4xlarge:
-        return 'ml.g5.4xlarge';
-      case InstanceType.mlG5_8xlarge:
-        return 'ml.g5.8xlarge';
-      case InstanceType.mlG5_16xlarge:
-        return 'ml.g5.16xlarge';
-      case InstanceType.mlG5_12xlarge:
-        return 'ml.g5.12xlarge';
-      case InstanceType.mlG5_24xlarge:
-        return 'ml.g5.24xlarge';
-      case InstanceType.mlG5_48xlarge:
-        return 'ml.g5.48xlarge';
-      case InstanceType.mlInf1Xlarge:
-        return 'ml.inf1.xlarge';
-      case InstanceType.mlInf1_2xlarge:
-        return 'ml.inf1.2xlarge';
-      case InstanceType.mlInf1_6xlarge:
-        return 'ml.inf1.6xlarge';
-      case InstanceType.mlInf1_24xlarge:
-        return 'ml.inf1.24xlarge';
-      case InstanceType.mlP4d_24xlarge:
-        return 'ml.p4d.24xlarge';
-      case InstanceType.mlP4de_24xlarge:
-        return 'ml.p4de.24xlarge';
-      case InstanceType.mlP5_48xlarge:
-        return 'ml.p5.48xlarge';
-      case InstanceType.mlM6iLarge:
-        return 'ml.m6i.large';
-      case InstanceType.mlM6iXlarge:
-        return 'ml.m6i.xlarge';
-      case InstanceType.mlM6i_2xlarge:
-        return 'ml.m6i.2xlarge';
-      case InstanceType.mlM6i_4xlarge:
-        return 'ml.m6i.4xlarge';
-      case InstanceType.mlM6i_8xlarge:
-        return 'ml.m6i.8xlarge';
-      case InstanceType.mlM6i_12xlarge:
-        return 'ml.m6i.12xlarge';
-      case InstanceType.mlM6i_16xlarge:
-        return 'ml.m6i.16xlarge';
-      case InstanceType.mlM6i_24xlarge:
-        return 'ml.m6i.24xlarge';
-      case InstanceType.mlM6i_32xlarge:
-        return 'ml.m6i.32xlarge';
-      case InstanceType.mlM7iLarge:
-        return 'ml.m7i.large';
-      case InstanceType.mlM7iXlarge:
-        return 'ml.m7i.xlarge';
-      case InstanceType.mlM7i_2xlarge:
-        return 'ml.m7i.2xlarge';
-      case InstanceType.mlM7i_4xlarge:
-        return 'ml.m7i.4xlarge';
-      case InstanceType.mlM7i_8xlarge:
-        return 'ml.m7i.8xlarge';
-      case InstanceType.mlM7i_12xlarge:
-        return 'ml.m7i.12xlarge';
-      case InstanceType.mlM7i_16xlarge:
-        return 'ml.m7i.16xlarge';
-      case InstanceType.mlM7i_24xlarge:
-        return 'ml.m7i.24xlarge';
-      case InstanceType.mlM7i_48xlarge:
-        return 'ml.m7i.48xlarge';
-      case InstanceType.mlC6iLarge:
-        return 'ml.c6i.large';
-      case InstanceType.mlC6iXlarge:
-        return 'ml.c6i.xlarge';
-      case InstanceType.mlC6i_2xlarge:
-        return 'ml.c6i.2xlarge';
-      case InstanceType.mlC6i_4xlarge:
-        return 'ml.c6i.4xlarge';
-      case InstanceType.mlC6i_8xlarge:
-        return 'ml.c6i.8xlarge';
-      case InstanceType.mlC6i_12xlarge:
-        return 'ml.c6i.12xlarge';
-      case InstanceType.mlC6i_16xlarge:
-        return 'ml.c6i.16xlarge';
-      case InstanceType.mlC6i_24xlarge:
-        return 'ml.c6i.24xlarge';
-      case InstanceType.mlC6i_32xlarge:
-        return 'ml.c6i.32xlarge';
-      case InstanceType.mlC7iLarge:
-        return 'ml.c7i.large';
-      case InstanceType.mlC7iXlarge:
-        return 'ml.c7i.xlarge';
-      case InstanceType.mlC7i_2xlarge:
-        return 'ml.c7i.2xlarge';
-      case InstanceType.mlC7i_4xlarge:
-        return 'ml.c7i.4xlarge';
-      case InstanceType.mlC7i_8xlarge:
-        return 'ml.c7i.8xlarge';
-      case InstanceType.mlC7i_12xlarge:
-        return 'ml.c7i.12xlarge';
-      case InstanceType.mlC7i_16xlarge:
-        return 'ml.c7i.16xlarge';
-      case InstanceType.mlC7i_24xlarge:
-        return 'ml.c7i.24xlarge';
-      case InstanceType.mlC7i_48xlarge:
-        return 'ml.c7i.48xlarge';
-      case InstanceType.mlR6iLarge:
-        return 'ml.r6i.large';
-      case InstanceType.mlR6iXlarge:
-        return 'ml.r6i.xlarge';
-      case InstanceType.mlR6i_2xlarge:
-        return 'ml.r6i.2xlarge';
-      case InstanceType.mlR6i_4xlarge:
-        return 'ml.r6i.4xlarge';
-      case InstanceType.mlR6i_8xlarge:
-        return 'ml.r6i.8xlarge';
-      case InstanceType.mlR6i_12xlarge:
-        return 'ml.r6i.12xlarge';
-      case InstanceType.mlR6i_16xlarge:
-        return 'ml.r6i.16xlarge';
-      case InstanceType.mlR6i_24xlarge:
-        return 'ml.r6i.24xlarge';
-      case InstanceType.mlR6i_32xlarge:
-        return 'ml.r6i.32xlarge';
-      case InstanceType.mlR7iLarge:
-        return 'ml.r7i.large';
-      case InstanceType.mlR7iXlarge:
-        return 'ml.r7i.xlarge';
-      case InstanceType.mlR7i_2xlarge:
-        return 'ml.r7i.2xlarge';
-      case InstanceType.mlR7i_4xlarge:
-        return 'ml.r7i.4xlarge';
-      case InstanceType.mlR7i_8xlarge:
-        return 'ml.r7i.8xlarge';
-      case InstanceType.mlR7i_12xlarge:
-        return 'ml.r7i.12xlarge';
-      case InstanceType.mlR7i_16xlarge:
-        return 'ml.r7i.16xlarge';
-      case InstanceType.mlR7i_24xlarge:
-        return 'ml.r7i.24xlarge';
-      case InstanceType.mlR7i_48xlarge:
-        return 'ml.r7i.48xlarge';
-      case InstanceType.mlM6idLarge:
-        return 'ml.m6id.large';
-      case InstanceType.mlM6idXlarge:
-        return 'ml.m6id.xlarge';
-      case InstanceType.mlM6id_2xlarge:
-        return 'ml.m6id.2xlarge';
-      case InstanceType.mlM6id_4xlarge:
-        return 'ml.m6id.4xlarge';
-      case InstanceType.mlM6id_8xlarge:
-        return 'ml.m6id.8xlarge';
-      case InstanceType.mlM6id_12xlarge:
-        return 'ml.m6id.12xlarge';
-      case InstanceType.mlM6id_16xlarge:
-        return 'ml.m6id.16xlarge';
-      case InstanceType.mlM6id_24xlarge:
-        return 'ml.m6id.24xlarge';
-      case InstanceType.mlM6id_32xlarge:
-        return 'ml.m6id.32xlarge';
-      case InstanceType.mlC6idLarge:
-        return 'ml.c6id.large';
-      case InstanceType.mlC6idXlarge:
-        return 'ml.c6id.xlarge';
-      case InstanceType.mlC6id_2xlarge:
-        return 'ml.c6id.2xlarge';
-      case InstanceType.mlC6id_4xlarge:
-        return 'ml.c6id.4xlarge';
-      case InstanceType.mlC6id_8xlarge:
-        return 'ml.c6id.8xlarge';
-      case InstanceType.mlC6id_12xlarge:
-        return 'ml.c6id.12xlarge';
-      case InstanceType.mlC6id_16xlarge:
-        return 'ml.c6id.16xlarge';
-      case InstanceType.mlC6id_24xlarge:
-        return 'ml.c6id.24xlarge';
-      case InstanceType.mlC6id_32xlarge:
-        return 'ml.c6id.32xlarge';
-      case InstanceType.mlR6idLarge:
-        return 'ml.r6id.large';
-      case InstanceType.mlR6idXlarge:
-        return 'ml.r6id.xlarge';
-      case InstanceType.mlR6id_2xlarge:
-        return 'ml.r6id.2xlarge';
-      case InstanceType.mlR6id_4xlarge:
-        return 'ml.r6id.4xlarge';
-      case InstanceType.mlR6id_8xlarge:
-        return 'ml.r6id.8xlarge';
-      case InstanceType.mlR6id_12xlarge:
-        return 'ml.r6id.12xlarge';
-      case InstanceType.mlR6id_16xlarge:
-        return 'ml.r6id.16xlarge';
-      case InstanceType.mlR6id_24xlarge:
-        return 'ml.r6id.24xlarge';
-      case InstanceType.mlR6id_32xlarge:
-        return 'ml.r6id.32xlarge';
-      case InstanceType.mlG6Xlarge:
-        return 'ml.g6.xlarge';
-      case InstanceType.mlG6_2xlarge:
-        return 'ml.g6.2xlarge';
-      case InstanceType.mlG6_4xlarge:
-        return 'ml.g6.4xlarge';
-      case InstanceType.mlG6_8xlarge:
-        return 'ml.g6.8xlarge';
-      case InstanceType.mlG6_12xlarge:
-        return 'ml.g6.12xlarge';
-      case InstanceType.mlG6_16xlarge:
-        return 'ml.g6.16xlarge';
-      case InstanceType.mlG6_24xlarge:
-        return 'ml.g6.24xlarge';
-      case InstanceType.mlG6_48xlarge:
-        return 'ml.g6.48xlarge';
-    }
-  }
-}
+  final String value;
 
-extension InstanceTypeFromString on String {
-  InstanceType toInstanceType() {
-    switch (this) {
-      case 'ml.t2.medium':
-        return InstanceType.mlT2Medium;
-      case 'ml.t2.large':
-        return InstanceType.mlT2Large;
-      case 'ml.t2.xlarge':
-        return InstanceType.mlT2Xlarge;
-      case 'ml.t2.2xlarge':
-        return InstanceType.mlT2_2xlarge;
-      case 'ml.t3.medium':
-        return InstanceType.mlT3Medium;
-      case 'ml.t3.large':
-        return InstanceType.mlT3Large;
-      case 'ml.t3.xlarge':
-        return InstanceType.mlT3Xlarge;
-      case 'ml.t3.2xlarge':
-        return InstanceType.mlT3_2xlarge;
-      case 'ml.m4.xlarge':
-        return InstanceType.mlM4Xlarge;
-      case 'ml.m4.2xlarge':
-        return InstanceType.mlM4_2xlarge;
-      case 'ml.m4.4xlarge':
-        return InstanceType.mlM4_4xlarge;
-      case 'ml.m4.10xlarge':
-        return InstanceType.mlM4_10xlarge;
-      case 'ml.m4.16xlarge':
-        return InstanceType.mlM4_16xlarge;
-      case 'ml.m5.xlarge':
-        return InstanceType.mlM5Xlarge;
-      case 'ml.m5.2xlarge':
-        return InstanceType.mlM5_2xlarge;
-      case 'ml.m5.4xlarge':
-        return InstanceType.mlM5_4xlarge;
-      case 'ml.m5.12xlarge':
-        return InstanceType.mlM5_12xlarge;
-      case 'ml.m5.24xlarge':
-        return InstanceType.mlM5_24xlarge;
-      case 'ml.m5d.large':
-        return InstanceType.mlM5dLarge;
-      case 'ml.m5d.xlarge':
-        return InstanceType.mlM5dXlarge;
-      case 'ml.m5d.2xlarge':
-        return InstanceType.mlM5d_2xlarge;
-      case 'ml.m5d.4xlarge':
-        return InstanceType.mlM5d_4xlarge;
-      case 'ml.m5d.8xlarge':
-        return InstanceType.mlM5d_8xlarge;
-      case 'ml.m5d.12xlarge':
-        return InstanceType.mlM5d_12xlarge;
-      case 'ml.m5d.16xlarge':
-        return InstanceType.mlM5d_16xlarge;
-      case 'ml.m5d.24xlarge':
-        return InstanceType.mlM5d_24xlarge;
-      case 'ml.c4.xlarge':
-        return InstanceType.mlC4Xlarge;
-      case 'ml.c4.2xlarge':
-        return InstanceType.mlC4_2xlarge;
-      case 'ml.c4.4xlarge':
-        return InstanceType.mlC4_4xlarge;
-      case 'ml.c4.8xlarge':
-        return InstanceType.mlC4_8xlarge;
-      case 'ml.c5.xlarge':
-        return InstanceType.mlC5Xlarge;
-      case 'ml.c5.2xlarge':
-        return InstanceType.mlC5_2xlarge;
-      case 'ml.c5.4xlarge':
-        return InstanceType.mlC5_4xlarge;
-      case 'ml.c5.9xlarge':
-        return InstanceType.mlC5_9xlarge;
-      case 'ml.c5.18xlarge':
-        return InstanceType.mlC5_18xlarge;
-      case 'ml.c5d.xlarge':
-        return InstanceType.mlC5dXlarge;
-      case 'ml.c5d.2xlarge':
-        return InstanceType.mlC5d_2xlarge;
-      case 'ml.c5d.4xlarge':
-        return InstanceType.mlC5d_4xlarge;
-      case 'ml.c5d.9xlarge':
-        return InstanceType.mlC5d_9xlarge;
-      case 'ml.c5d.18xlarge':
-        return InstanceType.mlC5d_18xlarge;
-      case 'ml.p2.xlarge':
-        return InstanceType.mlP2Xlarge;
-      case 'ml.p2.8xlarge':
-        return InstanceType.mlP2_8xlarge;
-      case 'ml.p2.16xlarge':
-        return InstanceType.mlP2_16xlarge;
-      case 'ml.p3.2xlarge':
-        return InstanceType.mlP3_2xlarge;
-      case 'ml.p3.8xlarge':
-        return InstanceType.mlP3_8xlarge;
-      case 'ml.p3.16xlarge':
-        return InstanceType.mlP3_16xlarge;
-      case 'ml.p3dn.24xlarge':
-        return InstanceType.mlP3dn_24xlarge;
-      case 'ml.g4dn.xlarge':
-        return InstanceType.mlG4dnXlarge;
-      case 'ml.g4dn.2xlarge':
-        return InstanceType.mlG4dn_2xlarge;
-      case 'ml.g4dn.4xlarge':
-        return InstanceType.mlG4dn_4xlarge;
-      case 'ml.g4dn.8xlarge':
-        return InstanceType.mlG4dn_8xlarge;
-      case 'ml.g4dn.12xlarge':
-        return InstanceType.mlG4dn_12xlarge;
-      case 'ml.g4dn.16xlarge':
-        return InstanceType.mlG4dn_16xlarge;
-      case 'ml.r5.large':
-        return InstanceType.mlR5Large;
-      case 'ml.r5.xlarge':
-        return InstanceType.mlR5Xlarge;
-      case 'ml.r5.2xlarge':
-        return InstanceType.mlR5_2xlarge;
-      case 'ml.r5.4xlarge':
-        return InstanceType.mlR5_4xlarge;
-      case 'ml.r5.8xlarge':
-        return InstanceType.mlR5_8xlarge;
-      case 'ml.r5.12xlarge':
-        return InstanceType.mlR5_12xlarge;
-      case 'ml.r5.16xlarge':
-        return InstanceType.mlR5_16xlarge;
-      case 'ml.r5.24xlarge':
-        return InstanceType.mlR5_24xlarge;
-      case 'ml.g5.xlarge':
-        return InstanceType.mlG5Xlarge;
-      case 'ml.g5.2xlarge':
-        return InstanceType.mlG5_2xlarge;
-      case 'ml.g5.4xlarge':
-        return InstanceType.mlG5_4xlarge;
-      case 'ml.g5.8xlarge':
-        return InstanceType.mlG5_8xlarge;
-      case 'ml.g5.16xlarge':
-        return InstanceType.mlG5_16xlarge;
-      case 'ml.g5.12xlarge':
-        return InstanceType.mlG5_12xlarge;
-      case 'ml.g5.24xlarge':
-        return InstanceType.mlG5_24xlarge;
-      case 'ml.g5.48xlarge':
-        return InstanceType.mlG5_48xlarge;
-      case 'ml.inf1.xlarge':
-        return InstanceType.mlInf1Xlarge;
-      case 'ml.inf1.2xlarge':
-        return InstanceType.mlInf1_2xlarge;
-      case 'ml.inf1.6xlarge':
-        return InstanceType.mlInf1_6xlarge;
-      case 'ml.inf1.24xlarge':
-        return InstanceType.mlInf1_24xlarge;
-      case 'ml.p4d.24xlarge':
-        return InstanceType.mlP4d_24xlarge;
-      case 'ml.p4de.24xlarge':
-        return InstanceType.mlP4de_24xlarge;
-      case 'ml.p5.48xlarge':
-        return InstanceType.mlP5_48xlarge;
-      case 'ml.m6i.large':
-        return InstanceType.mlM6iLarge;
-      case 'ml.m6i.xlarge':
-        return InstanceType.mlM6iXlarge;
-      case 'ml.m6i.2xlarge':
-        return InstanceType.mlM6i_2xlarge;
-      case 'ml.m6i.4xlarge':
-        return InstanceType.mlM6i_4xlarge;
-      case 'ml.m6i.8xlarge':
-        return InstanceType.mlM6i_8xlarge;
-      case 'ml.m6i.12xlarge':
-        return InstanceType.mlM6i_12xlarge;
-      case 'ml.m6i.16xlarge':
-        return InstanceType.mlM6i_16xlarge;
-      case 'ml.m6i.24xlarge':
-        return InstanceType.mlM6i_24xlarge;
-      case 'ml.m6i.32xlarge':
-        return InstanceType.mlM6i_32xlarge;
-      case 'ml.m7i.large':
-        return InstanceType.mlM7iLarge;
-      case 'ml.m7i.xlarge':
-        return InstanceType.mlM7iXlarge;
-      case 'ml.m7i.2xlarge':
-        return InstanceType.mlM7i_2xlarge;
-      case 'ml.m7i.4xlarge':
-        return InstanceType.mlM7i_4xlarge;
-      case 'ml.m7i.8xlarge':
-        return InstanceType.mlM7i_8xlarge;
-      case 'ml.m7i.12xlarge':
-        return InstanceType.mlM7i_12xlarge;
-      case 'ml.m7i.16xlarge':
-        return InstanceType.mlM7i_16xlarge;
-      case 'ml.m7i.24xlarge':
-        return InstanceType.mlM7i_24xlarge;
-      case 'ml.m7i.48xlarge':
-        return InstanceType.mlM7i_48xlarge;
-      case 'ml.c6i.large':
-        return InstanceType.mlC6iLarge;
-      case 'ml.c6i.xlarge':
-        return InstanceType.mlC6iXlarge;
-      case 'ml.c6i.2xlarge':
-        return InstanceType.mlC6i_2xlarge;
-      case 'ml.c6i.4xlarge':
-        return InstanceType.mlC6i_4xlarge;
-      case 'ml.c6i.8xlarge':
-        return InstanceType.mlC6i_8xlarge;
-      case 'ml.c6i.12xlarge':
-        return InstanceType.mlC6i_12xlarge;
-      case 'ml.c6i.16xlarge':
-        return InstanceType.mlC6i_16xlarge;
-      case 'ml.c6i.24xlarge':
-        return InstanceType.mlC6i_24xlarge;
-      case 'ml.c6i.32xlarge':
-        return InstanceType.mlC6i_32xlarge;
-      case 'ml.c7i.large':
-        return InstanceType.mlC7iLarge;
-      case 'ml.c7i.xlarge':
-        return InstanceType.mlC7iXlarge;
-      case 'ml.c7i.2xlarge':
-        return InstanceType.mlC7i_2xlarge;
-      case 'ml.c7i.4xlarge':
-        return InstanceType.mlC7i_4xlarge;
-      case 'ml.c7i.8xlarge':
-        return InstanceType.mlC7i_8xlarge;
-      case 'ml.c7i.12xlarge':
-        return InstanceType.mlC7i_12xlarge;
-      case 'ml.c7i.16xlarge':
-        return InstanceType.mlC7i_16xlarge;
-      case 'ml.c7i.24xlarge':
-        return InstanceType.mlC7i_24xlarge;
-      case 'ml.c7i.48xlarge':
-        return InstanceType.mlC7i_48xlarge;
-      case 'ml.r6i.large':
-        return InstanceType.mlR6iLarge;
-      case 'ml.r6i.xlarge':
-        return InstanceType.mlR6iXlarge;
-      case 'ml.r6i.2xlarge':
-        return InstanceType.mlR6i_2xlarge;
-      case 'ml.r6i.4xlarge':
-        return InstanceType.mlR6i_4xlarge;
-      case 'ml.r6i.8xlarge':
-        return InstanceType.mlR6i_8xlarge;
-      case 'ml.r6i.12xlarge':
-        return InstanceType.mlR6i_12xlarge;
-      case 'ml.r6i.16xlarge':
-        return InstanceType.mlR6i_16xlarge;
-      case 'ml.r6i.24xlarge':
-        return InstanceType.mlR6i_24xlarge;
-      case 'ml.r6i.32xlarge':
-        return InstanceType.mlR6i_32xlarge;
-      case 'ml.r7i.large':
-        return InstanceType.mlR7iLarge;
-      case 'ml.r7i.xlarge':
-        return InstanceType.mlR7iXlarge;
-      case 'ml.r7i.2xlarge':
-        return InstanceType.mlR7i_2xlarge;
-      case 'ml.r7i.4xlarge':
-        return InstanceType.mlR7i_4xlarge;
-      case 'ml.r7i.8xlarge':
-        return InstanceType.mlR7i_8xlarge;
-      case 'ml.r7i.12xlarge':
-        return InstanceType.mlR7i_12xlarge;
-      case 'ml.r7i.16xlarge':
-        return InstanceType.mlR7i_16xlarge;
-      case 'ml.r7i.24xlarge':
-        return InstanceType.mlR7i_24xlarge;
-      case 'ml.r7i.48xlarge':
-        return InstanceType.mlR7i_48xlarge;
-      case 'ml.m6id.large':
-        return InstanceType.mlM6idLarge;
-      case 'ml.m6id.xlarge':
-        return InstanceType.mlM6idXlarge;
-      case 'ml.m6id.2xlarge':
-        return InstanceType.mlM6id_2xlarge;
-      case 'ml.m6id.4xlarge':
-        return InstanceType.mlM6id_4xlarge;
-      case 'ml.m6id.8xlarge':
-        return InstanceType.mlM6id_8xlarge;
-      case 'ml.m6id.12xlarge':
-        return InstanceType.mlM6id_12xlarge;
-      case 'ml.m6id.16xlarge':
-        return InstanceType.mlM6id_16xlarge;
-      case 'ml.m6id.24xlarge':
-        return InstanceType.mlM6id_24xlarge;
-      case 'ml.m6id.32xlarge':
-        return InstanceType.mlM6id_32xlarge;
-      case 'ml.c6id.large':
-        return InstanceType.mlC6idLarge;
-      case 'ml.c6id.xlarge':
-        return InstanceType.mlC6idXlarge;
-      case 'ml.c6id.2xlarge':
-        return InstanceType.mlC6id_2xlarge;
-      case 'ml.c6id.4xlarge':
-        return InstanceType.mlC6id_4xlarge;
-      case 'ml.c6id.8xlarge':
-        return InstanceType.mlC6id_8xlarge;
-      case 'ml.c6id.12xlarge':
-        return InstanceType.mlC6id_12xlarge;
-      case 'ml.c6id.16xlarge':
-        return InstanceType.mlC6id_16xlarge;
-      case 'ml.c6id.24xlarge':
-        return InstanceType.mlC6id_24xlarge;
-      case 'ml.c6id.32xlarge':
-        return InstanceType.mlC6id_32xlarge;
-      case 'ml.r6id.large':
-        return InstanceType.mlR6idLarge;
-      case 'ml.r6id.xlarge':
-        return InstanceType.mlR6idXlarge;
-      case 'ml.r6id.2xlarge':
-        return InstanceType.mlR6id_2xlarge;
-      case 'ml.r6id.4xlarge':
-        return InstanceType.mlR6id_4xlarge;
-      case 'ml.r6id.8xlarge':
-        return InstanceType.mlR6id_8xlarge;
-      case 'ml.r6id.12xlarge':
-        return InstanceType.mlR6id_12xlarge;
-      case 'ml.r6id.16xlarge':
-        return InstanceType.mlR6id_16xlarge;
-      case 'ml.r6id.24xlarge':
-        return InstanceType.mlR6id_24xlarge;
-      case 'ml.r6id.32xlarge':
-        return InstanceType.mlR6id_32xlarge;
-      case 'ml.g6.xlarge':
-        return InstanceType.mlG6Xlarge;
-      case 'ml.g6.2xlarge':
-        return InstanceType.mlG6_2xlarge;
-      case 'ml.g6.4xlarge':
-        return InstanceType.mlG6_4xlarge;
-      case 'ml.g6.8xlarge':
-        return InstanceType.mlG6_8xlarge;
-      case 'ml.g6.12xlarge':
-        return InstanceType.mlG6_12xlarge;
-      case 'ml.g6.16xlarge':
-        return InstanceType.mlG6_16xlarge;
-      case 'ml.g6.24xlarge':
-        return InstanceType.mlG6_24xlarge;
-      case 'ml.g6.48xlarge':
-        return InstanceType.mlG6_48xlarge;
-    }
-    throw Exception('$this is not known in enum InstanceType');
-  }
+  const InstanceType(this.value);
+
+  static InstanceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum InstanceType'));
 }
 
 /// For a hyperparameter of the integer type, specifies the range that a
@@ -47366,8 +43346,8 @@ class IntegerParameterRange {
       maxValue: json['MaxValue'] as String,
       minValue: json['MinValue'] as String,
       name: json['Name'] as String,
-      scalingType:
-          (json['ScalingType'] as String?)?.toHyperParameterScalingType(),
+      scalingType: (json['ScalingType'] as String?)
+          ?.let(HyperParameterScalingType.fromString),
     );
   }
 
@@ -47380,7 +43360,7 @@ class IntegerParameterRange {
       'MaxValue': maxValue,
       'MinValue': minValue,
       'Name': name,
-      if (scalingType != null) 'ScalingType': scalingType.toValue(),
+      if (scalingType != null) 'ScalingType': scalingType.value,
     };
   }
 }
@@ -47417,64 +43397,32 @@ class IntegerParameterRangeSpecification {
 }
 
 enum JobType {
-  training,
-  inference,
-  notebookKernel,
-}
+  training('TRAINING'),
+  inference('INFERENCE'),
+  notebookKernel('NOTEBOOK_KERNEL'),
+  ;
 
-extension JobTypeValueExtension on JobType {
-  String toValue() {
-    switch (this) {
-      case JobType.training:
-        return 'TRAINING';
-      case JobType.inference:
-        return 'INFERENCE';
-      case JobType.notebookKernel:
-        return 'NOTEBOOK_KERNEL';
-    }
-  }
-}
+  final String value;
 
-extension JobTypeFromString on String {
-  JobType toJobType() {
-    switch (this) {
-      case 'TRAINING':
-        return JobType.training;
-      case 'INFERENCE':
-        return JobType.inference;
-      case 'NOTEBOOK_KERNEL':
-        return JobType.notebookKernel;
-    }
-    throw Exception('$this is not known in enum JobType');
-  }
+  const JobType(this.value);
+
+  static JobType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum JobType'));
 }
 
 enum JoinSource {
-  input,
-  none,
-}
+  input('Input'),
+  none('None'),
+  ;
 
-extension JoinSourceValueExtension on JoinSource {
-  String toValue() {
-    switch (this) {
-      case JoinSource.input:
-        return 'Input';
-      case JoinSource.none:
-        return 'None';
-    }
-  }
-}
+  final String value;
 
-extension JoinSourceFromString on String {
-  JoinSource toJoinSource() {
-    switch (this) {
-      case 'Input':
-        return JoinSource.input;
-      case 'None':
-        return JoinSource.none;
-    }
-    throw Exception('$this is not known in enum JoinSource');
-  }
+  const JoinSource(this.value);
+
+  static JoinSource fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum JoinSource'));
 }
 
 /// The configuration for the file system and kernels in a SageMaker image
@@ -47643,14 +43591,14 @@ class KendraSettings {
 
   factory KendraSettings.fromJson(Map<String, dynamic> json) {
     return KendraSettings(
-      status: (json['Status'] as String?)?.toFeatureStatus(),
+      status: (json['Status'] as String?)?.let(FeatureStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -47936,7 +43884,7 @@ class LabelingJobDataAttributes {
     return LabelingJobDataAttributes(
       contentClassifiers: (json['ContentClassifiers'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toContentClassifier())
+          .map((e) => ContentClassifier.fromString((e as String)))
           .toList(),
     );
   }
@@ -47945,8 +43893,7 @@ class LabelingJobDataAttributes {
     final contentClassifiers = this.contentClassifiers;
     return {
       if (contentClassifiers != null)
-        'ContentClassifiers':
-            contentClassifiers.map((e) => e.toValue()).toList(),
+        'ContentClassifiers': contentClassifiers.map((e) => e.value).toList(),
     };
   }
 }
@@ -48301,51 +44248,22 @@ class LabelingJobSnsDataSource {
 }
 
 enum LabelingJobStatus {
-  initializing,
-  inProgress,
-  completed,
-  failed,
-  stopping,
-  stopped,
-}
+  initializing('Initializing'),
+  inProgress('InProgress'),
+  completed('Completed'),
+  failed('Failed'),
+  stopping('Stopping'),
+  stopped('Stopped'),
+  ;
 
-extension LabelingJobStatusValueExtension on LabelingJobStatus {
-  String toValue() {
-    switch (this) {
-      case LabelingJobStatus.initializing:
-        return 'Initializing';
-      case LabelingJobStatus.inProgress:
-        return 'InProgress';
-      case LabelingJobStatus.completed:
-        return 'Completed';
-      case LabelingJobStatus.failed:
-        return 'Failed';
-      case LabelingJobStatus.stopping:
-        return 'Stopping';
-      case LabelingJobStatus.stopped:
-        return 'Stopped';
-    }
-  }
-}
+  final String value;
 
-extension LabelingJobStatusFromString on String {
-  LabelingJobStatus toLabelingJobStatus() {
-    switch (this) {
-      case 'Initializing':
-        return LabelingJobStatus.initializing;
-      case 'InProgress':
-        return LabelingJobStatus.inProgress;
-      case 'Completed':
-        return LabelingJobStatus.completed;
-      case 'Failed':
-        return LabelingJobStatus.failed;
-      case 'Stopping':
-        return LabelingJobStatus.stopping;
-      case 'Stopped':
-        return LabelingJobStatus.stopped;
-    }
-    throw Exception('$this is not known in enum LabelingJobStatus');
-  }
+  const LabelingJobStatus(this.value);
+
+  static LabelingJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LabelingJobStatus'));
 }
 
 /// A set of conditions for stopping a labeling job. If any of the conditions
@@ -48457,7 +44375,7 @@ class LabelingJobSummary {
       labelingJobArn: json['LabelingJobArn'] as String,
       labelingJobName: json['LabelingJobName'] as String,
       labelingJobStatus:
-          (json['LabelingJobStatus'] as String).toLabelingJobStatus(),
+          LabelingJobStatus.fromString((json['LabelingJobStatus'] as String)),
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] as Object),
       preHumanTaskLambdaArn: json['PreHumanTaskLambdaArn'] as String,
@@ -48517,43 +44435,26 @@ class LastUpdateStatus {
 
   factory LastUpdateStatus.fromJson(Map<String, dynamic> json) {
     return LastUpdateStatus(
-      status: (json['Status'] as String).toLastUpdateStatusValue(),
+      status: LastUpdateStatusValue.fromString((json['Status'] as String)),
       failureReason: json['FailureReason'] as String?,
     );
   }
 }
 
 enum LastUpdateStatusValue {
-  successful,
-  failed,
-  inProgress,
-}
+  successful('Successful'),
+  failed('Failed'),
+  inProgress('InProgress'),
+  ;
 
-extension LastUpdateStatusValueValueExtension on LastUpdateStatusValue {
-  String toValue() {
-    switch (this) {
-      case LastUpdateStatusValue.successful:
-        return 'Successful';
-      case LastUpdateStatusValue.failed:
-        return 'Failed';
-      case LastUpdateStatusValue.inProgress:
-        return 'InProgress';
-    }
-  }
-}
+  final String value;
 
-extension LastUpdateStatusValueFromString on String {
-  LastUpdateStatusValue toLastUpdateStatusValue() {
-    switch (this) {
-      case 'Successful':
-        return LastUpdateStatusValue.successful;
-      case 'Failed':
-        return LastUpdateStatusValue.failed;
-      case 'InProgress':
-        return LastUpdateStatusValue.inProgress;
-    }
-    throw Exception('$this is not known in enum LastUpdateStatusValue');
-  }
+  const LastUpdateStatusValue(this.value);
+
+  static LastUpdateStatusValue fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum LastUpdateStatusValue'));
 }
 
 /// Lists a summary of the properties of a lineage group. A lineage group
@@ -48594,41 +44495,19 @@ class LineageGroupSummary {
 }
 
 enum LineageType {
-  trialComponent,
-  artifact,
-  context,
-  action,
-}
+  trialComponent('TrialComponent'),
+  artifact('Artifact'),
+  context('Context'),
+  action('Action'),
+  ;
 
-extension LineageTypeValueExtension on LineageType {
-  String toValue() {
-    switch (this) {
-      case LineageType.trialComponent:
-        return 'TrialComponent';
-      case LineageType.artifact:
-        return 'Artifact';
-      case LineageType.context:
-        return 'Context';
-      case LineageType.action:
-        return 'Action';
-    }
-  }
-}
+  final String value;
 
-extension LineageTypeFromString on String {
-  LineageType toLineageType() {
-    switch (this) {
-      case 'TrialComponent':
-        return LineageType.trialComponent;
-      case 'Artifact':
-        return LineageType.artifact;
-      case 'Context':
-        return LineageType.context;
-      case 'Action':
-        return LineageType.action;
-    }
-    throw Exception('$this is not known in enum LineageType');
-  }
+  const LineageType(this.value);
+
+  static LineageType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum LineageType'));
 }
 
 class ListActionsResponse {
@@ -48968,36 +44847,19 @@ class ListCompilationJobsResponse {
 }
 
 enum ListCompilationJobsSortBy {
-  name,
-  creationTime,
-  status,
-}
+  name('Name'),
+  creationTime('CreationTime'),
+  status('Status'),
+  ;
 
-extension ListCompilationJobsSortByValueExtension on ListCompilationJobsSortBy {
-  String toValue() {
-    switch (this) {
-      case ListCompilationJobsSortBy.name:
-        return 'Name';
-      case ListCompilationJobsSortBy.creationTime:
-        return 'CreationTime';
-      case ListCompilationJobsSortBy.status:
-        return 'Status';
-    }
-  }
-}
+  final String value;
 
-extension ListCompilationJobsSortByFromString on String {
-  ListCompilationJobsSortBy toListCompilationJobsSortBy() {
-    switch (this) {
-      case 'Name':
-        return ListCompilationJobsSortBy.name;
-      case 'CreationTime':
-        return ListCompilationJobsSortBy.creationTime;
-      case 'Status':
-        return ListCompilationJobsSortBy.status;
-    }
-    throw Exception('$this is not known in enum ListCompilationJobsSortBy');
-  }
+  const ListCompilationJobsSortBy(this.value);
+
+  static ListCompilationJobsSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ListCompilationJobsSortBy'));
 }
 
 class ListContextsResponse {
@@ -49076,36 +44938,19 @@ class ListDeviceFleetsResponse {
 }
 
 enum ListDeviceFleetsSortBy {
-  name,
-  creationTime,
-  lastModifiedTime,
-}
+  name('NAME'),
+  creationTime('CREATION_TIME'),
+  lastModifiedTime('LAST_MODIFIED_TIME'),
+  ;
 
-extension ListDeviceFleetsSortByValueExtension on ListDeviceFleetsSortBy {
-  String toValue() {
-    switch (this) {
-      case ListDeviceFleetsSortBy.name:
-        return 'NAME';
-      case ListDeviceFleetsSortBy.creationTime:
-        return 'CREATION_TIME';
-      case ListDeviceFleetsSortBy.lastModifiedTime:
-        return 'LAST_MODIFIED_TIME';
-    }
-  }
-}
+  final String value;
 
-extension ListDeviceFleetsSortByFromString on String {
-  ListDeviceFleetsSortBy toListDeviceFleetsSortBy() {
-    switch (this) {
-      case 'NAME':
-        return ListDeviceFleetsSortBy.name;
-      case 'CREATION_TIME':
-        return ListDeviceFleetsSortBy.creationTime;
-      case 'LAST_MODIFIED_TIME':
-        return ListDeviceFleetsSortBy.lastModifiedTime;
-    }
-    throw Exception('$this is not known in enum ListDeviceFleetsSortBy');
-  }
+  const ListDeviceFleetsSortBy(this.value);
+
+  static ListDeviceFleetsSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ListDeviceFleetsSortBy'));
 }
 
 class ListDevicesResponse {
@@ -49181,42 +45026,20 @@ class ListEdgeDeploymentPlansResponse {
 }
 
 enum ListEdgeDeploymentPlansSortBy {
-  name,
-  deviceFleetName,
-  creationTime,
-  lastModifiedTime,
-}
+  name('NAME'),
+  deviceFleetName('DEVICE_FLEET_NAME'),
+  creationTime('CREATION_TIME'),
+  lastModifiedTime('LAST_MODIFIED_TIME'),
+  ;
 
-extension ListEdgeDeploymentPlansSortByValueExtension
-    on ListEdgeDeploymentPlansSortBy {
-  String toValue() {
-    switch (this) {
-      case ListEdgeDeploymentPlansSortBy.name:
-        return 'NAME';
-      case ListEdgeDeploymentPlansSortBy.deviceFleetName:
-        return 'DEVICE_FLEET_NAME';
-      case ListEdgeDeploymentPlansSortBy.creationTime:
-        return 'CREATION_TIME';
-      case ListEdgeDeploymentPlansSortBy.lastModifiedTime:
-        return 'LAST_MODIFIED_TIME';
-    }
-  }
-}
+  final String value;
 
-extension ListEdgeDeploymentPlansSortByFromString on String {
-  ListEdgeDeploymentPlansSortBy toListEdgeDeploymentPlansSortBy() {
-    switch (this) {
-      case 'NAME':
-        return ListEdgeDeploymentPlansSortBy.name;
-      case 'DEVICE_FLEET_NAME':
-        return ListEdgeDeploymentPlansSortBy.deviceFleetName;
-      case 'CREATION_TIME':
-        return ListEdgeDeploymentPlansSortBy.creationTime;
-      case 'LAST_MODIFIED_TIME':
-        return ListEdgeDeploymentPlansSortBy.lastModifiedTime;
-    }
-    throw Exception('$this is not known in enum ListEdgeDeploymentPlansSortBy');
-  }
+  const ListEdgeDeploymentPlansSortBy(this.value);
+
+  static ListEdgeDeploymentPlansSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ListEdgeDeploymentPlansSortBy'));
 }
 
 class ListEdgePackagingJobsResponse {
@@ -49244,47 +45067,21 @@ class ListEdgePackagingJobsResponse {
 }
 
 enum ListEdgePackagingJobsSortBy {
-  name,
-  modelName,
-  creationTime,
-  lastModifiedTime,
-  status,
-}
+  name('NAME'),
+  modelName('MODEL_NAME'),
+  creationTime('CREATION_TIME'),
+  lastModifiedTime('LAST_MODIFIED_TIME'),
+  status('STATUS'),
+  ;
 
-extension ListEdgePackagingJobsSortByValueExtension
-    on ListEdgePackagingJobsSortBy {
-  String toValue() {
-    switch (this) {
-      case ListEdgePackagingJobsSortBy.name:
-        return 'NAME';
-      case ListEdgePackagingJobsSortBy.modelName:
-        return 'MODEL_NAME';
-      case ListEdgePackagingJobsSortBy.creationTime:
-        return 'CREATION_TIME';
-      case ListEdgePackagingJobsSortBy.lastModifiedTime:
-        return 'LAST_MODIFIED_TIME';
-      case ListEdgePackagingJobsSortBy.status:
-        return 'STATUS';
-    }
-  }
-}
+  final String value;
 
-extension ListEdgePackagingJobsSortByFromString on String {
-  ListEdgePackagingJobsSortBy toListEdgePackagingJobsSortBy() {
-    switch (this) {
-      case 'NAME':
-        return ListEdgePackagingJobsSortBy.name;
-      case 'MODEL_NAME':
-        return ListEdgePackagingJobsSortBy.modelName;
-      case 'CREATION_TIME':
-        return ListEdgePackagingJobsSortBy.creationTime;
-      case 'LAST_MODIFIED_TIME':
-        return ListEdgePackagingJobsSortBy.lastModifiedTime;
-      case 'STATUS':
-        return ListEdgePackagingJobsSortBy.status;
-    }
-    throw Exception('$this is not known in enum ListEdgePackagingJobsSortBy');
-  }
+  const ListEdgePackagingJobsSortBy(this.value);
+
+  static ListEdgePackagingJobsSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ListEdgePackagingJobsSortBy'));
 }
 
 class ListEndpointConfigsOutput {
@@ -49680,39 +45477,19 @@ class ListInferenceRecommendationsJobsResponse {
 }
 
 enum ListInferenceRecommendationsJobsSortBy {
-  name,
-  creationTime,
-  status,
-}
+  name('Name'),
+  creationTime('CreationTime'),
+  status('Status'),
+  ;
 
-extension ListInferenceRecommendationsJobsSortByValueExtension
-    on ListInferenceRecommendationsJobsSortBy {
-  String toValue() {
-    switch (this) {
-      case ListInferenceRecommendationsJobsSortBy.name:
-        return 'Name';
-      case ListInferenceRecommendationsJobsSortBy.creationTime:
-        return 'CreationTime';
-      case ListInferenceRecommendationsJobsSortBy.status:
-        return 'Status';
-    }
-  }
-}
+  final String value;
 
-extension ListInferenceRecommendationsJobsSortByFromString on String {
-  ListInferenceRecommendationsJobsSortBy
-      toListInferenceRecommendationsJobsSortBy() {
-    switch (this) {
-      case 'Name':
-        return ListInferenceRecommendationsJobsSortBy.name;
-      case 'CreationTime':
-        return ListInferenceRecommendationsJobsSortBy.creationTime;
-      case 'Status':
-        return ListInferenceRecommendationsJobsSortBy.status;
-    }
-    throw Exception(
-        '$this is not known in enum ListInferenceRecommendationsJobsSortBy');
-  }
+  const ListInferenceRecommendationsJobsSortBy(this.value);
+
+  static ListInferenceRecommendationsJobsSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ListInferenceRecommendationsJobsSortBy'));
 }
 
 class ListLabelingJobsForWorkteamResponse {
@@ -49743,29 +45520,17 @@ class ListLabelingJobsForWorkteamResponse {
 }
 
 enum ListLabelingJobsForWorkteamSortByOptions {
-  creationTime,
-}
+  creationTime('CreationTime'),
+  ;
 
-extension ListLabelingJobsForWorkteamSortByOptionsValueExtension
-    on ListLabelingJobsForWorkteamSortByOptions {
-  String toValue() {
-    switch (this) {
-      case ListLabelingJobsForWorkteamSortByOptions.creationTime:
-        return 'CreationTime';
-    }
-  }
-}
+  final String value;
 
-extension ListLabelingJobsForWorkteamSortByOptionsFromString on String {
-  ListLabelingJobsForWorkteamSortByOptions
-      toListLabelingJobsForWorkteamSortByOptions() {
-    switch (this) {
-      case 'CreationTime':
-        return ListLabelingJobsForWorkteamSortByOptions.creationTime;
-    }
-    throw Exception(
-        '$this is not known in enum ListLabelingJobsForWorkteamSortByOptions');
-  }
+  const ListLabelingJobsForWorkteamSortByOptions(this.value);
+
+  static ListLabelingJobsForWorkteamSortByOptions fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ListLabelingJobsForWorkteamSortByOptions'));
 }
 
 class ListLabelingJobsResponse {
@@ -50711,32 +46476,18 @@ class ListWorkforcesResponse {
 }
 
 enum ListWorkforcesSortByOptions {
-  name,
-  createDate,
-}
+  name('Name'),
+  createDate('CreateDate'),
+  ;
 
-extension ListWorkforcesSortByOptionsValueExtension
-    on ListWorkforcesSortByOptions {
-  String toValue() {
-    switch (this) {
-      case ListWorkforcesSortByOptions.name:
-        return 'Name';
-      case ListWorkforcesSortByOptions.createDate:
-        return 'CreateDate';
-    }
-  }
-}
+  final String value;
 
-extension ListWorkforcesSortByOptionsFromString on String {
-  ListWorkforcesSortByOptions toListWorkforcesSortByOptions() {
-    switch (this) {
-      case 'Name':
-        return ListWorkforcesSortByOptions.name;
-      case 'CreateDate':
-        return ListWorkforcesSortByOptions.createDate;
-    }
-    throw Exception('$this is not known in enum ListWorkforcesSortByOptions');
-  }
+  const ListWorkforcesSortByOptions(this.value);
+
+  static ListWorkforcesSortByOptions fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ListWorkforcesSortByOptions'));
 }
 
 class ListWorkteamsResponse {
@@ -50764,61 +46515,33 @@ class ListWorkteamsResponse {
 }
 
 enum ListWorkteamsSortByOptions {
-  name,
-  createDate,
-}
+  name('Name'),
+  createDate('CreateDate'),
+  ;
 
-extension ListWorkteamsSortByOptionsValueExtension
-    on ListWorkteamsSortByOptions {
-  String toValue() {
-    switch (this) {
-      case ListWorkteamsSortByOptions.name:
-        return 'Name';
-      case ListWorkteamsSortByOptions.createDate:
-        return 'CreateDate';
-    }
-  }
-}
+  final String value;
 
-extension ListWorkteamsSortByOptionsFromString on String {
-  ListWorkteamsSortByOptions toListWorkteamsSortByOptions() {
-    switch (this) {
-      case 'Name':
-        return ListWorkteamsSortByOptions.name;
-      case 'CreateDate':
-        return ListWorkteamsSortByOptions.createDate;
-    }
-    throw Exception('$this is not known in enum ListWorkteamsSortByOptions');
-  }
+  const ListWorkteamsSortByOptions(this.value);
+
+  static ListWorkteamsSortByOptions fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ListWorkteamsSortByOptions'));
 }
 
 enum ManagedInstanceScalingStatus {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension ManagedInstanceScalingStatusValueExtension
-    on ManagedInstanceScalingStatus {
-  String toValue() {
-    switch (this) {
-      case ManagedInstanceScalingStatus.enabled:
-        return 'ENABLED';
-      case ManagedInstanceScalingStatus.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension ManagedInstanceScalingStatusFromString on String {
-  ManagedInstanceScalingStatus toManagedInstanceScalingStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return ManagedInstanceScalingStatus.enabled;
-      case 'DISABLED':
-        return ManagedInstanceScalingStatus.disabled;
-    }
-    throw Exception('$this is not known in enum ManagedInstanceScalingStatus');
-  }
+  const ManagedInstanceScalingStatus(this.value);
+
+  static ManagedInstanceScalingStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ManagedInstanceScalingStatus'));
 }
 
 /// Defines an Amazon Cognito or your own OIDC IdP user group that is part of a
@@ -50963,10 +46686,11 @@ class MetricDatum {
 
   factory MetricDatum.fromJson(Map<String, dynamic> json) {
     return MetricDatum(
-      metricName: (json['MetricName'] as String?)?.toAutoMLMetricEnum(),
-      set: (json['Set'] as String?)?.toMetricSetSource(),
-      standardMetricName:
-          (json['StandardMetricName'] as String?)?.toAutoMLMetricExtendedEnum(),
+      metricName:
+          (json['MetricName'] as String?)?.let(AutoMLMetricEnum.fromString),
+      set: (json['Set'] as String?)?.let(MetricSetSource.fromString),
+      standardMetricName: (json['StandardMetricName'] as String?)
+          ?.let(AutoMLMetricExtendedEnum.fromString),
       value: json['Value'] as double?,
     );
   }
@@ -51014,36 +46738,19 @@ class MetricDefinition {
 }
 
 enum MetricSetSource {
-  train,
-  validation,
-  test,
-}
+  train('Train'),
+  validation('Validation'),
+  test('Test'),
+  ;
 
-extension MetricSetSourceValueExtension on MetricSetSource {
-  String toValue() {
-    switch (this) {
-      case MetricSetSource.train:
-        return 'Train';
-      case MetricSetSource.validation:
-        return 'Validation';
-      case MetricSetSource.test:
-        return 'Test';
-    }
-  }
-}
+  final String value;
 
-extension MetricSetSourceFromString on String {
-  MetricSetSource toMetricSetSource() {
-    switch (this) {
-      case 'Train':
-        return MetricSetSource.train;
-      case 'Validation':
-        return MetricSetSource.validation;
-      case 'Test':
-        return MetricSetSource.test;
-    }
-    throw Exception('$this is not known in enum MetricSetSource');
-  }
+  const MetricSetSource(this.value);
+
+  static MetricSetSource fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MetricSetSource'));
 }
 
 /// An object containing information about a metric.
@@ -51242,36 +46949,19 @@ class ModelAccessConfig {
 }
 
 enum ModelApprovalStatus {
-  approved,
-  rejected,
-  pendingManualApproval,
-}
+  approved('Approved'),
+  rejected('Rejected'),
+  pendingManualApproval('PendingManualApproval'),
+  ;
 
-extension ModelApprovalStatusValueExtension on ModelApprovalStatus {
-  String toValue() {
-    switch (this) {
-      case ModelApprovalStatus.approved:
-        return 'Approved';
-      case ModelApprovalStatus.rejected:
-        return 'Rejected';
-      case ModelApprovalStatus.pendingManualApproval:
-        return 'PendingManualApproval';
-    }
-  }
-}
+  final String value;
 
-extension ModelApprovalStatusFromString on String {
-  ModelApprovalStatus toModelApprovalStatus() {
-    switch (this) {
-      case 'Approved':
-        return ModelApprovalStatus.approved;
-      case 'Rejected':
-        return ModelApprovalStatus.rejected;
-      case 'PendingManualApproval':
-        return ModelApprovalStatus.pendingManualApproval;
-    }
-    throw Exception('$this is not known in enum ModelApprovalStatus');
-  }
+  const ModelApprovalStatus(this.value);
+
+  static ModelApprovalStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ModelApprovalStatus'));
 }
 
 /// Provides information about the location that is configured for storing model
@@ -51416,31 +47106,18 @@ class ModelBiasJobInput {
 }
 
 enum ModelCacheSetting {
-  enabled,
-  disabled,
-}
+  enabled('Enabled'),
+  disabled('Disabled'),
+  ;
 
-extension ModelCacheSettingValueExtension on ModelCacheSetting {
-  String toValue() {
-    switch (this) {
-      case ModelCacheSetting.enabled:
-        return 'Enabled';
-      case ModelCacheSetting.disabled:
-        return 'Disabled';
-    }
-  }
-}
+  final String value;
 
-extension ModelCacheSettingFromString on String {
-  ModelCacheSetting toModelCacheSetting() {
-    switch (this) {
-      case 'Enabled':
-        return ModelCacheSetting.enabled;
-      case 'Disabled':
-        return ModelCacheSetting.disabled;
-    }
-    throw Exception('$this is not known in enum ModelCacheSetting');
-  }
+  const ModelCacheSetting(this.value);
+
+  static ModelCacheSetting fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ModelCacheSetting'));
 }
 
 /// An Amazon SageMaker Model Card.
@@ -51539,7 +47216,7 @@ class ModelCard {
       modelCardArn: json['ModelCardArn'] as String?,
       modelCardName: json['ModelCardName'] as String?,
       modelCardStatus:
-          (json['ModelCardStatus'] as String?)?.toModelCardStatus(),
+          (json['ModelCardStatus'] as String?)?.let(ModelCardStatus.fromString),
       modelCardVersion: json['ModelCardVersion'] as int?,
       modelId: json['ModelId'] as String?,
       modelPackageGroupName: json['ModelPackageGroupName'] as String?,
@@ -51574,98 +47251,50 @@ class ModelCardExportArtifacts {
 
 /// Attribute by which to sort returned export jobs.
 enum ModelCardExportJobSortBy {
-  name,
-  creationTime,
-  status,
-}
+  name('Name'),
+  creationTime('CreationTime'),
+  status('Status'),
+  ;
 
-extension ModelCardExportJobSortByValueExtension on ModelCardExportJobSortBy {
-  String toValue() {
-    switch (this) {
-      case ModelCardExportJobSortBy.name:
-        return 'Name';
-      case ModelCardExportJobSortBy.creationTime:
-        return 'CreationTime';
-      case ModelCardExportJobSortBy.status:
-        return 'Status';
-    }
-  }
-}
+  final String value;
 
-extension ModelCardExportJobSortByFromString on String {
-  ModelCardExportJobSortBy toModelCardExportJobSortBy() {
-    switch (this) {
-      case 'Name':
-        return ModelCardExportJobSortBy.name;
-      case 'CreationTime':
-        return ModelCardExportJobSortBy.creationTime;
-      case 'Status':
-        return ModelCardExportJobSortBy.status;
-    }
-    throw Exception('$this is not known in enum ModelCardExportJobSortBy');
-  }
+  const ModelCardExportJobSortBy(this.value);
+
+  static ModelCardExportJobSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ModelCardExportJobSortBy'));
 }
 
 enum ModelCardExportJobSortOrder {
-  ascending,
-  descending,
-}
+  ascending('Ascending'),
+  descending('Descending'),
+  ;
 
-extension ModelCardExportJobSortOrderValueExtension
-    on ModelCardExportJobSortOrder {
-  String toValue() {
-    switch (this) {
-      case ModelCardExportJobSortOrder.ascending:
-        return 'Ascending';
-      case ModelCardExportJobSortOrder.descending:
-        return 'Descending';
-    }
-  }
-}
+  final String value;
 
-extension ModelCardExportJobSortOrderFromString on String {
-  ModelCardExportJobSortOrder toModelCardExportJobSortOrder() {
-    switch (this) {
-      case 'Ascending':
-        return ModelCardExportJobSortOrder.ascending;
-      case 'Descending':
-        return ModelCardExportJobSortOrder.descending;
-    }
-    throw Exception('$this is not known in enum ModelCardExportJobSortOrder');
-  }
+  const ModelCardExportJobSortOrder(this.value);
+
+  static ModelCardExportJobSortOrder fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ModelCardExportJobSortOrder'));
 }
 
 enum ModelCardExportJobStatus {
-  inProgress,
-  completed,
-  failed,
-}
+  inProgress('InProgress'),
+  completed('Completed'),
+  failed('Failed'),
+  ;
 
-extension ModelCardExportJobStatusValueExtension on ModelCardExportJobStatus {
-  String toValue() {
-    switch (this) {
-      case ModelCardExportJobStatus.inProgress:
-        return 'InProgress';
-      case ModelCardExportJobStatus.completed:
-        return 'Completed';
-      case ModelCardExportJobStatus.failed:
-        return 'Failed';
-    }
-  }
-}
+  final String value;
 
-extension ModelCardExportJobStatusFromString on String {
-  ModelCardExportJobStatus toModelCardExportJobStatus() {
-    switch (this) {
-      case 'InProgress':
-        return ModelCardExportJobStatus.inProgress;
-      case 'Completed':
-        return ModelCardExportJobStatus.completed;
-      case 'Failed':
-        return ModelCardExportJobStatus.failed;
-    }
-    throw Exception('$this is not known in enum ModelCardExportJobStatus');
-  }
+  const ModelCardExportJobStatus(this.value);
+
+  static ModelCardExportJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ModelCardExportJobStatus'));
 }
 
 /// The summary of the Amazon SageMaker Model Card export job.
@@ -51710,7 +47339,7 @@ class ModelCardExportJobSummary {
       modelCardExportJobName: json['ModelCardExportJobName'] as String,
       modelCardName: json['ModelCardName'] as String,
       modelCardVersion: json['ModelCardVersion'] as int,
-      status: (json['Status'] as String).toModelCardExportJobStatus(),
+      status: ModelCardExportJobStatus.fromString((json['Status'] as String)),
     );
   }
 }
@@ -51739,51 +47368,22 @@ class ModelCardExportOutputConfig {
 }
 
 enum ModelCardProcessingStatus {
-  deleteInProgress,
-  deletePending,
-  contentDeleted,
-  exportJobsDeleted,
-  deleteCompleted,
-  deleteFailed,
-}
+  deleteInProgress('DeleteInProgress'),
+  deletePending('DeletePending'),
+  contentDeleted('ContentDeleted'),
+  exportJobsDeleted('ExportJobsDeleted'),
+  deleteCompleted('DeleteCompleted'),
+  deleteFailed('DeleteFailed'),
+  ;
 
-extension ModelCardProcessingStatusValueExtension on ModelCardProcessingStatus {
-  String toValue() {
-    switch (this) {
-      case ModelCardProcessingStatus.deleteInProgress:
-        return 'DeleteInProgress';
-      case ModelCardProcessingStatus.deletePending:
-        return 'DeletePending';
-      case ModelCardProcessingStatus.contentDeleted:
-        return 'ContentDeleted';
-      case ModelCardProcessingStatus.exportJobsDeleted:
-        return 'ExportJobsDeleted';
-      case ModelCardProcessingStatus.deleteCompleted:
-        return 'DeleteCompleted';
-      case ModelCardProcessingStatus.deleteFailed:
-        return 'DeleteFailed';
-    }
-  }
-}
+  final String value;
 
-extension ModelCardProcessingStatusFromString on String {
-  ModelCardProcessingStatus toModelCardProcessingStatus() {
-    switch (this) {
-      case 'DeleteInProgress':
-        return ModelCardProcessingStatus.deleteInProgress;
-      case 'DeletePending':
-        return ModelCardProcessingStatus.deletePending;
-      case 'ContentDeleted':
-        return ModelCardProcessingStatus.contentDeleted;
-      case 'ExportJobsDeleted':
-        return ModelCardProcessingStatus.exportJobsDeleted;
-      case 'DeleteCompleted':
-        return ModelCardProcessingStatus.deleteCompleted;
-      case 'DeleteFailed':
-        return ModelCardProcessingStatus.deleteFailed;
-    }
-    throw Exception('$this is not known in enum ModelCardProcessingStatus');
-  }
+  const ModelCardProcessingStatus(this.value);
+
+  static ModelCardProcessingStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ModelCardProcessingStatus'));
 }
 
 /// Configure the security settings to protect model card data.
@@ -51812,97 +47412,50 @@ class ModelCardSecurityConfig {
 }
 
 enum ModelCardSortBy {
-  name,
-  creationTime,
-}
+  name('Name'),
+  creationTime('CreationTime'),
+  ;
 
-extension ModelCardSortByValueExtension on ModelCardSortBy {
-  String toValue() {
-    switch (this) {
-      case ModelCardSortBy.name:
-        return 'Name';
-      case ModelCardSortBy.creationTime:
-        return 'CreationTime';
-    }
-  }
-}
+  final String value;
 
-extension ModelCardSortByFromString on String {
-  ModelCardSortBy toModelCardSortBy() {
-    switch (this) {
-      case 'Name':
-        return ModelCardSortBy.name;
-      case 'CreationTime':
-        return ModelCardSortBy.creationTime;
-    }
-    throw Exception('$this is not known in enum ModelCardSortBy');
-  }
+  const ModelCardSortBy(this.value);
+
+  static ModelCardSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ModelCardSortBy'));
 }
 
 enum ModelCardSortOrder {
-  ascending,
-  descending,
-}
+  ascending('Ascending'),
+  descending('Descending'),
+  ;
 
-extension ModelCardSortOrderValueExtension on ModelCardSortOrder {
-  String toValue() {
-    switch (this) {
-      case ModelCardSortOrder.ascending:
-        return 'Ascending';
-      case ModelCardSortOrder.descending:
-        return 'Descending';
-    }
-  }
-}
+  final String value;
 
-extension ModelCardSortOrderFromString on String {
-  ModelCardSortOrder toModelCardSortOrder() {
-    switch (this) {
-      case 'Ascending':
-        return ModelCardSortOrder.ascending;
-      case 'Descending':
-        return ModelCardSortOrder.descending;
-    }
-    throw Exception('$this is not known in enum ModelCardSortOrder');
-  }
+  const ModelCardSortOrder(this.value);
+
+  static ModelCardSortOrder fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ModelCardSortOrder'));
 }
 
 enum ModelCardStatus {
-  draft,
-  pendingReview,
-  approved,
-  archived,
-}
+  draft('Draft'),
+  pendingReview('PendingReview'),
+  approved('Approved'),
+  archived('Archived'),
+  ;
 
-extension ModelCardStatusValueExtension on ModelCardStatus {
-  String toValue() {
-    switch (this) {
-      case ModelCardStatus.draft:
-        return 'Draft';
-      case ModelCardStatus.pendingReview:
-        return 'PendingReview';
-      case ModelCardStatus.approved:
-        return 'Approved';
-      case ModelCardStatus.archived:
-        return 'Archived';
-    }
-  }
-}
+  final String value;
 
-extension ModelCardStatusFromString on String {
-  ModelCardStatus toModelCardStatus() {
-    switch (this) {
-      case 'Draft':
-        return ModelCardStatus.draft;
-      case 'PendingReview':
-        return ModelCardStatus.pendingReview;
-      case 'Approved':
-        return ModelCardStatus.approved;
-      case 'Archived':
-        return ModelCardStatus.archived;
-    }
-    throw Exception('$this is not known in enum ModelCardStatus');
-  }
+  const ModelCardStatus(this.value);
+
+  static ModelCardStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ModelCardStatus'));
 }
 
 /// A summary of the model card.
@@ -51954,33 +47507,25 @@ class ModelCardSummary {
           nonNullableTimeStampFromJson(json['CreationTime'] as Object),
       modelCardArn: json['ModelCardArn'] as String,
       modelCardName: json['ModelCardName'] as String,
-      modelCardStatus: (json['ModelCardStatus'] as String).toModelCardStatus(),
+      modelCardStatus:
+          ModelCardStatus.fromString((json['ModelCardStatus'] as String)),
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
     );
   }
 }
 
 enum ModelCardVersionSortBy {
-  version,
-}
+  version('Version'),
+  ;
 
-extension ModelCardVersionSortByValueExtension on ModelCardVersionSortBy {
-  String toValue() {
-    switch (this) {
-      case ModelCardVersionSortBy.version:
-        return 'Version';
-    }
-  }
-}
+  final String value;
 
-extension ModelCardVersionSortByFromString on String {
-  ModelCardVersionSortBy toModelCardVersionSortBy() {
-    switch (this) {
-      case 'Version':
-        return ModelCardVersionSortBy.version;
-    }
-    throw Exception('$this is not known in enum ModelCardVersionSortBy');
-  }
+  const ModelCardVersionSortBy(this.value);
+
+  static ModelCardVersionSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ModelCardVersionSortBy'));
 }
 
 /// A summary of a specific version of the model card.
@@ -52036,7 +47581,8 @@ class ModelCardVersionSummary {
           nonNullableTimeStampFromJson(json['CreationTime'] as Object),
       modelCardArn: json['ModelCardArn'] as String,
       modelCardName: json['ModelCardName'] as String,
-      modelCardStatus: (json['ModelCardStatus'] as String).toModelCardStatus(),
+      modelCardStatus:
+          ModelCardStatus.fromString((json['ModelCardStatus'] as String)),
       modelCardVersion: json['ModelCardVersion'] as int,
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
     );
@@ -52079,31 +47625,18 @@ class ModelClientConfig {
 }
 
 enum ModelCompressionType {
-  none,
-  gzip,
-}
+  none('None'),
+  gzip('Gzip'),
+  ;
 
-extension ModelCompressionTypeValueExtension on ModelCompressionType {
-  String toValue() {
-    switch (this) {
-      case ModelCompressionType.none:
-        return 'None';
-      case ModelCompressionType.gzip:
-        return 'Gzip';
-    }
-  }
-}
+  final String value;
 
-extension ModelCompressionTypeFromString on String {
-  ModelCompressionType toModelCompressionType() {
-    switch (this) {
-      case 'None':
-        return ModelCompressionType.none;
-      case 'Gzip':
-        return ModelCompressionType.gzip;
-    }
-    throw Exception('$this is not known in enum ModelCompressionType');
-  }
+  const ModelCompressionType(this.value);
+
+  static ModelCompressionType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ModelCompressionType'));
 }
 
 /// Defines the model configuration. Includes the specification name and
@@ -52170,7 +47703,8 @@ class ModelDashboardEndpoint {
           nonNullableTimeStampFromJson(json['CreationTime'] as Object),
       endpointArn: json['EndpointArn'] as String,
       endpointName: json['EndpointName'] as String,
-      endpointStatus: (json['EndpointStatus'] as String).toEndpointStatus(),
+      endpointStatus:
+          EndpointStatus.fromString((json['EndpointStatus'] as String)),
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] as Object),
     );
@@ -52310,7 +47844,7 @@ class ModelDashboardModelCard {
       modelCardArn: json['ModelCardArn'] as String?,
       modelCardName: json['ModelCardName'] as String?,
       modelCardStatus:
-          (json['ModelCardStatus'] as String?)?.toModelCardStatus(),
+          (json['ModelCardStatus'] as String?)?.let(ModelCardStatus.fromString),
       modelCardVersion: json['ModelCardVersion'] as int?,
       modelId: json['ModelId'] as String?,
       riskRating: json['RiskRating'] as String?,
@@ -52401,9 +47935,10 @@ class ModelDashboardMonitoringSchedule {
               json['MonitoringScheduleConfig'] as Map<String, dynamic>)
           : null,
       monitoringScheduleName: json['MonitoringScheduleName'] as String?,
-      monitoringScheduleStatus:
-          (json['MonitoringScheduleStatus'] as String?)?.toScheduleStatus(),
-      monitoringType: (json['MonitoringType'] as String?)?.toMonitoringType(),
+      monitoringScheduleStatus: (json['MonitoringScheduleStatus'] as String?)
+          ?.let(ScheduleStatus.fromString),
+      monitoringType:
+          (json['MonitoringType'] as String?)?.let(MonitoringType.fromString),
     );
   }
 }
@@ -52682,8 +48217,8 @@ class ModelInfrastructureConfig {
 
   factory ModelInfrastructureConfig.fromJson(Map<String, dynamic> json) {
     return ModelInfrastructureConfig(
-      infrastructureType:
-          (json['InfrastructureType'] as String).toModelInfrastructureType(),
+      infrastructureType: ModelInfrastructureType.fromString(
+          (json['InfrastructureType'] as String)),
       realTimeInferenceConfig: RealTimeInferenceConfig.fromJson(
           json['RealTimeInferenceConfig'] as Map<String, dynamic>),
     );
@@ -52693,33 +48228,24 @@ class ModelInfrastructureConfig {
     final infrastructureType = this.infrastructureType;
     final realTimeInferenceConfig = this.realTimeInferenceConfig;
     return {
-      'InfrastructureType': infrastructureType.toValue(),
+      'InfrastructureType': infrastructureType.value,
       'RealTimeInferenceConfig': realTimeInferenceConfig,
     };
   }
 }
 
 enum ModelInfrastructureType {
-  realTimeInference,
-}
+  realTimeInference('RealTimeInference'),
+  ;
 
-extension ModelInfrastructureTypeValueExtension on ModelInfrastructureType {
-  String toValue() {
-    switch (this) {
-      case ModelInfrastructureType.realTimeInference:
-        return 'RealTimeInference';
-    }
-  }
-}
+  final String value;
 
-extension ModelInfrastructureTypeFromString on String {
-  ModelInfrastructureType toModelInfrastructureType() {
-    switch (this) {
-      case 'RealTimeInference':
-        return ModelInfrastructureType.realTimeInference;
-    }
-    throw Exception('$this is not known in enum ModelInfrastructureType');
-  }
+  const ModelInfrastructureType(this.value);
+
+  static ModelInfrastructureType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ModelInfrastructureType'));
 }
 
 /// Input object for the model.
@@ -52796,48 +48322,27 @@ class ModelMetadataFilter {
     final name = this.name;
     final value = this.value;
     return {
-      'Name': name.toValue(),
+      'Name': name.value,
       'Value': value,
     };
   }
 }
 
 enum ModelMetadataFilterType {
-  domain,
-  framework,
-  task,
-  frameworkVersion,
-}
+  domain('Domain'),
+  framework('Framework'),
+  task('Task'),
+  frameworkVersion('FrameworkVersion'),
+  ;
 
-extension ModelMetadataFilterTypeValueExtension on ModelMetadataFilterType {
-  String toValue() {
-    switch (this) {
-      case ModelMetadataFilterType.domain:
-        return 'Domain';
-      case ModelMetadataFilterType.framework:
-        return 'Framework';
-      case ModelMetadataFilterType.task:
-        return 'Task';
-      case ModelMetadataFilterType.frameworkVersion:
-        return 'FrameworkVersion';
-    }
-  }
-}
+  final String value;
 
-extension ModelMetadataFilterTypeFromString on String {
-  ModelMetadataFilterType toModelMetadataFilterType() {
-    switch (this) {
-      case 'Domain':
-        return ModelMetadataFilterType.domain;
-      case 'Framework':
-        return ModelMetadataFilterType.framework;
-      case 'Task':
-        return ModelMetadataFilterType.task;
-      case 'FrameworkVersion':
-        return ModelMetadataFilterType.frameworkVersion;
-    }
-    throw Exception('$this is not known in enum ModelMetadataFilterType');
-  }
+  const ModelMetadataFilterType(this.value);
+
+  static ModelMetadataFilterType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ModelMetadataFilterType'));
 }
 
 /// One or more filters that searches for the specified resource or resources in
@@ -53155,8 +48660,8 @@ class ModelPackage {
           ? MetadataProperties.fromJson(
               json['MetadataProperties'] as Map<String, dynamic>)
           : null,
-      modelApprovalStatus:
-          (json['ModelApprovalStatus'] as String?)?.toModelApprovalStatus(),
+      modelApprovalStatus: (json['ModelApprovalStatus'] as String?)
+          ?.let(ModelApprovalStatus.fromString),
       modelCard: json['ModelCard'] != null
           ? ModelPackageModelCard.fromJson(
               json['ModelCard'] as Map<String, dynamic>)
@@ -53168,8 +48673,8 @@ class ModelPackage {
       modelPackageDescription: json['ModelPackageDescription'] as String?,
       modelPackageGroupName: json['ModelPackageGroupName'] as String?,
       modelPackageName: json['ModelPackageName'] as String?,
-      modelPackageStatus:
-          (json['ModelPackageStatus'] as String?)?.toModelPackageStatus(),
+      modelPackageStatus: (json['ModelPackageStatus'] as String?)
+          ?.let(ModelPackageStatus.fromString),
       modelPackageStatusDetails: json['ModelPackageStatusDetails'] != null
           ? ModelPackageStatusDetails.fromJson(
               json['ModelPackageStatusDetails'] as Map<String, dynamic>)
@@ -53180,8 +48685,8 @@ class ModelPackage {
           ? ModelPackageSecurityConfig.fromJson(
               json['SecurityConfig'] as Map<String, dynamic>)
           : null,
-      skipModelValidation:
-          (json['SkipModelValidation'] as String?)?.toSkipModelValidation(),
+      skipModelValidation: (json['SkipModelValidation'] as String?)
+          ?.let(SkipModelValidation.fromString),
       sourceAlgorithmSpecification: json['SourceAlgorithmSpecification'] != null
           ? SourceAlgorithmSpecification.fromJson(
               json['SourceAlgorithmSpecification'] as Map<String, dynamic>)
@@ -53400,7 +48905,7 @@ class ModelPackageGroup {
           json['ModelPackageGroupDescription'] as String?,
       modelPackageGroupName: json['ModelPackageGroupName'] as String?,
       modelPackageGroupStatus: (json['ModelPackageGroupStatus'] as String?)
-          ?.toModelPackageGroupStatus(),
+          ?.let(ModelPackageGroupStatus.fromString),
       tags: (json['Tags'] as List?)
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -53410,79 +48915,37 @@ class ModelPackageGroup {
 }
 
 enum ModelPackageGroupSortBy {
-  name,
-  creationTime,
-}
+  name('Name'),
+  creationTime('CreationTime'),
+  ;
 
-extension ModelPackageGroupSortByValueExtension on ModelPackageGroupSortBy {
-  String toValue() {
-    switch (this) {
-      case ModelPackageGroupSortBy.name:
-        return 'Name';
-      case ModelPackageGroupSortBy.creationTime:
-        return 'CreationTime';
-    }
-  }
-}
+  final String value;
 
-extension ModelPackageGroupSortByFromString on String {
-  ModelPackageGroupSortBy toModelPackageGroupSortBy() {
-    switch (this) {
-      case 'Name':
-        return ModelPackageGroupSortBy.name;
-      case 'CreationTime':
-        return ModelPackageGroupSortBy.creationTime;
-    }
-    throw Exception('$this is not known in enum ModelPackageGroupSortBy');
-  }
+  const ModelPackageGroupSortBy(this.value);
+
+  static ModelPackageGroupSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ModelPackageGroupSortBy'));
 }
 
 enum ModelPackageGroupStatus {
-  pending,
-  inProgress,
-  completed,
-  failed,
-  deleting,
-  deleteFailed,
-}
+  pending('Pending'),
+  inProgress('InProgress'),
+  completed('Completed'),
+  failed('Failed'),
+  deleting('Deleting'),
+  deleteFailed('DeleteFailed'),
+  ;
 
-extension ModelPackageGroupStatusValueExtension on ModelPackageGroupStatus {
-  String toValue() {
-    switch (this) {
-      case ModelPackageGroupStatus.pending:
-        return 'Pending';
-      case ModelPackageGroupStatus.inProgress:
-        return 'InProgress';
-      case ModelPackageGroupStatus.completed:
-        return 'Completed';
-      case ModelPackageGroupStatus.failed:
-        return 'Failed';
-      case ModelPackageGroupStatus.deleting:
-        return 'Deleting';
-      case ModelPackageGroupStatus.deleteFailed:
-        return 'DeleteFailed';
-    }
-  }
-}
+  final String value;
 
-extension ModelPackageGroupStatusFromString on String {
-  ModelPackageGroupStatus toModelPackageGroupStatus() {
-    switch (this) {
-      case 'Pending':
-        return ModelPackageGroupStatus.pending;
-      case 'InProgress':
-        return ModelPackageGroupStatus.inProgress;
-      case 'Completed':
-        return ModelPackageGroupStatus.completed;
-      case 'Failed':
-        return ModelPackageGroupStatus.failed;
-      case 'Deleting':
-        return ModelPackageGroupStatus.deleting;
-      case 'DeleteFailed':
-        return ModelPackageGroupStatus.deleteFailed;
-    }
-    throw Exception('$this is not known in enum ModelPackageGroupStatus');
-  }
+  const ModelPackageGroupStatus(this.value);
+
+  static ModelPackageGroupStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ModelPackageGroupStatus'));
 }
 
 /// Summary information about a model group.
@@ -53516,8 +48979,8 @@ class ModelPackageGroupSummary {
           nonNullableTimeStampFromJson(json['CreationTime'] as Object),
       modelPackageGroupArn: json['ModelPackageGroupArn'] as String,
       modelPackageGroupName: json['ModelPackageGroupName'] as String,
-      modelPackageGroupStatus: (json['ModelPackageGroupStatus'] as String)
-          .toModelPackageGroupStatus(),
+      modelPackageGroupStatus: ModelPackageGroupStatus.fromString(
+          (json['ModelPackageGroupStatus'] as String)),
       modelPackageGroupDescription:
           json['ModelPackageGroupDescription'] as String?,
     );
@@ -53569,7 +49032,7 @@ class ModelPackageModelCard {
     return ModelPackageModelCard(
       modelCardContent: json['ModelCardContent'] as String?,
       modelCardStatus:
-          (json['ModelCardStatus'] as String?)?.toModelCardStatus(),
+          (json['ModelCardStatus'] as String?)?.let(ModelCardStatus.fromString),
     );
   }
 
@@ -53578,7 +49041,7 @@ class ModelPackageModelCard {
     final modelCardStatus = this.modelCardStatus;
     return {
       if (modelCardContent != null) 'ModelCardContent': modelCardContent,
-      if (modelCardStatus != null) 'ModelCardStatus': modelCardStatus.toValue(),
+      if (modelCardStatus != null) 'ModelCardStatus': modelCardStatus.value,
     };
   }
 }
@@ -53610,74 +49073,36 @@ class ModelPackageSecurityConfig {
 }
 
 enum ModelPackageSortBy {
-  name,
-  creationTime,
-}
+  name('Name'),
+  creationTime('CreationTime'),
+  ;
 
-extension ModelPackageSortByValueExtension on ModelPackageSortBy {
-  String toValue() {
-    switch (this) {
-      case ModelPackageSortBy.name:
-        return 'Name';
-      case ModelPackageSortBy.creationTime:
-        return 'CreationTime';
-    }
-  }
-}
+  final String value;
 
-extension ModelPackageSortByFromString on String {
-  ModelPackageSortBy toModelPackageSortBy() {
-    switch (this) {
-      case 'Name':
-        return ModelPackageSortBy.name;
-      case 'CreationTime':
-        return ModelPackageSortBy.creationTime;
-    }
-    throw Exception('$this is not known in enum ModelPackageSortBy');
-  }
+  const ModelPackageSortBy(this.value);
+
+  static ModelPackageSortBy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ModelPackageSortBy'));
 }
 
 enum ModelPackageStatus {
-  pending,
-  inProgress,
-  completed,
-  failed,
-  deleting,
-}
+  pending('Pending'),
+  inProgress('InProgress'),
+  completed('Completed'),
+  failed('Failed'),
+  deleting('Deleting'),
+  ;
 
-extension ModelPackageStatusValueExtension on ModelPackageStatus {
-  String toValue() {
-    switch (this) {
-      case ModelPackageStatus.pending:
-        return 'Pending';
-      case ModelPackageStatus.inProgress:
-        return 'InProgress';
-      case ModelPackageStatus.completed:
-        return 'Completed';
-      case ModelPackageStatus.failed:
-        return 'Failed';
-      case ModelPackageStatus.deleting:
-        return 'Deleting';
-    }
-  }
-}
+  final String value;
 
-extension ModelPackageStatusFromString on String {
-  ModelPackageStatus toModelPackageStatus() {
-    switch (this) {
-      case 'Pending':
-        return ModelPackageStatus.pending;
-      case 'InProgress':
-        return ModelPackageStatus.inProgress;
-      case 'Completed':
-        return ModelPackageStatus.completed;
-      case 'Failed':
-        return ModelPackageStatus.failed;
-      case 'Deleting':
-        return ModelPackageStatus.deleting;
-    }
-    throw Exception('$this is not known in enum ModelPackageStatus');
-  }
+  const ModelPackageStatus(this.value);
+
+  static ModelPackageStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ModelPackageStatus'));
 }
 
 /// Specifies the validation and image scan statuses of the model package.
@@ -53730,7 +49155,7 @@ class ModelPackageStatusItem {
   factory ModelPackageStatusItem.fromJson(Map<String, dynamic> json) {
     return ModelPackageStatusItem(
       name: json['Name'] as String,
-      status: (json['Status'] as String).toDetailedModelPackageStatus(),
+      status: DetailedModelPackageStatus.fromString((json['Status'] as String)),
       failureReason: json['FailureReason'] as String?,
     );
   }
@@ -53793,9 +49218,9 @@ class ModelPackageSummary {
           nonNullableTimeStampFromJson(json['CreationTime'] as Object),
       modelPackageArn: json['ModelPackageArn'] as String,
       modelPackageStatus:
-          (json['ModelPackageStatus'] as String).toModelPackageStatus(),
-      modelApprovalStatus:
-          (json['ModelApprovalStatus'] as String?)?.toModelApprovalStatus(),
+          ModelPackageStatus.fromString((json['ModelPackageStatus'] as String)),
+      modelApprovalStatus: (json['ModelApprovalStatus'] as String?)
+          ?.let(ModelApprovalStatus.fromString),
       modelPackageDescription: json['ModelPackageDescription'] as String?,
       modelPackageGroupName: json['ModelPackageGroupName'] as String?,
       modelPackageName: json['ModelPackageName'] as String?,
@@ -53805,36 +49230,19 @@ class ModelPackageSummary {
 }
 
 enum ModelPackageType {
-  versioned,
-  unversioned,
-  both,
-}
+  versioned('Versioned'),
+  unversioned('Unversioned'),
+  both('Both'),
+  ;
 
-extension ModelPackageTypeValueExtension on ModelPackageType {
-  String toValue() {
-    switch (this) {
-      case ModelPackageType.versioned:
-        return 'Versioned';
-      case ModelPackageType.unversioned:
-        return 'Unversioned';
-      case ModelPackageType.both:
-        return 'Both';
-    }
-  }
-}
+  final String value;
 
-extension ModelPackageTypeFromString on String {
-  ModelPackageType toModelPackageType() {
-    switch (this) {
-      case 'Versioned':
-        return ModelPackageType.versioned;
-      case 'Unversioned':
-        return ModelPackageType.unversioned;
-      case 'Both':
-        return ModelPackageType.both;
-    }
-    throw Exception('$this is not known in enum ModelPackageType');
-  }
+  const ModelPackageType(this.value);
+
+  static ModelPackageType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ModelPackageType'));
 }
 
 /// Contains data, such as the inputs and targeted instance types that are used
@@ -53999,7 +49407,8 @@ class ModelQualityAppSpecification {
           ?.map((k, e) => MapEntry(k, e as String)),
       postAnalyticsProcessorSourceUri:
           json['PostAnalyticsProcessorSourceUri'] as String?,
-      problemType: (json['ProblemType'] as String?)?.toMonitoringProblemType(),
+      problemType: (json['ProblemType'] as String?)
+          ?.let(MonitoringProblemType.fromString),
       recordPreprocessorSourceUri:
           json['RecordPreprocessorSourceUri'] as String?,
     );
@@ -54022,7 +49431,7 @@ class ModelQualityAppSpecification {
       if (environment != null) 'Environment': environment,
       if (postAnalyticsProcessorSourceUri != null)
         'PostAnalyticsProcessorSourceUri': postAnalyticsProcessorSourceUri,
-      if (problemType != null) 'ProblemType': problemType.toValue(),
+      if (problemType != null) 'ProblemType': problemType.value,
       if (recordPreprocessorSourceUri != null)
         'RecordPreprocessorSourceUri': recordPreprocessorSourceUri,
     };
@@ -54128,7 +49537,7 @@ class ModelRegisterSettings {
     return ModelRegisterSettings(
       crossAccountModelRegisterRoleArn:
           json['CrossAccountModelRegisterRoleArn'] as String?,
-      status: (json['Status'] as String?)?.toFeatureStatus(),
+      status: (json['Status'] as String?)?.let(FeatureStatus.fromString),
     );
   }
 
@@ -54139,37 +49548,24 @@ class ModelRegisterSettings {
     return {
       if (crossAccountModelRegisterRoleArn != null)
         'CrossAccountModelRegisterRoleArn': crossAccountModelRegisterRoleArn,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
 
 enum ModelSortKey {
-  name,
-  creationTime,
-}
+  name('Name'),
+  creationTime('CreationTime'),
+  ;
 
-extension ModelSortKeyValueExtension on ModelSortKey {
-  String toValue() {
-    switch (this) {
-      case ModelSortKey.name:
-        return 'Name';
-      case ModelSortKey.creationTime:
-        return 'CreationTime';
-    }
-  }
-}
+  final String value;
 
-extension ModelSortKeyFromString on String {
-  ModelSortKey toModelSortKey() {
-    switch (this) {
-      case 'Name':
-        return ModelSortKey.name;
-      case 'CreationTime':
-        return ModelSortKey.creationTime;
-    }
-    throw Exception('$this is not known in enum ModelSortKey');
-  }
+  const ModelSortKey(this.value);
+
+  static ModelSortKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ModelSortKey'));
 }
 
 /// Metadata for Model steps.
@@ -54216,36 +49612,19 @@ class ModelSummary {
 }
 
 enum ModelVariantAction {
-  retain,
-  remove,
-  promote,
-}
+  retain('Retain'),
+  remove('Remove'),
+  promote('Promote'),
+  ;
 
-extension ModelVariantActionValueExtension on ModelVariantAction {
-  String toValue() {
-    switch (this) {
-      case ModelVariantAction.retain:
-        return 'Retain';
-      case ModelVariantAction.remove:
-        return 'Remove';
-      case ModelVariantAction.promote:
-        return 'Promote';
-    }
-  }
-}
+  final String value;
 
-extension ModelVariantActionFromString on String {
-  ModelVariantAction toModelVariantAction() {
-    switch (this) {
-      case 'Retain':
-        return ModelVariantAction.retain;
-      case 'Remove':
-        return ModelVariantAction.remove;
-      case 'Promote':
-        return ModelVariantAction.promote;
-    }
-    throw Exception('$this is not known in enum ModelVariantAction');
-  }
+  const ModelVariantAction(this.value);
+
+  static ModelVariantAction fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ModelVariantAction'));
 }
 
 /// Contains information about the deployment options of a model.
@@ -54327,53 +49706,28 @@ class ModelVariantConfigSummary {
       infrastructureConfig: ModelInfrastructureConfig.fromJson(
           json['InfrastructureConfig'] as Map<String, dynamic>),
       modelName: json['ModelName'] as String,
-      status: (json['Status'] as String).toModelVariantStatus(),
+      status: ModelVariantStatus.fromString((json['Status'] as String)),
       variantName: json['VariantName'] as String,
     );
   }
 }
 
 enum ModelVariantStatus {
-  creating,
-  updating,
-  inService,
-  deleting,
-  deleted,
-}
+  creating('Creating'),
+  updating('Updating'),
+  inService('InService'),
+  deleting('Deleting'),
+  deleted('Deleted'),
+  ;
 
-extension ModelVariantStatusValueExtension on ModelVariantStatus {
-  String toValue() {
-    switch (this) {
-      case ModelVariantStatus.creating:
-        return 'Creating';
-      case ModelVariantStatus.updating:
-        return 'Updating';
-      case ModelVariantStatus.inService:
-        return 'InService';
-      case ModelVariantStatus.deleting:
-        return 'Deleting';
-      case ModelVariantStatus.deleted:
-        return 'Deleted';
-    }
-  }
-}
+  final String value;
 
-extension ModelVariantStatusFromString on String {
-  ModelVariantStatus toModelVariantStatus() {
-    switch (this) {
-      case 'Creating':
-        return ModelVariantStatus.creating;
-      case 'Updating':
-        return ModelVariantStatus.updating;
-      case 'InService':
-        return ModelVariantStatus.inService;
-      case 'Deleting':
-        return ModelVariantStatus.deleting;
-      case 'Deleted':
-        return ModelVariantStatus.deleted;
-    }
-    throw Exception('$this is not known in enum ModelVariantStatus');
-  }
+  const ModelVariantStatus(this.value);
+
+  static ModelVariantStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ModelVariantStatus'));
 }
 
 /// A list of alert actions taken in response to an alert going into
@@ -54398,32 +49752,18 @@ class MonitoringAlertActions {
 }
 
 enum MonitoringAlertHistorySortKey {
-  creationTime,
-  status,
-}
+  creationTime('CreationTime'),
+  status('Status'),
+  ;
 
-extension MonitoringAlertHistorySortKeyValueExtension
-    on MonitoringAlertHistorySortKey {
-  String toValue() {
-    switch (this) {
-      case MonitoringAlertHistorySortKey.creationTime:
-        return 'CreationTime';
-      case MonitoringAlertHistorySortKey.status:
-        return 'Status';
-    }
-  }
-}
+  final String value;
 
-extension MonitoringAlertHistorySortKeyFromString on String {
-  MonitoringAlertHistorySortKey toMonitoringAlertHistorySortKey() {
-    switch (this) {
-      case 'CreationTime':
-        return MonitoringAlertHistorySortKey.creationTime;
-      case 'Status':
-        return MonitoringAlertHistorySortKey.status;
-    }
-    throw Exception('$this is not known in enum MonitoringAlertHistorySortKey');
-  }
+  const MonitoringAlertHistorySortKey(this.value);
+
+  static MonitoringAlertHistorySortKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MonitoringAlertHistorySortKey'));
 }
 
 /// Provides summary information of an alert's history.
@@ -54451,7 +49791,8 @@ class MonitoringAlertHistorySummary {
 
   factory MonitoringAlertHistorySummary.fromJson(Map<String, dynamic> json) {
     return MonitoringAlertHistorySummary(
-      alertStatus: (json['AlertStatus'] as String).toMonitoringAlertStatus(),
+      alertStatus:
+          MonitoringAlertStatus.fromString((json['AlertStatus'] as String)),
       creationTime:
           nonNullableTimeStampFromJson(json['CreationTime'] as Object),
       monitoringAlertName: json['MonitoringAlertName'] as String,
@@ -54461,31 +49802,18 @@ class MonitoringAlertHistorySummary {
 }
 
 enum MonitoringAlertStatus {
-  inAlert,
-  ok,
-}
+  inAlert('InAlert'),
+  ok('OK'),
+  ;
 
-extension MonitoringAlertStatusValueExtension on MonitoringAlertStatus {
-  String toValue() {
-    switch (this) {
-      case MonitoringAlertStatus.inAlert:
-        return 'InAlert';
-      case MonitoringAlertStatus.ok:
-        return 'OK';
-    }
-  }
-}
+  final String value;
 
-extension MonitoringAlertStatusFromString on String {
-  MonitoringAlertStatus toMonitoringAlertStatus() {
-    switch (this) {
-      case 'InAlert':
-        return MonitoringAlertStatus.inAlert;
-      case 'OK':
-        return MonitoringAlertStatus.ok;
-    }
-    throw Exception('$this is not known in enum MonitoringAlertStatus');
-  }
+  const MonitoringAlertStatus(this.value);
+
+  static MonitoringAlertStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum MonitoringAlertStatus'));
 }
 
 /// Provides summary information about a monitor alert.
@@ -54528,7 +49856,8 @@ class MonitoringAlertSummary {
     return MonitoringAlertSummary(
       actions: MonitoringAlertActions.fromJson(
           json['Actions'] as Map<String, dynamic>),
-      alertStatus: (json['AlertStatus'] as String).toMonitoringAlertStatus(),
+      alertStatus:
+          MonitoringAlertStatus.fromString((json['AlertStatus'] as String)),
       creationTime:
           nonNullableTimeStampFromJson(json['CreationTime'] as Object),
       datapointsToAlert: json['DatapointsToAlert'] as int,
@@ -54684,7 +50013,8 @@ class MonitoringClusterConfig {
   factory MonitoringClusterConfig.fromJson(Map<String, dynamic> json) {
     return MonitoringClusterConfig(
       instanceCount: json['InstanceCount'] as int,
-      instanceType: (json['InstanceType'] as String).toProcessingInstanceType(),
+      instanceType:
+          ProcessingInstanceType.fromString((json['InstanceType'] as String)),
       volumeSizeInGB: json['VolumeSizeInGB'] as int,
       volumeKmsKeyId: json['VolumeKmsKeyId'] as String?,
     );
@@ -54697,7 +50027,7 @@ class MonitoringClusterConfig {
     final volumeKmsKeyId = this.volumeKmsKeyId;
     return {
       'InstanceCount': instanceCount,
-      'InstanceType': instanceType.toValue(),
+      'InstanceType': instanceType.value,
       'VolumeSizeInGB': volumeSizeInGB,
       if (volumeKmsKeyId != null) 'VolumeKmsKeyId': volumeKmsKeyId,
     };
@@ -54797,37 +50127,19 @@ class MonitoringDatasetFormat {
 }
 
 enum MonitoringExecutionSortKey {
-  creationTime,
-  scheduledTime,
-  status,
-}
+  creationTime('CreationTime'),
+  scheduledTime('ScheduledTime'),
+  status('Status'),
+  ;
 
-extension MonitoringExecutionSortKeyValueExtension
-    on MonitoringExecutionSortKey {
-  String toValue() {
-    switch (this) {
-      case MonitoringExecutionSortKey.creationTime:
-        return 'CreationTime';
-      case MonitoringExecutionSortKey.scheduledTime:
-        return 'ScheduledTime';
-      case MonitoringExecutionSortKey.status:
-        return 'Status';
-    }
-  }
-}
+  final String value;
 
-extension MonitoringExecutionSortKeyFromString on String {
-  MonitoringExecutionSortKey toMonitoringExecutionSortKey() {
-    switch (this) {
-      case 'CreationTime':
-        return MonitoringExecutionSortKey.creationTime;
-      case 'ScheduledTime':
-        return MonitoringExecutionSortKey.scheduledTime;
-      case 'Status':
-        return MonitoringExecutionSortKey.status;
-    }
-    throw Exception('$this is not known in enum MonitoringExecutionSortKey');
-  }
+  const MonitoringExecutionSortKey(this.value);
+
+  static MonitoringExecutionSortKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MonitoringExecutionSortKey'));
 }
 
 /// Summary of information about the last monitoring job to run.
@@ -54881,8 +50193,8 @@ class MonitoringExecutionSummary {
           nonNullableTimeStampFromJson(json['CreationTime'] as Object),
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['LastModifiedTime'] as Object),
-      monitoringExecutionStatus:
-          (json['MonitoringExecutionStatus'] as String).toExecutionStatus(),
+      monitoringExecutionStatus: ExecutionStatus.fromString(
+          (json['MonitoringExecutionStatus'] as String)),
       monitoringScheduleName: json['MonitoringScheduleName'] as String,
       scheduledTime:
           nonNullableTimeStampFromJson(json['ScheduledTime'] as Object),
@@ -54890,7 +50202,8 @@ class MonitoringExecutionSummary {
       failureReason: json['FailureReason'] as String?,
       monitoringJobDefinitionName:
           json['MonitoringJobDefinitionName'] as String?,
-      monitoringType: (json['MonitoringType'] as String?)?.toMonitoringType(),
+      monitoringType:
+          (json['MonitoringType'] as String?)?.let(MonitoringType.fromString),
       processingJobArn: json['ProcessingJobArn'] as String?,
     );
   }
@@ -55057,33 +50370,18 @@ class MonitoringJobDefinition {
 }
 
 enum MonitoringJobDefinitionSortKey {
-  name,
-  creationTime,
-}
+  name('Name'),
+  creationTime('CreationTime'),
+  ;
 
-extension MonitoringJobDefinitionSortKeyValueExtension
-    on MonitoringJobDefinitionSortKey {
-  String toValue() {
-    switch (this) {
-      case MonitoringJobDefinitionSortKey.name:
-        return 'Name';
-      case MonitoringJobDefinitionSortKey.creationTime:
-        return 'CreationTime';
-    }
-  }
-}
+  final String value;
 
-extension MonitoringJobDefinitionSortKeyFromString on String {
-  MonitoringJobDefinitionSortKey toMonitoringJobDefinitionSortKey() {
-    switch (this) {
-      case 'Name':
-        return MonitoringJobDefinitionSortKey.name;
-      case 'CreationTime':
-        return MonitoringJobDefinitionSortKey.creationTime;
-    }
-    throw Exception(
-        '$this is not known in enum MonitoringJobDefinitionSortKey');
-  }
+  const MonitoringJobDefinitionSortKey(this.value);
+
+  static MonitoringJobDefinitionSortKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MonitoringJobDefinitionSortKey'));
 }
 
 /// Summary information about a monitoring job.
@@ -55262,36 +50560,19 @@ class MonitoringParquetDatasetFormat {
 }
 
 enum MonitoringProblemType {
-  binaryClassification,
-  multiclassClassification,
-  regression,
-}
+  binaryClassification('BinaryClassification'),
+  multiclassClassification('MulticlassClassification'),
+  regression('Regression'),
+  ;
 
-extension MonitoringProblemTypeValueExtension on MonitoringProblemType {
-  String toValue() {
-    switch (this) {
-      case MonitoringProblemType.binaryClassification:
-        return 'BinaryClassification';
-      case MonitoringProblemType.multiclassClassification:
-        return 'MulticlassClassification';
-      case MonitoringProblemType.regression:
-        return 'Regression';
-    }
-  }
-}
+  final String value;
 
-extension MonitoringProblemTypeFromString on String {
-  MonitoringProblemType toMonitoringProblemType() {
-    switch (this) {
-      case 'BinaryClassification':
-        return MonitoringProblemType.binaryClassification;
-      case 'MulticlassClassification':
-        return MonitoringProblemType.multiclassClassification;
-      case 'Regression':
-        return MonitoringProblemType.regression;
-    }
-    throw Exception('$this is not known in enum MonitoringProblemType');
-  }
+  const MonitoringProblemType(this.value);
+
+  static MonitoringProblemType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum MonitoringProblemType'));
 }
 
 /// Identifies the resources to deploy for a monitoring job.
@@ -55344,8 +50625,8 @@ class MonitoringS3Output {
     return MonitoringS3Output(
       localPath: json['LocalPath'] as String,
       s3Uri: json['S3Uri'] as String,
-      s3UploadMode:
-          (json['S3UploadMode'] as String?)?.toProcessingS3UploadMode(),
+      s3UploadMode: (json['S3UploadMode'] as String?)
+          ?.let(ProcessingS3UploadMode.fromString),
     );
   }
 
@@ -55356,7 +50637,7 @@ class MonitoringS3Output {
     return {
       'LocalPath': localPath,
       'S3Uri': s3Uri,
-      if (s3UploadMode != null) 'S3UploadMode': s3UploadMode.toValue(),
+      if (s3UploadMode != null) 'S3UploadMode': s3UploadMode.value,
     };
   }
 }
@@ -55446,9 +50727,10 @@ class MonitoringSchedule {
               json['MonitoringScheduleConfig'] as Map<String, dynamic>)
           : null,
       monitoringScheduleName: json['MonitoringScheduleName'] as String?,
-      monitoringScheduleStatus:
-          (json['MonitoringScheduleStatus'] as String?)?.toScheduleStatus(),
-      monitoringType: (json['MonitoringType'] as String?)?.toMonitoringType(),
+      monitoringScheduleStatus: (json['MonitoringScheduleStatus'] as String?)
+          ?.let(ScheduleStatus.fromString),
+      monitoringType:
+          (json['MonitoringType'] as String?)?.let(MonitoringType.fromString),
       tags: (json['Tags'] as List?)
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -55486,7 +50768,8 @@ class MonitoringScheduleConfig {
           : null,
       monitoringJobDefinitionName:
           json['MonitoringJobDefinitionName'] as String?,
-      monitoringType: (json['MonitoringType'] as String?)?.toMonitoringType(),
+      monitoringType:
+          (json['MonitoringType'] as String?)?.let(MonitoringType.fromString),
       scheduleConfig: json['ScheduleConfig'] != null
           ? ScheduleConfig.fromJson(
               json['ScheduleConfig'] as Map<String, dynamic>)
@@ -55504,43 +50787,26 @@ class MonitoringScheduleConfig {
         'MonitoringJobDefinition': monitoringJobDefinition,
       if (monitoringJobDefinitionName != null)
         'MonitoringJobDefinitionName': monitoringJobDefinitionName,
-      if (monitoringType != null) 'MonitoringType': monitoringType.toValue(),
+      if (monitoringType != null) 'MonitoringType': monitoringType.value,
       if (scheduleConfig != null) 'ScheduleConfig': scheduleConfig,
     };
   }
 }
 
 enum MonitoringScheduleSortKey {
-  name,
-  creationTime,
-  status,
-}
+  name('Name'),
+  creationTime('CreationTime'),
+  status('Status'),
+  ;
 
-extension MonitoringScheduleSortKeyValueExtension on MonitoringScheduleSortKey {
-  String toValue() {
-    switch (this) {
-      case MonitoringScheduleSortKey.name:
-        return 'Name';
-      case MonitoringScheduleSortKey.creationTime:
-        return 'CreationTime';
-      case MonitoringScheduleSortKey.status:
-        return 'Status';
-    }
-  }
-}
+  final String value;
 
-extension MonitoringScheduleSortKeyFromString on String {
-  MonitoringScheduleSortKey toMonitoringScheduleSortKey() {
-    switch (this) {
-      case 'Name':
-        return MonitoringScheduleSortKey.name;
-      case 'CreationTime':
-        return MonitoringScheduleSortKey.creationTime;
-      case 'Status':
-        return MonitoringScheduleSortKey.status;
-    }
-    throw Exception('$this is not known in enum MonitoringScheduleSortKey');
-  }
+  const MonitoringScheduleSortKey(this.value);
+
+  static MonitoringScheduleSortKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MonitoringScheduleSortKey'));
 }
 
 /// Summarizes the monitoring schedule.
@@ -55588,12 +50854,13 @@ class MonitoringScheduleSummary {
           nonNullableTimeStampFromJson(json['LastModifiedTime'] as Object),
       monitoringScheduleArn: json['MonitoringScheduleArn'] as String,
       monitoringScheduleName: json['MonitoringScheduleName'] as String,
-      monitoringScheduleStatus:
-          (json['MonitoringScheduleStatus'] as String).toScheduleStatus(),
+      monitoringScheduleStatus: ScheduleStatus.fromString(
+          (json['MonitoringScheduleStatus'] as String)),
       endpointName: json['EndpointName'] as String?,
       monitoringJobDefinitionName:
           json['MonitoringJobDefinitionName'] as String?,
-      monitoringType: (json['MonitoringType'] as String?)?.toMonitoringType(),
+      monitoringType:
+          (json['MonitoringType'] as String?)?.let(MonitoringType.fromString),
     );
   }
 }
@@ -55652,41 +50919,20 @@ class MonitoringStoppingCondition {
 }
 
 enum MonitoringType {
-  dataQuality,
-  modelQuality,
-  modelBias,
-  modelExplainability,
-}
+  dataQuality('DataQuality'),
+  modelQuality('ModelQuality'),
+  modelBias('ModelBias'),
+  modelExplainability('ModelExplainability'),
+  ;
 
-extension MonitoringTypeValueExtension on MonitoringType {
-  String toValue() {
-    switch (this) {
-      case MonitoringType.dataQuality:
-        return 'DataQuality';
-      case MonitoringType.modelQuality:
-        return 'ModelQuality';
-      case MonitoringType.modelBias:
-        return 'ModelBias';
-      case MonitoringType.modelExplainability:
-        return 'ModelExplainability';
-    }
-  }
-}
+  final String value;
 
-extension MonitoringTypeFromString on String {
-  MonitoringType toMonitoringType() {
-    switch (this) {
-      case 'DataQuality':
-        return MonitoringType.dataQuality;
-      case 'ModelQuality':
-        return MonitoringType.modelQuality;
-      case 'ModelBias':
-        return MonitoringType.modelBias;
-      case 'ModelExplainability':
-        return MonitoringType.modelExplainability;
-    }
-    throw Exception('$this is not known in enum MonitoringType');
-  }
+  const MonitoringType(this.value);
+
+  static MonitoringType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MonitoringType'));
 }
 
 /// Specifies additional configuration for hosting multi-model endpoints.
@@ -55706,8 +50952,8 @@ class MultiModelConfig {
 
   factory MultiModelConfig.fromJson(Map<String, dynamic> json) {
     return MultiModelConfig(
-      modelCacheSetting:
-          (json['ModelCacheSetting'] as String?)?.toModelCacheSetting(),
+      modelCacheSetting: (json['ModelCacheSetting'] as String?)
+          ?.let(ModelCacheSetting.fromString),
     );
   }
 
@@ -55715,7 +50961,7 @@ class MultiModelConfig {
     final modelCacheSetting = this.modelCacheSetting;
     return {
       if (modelCacheSetting != null)
-        'ModelCacheSetting': modelCacheSetting.toValue(),
+        'ModelCacheSetting': modelCacheSetting.value,
     };
   }
 }
@@ -55864,120 +51110,53 @@ class NetworkConfig {
 }
 
 enum NotebookInstanceAcceleratorType {
-  mlEia1Medium,
-  mlEia1Large,
-  mlEia1Xlarge,
-  mlEia2Medium,
-  mlEia2Large,
-  mlEia2Xlarge,
-}
+  mlEia1Medium('ml.eia1.medium'),
+  mlEia1Large('ml.eia1.large'),
+  mlEia1Xlarge('ml.eia1.xlarge'),
+  mlEia2Medium('ml.eia2.medium'),
+  mlEia2Large('ml.eia2.large'),
+  mlEia2Xlarge('ml.eia2.xlarge'),
+  ;
 
-extension NotebookInstanceAcceleratorTypeValueExtension
-    on NotebookInstanceAcceleratorType {
-  String toValue() {
-    switch (this) {
-      case NotebookInstanceAcceleratorType.mlEia1Medium:
-        return 'ml.eia1.medium';
-      case NotebookInstanceAcceleratorType.mlEia1Large:
-        return 'ml.eia1.large';
-      case NotebookInstanceAcceleratorType.mlEia1Xlarge:
-        return 'ml.eia1.xlarge';
-      case NotebookInstanceAcceleratorType.mlEia2Medium:
-        return 'ml.eia2.medium';
-      case NotebookInstanceAcceleratorType.mlEia2Large:
-        return 'ml.eia2.large';
-      case NotebookInstanceAcceleratorType.mlEia2Xlarge:
-        return 'ml.eia2.xlarge';
-    }
-  }
-}
+  final String value;
 
-extension NotebookInstanceAcceleratorTypeFromString on String {
-  NotebookInstanceAcceleratorType toNotebookInstanceAcceleratorType() {
-    switch (this) {
-      case 'ml.eia1.medium':
-        return NotebookInstanceAcceleratorType.mlEia1Medium;
-      case 'ml.eia1.large':
-        return NotebookInstanceAcceleratorType.mlEia1Large;
-      case 'ml.eia1.xlarge':
-        return NotebookInstanceAcceleratorType.mlEia1Xlarge;
-      case 'ml.eia2.medium':
-        return NotebookInstanceAcceleratorType.mlEia2Medium;
-      case 'ml.eia2.large':
-        return NotebookInstanceAcceleratorType.mlEia2Large;
-      case 'ml.eia2.xlarge':
-        return NotebookInstanceAcceleratorType.mlEia2Xlarge;
-    }
-    throw Exception(
-        '$this is not known in enum NotebookInstanceAcceleratorType');
-  }
+  const NotebookInstanceAcceleratorType(this.value);
+
+  static NotebookInstanceAcceleratorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum NotebookInstanceAcceleratorType'));
 }
 
 enum NotebookInstanceLifecycleConfigSortKey {
-  name,
-  creationTime,
-  lastModifiedTime,
-}
+  name('Name'),
+  creationTime('CreationTime'),
+  lastModifiedTime('LastModifiedTime'),
+  ;
 
-extension NotebookInstanceLifecycleConfigSortKeyValueExtension
-    on NotebookInstanceLifecycleConfigSortKey {
-  String toValue() {
-    switch (this) {
-      case NotebookInstanceLifecycleConfigSortKey.name:
-        return 'Name';
-      case NotebookInstanceLifecycleConfigSortKey.creationTime:
-        return 'CreationTime';
-      case NotebookInstanceLifecycleConfigSortKey.lastModifiedTime:
-        return 'LastModifiedTime';
-    }
-  }
-}
+  final String value;
 
-extension NotebookInstanceLifecycleConfigSortKeyFromString on String {
-  NotebookInstanceLifecycleConfigSortKey
-      toNotebookInstanceLifecycleConfigSortKey() {
-    switch (this) {
-      case 'Name':
-        return NotebookInstanceLifecycleConfigSortKey.name;
-      case 'CreationTime':
-        return NotebookInstanceLifecycleConfigSortKey.creationTime;
-      case 'LastModifiedTime':
-        return NotebookInstanceLifecycleConfigSortKey.lastModifiedTime;
-    }
-    throw Exception(
-        '$this is not known in enum NotebookInstanceLifecycleConfigSortKey');
-  }
+  const NotebookInstanceLifecycleConfigSortKey(this.value);
+
+  static NotebookInstanceLifecycleConfigSortKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum NotebookInstanceLifecycleConfigSortKey'));
 }
 
 enum NotebookInstanceLifecycleConfigSortOrder {
-  ascending,
-  descending,
-}
+  ascending('Ascending'),
+  descending('Descending'),
+  ;
 
-extension NotebookInstanceLifecycleConfigSortOrderValueExtension
-    on NotebookInstanceLifecycleConfigSortOrder {
-  String toValue() {
-    switch (this) {
-      case NotebookInstanceLifecycleConfigSortOrder.ascending:
-        return 'Ascending';
-      case NotebookInstanceLifecycleConfigSortOrder.descending:
-        return 'Descending';
-    }
-  }
-}
+  final String value;
 
-extension NotebookInstanceLifecycleConfigSortOrderFromString on String {
-  NotebookInstanceLifecycleConfigSortOrder
-      toNotebookInstanceLifecycleConfigSortOrder() {
-    switch (this) {
-      case 'Ascending':
-        return NotebookInstanceLifecycleConfigSortOrder.ascending;
-      case 'Descending':
-        return NotebookInstanceLifecycleConfigSortOrder.descending;
-    }
-    throw Exception(
-        '$this is not known in enum NotebookInstanceLifecycleConfigSortOrder');
-  }
+  const NotebookInstanceLifecycleConfigSortOrder(this.value);
+
+  static NotebookInstanceLifecycleConfigSortOrder fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum NotebookInstanceLifecycleConfigSortOrder'));
 }
 
 /// Provides a summary of a notebook instance lifecycle configuration.
@@ -56056,117 +51235,54 @@ class NotebookInstanceLifecycleHook {
 }
 
 enum NotebookInstanceSortKey {
-  name,
-  creationTime,
-  status,
-}
+  name('Name'),
+  creationTime('CreationTime'),
+  status('Status'),
+  ;
 
-extension NotebookInstanceSortKeyValueExtension on NotebookInstanceSortKey {
-  String toValue() {
-    switch (this) {
-      case NotebookInstanceSortKey.name:
-        return 'Name';
-      case NotebookInstanceSortKey.creationTime:
-        return 'CreationTime';
-      case NotebookInstanceSortKey.status:
-        return 'Status';
-    }
-  }
-}
+  final String value;
 
-extension NotebookInstanceSortKeyFromString on String {
-  NotebookInstanceSortKey toNotebookInstanceSortKey() {
-    switch (this) {
-      case 'Name':
-        return NotebookInstanceSortKey.name;
-      case 'CreationTime':
-        return NotebookInstanceSortKey.creationTime;
-      case 'Status':
-        return NotebookInstanceSortKey.status;
-    }
-    throw Exception('$this is not known in enum NotebookInstanceSortKey');
-  }
+  const NotebookInstanceSortKey(this.value);
+
+  static NotebookInstanceSortKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum NotebookInstanceSortKey'));
 }
 
 enum NotebookInstanceSortOrder {
-  ascending,
-  descending,
-}
+  ascending('Ascending'),
+  descending('Descending'),
+  ;
 
-extension NotebookInstanceSortOrderValueExtension on NotebookInstanceSortOrder {
-  String toValue() {
-    switch (this) {
-      case NotebookInstanceSortOrder.ascending:
-        return 'Ascending';
-      case NotebookInstanceSortOrder.descending:
-        return 'Descending';
-    }
-  }
-}
+  final String value;
 
-extension NotebookInstanceSortOrderFromString on String {
-  NotebookInstanceSortOrder toNotebookInstanceSortOrder() {
-    switch (this) {
-      case 'Ascending':
-        return NotebookInstanceSortOrder.ascending;
-      case 'Descending':
-        return NotebookInstanceSortOrder.descending;
-    }
-    throw Exception('$this is not known in enum NotebookInstanceSortOrder');
-  }
+  const NotebookInstanceSortOrder(this.value);
+
+  static NotebookInstanceSortOrder fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum NotebookInstanceSortOrder'));
 }
 
 enum NotebookInstanceStatus {
-  pending,
-  inService,
-  stopping,
-  stopped,
-  failed,
-  deleting,
-  updating,
-}
+  pending('Pending'),
+  inService('InService'),
+  stopping('Stopping'),
+  stopped('Stopped'),
+  failed('Failed'),
+  deleting('Deleting'),
+  updating('Updating'),
+  ;
 
-extension NotebookInstanceStatusValueExtension on NotebookInstanceStatus {
-  String toValue() {
-    switch (this) {
-      case NotebookInstanceStatus.pending:
-        return 'Pending';
-      case NotebookInstanceStatus.inService:
-        return 'InService';
-      case NotebookInstanceStatus.stopping:
-        return 'Stopping';
-      case NotebookInstanceStatus.stopped:
-        return 'Stopped';
-      case NotebookInstanceStatus.failed:
-        return 'Failed';
-      case NotebookInstanceStatus.deleting:
-        return 'Deleting';
-      case NotebookInstanceStatus.updating:
-        return 'Updating';
-    }
-  }
-}
+  final String value;
 
-extension NotebookInstanceStatusFromString on String {
-  NotebookInstanceStatus toNotebookInstanceStatus() {
-    switch (this) {
-      case 'Pending':
-        return NotebookInstanceStatus.pending;
-      case 'InService':
-        return NotebookInstanceStatus.inService;
-      case 'Stopping':
-        return NotebookInstanceStatus.stopping;
-      case 'Stopped':
-        return NotebookInstanceStatus.stopped;
-      case 'Failed':
-        return NotebookInstanceStatus.failed;
-      case 'Deleting':
-        return NotebookInstanceStatus.deleting;
-      case 'Updating':
-        return NotebookInstanceStatus.updating;
-    }
-    throw Exception('$this is not known in enum NotebookInstanceStatus');
-  }
+  const NotebookInstanceStatus(this.value);
+
+  static NotebookInstanceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum NotebookInstanceStatus'));
 }
 
 /// Provides summary information for an SageMaker notebook instance.
@@ -56246,43 +51362,31 @@ class NotebookInstanceSummary {
           .toList(),
       creationTime: timeStampFromJson(json['CreationTime']),
       defaultCodeRepository: json['DefaultCodeRepository'] as String?,
-      instanceType: (json['InstanceType'] as String?)?.toInstanceType(),
+      instanceType:
+          (json['InstanceType'] as String?)?.let(InstanceType.fromString),
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       notebookInstanceLifecycleConfigName:
           json['NotebookInstanceLifecycleConfigName'] as String?,
       notebookInstanceStatus: (json['NotebookInstanceStatus'] as String?)
-          ?.toNotebookInstanceStatus(),
+          ?.let(NotebookInstanceStatus.fromString),
       url: json['Url'] as String?,
     );
   }
 }
 
 enum NotebookOutputOption {
-  allowed,
-  disabled,
-}
+  allowed('Allowed'),
+  disabled('Disabled'),
+  ;
 
-extension NotebookOutputOptionValueExtension on NotebookOutputOption {
-  String toValue() {
-    switch (this) {
-      case NotebookOutputOption.allowed:
-        return 'Allowed';
-      case NotebookOutputOption.disabled:
-        return 'Disabled';
-    }
-  }
-}
+  final String value;
 
-extension NotebookOutputOptionFromString on String {
-  NotebookOutputOption toNotebookOutputOption() {
-    switch (this) {
-      case 'Allowed':
-        return NotebookOutputOption.allowed;
-      case 'Disabled':
-        return NotebookOutputOption.disabled;
-    }
-    throw Exception('$this is not known in enum NotebookOutputOption');
-  }
+  const NotebookOutputOption(this.value);
+
+  static NotebookOutputOption fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum NotebookOutputOption'));
 }
 
 /// Configures Amazon SNS notifications of available or expiring work items for
@@ -56311,36 +51415,19 @@ class NotificationConfiguration {
 }
 
 enum ObjectiveStatus {
-  succeeded,
-  pending,
-  failed,
-}
+  succeeded('Succeeded'),
+  pending('Pending'),
+  failed('Failed'),
+  ;
 
-extension ObjectiveStatusValueExtension on ObjectiveStatus {
-  String toValue() {
-    switch (this) {
-      case ObjectiveStatus.succeeded:
-        return 'Succeeded';
-      case ObjectiveStatus.pending:
-        return 'Pending';
-      case ObjectiveStatus.failed:
-        return 'Failed';
-    }
-  }
-}
+  final String value;
 
-extension ObjectiveStatusFromString on String {
-  ObjectiveStatus toObjectiveStatus() {
-    switch (this) {
-      case 'Succeeded':
-        return ObjectiveStatus.succeeded;
-      case 'Pending':
-        return ObjectiveStatus.pending;
-      case 'Failed':
-        return ObjectiveStatus.failed;
-    }
-    throw Exception('$this is not known in enum ObjectiveStatus');
-  }
+  const ObjectiveStatus(this.value);
+
+  static ObjectiveStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ObjectiveStatus'));
 }
 
 /// Specifies the number of training jobs that this hyperparameter tuning job
@@ -56423,7 +51510,8 @@ class OfflineStoreConfig {
               json['DataCatalogConfig'] as Map<String, dynamic>)
           : null,
       disableGlueTableCreation: json['DisableGlueTableCreation'] as bool?,
-      tableFormat: (json['TableFormat'] as String?)?.toTableFormat(),
+      tableFormat:
+          (json['TableFormat'] as String?)?.let(TableFormat.fromString),
     );
   }
 
@@ -56437,7 +51525,7 @@ class OfflineStoreConfig {
       if (dataCatalogConfig != null) 'DataCatalogConfig': dataCatalogConfig,
       if (disableGlueTableCreation != null)
         'DisableGlueTableCreation': disableGlueTableCreation,
-      if (tableFormat != null) 'TableFormat': tableFormat.toValue(),
+      if (tableFormat != null) 'TableFormat': tableFormat.value,
     };
   }
 }
@@ -56457,43 +51545,26 @@ class OfflineStoreStatus {
 
   factory OfflineStoreStatus.fromJson(Map<String, dynamic> json) {
     return OfflineStoreStatus(
-      status: (json['Status'] as String).toOfflineStoreStatusValue(),
+      status: OfflineStoreStatusValue.fromString((json['Status'] as String)),
       blockedReason: json['BlockedReason'] as String?,
     );
   }
 }
 
 enum OfflineStoreStatusValue {
-  active,
-  blocked,
-  disabled,
-}
+  active('Active'),
+  blocked('Blocked'),
+  disabled('Disabled'),
+  ;
 
-extension OfflineStoreStatusValueValueExtension on OfflineStoreStatusValue {
-  String toValue() {
-    switch (this) {
-      case OfflineStoreStatusValue.active:
-        return 'Active';
-      case OfflineStoreStatusValue.blocked:
-        return 'Blocked';
-      case OfflineStoreStatusValue.disabled:
-        return 'Disabled';
-    }
-  }
-}
+  final String value;
 
-extension OfflineStoreStatusValueFromString on String {
-  OfflineStoreStatusValue toOfflineStoreStatusValue() {
-    switch (this) {
-      case 'Active':
-        return OfflineStoreStatusValue.active;
-      case 'Blocked':
-        return OfflineStoreStatusValue.blocked;
-      case 'Disabled':
-        return OfflineStoreStatusValue.disabled;
-    }
-    throw Exception('$this is not known in enum OfflineStoreStatusValue');
-  }
+  const OfflineStoreStatusValue(this.value);
+
+  static OfflineStoreStatusValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum OfflineStoreStatusValue'));
 }
 
 /// Use this parameter to configure your OIDC Identity Provider (IdP).
@@ -56691,7 +51762,8 @@ class OnlineStoreConfig {
           ? OnlineStoreSecurityConfig.fromJson(
               json['SecurityConfig'] as Map<String, dynamic>)
           : null,
-      storageType: (json['StorageType'] as String?)?.toStorageType(),
+      storageType:
+          (json['StorageType'] as String?)?.let(StorageType.fromString),
       ttlDuration: json['TtlDuration'] != null
           ? TtlDuration.fromJson(json['TtlDuration'] as Map<String, dynamic>)
           : null,
@@ -56706,7 +51778,7 @@ class OnlineStoreConfig {
     return {
       if (enableOnlineStore != null) 'EnableOnlineStore': enableOnlineStore,
       if (securityConfig != null) 'SecurityConfig': securityConfig,
-      if (storageType != null) 'StorageType': storageType.toValue(),
+      if (storageType != null) 'StorageType': storageType.value,
       if (ttlDuration != null) 'TtlDuration': ttlDuration,
     };
   }
@@ -56808,127 +51880,54 @@ class OnlineStoreSecurityConfig {
 }
 
 enum Operator {
-  equals,
-  notEquals,
-  greaterThan,
-  greaterThanOrEqualTo,
-  lessThan,
-  lessThanOrEqualTo,
-  contains,
-  exists,
-  notExists,
-  $in,
-}
+  equals('Equals'),
+  notEquals('NotEquals'),
+  greaterThan('GreaterThan'),
+  greaterThanOrEqualTo('GreaterThanOrEqualTo'),
+  lessThan('LessThan'),
+  lessThanOrEqualTo('LessThanOrEqualTo'),
+  contains('Contains'),
+  exists('Exists'),
+  notExists('NotExists'),
+  $in('In'),
+  ;
 
-extension OperatorValueExtension on Operator {
-  String toValue() {
-    switch (this) {
-      case Operator.equals:
-        return 'Equals';
-      case Operator.notEquals:
-        return 'NotEquals';
-      case Operator.greaterThan:
-        return 'GreaterThan';
-      case Operator.greaterThanOrEqualTo:
-        return 'GreaterThanOrEqualTo';
-      case Operator.lessThan:
-        return 'LessThan';
-      case Operator.lessThanOrEqualTo:
-        return 'LessThanOrEqualTo';
-      case Operator.contains:
-        return 'Contains';
-      case Operator.exists:
-        return 'Exists';
-      case Operator.notExists:
-        return 'NotExists';
-      case Operator.$in:
-        return 'In';
-    }
-  }
-}
+  final String value;
 
-extension OperatorFromString on String {
-  Operator toOperator() {
-    switch (this) {
-      case 'Equals':
-        return Operator.equals;
-      case 'NotEquals':
-        return Operator.notEquals;
-      case 'GreaterThan':
-        return Operator.greaterThan;
-      case 'GreaterThanOrEqualTo':
-        return Operator.greaterThanOrEqualTo;
-      case 'LessThan':
-        return Operator.lessThan;
-      case 'LessThanOrEqualTo':
-        return Operator.lessThanOrEqualTo;
-      case 'Contains':
-        return Operator.contains;
-      case 'Exists':
-        return Operator.exists;
-      case 'NotExists':
-        return Operator.notExists;
-      case 'In':
-        return Operator.$in;
-    }
-    throw Exception('$this is not known in enum Operator');
-  }
+  const Operator(this.value);
+
+  static Operator fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Operator'));
 }
 
 enum OrderKey {
-  ascending,
-  descending,
-}
+  ascending('Ascending'),
+  descending('Descending'),
+  ;
 
-extension OrderKeyValueExtension on OrderKey {
-  String toValue() {
-    switch (this) {
-      case OrderKey.ascending:
-        return 'Ascending';
-      case OrderKey.descending:
-        return 'Descending';
-    }
-  }
-}
+  final String value;
 
-extension OrderKeyFromString on String {
-  OrderKey toOrderKey() {
-    switch (this) {
-      case 'Ascending':
-        return OrderKey.ascending;
-      case 'Descending':
-        return OrderKey.descending;
-    }
-    throw Exception('$this is not known in enum OrderKey');
-  }
+  const OrderKey(this.value);
+
+  static OrderKey fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum OrderKey'));
 }
 
 enum OutputCompressionType {
-  gzip,
-  none,
-}
+  gzip('GZIP'),
+  none('NONE'),
+  ;
 
-extension OutputCompressionTypeValueExtension on OutputCompressionType {
-  String toValue() {
-    switch (this) {
-      case OutputCompressionType.gzip:
-        return 'GZIP';
-      case OutputCompressionType.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension OutputCompressionTypeFromString on String {
-  OutputCompressionType toOutputCompressionType() {
-    switch (this) {
-      case 'GZIP':
-        return OutputCompressionType.gzip;
-      case 'NONE':
-        return OutputCompressionType.none;
-    }
-    throw Exception('$this is not known in enum OutputCompressionType');
-  }
+  const OutputCompressionType(this.value);
+
+  static OutputCompressionType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum OutputCompressionType'));
 }
 
 /// Contains information about the output location for the compiled model and
@@ -57183,7 +52182,8 @@ class OutputConfig {
       s3OutputLocation: json['S3OutputLocation'] as String,
       compilerOptions: json['CompilerOptions'] as String?,
       kmsKeyId: json['KmsKeyId'] as String?,
-      targetDevice: (json['TargetDevice'] as String?)?.toTargetDevice(),
+      targetDevice:
+          (json['TargetDevice'] as String?)?.let(TargetDevice.fromString),
       targetPlatform: json['TargetPlatform'] != null
           ? TargetPlatform.fromJson(
               json['TargetPlatform'] as Map<String, dynamic>)
@@ -57201,7 +52201,7 @@ class OutputConfig {
       'S3OutputLocation': s3OutputLocation,
       if (compilerOptions != null) 'CompilerOptions': compilerOptions,
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-      if (targetDevice != null) 'TargetDevice': targetDevice.toValue(),
+      if (targetDevice != null) 'TargetDevice': targetDevice.value,
       if (targetPlatform != null) 'TargetPlatform': targetPlatform,
     };
   }
@@ -57273,8 +52273,8 @@ class OutputDataConfig {
   factory OutputDataConfig.fromJson(Map<String, dynamic> json) {
     return OutputDataConfig(
       s3OutputPath: json['S3OutputPath'] as String,
-      compressionType:
-          (json['CompressionType'] as String?)?.toOutputCompressionType(),
+      compressionType: (json['CompressionType'] as String?)
+          ?.let(OutputCompressionType.fromString),
       kmsKeyId: json['KmsKeyId'] as String?,
     );
   }
@@ -57285,7 +52285,7 @@ class OutputDataConfig {
     final kmsKeyId = this.kmsKeyId;
     return {
       'S3OutputPath': s3OutputPath,
-      if (compressionType != null) 'CompressionType': compressionType.toValue(),
+      if (compressionType != null) 'CompressionType': compressionType.value,
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
     };
   }
@@ -57567,41 +52567,20 @@ class ParameterRanges {
 }
 
 enum ParameterType {
-  integer,
-  continuous,
-  categorical,
-  freeText,
-}
+  integer('Integer'),
+  continuous('Continuous'),
+  categorical('Categorical'),
+  freeText('FreeText'),
+  ;
 
-extension ParameterTypeValueExtension on ParameterType {
-  String toValue() {
-    switch (this) {
-      case ParameterType.integer:
-        return 'Integer';
-      case ParameterType.continuous:
-        return 'Continuous';
-      case ParameterType.categorical:
-        return 'Categorical';
-      case ParameterType.freeText:
-        return 'FreeText';
-    }
-  }
-}
+  final String value;
 
-extension ParameterTypeFromString on String {
-  ParameterType toParameterType() {
-    switch (this) {
-      case 'Integer':
-        return ParameterType.integer;
-      case 'Continuous':
-        return ParameterType.continuous;
-      case 'Categorical':
-        return ParameterType.categorical;
-      case 'FreeText':
-        return ParameterType.freeText;
-    }
-    throw Exception('$this is not known in enum ParameterType');
-  }
+  const ParameterType(this.value);
+
+  static ParameterType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ParameterType'));
 }
 
 /// The trial that a trial component is associated with and the experiment the
@@ -57786,7 +52765,7 @@ class PendingProductionVariantSummary {
     return PendingProductionVariantSummary(
       variantName: json['VariantName'] as String,
       acceleratorType: (json['AcceleratorType'] as String?)
-          ?.toProductionVariantAcceleratorType(),
+          ?.let(ProductionVariantAcceleratorType.fromString),
       currentInstanceCount: json['CurrentInstanceCount'] as int?,
       currentServerlessConfig: json['CurrentServerlessConfig'] != null
           ? ProductionVariantServerlessConfig.fromJson(
@@ -57803,8 +52782,8 @@ class PendingProductionVariantSummary {
               json['DesiredServerlessConfig'] as Map<String, dynamic>)
           : null,
       desiredWeight: json['DesiredWeight'] as double?,
-      instanceType:
-          (json['InstanceType'] as String?)?.toProductionVariantInstanceType(),
+      instanceType: (json['InstanceType'] as String?)
+          ?.let(ProductionVariantInstanceType.fromString),
       managedInstanceScaling: json['ManagedInstanceScaling'] != null
           ? ProductionVariantManagedInstanceScaling.fromJson(
               json['ManagedInstanceScaling'] as Map<String, dynamic>)
@@ -57936,7 +52915,8 @@ class Pipeline {
       pipelineDescription: json['PipelineDescription'] as String?,
       pipelineDisplayName: json['PipelineDisplayName'] as String?,
       pipelineName: json['PipelineName'] as String?,
-      pipelineStatus: (json['PipelineStatus'] as String?)?.toPipelineStatus(),
+      pipelineStatus:
+          (json['PipelineStatus'] as String?)?.let(PipelineStatus.fromString),
       roleArn: json['RoleArn'] as String?,
       tags: (json['Tags'] as List?)
           ?.whereNotNull()
@@ -58054,7 +53034,7 @@ class PipelineExecution {
       pipelineExecutionDisplayName:
           json['PipelineExecutionDisplayName'] as String?,
       pipelineExecutionStatus: (json['PipelineExecutionStatus'] as String?)
-          ?.toPipelineExecutionStatus(),
+          ?.let(PipelineExecutionStatus.fromString),
       pipelineExperimentConfig: json['PipelineExperimentConfig'] != null
           ? PipelineExperimentConfig.fromJson(
               json['PipelineExperimentConfig'] as Map<String, dynamic>)
@@ -58072,46 +53052,21 @@ class PipelineExecution {
 }
 
 enum PipelineExecutionStatus {
-  executing,
-  stopping,
-  stopped,
-  failed,
-  succeeded,
-}
+  executing('Executing'),
+  stopping('Stopping'),
+  stopped('Stopped'),
+  failed('Failed'),
+  succeeded('Succeeded'),
+  ;
 
-extension PipelineExecutionStatusValueExtension on PipelineExecutionStatus {
-  String toValue() {
-    switch (this) {
-      case PipelineExecutionStatus.executing:
-        return 'Executing';
-      case PipelineExecutionStatus.stopping:
-        return 'Stopping';
-      case PipelineExecutionStatus.stopped:
-        return 'Stopped';
-      case PipelineExecutionStatus.failed:
-        return 'Failed';
-      case PipelineExecutionStatus.succeeded:
-        return 'Succeeded';
-    }
-  }
-}
+  final String value;
 
-extension PipelineExecutionStatusFromString on String {
-  PipelineExecutionStatus toPipelineExecutionStatus() {
-    switch (this) {
-      case 'Executing':
-        return PipelineExecutionStatus.executing;
-      case 'Stopping':
-        return PipelineExecutionStatus.stopping;
-      case 'Stopped':
-        return PipelineExecutionStatus.stopped;
-      case 'Failed':
-        return PipelineExecutionStatus.failed;
-      case 'Succeeded':
-        return PipelineExecutionStatus.succeeded;
-    }
-    throw Exception('$this is not known in enum PipelineExecutionStatus');
-  }
+  const PipelineExecutionStatus(this.value);
+
+  static PipelineExecutionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PipelineExecutionStatus'));
 }
 
 /// An execution of a step in a pipeline.
@@ -58188,7 +53143,7 @@ class PipelineExecutionStep {
       stepDescription: json['StepDescription'] as String?,
       stepDisplayName: json['StepDisplayName'] as String?,
       stepName: json['StepName'] as String?,
-      stepStatus: (json['StepStatus'] as String?)?.toStepStatus(),
+      stepStatus: (json['StepStatus'] as String?)?.let(StepStatus.fromString),
     );
   }
 }
@@ -58421,7 +53376,7 @@ class PipelineExecutionSummary {
       pipelineExecutionFailureReason:
           json['PipelineExecutionFailureReason'] as String?,
       pipelineExecutionStatus: (json['PipelineExecutionStatus'] as String?)
-          ?.toPipelineExecutionStatus(),
+          ?.let(PipelineExecutionStatus.fromString),
       startTime: timeStampFromJson(json['StartTime']),
     );
   }
@@ -58449,31 +53404,18 @@ class PipelineExperimentConfig {
 }
 
 enum PipelineStatus {
-  active,
-  deleting,
-}
+  active('Active'),
+  deleting('Deleting'),
+  ;
 
-extension PipelineStatusValueExtension on PipelineStatus {
-  String toValue() {
-    switch (this) {
-      case PipelineStatus.active:
-        return 'Active';
-      case PipelineStatus.deleting:
-        return 'Deleting';
-    }
-  }
-}
+  final String value;
 
-extension PipelineStatusFromString on String {
-  PipelineStatus toPipelineStatus() {
-    switch (this) {
-      case 'Active':
-        return PipelineStatus.active;
-      case 'Deleting':
-        return PipelineStatus.deleting;
-    }
-    throw Exception('$this is not known in enum PipelineStatus');
-  }
+  const PipelineStatus(this.value);
+
+  static PipelineStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PipelineStatus'));
 }
 
 /// A summary of a pipeline.
@@ -58545,36 +53487,18 @@ class PredefinedMetricSpecification {
 }
 
 enum ProblemType {
-  binaryClassification,
-  multiclassClassification,
-  regression,
-}
+  binaryClassification('BinaryClassification'),
+  multiclassClassification('MulticlassClassification'),
+  regression('Regression'),
+  ;
 
-extension ProblemTypeValueExtension on ProblemType {
-  String toValue() {
-    switch (this) {
-      case ProblemType.binaryClassification:
-        return 'BinaryClassification';
-      case ProblemType.multiclassClassification:
-        return 'MulticlassClassification';
-      case ProblemType.regression:
-        return 'Regression';
-    }
-  }
-}
+  final String value;
 
-extension ProblemTypeFromString on String {
-  ProblemType toProblemType() {
-    switch (this) {
-      case 'BinaryClassification':
-        return ProblemType.binaryClassification;
-      case 'MulticlassClassification':
-        return ProblemType.multiclassClassification;
-      case 'Regression':
-        return ProblemType.regression;
-    }
-    throw Exception('$this is not known in enum ProblemType');
-  }
+  const ProblemType(this.value);
+
+  static ProblemType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ProblemType'));
 }
 
 /// Configuration for the cluster used to run a processing job.
@@ -58632,7 +53556,8 @@ class ProcessingClusterConfig {
   factory ProcessingClusterConfig.fromJson(Map<String, dynamic> json) {
     return ProcessingClusterConfig(
       instanceCount: json['InstanceCount'] as int,
-      instanceType: (json['InstanceType'] as String).toProcessingInstanceType(),
+      instanceType:
+          ProcessingInstanceType.fromString((json['InstanceType'] as String)),
       volumeSizeInGB: json['VolumeSizeInGB'] as int,
       volumeKmsKeyId: json['VolumeKmsKeyId'] as String?,
     );
@@ -58645,7 +53570,7 @@ class ProcessingClusterConfig {
     final volumeKmsKeyId = this.volumeKmsKeyId;
     return {
       'InstanceCount': instanceCount,
-      'InstanceType': instanceType.toValue(),
+      'InstanceType': instanceType.value,
       'VolumeSizeInGB': volumeSizeInGB,
       if (volumeKmsKeyId != null) 'VolumeKmsKeyId': volumeKmsKeyId,
     };
@@ -58731,241 +53656,60 @@ class ProcessingInput {
 }
 
 enum ProcessingInstanceType {
-  mlT3Medium,
-  mlT3Large,
-  mlT3Xlarge,
-  mlT3_2xlarge,
-  mlM4Xlarge,
-  mlM4_2xlarge,
-  mlM4_4xlarge,
-  mlM4_10xlarge,
-  mlM4_16xlarge,
-  mlC4Xlarge,
-  mlC4_2xlarge,
-  mlC4_4xlarge,
-  mlC4_8xlarge,
-  mlP2Xlarge,
-  mlP2_8xlarge,
-  mlP2_16xlarge,
-  mlP3_2xlarge,
-  mlP3_8xlarge,
-  mlP3_16xlarge,
-  mlC5Xlarge,
-  mlC5_2xlarge,
-  mlC5_4xlarge,
-  mlC5_9xlarge,
-  mlC5_18xlarge,
-  mlM5Large,
-  mlM5Xlarge,
-  mlM5_2xlarge,
-  mlM5_4xlarge,
-  mlM5_12xlarge,
-  mlM5_24xlarge,
-  mlR5Large,
-  mlR5Xlarge,
-  mlR5_2xlarge,
-  mlR5_4xlarge,
-  mlR5_8xlarge,
-  mlR5_12xlarge,
-  mlR5_16xlarge,
-  mlR5_24xlarge,
-  mlG4dnXlarge,
-  mlG4dn_2xlarge,
-  mlG4dn_4xlarge,
-  mlG4dn_8xlarge,
-  mlG4dn_12xlarge,
-  mlG4dn_16xlarge,
-}
+  mlT3Medium('ml.t3.medium'),
+  mlT3Large('ml.t3.large'),
+  mlT3Xlarge('ml.t3.xlarge'),
+  mlT3_2xlarge('ml.t3.2xlarge'),
+  mlM4Xlarge('ml.m4.xlarge'),
+  mlM4_2xlarge('ml.m4.2xlarge'),
+  mlM4_4xlarge('ml.m4.4xlarge'),
+  mlM4_10xlarge('ml.m4.10xlarge'),
+  mlM4_16xlarge('ml.m4.16xlarge'),
+  mlC4Xlarge('ml.c4.xlarge'),
+  mlC4_2xlarge('ml.c4.2xlarge'),
+  mlC4_4xlarge('ml.c4.4xlarge'),
+  mlC4_8xlarge('ml.c4.8xlarge'),
+  mlP2Xlarge('ml.p2.xlarge'),
+  mlP2_8xlarge('ml.p2.8xlarge'),
+  mlP2_16xlarge('ml.p2.16xlarge'),
+  mlP3_2xlarge('ml.p3.2xlarge'),
+  mlP3_8xlarge('ml.p3.8xlarge'),
+  mlP3_16xlarge('ml.p3.16xlarge'),
+  mlC5Xlarge('ml.c5.xlarge'),
+  mlC5_2xlarge('ml.c5.2xlarge'),
+  mlC5_4xlarge('ml.c5.4xlarge'),
+  mlC5_9xlarge('ml.c5.9xlarge'),
+  mlC5_18xlarge('ml.c5.18xlarge'),
+  mlM5Large('ml.m5.large'),
+  mlM5Xlarge('ml.m5.xlarge'),
+  mlM5_2xlarge('ml.m5.2xlarge'),
+  mlM5_4xlarge('ml.m5.4xlarge'),
+  mlM5_12xlarge('ml.m5.12xlarge'),
+  mlM5_24xlarge('ml.m5.24xlarge'),
+  mlR5Large('ml.r5.large'),
+  mlR5Xlarge('ml.r5.xlarge'),
+  mlR5_2xlarge('ml.r5.2xlarge'),
+  mlR5_4xlarge('ml.r5.4xlarge'),
+  mlR5_8xlarge('ml.r5.8xlarge'),
+  mlR5_12xlarge('ml.r5.12xlarge'),
+  mlR5_16xlarge('ml.r5.16xlarge'),
+  mlR5_24xlarge('ml.r5.24xlarge'),
+  mlG4dnXlarge('ml.g4dn.xlarge'),
+  mlG4dn_2xlarge('ml.g4dn.2xlarge'),
+  mlG4dn_4xlarge('ml.g4dn.4xlarge'),
+  mlG4dn_8xlarge('ml.g4dn.8xlarge'),
+  mlG4dn_12xlarge('ml.g4dn.12xlarge'),
+  mlG4dn_16xlarge('ml.g4dn.16xlarge'),
+  ;
 
-extension ProcessingInstanceTypeValueExtension on ProcessingInstanceType {
-  String toValue() {
-    switch (this) {
-      case ProcessingInstanceType.mlT3Medium:
-        return 'ml.t3.medium';
-      case ProcessingInstanceType.mlT3Large:
-        return 'ml.t3.large';
-      case ProcessingInstanceType.mlT3Xlarge:
-        return 'ml.t3.xlarge';
-      case ProcessingInstanceType.mlT3_2xlarge:
-        return 'ml.t3.2xlarge';
-      case ProcessingInstanceType.mlM4Xlarge:
-        return 'ml.m4.xlarge';
-      case ProcessingInstanceType.mlM4_2xlarge:
-        return 'ml.m4.2xlarge';
-      case ProcessingInstanceType.mlM4_4xlarge:
-        return 'ml.m4.4xlarge';
-      case ProcessingInstanceType.mlM4_10xlarge:
-        return 'ml.m4.10xlarge';
-      case ProcessingInstanceType.mlM4_16xlarge:
-        return 'ml.m4.16xlarge';
-      case ProcessingInstanceType.mlC4Xlarge:
-        return 'ml.c4.xlarge';
-      case ProcessingInstanceType.mlC4_2xlarge:
-        return 'ml.c4.2xlarge';
-      case ProcessingInstanceType.mlC4_4xlarge:
-        return 'ml.c4.4xlarge';
-      case ProcessingInstanceType.mlC4_8xlarge:
-        return 'ml.c4.8xlarge';
-      case ProcessingInstanceType.mlP2Xlarge:
-        return 'ml.p2.xlarge';
-      case ProcessingInstanceType.mlP2_8xlarge:
-        return 'ml.p2.8xlarge';
-      case ProcessingInstanceType.mlP2_16xlarge:
-        return 'ml.p2.16xlarge';
-      case ProcessingInstanceType.mlP3_2xlarge:
-        return 'ml.p3.2xlarge';
-      case ProcessingInstanceType.mlP3_8xlarge:
-        return 'ml.p3.8xlarge';
-      case ProcessingInstanceType.mlP3_16xlarge:
-        return 'ml.p3.16xlarge';
-      case ProcessingInstanceType.mlC5Xlarge:
-        return 'ml.c5.xlarge';
-      case ProcessingInstanceType.mlC5_2xlarge:
-        return 'ml.c5.2xlarge';
-      case ProcessingInstanceType.mlC5_4xlarge:
-        return 'ml.c5.4xlarge';
-      case ProcessingInstanceType.mlC5_9xlarge:
-        return 'ml.c5.9xlarge';
-      case ProcessingInstanceType.mlC5_18xlarge:
-        return 'ml.c5.18xlarge';
-      case ProcessingInstanceType.mlM5Large:
-        return 'ml.m5.large';
-      case ProcessingInstanceType.mlM5Xlarge:
-        return 'ml.m5.xlarge';
-      case ProcessingInstanceType.mlM5_2xlarge:
-        return 'ml.m5.2xlarge';
-      case ProcessingInstanceType.mlM5_4xlarge:
-        return 'ml.m5.4xlarge';
-      case ProcessingInstanceType.mlM5_12xlarge:
-        return 'ml.m5.12xlarge';
-      case ProcessingInstanceType.mlM5_24xlarge:
-        return 'ml.m5.24xlarge';
-      case ProcessingInstanceType.mlR5Large:
-        return 'ml.r5.large';
-      case ProcessingInstanceType.mlR5Xlarge:
-        return 'ml.r5.xlarge';
-      case ProcessingInstanceType.mlR5_2xlarge:
-        return 'ml.r5.2xlarge';
-      case ProcessingInstanceType.mlR5_4xlarge:
-        return 'ml.r5.4xlarge';
-      case ProcessingInstanceType.mlR5_8xlarge:
-        return 'ml.r5.8xlarge';
-      case ProcessingInstanceType.mlR5_12xlarge:
-        return 'ml.r5.12xlarge';
-      case ProcessingInstanceType.mlR5_16xlarge:
-        return 'ml.r5.16xlarge';
-      case ProcessingInstanceType.mlR5_24xlarge:
-        return 'ml.r5.24xlarge';
-      case ProcessingInstanceType.mlG4dnXlarge:
-        return 'ml.g4dn.xlarge';
-      case ProcessingInstanceType.mlG4dn_2xlarge:
-        return 'ml.g4dn.2xlarge';
-      case ProcessingInstanceType.mlG4dn_4xlarge:
-        return 'ml.g4dn.4xlarge';
-      case ProcessingInstanceType.mlG4dn_8xlarge:
-        return 'ml.g4dn.8xlarge';
-      case ProcessingInstanceType.mlG4dn_12xlarge:
-        return 'ml.g4dn.12xlarge';
-      case ProcessingInstanceType.mlG4dn_16xlarge:
-        return 'ml.g4dn.16xlarge';
-    }
-  }
-}
+  final String value;
 
-extension ProcessingInstanceTypeFromString on String {
-  ProcessingInstanceType toProcessingInstanceType() {
-    switch (this) {
-      case 'ml.t3.medium':
-        return ProcessingInstanceType.mlT3Medium;
-      case 'ml.t3.large':
-        return ProcessingInstanceType.mlT3Large;
-      case 'ml.t3.xlarge':
-        return ProcessingInstanceType.mlT3Xlarge;
-      case 'ml.t3.2xlarge':
-        return ProcessingInstanceType.mlT3_2xlarge;
-      case 'ml.m4.xlarge':
-        return ProcessingInstanceType.mlM4Xlarge;
-      case 'ml.m4.2xlarge':
-        return ProcessingInstanceType.mlM4_2xlarge;
-      case 'ml.m4.4xlarge':
-        return ProcessingInstanceType.mlM4_4xlarge;
-      case 'ml.m4.10xlarge':
-        return ProcessingInstanceType.mlM4_10xlarge;
-      case 'ml.m4.16xlarge':
-        return ProcessingInstanceType.mlM4_16xlarge;
-      case 'ml.c4.xlarge':
-        return ProcessingInstanceType.mlC4Xlarge;
-      case 'ml.c4.2xlarge':
-        return ProcessingInstanceType.mlC4_2xlarge;
-      case 'ml.c4.4xlarge':
-        return ProcessingInstanceType.mlC4_4xlarge;
-      case 'ml.c4.8xlarge':
-        return ProcessingInstanceType.mlC4_8xlarge;
-      case 'ml.p2.xlarge':
-        return ProcessingInstanceType.mlP2Xlarge;
-      case 'ml.p2.8xlarge':
-        return ProcessingInstanceType.mlP2_8xlarge;
-      case 'ml.p2.16xlarge':
-        return ProcessingInstanceType.mlP2_16xlarge;
-      case 'ml.p3.2xlarge':
-        return ProcessingInstanceType.mlP3_2xlarge;
-      case 'ml.p3.8xlarge':
-        return ProcessingInstanceType.mlP3_8xlarge;
-      case 'ml.p3.16xlarge':
-        return ProcessingInstanceType.mlP3_16xlarge;
-      case 'ml.c5.xlarge':
-        return ProcessingInstanceType.mlC5Xlarge;
-      case 'ml.c5.2xlarge':
-        return ProcessingInstanceType.mlC5_2xlarge;
-      case 'ml.c5.4xlarge':
-        return ProcessingInstanceType.mlC5_4xlarge;
-      case 'ml.c5.9xlarge':
-        return ProcessingInstanceType.mlC5_9xlarge;
-      case 'ml.c5.18xlarge':
-        return ProcessingInstanceType.mlC5_18xlarge;
-      case 'ml.m5.large':
-        return ProcessingInstanceType.mlM5Large;
-      case 'ml.m5.xlarge':
-        return ProcessingInstanceType.mlM5Xlarge;
-      case 'ml.m5.2xlarge':
-        return ProcessingInstanceType.mlM5_2xlarge;
-      case 'ml.m5.4xlarge':
-        return ProcessingInstanceType.mlM5_4xlarge;
-      case 'ml.m5.12xlarge':
-        return ProcessingInstanceType.mlM5_12xlarge;
-      case 'ml.m5.24xlarge':
-        return ProcessingInstanceType.mlM5_24xlarge;
-      case 'ml.r5.large':
-        return ProcessingInstanceType.mlR5Large;
-      case 'ml.r5.xlarge':
-        return ProcessingInstanceType.mlR5Xlarge;
-      case 'ml.r5.2xlarge':
-        return ProcessingInstanceType.mlR5_2xlarge;
-      case 'ml.r5.4xlarge':
-        return ProcessingInstanceType.mlR5_4xlarge;
-      case 'ml.r5.8xlarge':
-        return ProcessingInstanceType.mlR5_8xlarge;
-      case 'ml.r5.12xlarge':
-        return ProcessingInstanceType.mlR5_12xlarge;
-      case 'ml.r5.16xlarge':
-        return ProcessingInstanceType.mlR5_16xlarge;
-      case 'ml.r5.24xlarge':
-        return ProcessingInstanceType.mlR5_24xlarge;
-      case 'ml.g4dn.xlarge':
-        return ProcessingInstanceType.mlG4dnXlarge;
-      case 'ml.g4dn.2xlarge':
-        return ProcessingInstanceType.mlG4dn_2xlarge;
-      case 'ml.g4dn.4xlarge':
-        return ProcessingInstanceType.mlG4dn_4xlarge;
-      case 'ml.g4dn.8xlarge':
-        return ProcessingInstanceType.mlG4dn_8xlarge;
-      case 'ml.g4dn.12xlarge':
-        return ProcessingInstanceType.mlG4dn_12xlarge;
-      case 'ml.g4dn.16xlarge':
-        return ProcessingInstanceType.mlG4dn_16xlarge;
-    }
-    throw Exception('$this is not known in enum ProcessingInstanceType');
-  }
+  const ProcessingInstanceType(this.value);
+
+  static ProcessingInstanceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ProcessingInstanceType'));
 }
 
 /// An Amazon SageMaker processing job that is used to analyze data and evaluate
@@ -59089,8 +53833,8 @@ class ProcessingJob {
           .toList(),
       processingJobArn: json['ProcessingJobArn'] as String?,
       processingJobName: json['ProcessingJobName'] as String?,
-      processingJobStatus:
-          (json['ProcessingJobStatus'] as String?)?.toProcessingJobStatus(),
+      processingJobStatus: (json['ProcessingJobStatus'] as String?)
+          ?.let(ProcessingJobStatus.fromString),
       processingOutputConfig: json['ProcessingOutputConfig'] != null
           ? ProcessingOutputConfig.fromJson(
               json['ProcessingOutputConfig'] as Map<String, dynamic>)
@@ -59115,46 +53859,21 @@ class ProcessingJob {
 }
 
 enum ProcessingJobStatus {
-  inProgress,
-  completed,
-  failed,
-  stopping,
-  stopped,
-}
+  inProgress('InProgress'),
+  completed('Completed'),
+  failed('Failed'),
+  stopping('Stopping'),
+  stopped('Stopped'),
+  ;
 
-extension ProcessingJobStatusValueExtension on ProcessingJobStatus {
-  String toValue() {
-    switch (this) {
-      case ProcessingJobStatus.inProgress:
-        return 'InProgress';
-      case ProcessingJobStatus.completed:
-        return 'Completed';
-      case ProcessingJobStatus.failed:
-        return 'Failed';
-      case ProcessingJobStatus.stopping:
-        return 'Stopping';
-      case ProcessingJobStatus.stopped:
-        return 'Stopped';
-    }
-  }
-}
+  final String value;
 
-extension ProcessingJobStatusFromString on String {
-  ProcessingJobStatus toProcessingJobStatus() {
-    switch (this) {
-      case 'InProgress':
-        return ProcessingJobStatus.inProgress;
-      case 'Completed':
-        return ProcessingJobStatus.completed;
-      case 'Failed':
-        return ProcessingJobStatus.failed;
-      case 'Stopping':
-        return ProcessingJobStatus.stopping;
-      case 'Stopped':
-        return ProcessingJobStatus.stopped;
-    }
-    throw Exception('$this is not known in enum ProcessingJobStatus');
-  }
+  const ProcessingJobStatus(this.value);
+
+  static ProcessingJobStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ProcessingJobStatus'));
 }
 
 /// Metadata for a processing job step.
@@ -59218,8 +53937,8 @@ class ProcessingJobSummary {
           nonNullableTimeStampFromJson(json['CreationTime'] as Object),
       processingJobArn: json['ProcessingJobArn'] as String,
       processingJobName: json['ProcessingJobName'] as String,
-      processingJobStatus:
-          (json['ProcessingJobStatus'] as String).toProcessingJobStatus(),
+      processingJobStatus: ProcessingJobStatus.fromString(
+          (json['ProcessingJobStatus'] as String)),
       exitMessage: json['ExitMessage'] as String?,
       failureReason: json['FailureReason'] as String?,
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
@@ -59350,90 +54069,48 @@ class ProcessingResources {
 }
 
 enum ProcessingS3CompressionType {
-  none,
-  gzip,
-}
+  none('None'),
+  gzip('Gzip'),
+  ;
 
-extension ProcessingS3CompressionTypeValueExtension
-    on ProcessingS3CompressionType {
-  String toValue() {
-    switch (this) {
-      case ProcessingS3CompressionType.none:
-        return 'None';
-      case ProcessingS3CompressionType.gzip:
-        return 'Gzip';
-    }
-  }
-}
+  final String value;
 
-extension ProcessingS3CompressionTypeFromString on String {
-  ProcessingS3CompressionType toProcessingS3CompressionType() {
-    switch (this) {
-      case 'None':
-        return ProcessingS3CompressionType.none;
-      case 'Gzip':
-        return ProcessingS3CompressionType.gzip;
-    }
-    throw Exception('$this is not known in enum ProcessingS3CompressionType');
-  }
+  const ProcessingS3CompressionType(this.value);
+
+  static ProcessingS3CompressionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ProcessingS3CompressionType'));
 }
 
 enum ProcessingS3DataDistributionType {
-  fullyReplicated,
-  shardedByS3Key,
-}
+  fullyReplicated('FullyReplicated'),
+  shardedByS3Key('ShardedByS3Key'),
+  ;
 
-extension ProcessingS3DataDistributionTypeValueExtension
-    on ProcessingS3DataDistributionType {
-  String toValue() {
-    switch (this) {
-      case ProcessingS3DataDistributionType.fullyReplicated:
-        return 'FullyReplicated';
-      case ProcessingS3DataDistributionType.shardedByS3Key:
-        return 'ShardedByS3Key';
-    }
-  }
-}
+  final String value;
 
-extension ProcessingS3DataDistributionTypeFromString on String {
-  ProcessingS3DataDistributionType toProcessingS3DataDistributionType() {
-    switch (this) {
-      case 'FullyReplicated':
-        return ProcessingS3DataDistributionType.fullyReplicated;
-      case 'ShardedByS3Key':
-        return ProcessingS3DataDistributionType.shardedByS3Key;
-    }
-    throw Exception(
-        '$this is not known in enum ProcessingS3DataDistributionType');
-  }
+  const ProcessingS3DataDistributionType(this.value);
+
+  static ProcessingS3DataDistributionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ProcessingS3DataDistributionType'));
 }
 
 enum ProcessingS3DataType {
-  manifestFile,
-  s3Prefix,
-}
+  manifestFile('ManifestFile'),
+  s3Prefix('S3Prefix'),
+  ;
 
-extension ProcessingS3DataTypeValueExtension on ProcessingS3DataType {
-  String toValue() {
-    switch (this) {
-      case ProcessingS3DataType.manifestFile:
-        return 'ManifestFile';
-      case ProcessingS3DataType.s3Prefix:
-        return 'S3Prefix';
-    }
-  }
-}
+  final String value;
 
-extension ProcessingS3DataTypeFromString on String {
-  ProcessingS3DataType toProcessingS3DataType() {
-    switch (this) {
-      case 'ManifestFile':
-        return ProcessingS3DataType.manifestFile;
-      case 'S3Prefix':
-        return ProcessingS3DataType.s3Prefix;
-    }
-    throw Exception('$this is not known in enum ProcessingS3DataType');
-  }
+  const ProcessingS3DataType(this.value);
+
+  static ProcessingS3DataType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ProcessingS3DataType'));
 }
 
 /// Configuration for downloading input data from Amazon S3 into the processing
@@ -59491,14 +54168,16 @@ class ProcessingS3Input {
 
   factory ProcessingS3Input.fromJson(Map<String, dynamic> json) {
     return ProcessingS3Input(
-      s3DataType: (json['S3DataType'] as String).toProcessingS3DataType(),
+      s3DataType:
+          ProcessingS3DataType.fromString((json['S3DataType'] as String)),
       s3Uri: json['S3Uri'] as String,
       localPath: json['LocalPath'] as String?,
       s3CompressionType: (json['S3CompressionType'] as String?)
-          ?.toProcessingS3CompressionType(),
+          ?.let(ProcessingS3CompressionType.fromString),
       s3DataDistributionType: (json['S3DataDistributionType'] as String?)
-          ?.toProcessingS3DataDistributionType(),
-      s3InputMode: (json['S3InputMode'] as String?)?.toProcessingS3InputMode(),
+          ?.let(ProcessingS3DataDistributionType.fromString),
+      s3InputMode: (json['S3InputMode'] as String?)
+          ?.let(ProcessingS3InputMode.fromString),
     );
   }
 
@@ -59510,44 +54189,31 @@ class ProcessingS3Input {
     final s3DataDistributionType = this.s3DataDistributionType;
     final s3InputMode = this.s3InputMode;
     return {
-      'S3DataType': s3DataType.toValue(),
+      'S3DataType': s3DataType.value,
       'S3Uri': s3Uri,
       if (localPath != null) 'LocalPath': localPath,
       if (s3CompressionType != null)
-        'S3CompressionType': s3CompressionType.toValue(),
+        'S3CompressionType': s3CompressionType.value,
       if (s3DataDistributionType != null)
-        'S3DataDistributionType': s3DataDistributionType.toValue(),
-      if (s3InputMode != null) 'S3InputMode': s3InputMode.toValue(),
+        'S3DataDistributionType': s3DataDistributionType.value,
+      if (s3InputMode != null) 'S3InputMode': s3InputMode.value,
     };
   }
 }
 
 enum ProcessingS3InputMode {
-  pipe,
-  file,
-}
+  pipe('Pipe'),
+  file('File'),
+  ;
 
-extension ProcessingS3InputModeValueExtension on ProcessingS3InputMode {
-  String toValue() {
-    switch (this) {
-      case ProcessingS3InputMode.pipe:
-        return 'Pipe';
-      case ProcessingS3InputMode.file:
-        return 'File';
-    }
-  }
-}
+  final String value;
 
-extension ProcessingS3InputModeFromString on String {
-  ProcessingS3InputMode toProcessingS3InputMode() {
-    switch (this) {
-      case 'Pipe':
-        return ProcessingS3InputMode.pipe;
-      case 'File':
-        return ProcessingS3InputMode.file;
-    }
-    throw Exception('$this is not known in enum ProcessingS3InputMode');
-  }
+  const ProcessingS3InputMode(this.value);
+
+  static ProcessingS3InputMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ProcessingS3InputMode'));
 }
 
 /// Configuration for uploading output data to Amazon S3 from the processing
@@ -59576,7 +54242,8 @@ class ProcessingS3Output {
   factory ProcessingS3Output.fromJson(Map<String, dynamic> json) {
     return ProcessingS3Output(
       localPath: json['LocalPath'] as String,
-      s3UploadMode: (json['S3UploadMode'] as String).toProcessingS3UploadMode(),
+      s3UploadMode:
+          ProcessingS3UploadMode.fromString((json['S3UploadMode'] as String)),
       s3Uri: json['S3Uri'] as String,
     );
   }
@@ -59587,38 +54254,25 @@ class ProcessingS3Output {
     final s3Uri = this.s3Uri;
     return {
       'LocalPath': localPath,
-      'S3UploadMode': s3UploadMode.toValue(),
+      'S3UploadMode': s3UploadMode.value,
       'S3Uri': s3Uri,
     };
   }
 }
 
 enum ProcessingS3UploadMode {
-  continuous,
-  endOfJob,
-}
+  continuous('Continuous'),
+  endOfJob('EndOfJob'),
+  ;
 
-extension ProcessingS3UploadModeValueExtension on ProcessingS3UploadMode {
-  String toValue() {
-    switch (this) {
-      case ProcessingS3UploadMode.continuous:
-        return 'Continuous';
-      case ProcessingS3UploadMode.endOfJob:
-        return 'EndOfJob';
-    }
-  }
-}
+  final String value;
 
-extension ProcessingS3UploadModeFromString on String {
-  ProcessingS3UploadMode toProcessingS3UploadMode() {
-    switch (this) {
-      case 'Continuous':
-        return ProcessingS3UploadMode.continuous;
-      case 'EndOfJob':
-        return ProcessingS3UploadMode.endOfJob;
-    }
-    throw Exception('$this is not known in enum ProcessingS3UploadMode');
-  }
+  const ProcessingS3UploadMode(this.value);
+
+  static ProcessingS3UploadMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ProcessingS3UploadMode'));
 }
 
 /// Configures conditions under which the processing job should be stopped, such
@@ -59647,31 +54301,17 @@ class ProcessingStoppingCondition {
 }
 
 enum Processor {
-  cpu,
-  gpu,
-}
+  cpu('CPU'),
+  gpu('GPU'),
+  ;
 
-extension ProcessorValueExtension on Processor {
-  String toValue() {
-    switch (this) {
-      case Processor.cpu:
-        return 'CPU';
-      case Processor.gpu:
-        return 'GPU';
-    }
-  }
-}
+  final String value;
 
-extension ProcessorFromString on String {
-  Processor toProcessor() {
-    switch (this) {
-      case 'CPU':
-        return Processor.cpu;
-      case 'GPU':
-        return Processor.gpu;
-    }
-    throw Exception('$this is not known in enum Processor');
-  }
+  const Processor(this.value);
+
+  static Processor fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Processor'));
 }
 
 /// Identifies a model that you want to host and the resources chosen to deploy
@@ -59769,7 +54409,7 @@ class ProductionVariant {
     return ProductionVariant(
       variantName: json['VariantName'] as String,
       acceleratorType: (json['AcceleratorType'] as String?)
-          ?.toProductionVariantAcceleratorType(),
+          ?.let(ProductionVariantAcceleratorType.fromString),
       containerStartupHealthCheckTimeoutInSeconds:
           json['ContainerStartupHealthCheckTimeoutInSeconds'] as int?,
       coreDumpConfig: json['CoreDumpConfig'] != null
@@ -59779,8 +54419,8 @@ class ProductionVariant {
       enableSSMAccess: json['EnableSSMAccess'] as bool?,
       initialInstanceCount: json['InitialInstanceCount'] as int?,
       initialVariantWeight: json['InitialVariantWeight'] as double?,
-      instanceType:
-          (json['InstanceType'] as String?)?.toProductionVariantInstanceType(),
+      instanceType: (json['InstanceType'] as String?)
+          ?.let(ProductionVariantInstanceType.fromString),
       managedInstanceScaling: json['ManagedInstanceScaling'] != null
           ? ProductionVariantManagedInstanceScaling.fromJson(
               json['ManagedInstanceScaling'] as Map<String, dynamic>)
@@ -59819,7 +54459,7 @@ class ProductionVariant {
     final volumeSizeInGB = this.volumeSizeInGB;
     return {
       'VariantName': variantName,
-      if (acceleratorType != null) 'AcceleratorType': acceleratorType.toValue(),
+      if (acceleratorType != null) 'AcceleratorType': acceleratorType.value,
       if (containerStartupHealthCheckTimeoutInSeconds != null)
         'ContainerStartupHealthCheckTimeoutInSeconds':
             containerStartupHealthCheckTimeoutInSeconds,
@@ -59829,7 +54469,7 @@ class ProductionVariant {
         'InitialInstanceCount': initialInstanceCount,
       if (initialVariantWeight != null)
         'InitialVariantWeight': initialVariantWeight,
-      if (instanceType != null) 'InstanceType': instanceType.toValue(),
+      if (instanceType != null) 'InstanceType': instanceType.value,
       if (managedInstanceScaling != null)
         'ManagedInstanceScaling': managedInstanceScaling,
       if (modelDataDownloadTimeoutInSeconds != null)
@@ -59843,53 +54483,22 @@ class ProductionVariant {
 }
 
 enum ProductionVariantAcceleratorType {
-  mlEia1Medium,
-  mlEia1Large,
-  mlEia1Xlarge,
-  mlEia2Medium,
-  mlEia2Large,
-  mlEia2Xlarge,
-}
+  mlEia1Medium('ml.eia1.medium'),
+  mlEia1Large('ml.eia1.large'),
+  mlEia1Xlarge('ml.eia1.xlarge'),
+  mlEia2Medium('ml.eia2.medium'),
+  mlEia2Large('ml.eia2.large'),
+  mlEia2Xlarge('ml.eia2.xlarge'),
+  ;
 
-extension ProductionVariantAcceleratorTypeValueExtension
-    on ProductionVariantAcceleratorType {
-  String toValue() {
-    switch (this) {
-      case ProductionVariantAcceleratorType.mlEia1Medium:
-        return 'ml.eia1.medium';
-      case ProductionVariantAcceleratorType.mlEia1Large:
-        return 'ml.eia1.large';
-      case ProductionVariantAcceleratorType.mlEia1Xlarge:
-        return 'ml.eia1.xlarge';
-      case ProductionVariantAcceleratorType.mlEia2Medium:
-        return 'ml.eia2.medium';
-      case ProductionVariantAcceleratorType.mlEia2Large:
-        return 'ml.eia2.large';
-      case ProductionVariantAcceleratorType.mlEia2Xlarge:
-        return 'ml.eia2.xlarge';
-    }
-  }
-}
+  final String value;
 
-extension ProductionVariantAcceleratorTypeFromString on String {
-  ProductionVariantAcceleratorType toProductionVariantAcceleratorType() {
-    switch (this) {
-      case 'ml.eia1.medium':
-        return ProductionVariantAcceleratorType.mlEia1Medium;
-      case 'ml.eia1.large':
-        return ProductionVariantAcceleratorType.mlEia1Large;
-      case 'ml.eia1.xlarge':
-        return ProductionVariantAcceleratorType.mlEia1Xlarge;
-      case 'ml.eia2.medium':
-        return ProductionVariantAcceleratorType.mlEia2Medium;
-      case 'ml.eia2.large':
-        return ProductionVariantAcceleratorType.mlEia2Large;
-      case 'ml.eia2.xlarge':
-        return ProductionVariantAcceleratorType.mlEia2Xlarge;
-    }
-    throw Exception(
-        '$this is not known in enum ProductionVariantAcceleratorType');
-  }
+  const ProductionVariantAcceleratorType(this.value);
+
+  static ProductionVariantAcceleratorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ProductionVariantAcceleratorType'));
 }
 
 /// Specifies configuration for a core dump from the model container when the
@@ -59969,947 +54578,201 @@ class ProductionVariantCoreDumpConfig {
 }
 
 enum ProductionVariantInstanceType {
-  mlT2Medium,
-  mlT2Large,
-  mlT2Xlarge,
-  mlT2_2xlarge,
-  mlM4Xlarge,
-  mlM4_2xlarge,
-  mlM4_4xlarge,
-  mlM4_10xlarge,
-  mlM4_16xlarge,
-  mlM5Large,
-  mlM5Xlarge,
-  mlM5_2xlarge,
-  mlM5_4xlarge,
-  mlM5_12xlarge,
-  mlM5_24xlarge,
-  mlM5dLarge,
-  mlM5dXlarge,
-  mlM5d_2xlarge,
-  mlM5d_4xlarge,
-  mlM5d_12xlarge,
-  mlM5d_24xlarge,
-  mlC4Large,
-  mlC4Xlarge,
-  mlC4_2xlarge,
-  mlC4_4xlarge,
-  mlC4_8xlarge,
-  mlP2Xlarge,
-  mlP2_8xlarge,
-  mlP2_16xlarge,
-  mlP3_2xlarge,
-  mlP3_8xlarge,
-  mlP3_16xlarge,
-  mlC5Large,
-  mlC5Xlarge,
-  mlC5_2xlarge,
-  mlC5_4xlarge,
-  mlC5_9xlarge,
-  mlC5_18xlarge,
-  mlC5dLarge,
-  mlC5dXlarge,
-  mlC5d_2xlarge,
-  mlC5d_4xlarge,
-  mlC5d_9xlarge,
-  mlC5d_18xlarge,
-  mlG4dnXlarge,
-  mlG4dn_2xlarge,
-  mlG4dn_4xlarge,
-  mlG4dn_8xlarge,
-  mlG4dn_12xlarge,
-  mlG4dn_16xlarge,
-  mlR5Large,
-  mlR5Xlarge,
-  mlR5_2xlarge,
-  mlR5_4xlarge,
-  mlR5_12xlarge,
-  mlR5_24xlarge,
-  mlR5dLarge,
-  mlR5dXlarge,
-  mlR5d_2xlarge,
-  mlR5d_4xlarge,
-  mlR5d_12xlarge,
-  mlR5d_24xlarge,
-  mlInf1Xlarge,
-  mlInf1_2xlarge,
-  mlInf1_6xlarge,
-  mlInf1_24xlarge,
-  mlDl1_24xlarge,
-  mlC6iLarge,
-  mlC6iXlarge,
-  mlC6i_2xlarge,
-  mlC6i_4xlarge,
-  mlC6i_8xlarge,
-  mlC6i_12xlarge,
-  mlC6i_16xlarge,
-  mlC6i_24xlarge,
-  mlC6i_32xlarge,
-  mlG5Xlarge,
-  mlG5_2xlarge,
-  mlG5_4xlarge,
-  mlG5_8xlarge,
-  mlG5_12xlarge,
-  mlG5_16xlarge,
-  mlG5_24xlarge,
-  mlG5_48xlarge,
-  mlG6Xlarge,
-  mlG6_2xlarge,
-  mlG6_4xlarge,
-  mlG6_8xlarge,
-  mlG6_12xlarge,
-  mlG6_16xlarge,
-  mlG6_24xlarge,
-  mlG6_48xlarge,
-  mlP4d_24xlarge,
-  mlC7gLarge,
-  mlC7gXlarge,
-  mlC7g_2xlarge,
-  mlC7g_4xlarge,
-  mlC7g_8xlarge,
-  mlC7g_12xlarge,
-  mlC7g_16xlarge,
-  mlM6gLarge,
-  mlM6gXlarge,
-  mlM6g_2xlarge,
-  mlM6g_4xlarge,
-  mlM6g_8xlarge,
-  mlM6g_12xlarge,
-  mlM6g_16xlarge,
-  mlM6gdLarge,
-  mlM6gdXlarge,
-  mlM6gd_2xlarge,
-  mlM6gd_4xlarge,
-  mlM6gd_8xlarge,
-  mlM6gd_12xlarge,
-  mlM6gd_16xlarge,
-  mlC6gLarge,
-  mlC6gXlarge,
-  mlC6g_2xlarge,
-  mlC6g_4xlarge,
-  mlC6g_8xlarge,
-  mlC6g_12xlarge,
-  mlC6g_16xlarge,
-  mlC6gdLarge,
-  mlC6gdXlarge,
-  mlC6gd_2xlarge,
-  mlC6gd_4xlarge,
-  mlC6gd_8xlarge,
-  mlC6gd_12xlarge,
-  mlC6gd_16xlarge,
-  mlC6gnLarge,
-  mlC6gnXlarge,
-  mlC6gn_2xlarge,
-  mlC6gn_4xlarge,
-  mlC6gn_8xlarge,
-  mlC6gn_12xlarge,
-  mlC6gn_16xlarge,
-  mlR6gLarge,
-  mlR6gXlarge,
-  mlR6g_2xlarge,
-  mlR6g_4xlarge,
-  mlR6g_8xlarge,
-  mlR6g_12xlarge,
-  mlR6g_16xlarge,
-  mlR6gdLarge,
-  mlR6gdXlarge,
-  mlR6gd_2xlarge,
-  mlR6gd_4xlarge,
-  mlR6gd_8xlarge,
-  mlR6gd_12xlarge,
-  mlR6gd_16xlarge,
-  mlP4de_24xlarge,
-  mlTrn1_2xlarge,
-  mlTrn1_32xlarge,
-  mlTrn1n_32xlarge,
-  mlInf2Xlarge,
-  mlInf2_8xlarge,
-  mlInf2_24xlarge,
-  mlInf2_48xlarge,
-  mlP5_48xlarge,
-  mlM7iLarge,
-  mlM7iXlarge,
-  mlM7i_2xlarge,
-  mlM7i_4xlarge,
-  mlM7i_8xlarge,
-  mlM7i_12xlarge,
-  mlM7i_16xlarge,
-  mlM7i_24xlarge,
-  mlM7i_48xlarge,
-  mlC7iLarge,
-  mlC7iXlarge,
-  mlC7i_2xlarge,
-  mlC7i_4xlarge,
-  mlC7i_8xlarge,
-  mlC7i_12xlarge,
-  mlC7i_16xlarge,
-  mlC7i_24xlarge,
-  mlC7i_48xlarge,
-  mlR7iLarge,
-  mlR7iXlarge,
-  mlR7i_2xlarge,
-  mlR7i_4xlarge,
-  mlR7i_8xlarge,
-  mlR7i_12xlarge,
-  mlR7i_16xlarge,
-  mlR7i_24xlarge,
-  mlR7i_48xlarge,
-}
+  mlT2Medium('ml.t2.medium'),
+  mlT2Large('ml.t2.large'),
+  mlT2Xlarge('ml.t2.xlarge'),
+  mlT2_2xlarge('ml.t2.2xlarge'),
+  mlM4Xlarge('ml.m4.xlarge'),
+  mlM4_2xlarge('ml.m4.2xlarge'),
+  mlM4_4xlarge('ml.m4.4xlarge'),
+  mlM4_10xlarge('ml.m4.10xlarge'),
+  mlM4_16xlarge('ml.m4.16xlarge'),
+  mlM5Large('ml.m5.large'),
+  mlM5Xlarge('ml.m5.xlarge'),
+  mlM5_2xlarge('ml.m5.2xlarge'),
+  mlM5_4xlarge('ml.m5.4xlarge'),
+  mlM5_12xlarge('ml.m5.12xlarge'),
+  mlM5_24xlarge('ml.m5.24xlarge'),
+  mlM5dLarge('ml.m5d.large'),
+  mlM5dXlarge('ml.m5d.xlarge'),
+  mlM5d_2xlarge('ml.m5d.2xlarge'),
+  mlM5d_4xlarge('ml.m5d.4xlarge'),
+  mlM5d_12xlarge('ml.m5d.12xlarge'),
+  mlM5d_24xlarge('ml.m5d.24xlarge'),
+  mlC4Large('ml.c4.large'),
+  mlC4Xlarge('ml.c4.xlarge'),
+  mlC4_2xlarge('ml.c4.2xlarge'),
+  mlC4_4xlarge('ml.c4.4xlarge'),
+  mlC4_8xlarge('ml.c4.8xlarge'),
+  mlP2Xlarge('ml.p2.xlarge'),
+  mlP2_8xlarge('ml.p2.8xlarge'),
+  mlP2_16xlarge('ml.p2.16xlarge'),
+  mlP3_2xlarge('ml.p3.2xlarge'),
+  mlP3_8xlarge('ml.p3.8xlarge'),
+  mlP3_16xlarge('ml.p3.16xlarge'),
+  mlC5Large('ml.c5.large'),
+  mlC5Xlarge('ml.c5.xlarge'),
+  mlC5_2xlarge('ml.c5.2xlarge'),
+  mlC5_4xlarge('ml.c5.4xlarge'),
+  mlC5_9xlarge('ml.c5.9xlarge'),
+  mlC5_18xlarge('ml.c5.18xlarge'),
+  mlC5dLarge('ml.c5d.large'),
+  mlC5dXlarge('ml.c5d.xlarge'),
+  mlC5d_2xlarge('ml.c5d.2xlarge'),
+  mlC5d_4xlarge('ml.c5d.4xlarge'),
+  mlC5d_9xlarge('ml.c5d.9xlarge'),
+  mlC5d_18xlarge('ml.c5d.18xlarge'),
+  mlG4dnXlarge('ml.g4dn.xlarge'),
+  mlG4dn_2xlarge('ml.g4dn.2xlarge'),
+  mlG4dn_4xlarge('ml.g4dn.4xlarge'),
+  mlG4dn_8xlarge('ml.g4dn.8xlarge'),
+  mlG4dn_12xlarge('ml.g4dn.12xlarge'),
+  mlG4dn_16xlarge('ml.g4dn.16xlarge'),
+  mlR5Large('ml.r5.large'),
+  mlR5Xlarge('ml.r5.xlarge'),
+  mlR5_2xlarge('ml.r5.2xlarge'),
+  mlR5_4xlarge('ml.r5.4xlarge'),
+  mlR5_12xlarge('ml.r5.12xlarge'),
+  mlR5_24xlarge('ml.r5.24xlarge'),
+  mlR5dLarge('ml.r5d.large'),
+  mlR5dXlarge('ml.r5d.xlarge'),
+  mlR5d_2xlarge('ml.r5d.2xlarge'),
+  mlR5d_4xlarge('ml.r5d.4xlarge'),
+  mlR5d_12xlarge('ml.r5d.12xlarge'),
+  mlR5d_24xlarge('ml.r5d.24xlarge'),
+  mlInf1Xlarge('ml.inf1.xlarge'),
+  mlInf1_2xlarge('ml.inf1.2xlarge'),
+  mlInf1_6xlarge('ml.inf1.6xlarge'),
+  mlInf1_24xlarge('ml.inf1.24xlarge'),
+  mlDl1_24xlarge('ml.dl1.24xlarge'),
+  mlC6iLarge('ml.c6i.large'),
+  mlC6iXlarge('ml.c6i.xlarge'),
+  mlC6i_2xlarge('ml.c6i.2xlarge'),
+  mlC6i_4xlarge('ml.c6i.4xlarge'),
+  mlC6i_8xlarge('ml.c6i.8xlarge'),
+  mlC6i_12xlarge('ml.c6i.12xlarge'),
+  mlC6i_16xlarge('ml.c6i.16xlarge'),
+  mlC6i_24xlarge('ml.c6i.24xlarge'),
+  mlC6i_32xlarge('ml.c6i.32xlarge'),
+  mlG5Xlarge('ml.g5.xlarge'),
+  mlG5_2xlarge('ml.g5.2xlarge'),
+  mlG5_4xlarge('ml.g5.4xlarge'),
+  mlG5_8xlarge('ml.g5.8xlarge'),
+  mlG5_12xlarge('ml.g5.12xlarge'),
+  mlG5_16xlarge('ml.g5.16xlarge'),
+  mlG5_24xlarge('ml.g5.24xlarge'),
+  mlG5_48xlarge('ml.g5.48xlarge'),
+  mlG6Xlarge('ml.g6.xlarge'),
+  mlG6_2xlarge('ml.g6.2xlarge'),
+  mlG6_4xlarge('ml.g6.4xlarge'),
+  mlG6_8xlarge('ml.g6.8xlarge'),
+  mlG6_12xlarge('ml.g6.12xlarge'),
+  mlG6_16xlarge('ml.g6.16xlarge'),
+  mlG6_24xlarge('ml.g6.24xlarge'),
+  mlG6_48xlarge('ml.g6.48xlarge'),
+  mlP4d_24xlarge('ml.p4d.24xlarge'),
+  mlC7gLarge('ml.c7g.large'),
+  mlC7gXlarge('ml.c7g.xlarge'),
+  mlC7g_2xlarge('ml.c7g.2xlarge'),
+  mlC7g_4xlarge('ml.c7g.4xlarge'),
+  mlC7g_8xlarge('ml.c7g.8xlarge'),
+  mlC7g_12xlarge('ml.c7g.12xlarge'),
+  mlC7g_16xlarge('ml.c7g.16xlarge'),
+  mlM6gLarge('ml.m6g.large'),
+  mlM6gXlarge('ml.m6g.xlarge'),
+  mlM6g_2xlarge('ml.m6g.2xlarge'),
+  mlM6g_4xlarge('ml.m6g.4xlarge'),
+  mlM6g_8xlarge('ml.m6g.8xlarge'),
+  mlM6g_12xlarge('ml.m6g.12xlarge'),
+  mlM6g_16xlarge('ml.m6g.16xlarge'),
+  mlM6gdLarge('ml.m6gd.large'),
+  mlM6gdXlarge('ml.m6gd.xlarge'),
+  mlM6gd_2xlarge('ml.m6gd.2xlarge'),
+  mlM6gd_4xlarge('ml.m6gd.4xlarge'),
+  mlM6gd_8xlarge('ml.m6gd.8xlarge'),
+  mlM6gd_12xlarge('ml.m6gd.12xlarge'),
+  mlM6gd_16xlarge('ml.m6gd.16xlarge'),
+  mlC6gLarge('ml.c6g.large'),
+  mlC6gXlarge('ml.c6g.xlarge'),
+  mlC6g_2xlarge('ml.c6g.2xlarge'),
+  mlC6g_4xlarge('ml.c6g.4xlarge'),
+  mlC6g_8xlarge('ml.c6g.8xlarge'),
+  mlC6g_12xlarge('ml.c6g.12xlarge'),
+  mlC6g_16xlarge('ml.c6g.16xlarge'),
+  mlC6gdLarge('ml.c6gd.large'),
+  mlC6gdXlarge('ml.c6gd.xlarge'),
+  mlC6gd_2xlarge('ml.c6gd.2xlarge'),
+  mlC6gd_4xlarge('ml.c6gd.4xlarge'),
+  mlC6gd_8xlarge('ml.c6gd.8xlarge'),
+  mlC6gd_12xlarge('ml.c6gd.12xlarge'),
+  mlC6gd_16xlarge('ml.c6gd.16xlarge'),
+  mlC6gnLarge('ml.c6gn.large'),
+  mlC6gnXlarge('ml.c6gn.xlarge'),
+  mlC6gn_2xlarge('ml.c6gn.2xlarge'),
+  mlC6gn_4xlarge('ml.c6gn.4xlarge'),
+  mlC6gn_8xlarge('ml.c6gn.8xlarge'),
+  mlC6gn_12xlarge('ml.c6gn.12xlarge'),
+  mlC6gn_16xlarge('ml.c6gn.16xlarge'),
+  mlR6gLarge('ml.r6g.large'),
+  mlR6gXlarge('ml.r6g.xlarge'),
+  mlR6g_2xlarge('ml.r6g.2xlarge'),
+  mlR6g_4xlarge('ml.r6g.4xlarge'),
+  mlR6g_8xlarge('ml.r6g.8xlarge'),
+  mlR6g_12xlarge('ml.r6g.12xlarge'),
+  mlR6g_16xlarge('ml.r6g.16xlarge'),
+  mlR6gdLarge('ml.r6gd.large'),
+  mlR6gdXlarge('ml.r6gd.xlarge'),
+  mlR6gd_2xlarge('ml.r6gd.2xlarge'),
+  mlR6gd_4xlarge('ml.r6gd.4xlarge'),
+  mlR6gd_8xlarge('ml.r6gd.8xlarge'),
+  mlR6gd_12xlarge('ml.r6gd.12xlarge'),
+  mlR6gd_16xlarge('ml.r6gd.16xlarge'),
+  mlP4de_24xlarge('ml.p4de.24xlarge'),
+  mlTrn1_2xlarge('ml.trn1.2xlarge'),
+  mlTrn1_32xlarge('ml.trn1.32xlarge'),
+  mlTrn1n_32xlarge('ml.trn1n.32xlarge'),
+  mlInf2Xlarge('ml.inf2.xlarge'),
+  mlInf2_8xlarge('ml.inf2.8xlarge'),
+  mlInf2_24xlarge('ml.inf2.24xlarge'),
+  mlInf2_48xlarge('ml.inf2.48xlarge'),
+  mlP5_48xlarge('ml.p5.48xlarge'),
+  mlM7iLarge('ml.m7i.large'),
+  mlM7iXlarge('ml.m7i.xlarge'),
+  mlM7i_2xlarge('ml.m7i.2xlarge'),
+  mlM7i_4xlarge('ml.m7i.4xlarge'),
+  mlM7i_8xlarge('ml.m7i.8xlarge'),
+  mlM7i_12xlarge('ml.m7i.12xlarge'),
+  mlM7i_16xlarge('ml.m7i.16xlarge'),
+  mlM7i_24xlarge('ml.m7i.24xlarge'),
+  mlM7i_48xlarge('ml.m7i.48xlarge'),
+  mlC7iLarge('ml.c7i.large'),
+  mlC7iXlarge('ml.c7i.xlarge'),
+  mlC7i_2xlarge('ml.c7i.2xlarge'),
+  mlC7i_4xlarge('ml.c7i.4xlarge'),
+  mlC7i_8xlarge('ml.c7i.8xlarge'),
+  mlC7i_12xlarge('ml.c7i.12xlarge'),
+  mlC7i_16xlarge('ml.c7i.16xlarge'),
+  mlC7i_24xlarge('ml.c7i.24xlarge'),
+  mlC7i_48xlarge('ml.c7i.48xlarge'),
+  mlR7iLarge('ml.r7i.large'),
+  mlR7iXlarge('ml.r7i.xlarge'),
+  mlR7i_2xlarge('ml.r7i.2xlarge'),
+  mlR7i_4xlarge('ml.r7i.4xlarge'),
+  mlR7i_8xlarge('ml.r7i.8xlarge'),
+  mlR7i_12xlarge('ml.r7i.12xlarge'),
+  mlR7i_16xlarge('ml.r7i.16xlarge'),
+  mlR7i_24xlarge('ml.r7i.24xlarge'),
+  mlR7i_48xlarge('ml.r7i.48xlarge'),
+  ;
 
-extension ProductionVariantInstanceTypeValueExtension
-    on ProductionVariantInstanceType {
-  String toValue() {
-    switch (this) {
-      case ProductionVariantInstanceType.mlT2Medium:
-        return 'ml.t2.medium';
-      case ProductionVariantInstanceType.mlT2Large:
-        return 'ml.t2.large';
-      case ProductionVariantInstanceType.mlT2Xlarge:
-        return 'ml.t2.xlarge';
-      case ProductionVariantInstanceType.mlT2_2xlarge:
-        return 'ml.t2.2xlarge';
-      case ProductionVariantInstanceType.mlM4Xlarge:
-        return 'ml.m4.xlarge';
-      case ProductionVariantInstanceType.mlM4_2xlarge:
-        return 'ml.m4.2xlarge';
-      case ProductionVariantInstanceType.mlM4_4xlarge:
-        return 'ml.m4.4xlarge';
-      case ProductionVariantInstanceType.mlM4_10xlarge:
-        return 'ml.m4.10xlarge';
-      case ProductionVariantInstanceType.mlM4_16xlarge:
-        return 'ml.m4.16xlarge';
-      case ProductionVariantInstanceType.mlM5Large:
-        return 'ml.m5.large';
-      case ProductionVariantInstanceType.mlM5Xlarge:
-        return 'ml.m5.xlarge';
-      case ProductionVariantInstanceType.mlM5_2xlarge:
-        return 'ml.m5.2xlarge';
-      case ProductionVariantInstanceType.mlM5_4xlarge:
-        return 'ml.m5.4xlarge';
-      case ProductionVariantInstanceType.mlM5_12xlarge:
-        return 'ml.m5.12xlarge';
-      case ProductionVariantInstanceType.mlM5_24xlarge:
-        return 'ml.m5.24xlarge';
-      case ProductionVariantInstanceType.mlM5dLarge:
-        return 'ml.m5d.large';
-      case ProductionVariantInstanceType.mlM5dXlarge:
-        return 'ml.m5d.xlarge';
-      case ProductionVariantInstanceType.mlM5d_2xlarge:
-        return 'ml.m5d.2xlarge';
-      case ProductionVariantInstanceType.mlM5d_4xlarge:
-        return 'ml.m5d.4xlarge';
-      case ProductionVariantInstanceType.mlM5d_12xlarge:
-        return 'ml.m5d.12xlarge';
-      case ProductionVariantInstanceType.mlM5d_24xlarge:
-        return 'ml.m5d.24xlarge';
-      case ProductionVariantInstanceType.mlC4Large:
-        return 'ml.c4.large';
-      case ProductionVariantInstanceType.mlC4Xlarge:
-        return 'ml.c4.xlarge';
-      case ProductionVariantInstanceType.mlC4_2xlarge:
-        return 'ml.c4.2xlarge';
-      case ProductionVariantInstanceType.mlC4_4xlarge:
-        return 'ml.c4.4xlarge';
-      case ProductionVariantInstanceType.mlC4_8xlarge:
-        return 'ml.c4.8xlarge';
-      case ProductionVariantInstanceType.mlP2Xlarge:
-        return 'ml.p2.xlarge';
-      case ProductionVariantInstanceType.mlP2_8xlarge:
-        return 'ml.p2.8xlarge';
-      case ProductionVariantInstanceType.mlP2_16xlarge:
-        return 'ml.p2.16xlarge';
-      case ProductionVariantInstanceType.mlP3_2xlarge:
-        return 'ml.p3.2xlarge';
-      case ProductionVariantInstanceType.mlP3_8xlarge:
-        return 'ml.p3.8xlarge';
-      case ProductionVariantInstanceType.mlP3_16xlarge:
-        return 'ml.p3.16xlarge';
-      case ProductionVariantInstanceType.mlC5Large:
-        return 'ml.c5.large';
-      case ProductionVariantInstanceType.mlC5Xlarge:
-        return 'ml.c5.xlarge';
-      case ProductionVariantInstanceType.mlC5_2xlarge:
-        return 'ml.c5.2xlarge';
-      case ProductionVariantInstanceType.mlC5_4xlarge:
-        return 'ml.c5.4xlarge';
-      case ProductionVariantInstanceType.mlC5_9xlarge:
-        return 'ml.c5.9xlarge';
-      case ProductionVariantInstanceType.mlC5_18xlarge:
-        return 'ml.c5.18xlarge';
-      case ProductionVariantInstanceType.mlC5dLarge:
-        return 'ml.c5d.large';
-      case ProductionVariantInstanceType.mlC5dXlarge:
-        return 'ml.c5d.xlarge';
-      case ProductionVariantInstanceType.mlC5d_2xlarge:
-        return 'ml.c5d.2xlarge';
-      case ProductionVariantInstanceType.mlC5d_4xlarge:
-        return 'ml.c5d.4xlarge';
-      case ProductionVariantInstanceType.mlC5d_9xlarge:
-        return 'ml.c5d.9xlarge';
-      case ProductionVariantInstanceType.mlC5d_18xlarge:
-        return 'ml.c5d.18xlarge';
-      case ProductionVariantInstanceType.mlG4dnXlarge:
-        return 'ml.g4dn.xlarge';
-      case ProductionVariantInstanceType.mlG4dn_2xlarge:
-        return 'ml.g4dn.2xlarge';
-      case ProductionVariantInstanceType.mlG4dn_4xlarge:
-        return 'ml.g4dn.4xlarge';
-      case ProductionVariantInstanceType.mlG4dn_8xlarge:
-        return 'ml.g4dn.8xlarge';
-      case ProductionVariantInstanceType.mlG4dn_12xlarge:
-        return 'ml.g4dn.12xlarge';
-      case ProductionVariantInstanceType.mlG4dn_16xlarge:
-        return 'ml.g4dn.16xlarge';
-      case ProductionVariantInstanceType.mlR5Large:
-        return 'ml.r5.large';
-      case ProductionVariantInstanceType.mlR5Xlarge:
-        return 'ml.r5.xlarge';
-      case ProductionVariantInstanceType.mlR5_2xlarge:
-        return 'ml.r5.2xlarge';
-      case ProductionVariantInstanceType.mlR5_4xlarge:
-        return 'ml.r5.4xlarge';
-      case ProductionVariantInstanceType.mlR5_12xlarge:
-        return 'ml.r5.12xlarge';
-      case ProductionVariantInstanceType.mlR5_24xlarge:
-        return 'ml.r5.24xlarge';
-      case ProductionVariantInstanceType.mlR5dLarge:
-        return 'ml.r5d.large';
-      case ProductionVariantInstanceType.mlR5dXlarge:
-        return 'ml.r5d.xlarge';
-      case ProductionVariantInstanceType.mlR5d_2xlarge:
-        return 'ml.r5d.2xlarge';
-      case ProductionVariantInstanceType.mlR5d_4xlarge:
-        return 'ml.r5d.4xlarge';
-      case ProductionVariantInstanceType.mlR5d_12xlarge:
-        return 'ml.r5d.12xlarge';
-      case ProductionVariantInstanceType.mlR5d_24xlarge:
-        return 'ml.r5d.24xlarge';
-      case ProductionVariantInstanceType.mlInf1Xlarge:
-        return 'ml.inf1.xlarge';
-      case ProductionVariantInstanceType.mlInf1_2xlarge:
-        return 'ml.inf1.2xlarge';
-      case ProductionVariantInstanceType.mlInf1_6xlarge:
-        return 'ml.inf1.6xlarge';
-      case ProductionVariantInstanceType.mlInf1_24xlarge:
-        return 'ml.inf1.24xlarge';
-      case ProductionVariantInstanceType.mlDl1_24xlarge:
-        return 'ml.dl1.24xlarge';
-      case ProductionVariantInstanceType.mlC6iLarge:
-        return 'ml.c6i.large';
-      case ProductionVariantInstanceType.mlC6iXlarge:
-        return 'ml.c6i.xlarge';
-      case ProductionVariantInstanceType.mlC6i_2xlarge:
-        return 'ml.c6i.2xlarge';
-      case ProductionVariantInstanceType.mlC6i_4xlarge:
-        return 'ml.c6i.4xlarge';
-      case ProductionVariantInstanceType.mlC6i_8xlarge:
-        return 'ml.c6i.8xlarge';
-      case ProductionVariantInstanceType.mlC6i_12xlarge:
-        return 'ml.c6i.12xlarge';
-      case ProductionVariantInstanceType.mlC6i_16xlarge:
-        return 'ml.c6i.16xlarge';
-      case ProductionVariantInstanceType.mlC6i_24xlarge:
-        return 'ml.c6i.24xlarge';
-      case ProductionVariantInstanceType.mlC6i_32xlarge:
-        return 'ml.c6i.32xlarge';
-      case ProductionVariantInstanceType.mlG5Xlarge:
-        return 'ml.g5.xlarge';
-      case ProductionVariantInstanceType.mlG5_2xlarge:
-        return 'ml.g5.2xlarge';
-      case ProductionVariantInstanceType.mlG5_4xlarge:
-        return 'ml.g5.4xlarge';
-      case ProductionVariantInstanceType.mlG5_8xlarge:
-        return 'ml.g5.8xlarge';
-      case ProductionVariantInstanceType.mlG5_12xlarge:
-        return 'ml.g5.12xlarge';
-      case ProductionVariantInstanceType.mlG5_16xlarge:
-        return 'ml.g5.16xlarge';
-      case ProductionVariantInstanceType.mlG5_24xlarge:
-        return 'ml.g5.24xlarge';
-      case ProductionVariantInstanceType.mlG5_48xlarge:
-        return 'ml.g5.48xlarge';
-      case ProductionVariantInstanceType.mlG6Xlarge:
-        return 'ml.g6.xlarge';
-      case ProductionVariantInstanceType.mlG6_2xlarge:
-        return 'ml.g6.2xlarge';
-      case ProductionVariantInstanceType.mlG6_4xlarge:
-        return 'ml.g6.4xlarge';
-      case ProductionVariantInstanceType.mlG6_8xlarge:
-        return 'ml.g6.8xlarge';
-      case ProductionVariantInstanceType.mlG6_12xlarge:
-        return 'ml.g6.12xlarge';
-      case ProductionVariantInstanceType.mlG6_16xlarge:
-        return 'ml.g6.16xlarge';
-      case ProductionVariantInstanceType.mlG6_24xlarge:
-        return 'ml.g6.24xlarge';
-      case ProductionVariantInstanceType.mlG6_48xlarge:
-        return 'ml.g6.48xlarge';
-      case ProductionVariantInstanceType.mlP4d_24xlarge:
-        return 'ml.p4d.24xlarge';
-      case ProductionVariantInstanceType.mlC7gLarge:
-        return 'ml.c7g.large';
-      case ProductionVariantInstanceType.mlC7gXlarge:
-        return 'ml.c7g.xlarge';
-      case ProductionVariantInstanceType.mlC7g_2xlarge:
-        return 'ml.c7g.2xlarge';
-      case ProductionVariantInstanceType.mlC7g_4xlarge:
-        return 'ml.c7g.4xlarge';
-      case ProductionVariantInstanceType.mlC7g_8xlarge:
-        return 'ml.c7g.8xlarge';
-      case ProductionVariantInstanceType.mlC7g_12xlarge:
-        return 'ml.c7g.12xlarge';
-      case ProductionVariantInstanceType.mlC7g_16xlarge:
-        return 'ml.c7g.16xlarge';
-      case ProductionVariantInstanceType.mlM6gLarge:
-        return 'ml.m6g.large';
-      case ProductionVariantInstanceType.mlM6gXlarge:
-        return 'ml.m6g.xlarge';
-      case ProductionVariantInstanceType.mlM6g_2xlarge:
-        return 'ml.m6g.2xlarge';
-      case ProductionVariantInstanceType.mlM6g_4xlarge:
-        return 'ml.m6g.4xlarge';
-      case ProductionVariantInstanceType.mlM6g_8xlarge:
-        return 'ml.m6g.8xlarge';
-      case ProductionVariantInstanceType.mlM6g_12xlarge:
-        return 'ml.m6g.12xlarge';
-      case ProductionVariantInstanceType.mlM6g_16xlarge:
-        return 'ml.m6g.16xlarge';
-      case ProductionVariantInstanceType.mlM6gdLarge:
-        return 'ml.m6gd.large';
-      case ProductionVariantInstanceType.mlM6gdXlarge:
-        return 'ml.m6gd.xlarge';
-      case ProductionVariantInstanceType.mlM6gd_2xlarge:
-        return 'ml.m6gd.2xlarge';
-      case ProductionVariantInstanceType.mlM6gd_4xlarge:
-        return 'ml.m6gd.4xlarge';
-      case ProductionVariantInstanceType.mlM6gd_8xlarge:
-        return 'ml.m6gd.8xlarge';
-      case ProductionVariantInstanceType.mlM6gd_12xlarge:
-        return 'ml.m6gd.12xlarge';
-      case ProductionVariantInstanceType.mlM6gd_16xlarge:
-        return 'ml.m6gd.16xlarge';
-      case ProductionVariantInstanceType.mlC6gLarge:
-        return 'ml.c6g.large';
-      case ProductionVariantInstanceType.mlC6gXlarge:
-        return 'ml.c6g.xlarge';
-      case ProductionVariantInstanceType.mlC6g_2xlarge:
-        return 'ml.c6g.2xlarge';
-      case ProductionVariantInstanceType.mlC6g_4xlarge:
-        return 'ml.c6g.4xlarge';
-      case ProductionVariantInstanceType.mlC6g_8xlarge:
-        return 'ml.c6g.8xlarge';
-      case ProductionVariantInstanceType.mlC6g_12xlarge:
-        return 'ml.c6g.12xlarge';
-      case ProductionVariantInstanceType.mlC6g_16xlarge:
-        return 'ml.c6g.16xlarge';
-      case ProductionVariantInstanceType.mlC6gdLarge:
-        return 'ml.c6gd.large';
-      case ProductionVariantInstanceType.mlC6gdXlarge:
-        return 'ml.c6gd.xlarge';
-      case ProductionVariantInstanceType.mlC6gd_2xlarge:
-        return 'ml.c6gd.2xlarge';
-      case ProductionVariantInstanceType.mlC6gd_4xlarge:
-        return 'ml.c6gd.4xlarge';
-      case ProductionVariantInstanceType.mlC6gd_8xlarge:
-        return 'ml.c6gd.8xlarge';
-      case ProductionVariantInstanceType.mlC6gd_12xlarge:
-        return 'ml.c6gd.12xlarge';
-      case ProductionVariantInstanceType.mlC6gd_16xlarge:
-        return 'ml.c6gd.16xlarge';
-      case ProductionVariantInstanceType.mlC6gnLarge:
-        return 'ml.c6gn.large';
-      case ProductionVariantInstanceType.mlC6gnXlarge:
-        return 'ml.c6gn.xlarge';
-      case ProductionVariantInstanceType.mlC6gn_2xlarge:
-        return 'ml.c6gn.2xlarge';
-      case ProductionVariantInstanceType.mlC6gn_4xlarge:
-        return 'ml.c6gn.4xlarge';
-      case ProductionVariantInstanceType.mlC6gn_8xlarge:
-        return 'ml.c6gn.8xlarge';
-      case ProductionVariantInstanceType.mlC6gn_12xlarge:
-        return 'ml.c6gn.12xlarge';
-      case ProductionVariantInstanceType.mlC6gn_16xlarge:
-        return 'ml.c6gn.16xlarge';
-      case ProductionVariantInstanceType.mlR6gLarge:
-        return 'ml.r6g.large';
-      case ProductionVariantInstanceType.mlR6gXlarge:
-        return 'ml.r6g.xlarge';
-      case ProductionVariantInstanceType.mlR6g_2xlarge:
-        return 'ml.r6g.2xlarge';
-      case ProductionVariantInstanceType.mlR6g_4xlarge:
-        return 'ml.r6g.4xlarge';
-      case ProductionVariantInstanceType.mlR6g_8xlarge:
-        return 'ml.r6g.8xlarge';
-      case ProductionVariantInstanceType.mlR6g_12xlarge:
-        return 'ml.r6g.12xlarge';
-      case ProductionVariantInstanceType.mlR6g_16xlarge:
-        return 'ml.r6g.16xlarge';
-      case ProductionVariantInstanceType.mlR6gdLarge:
-        return 'ml.r6gd.large';
-      case ProductionVariantInstanceType.mlR6gdXlarge:
-        return 'ml.r6gd.xlarge';
-      case ProductionVariantInstanceType.mlR6gd_2xlarge:
-        return 'ml.r6gd.2xlarge';
-      case ProductionVariantInstanceType.mlR6gd_4xlarge:
-        return 'ml.r6gd.4xlarge';
-      case ProductionVariantInstanceType.mlR6gd_8xlarge:
-        return 'ml.r6gd.8xlarge';
-      case ProductionVariantInstanceType.mlR6gd_12xlarge:
-        return 'ml.r6gd.12xlarge';
-      case ProductionVariantInstanceType.mlR6gd_16xlarge:
-        return 'ml.r6gd.16xlarge';
-      case ProductionVariantInstanceType.mlP4de_24xlarge:
-        return 'ml.p4de.24xlarge';
-      case ProductionVariantInstanceType.mlTrn1_2xlarge:
-        return 'ml.trn1.2xlarge';
-      case ProductionVariantInstanceType.mlTrn1_32xlarge:
-        return 'ml.trn1.32xlarge';
-      case ProductionVariantInstanceType.mlTrn1n_32xlarge:
-        return 'ml.trn1n.32xlarge';
-      case ProductionVariantInstanceType.mlInf2Xlarge:
-        return 'ml.inf2.xlarge';
-      case ProductionVariantInstanceType.mlInf2_8xlarge:
-        return 'ml.inf2.8xlarge';
-      case ProductionVariantInstanceType.mlInf2_24xlarge:
-        return 'ml.inf2.24xlarge';
-      case ProductionVariantInstanceType.mlInf2_48xlarge:
-        return 'ml.inf2.48xlarge';
-      case ProductionVariantInstanceType.mlP5_48xlarge:
-        return 'ml.p5.48xlarge';
-      case ProductionVariantInstanceType.mlM7iLarge:
-        return 'ml.m7i.large';
-      case ProductionVariantInstanceType.mlM7iXlarge:
-        return 'ml.m7i.xlarge';
-      case ProductionVariantInstanceType.mlM7i_2xlarge:
-        return 'ml.m7i.2xlarge';
-      case ProductionVariantInstanceType.mlM7i_4xlarge:
-        return 'ml.m7i.4xlarge';
-      case ProductionVariantInstanceType.mlM7i_8xlarge:
-        return 'ml.m7i.8xlarge';
-      case ProductionVariantInstanceType.mlM7i_12xlarge:
-        return 'ml.m7i.12xlarge';
-      case ProductionVariantInstanceType.mlM7i_16xlarge:
-        return 'ml.m7i.16xlarge';
-      case ProductionVariantInstanceType.mlM7i_24xlarge:
-        return 'ml.m7i.24xlarge';
-      case ProductionVariantInstanceType.mlM7i_48xlarge:
-        return 'ml.m7i.48xlarge';
-      case ProductionVariantInstanceType.mlC7iLarge:
-        return 'ml.c7i.large';
-      case ProductionVariantInstanceType.mlC7iXlarge:
-        return 'ml.c7i.xlarge';
-      case ProductionVariantInstanceType.mlC7i_2xlarge:
-        return 'ml.c7i.2xlarge';
-      case ProductionVariantInstanceType.mlC7i_4xlarge:
-        return 'ml.c7i.4xlarge';
-      case ProductionVariantInstanceType.mlC7i_8xlarge:
-        return 'ml.c7i.8xlarge';
-      case ProductionVariantInstanceType.mlC7i_12xlarge:
-        return 'ml.c7i.12xlarge';
-      case ProductionVariantInstanceType.mlC7i_16xlarge:
-        return 'ml.c7i.16xlarge';
-      case ProductionVariantInstanceType.mlC7i_24xlarge:
-        return 'ml.c7i.24xlarge';
-      case ProductionVariantInstanceType.mlC7i_48xlarge:
-        return 'ml.c7i.48xlarge';
-      case ProductionVariantInstanceType.mlR7iLarge:
-        return 'ml.r7i.large';
-      case ProductionVariantInstanceType.mlR7iXlarge:
-        return 'ml.r7i.xlarge';
-      case ProductionVariantInstanceType.mlR7i_2xlarge:
-        return 'ml.r7i.2xlarge';
-      case ProductionVariantInstanceType.mlR7i_4xlarge:
-        return 'ml.r7i.4xlarge';
-      case ProductionVariantInstanceType.mlR7i_8xlarge:
-        return 'ml.r7i.8xlarge';
-      case ProductionVariantInstanceType.mlR7i_12xlarge:
-        return 'ml.r7i.12xlarge';
-      case ProductionVariantInstanceType.mlR7i_16xlarge:
-        return 'ml.r7i.16xlarge';
-      case ProductionVariantInstanceType.mlR7i_24xlarge:
-        return 'ml.r7i.24xlarge';
-      case ProductionVariantInstanceType.mlR7i_48xlarge:
-        return 'ml.r7i.48xlarge';
-    }
-  }
-}
+  final String value;
 
-extension ProductionVariantInstanceTypeFromString on String {
-  ProductionVariantInstanceType toProductionVariantInstanceType() {
-    switch (this) {
-      case 'ml.t2.medium':
-        return ProductionVariantInstanceType.mlT2Medium;
-      case 'ml.t2.large':
-        return ProductionVariantInstanceType.mlT2Large;
-      case 'ml.t2.xlarge':
-        return ProductionVariantInstanceType.mlT2Xlarge;
-      case 'ml.t2.2xlarge':
-        return ProductionVariantInstanceType.mlT2_2xlarge;
-      case 'ml.m4.xlarge':
-        return ProductionVariantInstanceType.mlM4Xlarge;
-      case 'ml.m4.2xlarge':
-        return ProductionVariantInstanceType.mlM4_2xlarge;
-      case 'ml.m4.4xlarge':
-        return ProductionVariantInstanceType.mlM4_4xlarge;
-      case 'ml.m4.10xlarge':
-        return ProductionVariantInstanceType.mlM4_10xlarge;
-      case 'ml.m4.16xlarge':
-        return ProductionVariantInstanceType.mlM4_16xlarge;
-      case 'ml.m5.large':
-        return ProductionVariantInstanceType.mlM5Large;
-      case 'ml.m5.xlarge':
-        return ProductionVariantInstanceType.mlM5Xlarge;
-      case 'ml.m5.2xlarge':
-        return ProductionVariantInstanceType.mlM5_2xlarge;
-      case 'ml.m5.4xlarge':
-        return ProductionVariantInstanceType.mlM5_4xlarge;
-      case 'ml.m5.12xlarge':
-        return ProductionVariantInstanceType.mlM5_12xlarge;
-      case 'ml.m5.24xlarge':
-        return ProductionVariantInstanceType.mlM5_24xlarge;
-      case 'ml.m5d.large':
-        return ProductionVariantInstanceType.mlM5dLarge;
-      case 'ml.m5d.xlarge':
-        return ProductionVariantInstanceType.mlM5dXlarge;
-      case 'ml.m5d.2xlarge':
-        return ProductionVariantInstanceType.mlM5d_2xlarge;
-      case 'ml.m5d.4xlarge':
-        return ProductionVariantInstanceType.mlM5d_4xlarge;
-      case 'ml.m5d.12xlarge':
-        return ProductionVariantInstanceType.mlM5d_12xlarge;
-      case 'ml.m5d.24xlarge':
-        return ProductionVariantInstanceType.mlM5d_24xlarge;
-      case 'ml.c4.large':
-        return ProductionVariantInstanceType.mlC4Large;
-      case 'ml.c4.xlarge':
-        return ProductionVariantInstanceType.mlC4Xlarge;
-      case 'ml.c4.2xlarge':
-        return ProductionVariantInstanceType.mlC4_2xlarge;
-      case 'ml.c4.4xlarge':
-        return ProductionVariantInstanceType.mlC4_4xlarge;
-      case 'ml.c4.8xlarge':
-        return ProductionVariantInstanceType.mlC4_8xlarge;
-      case 'ml.p2.xlarge':
-        return ProductionVariantInstanceType.mlP2Xlarge;
-      case 'ml.p2.8xlarge':
-        return ProductionVariantInstanceType.mlP2_8xlarge;
-      case 'ml.p2.16xlarge':
-        return ProductionVariantInstanceType.mlP2_16xlarge;
-      case 'ml.p3.2xlarge':
-        return ProductionVariantInstanceType.mlP3_2xlarge;
-      case 'ml.p3.8xlarge':
-        return ProductionVariantInstanceType.mlP3_8xlarge;
-      case 'ml.p3.16xlarge':
-        return ProductionVariantInstanceType.mlP3_16xlarge;
-      case 'ml.c5.large':
-        return ProductionVariantInstanceType.mlC5Large;
-      case 'ml.c5.xlarge':
-        return ProductionVariantInstanceType.mlC5Xlarge;
-      case 'ml.c5.2xlarge':
-        return ProductionVariantInstanceType.mlC5_2xlarge;
-      case 'ml.c5.4xlarge':
-        return ProductionVariantInstanceType.mlC5_4xlarge;
-      case 'ml.c5.9xlarge':
-        return ProductionVariantInstanceType.mlC5_9xlarge;
-      case 'ml.c5.18xlarge':
-        return ProductionVariantInstanceType.mlC5_18xlarge;
-      case 'ml.c5d.large':
-        return ProductionVariantInstanceType.mlC5dLarge;
-      case 'ml.c5d.xlarge':
-        return ProductionVariantInstanceType.mlC5dXlarge;
-      case 'ml.c5d.2xlarge':
-        return ProductionVariantInstanceType.mlC5d_2xlarge;
-      case 'ml.c5d.4xlarge':
-        return ProductionVariantInstanceType.mlC5d_4xlarge;
-      case 'ml.c5d.9xlarge':
-        return ProductionVariantInstanceType.mlC5d_9xlarge;
-      case 'ml.c5d.18xlarge':
-        return ProductionVariantInstanceType.mlC5d_18xlarge;
-      case 'ml.g4dn.xlarge':
-        return ProductionVariantInstanceType.mlG4dnXlarge;
-      case 'ml.g4dn.2xlarge':
-        return ProductionVariantInstanceType.mlG4dn_2xlarge;
-      case 'ml.g4dn.4xlarge':
-        return ProductionVariantInstanceType.mlG4dn_4xlarge;
-      case 'ml.g4dn.8xlarge':
-        return ProductionVariantInstanceType.mlG4dn_8xlarge;
-      case 'ml.g4dn.12xlarge':
-        return ProductionVariantInstanceType.mlG4dn_12xlarge;
-      case 'ml.g4dn.16xlarge':
-        return ProductionVariantInstanceType.mlG4dn_16xlarge;
-      case 'ml.r5.large':
-        return ProductionVariantInstanceType.mlR5Large;
-      case 'ml.r5.xlarge':
-        return ProductionVariantInstanceType.mlR5Xlarge;
-      case 'ml.r5.2xlarge':
-        return ProductionVariantInstanceType.mlR5_2xlarge;
-      case 'ml.r5.4xlarge':
-        return ProductionVariantInstanceType.mlR5_4xlarge;
-      case 'ml.r5.12xlarge':
-        return ProductionVariantInstanceType.mlR5_12xlarge;
-      case 'ml.r5.24xlarge':
-        return ProductionVariantInstanceType.mlR5_24xlarge;
-      case 'ml.r5d.large':
-        return ProductionVariantInstanceType.mlR5dLarge;
-      case 'ml.r5d.xlarge':
-        return ProductionVariantInstanceType.mlR5dXlarge;
-      case 'ml.r5d.2xlarge':
-        return ProductionVariantInstanceType.mlR5d_2xlarge;
-      case 'ml.r5d.4xlarge':
-        return ProductionVariantInstanceType.mlR5d_4xlarge;
-      case 'ml.r5d.12xlarge':
-        return ProductionVariantInstanceType.mlR5d_12xlarge;
-      case 'ml.r5d.24xlarge':
-        return ProductionVariantInstanceType.mlR5d_24xlarge;
-      case 'ml.inf1.xlarge':
-        return ProductionVariantInstanceType.mlInf1Xlarge;
-      case 'ml.inf1.2xlarge':
-        return ProductionVariantInstanceType.mlInf1_2xlarge;
-      case 'ml.inf1.6xlarge':
-        return ProductionVariantInstanceType.mlInf1_6xlarge;
-      case 'ml.inf1.24xlarge':
-        return ProductionVariantInstanceType.mlInf1_24xlarge;
-      case 'ml.dl1.24xlarge':
-        return ProductionVariantInstanceType.mlDl1_24xlarge;
-      case 'ml.c6i.large':
-        return ProductionVariantInstanceType.mlC6iLarge;
-      case 'ml.c6i.xlarge':
-        return ProductionVariantInstanceType.mlC6iXlarge;
-      case 'ml.c6i.2xlarge':
-        return ProductionVariantInstanceType.mlC6i_2xlarge;
-      case 'ml.c6i.4xlarge':
-        return ProductionVariantInstanceType.mlC6i_4xlarge;
-      case 'ml.c6i.8xlarge':
-        return ProductionVariantInstanceType.mlC6i_8xlarge;
-      case 'ml.c6i.12xlarge':
-        return ProductionVariantInstanceType.mlC6i_12xlarge;
-      case 'ml.c6i.16xlarge':
-        return ProductionVariantInstanceType.mlC6i_16xlarge;
-      case 'ml.c6i.24xlarge':
-        return ProductionVariantInstanceType.mlC6i_24xlarge;
-      case 'ml.c6i.32xlarge':
-        return ProductionVariantInstanceType.mlC6i_32xlarge;
-      case 'ml.g5.xlarge':
-        return ProductionVariantInstanceType.mlG5Xlarge;
-      case 'ml.g5.2xlarge':
-        return ProductionVariantInstanceType.mlG5_2xlarge;
-      case 'ml.g5.4xlarge':
-        return ProductionVariantInstanceType.mlG5_4xlarge;
-      case 'ml.g5.8xlarge':
-        return ProductionVariantInstanceType.mlG5_8xlarge;
-      case 'ml.g5.12xlarge':
-        return ProductionVariantInstanceType.mlG5_12xlarge;
-      case 'ml.g5.16xlarge':
-        return ProductionVariantInstanceType.mlG5_16xlarge;
-      case 'ml.g5.24xlarge':
-        return ProductionVariantInstanceType.mlG5_24xlarge;
-      case 'ml.g5.48xlarge':
-        return ProductionVariantInstanceType.mlG5_48xlarge;
-      case 'ml.g6.xlarge':
-        return ProductionVariantInstanceType.mlG6Xlarge;
-      case 'ml.g6.2xlarge':
-        return ProductionVariantInstanceType.mlG6_2xlarge;
-      case 'ml.g6.4xlarge':
-        return ProductionVariantInstanceType.mlG6_4xlarge;
-      case 'ml.g6.8xlarge':
-        return ProductionVariantInstanceType.mlG6_8xlarge;
-      case 'ml.g6.12xlarge':
-        return ProductionVariantInstanceType.mlG6_12xlarge;
-      case 'ml.g6.16xlarge':
-        return ProductionVariantInstanceType.mlG6_16xlarge;
-      case 'ml.g6.24xlarge':
-        return ProductionVariantInstanceType.mlG6_24xlarge;
-      case 'ml.g6.48xlarge':
-        return ProductionVariantInstanceType.mlG6_48xlarge;
-      case 'ml.p4d.24xlarge':
-        return ProductionVariantInstanceType.mlP4d_24xlarge;
-      case 'ml.c7g.large':
-        return ProductionVariantInstanceType.mlC7gLarge;
-      case 'ml.c7g.xlarge':
-        return ProductionVariantInstanceType.mlC7gXlarge;
-      case 'ml.c7g.2xlarge':
-        return ProductionVariantInstanceType.mlC7g_2xlarge;
-      case 'ml.c7g.4xlarge':
-        return ProductionVariantInstanceType.mlC7g_4xlarge;
-      case 'ml.c7g.8xlarge':
-        return ProductionVariantInstanceType.mlC7g_8xlarge;
-      case 'ml.c7g.12xlarge':
-        return ProductionVariantInstanceType.mlC7g_12xlarge;
-      case 'ml.c7g.16xlarge':
-        return ProductionVariantInstanceType.mlC7g_16xlarge;
-      case 'ml.m6g.large':
-        return ProductionVariantInstanceType.mlM6gLarge;
-      case 'ml.m6g.xlarge':
-        return ProductionVariantInstanceType.mlM6gXlarge;
-      case 'ml.m6g.2xlarge':
-        return ProductionVariantInstanceType.mlM6g_2xlarge;
-      case 'ml.m6g.4xlarge':
-        return ProductionVariantInstanceType.mlM6g_4xlarge;
-      case 'ml.m6g.8xlarge':
-        return ProductionVariantInstanceType.mlM6g_8xlarge;
-      case 'ml.m6g.12xlarge':
-        return ProductionVariantInstanceType.mlM6g_12xlarge;
-      case 'ml.m6g.16xlarge':
-        return ProductionVariantInstanceType.mlM6g_16xlarge;
-      case 'ml.m6gd.large':
-        return ProductionVariantInstanceType.mlM6gdLarge;
-      case 'ml.m6gd.xlarge':
-        return ProductionVariantInstanceType.mlM6gdXlarge;
-      case 'ml.m6gd.2xlarge':
-        return ProductionVariantInstanceType.mlM6gd_2xlarge;
-      case 'ml.m6gd.4xlarge':
-        return ProductionVariantInstanceType.mlM6gd_4xlarge;
-      case 'ml.m6gd.8xlarge':
-        return ProductionVariantInstanceType.mlM6gd_8xlarge;
-      case 'ml.m6gd.12xlarge':
-        return ProductionVariantInstanceType.mlM6gd_12xlarge;
-      case 'ml.m6gd.16xlarge':
-        return ProductionVariantInstanceType.mlM6gd_16xlarge;
-      case 'ml.c6g.large':
-        return ProductionVariantInstanceType.mlC6gLarge;
-      case 'ml.c6g.xlarge':
-        return ProductionVariantInstanceType.mlC6gXlarge;
-      case 'ml.c6g.2xlarge':
-        return ProductionVariantInstanceType.mlC6g_2xlarge;
-      case 'ml.c6g.4xlarge':
-        return ProductionVariantInstanceType.mlC6g_4xlarge;
-      case 'ml.c6g.8xlarge':
-        return ProductionVariantInstanceType.mlC6g_8xlarge;
-      case 'ml.c6g.12xlarge':
-        return ProductionVariantInstanceType.mlC6g_12xlarge;
-      case 'ml.c6g.16xlarge':
-        return ProductionVariantInstanceType.mlC6g_16xlarge;
-      case 'ml.c6gd.large':
-        return ProductionVariantInstanceType.mlC6gdLarge;
-      case 'ml.c6gd.xlarge':
-        return ProductionVariantInstanceType.mlC6gdXlarge;
-      case 'ml.c6gd.2xlarge':
-        return ProductionVariantInstanceType.mlC6gd_2xlarge;
-      case 'ml.c6gd.4xlarge':
-        return ProductionVariantInstanceType.mlC6gd_4xlarge;
-      case 'ml.c6gd.8xlarge':
-        return ProductionVariantInstanceType.mlC6gd_8xlarge;
-      case 'ml.c6gd.12xlarge':
-        return ProductionVariantInstanceType.mlC6gd_12xlarge;
-      case 'ml.c6gd.16xlarge':
-        return ProductionVariantInstanceType.mlC6gd_16xlarge;
-      case 'ml.c6gn.large':
-        return ProductionVariantInstanceType.mlC6gnLarge;
-      case 'ml.c6gn.xlarge':
-        return ProductionVariantInstanceType.mlC6gnXlarge;
-      case 'ml.c6gn.2xlarge':
-        return ProductionVariantInstanceType.mlC6gn_2xlarge;
-      case 'ml.c6gn.4xlarge':
-        return ProductionVariantInstanceType.mlC6gn_4xlarge;
-      case 'ml.c6gn.8xlarge':
-        return ProductionVariantInstanceType.mlC6gn_8xlarge;
-      case 'ml.c6gn.12xlarge':
-        return ProductionVariantInstanceType.mlC6gn_12xlarge;
-      case 'ml.c6gn.16xlarge':
-        return ProductionVariantInstanceType.mlC6gn_16xlarge;
-      case 'ml.r6g.large':
-        return ProductionVariantInstanceType.mlR6gLarge;
-      case 'ml.r6g.xlarge':
-        return ProductionVariantInstanceType.mlR6gXlarge;
-      case 'ml.r6g.2xlarge':
-        return ProductionVariantInstanceType.mlR6g_2xlarge;
-      case 'ml.r6g.4xlarge':
-        return ProductionVariantInstanceType.mlR6g_4xlarge;
-      case 'ml.r6g.8xlarge':
-        return ProductionVariantInstanceType.mlR6g_8xlarge;
-      case 'ml.r6g.12xlarge':
-        return ProductionVariantInstanceType.mlR6g_12xlarge;
-      case 'ml.r6g.16xlarge':
-        return ProductionVariantInstanceType.mlR6g_16xlarge;
-      case 'ml.r6gd.large':
-        return ProductionVariantInstanceType.mlR6gdLarge;
-      case 'ml.r6gd.xlarge':
-        return ProductionVariantInstanceType.mlR6gdXlarge;
-      case 'ml.r6gd.2xlarge':
-        return ProductionVariantInstanceType.mlR6gd_2xlarge;
-      case 'ml.r6gd.4xlarge':
-        return ProductionVariantInstanceType.mlR6gd_4xlarge;
-      case 'ml.r6gd.8xlarge':
-        return ProductionVariantInstanceType.mlR6gd_8xlarge;
-      case 'ml.r6gd.12xlarge':
-        return ProductionVariantInstanceType.mlR6gd_12xlarge;
-      case 'ml.r6gd.16xlarge':
-        return ProductionVariantInstanceType.mlR6gd_16xlarge;
-      case 'ml.p4de.24xlarge':
-        return ProductionVariantInstanceType.mlP4de_24xlarge;
-      case 'ml.trn1.2xlarge':
-        return ProductionVariantInstanceType.mlTrn1_2xlarge;
-      case 'ml.trn1.32xlarge':
-        return ProductionVariantInstanceType.mlTrn1_32xlarge;
-      case 'ml.trn1n.32xlarge':
-        return ProductionVariantInstanceType.mlTrn1n_32xlarge;
-      case 'ml.inf2.xlarge':
-        return ProductionVariantInstanceType.mlInf2Xlarge;
-      case 'ml.inf2.8xlarge':
-        return ProductionVariantInstanceType.mlInf2_8xlarge;
-      case 'ml.inf2.24xlarge':
-        return ProductionVariantInstanceType.mlInf2_24xlarge;
-      case 'ml.inf2.48xlarge':
-        return ProductionVariantInstanceType.mlInf2_48xlarge;
-      case 'ml.p5.48xlarge':
-        return ProductionVariantInstanceType.mlP5_48xlarge;
-      case 'ml.m7i.large':
-        return ProductionVariantInstanceType.mlM7iLarge;
-      case 'ml.m7i.xlarge':
-        return ProductionVariantInstanceType.mlM7iXlarge;
-      case 'ml.m7i.2xlarge':
-        return ProductionVariantInstanceType.mlM7i_2xlarge;
-      case 'ml.m7i.4xlarge':
-        return ProductionVariantInstanceType.mlM7i_4xlarge;
-      case 'ml.m7i.8xlarge':
-        return ProductionVariantInstanceType.mlM7i_8xlarge;
-      case 'ml.m7i.12xlarge':
-        return ProductionVariantInstanceType.mlM7i_12xlarge;
-      case 'ml.m7i.16xlarge':
-        return ProductionVariantInstanceType.mlM7i_16xlarge;
-      case 'ml.m7i.24xlarge':
-        return ProductionVariantInstanceType.mlM7i_24xlarge;
-      case 'ml.m7i.48xlarge':
-        return ProductionVariantInstanceType.mlM7i_48xlarge;
-      case 'ml.c7i.large':
-        return ProductionVariantInstanceType.mlC7iLarge;
-      case 'ml.c7i.xlarge':
-        return ProductionVariantInstanceType.mlC7iXlarge;
-      case 'ml.c7i.2xlarge':
-        return ProductionVariantInstanceType.mlC7i_2xlarge;
-      case 'ml.c7i.4xlarge':
-        return ProductionVariantInstanceType.mlC7i_4xlarge;
-      case 'ml.c7i.8xlarge':
-        return ProductionVariantInstanceType.mlC7i_8xlarge;
-      case 'ml.c7i.12xlarge':
-        return ProductionVariantInstanceType.mlC7i_12xlarge;
-      case 'ml.c7i.16xlarge':
-        return ProductionVariantInstanceType.mlC7i_16xlarge;
-      case 'ml.c7i.24xlarge':
-        return ProductionVariantInstanceType.mlC7i_24xlarge;
-      case 'ml.c7i.48xlarge':
-        return ProductionVariantInstanceType.mlC7i_48xlarge;
-      case 'ml.r7i.large':
-        return ProductionVariantInstanceType.mlR7iLarge;
-      case 'ml.r7i.xlarge':
-        return ProductionVariantInstanceType.mlR7iXlarge;
-      case 'ml.r7i.2xlarge':
-        return ProductionVariantInstanceType.mlR7i_2xlarge;
-      case 'ml.r7i.4xlarge':
-        return ProductionVariantInstanceType.mlR7i_4xlarge;
-      case 'ml.r7i.8xlarge':
-        return ProductionVariantInstanceType.mlR7i_8xlarge;
-      case 'ml.r7i.12xlarge':
-        return ProductionVariantInstanceType.mlR7i_12xlarge;
-      case 'ml.r7i.16xlarge':
-        return ProductionVariantInstanceType.mlR7i_16xlarge;
-      case 'ml.r7i.24xlarge':
-        return ProductionVariantInstanceType.mlR7i_24xlarge;
-      case 'ml.r7i.48xlarge':
-        return ProductionVariantInstanceType.mlR7i_48xlarge;
-    }
-    throw Exception('$this is not known in enum ProductionVariantInstanceType');
-  }
+  const ProductionVariantInstanceType(this.value);
+
+  static ProductionVariantInstanceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ProductionVariantInstanceType'));
 }
 
 /// Settings that control the range in the number of instances that the endpoint
@@ -60937,7 +54800,8 @@ class ProductionVariantManagedInstanceScaling {
     return ProductionVariantManagedInstanceScaling(
       maxInstanceCount: json['MaxInstanceCount'] as int?,
       minInstanceCount: json['MinInstanceCount'] as int?,
-      status: (json['Status'] as String?)?.toManagedInstanceScalingStatus(),
+      status: (json['Status'] as String?)
+          ?.let(ManagedInstanceScalingStatus.fromString),
     );
   }
 
@@ -60948,7 +54812,7 @@ class ProductionVariantManagedInstanceScaling {
     return {
       if (maxInstanceCount != null) 'MaxInstanceCount': maxInstanceCount,
       if (minInstanceCount != null) 'MinInstanceCount': minInstanceCount,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -60976,14 +54840,15 @@ class ProductionVariantRoutingConfig {
 
   factory ProductionVariantRoutingConfig.fromJson(Map<String, dynamic> json) {
     return ProductionVariantRoutingConfig(
-      routingStrategy: (json['RoutingStrategy'] as String).toRoutingStrategy(),
+      routingStrategy:
+          RoutingStrategy.fromString((json['RoutingStrategy'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final routingStrategy = this.routingStrategy;
     return {
-      'RoutingStrategy': routingStrategy.toValue(),
+      'RoutingStrategy': routingStrategy.value,
     };
   }
 }
@@ -61105,7 +54970,7 @@ class ProductionVariantStatus {
 
   factory ProductionVariantStatus.fromJson(Map<String, dynamic> json) {
     return ProductionVariantStatus(
-      status: (json['Status'] as String).toVariantStatus(),
+      status: VariantStatus.fromString((json['Status'] as String)),
       startTime: timeStampFromJson(json['StartTime']),
       statusMessage: json['StatusMessage'] as String?,
     );
@@ -61361,8 +55226,8 @@ class ProfilerRuleConfiguration {
     return ProfilerRuleConfiguration(
       ruleConfigurationName: json['RuleConfigurationName'] as String,
       ruleEvaluatorImage: json['RuleEvaluatorImage'] as String,
-      instanceType:
-          (json['InstanceType'] as String?)?.toProcessingInstanceType(),
+      instanceType: (json['InstanceType'] as String?)
+          ?.let(ProcessingInstanceType.fromString),
       localPath: json['LocalPath'] as String?,
       ruleParameters: (json['RuleParameters'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -61382,7 +55247,7 @@ class ProfilerRuleConfiguration {
     return {
       'RuleConfigurationName': ruleConfigurationName,
       'RuleEvaluatorImage': ruleEvaluatorImage,
-      if (instanceType != null) 'InstanceType': instanceType.toValue(),
+      if (instanceType != null) 'InstanceType': instanceType.value,
       if (localPath != null) 'LocalPath': localPath,
       if (ruleParameters != null) 'RuleParameters': ruleParameters,
       if (s3OutputPath != null) 'S3OutputPath': s3OutputPath,
@@ -61421,39 +55286,26 @@ class ProfilerRuleEvaluationStatus {
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       ruleConfigurationName: json['RuleConfigurationName'] as String?,
       ruleEvaluationJobArn: json['RuleEvaluationJobArn'] as String?,
-      ruleEvaluationStatus:
-          (json['RuleEvaluationStatus'] as String?)?.toRuleEvaluationStatus(),
+      ruleEvaluationStatus: (json['RuleEvaluationStatus'] as String?)
+          ?.let(RuleEvaluationStatus.fromString),
       statusDetails: json['StatusDetails'] as String?,
     );
   }
 }
 
 enum ProfilingStatus {
-  enabled,
-  disabled,
-}
+  enabled('Enabled'),
+  disabled('Disabled'),
+  ;
 
-extension ProfilingStatusValueExtension on ProfilingStatus {
-  String toValue() {
-    switch (this) {
-      case ProfilingStatus.enabled:
-        return 'Enabled';
-      case ProfilingStatus.disabled:
-        return 'Disabled';
-    }
-  }
-}
+  final String value;
 
-extension ProfilingStatusFromString on String {
-  ProfilingStatus toProfilingStatus() {
-    switch (this) {
-      case 'Enabled':
-        return ProfilingStatus.enabled;
-      case 'Disabled':
-        return ProfilingStatus.disabled;
-    }
-    throw Exception('$this is not known in enum ProfilingStatus');
-  }
+  const ProfilingStatus(this.value);
+
+  static ProfilingStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ProfilingStatus'));
 }
 
 /// The properties of a project as returned by the Search API.
@@ -61522,7 +55374,8 @@ class Project {
       projectDescription: json['ProjectDescription'] as String?,
       projectId: json['ProjectId'] as String?,
       projectName: json['ProjectName'] as String?,
-      projectStatus: (json['ProjectStatus'] as String?)?.toProjectStatus(),
+      projectStatus:
+          (json['ProjectStatus'] as String?)?.let(ProjectStatus.fromString),
       serviceCatalogProvisionedProductDetails:
           json['ServiceCatalogProvisionedProductDetails'] != null
               ? ServiceCatalogProvisionedProductDetails.fromJson(
@@ -61544,127 +55397,56 @@ class Project {
 }
 
 enum ProjectSortBy {
-  name,
-  creationTime,
-}
+  name('Name'),
+  creationTime('CreationTime'),
+  ;
 
-extension ProjectSortByValueExtension on ProjectSortBy {
-  String toValue() {
-    switch (this) {
-      case ProjectSortBy.name:
-        return 'Name';
-      case ProjectSortBy.creationTime:
-        return 'CreationTime';
-    }
-  }
-}
+  final String value;
 
-extension ProjectSortByFromString on String {
-  ProjectSortBy toProjectSortBy() {
-    switch (this) {
-      case 'Name':
-        return ProjectSortBy.name;
-      case 'CreationTime':
-        return ProjectSortBy.creationTime;
-    }
-    throw Exception('$this is not known in enum ProjectSortBy');
-  }
+  const ProjectSortBy(this.value);
+
+  static ProjectSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ProjectSortBy'));
 }
 
 enum ProjectSortOrder {
-  ascending,
-  descending,
-}
+  ascending('Ascending'),
+  descending('Descending'),
+  ;
 
-extension ProjectSortOrderValueExtension on ProjectSortOrder {
-  String toValue() {
-    switch (this) {
-      case ProjectSortOrder.ascending:
-        return 'Ascending';
-      case ProjectSortOrder.descending:
-        return 'Descending';
-    }
-  }
-}
+  final String value;
 
-extension ProjectSortOrderFromString on String {
-  ProjectSortOrder toProjectSortOrder() {
-    switch (this) {
-      case 'Ascending':
-        return ProjectSortOrder.ascending;
-      case 'Descending':
-        return ProjectSortOrder.descending;
-    }
-    throw Exception('$this is not known in enum ProjectSortOrder');
-  }
+  const ProjectSortOrder(this.value);
+
+  static ProjectSortOrder fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ProjectSortOrder'));
 }
 
 enum ProjectStatus {
-  pending,
-  createInProgress,
-  createCompleted,
-  createFailed,
-  deleteInProgress,
-  deleteFailed,
-  deleteCompleted,
-  updateInProgress,
-  updateCompleted,
-  updateFailed,
-}
+  pending('Pending'),
+  createInProgress('CreateInProgress'),
+  createCompleted('CreateCompleted'),
+  createFailed('CreateFailed'),
+  deleteInProgress('DeleteInProgress'),
+  deleteFailed('DeleteFailed'),
+  deleteCompleted('DeleteCompleted'),
+  updateInProgress('UpdateInProgress'),
+  updateCompleted('UpdateCompleted'),
+  updateFailed('UpdateFailed'),
+  ;
 
-extension ProjectStatusValueExtension on ProjectStatus {
-  String toValue() {
-    switch (this) {
-      case ProjectStatus.pending:
-        return 'Pending';
-      case ProjectStatus.createInProgress:
-        return 'CreateInProgress';
-      case ProjectStatus.createCompleted:
-        return 'CreateCompleted';
-      case ProjectStatus.createFailed:
-        return 'CreateFailed';
-      case ProjectStatus.deleteInProgress:
-        return 'DeleteInProgress';
-      case ProjectStatus.deleteFailed:
-        return 'DeleteFailed';
-      case ProjectStatus.deleteCompleted:
-        return 'DeleteCompleted';
-      case ProjectStatus.updateInProgress:
-        return 'UpdateInProgress';
-      case ProjectStatus.updateCompleted:
-        return 'UpdateCompleted';
-      case ProjectStatus.updateFailed:
-        return 'UpdateFailed';
-    }
-  }
-}
+  final String value;
 
-extension ProjectStatusFromString on String {
-  ProjectStatus toProjectStatus() {
-    switch (this) {
-      case 'Pending':
-        return ProjectStatus.pending;
-      case 'CreateInProgress':
-        return ProjectStatus.createInProgress;
-      case 'CreateCompleted':
-        return ProjectStatus.createCompleted;
-      case 'CreateFailed':
-        return ProjectStatus.createFailed;
-      case 'DeleteInProgress':
-        return ProjectStatus.deleteInProgress;
-      case 'DeleteFailed':
-        return ProjectStatus.deleteFailed;
-      case 'DeleteCompleted':
-        return ProjectStatus.deleteCompleted;
-      case 'UpdateInProgress':
-        return ProjectStatus.updateInProgress;
-      case 'UpdateCompleted':
-        return ProjectStatus.updateCompleted;
-      case 'UpdateFailed':
-        return ProjectStatus.updateFailed;
-    }
-    throw Exception('$this is not known in enum ProjectStatus');
-  }
+  const ProjectStatus(this.value);
+
+  static ProjectStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ProjectStatus'));
 }
 
 /// Information about a project.
@@ -61703,7 +55485,8 @@ class ProjectSummary {
       projectArn: json['ProjectArn'] as String,
       projectId: json['ProjectId'] as String,
       projectName: json['ProjectName'] as String,
-      projectStatus: (json['ProjectStatus'] as String).toProjectStatus(),
+      projectStatus:
+          ProjectStatus.fromString((json['ProjectStatus'] as String)),
       projectDescription: json['ProjectDescription'] as String?,
     );
   }
@@ -62263,7 +56046,7 @@ class QueryFilters {
       if (createdBefore != null)
         'CreatedBefore': unixTimestampToJson(createdBefore),
       if (lineageTypes != null)
-        'LineageTypes': lineageTypes.map((e) => e.toValue()).toList(),
+        'LineageTypes': lineageTypes.map((e) => e.value).toList(),
       if (modifiedAfter != null)
         'ModifiedAfter': unixTimestampToJson(modifiedAfter),
       if (modifiedBefore != null)
@@ -62344,32 +56127,18 @@ class RSessionAppSettings {
 }
 
 enum RStudioServerProAccessStatus {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension RStudioServerProAccessStatusValueExtension
-    on RStudioServerProAccessStatus {
-  String toValue() {
-    switch (this) {
-      case RStudioServerProAccessStatus.enabled:
-        return 'ENABLED';
-      case RStudioServerProAccessStatus.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension RStudioServerProAccessStatusFromString on String {
-  RStudioServerProAccessStatus toRStudioServerProAccessStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return RStudioServerProAccessStatus.enabled;
-      case 'DISABLED':
-        return RStudioServerProAccessStatus.disabled;
-    }
-    throw Exception('$this is not known in enum RStudioServerProAccessStatus');
-  }
+  const RStudioServerProAccessStatus(this.value);
+
+  static RStudioServerProAccessStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RStudioServerProAccessStatus'));
 }
 
 /// A collection of settings that configure user interaction with the
@@ -62392,9 +56161,10 @@ class RStudioServerProAppSettings {
 
   factory RStudioServerProAppSettings.fromJson(Map<String, dynamic> json) {
     return RStudioServerProAppSettings(
-      accessStatus:
-          (json['AccessStatus'] as String?)?.toRStudioServerProAccessStatus(),
-      userGroup: (json['UserGroup'] as String?)?.toRStudioServerProUserGroup(),
+      accessStatus: (json['AccessStatus'] as String?)
+          ?.let(RStudioServerProAccessStatus.fromString),
+      userGroup: (json['UserGroup'] as String?)
+          ?.let(RStudioServerProUserGroup.fromString),
     );
   }
 
@@ -62402,8 +56172,8 @@ class RStudioServerProAppSettings {
     final accessStatus = this.accessStatus;
     final userGroup = this.userGroup;
     return {
-      if (accessStatus != null) 'AccessStatus': accessStatus.toValue(),
-      if (userGroup != null) 'UserGroup': userGroup.toValue(),
+      if (accessStatus != null) 'AccessStatus': accessStatus.value,
+      if (userGroup != null) 'UserGroup': userGroup.value,
     };
   }
 }
@@ -62494,31 +56264,18 @@ class RStudioServerProDomainSettingsForUpdate {
 }
 
 enum RStudioServerProUserGroup {
-  rStudioAdmin,
-  rStudioUser,
-}
+  rStudioAdmin('R_STUDIO_ADMIN'),
+  rStudioUser('R_STUDIO_USER'),
+  ;
 
-extension RStudioServerProUserGroupValueExtension on RStudioServerProUserGroup {
-  String toValue() {
-    switch (this) {
-      case RStudioServerProUserGroup.rStudioAdmin:
-        return 'R_STUDIO_ADMIN';
-      case RStudioServerProUserGroup.rStudioUser:
-        return 'R_STUDIO_USER';
-    }
-  }
-}
+  final String value;
 
-extension RStudioServerProUserGroupFromString on String {
-  RStudioServerProUserGroup toRStudioServerProUserGroup() {
-    switch (this) {
-      case 'R_STUDIO_ADMIN':
-        return RStudioServerProUserGroup.rStudioAdmin;
-      case 'R_STUDIO_USER':
-        return RStudioServerProUserGroup.rStudioUser;
-    }
-    throw Exception('$this is not known in enum RStudioServerProUserGroup');
-  }
+  const RStudioServerProUserGroup(this.value);
+
+  static RStudioServerProUserGroup fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RStudioServerProUserGroup'));
 }
 
 /// The infrastructure configuration for deploying the model to a real-time
@@ -62538,7 +56295,7 @@ class RealTimeInferenceConfig {
   factory RealTimeInferenceConfig.fromJson(Map<String, dynamic> json) {
     return RealTimeInferenceConfig(
       instanceCount: json['InstanceCount'] as int,
-      instanceType: (json['InstanceType'] as String).toInstanceType(),
+      instanceType: InstanceType.fromString((json['InstanceType'] as String)),
     );
   }
 
@@ -62547,7 +56304,7 @@ class RealTimeInferenceConfig {
     final instanceType = this.instanceType;
     return {
       'InstanceCount': instanceCount,
-      'InstanceType': instanceType.toValue(),
+      'InstanceType': instanceType.value,
     };
   }
 }
@@ -62572,8 +56329,8 @@ class RealTimeInferenceRecommendation {
 
   factory RealTimeInferenceRecommendation.fromJson(Map<String, dynamic> json) {
     return RealTimeInferenceRecommendation(
-      instanceType:
-          (json['InstanceType'] as String).toProductionVariantInstanceType(),
+      instanceType: ProductionVariantInstanceType.fromString(
+          (json['InstanceType'] as String)),
       recommendationId: json['RecommendationId'] as String,
       environment: (json['Environment'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -62687,7 +56444,7 @@ class RecommendationJobContainerConfig {
               json['PayloadConfig'] as Map<String, dynamic>)
           : null,
       supportedEndpointType: (json['SupportedEndpointType'] as String?)
-          ?.toRecommendationJobSupportedEndpointType(),
+          ?.let(RecommendationJobSupportedEndpointType.fromString),
       supportedInstanceTypes: (json['SupportedInstanceTypes'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -62719,7 +56476,7 @@ class RecommendationJobContainerConfig {
       if (nearestModelName != null) 'NearestModelName': nearestModelName,
       if (payloadConfig != null) 'PayloadConfig': payloadConfig,
       if (supportedEndpointType != null)
-        'SupportedEndpointType': supportedEndpointType.toValue(),
+        'SupportedEndpointType': supportedEndpointType.value,
       if (supportedInstanceTypes != null)
         'SupportedInstanceTypes': supportedInstanceTypes,
       if (supportedResponseMIMETypes != null)
@@ -63054,61 +56811,24 @@ class RecommendationJobResourceLimit {
 }
 
 enum RecommendationJobStatus {
-  pending,
-  inProgress,
-  completed,
-  failed,
-  stopping,
-  stopped,
-  deleting,
-  deleted,
-}
+  pending('PENDING'),
+  inProgress('IN_PROGRESS'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  stopping('STOPPING'),
+  stopped('STOPPED'),
+  deleting('DELETING'),
+  deleted('DELETED'),
+  ;
 
-extension RecommendationJobStatusValueExtension on RecommendationJobStatus {
-  String toValue() {
-    switch (this) {
-      case RecommendationJobStatus.pending:
-        return 'PENDING';
-      case RecommendationJobStatus.inProgress:
-        return 'IN_PROGRESS';
-      case RecommendationJobStatus.completed:
-        return 'COMPLETED';
-      case RecommendationJobStatus.failed:
-        return 'FAILED';
-      case RecommendationJobStatus.stopping:
-        return 'STOPPING';
-      case RecommendationJobStatus.stopped:
-        return 'STOPPED';
-      case RecommendationJobStatus.deleting:
-        return 'DELETING';
-      case RecommendationJobStatus.deleted:
-        return 'DELETED';
-    }
-  }
-}
+  final String value;
 
-extension RecommendationJobStatusFromString on String {
-  RecommendationJobStatus toRecommendationJobStatus() {
-    switch (this) {
-      case 'PENDING':
-        return RecommendationJobStatus.pending;
-      case 'IN_PROGRESS':
-        return RecommendationJobStatus.inProgress;
-      case 'COMPLETED':
-        return RecommendationJobStatus.completed;
-      case 'FAILED':
-        return RecommendationJobStatus.failed;
-      case 'STOPPING':
-        return RecommendationJobStatus.stopping;
-      case 'STOPPED':
-        return RecommendationJobStatus.stopped;
-      case 'DELETING':
-        return RecommendationJobStatus.deleting;
-      case 'DELETED':
-        return RecommendationJobStatus.deleted;
-    }
-    throw Exception('$this is not known in enum RecommendationJobStatus');
-  }
+  const RecommendationJobStatus(this.value);
+
+  static RecommendationJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RecommendationJobStatus'));
 }
 
 /// Specifies conditions for stopping a job. When a job reaches a stopping
@@ -63139,7 +56859,7 @@ class RecommendationJobStoppingConditions {
       Map<String, dynamic> json) {
     return RecommendationJobStoppingConditions(
       flatInvocations:
-          (json['FlatInvocations'] as String?)?.toFlatInvocations(),
+          (json['FlatInvocations'] as String?)?.let(FlatInvocations.fromString),
       maxInvocations: json['MaxInvocations'] as int?,
       modelLatencyThresholds: (json['ModelLatencyThresholds'] as List?)
           ?.whereNotNull()
@@ -63153,7 +56873,7 @@ class RecommendationJobStoppingConditions {
     final maxInvocations = this.maxInvocations;
     final modelLatencyThresholds = this.modelLatencyThresholds;
     return {
-      if (flatInvocations != null) 'FlatInvocations': flatInvocations.toValue(),
+      if (flatInvocations != null) 'FlatInvocations': flatInvocations.value,
       if (maxInvocations != null) 'MaxInvocations': maxInvocations,
       if (modelLatencyThresholds != null)
         'ModelLatencyThresholds': modelLatencyThresholds,
@@ -63162,62 +56882,33 @@ class RecommendationJobStoppingConditions {
 }
 
 enum RecommendationJobSupportedEndpointType {
-  realTime,
-  serverless,
-}
+  realTime('RealTime'),
+  serverless('Serverless'),
+  ;
 
-extension RecommendationJobSupportedEndpointTypeValueExtension
-    on RecommendationJobSupportedEndpointType {
-  String toValue() {
-    switch (this) {
-      case RecommendationJobSupportedEndpointType.realTime:
-        return 'RealTime';
-      case RecommendationJobSupportedEndpointType.serverless:
-        return 'Serverless';
-    }
-  }
-}
+  final String value;
 
-extension RecommendationJobSupportedEndpointTypeFromString on String {
-  RecommendationJobSupportedEndpointType
-      toRecommendationJobSupportedEndpointType() {
-    switch (this) {
-      case 'RealTime':
-        return RecommendationJobSupportedEndpointType.realTime;
-      case 'Serverless':
-        return RecommendationJobSupportedEndpointType.serverless;
-    }
-    throw Exception(
-        '$this is not known in enum RecommendationJobSupportedEndpointType');
-  }
+  const RecommendationJobSupportedEndpointType(this.value);
+
+  static RecommendationJobSupportedEndpointType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RecommendationJobSupportedEndpointType'));
 }
 
 enum RecommendationJobType {
-  $default,
-  advanced,
-}
+  $default('Default'),
+  advanced('Advanced'),
+  ;
 
-extension RecommendationJobTypeValueExtension on RecommendationJobType {
-  String toValue() {
-    switch (this) {
-      case RecommendationJobType.$default:
-        return 'Default';
-      case RecommendationJobType.advanced:
-        return 'Advanced';
-    }
-  }
-}
+  final String value;
 
-extension RecommendationJobTypeFromString on String {
-  RecommendationJobType toRecommendationJobType() {
-    switch (this) {
-      case 'Default':
-        return RecommendationJobType.$default;
-      case 'Advanced':
-        return RecommendationJobType.advanced;
-    }
-    throw Exception('$this is not known in enum RecommendationJobType');
-  }
+  const RecommendationJobType(this.value);
+
+  static RecommendationJobType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RecommendationJobType'));
 }
 
 /// Inference Recommender provisions SageMaker endpoints with access to VPC in
@@ -63317,92 +57008,49 @@ class RecommendationMetrics {
 }
 
 enum RecommendationStatus {
-  inProgress,
-  completed,
-  failed,
-  notApplicable,
-}
+  inProgress('IN_PROGRESS'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  notApplicable('NOT_APPLICABLE'),
+  ;
 
-extension RecommendationStatusValueExtension on RecommendationStatus {
-  String toValue() {
-    switch (this) {
-      case RecommendationStatus.inProgress:
-        return 'IN_PROGRESS';
-      case RecommendationStatus.completed:
-        return 'COMPLETED';
-      case RecommendationStatus.failed:
-        return 'FAILED';
-      case RecommendationStatus.notApplicable:
-        return 'NOT_APPLICABLE';
-    }
-  }
-}
+  final String value;
 
-extension RecommendationStatusFromString on String {
-  RecommendationStatus toRecommendationStatus() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return RecommendationStatus.inProgress;
-      case 'COMPLETED':
-        return RecommendationStatus.completed;
-      case 'FAILED':
-        return RecommendationStatus.failed;
-      case 'NOT_APPLICABLE':
-        return RecommendationStatus.notApplicable;
-    }
-    throw Exception('$this is not known in enum RecommendationStatus');
-  }
+  const RecommendationStatus(this.value);
+
+  static RecommendationStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RecommendationStatus'));
 }
 
 enum RecommendationStepType {
-  benchmark,
-}
+  benchmark('BENCHMARK'),
+  ;
 
-extension RecommendationStepTypeValueExtension on RecommendationStepType {
-  String toValue() {
-    switch (this) {
-      case RecommendationStepType.benchmark:
-        return 'BENCHMARK';
-    }
-  }
-}
+  final String value;
 
-extension RecommendationStepTypeFromString on String {
-  RecommendationStepType toRecommendationStepType() {
-    switch (this) {
-      case 'BENCHMARK':
-        return RecommendationStepType.benchmark;
-    }
-    throw Exception('$this is not known in enum RecommendationStepType');
-  }
+  const RecommendationStepType(this.value);
+
+  static RecommendationStepType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RecommendationStepType'));
 }
 
 enum RecordWrapper {
-  none,
-  recordIO,
-}
+  none('None'),
+  recordIO('RecordIO'),
+  ;
 
-extension RecordWrapperValueExtension on RecordWrapper {
-  String toValue() {
-    switch (this) {
-      case RecordWrapper.none:
-        return 'None';
-      case RecordWrapper.recordIO:
-        return 'RecordIO';
-    }
-  }
-}
+  final String value;
 
-extension RecordWrapperFromString on String {
-  RecordWrapper toRecordWrapper() {
-    switch (this) {
-      case 'None':
-        return RecordWrapper.none;
-      case 'RecordIO':
-        return RecordWrapper.recordIO;
-    }
-    throw Exception('$this is not known in enum RecordWrapper');
-  }
+  const RecordWrapper(this.value);
+
+  static RecordWrapper fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RecordWrapper'));
 }
 
 /// Configuration for Redshift Dataset Definition input.
@@ -63443,12 +57091,13 @@ class RedshiftDatasetDefinition {
       clusterRoleArn: json['ClusterRoleArn'] as String,
       database: json['Database'] as String,
       dbUser: json['DbUser'] as String,
-      outputFormat: (json['OutputFormat'] as String).toRedshiftResultFormat(),
+      outputFormat:
+          RedshiftResultFormat.fromString((json['OutputFormat'] as String)),
       outputS3Uri: json['OutputS3Uri'] as String,
       queryString: json['QueryString'] as String,
       kmsKeyId: json['KmsKeyId'] as String?,
       outputCompression: (json['OutputCompression'] as String?)
-          ?.toRedshiftResultCompressionType(),
+          ?.let(RedshiftResultCompressionType.fromString),
     );
   }
 
@@ -63467,88 +57116,49 @@ class RedshiftDatasetDefinition {
       'ClusterRoleArn': clusterRoleArn,
       'Database': database,
       'DbUser': dbUser,
-      'OutputFormat': outputFormat.toValue(),
+      'OutputFormat': outputFormat.value,
       'OutputS3Uri': outputS3Uri,
       'QueryString': queryString,
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
       if (outputCompression != null)
-        'OutputCompression': outputCompression.toValue(),
+        'OutputCompression': outputCompression.value,
     };
   }
 }
 
 /// The compression used for Redshift query results.
 enum RedshiftResultCompressionType {
-  none,
-  gzip,
-  bzip2,
-  zstd,
-  snappy,
-}
+  none('None'),
+  gzip('GZIP'),
+  bzip2('BZIP2'),
+  zstd('ZSTD'),
+  snappy('SNAPPY'),
+  ;
 
-extension RedshiftResultCompressionTypeValueExtension
-    on RedshiftResultCompressionType {
-  String toValue() {
-    switch (this) {
-      case RedshiftResultCompressionType.none:
-        return 'None';
-      case RedshiftResultCompressionType.gzip:
-        return 'GZIP';
-      case RedshiftResultCompressionType.bzip2:
-        return 'BZIP2';
-      case RedshiftResultCompressionType.zstd:
-        return 'ZSTD';
-      case RedshiftResultCompressionType.snappy:
-        return 'SNAPPY';
-    }
-  }
-}
+  final String value;
 
-extension RedshiftResultCompressionTypeFromString on String {
-  RedshiftResultCompressionType toRedshiftResultCompressionType() {
-    switch (this) {
-      case 'None':
-        return RedshiftResultCompressionType.none;
-      case 'GZIP':
-        return RedshiftResultCompressionType.gzip;
-      case 'BZIP2':
-        return RedshiftResultCompressionType.bzip2;
-      case 'ZSTD':
-        return RedshiftResultCompressionType.zstd;
-      case 'SNAPPY':
-        return RedshiftResultCompressionType.snappy;
-    }
-    throw Exception('$this is not known in enum RedshiftResultCompressionType');
-  }
+  const RedshiftResultCompressionType(this.value);
+
+  static RedshiftResultCompressionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RedshiftResultCompressionType'));
 }
 
 /// The data storage format for Redshift query results.
 enum RedshiftResultFormat {
-  parquet,
-  csv,
-}
+  parquet('PARQUET'),
+  csv('CSV'),
+  ;
 
-extension RedshiftResultFormatValueExtension on RedshiftResultFormat {
-  String toValue() {
-    switch (this) {
-      case RedshiftResultFormat.parquet:
-        return 'PARQUET';
-      case RedshiftResultFormat.csv:
-        return 'CSV';
-    }
-  }
-}
+  final String value;
 
-extension RedshiftResultFormatFromString on String {
-  RedshiftResultFormat toRedshiftResultFormat() {
-    switch (this) {
-      case 'PARQUET':
-        return RedshiftResultFormat.parquet;
-      case 'CSV':
-        return RedshiftResultFormat.csv;
-    }
-    throw Exception('$this is not known in enum RedshiftResultFormat');
-  }
+  const RedshiftResultFormat(this.value);
+
+  static RedshiftResultFormat fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RedshiftResultFormat'));
 }
 
 /// Metadata for a register model job step.
@@ -63687,31 +57297,18 @@ class RenderingError {
 }
 
 enum RepositoryAccessMode {
-  platform,
-  vpc,
-}
+  platform('Platform'),
+  vpc('Vpc'),
+  ;
 
-extension RepositoryAccessModeValueExtension on RepositoryAccessMode {
-  String toValue() {
-    switch (this) {
-      case RepositoryAccessMode.platform:
-        return 'Platform';
-      case RepositoryAccessMode.vpc:
-        return 'Vpc';
-    }
-  }
-}
+  final String value;
 
-extension RepositoryAccessModeFromString on String {
-  RepositoryAccessMode toRepositoryAccessMode() {
-    switch (this) {
-      case 'Platform':
-        return RepositoryAccessMode.platform;
-      case 'Vpc':
-        return RepositoryAccessMode.vpc;
-    }
-    throw Exception('$this is not known in enum RepositoryAccessMode');
-  }
+  const RepositoryAccessMode(this.value);
+
+  static RepositoryAccessMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RepositoryAccessMode'));
 }
 
 /// Specifies an authentication configuration for the private docker registry
@@ -63774,7 +57371,8 @@ class ResolvedAttributes {
           ? AutoMLJobCompletionCriteria.fromJson(
               json['CompletionCriteria'] as Map<String, dynamic>)
           : null,
-      problemType: (json['ProblemType'] as String?)?.toProblemType(),
+      problemType:
+          (json['ProblemType'] as String?)?.let(ProblemType.fromString),
     );
   }
 }
@@ -63817,54 +57415,32 @@ class ResourceCatalog {
 }
 
 enum ResourceCatalogSortBy {
-  creationTime,
-}
+  creationTime('CreationTime'),
+  ;
 
-extension ResourceCatalogSortByValueExtension on ResourceCatalogSortBy {
-  String toValue() {
-    switch (this) {
-      case ResourceCatalogSortBy.creationTime:
-        return 'CreationTime';
-    }
-  }
-}
+  final String value;
 
-extension ResourceCatalogSortByFromString on String {
-  ResourceCatalogSortBy toResourceCatalogSortBy() {
-    switch (this) {
-      case 'CreationTime':
-        return ResourceCatalogSortBy.creationTime;
-    }
-    throw Exception('$this is not known in enum ResourceCatalogSortBy');
-  }
+  const ResourceCatalogSortBy(this.value);
+
+  static ResourceCatalogSortBy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ResourceCatalogSortBy'));
 }
 
 enum ResourceCatalogSortOrder {
-  ascending,
-  descending,
-}
+  ascending('Ascending'),
+  descending('Descending'),
+  ;
 
-extension ResourceCatalogSortOrderValueExtension on ResourceCatalogSortOrder {
-  String toValue() {
-    switch (this) {
-      case ResourceCatalogSortOrder.ascending:
-        return 'Ascending';
-      case ResourceCatalogSortOrder.descending:
-        return 'Descending';
-    }
-  }
-}
+  final String value;
 
-extension ResourceCatalogSortOrderFromString on String {
-  ResourceCatalogSortOrder toResourceCatalogSortOrder() {
-    switch (this) {
-      case 'Ascending':
-        return ResourceCatalogSortOrder.ascending;
-      case 'Descending':
-        return ResourceCatalogSortOrder.descending;
-    }
-    throw Exception('$this is not known in enum ResourceCatalogSortOrder');
-  }
+  const ResourceCatalogSortOrder(this.value);
+
+  static ResourceCatalogSortOrder fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ResourceCatalogSortOrder'));
 }
 
 /// Describes the resources, including machine learning (ML) compute instances
@@ -63993,7 +57569,8 @@ class ResourceConfig {
           ?.whereNotNull()
           .map((e) => InstanceGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
-      instanceType: (json['InstanceType'] as String?)?.toTrainingInstanceType(),
+      instanceType: (json['InstanceType'] as String?)
+          ?.let(TrainingInstanceType.fromString),
       keepAlivePeriodInSeconds: json['KeepAlivePeriodInSeconds'] as int?,
       volumeKmsKeyId: json['VolumeKmsKeyId'] as String?,
     );
@@ -64010,7 +57587,7 @@ class ResourceConfig {
       'VolumeSizeInGB': volumeSizeInGB,
       if (instanceCount != null) 'InstanceCount': instanceCount,
       if (instanceGroups != null) 'InstanceGroups': instanceGroups,
-      if (instanceType != null) 'InstanceType': instanceType.toValue(),
+      if (instanceType != null) 'InstanceType': instanceType.value,
       if (keepAlivePeriodInSeconds != null)
         'KeepAlivePeriodInSeconds': keepAlivePeriodInSeconds,
       if (volumeKmsKeyId != null) 'VolumeKmsKeyId': volumeKmsKeyId,
@@ -64117,7 +57694,8 @@ class ResourceSpec {
 
   factory ResourceSpec.fromJson(Map<String, dynamic> json) {
     return ResourceSpec(
-      instanceType: (json['InstanceType'] as String?)?.toAppInstanceType(),
+      instanceType:
+          (json['InstanceType'] as String?)?.let(AppInstanceType.fromString),
       lifecycleConfigArn: json['LifecycleConfigArn'] as String?,
       sageMakerImageArn: json['SageMakerImageArn'] as String?,
       sageMakerImageVersionAlias: json['SageMakerImageVersionAlias'] as String?,
@@ -64132,7 +57710,7 @@ class ResourceSpec {
     final sageMakerImageVersionAlias = this.sageMakerImageVersionAlias;
     final sageMakerImageVersionArn = this.sageMakerImageVersionArn;
     return {
-      if (instanceType != null) 'InstanceType': instanceType.toValue(),
+      if (instanceType != null) 'InstanceType': instanceType.value,
       if (lifecycleConfigArn != null) 'LifecycleConfigArn': lifecycleConfigArn,
       if (sageMakerImageArn != null) 'SageMakerImageArn': sageMakerImageArn,
       if (sageMakerImageVersionAlias != null)
@@ -64144,106 +57722,33 @@ class ResourceSpec {
 }
 
 enum ResourceType {
-  trainingJob,
-  experiment,
-  experimentTrial,
-  experimentTrialComponent,
-  endpoint,
-  model,
-  modelPackage,
-  modelPackageGroup,
-  pipeline,
-  pipelineExecution,
-  featureGroup,
-  featureMetadata,
-  image,
-  imageVersion,
-  project,
-  hyperParameterTuningJob,
-  modelCard,
-}
+  trainingJob('TrainingJob'),
+  experiment('Experiment'),
+  experimentTrial('ExperimentTrial'),
+  experimentTrialComponent('ExperimentTrialComponent'),
+  endpoint('Endpoint'),
+  model('Model'),
+  modelPackage('ModelPackage'),
+  modelPackageGroup('ModelPackageGroup'),
+  pipeline('Pipeline'),
+  pipelineExecution('PipelineExecution'),
+  featureGroup('FeatureGroup'),
+  featureMetadata('FeatureMetadata'),
+  image('Image'),
+  imageVersion('ImageVersion'),
+  project('Project'),
+  hyperParameterTuningJob('HyperParameterTuningJob'),
+  modelCard('ModelCard'),
+  ;
 
-extension ResourceTypeValueExtension on ResourceType {
-  String toValue() {
-    switch (this) {
-      case ResourceType.trainingJob:
-        return 'TrainingJob';
-      case ResourceType.experiment:
-        return 'Experiment';
-      case ResourceType.experimentTrial:
-        return 'ExperimentTrial';
-      case ResourceType.experimentTrialComponent:
-        return 'ExperimentTrialComponent';
-      case ResourceType.endpoint:
-        return 'Endpoint';
-      case ResourceType.model:
-        return 'Model';
-      case ResourceType.modelPackage:
-        return 'ModelPackage';
-      case ResourceType.modelPackageGroup:
-        return 'ModelPackageGroup';
-      case ResourceType.pipeline:
-        return 'Pipeline';
-      case ResourceType.pipelineExecution:
-        return 'PipelineExecution';
-      case ResourceType.featureGroup:
-        return 'FeatureGroup';
-      case ResourceType.featureMetadata:
-        return 'FeatureMetadata';
-      case ResourceType.image:
-        return 'Image';
-      case ResourceType.imageVersion:
-        return 'ImageVersion';
-      case ResourceType.project:
-        return 'Project';
-      case ResourceType.hyperParameterTuningJob:
-        return 'HyperParameterTuningJob';
-      case ResourceType.modelCard:
-        return 'ModelCard';
-    }
-  }
-}
+  final String value;
 
-extension ResourceTypeFromString on String {
-  ResourceType toResourceType() {
-    switch (this) {
-      case 'TrainingJob':
-        return ResourceType.trainingJob;
-      case 'Experiment':
-        return ResourceType.experiment;
-      case 'ExperimentTrial':
-        return ResourceType.experimentTrial;
-      case 'ExperimentTrialComponent':
-        return ResourceType.experimentTrialComponent;
-      case 'Endpoint':
-        return ResourceType.endpoint;
-      case 'Model':
-        return ResourceType.model;
-      case 'ModelPackage':
-        return ResourceType.modelPackage;
-      case 'ModelPackageGroup':
-        return ResourceType.modelPackageGroup;
-      case 'Pipeline':
-        return ResourceType.pipeline;
-      case 'PipelineExecution':
-        return ResourceType.pipelineExecution;
-      case 'FeatureGroup':
-        return ResourceType.featureGroup;
-      case 'FeatureMetadata':
-        return ResourceType.featureMetadata;
-      case 'Image':
-        return ResourceType.image;
-      case 'ImageVersion':
-        return ResourceType.imageVersion;
-      case 'Project':
-        return ResourceType.project;
-      case 'HyperParameterTuningJob':
-        return ResourceType.hyperParameterTuningJob;
-      case 'ModelCard':
-        return ResourceType.modelCard;
-    }
-    throw Exception('$this is not known in enum ResourceType');
-  }
+  const ResourceType(this.value);
+
+  static ResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResourceType'));
 }
 
 /// The retention policy for data stored on an Amazon Elastic File System
@@ -64264,37 +57769,24 @@ class RetentionPolicy {
     final homeEfsFileSystem = this.homeEfsFileSystem;
     return {
       if (homeEfsFileSystem != null)
-        'HomeEfsFileSystem': homeEfsFileSystem.toValue(),
+        'HomeEfsFileSystem': homeEfsFileSystem.value,
     };
   }
 }
 
 enum RetentionType {
-  retain,
-  delete,
-}
+  retain('Retain'),
+  delete('Delete'),
+  ;
 
-extension RetentionTypeValueExtension on RetentionType {
-  String toValue() {
-    switch (this) {
-      case RetentionType.retain:
-        return 'Retain';
-      case RetentionType.delete:
-        return 'Delete';
-    }
-  }
-}
+  final String value;
 
-extension RetentionTypeFromString on String {
-  RetentionType toRetentionType() {
-    switch (this) {
-      case 'Retain':
-        return RetentionType.retain;
-      case 'Delete':
-        return RetentionType.delete;
-    }
-    throw Exception('$this is not known in enum RetentionType');
-  }
+  const RetentionType(this.value);
+
+  static RetentionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RetentionType'));
 }
 
 class RetryPipelineExecutionResponse {
@@ -64402,135 +57894,66 @@ class RollingUpdatePolicy {
 }
 
 enum RootAccess {
-  enabled,
-  disabled,
-}
+  enabled('Enabled'),
+  disabled('Disabled'),
+  ;
 
-extension RootAccessValueExtension on RootAccess {
-  String toValue() {
-    switch (this) {
-      case RootAccess.enabled:
-        return 'Enabled';
-      case RootAccess.disabled:
-        return 'Disabled';
-    }
-  }
-}
+  final String value;
 
-extension RootAccessFromString on String {
-  RootAccess toRootAccess() {
-    switch (this) {
-      case 'Enabled':
-        return RootAccess.enabled;
-      case 'Disabled':
-        return RootAccess.disabled;
-    }
-    throw Exception('$this is not known in enum RootAccess');
-  }
+  const RootAccess(this.value);
+
+  static RootAccess fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum RootAccess'));
 }
 
 enum RoutingStrategy {
-  leastOutstandingRequests,
-  random,
-}
+  leastOutstandingRequests('LEAST_OUTSTANDING_REQUESTS'),
+  random('RANDOM'),
+  ;
 
-extension RoutingStrategyValueExtension on RoutingStrategy {
-  String toValue() {
-    switch (this) {
-      case RoutingStrategy.leastOutstandingRequests:
-        return 'LEAST_OUTSTANDING_REQUESTS';
-      case RoutingStrategy.random:
-        return 'RANDOM';
-    }
-  }
-}
+  final String value;
 
-extension RoutingStrategyFromString on String {
-  RoutingStrategy toRoutingStrategy() {
-    switch (this) {
-      case 'LEAST_OUTSTANDING_REQUESTS':
-        return RoutingStrategy.leastOutstandingRequests;
-      case 'RANDOM':
-        return RoutingStrategy.random;
-    }
-    throw Exception('$this is not known in enum RoutingStrategy');
-  }
+  const RoutingStrategy(this.value);
+
+  static RoutingStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RoutingStrategy'));
 }
 
 enum RuleEvaluationStatus {
-  inProgress,
-  noIssuesFound,
-  issuesFound,
-  error,
-  stopping,
-  stopped,
-}
+  inProgress('InProgress'),
+  noIssuesFound('NoIssuesFound'),
+  issuesFound('IssuesFound'),
+  error('Error'),
+  stopping('Stopping'),
+  stopped('Stopped'),
+  ;
 
-extension RuleEvaluationStatusValueExtension on RuleEvaluationStatus {
-  String toValue() {
-    switch (this) {
-      case RuleEvaluationStatus.inProgress:
-        return 'InProgress';
-      case RuleEvaluationStatus.noIssuesFound:
-        return 'NoIssuesFound';
-      case RuleEvaluationStatus.issuesFound:
-        return 'IssuesFound';
-      case RuleEvaluationStatus.error:
-        return 'Error';
-      case RuleEvaluationStatus.stopping:
-        return 'Stopping';
-      case RuleEvaluationStatus.stopped:
-        return 'Stopped';
-    }
-  }
-}
+  final String value;
 
-extension RuleEvaluationStatusFromString on String {
-  RuleEvaluationStatus toRuleEvaluationStatus() {
-    switch (this) {
-      case 'InProgress':
-        return RuleEvaluationStatus.inProgress;
-      case 'NoIssuesFound':
-        return RuleEvaluationStatus.noIssuesFound;
-      case 'IssuesFound':
-        return RuleEvaluationStatus.issuesFound;
-      case 'Error':
-        return RuleEvaluationStatus.error;
-      case 'Stopping':
-        return RuleEvaluationStatus.stopping;
-      case 'Stopped':
-        return RuleEvaluationStatus.stopped;
-    }
-    throw Exception('$this is not known in enum RuleEvaluationStatus');
-  }
+  const RuleEvaluationStatus(this.value);
+
+  static RuleEvaluationStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RuleEvaluationStatus'));
 }
 
 enum S3DataDistribution {
-  fullyReplicated,
-  shardedByS3Key,
-}
+  fullyReplicated('FullyReplicated'),
+  shardedByS3Key('ShardedByS3Key'),
+  ;
 
-extension S3DataDistributionValueExtension on S3DataDistribution {
-  String toValue() {
-    switch (this) {
-      case S3DataDistribution.fullyReplicated:
-        return 'FullyReplicated';
-      case S3DataDistribution.shardedByS3Key:
-        return 'ShardedByS3Key';
-    }
-  }
-}
+  final String value;
 
-extension S3DataDistributionFromString on String {
-  S3DataDistribution toS3DataDistribution() {
-    switch (this) {
-      case 'FullyReplicated':
-        return S3DataDistribution.fullyReplicated;
-      case 'ShardedByS3Key':
-        return S3DataDistribution.shardedByS3Key;
-    }
-    throw Exception('$this is not known in enum S3DataDistribution');
-  }
+  const S3DataDistribution(this.value);
+
+  static S3DataDistribution fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum S3DataDistribution'));
 }
 
 /// Describes the S3 data source.
@@ -64646,7 +58069,7 @@ class S3DataSource {
 
   factory S3DataSource.fromJson(Map<String, dynamic> json) {
     return S3DataSource(
-      s3DataType: (json['S3DataType'] as String).toS3DataType(),
+      s3DataType: S3DataType.fromString((json['S3DataType'] as String)),
       s3Uri: json['S3Uri'] as String,
       attributeNames: (json['AttributeNames'] as List?)
           ?.whereNotNull()
@@ -64656,8 +58079,8 @@ class S3DataSource {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      s3DataDistributionType:
-          (json['S3DataDistributionType'] as String?)?.toS3DataDistribution(),
+      s3DataDistributionType: (json['S3DataDistributionType'] as String?)
+          ?.let(S3DataDistribution.fromString),
     );
   }
 
@@ -64668,47 +58091,29 @@ class S3DataSource {
     final instanceGroupNames = this.instanceGroupNames;
     final s3DataDistributionType = this.s3DataDistributionType;
     return {
-      'S3DataType': s3DataType.toValue(),
+      'S3DataType': s3DataType.value,
       'S3Uri': s3Uri,
       if (attributeNames != null) 'AttributeNames': attributeNames,
       if (instanceGroupNames != null) 'InstanceGroupNames': instanceGroupNames,
       if (s3DataDistributionType != null)
-        'S3DataDistributionType': s3DataDistributionType.toValue(),
+        'S3DataDistributionType': s3DataDistributionType.value,
     };
   }
 }
 
 enum S3DataType {
-  manifestFile,
-  s3Prefix,
-  augmentedManifestFile,
-}
+  manifestFile('ManifestFile'),
+  s3Prefix('S3Prefix'),
+  augmentedManifestFile('AugmentedManifestFile'),
+  ;
 
-extension S3DataTypeValueExtension on S3DataType {
-  String toValue() {
-    switch (this) {
-      case S3DataType.manifestFile:
-        return 'ManifestFile';
-      case S3DataType.s3Prefix:
-        return 'S3Prefix';
-      case S3DataType.augmentedManifestFile:
-        return 'AugmentedManifestFile';
-    }
-  }
-}
+  final String value;
 
-extension S3DataTypeFromString on String {
-  S3DataType toS3DataType() {
-    switch (this) {
-      case 'ManifestFile':
-        return S3DataType.manifestFile;
-      case 'S3Prefix':
-        return S3DataType.s3Prefix;
-      case 'AugmentedManifestFile':
-        return S3DataType.augmentedManifestFile;
-    }
-    throw Exception('$this is not known in enum S3DataType');
-  }
+  const S3DataType(this.value);
+
+  static S3DataType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum S3DataType'));
 }
 
 /// Specifies the S3 location of ML model data to deploy.
@@ -64821,8 +58226,8 @@ class S3ModelDataSource {
   factory S3ModelDataSource.fromJson(Map<String, dynamic> json) {
     return S3ModelDataSource(
       compressionType:
-          (json['CompressionType'] as String).toModelCompressionType(),
-      s3DataType: (json['S3DataType'] as String).toS3ModelDataType(),
+          ModelCompressionType.fromString((json['CompressionType'] as String)),
+      s3DataType: S3ModelDataType.fromString((json['S3DataType'] as String)),
       s3Uri: json['S3Uri'] as String,
       modelAccessConfig: json['ModelAccessConfig'] != null
           ? ModelAccessConfig.fromJson(
@@ -64837,8 +58242,8 @@ class S3ModelDataSource {
     final s3Uri = this.s3Uri;
     final modelAccessConfig = this.modelAccessConfig;
     return {
-      'CompressionType': compressionType.toValue(),
-      'S3DataType': s3DataType.toValue(),
+      'CompressionType': compressionType.value,
+      'S3DataType': s3DataType.value,
       'S3Uri': s3Uri,
       if (modelAccessConfig != null) 'ModelAccessConfig': modelAccessConfig,
     };
@@ -64846,31 +58251,18 @@ class S3ModelDataSource {
 }
 
 enum S3ModelDataType {
-  s3Prefix,
-  s3Object,
-}
+  s3Prefix('S3Prefix'),
+  s3Object('S3Object'),
+  ;
 
-extension S3ModelDataTypeValueExtension on S3ModelDataType {
-  String toValue() {
-    switch (this) {
-      case S3ModelDataType.s3Prefix:
-        return 'S3Prefix';
-      case S3ModelDataType.s3Object:
-        return 'S3Object';
-    }
-  }
-}
+  final String value;
 
-extension S3ModelDataTypeFromString on String {
-  S3ModelDataType toS3ModelDataType() {
-    switch (this) {
-      case 'S3Prefix':
-        return S3ModelDataType.s3Prefix;
-      case 'S3Object':
-        return S3ModelDataType.s3Object;
-    }
-    throw Exception('$this is not known in enum S3ModelDataType');
-  }
+  const S3ModelDataType(this.value);
+
+  static S3ModelDataType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum S3ModelDataType'));
 }
 
 /// This object defines the access restrictions to Amazon S3 resources that are
@@ -64962,32 +58354,18 @@ class S3StorageConfig {
 }
 
 enum SagemakerServicecatalogStatus {
-  enabled,
-  disabled,
-}
+  enabled('Enabled'),
+  disabled('Disabled'),
+  ;
 
-extension SagemakerServicecatalogStatusValueExtension
-    on SagemakerServicecatalogStatus {
-  String toValue() {
-    switch (this) {
-      case SagemakerServicecatalogStatus.enabled:
-        return 'Enabled';
-      case SagemakerServicecatalogStatus.disabled:
-        return 'Disabled';
-    }
-  }
-}
+  final String value;
 
-extension SagemakerServicecatalogStatusFromString on String {
-  SagemakerServicecatalogStatus toSagemakerServicecatalogStatus() {
-    switch (this) {
-      case 'Enabled':
-        return SagemakerServicecatalogStatus.enabled;
-      case 'Disabled':
-        return SagemakerServicecatalogStatus.disabled;
-    }
-    throw Exception('$this is not known in enum SagemakerServicecatalogStatus');
-  }
+  const SagemakerServicecatalogStatus(this.value);
+
+  static SagemakerServicecatalogStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SagemakerServicecatalogStatus'));
 }
 
 /// An object containing a recommended scaling policy.
@@ -65191,41 +58569,20 @@ class ScheduleConfig {
 }
 
 enum ScheduleStatus {
-  pending,
-  failed,
-  scheduled,
-  stopped,
-}
+  pending('Pending'),
+  failed('Failed'),
+  scheduled('Scheduled'),
+  stopped('Stopped'),
+  ;
 
-extension ScheduleStatusValueExtension on ScheduleStatus {
-  String toValue() {
-    switch (this) {
-      case ScheduleStatus.pending:
-        return 'Pending';
-      case ScheduleStatus.failed:
-        return 'Failed';
-      case ScheduleStatus.scheduled:
-        return 'Scheduled';
-      case ScheduleStatus.stopped:
-        return 'Stopped';
-    }
-  }
-}
+  final String value;
 
-extension ScheduleStatusFromString on String {
-  ScheduleStatus toScheduleStatus() {
-    switch (this) {
-      case 'Pending':
-        return ScheduleStatus.pending;
-      case 'Failed':
-        return ScheduleStatus.failed;
-      case 'Scheduled':
-        return ScheduleStatus.scheduled;
-      case 'Stopped':
-        return ScheduleStatus.stopped;
-    }
-    throw Exception('$this is not known in enum ScheduleStatus');
-  }
+  const ScheduleStatus(this.value);
+
+  static ScheduleStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ScheduleStatus'));
 }
 
 /// A multi-expression that searches for the specified resource or resources in
@@ -65288,7 +58645,7 @@ class SearchExpression {
     return {
       if (filters != null) 'Filters': filters,
       if (nestedFilters != null) 'NestedFilters': nestedFilters,
-      if (operator != null) 'Operator': operator.toValue(),
+      if (operator != null) 'Operator': operator.value,
       if (subExpressions != null) 'SubExpressions': subExpressions,
     };
   }
@@ -65431,134 +58788,48 @@ class SearchResponse {
 }
 
 enum SearchSortOrder {
-  ascending,
-  descending,
-}
+  ascending('Ascending'),
+  descending('Descending'),
+  ;
 
-extension SearchSortOrderValueExtension on SearchSortOrder {
-  String toValue() {
-    switch (this) {
-      case SearchSortOrder.ascending:
-        return 'Ascending';
-      case SearchSortOrder.descending:
-        return 'Descending';
-    }
-  }
-}
+  final String value;
 
-extension SearchSortOrderFromString on String {
-  SearchSortOrder toSearchSortOrder() {
-    switch (this) {
-      case 'Ascending':
-        return SearchSortOrder.ascending;
-      case 'Descending':
-        return SearchSortOrder.descending;
-    }
-    throw Exception('$this is not known in enum SearchSortOrder');
-  }
+  const SearchSortOrder(this.value);
+
+  static SearchSortOrder fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SearchSortOrder'));
 }
 
 enum SecondaryStatus {
-  starting,
-  launchingMLInstances,
-  preparingTrainingStack,
-  downloading,
-  downloadingTrainingImage,
-  training,
-  uploading,
-  stopping,
-  stopped,
-  maxRuntimeExceeded,
-  completed,
-  failed,
-  interrupted,
-  maxWaitTimeExceeded,
-  updating,
-  restarting,
-  pending,
-}
+  starting('Starting'),
+  launchingMLInstances('LaunchingMLInstances'),
+  preparingTrainingStack('PreparingTrainingStack'),
+  downloading('Downloading'),
+  downloadingTrainingImage('DownloadingTrainingImage'),
+  training('Training'),
+  uploading('Uploading'),
+  stopping('Stopping'),
+  stopped('Stopped'),
+  maxRuntimeExceeded('MaxRuntimeExceeded'),
+  completed('Completed'),
+  failed('Failed'),
+  interrupted('Interrupted'),
+  maxWaitTimeExceeded('MaxWaitTimeExceeded'),
+  updating('Updating'),
+  restarting('Restarting'),
+  pending('Pending'),
+  ;
 
-extension SecondaryStatusValueExtension on SecondaryStatus {
-  String toValue() {
-    switch (this) {
-      case SecondaryStatus.starting:
-        return 'Starting';
-      case SecondaryStatus.launchingMLInstances:
-        return 'LaunchingMLInstances';
-      case SecondaryStatus.preparingTrainingStack:
-        return 'PreparingTrainingStack';
-      case SecondaryStatus.downloading:
-        return 'Downloading';
-      case SecondaryStatus.downloadingTrainingImage:
-        return 'DownloadingTrainingImage';
-      case SecondaryStatus.training:
-        return 'Training';
-      case SecondaryStatus.uploading:
-        return 'Uploading';
-      case SecondaryStatus.stopping:
-        return 'Stopping';
-      case SecondaryStatus.stopped:
-        return 'Stopped';
-      case SecondaryStatus.maxRuntimeExceeded:
-        return 'MaxRuntimeExceeded';
-      case SecondaryStatus.completed:
-        return 'Completed';
-      case SecondaryStatus.failed:
-        return 'Failed';
-      case SecondaryStatus.interrupted:
-        return 'Interrupted';
-      case SecondaryStatus.maxWaitTimeExceeded:
-        return 'MaxWaitTimeExceeded';
-      case SecondaryStatus.updating:
-        return 'Updating';
-      case SecondaryStatus.restarting:
-        return 'Restarting';
-      case SecondaryStatus.pending:
-        return 'Pending';
-    }
-  }
-}
+  final String value;
 
-extension SecondaryStatusFromString on String {
-  SecondaryStatus toSecondaryStatus() {
-    switch (this) {
-      case 'Starting':
-        return SecondaryStatus.starting;
-      case 'LaunchingMLInstances':
-        return SecondaryStatus.launchingMLInstances;
-      case 'PreparingTrainingStack':
-        return SecondaryStatus.preparingTrainingStack;
-      case 'Downloading':
-        return SecondaryStatus.downloading;
-      case 'DownloadingTrainingImage':
-        return SecondaryStatus.downloadingTrainingImage;
-      case 'Training':
-        return SecondaryStatus.training;
-      case 'Uploading':
-        return SecondaryStatus.uploading;
-      case 'Stopping':
-        return SecondaryStatus.stopping;
-      case 'Stopped':
-        return SecondaryStatus.stopped;
-      case 'MaxRuntimeExceeded':
-        return SecondaryStatus.maxRuntimeExceeded;
-      case 'Completed':
-        return SecondaryStatus.completed;
-      case 'Failed':
-        return SecondaryStatus.failed;
-      case 'Interrupted':
-        return SecondaryStatus.interrupted;
-      case 'MaxWaitTimeExceeded':
-        return SecondaryStatus.maxWaitTimeExceeded;
-      case 'Updating':
-        return SecondaryStatus.updating;
-      case 'Restarting':
-        return SecondaryStatus.restarting;
-      case 'Pending':
-        return SecondaryStatus.pending;
-    }
-    throw Exception('$this is not known in enum SecondaryStatus');
-  }
+  const SecondaryStatus(this.value);
+
+  static SecondaryStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SecondaryStatus'));
 }
 
 /// An array element of <code>SecondaryStatusTransitions</code> for <a
@@ -65703,7 +58974,7 @@ class SecondaryStatusTransition {
   factory SecondaryStatusTransition.fromJson(Map<String, dynamic> json) {
     return SecondaryStatusTransition(
       startTime: nonNullableTimeStampFromJson(json['StartTime'] as Object),
-      status: (json['Status'] as String).toSecondaryStatus(),
+      status: SecondaryStatus.fromString((json['Status'] as String)),
       endTime: timeStampFromJson(json['EndTime']),
       statusMessage: json['StatusMessage'] as String?,
     );
@@ -66083,8 +59354,8 @@ class SharingSettings {
 
   factory SharingSettings.fromJson(Map<String, dynamic> json) {
     return SharingSettings(
-      notebookOutputOption:
-          (json['NotebookOutputOption'] as String?)?.toNotebookOutputOption(),
+      notebookOutputOption: (json['NotebookOutputOption'] as String?)
+          ?.let(NotebookOutputOption.fromString),
       s3KmsKeyId: json['S3KmsKeyId'] as String?,
       s3OutputPath: json['S3OutputPath'] as String?,
     );
@@ -66096,7 +59367,7 @@ class SharingSettings {
     final s3OutputPath = this.s3OutputPath;
     return {
       if (notebookOutputOption != null)
-        'NotebookOutputOption': notebookOutputOption.toValue(),
+        'NotebookOutputOption': notebookOutputOption.value,
       if (s3KmsKeyId != null) 'S3KmsKeyId': s3KmsKeyId,
       if (s3OutputPath != null) 'S3OutputPath': s3OutputPath,
     };
@@ -66104,31 +59375,17 @@ class SharingSettings {
 }
 
 enum SharingType {
-  private,
-  shared,
-}
+  private('Private'),
+  shared('Shared'),
+  ;
 
-extension SharingTypeValueExtension on SharingType {
-  String toValue() {
-    switch (this) {
-      case SharingType.private:
-        return 'Private';
-      case SharingType.shared:
-        return 'Shared';
-    }
-  }
-}
+  final String value;
 
-extension SharingTypeFromString on String {
-  SharingType toSharingType() {
-    switch (this) {
-      case 'Private':
-        return SharingType.private;
-      case 'Shared':
-        return SharingType.shared;
-    }
-    throw Exception('$this is not known in enum SharingType');
-  }
+  const SharingType(this.value);
+
+  static SharingType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SharingType'));
 }
 
 /// A configuration for a shuffle option for input data in a channel. If you use
@@ -66170,416 +59427,215 @@ class ShuffleConfig {
 }
 
 enum SkipModelValidation {
-  all,
-  none,
-}
+  all('All'),
+  none('None'),
+  ;
 
-extension SkipModelValidationValueExtension on SkipModelValidation {
-  String toValue() {
-    switch (this) {
-      case SkipModelValidation.all:
-        return 'All';
-      case SkipModelValidation.none:
-        return 'None';
-    }
-  }
-}
+  final String value;
 
-extension SkipModelValidationFromString on String {
-  SkipModelValidation toSkipModelValidation() {
-    switch (this) {
-      case 'All':
-        return SkipModelValidation.all;
-      case 'None':
-        return SkipModelValidation.none;
-    }
-    throw Exception('$this is not known in enum SkipModelValidation');
-  }
+  const SkipModelValidation(this.value);
+
+  static SkipModelValidation fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SkipModelValidation'));
 }
 
 enum SortActionsBy {
-  name,
-  creationTime,
-}
+  name('Name'),
+  creationTime('CreationTime'),
+  ;
 
-extension SortActionsByValueExtension on SortActionsBy {
-  String toValue() {
-    switch (this) {
-      case SortActionsBy.name:
-        return 'Name';
-      case SortActionsBy.creationTime:
-        return 'CreationTime';
-    }
-  }
-}
+  final String value;
 
-extension SortActionsByFromString on String {
-  SortActionsBy toSortActionsBy() {
-    switch (this) {
-      case 'Name':
-        return SortActionsBy.name;
-      case 'CreationTime':
-        return SortActionsBy.creationTime;
-    }
-    throw Exception('$this is not known in enum SortActionsBy');
-  }
+  const SortActionsBy(this.value);
+
+  static SortActionsBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SortActionsBy'));
 }
 
 enum SortArtifactsBy {
-  creationTime,
-}
+  creationTime('CreationTime'),
+  ;
 
-extension SortArtifactsByValueExtension on SortArtifactsBy {
-  String toValue() {
-    switch (this) {
-      case SortArtifactsBy.creationTime:
-        return 'CreationTime';
-    }
-  }
-}
+  final String value;
 
-extension SortArtifactsByFromString on String {
-  SortArtifactsBy toSortArtifactsBy() {
-    switch (this) {
-      case 'CreationTime':
-        return SortArtifactsBy.creationTime;
-    }
-    throw Exception('$this is not known in enum SortArtifactsBy');
-  }
+  const SortArtifactsBy(this.value);
+
+  static SortArtifactsBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SortArtifactsBy'));
 }
 
 enum SortAssociationsBy {
-  sourceArn,
-  destinationArn,
-  sourceType,
-  destinationType,
-  creationTime,
-}
+  sourceArn('SourceArn'),
+  destinationArn('DestinationArn'),
+  sourceType('SourceType'),
+  destinationType('DestinationType'),
+  creationTime('CreationTime'),
+  ;
 
-extension SortAssociationsByValueExtension on SortAssociationsBy {
-  String toValue() {
-    switch (this) {
-      case SortAssociationsBy.sourceArn:
-        return 'SourceArn';
-      case SortAssociationsBy.destinationArn:
-        return 'DestinationArn';
-      case SortAssociationsBy.sourceType:
-        return 'SourceType';
-      case SortAssociationsBy.destinationType:
-        return 'DestinationType';
-      case SortAssociationsBy.creationTime:
-        return 'CreationTime';
-    }
-  }
-}
+  final String value;
 
-extension SortAssociationsByFromString on String {
-  SortAssociationsBy toSortAssociationsBy() {
-    switch (this) {
-      case 'SourceArn':
-        return SortAssociationsBy.sourceArn;
-      case 'DestinationArn':
-        return SortAssociationsBy.destinationArn;
-      case 'SourceType':
-        return SortAssociationsBy.sourceType;
-      case 'DestinationType':
-        return SortAssociationsBy.destinationType;
-      case 'CreationTime':
-        return SortAssociationsBy.creationTime;
-    }
-    throw Exception('$this is not known in enum SortAssociationsBy');
-  }
+  const SortAssociationsBy(this.value);
+
+  static SortAssociationsBy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SortAssociationsBy'));
 }
 
 enum SortBy {
-  name,
-  creationTime,
-  status,
-}
+  name('Name'),
+  creationTime('CreationTime'),
+  status('Status'),
+  ;
 
-extension SortByValueExtension on SortBy {
-  String toValue() {
-    switch (this) {
-      case SortBy.name:
-        return 'Name';
-      case SortBy.creationTime:
-        return 'CreationTime';
-      case SortBy.status:
-        return 'Status';
-    }
-  }
-}
+  final String value;
 
-extension SortByFromString on String {
-  SortBy toSortBy() {
-    switch (this) {
-      case 'Name':
-        return SortBy.name;
-      case 'CreationTime':
-        return SortBy.creationTime;
-      case 'Status':
-        return SortBy.status;
-    }
-    throw Exception('$this is not known in enum SortBy');
-  }
+  const SortBy(this.value);
+
+  static SortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum SortBy'));
 }
 
 enum SortContextsBy {
-  name,
-  creationTime,
-}
+  name('Name'),
+  creationTime('CreationTime'),
+  ;
 
-extension SortContextsByValueExtension on SortContextsBy {
-  String toValue() {
-    switch (this) {
-      case SortContextsBy.name:
-        return 'Name';
-      case SortContextsBy.creationTime:
-        return 'CreationTime';
-    }
-  }
-}
+  final String value;
 
-extension SortContextsByFromString on String {
-  SortContextsBy toSortContextsBy() {
-    switch (this) {
-      case 'Name':
-        return SortContextsBy.name;
-      case 'CreationTime':
-        return SortContextsBy.creationTime;
-    }
-    throw Exception('$this is not known in enum SortContextsBy');
-  }
+  const SortContextsBy(this.value);
+
+  static SortContextsBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SortContextsBy'));
 }
 
 enum SortExperimentsBy {
-  name,
-  creationTime,
-}
+  name('Name'),
+  creationTime('CreationTime'),
+  ;
 
-extension SortExperimentsByValueExtension on SortExperimentsBy {
-  String toValue() {
-    switch (this) {
-      case SortExperimentsBy.name:
-        return 'Name';
-      case SortExperimentsBy.creationTime:
-        return 'CreationTime';
-    }
-  }
-}
+  final String value;
 
-extension SortExperimentsByFromString on String {
-  SortExperimentsBy toSortExperimentsBy() {
-    switch (this) {
-      case 'Name':
-        return SortExperimentsBy.name;
-      case 'CreationTime':
-        return SortExperimentsBy.creationTime;
-    }
-    throw Exception('$this is not known in enum SortExperimentsBy');
-  }
+  const SortExperimentsBy(this.value);
+
+  static SortExperimentsBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SortExperimentsBy'));
 }
 
 enum SortInferenceExperimentsBy {
-  name,
-  creationTime,
-  status,
-}
+  name('Name'),
+  creationTime('CreationTime'),
+  status('Status'),
+  ;
 
-extension SortInferenceExperimentsByValueExtension
-    on SortInferenceExperimentsBy {
-  String toValue() {
-    switch (this) {
-      case SortInferenceExperimentsBy.name:
-        return 'Name';
-      case SortInferenceExperimentsBy.creationTime:
-        return 'CreationTime';
-      case SortInferenceExperimentsBy.status:
-        return 'Status';
-    }
-  }
-}
+  final String value;
 
-extension SortInferenceExperimentsByFromString on String {
-  SortInferenceExperimentsBy toSortInferenceExperimentsBy() {
-    switch (this) {
-      case 'Name':
-        return SortInferenceExperimentsBy.name;
-      case 'CreationTime':
-        return SortInferenceExperimentsBy.creationTime;
-      case 'Status':
-        return SortInferenceExperimentsBy.status;
-    }
-    throw Exception('$this is not known in enum SortInferenceExperimentsBy');
-  }
+  const SortInferenceExperimentsBy(this.value);
+
+  static SortInferenceExperimentsBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SortInferenceExperimentsBy'));
 }
 
 enum SortLineageGroupsBy {
-  name,
-  creationTime,
-}
+  name('Name'),
+  creationTime('CreationTime'),
+  ;
 
-extension SortLineageGroupsByValueExtension on SortLineageGroupsBy {
-  String toValue() {
-    switch (this) {
-      case SortLineageGroupsBy.name:
-        return 'Name';
-      case SortLineageGroupsBy.creationTime:
-        return 'CreationTime';
-    }
-  }
-}
+  final String value;
 
-extension SortLineageGroupsByFromString on String {
-  SortLineageGroupsBy toSortLineageGroupsBy() {
-    switch (this) {
-      case 'Name':
-        return SortLineageGroupsBy.name;
-      case 'CreationTime':
-        return SortLineageGroupsBy.creationTime;
-    }
-    throw Exception('$this is not known in enum SortLineageGroupsBy');
-  }
+  const SortLineageGroupsBy(this.value);
+
+  static SortLineageGroupsBy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SortLineageGroupsBy'));
 }
 
 enum SortOrder {
-  ascending,
-  descending,
-}
+  ascending('Ascending'),
+  descending('Descending'),
+  ;
 
-extension SortOrderValueExtension on SortOrder {
-  String toValue() {
-    switch (this) {
-      case SortOrder.ascending:
-        return 'Ascending';
-      case SortOrder.descending:
-        return 'Descending';
-    }
-  }
-}
+  final String value;
 
-extension SortOrderFromString on String {
-  SortOrder toSortOrder() {
-    switch (this) {
-      case 'Ascending':
-        return SortOrder.ascending;
-      case 'Descending':
-        return SortOrder.descending;
-    }
-    throw Exception('$this is not known in enum SortOrder');
-  }
+  const SortOrder(this.value);
+
+  static SortOrder fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SortOrder'));
 }
 
 enum SortPipelineExecutionsBy {
-  creationTime,
-  pipelineExecutionArn,
-}
+  creationTime('CreationTime'),
+  pipelineExecutionArn('PipelineExecutionArn'),
+  ;
 
-extension SortPipelineExecutionsByValueExtension on SortPipelineExecutionsBy {
-  String toValue() {
-    switch (this) {
-      case SortPipelineExecutionsBy.creationTime:
-        return 'CreationTime';
-      case SortPipelineExecutionsBy.pipelineExecutionArn:
-        return 'PipelineExecutionArn';
-    }
-  }
-}
+  final String value;
 
-extension SortPipelineExecutionsByFromString on String {
-  SortPipelineExecutionsBy toSortPipelineExecutionsBy() {
-    switch (this) {
-      case 'CreationTime':
-        return SortPipelineExecutionsBy.creationTime;
-      case 'PipelineExecutionArn':
-        return SortPipelineExecutionsBy.pipelineExecutionArn;
-    }
-    throw Exception('$this is not known in enum SortPipelineExecutionsBy');
-  }
+  const SortPipelineExecutionsBy(this.value);
+
+  static SortPipelineExecutionsBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SortPipelineExecutionsBy'));
 }
 
 enum SortPipelinesBy {
-  name,
-  creationTime,
-}
+  name('Name'),
+  creationTime('CreationTime'),
+  ;
 
-extension SortPipelinesByValueExtension on SortPipelinesBy {
-  String toValue() {
-    switch (this) {
-      case SortPipelinesBy.name:
-        return 'Name';
-      case SortPipelinesBy.creationTime:
-        return 'CreationTime';
-    }
-  }
-}
+  final String value;
 
-extension SortPipelinesByFromString on String {
-  SortPipelinesBy toSortPipelinesBy() {
-    switch (this) {
-      case 'Name':
-        return SortPipelinesBy.name;
-      case 'CreationTime':
-        return SortPipelinesBy.creationTime;
-    }
-    throw Exception('$this is not known in enum SortPipelinesBy');
-  }
+  const SortPipelinesBy(this.value);
+
+  static SortPipelinesBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SortPipelinesBy'));
 }
 
 enum SortTrialComponentsBy {
-  name,
-  creationTime,
-}
+  name('Name'),
+  creationTime('CreationTime'),
+  ;
 
-extension SortTrialComponentsByValueExtension on SortTrialComponentsBy {
-  String toValue() {
-    switch (this) {
-      case SortTrialComponentsBy.name:
-        return 'Name';
-      case SortTrialComponentsBy.creationTime:
-        return 'CreationTime';
-    }
-  }
-}
+  final String value;
 
-extension SortTrialComponentsByFromString on String {
-  SortTrialComponentsBy toSortTrialComponentsBy() {
-    switch (this) {
-      case 'Name':
-        return SortTrialComponentsBy.name;
-      case 'CreationTime':
-        return SortTrialComponentsBy.creationTime;
-    }
-    throw Exception('$this is not known in enum SortTrialComponentsBy');
-  }
+  const SortTrialComponentsBy(this.value);
+
+  static SortTrialComponentsBy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SortTrialComponentsBy'));
 }
 
 enum SortTrialsBy {
-  name,
-  creationTime,
-}
+  name('Name'),
+  creationTime('CreationTime'),
+  ;
 
-extension SortTrialsByValueExtension on SortTrialsBy {
-  String toValue() {
-    switch (this) {
-      case SortTrialsBy.name:
-        return 'Name';
-      case SortTrialsBy.creationTime:
-        return 'CreationTime';
-    }
-  }
-}
+  final String value;
 
-extension SortTrialsByFromString on String {
-  SortTrialsBy toSortTrialsBy() {
-    switch (this) {
-      case 'Name':
-        return SortTrialsBy.name;
-      case 'CreationTime':
-        return SortTrialsBy.creationTime;
-    }
-    throw Exception('$this is not known in enum SortTrialsBy');
-  }
+  const SortTrialsBy(this.value);
+
+  static SortTrialsBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SortTrialsBy'));
 }
 
 /// Specifies an algorithm that was used to create the model package. The
@@ -66783,7 +59839,7 @@ class SpaceDetails {
           ? SpaceSharingSettingsSummary.fromJson(
               json['SpaceSharingSettingsSummary'] as Map<String, dynamic>)
           : null,
-      status: (json['Status'] as String?)?.toSpaceStatus(),
+      status: (json['Status'] as String?)?.let(SpaceStatus.fromString),
     );
   }
 }
@@ -66857,7 +59913,7 @@ class SpaceSettings {
 
   factory SpaceSettings.fromJson(Map<String, dynamic> json) {
     return SpaceSettings(
-      appType: (json['AppType'] as String?)?.toAppType(),
+      appType: (json['AppType'] as String?)?.let(AppType.fromString),
       codeEditorAppSettings: json['CodeEditorAppSettings'] != null
           ? SpaceCodeEditorAppSettings.fromJson(
               json['CodeEditorAppSettings'] as Map<String, dynamic>)
@@ -66894,7 +59950,7 @@ class SpaceSettings {
     final kernelGatewayAppSettings = this.kernelGatewayAppSettings;
     final spaceStorageSettings = this.spaceStorageSettings;
     return {
-      if (appType != null) 'AppType': appType.toValue(),
+      if (appType != null) 'AppType': appType.value,
       if (codeEditorAppSettings != null)
         'CodeEditorAppSettings': codeEditorAppSettings,
       if (customFileSystems != null) 'CustomFileSystems': customFileSystems,
@@ -66925,7 +59981,7 @@ class SpaceSettingsSummary {
 
   factory SpaceSettingsSummary.fromJson(Map<String, dynamic> json) {
     return SpaceSettingsSummary(
-      appType: (json['AppType'] as String?)?.toAppType(),
+      appType: (json['AppType'] as String?)?.let(AppType.fromString),
       spaceStorageSettings: json['SpaceStorageSettings'] != null
           ? SpaceStorageSettings.fromJson(
               json['SpaceStorageSettings'] as Map<String, dynamic>)
@@ -66945,14 +60001,14 @@ class SpaceSharingSettings {
 
   factory SpaceSharingSettings.fromJson(Map<String, dynamic> json) {
     return SpaceSharingSettings(
-      sharingType: (json['SharingType'] as String).toSharingType(),
+      sharingType: SharingType.fromString((json['SharingType'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final sharingType = this.sharingType;
     return {
-      'SharingType': sharingType.toValue(),
+      'SharingType': sharingType.value,
     };
   }
 }
@@ -66968,90 +60024,44 @@ class SpaceSharingSettingsSummary {
 
   factory SpaceSharingSettingsSummary.fromJson(Map<String, dynamic> json) {
     return SpaceSharingSettingsSummary(
-      sharingType: (json['SharingType'] as String?)?.toSharingType(),
+      sharingType:
+          (json['SharingType'] as String?)?.let(SharingType.fromString),
     );
   }
 }
 
 enum SpaceSortKey {
-  creationTime,
-  lastModifiedTime,
-}
+  creationTime('CreationTime'),
+  lastModifiedTime('LastModifiedTime'),
+  ;
 
-extension SpaceSortKeyValueExtension on SpaceSortKey {
-  String toValue() {
-    switch (this) {
-      case SpaceSortKey.creationTime:
-        return 'CreationTime';
-      case SpaceSortKey.lastModifiedTime:
-        return 'LastModifiedTime';
-    }
-  }
-}
+  final String value;
 
-extension SpaceSortKeyFromString on String {
-  SpaceSortKey toSpaceSortKey() {
-    switch (this) {
-      case 'CreationTime':
-        return SpaceSortKey.creationTime;
-      case 'LastModifiedTime':
-        return SpaceSortKey.lastModifiedTime;
-    }
-    throw Exception('$this is not known in enum SpaceSortKey');
-  }
+  const SpaceSortKey(this.value);
+
+  static SpaceSortKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SpaceSortKey'));
 }
 
 enum SpaceStatus {
-  deleting,
-  failed,
-  inService,
-  pending,
-  updating,
-  updateFailed,
-  deleteFailed,
-}
+  deleting('Deleting'),
+  failed('Failed'),
+  inService('InService'),
+  pending('Pending'),
+  updating('Updating'),
+  updateFailed('Update_Failed'),
+  deleteFailed('Delete_Failed'),
+  ;
 
-extension SpaceStatusValueExtension on SpaceStatus {
-  String toValue() {
-    switch (this) {
-      case SpaceStatus.deleting:
-        return 'Deleting';
-      case SpaceStatus.failed:
-        return 'Failed';
-      case SpaceStatus.inService:
-        return 'InService';
-      case SpaceStatus.pending:
-        return 'Pending';
-      case SpaceStatus.updating:
-        return 'Updating';
-      case SpaceStatus.updateFailed:
-        return 'Update_Failed';
-      case SpaceStatus.deleteFailed:
-        return 'Delete_Failed';
-    }
-  }
-}
+  final String value;
 
-extension SpaceStatusFromString on String {
-  SpaceStatus toSpaceStatus() {
-    switch (this) {
-      case 'Deleting':
-        return SpaceStatus.deleting;
-      case 'Failed':
-        return SpaceStatus.failed;
-      case 'InService':
-        return SpaceStatus.inService;
-      case 'Pending':
-        return SpaceStatus.pending;
-      case 'Updating':
-        return SpaceStatus.updating;
-      case 'Update_Failed':
-        return SpaceStatus.updateFailed;
-      case 'Delete_Failed':
-        return SpaceStatus.deleteFailed;
-    }
-    throw Exception('$this is not known in enum SpaceStatus');
-  }
+  const SpaceStatus(this.value);
+
+  static SpaceStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SpaceStatus'));
 }
 
 /// The storage settings for a space.
@@ -67081,99 +60091,39 @@ class SpaceStorageSettings {
 }
 
 enum SplitType {
-  none,
-  line,
-  recordIO,
-  tFRecord,
-}
+  none('None'),
+  line('Line'),
+  recordIO('RecordIO'),
+  tFRecord('TFRecord'),
+  ;
 
-extension SplitTypeValueExtension on SplitType {
-  String toValue() {
-    switch (this) {
-      case SplitType.none:
-        return 'None';
-      case SplitType.line:
-        return 'Line';
-      case SplitType.recordIO:
-        return 'RecordIO';
-      case SplitType.tFRecord:
-        return 'TFRecord';
-    }
-  }
-}
+  final String value;
 
-extension SplitTypeFromString on String {
-  SplitType toSplitType() {
-    switch (this) {
-      case 'None':
-        return SplitType.none;
-      case 'Line':
-        return SplitType.line;
-      case 'RecordIO':
-        return SplitType.recordIO;
-      case 'TFRecord':
-        return SplitType.tFRecord;
-    }
-    throw Exception('$this is not known in enum SplitType');
-  }
+  const SplitType(this.value);
+
+  static SplitType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SplitType'));
 }
 
 enum StageStatus {
-  creating,
-  readytodeploy,
-  starting,
-  inprogress,
-  deployed,
-  failed,
-  stopping,
-  stopped,
-}
+  creating('CREATING'),
+  readytodeploy('READYTODEPLOY'),
+  starting('STARTING'),
+  inprogress('INPROGRESS'),
+  deployed('DEPLOYED'),
+  failed('FAILED'),
+  stopping('STOPPING'),
+  stopped('STOPPED'),
+  ;
 
-extension StageStatusValueExtension on StageStatus {
-  String toValue() {
-    switch (this) {
-      case StageStatus.creating:
-        return 'CREATING';
-      case StageStatus.readytodeploy:
-        return 'READYTODEPLOY';
-      case StageStatus.starting:
-        return 'STARTING';
-      case StageStatus.inprogress:
-        return 'INPROGRESS';
-      case StageStatus.deployed:
-        return 'DEPLOYED';
-      case StageStatus.failed:
-        return 'FAILED';
-      case StageStatus.stopping:
-        return 'STOPPING';
-      case StageStatus.stopped:
-        return 'STOPPED';
-    }
-  }
-}
+  final String value;
 
-extension StageStatusFromString on String {
-  StageStatus toStageStatus() {
-    switch (this) {
-      case 'CREATING':
-        return StageStatus.creating;
-      case 'READYTODEPLOY':
-        return StageStatus.readytodeploy;
-      case 'STARTING':
-        return StageStatus.starting;
-      case 'INPROGRESS':
-        return StageStatus.inprogress;
-      case 'DEPLOYED':
-        return StageStatus.deployed;
-      case 'FAILED':
-        return StageStatus.failed;
-      case 'STOPPING':
-        return StageStatus.stopping;
-      case 'STOPPED':
-        return StageStatus.stopped;
-    }
-    throw Exception('$this is not known in enum StageStatus');
-  }
+  const StageStatus(this.value);
+
+  static StageStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum StageStatus'));
 }
 
 /// Defines the stairs traffic pattern for an Inference Recommender load test.
@@ -67248,94 +60198,38 @@ class StartPipelineExecutionResponse {
 }
 
 enum Statistic {
-  average,
-  minimum,
-  maximum,
-  sampleCount,
-  sum,
-}
+  average('Average'),
+  minimum('Minimum'),
+  maximum('Maximum'),
+  sampleCount('SampleCount'),
+  sum('Sum'),
+  ;
 
-extension StatisticValueExtension on Statistic {
-  String toValue() {
-    switch (this) {
-      case Statistic.average:
-        return 'Average';
-      case Statistic.minimum:
-        return 'Minimum';
-      case Statistic.maximum:
-        return 'Maximum';
-      case Statistic.sampleCount:
-        return 'SampleCount';
-      case Statistic.sum:
-        return 'Sum';
-    }
-  }
-}
+  final String value;
 
-extension StatisticFromString on String {
-  Statistic toStatistic() {
-    switch (this) {
-      case 'Average':
-        return Statistic.average;
-      case 'Minimum':
-        return Statistic.minimum;
-      case 'Maximum':
-        return Statistic.maximum;
-      case 'SampleCount':
-        return Statistic.sampleCount;
-      case 'Sum':
-        return Statistic.sum;
-    }
-    throw Exception('$this is not known in enum Statistic');
-  }
+  const Statistic(this.value);
+
+  static Statistic fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Statistic'));
 }
 
 enum StepStatus {
-  starting,
-  executing,
-  stopping,
-  stopped,
-  failed,
-  succeeded,
-}
+  starting('Starting'),
+  executing('Executing'),
+  stopping('Stopping'),
+  stopped('Stopped'),
+  failed('Failed'),
+  succeeded('Succeeded'),
+  ;
 
-extension StepStatusValueExtension on StepStatus {
-  String toValue() {
-    switch (this) {
-      case StepStatus.starting:
-        return 'Starting';
-      case StepStatus.executing:
-        return 'Executing';
-      case StepStatus.stopping:
-        return 'Stopping';
-      case StepStatus.stopped:
-        return 'Stopped';
-      case StepStatus.failed:
-        return 'Failed';
-      case StepStatus.succeeded:
-        return 'Succeeded';
-    }
-  }
-}
+  final String value;
 
-extension StepStatusFromString on String {
-  StepStatus toStepStatus() {
-    switch (this) {
-      case 'Starting':
-        return StepStatus.starting;
-      case 'Executing':
-        return StepStatus.executing;
-      case 'Stopping':
-        return StepStatus.stopping;
-      case 'Stopped':
-        return StepStatus.stopped;
-      case 'Failed':
-        return StepStatus.failed;
-      case 'Succeeded':
-        return StepStatus.succeeded;
-    }
-    throw Exception('$this is not known in enum StepStatus');
-  }
+  const StepStatus(this.value);
+
+  static StepStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum StepStatus'));
 }
 
 class StopInferenceExperimentResponse {
@@ -67454,70 +60348,34 @@ class StoppingCondition {
 }
 
 enum StorageType {
-  standard,
-  inMemory,
-}
+  standard('Standard'),
+  inMemory('InMemory'),
+  ;
 
-extension StorageTypeValueExtension on StorageType {
-  String toValue() {
-    switch (this) {
-      case StorageType.standard:
-        return 'Standard';
-      case StorageType.inMemory:
-        return 'InMemory';
-    }
-  }
-}
+  final String value;
 
-extension StorageTypeFromString on String {
-  StorageType toStorageType() {
-    switch (this) {
-      case 'Standard':
-        return StorageType.standard;
-      case 'InMemory':
-        return StorageType.inMemory;
-    }
-    throw Exception('$this is not known in enum StorageType');
-  }
+  const StorageType(this.value);
+
+  static StorageType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum StorageType'));
 }
 
 enum StudioLifecycleConfigAppType {
-  jupyterServer,
-  kernelGateway,
-  codeEditor,
-  jupyterLab,
-}
+  jupyterServer('JupyterServer'),
+  kernelGateway('KernelGateway'),
+  codeEditor('CodeEditor'),
+  jupyterLab('JupyterLab'),
+  ;
 
-extension StudioLifecycleConfigAppTypeValueExtension
-    on StudioLifecycleConfigAppType {
-  String toValue() {
-    switch (this) {
-      case StudioLifecycleConfigAppType.jupyterServer:
-        return 'JupyterServer';
-      case StudioLifecycleConfigAppType.kernelGateway:
-        return 'KernelGateway';
-      case StudioLifecycleConfigAppType.codeEditor:
-        return 'CodeEditor';
-      case StudioLifecycleConfigAppType.jupyterLab:
-        return 'JupyterLab';
-    }
-  }
-}
+  final String value;
 
-extension StudioLifecycleConfigAppTypeFromString on String {
-  StudioLifecycleConfigAppType toStudioLifecycleConfigAppType() {
-    switch (this) {
-      case 'JupyterServer':
-        return StudioLifecycleConfigAppType.jupyterServer;
-      case 'KernelGateway':
-        return StudioLifecycleConfigAppType.kernelGateway;
-      case 'CodeEditor':
-        return StudioLifecycleConfigAppType.codeEditor;
-      case 'JupyterLab':
-        return StudioLifecycleConfigAppType.jupyterLab;
-    }
-    throw Exception('$this is not known in enum StudioLifecycleConfigAppType');
-  }
+  const StudioLifecycleConfigAppType(this.value);
+
+  static StudioLifecycleConfigAppType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum StudioLifecycleConfigAppType'));
 }
 
 /// Details of the Amazon SageMaker Studio Lifecycle Configuration.
@@ -67552,7 +60410,7 @@ class StudioLifecycleConfigDetails {
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       studioLifecycleConfigAppType:
           (json['StudioLifecycleConfigAppType'] as String?)
-              ?.toStudioLifecycleConfigAppType(),
+              ?.let(StudioLifecycleConfigAppType.fromString),
       studioLifecycleConfigArn: json['StudioLifecycleConfigArn'] as String?,
       studioLifecycleConfigName: json['StudioLifecycleConfigName'] as String?,
     );
@@ -67560,65 +60418,34 @@ class StudioLifecycleConfigDetails {
 }
 
 enum StudioLifecycleConfigSortKey {
-  creationTime,
-  lastModifiedTime,
-  name,
-}
+  creationTime('CreationTime'),
+  lastModifiedTime('LastModifiedTime'),
+  name('Name'),
+  ;
 
-extension StudioLifecycleConfigSortKeyValueExtension
-    on StudioLifecycleConfigSortKey {
-  String toValue() {
-    switch (this) {
-      case StudioLifecycleConfigSortKey.creationTime:
-        return 'CreationTime';
-      case StudioLifecycleConfigSortKey.lastModifiedTime:
-        return 'LastModifiedTime';
-      case StudioLifecycleConfigSortKey.name:
-        return 'Name';
-    }
-  }
-}
+  final String value;
 
-extension StudioLifecycleConfigSortKeyFromString on String {
-  StudioLifecycleConfigSortKey toStudioLifecycleConfigSortKey() {
-    switch (this) {
-      case 'CreationTime':
-        return StudioLifecycleConfigSortKey.creationTime;
-      case 'LastModifiedTime':
-        return StudioLifecycleConfigSortKey.lastModifiedTime;
-      case 'Name':
-        return StudioLifecycleConfigSortKey.name;
-    }
-    throw Exception('$this is not known in enum StudioLifecycleConfigSortKey');
-  }
+  const StudioLifecycleConfigSortKey(this.value);
+
+  static StudioLifecycleConfigSortKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum StudioLifecycleConfigSortKey'));
 }
 
 enum StudioWebPortal {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension StudioWebPortalValueExtension on StudioWebPortal {
-  String toValue() {
-    switch (this) {
-      case StudioWebPortal.enabled:
-        return 'ENABLED';
-      case StudioWebPortal.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension StudioWebPortalFromString on String {
-  StudioWebPortal toStudioWebPortal() {
-    switch (this) {
-      case 'ENABLED':
-        return StudioWebPortal.enabled;
-      case 'DISABLED':
-        return StudioWebPortal.disabled;
-    }
-    throw Exception('$this is not known in enum StudioWebPortal');
-  }
+  const StudioWebPortal(this.value);
+
+  static StudioWebPortal fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum StudioWebPortal'));
 }
 
 /// Describes a work team of a vendor that does the a labelling job.
@@ -67678,36 +60505,18 @@ class SuggestionQuery {
 }
 
 enum TableFormat {
-  $default,
-  glue,
-  iceberg,
-}
+  $default('Default'),
+  glue('Glue'),
+  iceberg('Iceberg'),
+  ;
 
-extension TableFormatValueExtension on TableFormat {
-  String toValue() {
-    switch (this) {
-      case TableFormat.$default:
-        return 'Default';
-      case TableFormat.glue:
-        return 'Glue';
-      case TableFormat.iceberg:
-        return 'Iceberg';
-    }
-  }
-}
+  final String value;
 
-extension TableFormatFromString on String {
-  TableFormat toTableFormat() {
-    switch (this) {
-      case 'Default':
-        return TableFormat.$default;
-      case 'Glue':
-        return TableFormat.glue;
-      case 'Iceberg':
-        return TableFormat.iceberg;
-    }
-    throw Exception('$this is not known in enum TableFormat');
-  }
+  const TableFormat(this.value);
+
+  static TableFormat fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TableFormat'));
 }
 
 /// The collection of settings used by an AutoML job V2 for the tabular problem
@@ -67841,8 +60650,9 @@ class TabularJobConfig {
       featureSpecificationS3Uri: json['FeatureSpecificationS3Uri'] as String?,
       generateCandidateDefinitionsOnly:
           json['GenerateCandidateDefinitionsOnly'] as bool?,
-      mode: (json['Mode'] as String?)?.toAutoMLMode(),
-      problemType: (json['ProblemType'] as String?)?.toProblemType(),
+      mode: (json['Mode'] as String?)?.let(AutoMLMode.fromString),
+      problemType:
+          (json['ProblemType'] as String?)?.let(ProblemType.fromString),
       sampleWeightAttributeName: json['SampleWeightAttributeName'] as String?,
     );
   }
@@ -67866,8 +60676,8 @@ class TabularJobConfig {
         'FeatureSpecificationS3Uri': featureSpecificationS3Uri,
       if (generateCandidateDefinitionsOnly != null)
         'GenerateCandidateDefinitionsOnly': generateCandidateDefinitionsOnly,
-      if (mode != null) 'Mode': mode.toValue(),
-      if (problemType != null) 'ProblemType': problemType.toValue(),
+      if (mode != null) 'Mode': mode.value,
+      if (problemType != null) 'ProblemType': problemType.value,
       if (sampleWeightAttributeName != null)
         'SampleWeightAttributeName': sampleWeightAttributeName,
     };
@@ -67889,7 +60699,8 @@ class TabularResolvedAttributes {
 
   factory TabularResolvedAttributes.fromJson(Map<String, dynamic> json) {
     return TabularResolvedAttributes(
-      problemType: (json['ProblemType'] as String?)?.toProblemType(),
+      problemType:
+          (json['ProblemType'] as String?)?.let(ProblemType.fromString),
     );
   }
 }
@@ -67941,206 +60752,53 @@ class Tag {
 }
 
 enum TargetDevice {
-  lambda,
-  mlM4,
-  mlM5,
-  mlM6g,
-  mlC4,
-  mlC5,
-  mlC6g,
-  mlP2,
-  mlP3,
-  mlG4dn,
-  mlInf1,
-  mlInf2,
-  mlTrn1,
-  mlEia2,
-  jetsonTx1,
-  jetsonTx2,
-  jetsonNano,
-  jetsonXavier,
-  rasp3b,
-  rasp4b,
-  imx8qm,
-  deeplens,
-  rk3399,
-  rk3288,
-  aisage,
-  sbeC,
-  qcs605,
-  qcs603,
-  sitaraAm57x,
-  ambaCv2,
-  ambaCv22,
-  ambaCv25,
-  x86Win32,
-  x86Win64,
-  coreml,
-  jacintoTda4vm,
-  imx8mplus,
-}
+  lambda('lambda'),
+  mlM4('ml_m4'),
+  mlM5('ml_m5'),
+  mlM6g('ml_m6g'),
+  mlC4('ml_c4'),
+  mlC5('ml_c5'),
+  mlC6g('ml_c6g'),
+  mlP2('ml_p2'),
+  mlP3('ml_p3'),
+  mlG4dn('ml_g4dn'),
+  mlInf1('ml_inf1'),
+  mlInf2('ml_inf2'),
+  mlTrn1('ml_trn1'),
+  mlEia2('ml_eia2'),
+  jetsonTx1('jetson_tx1'),
+  jetsonTx2('jetson_tx2'),
+  jetsonNano('jetson_nano'),
+  jetsonXavier('jetson_xavier'),
+  rasp3b('rasp3b'),
+  rasp4b('rasp4b'),
+  imx8qm('imx8qm'),
+  deeplens('deeplens'),
+  rk3399('rk3399'),
+  rk3288('rk3288'),
+  aisage('aisage'),
+  sbeC('sbe_c'),
+  qcs605('qcs605'),
+  qcs603('qcs603'),
+  sitaraAm57x('sitara_am57x'),
+  ambaCv2('amba_cv2'),
+  ambaCv22('amba_cv22'),
+  ambaCv25('amba_cv25'),
+  x86Win32('x86_win32'),
+  x86Win64('x86_win64'),
+  coreml('coreml'),
+  jacintoTda4vm('jacinto_tda4vm'),
+  imx8mplus('imx8mplus'),
+  ;
 
-extension TargetDeviceValueExtension on TargetDevice {
-  String toValue() {
-    switch (this) {
-      case TargetDevice.lambda:
-        return 'lambda';
-      case TargetDevice.mlM4:
-        return 'ml_m4';
-      case TargetDevice.mlM5:
-        return 'ml_m5';
-      case TargetDevice.mlM6g:
-        return 'ml_m6g';
-      case TargetDevice.mlC4:
-        return 'ml_c4';
-      case TargetDevice.mlC5:
-        return 'ml_c5';
-      case TargetDevice.mlC6g:
-        return 'ml_c6g';
-      case TargetDevice.mlP2:
-        return 'ml_p2';
-      case TargetDevice.mlP3:
-        return 'ml_p3';
-      case TargetDevice.mlG4dn:
-        return 'ml_g4dn';
-      case TargetDevice.mlInf1:
-        return 'ml_inf1';
-      case TargetDevice.mlInf2:
-        return 'ml_inf2';
-      case TargetDevice.mlTrn1:
-        return 'ml_trn1';
-      case TargetDevice.mlEia2:
-        return 'ml_eia2';
-      case TargetDevice.jetsonTx1:
-        return 'jetson_tx1';
-      case TargetDevice.jetsonTx2:
-        return 'jetson_tx2';
-      case TargetDevice.jetsonNano:
-        return 'jetson_nano';
-      case TargetDevice.jetsonXavier:
-        return 'jetson_xavier';
-      case TargetDevice.rasp3b:
-        return 'rasp3b';
-      case TargetDevice.rasp4b:
-        return 'rasp4b';
-      case TargetDevice.imx8qm:
-        return 'imx8qm';
-      case TargetDevice.deeplens:
-        return 'deeplens';
-      case TargetDevice.rk3399:
-        return 'rk3399';
-      case TargetDevice.rk3288:
-        return 'rk3288';
-      case TargetDevice.aisage:
-        return 'aisage';
-      case TargetDevice.sbeC:
-        return 'sbe_c';
-      case TargetDevice.qcs605:
-        return 'qcs605';
-      case TargetDevice.qcs603:
-        return 'qcs603';
-      case TargetDevice.sitaraAm57x:
-        return 'sitara_am57x';
-      case TargetDevice.ambaCv2:
-        return 'amba_cv2';
-      case TargetDevice.ambaCv22:
-        return 'amba_cv22';
-      case TargetDevice.ambaCv25:
-        return 'amba_cv25';
-      case TargetDevice.x86Win32:
-        return 'x86_win32';
-      case TargetDevice.x86Win64:
-        return 'x86_win64';
-      case TargetDevice.coreml:
-        return 'coreml';
-      case TargetDevice.jacintoTda4vm:
-        return 'jacinto_tda4vm';
-      case TargetDevice.imx8mplus:
-        return 'imx8mplus';
-    }
-  }
-}
+  final String value;
 
-extension TargetDeviceFromString on String {
-  TargetDevice toTargetDevice() {
-    switch (this) {
-      case 'lambda':
-        return TargetDevice.lambda;
-      case 'ml_m4':
-        return TargetDevice.mlM4;
-      case 'ml_m5':
-        return TargetDevice.mlM5;
-      case 'ml_m6g':
-        return TargetDevice.mlM6g;
-      case 'ml_c4':
-        return TargetDevice.mlC4;
-      case 'ml_c5':
-        return TargetDevice.mlC5;
-      case 'ml_c6g':
-        return TargetDevice.mlC6g;
-      case 'ml_p2':
-        return TargetDevice.mlP2;
-      case 'ml_p3':
-        return TargetDevice.mlP3;
-      case 'ml_g4dn':
-        return TargetDevice.mlG4dn;
-      case 'ml_inf1':
-        return TargetDevice.mlInf1;
-      case 'ml_inf2':
-        return TargetDevice.mlInf2;
-      case 'ml_trn1':
-        return TargetDevice.mlTrn1;
-      case 'ml_eia2':
-        return TargetDevice.mlEia2;
-      case 'jetson_tx1':
-        return TargetDevice.jetsonTx1;
-      case 'jetson_tx2':
-        return TargetDevice.jetsonTx2;
-      case 'jetson_nano':
-        return TargetDevice.jetsonNano;
-      case 'jetson_xavier':
-        return TargetDevice.jetsonXavier;
-      case 'rasp3b':
-        return TargetDevice.rasp3b;
-      case 'rasp4b':
-        return TargetDevice.rasp4b;
-      case 'imx8qm':
-        return TargetDevice.imx8qm;
-      case 'deeplens':
-        return TargetDevice.deeplens;
-      case 'rk3399':
-        return TargetDevice.rk3399;
-      case 'rk3288':
-        return TargetDevice.rk3288;
-      case 'aisage':
-        return TargetDevice.aisage;
-      case 'sbe_c':
-        return TargetDevice.sbeC;
-      case 'qcs605':
-        return TargetDevice.qcs605;
-      case 'qcs603':
-        return TargetDevice.qcs603;
-      case 'sitara_am57x':
-        return TargetDevice.sitaraAm57x;
-      case 'amba_cv2':
-        return TargetDevice.ambaCv2;
-      case 'amba_cv22':
-        return TargetDevice.ambaCv22;
-      case 'amba_cv25':
-        return TargetDevice.ambaCv25;
-      case 'x86_win32':
-        return TargetDevice.x86Win32;
-      case 'x86_win64':
-        return TargetDevice.x86Win64;
-      case 'coreml':
-        return TargetDevice.coreml;
-      case 'jacinto_tda4vm':
-        return TargetDevice.jacintoTda4vm;
-      case 'imx8mplus':
-        return TargetDevice.imx8mplus;
-    }
-    throw Exception('$this is not known in enum TargetDevice');
-  }
+  const TargetDevice(this.value);
+
+  static TargetDevice fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TargetDevice'));
 }
 
 /// Contains information about a target platform that you want your model to run
@@ -68208,10 +60866,10 @@ class TargetPlatform {
 
   factory TargetPlatform.fromJson(Map<String, dynamic> json) {
     return TargetPlatform(
-      arch: (json['Arch'] as String).toTargetPlatformArch(),
-      os: (json['Os'] as String).toTargetPlatformOs(),
-      accelerator:
-          (json['Accelerator'] as String?)?.toTargetPlatformAccelerator(),
+      arch: TargetPlatformArch.fromString((json['Arch'] as String)),
+      os: TargetPlatformOs.fromString((json['Os'] as String)),
+      accelerator: (json['Accelerator'] as String?)
+          ?.let(TargetPlatformAccelerator.fromString),
     );
   }
 
@@ -68220,120 +60878,61 @@ class TargetPlatform {
     final os = this.os;
     final accelerator = this.accelerator;
     return {
-      'Arch': arch.toValue(),
-      'Os': os.toValue(),
-      if (accelerator != null) 'Accelerator': accelerator.toValue(),
+      'Arch': arch.value,
+      'Os': os.value,
+      if (accelerator != null) 'Accelerator': accelerator.value,
     };
   }
 }
 
 enum TargetPlatformAccelerator {
-  intelGraphics,
-  mali,
-  nvidia,
-  nna,
-}
+  intelGraphics('INTEL_GRAPHICS'),
+  mali('MALI'),
+  nvidia('NVIDIA'),
+  nna('NNA'),
+  ;
 
-extension TargetPlatformAcceleratorValueExtension on TargetPlatformAccelerator {
-  String toValue() {
-    switch (this) {
-      case TargetPlatformAccelerator.intelGraphics:
-        return 'INTEL_GRAPHICS';
-      case TargetPlatformAccelerator.mali:
-        return 'MALI';
-      case TargetPlatformAccelerator.nvidia:
-        return 'NVIDIA';
-      case TargetPlatformAccelerator.nna:
-        return 'NNA';
-    }
-  }
-}
+  final String value;
 
-extension TargetPlatformAcceleratorFromString on String {
-  TargetPlatformAccelerator toTargetPlatformAccelerator() {
-    switch (this) {
-      case 'INTEL_GRAPHICS':
-        return TargetPlatformAccelerator.intelGraphics;
-      case 'MALI':
-        return TargetPlatformAccelerator.mali;
-      case 'NVIDIA':
-        return TargetPlatformAccelerator.nvidia;
-      case 'NNA':
-        return TargetPlatformAccelerator.nna;
-    }
-    throw Exception('$this is not known in enum TargetPlatformAccelerator');
-  }
+  const TargetPlatformAccelerator(this.value);
+
+  static TargetPlatformAccelerator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TargetPlatformAccelerator'));
 }
 
 enum TargetPlatformArch {
-  x86_64,
-  x86,
-  arm64,
-  armEabi,
-  armEabihf,
-}
+  x86_64('X86_64'),
+  x86('X86'),
+  arm64('ARM64'),
+  armEabi('ARM_EABI'),
+  armEabihf('ARM_EABIHF'),
+  ;
 
-extension TargetPlatformArchValueExtension on TargetPlatformArch {
-  String toValue() {
-    switch (this) {
-      case TargetPlatformArch.x86_64:
-        return 'X86_64';
-      case TargetPlatformArch.x86:
-        return 'X86';
-      case TargetPlatformArch.arm64:
-        return 'ARM64';
-      case TargetPlatformArch.armEabi:
-        return 'ARM_EABI';
-      case TargetPlatformArch.armEabihf:
-        return 'ARM_EABIHF';
-    }
-  }
-}
+  final String value;
 
-extension TargetPlatformArchFromString on String {
-  TargetPlatformArch toTargetPlatformArch() {
-    switch (this) {
-      case 'X86_64':
-        return TargetPlatformArch.x86_64;
-      case 'X86':
-        return TargetPlatformArch.x86;
-      case 'ARM64':
-        return TargetPlatformArch.arm64;
-      case 'ARM_EABI':
-        return TargetPlatformArch.armEabi;
-      case 'ARM_EABIHF':
-        return TargetPlatformArch.armEabihf;
-    }
-    throw Exception('$this is not known in enum TargetPlatformArch');
-  }
+  const TargetPlatformArch(this.value);
+
+  static TargetPlatformArch fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TargetPlatformArch'));
 }
 
 enum TargetPlatformOs {
-  android,
-  linux,
-}
+  android('ANDROID'),
+  linux('LINUX'),
+  ;
 
-extension TargetPlatformOsValueExtension on TargetPlatformOs {
-  String toValue() {
-    switch (this) {
-      case TargetPlatformOs.android:
-        return 'ANDROID';
-      case TargetPlatformOs.linux:
-        return 'LINUX';
-    }
-  }
-}
+  final String value;
 
-extension TargetPlatformOsFromString on String {
-  TargetPlatformOs toTargetPlatformOs() {
-    switch (this) {
-      case 'ANDROID':
-        return TargetPlatformOs.android;
-      case 'LINUX':
-        return TargetPlatformOs.linux;
-    }
-    throw Exception('$this is not known in enum TargetPlatformOs');
-  }
+  const TargetPlatformOs(this.value);
+
+  static TargetPlatformOs fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TargetPlatformOs'));
 }
 
 /// A target tracking scaling policy. Includes support for predefined or
@@ -68633,7 +61232,7 @@ class ThroughputConfig {
     final provisionedReadCapacityUnits = this.provisionedReadCapacityUnits;
     final provisionedWriteCapacityUnits = this.provisionedWriteCapacityUnits;
     return {
-      'ThroughputMode': throughputMode.toValue(),
+      'ThroughputMode': throughputMode.value,
       if (provisionedReadCapacityUnits != null)
         'ProvisionedReadCapacityUnits': provisionedReadCapacityUnits,
       if (provisionedWriteCapacityUnits != null)
@@ -68682,7 +61281,8 @@ class ThroughputConfigDescription {
 
   factory ThroughputConfigDescription.fromJson(Map<String, dynamic> json) {
     return ThroughputConfigDescription(
-      throughputMode: (json['ThroughputMode'] as String).toThroughputMode(),
+      throughputMode:
+          ThroughputMode.fromString((json['ThroughputMode'] as String)),
       provisionedReadCapacityUnits:
           json['ProvisionedReadCapacityUnits'] as int?,
       provisionedWriteCapacityUnits:
@@ -68726,37 +61326,24 @@ class ThroughputConfigUpdate {
         'ProvisionedReadCapacityUnits': provisionedReadCapacityUnits,
       if (provisionedWriteCapacityUnits != null)
         'ProvisionedWriteCapacityUnits': provisionedWriteCapacityUnits,
-      if (throughputMode != null) 'ThroughputMode': throughputMode.toValue(),
+      if (throughputMode != null) 'ThroughputMode': throughputMode.value,
     };
   }
 }
 
 enum ThroughputMode {
-  onDemand,
-  provisioned,
-}
+  onDemand('OnDemand'),
+  provisioned('Provisioned'),
+  ;
 
-extension ThroughputModeValueExtension on ThroughputMode {
-  String toValue() {
-    switch (this) {
-      case ThroughputMode.onDemand:
-        return 'OnDemand';
-      case ThroughputMode.provisioned:
-        return 'Provisioned';
-    }
-  }
-}
+  final String value;
 
-extension ThroughputModeFromString on String {
-  ThroughputMode toThroughputMode() {
-    switch (this) {
-      case 'OnDemand':
-        return ThroughputMode.onDemand;
-      case 'Provisioned':
-        return ThroughputMode.provisioned;
-    }
-    throw Exception('$this is not known in enum ThroughputMode');
-  }
+  const ThroughputMode(this.value);
+
+  static ThroughputMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ThroughputMode'));
 }
 
 /// The collection of components that defines the time-series.
@@ -68996,7 +61583,7 @@ class TimeSeriesForecastingSettings {
   factory TimeSeriesForecastingSettings.fromJson(Map<String, dynamic> json) {
     return TimeSeriesForecastingSettings(
       amazonForecastRoleArn: json['AmazonForecastRoleArn'] as String?,
-      status: (json['Status'] as String?)?.toFeatureStatus(),
+      status: (json['Status'] as String?)?.let(FeatureStatus.fromString),
     );
   }
 
@@ -69006,7 +61593,7 @@ class TimeSeriesForecastingSettings {
     return {
       if (amazonForecastRoleArn != null)
         'AmazonForecastRoleArn': amazonForecastRoleArn,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -69066,12 +61653,13 @@ class TimeSeriesTransformations {
   factory TimeSeriesTransformations.fromJson(Map<String, dynamic> json) {
     return TimeSeriesTransformations(
       aggregation: (json['Aggregation'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(k, (e as String).toAggregationTransformationValue())),
+          MapEntry(
+              k, AggregationTransformationValue.fromString((e as String)))),
       filling: (json['Filling'] as Map<String, dynamic>?)?.map((k, e) =>
           MapEntry(
               k,
-              (e as Map<String, dynamic>)
-                  .map((k, e) => MapEntry(k.toFillingType(), e as String)))),
+              (e as Map<String, dynamic>).map(
+                  (k, e) => MapEntry(FillingType.fromString(k), e as String)))),
     );
   }
 
@@ -69080,10 +61668,10 @@ class TimeSeriesTransformations {
     final filling = this.filling;
     return {
       if (aggregation != null)
-        'Aggregation': aggregation.map((k, e) => MapEntry(k, e.toValue())),
+        'Aggregation': aggregation.map((k, e) => MapEntry(k, e.value)),
       if (filling != null)
-        'Filling': filling.map(
-            (k, e) => MapEntry(k, e.map((k, e) => MapEntry(k.toValue(), e)))),
+        'Filling': filling
+            .map((k, e) => MapEntry(k, e.map((k, e) => MapEntry(k.value, e)))),
     };
   }
 }
@@ -69115,7 +61703,8 @@ class TrafficPattern {
       stairs: json['Stairs'] != null
           ? Stairs.fromJson(json['Stairs'] as Map<String, dynamic>)
           : null,
-      trafficType: (json['TrafficType'] as String?)?.toTrafficType(),
+      trafficType:
+          (json['TrafficType'] as String?)?.let(TrafficType.fromString),
     );
   }
 
@@ -69126,7 +61715,7 @@ class TrafficPattern {
     return {
       if (phases != null) 'Phases': phases,
       if (stairs != null) 'Stairs': stairs,
-      if (trafficType != null) 'TrafficType': trafficType.toValue(),
+      if (trafficType != null) 'TrafficType': trafficType.value,
     };
   }
 }
@@ -69175,7 +61764,7 @@ class TrafficRoutingConfig {
 
   factory TrafficRoutingConfig.fromJson(Map<String, dynamic> json) {
     return TrafficRoutingConfig(
-      type: (json['Type'] as String).toTrafficRoutingConfigType(),
+      type: TrafficRoutingConfigType.fromString((json['Type'] as String)),
       waitIntervalInSeconds: json['WaitIntervalInSeconds'] as int,
       canarySize: json['CanarySize'] != null
           ? CapacitySize.fromJson(json['CanarySize'] as Map<String, dynamic>)
@@ -69193,7 +61782,7 @@ class TrafficRoutingConfig {
     final canarySize = this.canarySize;
     final linearStepSize = this.linearStepSize;
     return {
-      'Type': type.toValue(),
+      'Type': type.value,
       'WaitIntervalInSeconds': waitIntervalInSeconds,
       if (canarySize != null) 'CanarySize': canarySize,
       if (linearStepSize != null) 'LinearStepSize': linearStepSize,
@@ -69202,64 +61791,33 @@ class TrafficRoutingConfig {
 }
 
 enum TrafficRoutingConfigType {
-  allAtOnce,
-  canary,
-  linear,
-}
+  allAtOnce('ALL_AT_ONCE'),
+  canary('CANARY'),
+  linear('LINEAR'),
+  ;
 
-extension TrafficRoutingConfigTypeValueExtension on TrafficRoutingConfigType {
-  String toValue() {
-    switch (this) {
-      case TrafficRoutingConfigType.allAtOnce:
-        return 'ALL_AT_ONCE';
-      case TrafficRoutingConfigType.canary:
-        return 'CANARY';
-      case TrafficRoutingConfigType.linear:
-        return 'LINEAR';
-    }
-  }
-}
+  final String value;
 
-extension TrafficRoutingConfigTypeFromString on String {
-  TrafficRoutingConfigType toTrafficRoutingConfigType() {
-    switch (this) {
-      case 'ALL_AT_ONCE':
-        return TrafficRoutingConfigType.allAtOnce;
-      case 'CANARY':
-        return TrafficRoutingConfigType.canary;
-      case 'LINEAR':
-        return TrafficRoutingConfigType.linear;
-    }
-    throw Exception('$this is not known in enum TrafficRoutingConfigType');
-  }
+  const TrafficRoutingConfigType(this.value);
+
+  static TrafficRoutingConfigType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TrafficRoutingConfigType'));
 }
 
 enum TrafficType {
-  phases,
-  stairs,
-}
+  phases('PHASES'),
+  stairs('STAIRS'),
+  ;
 
-extension TrafficTypeValueExtension on TrafficType {
-  String toValue() {
-    switch (this) {
-      case TrafficType.phases:
-        return 'PHASES';
-      case TrafficType.stairs:
-        return 'STAIRS';
-    }
-  }
-}
+  final String value;
 
-extension TrafficTypeFromString on String {
-  TrafficType toTrafficType() {
-    switch (this) {
-      case 'PHASES':
-        return TrafficType.phases;
-      case 'STAIRS':
-        return TrafficType.stairs;
-    }
-    throw Exception('$this is not known in enum TrafficType');
-  }
+  const TrafficType(this.value);
+
+  static TrafficType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TrafficType'));
 }
 
 /// The configuration to use an image from a private Docker registry for a
@@ -69281,9 +61839,8 @@ class TrainingImageConfig {
 
   factory TrainingImageConfig.fromJson(Map<String, dynamic> json) {
     return TrainingImageConfig(
-      trainingRepositoryAccessMode:
-          (json['TrainingRepositoryAccessMode'] as String)
-              .toTrainingRepositoryAccessMode(),
+      trainingRepositoryAccessMode: TrainingRepositoryAccessMode.fromString(
+          (json['TrainingRepositoryAccessMode'] as String)),
       trainingRepositoryAuthConfig: json['TrainingRepositoryAuthConfig'] != null
           ? TrainingRepositoryAuthConfig.fromJson(
               json['TrainingRepositoryAuthConfig'] as Map<String, dynamic>)
@@ -69295,7 +61852,7 @@ class TrainingImageConfig {
     final trainingRepositoryAccessMode = this.trainingRepositoryAccessMode;
     final trainingRepositoryAuthConfig = this.trainingRepositoryAuthConfig;
     return {
-      'TrainingRepositoryAccessMode': trainingRepositoryAccessMode.toValue(),
+      'TrainingRepositoryAccessMode': trainingRepositoryAccessMode.value,
       if (trainingRepositoryAuthConfig != null)
         'TrainingRepositoryAuthConfig': trainingRepositoryAuthConfig,
     };
@@ -69340,399 +61897,101 @@ class TrainingImageConfig {
 /// Augmented manifest files aren't supported. The startup time is lower when
 /// there are fewer files in the S3 bucket provided.
 enum TrainingInputMode {
-  pipe,
-  file,
-  fastFile,
-}
+  pipe('Pipe'),
+  file('File'),
+  fastFile('FastFile'),
+  ;
 
-extension TrainingInputModeValueExtension on TrainingInputMode {
-  String toValue() {
-    switch (this) {
-      case TrainingInputMode.pipe:
-        return 'Pipe';
-      case TrainingInputMode.file:
-        return 'File';
-      case TrainingInputMode.fastFile:
-        return 'FastFile';
-    }
-  }
-}
+  final String value;
 
-extension TrainingInputModeFromString on String {
-  TrainingInputMode toTrainingInputMode() {
-    switch (this) {
-      case 'Pipe':
-        return TrainingInputMode.pipe;
-      case 'File':
-        return TrainingInputMode.file;
-      case 'FastFile':
-        return TrainingInputMode.fastFile;
-    }
-    throw Exception('$this is not known in enum TrainingInputMode');
-  }
+  const TrainingInputMode(this.value);
+
+  static TrainingInputMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TrainingInputMode'));
 }
 
 enum TrainingInstanceType {
-  mlM4Xlarge,
-  mlM4_2xlarge,
-  mlM4_4xlarge,
-  mlM4_10xlarge,
-  mlM4_16xlarge,
-  mlG4dnXlarge,
-  mlG4dn_2xlarge,
-  mlG4dn_4xlarge,
-  mlG4dn_8xlarge,
-  mlG4dn_12xlarge,
-  mlG4dn_16xlarge,
-  mlM5Large,
-  mlM5Xlarge,
-  mlM5_2xlarge,
-  mlM5_4xlarge,
-  mlM5_12xlarge,
-  mlM5_24xlarge,
-  mlC4Xlarge,
-  mlC4_2xlarge,
-  mlC4_4xlarge,
-  mlC4_8xlarge,
-  mlP2Xlarge,
-  mlP2_8xlarge,
-  mlP2_16xlarge,
-  mlP3_2xlarge,
-  mlP3_8xlarge,
-  mlP3_16xlarge,
-  mlP3dn_24xlarge,
-  mlP4d_24xlarge,
-  mlP4de_24xlarge,
-  mlP5_48xlarge,
-  mlC5Xlarge,
-  mlC5_2xlarge,
-  mlC5_4xlarge,
-  mlC5_9xlarge,
-  mlC5_18xlarge,
-  mlC5nXlarge,
-  mlC5n_2xlarge,
-  mlC5n_4xlarge,
-  mlC5n_9xlarge,
-  mlC5n_18xlarge,
-  mlG5Xlarge,
-  mlG5_2xlarge,
-  mlG5_4xlarge,
-  mlG5_8xlarge,
-  mlG5_16xlarge,
-  mlG5_12xlarge,
-  mlG5_24xlarge,
-  mlG5_48xlarge,
-  mlTrn1_2xlarge,
-  mlTrn1_32xlarge,
-  mlTrn1n_32xlarge,
-  mlM6iLarge,
-  mlM6iXlarge,
-  mlM6i_2xlarge,
-  mlM6i_4xlarge,
-  mlM6i_8xlarge,
-  mlM6i_12xlarge,
-  mlM6i_16xlarge,
-  mlM6i_24xlarge,
-  mlM6i_32xlarge,
-  mlC6iXlarge,
-  mlC6i_2xlarge,
-  mlC6i_8xlarge,
-  mlC6i_4xlarge,
-  mlC6i_12xlarge,
-  mlC6i_16xlarge,
-  mlC6i_24xlarge,
-  mlC6i_32xlarge,
-}
+  mlM4Xlarge('ml.m4.xlarge'),
+  mlM4_2xlarge('ml.m4.2xlarge'),
+  mlM4_4xlarge('ml.m4.4xlarge'),
+  mlM4_10xlarge('ml.m4.10xlarge'),
+  mlM4_16xlarge('ml.m4.16xlarge'),
+  mlG4dnXlarge('ml.g4dn.xlarge'),
+  mlG4dn_2xlarge('ml.g4dn.2xlarge'),
+  mlG4dn_4xlarge('ml.g4dn.4xlarge'),
+  mlG4dn_8xlarge('ml.g4dn.8xlarge'),
+  mlG4dn_12xlarge('ml.g4dn.12xlarge'),
+  mlG4dn_16xlarge('ml.g4dn.16xlarge'),
+  mlM5Large('ml.m5.large'),
+  mlM5Xlarge('ml.m5.xlarge'),
+  mlM5_2xlarge('ml.m5.2xlarge'),
+  mlM5_4xlarge('ml.m5.4xlarge'),
+  mlM5_12xlarge('ml.m5.12xlarge'),
+  mlM5_24xlarge('ml.m5.24xlarge'),
+  mlC4Xlarge('ml.c4.xlarge'),
+  mlC4_2xlarge('ml.c4.2xlarge'),
+  mlC4_4xlarge('ml.c4.4xlarge'),
+  mlC4_8xlarge('ml.c4.8xlarge'),
+  mlP2Xlarge('ml.p2.xlarge'),
+  mlP2_8xlarge('ml.p2.8xlarge'),
+  mlP2_16xlarge('ml.p2.16xlarge'),
+  mlP3_2xlarge('ml.p3.2xlarge'),
+  mlP3_8xlarge('ml.p3.8xlarge'),
+  mlP3_16xlarge('ml.p3.16xlarge'),
+  mlP3dn_24xlarge('ml.p3dn.24xlarge'),
+  mlP4d_24xlarge('ml.p4d.24xlarge'),
+  mlP4de_24xlarge('ml.p4de.24xlarge'),
+  mlP5_48xlarge('ml.p5.48xlarge'),
+  mlC5Xlarge('ml.c5.xlarge'),
+  mlC5_2xlarge('ml.c5.2xlarge'),
+  mlC5_4xlarge('ml.c5.4xlarge'),
+  mlC5_9xlarge('ml.c5.9xlarge'),
+  mlC5_18xlarge('ml.c5.18xlarge'),
+  mlC5nXlarge('ml.c5n.xlarge'),
+  mlC5n_2xlarge('ml.c5n.2xlarge'),
+  mlC5n_4xlarge('ml.c5n.4xlarge'),
+  mlC5n_9xlarge('ml.c5n.9xlarge'),
+  mlC5n_18xlarge('ml.c5n.18xlarge'),
+  mlG5Xlarge('ml.g5.xlarge'),
+  mlG5_2xlarge('ml.g5.2xlarge'),
+  mlG5_4xlarge('ml.g5.4xlarge'),
+  mlG5_8xlarge('ml.g5.8xlarge'),
+  mlG5_16xlarge('ml.g5.16xlarge'),
+  mlG5_12xlarge('ml.g5.12xlarge'),
+  mlG5_24xlarge('ml.g5.24xlarge'),
+  mlG5_48xlarge('ml.g5.48xlarge'),
+  mlTrn1_2xlarge('ml.trn1.2xlarge'),
+  mlTrn1_32xlarge('ml.trn1.32xlarge'),
+  mlTrn1n_32xlarge('ml.trn1n.32xlarge'),
+  mlM6iLarge('ml.m6i.large'),
+  mlM6iXlarge('ml.m6i.xlarge'),
+  mlM6i_2xlarge('ml.m6i.2xlarge'),
+  mlM6i_4xlarge('ml.m6i.4xlarge'),
+  mlM6i_8xlarge('ml.m6i.8xlarge'),
+  mlM6i_12xlarge('ml.m6i.12xlarge'),
+  mlM6i_16xlarge('ml.m6i.16xlarge'),
+  mlM6i_24xlarge('ml.m6i.24xlarge'),
+  mlM6i_32xlarge('ml.m6i.32xlarge'),
+  mlC6iXlarge('ml.c6i.xlarge'),
+  mlC6i_2xlarge('ml.c6i.2xlarge'),
+  mlC6i_8xlarge('ml.c6i.8xlarge'),
+  mlC6i_4xlarge('ml.c6i.4xlarge'),
+  mlC6i_12xlarge('ml.c6i.12xlarge'),
+  mlC6i_16xlarge('ml.c6i.16xlarge'),
+  mlC6i_24xlarge('ml.c6i.24xlarge'),
+  mlC6i_32xlarge('ml.c6i.32xlarge'),
+  ;
 
-extension TrainingInstanceTypeValueExtension on TrainingInstanceType {
-  String toValue() {
-    switch (this) {
-      case TrainingInstanceType.mlM4Xlarge:
-        return 'ml.m4.xlarge';
-      case TrainingInstanceType.mlM4_2xlarge:
-        return 'ml.m4.2xlarge';
-      case TrainingInstanceType.mlM4_4xlarge:
-        return 'ml.m4.4xlarge';
-      case TrainingInstanceType.mlM4_10xlarge:
-        return 'ml.m4.10xlarge';
-      case TrainingInstanceType.mlM4_16xlarge:
-        return 'ml.m4.16xlarge';
-      case TrainingInstanceType.mlG4dnXlarge:
-        return 'ml.g4dn.xlarge';
-      case TrainingInstanceType.mlG4dn_2xlarge:
-        return 'ml.g4dn.2xlarge';
-      case TrainingInstanceType.mlG4dn_4xlarge:
-        return 'ml.g4dn.4xlarge';
-      case TrainingInstanceType.mlG4dn_8xlarge:
-        return 'ml.g4dn.8xlarge';
-      case TrainingInstanceType.mlG4dn_12xlarge:
-        return 'ml.g4dn.12xlarge';
-      case TrainingInstanceType.mlG4dn_16xlarge:
-        return 'ml.g4dn.16xlarge';
-      case TrainingInstanceType.mlM5Large:
-        return 'ml.m5.large';
-      case TrainingInstanceType.mlM5Xlarge:
-        return 'ml.m5.xlarge';
-      case TrainingInstanceType.mlM5_2xlarge:
-        return 'ml.m5.2xlarge';
-      case TrainingInstanceType.mlM5_4xlarge:
-        return 'ml.m5.4xlarge';
-      case TrainingInstanceType.mlM5_12xlarge:
-        return 'ml.m5.12xlarge';
-      case TrainingInstanceType.mlM5_24xlarge:
-        return 'ml.m5.24xlarge';
-      case TrainingInstanceType.mlC4Xlarge:
-        return 'ml.c4.xlarge';
-      case TrainingInstanceType.mlC4_2xlarge:
-        return 'ml.c4.2xlarge';
-      case TrainingInstanceType.mlC4_4xlarge:
-        return 'ml.c4.4xlarge';
-      case TrainingInstanceType.mlC4_8xlarge:
-        return 'ml.c4.8xlarge';
-      case TrainingInstanceType.mlP2Xlarge:
-        return 'ml.p2.xlarge';
-      case TrainingInstanceType.mlP2_8xlarge:
-        return 'ml.p2.8xlarge';
-      case TrainingInstanceType.mlP2_16xlarge:
-        return 'ml.p2.16xlarge';
-      case TrainingInstanceType.mlP3_2xlarge:
-        return 'ml.p3.2xlarge';
-      case TrainingInstanceType.mlP3_8xlarge:
-        return 'ml.p3.8xlarge';
-      case TrainingInstanceType.mlP3_16xlarge:
-        return 'ml.p3.16xlarge';
-      case TrainingInstanceType.mlP3dn_24xlarge:
-        return 'ml.p3dn.24xlarge';
-      case TrainingInstanceType.mlP4d_24xlarge:
-        return 'ml.p4d.24xlarge';
-      case TrainingInstanceType.mlP4de_24xlarge:
-        return 'ml.p4de.24xlarge';
-      case TrainingInstanceType.mlP5_48xlarge:
-        return 'ml.p5.48xlarge';
-      case TrainingInstanceType.mlC5Xlarge:
-        return 'ml.c5.xlarge';
-      case TrainingInstanceType.mlC5_2xlarge:
-        return 'ml.c5.2xlarge';
-      case TrainingInstanceType.mlC5_4xlarge:
-        return 'ml.c5.4xlarge';
-      case TrainingInstanceType.mlC5_9xlarge:
-        return 'ml.c5.9xlarge';
-      case TrainingInstanceType.mlC5_18xlarge:
-        return 'ml.c5.18xlarge';
-      case TrainingInstanceType.mlC5nXlarge:
-        return 'ml.c5n.xlarge';
-      case TrainingInstanceType.mlC5n_2xlarge:
-        return 'ml.c5n.2xlarge';
-      case TrainingInstanceType.mlC5n_4xlarge:
-        return 'ml.c5n.4xlarge';
-      case TrainingInstanceType.mlC5n_9xlarge:
-        return 'ml.c5n.9xlarge';
-      case TrainingInstanceType.mlC5n_18xlarge:
-        return 'ml.c5n.18xlarge';
-      case TrainingInstanceType.mlG5Xlarge:
-        return 'ml.g5.xlarge';
-      case TrainingInstanceType.mlG5_2xlarge:
-        return 'ml.g5.2xlarge';
-      case TrainingInstanceType.mlG5_4xlarge:
-        return 'ml.g5.4xlarge';
-      case TrainingInstanceType.mlG5_8xlarge:
-        return 'ml.g5.8xlarge';
-      case TrainingInstanceType.mlG5_16xlarge:
-        return 'ml.g5.16xlarge';
-      case TrainingInstanceType.mlG5_12xlarge:
-        return 'ml.g5.12xlarge';
-      case TrainingInstanceType.mlG5_24xlarge:
-        return 'ml.g5.24xlarge';
-      case TrainingInstanceType.mlG5_48xlarge:
-        return 'ml.g5.48xlarge';
-      case TrainingInstanceType.mlTrn1_2xlarge:
-        return 'ml.trn1.2xlarge';
-      case TrainingInstanceType.mlTrn1_32xlarge:
-        return 'ml.trn1.32xlarge';
-      case TrainingInstanceType.mlTrn1n_32xlarge:
-        return 'ml.trn1n.32xlarge';
-      case TrainingInstanceType.mlM6iLarge:
-        return 'ml.m6i.large';
-      case TrainingInstanceType.mlM6iXlarge:
-        return 'ml.m6i.xlarge';
-      case TrainingInstanceType.mlM6i_2xlarge:
-        return 'ml.m6i.2xlarge';
-      case TrainingInstanceType.mlM6i_4xlarge:
-        return 'ml.m6i.4xlarge';
-      case TrainingInstanceType.mlM6i_8xlarge:
-        return 'ml.m6i.8xlarge';
-      case TrainingInstanceType.mlM6i_12xlarge:
-        return 'ml.m6i.12xlarge';
-      case TrainingInstanceType.mlM6i_16xlarge:
-        return 'ml.m6i.16xlarge';
-      case TrainingInstanceType.mlM6i_24xlarge:
-        return 'ml.m6i.24xlarge';
-      case TrainingInstanceType.mlM6i_32xlarge:
-        return 'ml.m6i.32xlarge';
-      case TrainingInstanceType.mlC6iXlarge:
-        return 'ml.c6i.xlarge';
-      case TrainingInstanceType.mlC6i_2xlarge:
-        return 'ml.c6i.2xlarge';
-      case TrainingInstanceType.mlC6i_8xlarge:
-        return 'ml.c6i.8xlarge';
-      case TrainingInstanceType.mlC6i_4xlarge:
-        return 'ml.c6i.4xlarge';
-      case TrainingInstanceType.mlC6i_12xlarge:
-        return 'ml.c6i.12xlarge';
-      case TrainingInstanceType.mlC6i_16xlarge:
-        return 'ml.c6i.16xlarge';
-      case TrainingInstanceType.mlC6i_24xlarge:
-        return 'ml.c6i.24xlarge';
-      case TrainingInstanceType.mlC6i_32xlarge:
-        return 'ml.c6i.32xlarge';
-    }
-  }
-}
+  final String value;
 
-extension TrainingInstanceTypeFromString on String {
-  TrainingInstanceType toTrainingInstanceType() {
-    switch (this) {
-      case 'ml.m4.xlarge':
-        return TrainingInstanceType.mlM4Xlarge;
-      case 'ml.m4.2xlarge':
-        return TrainingInstanceType.mlM4_2xlarge;
-      case 'ml.m4.4xlarge':
-        return TrainingInstanceType.mlM4_4xlarge;
-      case 'ml.m4.10xlarge':
-        return TrainingInstanceType.mlM4_10xlarge;
-      case 'ml.m4.16xlarge':
-        return TrainingInstanceType.mlM4_16xlarge;
-      case 'ml.g4dn.xlarge':
-        return TrainingInstanceType.mlG4dnXlarge;
-      case 'ml.g4dn.2xlarge':
-        return TrainingInstanceType.mlG4dn_2xlarge;
-      case 'ml.g4dn.4xlarge':
-        return TrainingInstanceType.mlG4dn_4xlarge;
-      case 'ml.g4dn.8xlarge':
-        return TrainingInstanceType.mlG4dn_8xlarge;
-      case 'ml.g4dn.12xlarge':
-        return TrainingInstanceType.mlG4dn_12xlarge;
-      case 'ml.g4dn.16xlarge':
-        return TrainingInstanceType.mlG4dn_16xlarge;
-      case 'ml.m5.large':
-        return TrainingInstanceType.mlM5Large;
-      case 'ml.m5.xlarge':
-        return TrainingInstanceType.mlM5Xlarge;
-      case 'ml.m5.2xlarge':
-        return TrainingInstanceType.mlM5_2xlarge;
-      case 'ml.m5.4xlarge':
-        return TrainingInstanceType.mlM5_4xlarge;
-      case 'ml.m5.12xlarge':
-        return TrainingInstanceType.mlM5_12xlarge;
-      case 'ml.m5.24xlarge':
-        return TrainingInstanceType.mlM5_24xlarge;
-      case 'ml.c4.xlarge':
-        return TrainingInstanceType.mlC4Xlarge;
-      case 'ml.c4.2xlarge':
-        return TrainingInstanceType.mlC4_2xlarge;
-      case 'ml.c4.4xlarge':
-        return TrainingInstanceType.mlC4_4xlarge;
-      case 'ml.c4.8xlarge':
-        return TrainingInstanceType.mlC4_8xlarge;
-      case 'ml.p2.xlarge':
-        return TrainingInstanceType.mlP2Xlarge;
-      case 'ml.p2.8xlarge':
-        return TrainingInstanceType.mlP2_8xlarge;
-      case 'ml.p2.16xlarge':
-        return TrainingInstanceType.mlP2_16xlarge;
-      case 'ml.p3.2xlarge':
-        return TrainingInstanceType.mlP3_2xlarge;
-      case 'ml.p3.8xlarge':
-        return TrainingInstanceType.mlP3_8xlarge;
-      case 'ml.p3.16xlarge':
-        return TrainingInstanceType.mlP3_16xlarge;
-      case 'ml.p3dn.24xlarge':
-        return TrainingInstanceType.mlP3dn_24xlarge;
-      case 'ml.p4d.24xlarge':
-        return TrainingInstanceType.mlP4d_24xlarge;
-      case 'ml.p4de.24xlarge':
-        return TrainingInstanceType.mlP4de_24xlarge;
-      case 'ml.p5.48xlarge':
-        return TrainingInstanceType.mlP5_48xlarge;
-      case 'ml.c5.xlarge':
-        return TrainingInstanceType.mlC5Xlarge;
-      case 'ml.c5.2xlarge':
-        return TrainingInstanceType.mlC5_2xlarge;
-      case 'ml.c5.4xlarge':
-        return TrainingInstanceType.mlC5_4xlarge;
-      case 'ml.c5.9xlarge':
-        return TrainingInstanceType.mlC5_9xlarge;
-      case 'ml.c5.18xlarge':
-        return TrainingInstanceType.mlC5_18xlarge;
-      case 'ml.c5n.xlarge':
-        return TrainingInstanceType.mlC5nXlarge;
-      case 'ml.c5n.2xlarge':
-        return TrainingInstanceType.mlC5n_2xlarge;
-      case 'ml.c5n.4xlarge':
-        return TrainingInstanceType.mlC5n_4xlarge;
-      case 'ml.c5n.9xlarge':
-        return TrainingInstanceType.mlC5n_9xlarge;
-      case 'ml.c5n.18xlarge':
-        return TrainingInstanceType.mlC5n_18xlarge;
-      case 'ml.g5.xlarge':
-        return TrainingInstanceType.mlG5Xlarge;
-      case 'ml.g5.2xlarge':
-        return TrainingInstanceType.mlG5_2xlarge;
-      case 'ml.g5.4xlarge':
-        return TrainingInstanceType.mlG5_4xlarge;
-      case 'ml.g5.8xlarge':
-        return TrainingInstanceType.mlG5_8xlarge;
-      case 'ml.g5.16xlarge':
-        return TrainingInstanceType.mlG5_16xlarge;
-      case 'ml.g5.12xlarge':
-        return TrainingInstanceType.mlG5_12xlarge;
-      case 'ml.g5.24xlarge':
-        return TrainingInstanceType.mlG5_24xlarge;
-      case 'ml.g5.48xlarge':
-        return TrainingInstanceType.mlG5_48xlarge;
-      case 'ml.trn1.2xlarge':
-        return TrainingInstanceType.mlTrn1_2xlarge;
-      case 'ml.trn1.32xlarge':
-        return TrainingInstanceType.mlTrn1_32xlarge;
-      case 'ml.trn1n.32xlarge':
-        return TrainingInstanceType.mlTrn1n_32xlarge;
-      case 'ml.m6i.large':
-        return TrainingInstanceType.mlM6iLarge;
-      case 'ml.m6i.xlarge':
-        return TrainingInstanceType.mlM6iXlarge;
-      case 'ml.m6i.2xlarge':
-        return TrainingInstanceType.mlM6i_2xlarge;
-      case 'ml.m6i.4xlarge':
-        return TrainingInstanceType.mlM6i_4xlarge;
-      case 'ml.m6i.8xlarge':
-        return TrainingInstanceType.mlM6i_8xlarge;
-      case 'ml.m6i.12xlarge':
-        return TrainingInstanceType.mlM6i_12xlarge;
-      case 'ml.m6i.16xlarge':
-        return TrainingInstanceType.mlM6i_16xlarge;
-      case 'ml.m6i.24xlarge':
-        return TrainingInstanceType.mlM6i_24xlarge;
-      case 'ml.m6i.32xlarge':
-        return TrainingInstanceType.mlM6i_32xlarge;
-      case 'ml.c6i.xlarge':
-        return TrainingInstanceType.mlC6iXlarge;
-      case 'ml.c6i.2xlarge':
-        return TrainingInstanceType.mlC6i_2xlarge;
-      case 'ml.c6i.8xlarge':
-        return TrainingInstanceType.mlC6i_8xlarge;
-      case 'ml.c6i.4xlarge':
-        return TrainingInstanceType.mlC6i_4xlarge;
-      case 'ml.c6i.12xlarge':
-        return TrainingInstanceType.mlC6i_12xlarge;
-      case 'ml.c6i.16xlarge':
-        return TrainingInstanceType.mlC6i_16xlarge;
-      case 'ml.c6i.24xlarge':
-        return TrainingInstanceType.mlC6i_24xlarge;
-      case 'ml.c6i.32xlarge':
-        return TrainingInstanceType.mlC6i_32xlarge;
-    }
-    throw Exception('$this is not known in enum TrainingInstanceType');
-  }
+  const TrainingInstanceType(this.value);
+
+  static TrainingInstanceType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TrainingInstanceType'));
 }
 
 /// Contains information about a training job.
@@ -70091,7 +62350,7 @@ class TrainingJob {
           : null,
       roleArn: json['RoleArn'] as String?,
       secondaryStatus:
-          (json['SecondaryStatus'] as String?)?.toSecondaryStatus(),
+          (json['SecondaryStatus'] as String?)?.let(SecondaryStatus.fromString),
       secondaryStatusTransitions: (json['SecondaryStatusTransitions'] as List?)
           ?.whereNotNull()
           .map((e) =>
@@ -70112,8 +62371,8 @@ class TrainingJob {
       trainingEndTime: timeStampFromJson(json['TrainingEndTime']),
       trainingJobArn: json['TrainingJobArn'] as String?,
       trainingJobName: json['TrainingJobName'] as String?,
-      trainingJobStatus:
-          (json['TrainingJobStatus'] as String?)?.toTrainingJobStatus(),
+      trainingJobStatus: (json['TrainingJobStatus'] as String?)
+          ?.let(TrainingJobStatus.fromString),
       trainingStartTime: timeStampFromJson(json['TrainingStartTime']),
       trainingTimeInSeconds: json['TrainingTimeInSeconds'] as int?,
       tuningJobArn: json['TuningJobArn'] as String?,
@@ -70174,7 +62433,7 @@ class TrainingJobDefinition {
       stoppingCondition: StoppingCondition.fromJson(
           json['StoppingCondition'] as Map<String, dynamic>),
       trainingInputMode:
-          (json['TrainingInputMode'] as String).toTrainingInputMode(),
+          TrainingInputMode.fromString((json['TrainingInputMode'] as String)),
       hyperParameters: (json['HyperParameters'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -70192,120 +62451,60 @@ class TrainingJobDefinition {
       'OutputDataConfig': outputDataConfig,
       'ResourceConfig': resourceConfig,
       'StoppingCondition': stoppingCondition,
-      'TrainingInputMode': trainingInputMode.toValue(),
+      'TrainingInputMode': trainingInputMode.value,
       if (hyperParameters != null) 'HyperParameters': hyperParameters,
     };
   }
 }
 
 enum TrainingJobEarlyStoppingType {
-  off,
-  auto,
-}
+  off('Off'),
+  auto('Auto'),
+  ;
 
-extension TrainingJobEarlyStoppingTypeValueExtension
-    on TrainingJobEarlyStoppingType {
-  String toValue() {
-    switch (this) {
-      case TrainingJobEarlyStoppingType.off:
-        return 'Off';
-      case TrainingJobEarlyStoppingType.auto:
-        return 'Auto';
-    }
-  }
-}
+  final String value;
 
-extension TrainingJobEarlyStoppingTypeFromString on String {
-  TrainingJobEarlyStoppingType toTrainingJobEarlyStoppingType() {
-    switch (this) {
-      case 'Off':
-        return TrainingJobEarlyStoppingType.off;
-      case 'Auto':
-        return TrainingJobEarlyStoppingType.auto;
-    }
-    throw Exception('$this is not known in enum TrainingJobEarlyStoppingType');
-  }
+  const TrainingJobEarlyStoppingType(this.value);
+
+  static TrainingJobEarlyStoppingType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TrainingJobEarlyStoppingType'));
 }
 
 enum TrainingJobSortByOptions {
-  name,
-  creationTime,
-  status,
-  finalObjectiveMetricValue,
-}
+  name('Name'),
+  creationTime('CreationTime'),
+  status('Status'),
+  finalObjectiveMetricValue('FinalObjectiveMetricValue'),
+  ;
 
-extension TrainingJobSortByOptionsValueExtension on TrainingJobSortByOptions {
-  String toValue() {
-    switch (this) {
-      case TrainingJobSortByOptions.name:
-        return 'Name';
-      case TrainingJobSortByOptions.creationTime:
-        return 'CreationTime';
-      case TrainingJobSortByOptions.status:
-        return 'Status';
-      case TrainingJobSortByOptions.finalObjectiveMetricValue:
-        return 'FinalObjectiveMetricValue';
-    }
-  }
-}
+  final String value;
 
-extension TrainingJobSortByOptionsFromString on String {
-  TrainingJobSortByOptions toTrainingJobSortByOptions() {
-    switch (this) {
-      case 'Name':
-        return TrainingJobSortByOptions.name;
-      case 'CreationTime':
-        return TrainingJobSortByOptions.creationTime;
-      case 'Status':
-        return TrainingJobSortByOptions.status;
-      case 'FinalObjectiveMetricValue':
-        return TrainingJobSortByOptions.finalObjectiveMetricValue;
-    }
-    throw Exception('$this is not known in enum TrainingJobSortByOptions');
-  }
+  const TrainingJobSortByOptions(this.value);
+
+  static TrainingJobSortByOptions fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TrainingJobSortByOptions'));
 }
 
 enum TrainingJobStatus {
-  inProgress,
-  completed,
-  failed,
-  stopping,
-  stopped,
-}
+  inProgress('InProgress'),
+  completed('Completed'),
+  failed('Failed'),
+  stopping('Stopping'),
+  stopped('Stopped'),
+  ;
 
-extension TrainingJobStatusValueExtension on TrainingJobStatus {
-  String toValue() {
-    switch (this) {
-      case TrainingJobStatus.inProgress:
-        return 'InProgress';
-      case TrainingJobStatus.completed:
-        return 'Completed';
-      case TrainingJobStatus.failed:
-        return 'Failed';
-      case TrainingJobStatus.stopping:
-        return 'Stopping';
-      case TrainingJobStatus.stopped:
-        return 'Stopped';
-    }
-  }
-}
+  final String value;
 
-extension TrainingJobStatusFromString on String {
-  TrainingJobStatus toTrainingJobStatus() {
-    switch (this) {
-      case 'InProgress':
-        return TrainingJobStatus.inProgress;
-      case 'Completed':
-        return TrainingJobStatus.completed;
-      case 'Failed':
-        return TrainingJobStatus.failed;
-      case 'Stopping':
-        return TrainingJobStatus.stopping;
-      case 'Stopped':
-        return TrainingJobStatus.stopped;
-    }
-    throw Exception('$this is not known in enum TrainingJobStatus');
-  }
+  const TrainingJobStatus(this.value);
+
+  static TrainingJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TrainingJobStatus'));
 }
 
 /// The numbers of training jobs launched by a hyperparameter tuning job,
@@ -70410,7 +62609,7 @@ class TrainingJobSummary {
       trainingJobArn: json['TrainingJobArn'] as String,
       trainingJobName: json['TrainingJobName'] as String,
       trainingJobStatus:
-          (json['TrainingJobStatus'] as String).toTrainingJobStatus(),
+          TrainingJobStatus.fromString((json['TrainingJobStatus'] as String)),
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       trainingEndTime: timeStampFromJson(json['TrainingEndTime']),
       warmPoolStatus: json['WarmPoolStatus'] != null
@@ -70422,32 +62621,18 @@ class TrainingJobSummary {
 }
 
 enum TrainingRepositoryAccessMode {
-  platform,
-  vpc,
-}
+  platform('Platform'),
+  vpc('Vpc'),
+  ;
 
-extension TrainingRepositoryAccessModeValueExtension
-    on TrainingRepositoryAccessMode {
-  String toValue() {
-    switch (this) {
-      case TrainingRepositoryAccessMode.platform:
-        return 'Platform';
-      case TrainingRepositoryAccessMode.vpc:
-        return 'Vpc';
-    }
-  }
-}
+  final String value;
 
-extension TrainingRepositoryAccessModeFromString on String {
-  TrainingRepositoryAccessMode toTrainingRepositoryAccessMode() {
-    switch (this) {
-      case 'Platform':
-        return TrainingRepositoryAccessMode.platform;
-      case 'Vpc':
-        return TrainingRepositoryAccessMode.vpc;
-    }
-    throw Exception('$this is not known in enum TrainingRepositoryAccessMode');
-  }
+  const TrainingRepositoryAccessMode(this.value);
+
+  static TrainingRepositoryAccessMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TrainingRepositoryAccessMode'));
 }
 
 /// An object containing authentication information for a private Docker
@@ -70533,7 +62718,7 @@ class TrainingSpecification {
       supportedTrainingInstanceTypes:
           (json['SupportedTrainingInstanceTypes'] as List)
               .whereNotNull()
-              .map((e) => (e as String).toTrainingInstanceType())
+              .map((e) => TrainingInstanceType.fromString((e as String)))
               .toList(),
       trainingChannels: (json['TrainingChannels'] as List)
           .whereNotNull()
@@ -70577,7 +62762,7 @@ class TrainingSpecification {
     final trainingImageDigest = this.trainingImageDigest;
     return {
       'SupportedTrainingInstanceTypes':
-          supportedTrainingInstanceTypes.map((e) => e.toValue()).toList(),
+          supportedTrainingInstanceTypes.map((e) => e.value).toList(),
       'TrainingChannels': trainingChannels,
       'TrainingImage': trainingImage,
       if (additionalS3DataSource != null)
@@ -70691,9 +62876,9 @@ class TransformInput {
       dataSource: TransformDataSource.fromJson(
           json['DataSource'] as Map<String, dynamic>),
       compressionType:
-          (json['CompressionType'] as String?)?.toCompressionType(),
+          (json['CompressionType'] as String?)?.let(CompressionType.fromString),
       contentType: json['ContentType'] as String?,
-      splitType: (json['SplitType'] as String?)?.toSplitType(),
+      splitType: (json['SplitType'] as String?)?.let(SplitType.fromString),
     );
   }
 
@@ -70704,499 +62889,118 @@ class TransformInput {
     final splitType = this.splitType;
     return {
       'DataSource': dataSource,
-      if (compressionType != null) 'CompressionType': compressionType.toValue(),
+      if (compressionType != null) 'CompressionType': compressionType.value,
       if (contentType != null) 'ContentType': contentType,
-      if (splitType != null) 'SplitType': splitType.toValue(),
+      if (splitType != null) 'SplitType': splitType.value,
     };
   }
 }
 
 enum TransformInstanceType {
-  mlM4Xlarge,
-  mlM4_2xlarge,
-  mlM4_4xlarge,
-  mlM4_10xlarge,
-  mlM4_16xlarge,
-  mlC4Xlarge,
-  mlC4_2xlarge,
-  mlC4_4xlarge,
-  mlC4_8xlarge,
-  mlP2Xlarge,
-  mlP2_8xlarge,
-  mlP2_16xlarge,
-  mlP3_2xlarge,
-  mlP3_8xlarge,
-  mlP3_16xlarge,
-  mlC5Xlarge,
-  mlC5_2xlarge,
-  mlC5_4xlarge,
-  mlC5_9xlarge,
-  mlC5_18xlarge,
-  mlM5Large,
-  mlM5Xlarge,
-  mlM5_2xlarge,
-  mlM5_4xlarge,
-  mlM5_12xlarge,
-  mlM5_24xlarge,
-  mlM6iLarge,
-  mlM6iXlarge,
-  mlM6i_2xlarge,
-  mlM6i_4xlarge,
-  mlM6i_8xlarge,
-  mlM6i_12xlarge,
-  mlM6i_16xlarge,
-  mlM6i_24xlarge,
-  mlM6i_32xlarge,
-  mlC6iLarge,
-  mlC6iXlarge,
-  mlC6i_2xlarge,
-  mlC6i_4xlarge,
-  mlC6i_8xlarge,
-  mlC6i_12xlarge,
-  mlC6i_16xlarge,
-  mlC6i_24xlarge,
-  mlC6i_32xlarge,
-  mlR6iLarge,
-  mlR6iXlarge,
-  mlR6i_2xlarge,
-  mlR6i_4xlarge,
-  mlR6i_8xlarge,
-  mlR6i_12xlarge,
-  mlR6i_16xlarge,
-  mlR6i_24xlarge,
-  mlR6i_32xlarge,
-  mlM7iLarge,
-  mlM7iXlarge,
-  mlM7i_2xlarge,
-  mlM7i_4xlarge,
-  mlM7i_8xlarge,
-  mlM7i_12xlarge,
-  mlM7i_16xlarge,
-  mlM7i_24xlarge,
-  mlM7i_48xlarge,
-  mlC7iLarge,
-  mlC7iXlarge,
-  mlC7i_2xlarge,
-  mlC7i_4xlarge,
-  mlC7i_8xlarge,
-  mlC7i_12xlarge,
-  mlC7i_16xlarge,
-  mlC7i_24xlarge,
-  mlC7i_48xlarge,
-  mlR7iLarge,
-  mlR7iXlarge,
-  mlR7i_2xlarge,
-  mlR7i_4xlarge,
-  mlR7i_8xlarge,
-  mlR7i_12xlarge,
-  mlR7i_16xlarge,
-  mlR7i_24xlarge,
-  mlR7i_48xlarge,
-  mlG4dnXlarge,
-  mlG4dn_2xlarge,
-  mlG4dn_4xlarge,
-  mlG4dn_8xlarge,
-  mlG4dn_12xlarge,
-  mlG4dn_16xlarge,
-  mlG5Xlarge,
-  mlG5_2xlarge,
-  mlG5_4xlarge,
-  mlG5_8xlarge,
-  mlG5_12xlarge,
-  mlG5_16xlarge,
-  mlG5_24xlarge,
-  mlG5_48xlarge,
-}
+  mlM4Xlarge('ml.m4.xlarge'),
+  mlM4_2xlarge('ml.m4.2xlarge'),
+  mlM4_4xlarge('ml.m4.4xlarge'),
+  mlM4_10xlarge('ml.m4.10xlarge'),
+  mlM4_16xlarge('ml.m4.16xlarge'),
+  mlC4Xlarge('ml.c4.xlarge'),
+  mlC4_2xlarge('ml.c4.2xlarge'),
+  mlC4_4xlarge('ml.c4.4xlarge'),
+  mlC4_8xlarge('ml.c4.8xlarge'),
+  mlP2Xlarge('ml.p2.xlarge'),
+  mlP2_8xlarge('ml.p2.8xlarge'),
+  mlP2_16xlarge('ml.p2.16xlarge'),
+  mlP3_2xlarge('ml.p3.2xlarge'),
+  mlP3_8xlarge('ml.p3.8xlarge'),
+  mlP3_16xlarge('ml.p3.16xlarge'),
+  mlC5Xlarge('ml.c5.xlarge'),
+  mlC5_2xlarge('ml.c5.2xlarge'),
+  mlC5_4xlarge('ml.c5.4xlarge'),
+  mlC5_9xlarge('ml.c5.9xlarge'),
+  mlC5_18xlarge('ml.c5.18xlarge'),
+  mlM5Large('ml.m5.large'),
+  mlM5Xlarge('ml.m5.xlarge'),
+  mlM5_2xlarge('ml.m5.2xlarge'),
+  mlM5_4xlarge('ml.m5.4xlarge'),
+  mlM5_12xlarge('ml.m5.12xlarge'),
+  mlM5_24xlarge('ml.m5.24xlarge'),
+  mlM6iLarge('ml.m6i.large'),
+  mlM6iXlarge('ml.m6i.xlarge'),
+  mlM6i_2xlarge('ml.m6i.2xlarge'),
+  mlM6i_4xlarge('ml.m6i.4xlarge'),
+  mlM6i_8xlarge('ml.m6i.8xlarge'),
+  mlM6i_12xlarge('ml.m6i.12xlarge'),
+  mlM6i_16xlarge('ml.m6i.16xlarge'),
+  mlM6i_24xlarge('ml.m6i.24xlarge'),
+  mlM6i_32xlarge('ml.m6i.32xlarge'),
+  mlC6iLarge('ml.c6i.large'),
+  mlC6iXlarge('ml.c6i.xlarge'),
+  mlC6i_2xlarge('ml.c6i.2xlarge'),
+  mlC6i_4xlarge('ml.c6i.4xlarge'),
+  mlC6i_8xlarge('ml.c6i.8xlarge'),
+  mlC6i_12xlarge('ml.c6i.12xlarge'),
+  mlC6i_16xlarge('ml.c6i.16xlarge'),
+  mlC6i_24xlarge('ml.c6i.24xlarge'),
+  mlC6i_32xlarge('ml.c6i.32xlarge'),
+  mlR6iLarge('ml.r6i.large'),
+  mlR6iXlarge('ml.r6i.xlarge'),
+  mlR6i_2xlarge('ml.r6i.2xlarge'),
+  mlR6i_4xlarge('ml.r6i.4xlarge'),
+  mlR6i_8xlarge('ml.r6i.8xlarge'),
+  mlR6i_12xlarge('ml.r6i.12xlarge'),
+  mlR6i_16xlarge('ml.r6i.16xlarge'),
+  mlR6i_24xlarge('ml.r6i.24xlarge'),
+  mlR6i_32xlarge('ml.r6i.32xlarge'),
+  mlM7iLarge('ml.m7i.large'),
+  mlM7iXlarge('ml.m7i.xlarge'),
+  mlM7i_2xlarge('ml.m7i.2xlarge'),
+  mlM7i_4xlarge('ml.m7i.4xlarge'),
+  mlM7i_8xlarge('ml.m7i.8xlarge'),
+  mlM7i_12xlarge('ml.m7i.12xlarge'),
+  mlM7i_16xlarge('ml.m7i.16xlarge'),
+  mlM7i_24xlarge('ml.m7i.24xlarge'),
+  mlM7i_48xlarge('ml.m7i.48xlarge'),
+  mlC7iLarge('ml.c7i.large'),
+  mlC7iXlarge('ml.c7i.xlarge'),
+  mlC7i_2xlarge('ml.c7i.2xlarge'),
+  mlC7i_4xlarge('ml.c7i.4xlarge'),
+  mlC7i_8xlarge('ml.c7i.8xlarge'),
+  mlC7i_12xlarge('ml.c7i.12xlarge'),
+  mlC7i_16xlarge('ml.c7i.16xlarge'),
+  mlC7i_24xlarge('ml.c7i.24xlarge'),
+  mlC7i_48xlarge('ml.c7i.48xlarge'),
+  mlR7iLarge('ml.r7i.large'),
+  mlR7iXlarge('ml.r7i.xlarge'),
+  mlR7i_2xlarge('ml.r7i.2xlarge'),
+  mlR7i_4xlarge('ml.r7i.4xlarge'),
+  mlR7i_8xlarge('ml.r7i.8xlarge'),
+  mlR7i_12xlarge('ml.r7i.12xlarge'),
+  mlR7i_16xlarge('ml.r7i.16xlarge'),
+  mlR7i_24xlarge('ml.r7i.24xlarge'),
+  mlR7i_48xlarge('ml.r7i.48xlarge'),
+  mlG4dnXlarge('ml.g4dn.xlarge'),
+  mlG4dn_2xlarge('ml.g4dn.2xlarge'),
+  mlG4dn_4xlarge('ml.g4dn.4xlarge'),
+  mlG4dn_8xlarge('ml.g4dn.8xlarge'),
+  mlG4dn_12xlarge('ml.g4dn.12xlarge'),
+  mlG4dn_16xlarge('ml.g4dn.16xlarge'),
+  mlG5Xlarge('ml.g5.xlarge'),
+  mlG5_2xlarge('ml.g5.2xlarge'),
+  mlG5_4xlarge('ml.g5.4xlarge'),
+  mlG5_8xlarge('ml.g5.8xlarge'),
+  mlG5_12xlarge('ml.g5.12xlarge'),
+  mlG5_16xlarge('ml.g5.16xlarge'),
+  mlG5_24xlarge('ml.g5.24xlarge'),
+  mlG5_48xlarge('ml.g5.48xlarge'),
+  ;
 
-extension TransformInstanceTypeValueExtension on TransformInstanceType {
-  String toValue() {
-    switch (this) {
-      case TransformInstanceType.mlM4Xlarge:
-        return 'ml.m4.xlarge';
-      case TransformInstanceType.mlM4_2xlarge:
-        return 'ml.m4.2xlarge';
-      case TransformInstanceType.mlM4_4xlarge:
-        return 'ml.m4.4xlarge';
-      case TransformInstanceType.mlM4_10xlarge:
-        return 'ml.m4.10xlarge';
-      case TransformInstanceType.mlM4_16xlarge:
-        return 'ml.m4.16xlarge';
-      case TransformInstanceType.mlC4Xlarge:
-        return 'ml.c4.xlarge';
-      case TransformInstanceType.mlC4_2xlarge:
-        return 'ml.c4.2xlarge';
-      case TransformInstanceType.mlC4_4xlarge:
-        return 'ml.c4.4xlarge';
-      case TransformInstanceType.mlC4_8xlarge:
-        return 'ml.c4.8xlarge';
-      case TransformInstanceType.mlP2Xlarge:
-        return 'ml.p2.xlarge';
-      case TransformInstanceType.mlP2_8xlarge:
-        return 'ml.p2.8xlarge';
-      case TransformInstanceType.mlP2_16xlarge:
-        return 'ml.p2.16xlarge';
-      case TransformInstanceType.mlP3_2xlarge:
-        return 'ml.p3.2xlarge';
-      case TransformInstanceType.mlP3_8xlarge:
-        return 'ml.p3.8xlarge';
-      case TransformInstanceType.mlP3_16xlarge:
-        return 'ml.p3.16xlarge';
-      case TransformInstanceType.mlC5Xlarge:
-        return 'ml.c5.xlarge';
-      case TransformInstanceType.mlC5_2xlarge:
-        return 'ml.c5.2xlarge';
-      case TransformInstanceType.mlC5_4xlarge:
-        return 'ml.c5.4xlarge';
-      case TransformInstanceType.mlC5_9xlarge:
-        return 'ml.c5.9xlarge';
-      case TransformInstanceType.mlC5_18xlarge:
-        return 'ml.c5.18xlarge';
-      case TransformInstanceType.mlM5Large:
-        return 'ml.m5.large';
-      case TransformInstanceType.mlM5Xlarge:
-        return 'ml.m5.xlarge';
-      case TransformInstanceType.mlM5_2xlarge:
-        return 'ml.m5.2xlarge';
-      case TransformInstanceType.mlM5_4xlarge:
-        return 'ml.m5.4xlarge';
-      case TransformInstanceType.mlM5_12xlarge:
-        return 'ml.m5.12xlarge';
-      case TransformInstanceType.mlM5_24xlarge:
-        return 'ml.m5.24xlarge';
-      case TransformInstanceType.mlM6iLarge:
-        return 'ml.m6i.large';
-      case TransformInstanceType.mlM6iXlarge:
-        return 'ml.m6i.xlarge';
-      case TransformInstanceType.mlM6i_2xlarge:
-        return 'ml.m6i.2xlarge';
-      case TransformInstanceType.mlM6i_4xlarge:
-        return 'ml.m6i.4xlarge';
-      case TransformInstanceType.mlM6i_8xlarge:
-        return 'ml.m6i.8xlarge';
-      case TransformInstanceType.mlM6i_12xlarge:
-        return 'ml.m6i.12xlarge';
-      case TransformInstanceType.mlM6i_16xlarge:
-        return 'ml.m6i.16xlarge';
-      case TransformInstanceType.mlM6i_24xlarge:
-        return 'ml.m6i.24xlarge';
-      case TransformInstanceType.mlM6i_32xlarge:
-        return 'ml.m6i.32xlarge';
-      case TransformInstanceType.mlC6iLarge:
-        return 'ml.c6i.large';
-      case TransformInstanceType.mlC6iXlarge:
-        return 'ml.c6i.xlarge';
-      case TransformInstanceType.mlC6i_2xlarge:
-        return 'ml.c6i.2xlarge';
-      case TransformInstanceType.mlC6i_4xlarge:
-        return 'ml.c6i.4xlarge';
-      case TransformInstanceType.mlC6i_8xlarge:
-        return 'ml.c6i.8xlarge';
-      case TransformInstanceType.mlC6i_12xlarge:
-        return 'ml.c6i.12xlarge';
-      case TransformInstanceType.mlC6i_16xlarge:
-        return 'ml.c6i.16xlarge';
-      case TransformInstanceType.mlC6i_24xlarge:
-        return 'ml.c6i.24xlarge';
-      case TransformInstanceType.mlC6i_32xlarge:
-        return 'ml.c6i.32xlarge';
-      case TransformInstanceType.mlR6iLarge:
-        return 'ml.r6i.large';
-      case TransformInstanceType.mlR6iXlarge:
-        return 'ml.r6i.xlarge';
-      case TransformInstanceType.mlR6i_2xlarge:
-        return 'ml.r6i.2xlarge';
-      case TransformInstanceType.mlR6i_4xlarge:
-        return 'ml.r6i.4xlarge';
-      case TransformInstanceType.mlR6i_8xlarge:
-        return 'ml.r6i.8xlarge';
-      case TransformInstanceType.mlR6i_12xlarge:
-        return 'ml.r6i.12xlarge';
-      case TransformInstanceType.mlR6i_16xlarge:
-        return 'ml.r6i.16xlarge';
-      case TransformInstanceType.mlR6i_24xlarge:
-        return 'ml.r6i.24xlarge';
-      case TransformInstanceType.mlR6i_32xlarge:
-        return 'ml.r6i.32xlarge';
-      case TransformInstanceType.mlM7iLarge:
-        return 'ml.m7i.large';
-      case TransformInstanceType.mlM7iXlarge:
-        return 'ml.m7i.xlarge';
-      case TransformInstanceType.mlM7i_2xlarge:
-        return 'ml.m7i.2xlarge';
-      case TransformInstanceType.mlM7i_4xlarge:
-        return 'ml.m7i.4xlarge';
-      case TransformInstanceType.mlM7i_8xlarge:
-        return 'ml.m7i.8xlarge';
-      case TransformInstanceType.mlM7i_12xlarge:
-        return 'ml.m7i.12xlarge';
-      case TransformInstanceType.mlM7i_16xlarge:
-        return 'ml.m7i.16xlarge';
-      case TransformInstanceType.mlM7i_24xlarge:
-        return 'ml.m7i.24xlarge';
-      case TransformInstanceType.mlM7i_48xlarge:
-        return 'ml.m7i.48xlarge';
-      case TransformInstanceType.mlC7iLarge:
-        return 'ml.c7i.large';
-      case TransformInstanceType.mlC7iXlarge:
-        return 'ml.c7i.xlarge';
-      case TransformInstanceType.mlC7i_2xlarge:
-        return 'ml.c7i.2xlarge';
-      case TransformInstanceType.mlC7i_4xlarge:
-        return 'ml.c7i.4xlarge';
-      case TransformInstanceType.mlC7i_8xlarge:
-        return 'ml.c7i.8xlarge';
-      case TransformInstanceType.mlC7i_12xlarge:
-        return 'ml.c7i.12xlarge';
-      case TransformInstanceType.mlC7i_16xlarge:
-        return 'ml.c7i.16xlarge';
-      case TransformInstanceType.mlC7i_24xlarge:
-        return 'ml.c7i.24xlarge';
-      case TransformInstanceType.mlC7i_48xlarge:
-        return 'ml.c7i.48xlarge';
-      case TransformInstanceType.mlR7iLarge:
-        return 'ml.r7i.large';
-      case TransformInstanceType.mlR7iXlarge:
-        return 'ml.r7i.xlarge';
-      case TransformInstanceType.mlR7i_2xlarge:
-        return 'ml.r7i.2xlarge';
-      case TransformInstanceType.mlR7i_4xlarge:
-        return 'ml.r7i.4xlarge';
-      case TransformInstanceType.mlR7i_8xlarge:
-        return 'ml.r7i.8xlarge';
-      case TransformInstanceType.mlR7i_12xlarge:
-        return 'ml.r7i.12xlarge';
-      case TransformInstanceType.mlR7i_16xlarge:
-        return 'ml.r7i.16xlarge';
-      case TransformInstanceType.mlR7i_24xlarge:
-        return 'ml.r7i.24xlarge';
-      case TransformInstanceType.mlR7i_48xlarge:
-        return 'ml.r7i.48xlarge';
-      case TransformInstanceType.mlG4dnXlarge:
-        return 'ml.g4dn.xlarge';
-      case TransformInstanceType.mlG4dn_2xlarge:
-        return 'ml.g4dn.2xlarge';
-      case TransformInstanceType.mlG4dn_4xlarge:
-        return 'ml.g4dn.4xlarge';
-      case TransformInstanceType.mlG4dn_8xlarge:
-        return 'ml.g4dn.8xlarge';
-      case TransformInstanceType.mlG4dn_12xlarge:
-        return 'ml.g4dn.12xlarge';
-      case TransformInstanceType.mlG4dn_16xlarge:
-        return 'ml.g4dn.16xlarge';
-      case TransformInstanceType.mlG5Xlarge:
-        return 'ml.g5.xlarge';
-      case TransformInstanceType.mlG5_2xlarge:
-        return 'ml.g5.2xlarge';
-      case TransformInstanceType.mlG5_4xlarge:
-        return 'ml.g5.4xlarge';
-      case TransformInstanceType.mlG5_8xlarge:
-        return 'ml.g5.8xlarge';
-      case TransformInstanceType.mlG5_12xlarge:
-        return 'ml.g5.12xlarge';
-      case TransformInstanceType.mlG5_16xlarge:
-        return 'ml.g5.16xlarge';
-      case TransformInstanceType.mlG5_24xlarge:
-        return 'ml.g5.24xlarge';
-      case TransformInstanceType.mlG5_48xlarge:
-        return 'ml.g5.48xlarge';
-    }
-  }
-}
+  final String value;
 
-extension TransformInstanceTypeFromString on String {
-  TransformInstanceType toTransformInstanceType() {
-    switch (this) {
-      case 'ml.m4.xlarge':
-        return TransformInstanceType.mlM4Xlarge;
-      case 'ml.m4.2xlarge':
-        return TransformInstanceType.mlM4_2xlarge;
-      case 'ml.m4.4xlarge':
-        return TransformInstanceType.mlM4_4xlarge;
-      case 'ml.m4.10xlarge':
-        return TransformInstanceType.mlM4_10xlarge;
-      case 'ml.m4.16xlarge':
-        return TransformInstanceType.mlM4_16xlarge;
-      case 'ml.c4.xlarge':
-        return TransformInstanceType.mlC4Xlarge;
-      case 'ml.c4.2xlarge':
-        return TransformInstanceType.mlC4_2xlarge;
-      case 'ml.c4.4xlarge':
-        return TransformInstanceType.mlC4_4xlarge;
-      case 'ml.c4.8xlarge':
-        return TransformInstanceType.mlC4_8xlarge;
-      case 'ml.p2.xlarge':
-        return TransformInstanceType.mlP2Xlarge;
-      case 'ml.p2.8xlarge':
-        return TransformInstanceType.mlP2_8xlarge;
-      case 'ml.p2.16xlarge':
-        return TransformInstanceType.mlP2_16xlarge;
-      case 'ml.p3.2xlarge':
-        return TransformInstanceType.mlP3_2xlarge;
-      case 'ml.p3.8xlarge':
-        return TransformInstanceType.mlP3_8xlarge;
-      case 'ml.p3.16xlarge':
-        return TransformInstanceType.mlP3_16xlarge;
-      case 'ml.c5.xlarge':
-        return TransformInstanceType.mlC5Xlarge;
-      case 'ml.c5.2xlarge':
-        return TransformInstanceType.mlC5_2xlarge;
-      case 'ml.c5.4xlarge':
-        return TransformInstanceType.mlC5_4xlarge;
-      case 'ml.c5.9xlarge':
-        return TransformInstanceType.mlC5_9xlarge;
-      case 'ml.c5.18xlarge':
-        return TransformInstanceType.mlC5_18xlarge;
-      case 'ml.m5.large':
-        return TransformInstanceType.mlM5Large;
-      case 'ml.m5.xlarge':
-        return TransformInstanceType.mlM5Xlarge;
-      case 'ml.m5.2xlarge':
-        return TransformInstanceType.mlM5_2xlarge;
-      case 'ml.m5.4xlarge':
-        return TransformInstanceType.mlM5_4xlarge;
-      case 'ml.m5.12xlarge':
-        return TransformInstanceType.mlM5_12xlarge;
-      case 'ml.m5.24xlarge':
-        return TransformInstanceType.mlM5_24xlarge;
-      case 'ml.m6i.large':
-        return TransformInstanceType.mlM6iLarge;
-      case 'ml.m6i.xlarge':
-        return TransformInstanceType.mlM6iXlarge;
-      case 'ml.m6i.2xlarge':
-        return TransformInstanceType.mlM6i_2xlarge;
-      case 'ml.m6i.4xlarge':
-        return TransformInstanceType.mlM6i_4xlarge;
-      case 'ml.m6i.8xlarge':
-        return TransformInstanceType.mlM6i_8xlarge;
-      case 'ml.m6i.12xlarge':
-        return TransformInstanceType.mlM6i_12xlarge;
-      case 'ml.m6i.16xlarge':
-        return TransformInstanceType.mlM6i_16xlarge;
-      case 'ml.m6i.24xlarge':
-        return TransformInstanceType.mlM6i_24xlarge;
-      case 'ml.m6i.32xlarge':
-        return TransformInstanceType.mlM6i_32xlarge;
-      case 'ml.c6i.large':
-        return TransformInstanceType.mlC6iLarge;
-      case 'ml.c6i.xlarge':
-        return TransformInstanceType.mlC6iXlarge;
-      case 'ml.c6i.2xlarge':
-        return TransformInstanceType.mlC6i_2xlarge;
-      case 'ml.c6i.4xlarge':
-        return TransformInstanceType.mlC6i_4xlarge;
-      case 'ml.c6i.8xlarge':
-        return TransformInstanceType.mlC6i_8xlarge;
-      case 'ml.c6i.12xlarge':
-        return TransformInstanceType.mlC6i_12xlarge;
-      case 'ml.c6i.16xlarge':
-        return TransformInstanceType.mlC6i_16xlarge;
-      case 'ml.c6i.24xlarge':
-        return TransformInstanceType.mlC6i_24xlarge;
-      case 'ml.c6i.32xlarge':
-        return TransformInstanceType.mlC6i_32xlarge;
-      case 'ml.r6i.large':
-        return TransformInstanceType.mlR6iLarge;
-      case 'ml.r6i.xlarge':
-        return TransformInstanceType.mlR6iXlarge;
-      case 'ml.r6i.2xlarge':
-        return TransformInstanceType.mlR6i_2xlarge;
-      case 'ml.r6i.4xlarge':
-        return TransformInstanceType.mlR6i_4xlarge;
-      case 'ml.r6i.8xlarge':
-        return TransformInstanceType.mlR6i_8xlarge;
-      case 'ml.r6i.12xlarge':
-        return TransformInstanceType.mlR6i_12xlarge;
-      case 'ml.r6i.16xlarge':
-        return TransformInstanceType.mlR6i_16xlarge;
-      case 'ml.r6i.24xlarge':
-        return TransformInstanceType.mlR6i_24xlarge;
-      case 'ml.r6i.32xlarge':
-        return TransformInstanceType.mlR6i_32xlarge;
-      case 'ml.m7i.large':
-        return TransformInstanceType.mlM7iLarge;
-      case 'ml.m7i.xlarge':
-        return TransformInstanceType.mlM7iXlarge;
-      case 'ml.m7i.2xlarge':
-        return TransformInstanceType.mlM7i_2xlarge;
-      case 'ml.m7i.4xlarge':
-        return TransformInstanceType.mlM7i_4xlarge;
-      case 'ml.m7i.8xlarge':
-        return TransformInstanceType.mlM7i_8xlarge;
-      case 'ml.m7i.12xlarge':
-        return TransformInstanceType.mlM7i_12xlarge;
-      case 'ml.m7i.16xlarge':
-        return TransformInstanceType.mlM7i_16xlarge;
-      case 'ml.m7i.24xlarge':
-        return TransformInstanceType.mlM7i_24xlarge;
-      case 'ml.m7i.48xlarge':
-        return TransformInstanceType.mlM7i_48xlarge;
-      case 'ml.c7i.large':
-        return TransformInstanceType.mlC7iLarge;
-      case 'ml.c7i.xlarge':
-        return TransformInstanceType.mlC7iXlarge;
-      case 'ml.c7i.2xlarge':
-        return TransformInstanceType.mlC7i_2xlarge;
-      case 'ml.c7i.4xlarge':
-        return TransformInstanceType.mlC7i_4xlarge;
-      case 'ml.c7i.8xlarge':
-        return TransformInstanceType.mlC7i_8xlarge;
-      case 'ml.c7i.12xlarge':
-        return TransformInstanceType.mlC7i_12xlarge;
-      case 'ml.c7i.16xlarge':
-        return TransformInstanceType.mlC7i_16xlarge;
-      case 'ml.c7i.24xlarge':
-        return TransformInstanceType.mlC7i_24xlarge;
-      case 'ml.c7i.48xlarge':
-        return TransformInstanceType.mlC7i_48xlarge;
-      case 'ml.r7i.large':
-        return TransformInstanceType.mlR7iLarge;
-      case 'ml.r7i.xlarge':
-        return TransformInstanceType.mlR7iXlarge;
-      case 'ml.r7i.2xlarge':
-        return TransformInstanceType.mlR7i_2xlarge;
-      case 'ml.r7i.4xlarge':
-        return TransformInstanceType.mlR7i_4xlarge;
-      case 'ml.r7i.8xlarge':
-        return TransformInstanceType.mlR7i_8xlarge;
-      case 'ml.r7i.12xlarge':
-        return TransformInstanceType.mlR7i_12xlarge;
-      case 'ml.r7i.16xlarge':
-        return TransformInstanceType.mlR7i_16xlarge;
-      case 'ml.r7i.24xlarge':
-        return TransformInstanceType.mlR7i_24xlarge;
-      case 'ml.r7i.48xlarge':
-        return TransformInstanceType.mlR7i_48xlarge;
-      case 'ml.g4dn.xlarge':
-        return TransformInstanceType.mlG4dnXlarge;
-      case 'ml.g4dn.2xlarge':
-        return TransformInstanceType.mlG4dn_2xlarge;
-      case 'ml.g4dn.4xlarge':
-        return TransformInstanceType.mlG4dn_4xlarge;
-      case 'ml.g4dn.8xlarge':
-        return TransformInstanceType.mlG4dn_8xlarge;
-      case 'ml.g4dn.12xlarge':
-        return TransformInstanceType.mlG4dn_12xlarge;
-      case 'ml.g4dn.16xlarge':
-        return TransformInstanceType.mlG4dn_16xlarge;
-      case 'ml.g5.xlarge':
-        return TransformInstanceType.mlG5Xlarge;
-      case 'ml.g5.2xlarge':
-        return TransformInstanceType.mlG5_2xlarge;
-      case 'ml.g5.4xlarge':
-        return TransformInstanceType.mlG5_4xlarge;
-      case 'ml.g5.8xlarge':
-        return TransformInstanceType.mlG5_8xlarge;
-      case 'ml.g5.12xlarge':
-        return TransformInstanceType.mlG5_12xlarge;
-      case 'ml.g5.16xlarge':
-        return TransformInstanceType.mlG5_16xlarge;
-      case 'ml.g5.24xlarge':
-        return TransformInstanceType.mlG5_24xlarge;
-      case 'ml.g5.48xlarge':
-        return TransformInstanceType.mlG5_48xlarge;
-    }
-    throw Exception('$this is not known in enum TransformInstanceType');
-  }
+  const TransformInstanceType(this.value);
+
+  static TransformInstanceType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TransformInstanceType'));
 }
 
 /// A batch transform job. For information about SageMaker batch transform, see
@@ -71329,7 +63133,8 @@ class TransformJob {
   factory TransformJob.fromJson(Map<String, dynamic> json) {
     return TransformJob(
       autoMLJobArn: json['AutoMLJobArn'] as String?,
-      batchStrategy: (json['BatchStrategy'] as String?)?.toBatchStrategy(),
+      batchStrategy:
+          (json['BatchStrategy'] as String?)?.let(BatchStrategy.fromString),
       creationTime: timeStampFromJson(json['CreationTime']),
       dataCaptureConfig: json['DataCaptureConfig'] != null
           ? BatchDataCaptureConfig.fromJson(
@@ -71365,8 +63170,8 @@ class TransformJob {
           : null,
       transformJobArn: json['TransformJobArn'] as String?,
       transformJobName: json['TransformJobName'] as String?,
-      transformJobStatus:
-          (json['TransformJobStatus'] as String?)?.toTransformJobStatus(),
+      transformJobStatus: (json['TransformJobStatus'] as String?)
+          ?.let(TransformJobStatus.fromString),
       transformOutput: json['TransformOutput'] != null
           ? TransformOutput.fromJson(
               json['TransformOutput'] as Map<String, dynamic>)
@@ -71431,7 +63236,8 @@ class TransformJobDefinition {
           json['TransformOutput'] as Map<String, dynamic>),
       transformResources: TransformResources.fromJson(
           json['TransformResources'] as Map<String, dynamic>),
-      batchStrategy: (json['BatchStrategy'] as String?)?.toBatchStrategy(),
+      batchStrategy:
+          (json['BatchStrategy'] as String?)?.let(BatchStrategy.fromString),
       environment: (json['Environment'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       maxConcurrentTransforms: json['MaxConcurrentTransforms'] as int?,
@@ -71451,7 +63257,7 @@ class TransformJobDefinition {
       'TransformInput': transformInput,
       'TransformOutput': transformOutput,
       'TransformResources': transformResources,
-      if (batchStrategy != null) 'BatchStrategy': batchStrategy.toValue(),
+      if (batchStrategy != null) 'BatchStrategy': batchStrategy.value,
       if (environment != null) 'Environment': environment,
       if (maxConcurrentTransforms != null)
         'MaxConcurrentTransforms': maxConcurrentTransforms,
@@ -71461,46 +63267,21 @@ class TransformJobDefinition {
 }
 
 enum TransformJobStatus {
-  inProgress,
-  completed,
-  failed,
-  stopping,
-  stopped,
-}
+  inProgress('InProgress'),
+  completed('Completed'),
+  failed('Failed'),
+  stopping('Stopping'),
+  stopped('Stopped'),
+  ;
 
-extension TransformJobStatusValueExtension on TransformJobStatus {
-  String toValue() {
-    switch (this) {
-      case TransformJobStatus.inProgress:
-        return 'InProgress';
-      case TransformJobStatus.completed:
-        return 'Completed';
-      case TransformJobStatus.failed:
-        return 'Failed';
-      case TransformJobStatus.stopping:
-        return 'Stopping';
-      case TransformJobStatus.stopped:
-        return 'Stopped';
-    }
-  }
-}
+  final String value;
 
-extension TransformJobStatusFromString on String {
-  TransformJobStatus toTransformJobStatus() {
-    switch (this) {
-      case 'InProgress':
-        return TransformJobStatus.inProgress;
-      case 'Completed':
-        return TransformJobStatus.completed;
-      case 'Failed':
-        return TransformJobStatus.failed;
-      case 'Stopping':
-        return TransformJobStatus.stopping;
-      case 'Stopped':
-        return TransformJobStatus.stopped;
-    }
-    throw Exception('$this is not known in enum TransformJobStatus');
-  }
+  const TransformJobStatus(this.value);
+
+  static TransformJobStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TransformJobStatus'));
 }
 
 /// Metadata for a transform job step.
@@ -71567,7 +63348,7 @@ class TransformJobSummary {
       transformJobArn: json['TransformJobArn'] as String,
       transformJobName: json['TransformJobName'] as String,
       transformJobStatus:
-          (json['TransformJobStatus'] as String).toTransformJobStatus(),
+          TransformJobStatus.fromString((json['TransformJobStatus'] as String)),
       failureReason: json['FailureReason'] as String?,
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       transformEndTime: timeStampFromJson(json['TransformEndTime']),
@@ -71654,7 +63435,8 @@ class TransformOutput {
     return TransformOutput(
       s3OutputPath: json['S3OutputPath'] as String,
       accept: json['Accept'] as String?,
-      assembleWith: (json['AssembleWith'] as String?)?.toAssemblyType(),
+      assembleWith:
+          (json['AssembleWith'] as String?)?.let(AssemblyType.fromString),
       kmsKeyId: json['KmsKeyId'] as String?,
     );
   }
@@ -71667,7 +63449,7 @@ class TransformOutput {
     return {
       'S3OutputPath': s3OutputPath,
       if (accept != null) 'Accept': accept,
-      if (assembleWith != null) 'AssembleWith': assembleWith.toValue(),
+      if (assembleWith != null) 'AssembleWith': assembleWith.value,
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
     };
   }
@@ -71732,7 +63514,8 @@ class TransformResources {
   factory TransformResources.fromJson(Map<String, dynamic> json) {
     return TransformResources(
       instanceCount: json['InstanceCount'] as int,
-      instanceType: (json['InstanceType'] as String).toTransformInstanceType(),
+      instanceType:
+          TransformInstanceType.fromString((json['InstanceType'] as String)),
       volumeKmsKeyId: json['VolumeKmsKeyId'] as String?,
     );
   }
@@ -71743,7 +63526,7 @@ class TransformResources {
     final volumeKmsKeyId = this.volumeKmsKeyId;
     return {
       'InstanceCount': instanceCount,
-      'InstanceType': instanceType.toValue(),
+      'InstanceType': instanceType.value,
       if (volumeKmsKeyId != null) 'VolumeKmsKeyId': volumeKmsKeyId,
     };
   }
@@ -71816,7 +63599,7 @@ class TransformS3DataSource {
 
   factory TransformS3DataSource.fromJson(Map<String, dynamic> json) {
     return TransformS3DataSource(
-      s3DataType: (json['S3DataType'] as String).toS3DataType(),
+      s3DataType: S3DataType.fromString((json['S3DataType'] as String)),
       s3Uri: json['S3Uri'] as String,
     );
   }
@@ -71825,7 +63608,7 @@ class TransformS3DataSource {
     final s3DataType = this.s3DataType;
     final s3Uri = this.s3Uri;
     return {
-      'S3DataType': s3DataType.toValue(),
+      'S3DataType': s3DataType.value,
       'S3Uri': s3Uri,
     };
   }
@@ -72206,47 +63989,21 @@ class TrialComponentParameterValue {
 }
 
 enum TrialComponentPrimaryStatus {
-  inProgress,
-  completed,
-  failed,
-  stopping,
-  stopped,
-}
+  inProgress('InProgress'),
+  completed('Completed'),
+  failed('Failed'),
+  stopping('Stopping'),
+  stopped('Stopped'),
+  ;
 
-extension TrialComponentPrimaryStatusValueExtension
-    on TrialComponentPrimaryStatus {
-  String toValue() {
-    switch (this) {
-      case TrialComponentPrimaryStatus.inProgress:
-        return 'InProgress';
-      case TrialComponentPrimaryStatus.completed:
-        return 'Completed';
-      case TrialComponentPrimaryStatus.failed:
-        return 'Failed';
-      case TrialComponentPrimaryStatus.stopping:
-        return 'Stopping';
-      case TrialComponentPrimaryStatus.stopped:
-        return 'Stopped';
-    }
-  }
-}
+  final String value;
 
-extension TrialComponentPrimaryStatusFromString on String {
-  TrialComponentPrimaryStatus toTrialComponentPrimaryStatus() {
-    switch (this) {
-      case 'InProgress':
-        return TrialComponentPrimaryStatus.inProgress;
-      case 'Completed':
-        return TrialComponentPrimaryStatus.completed;
-      case 'Failed':
-        return TrialComponentPrimaryStatus.failed;
-      case 'Stopping':
-        return TrialComponentPrimaryStatus.stopping;
-      case 'Stopped':
-        return TrialComponentPrimaryStatus.stopped;
-    }
-    throw Exception('$this is not known in enum TrialComponentPrimaryStatus');
-  }
+  const TrialComponentPrimaryStatus(this.value);
+
+  static TrialComponentPrimaryStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TrialComponentPrimaryStatus'));
 }
 
 /// A short summary of a trial component.
@@ -72364,8 +64121,8 @@ class TrialComponentStatus {
   factory TrialComponentStatus.fromJson(Map<String, dynamic> json) {
     return TrialComponentStatus(
       message: json['Message'] as String?,
-      primaryStatus:
-          (json['PrimaryStatus'] as String?)?.toTrialComponentPrimaryStatus(),
+      primaryStatus: (json['PrimaryStatus'] as String?)
+          ?.let(TrialComponentPrimaryStatus.fromString),
     );
   }
 
@@ -72374,7 +64131,7 @@ class TrialComponentStatus {
     final primaryStatus = this.primaryStatus;
     return {
       if (message != null) 'Message': message,
-      if (primaryStatus != null) 'PrimaryStatus': primaryStatus.toValue(),
+      if (primaryStatus != null) 'PrimaryStatus': primaryStatus.value,
     };
   }
 }
@@ -72554,7 +64311,7 @@ class TtlDuration {
 
   factory TtlDuration.fromJson(Map<String, dynamic> json) {
     return TtlDuration(
-      unit: (json['Unit'] as String?)?.toTtlDurationUnit(),
+      unit: (json['Unit'] as String?)?.let(TtlDurationUnit.fromString),
       value: json['Value'] as int?,
     );
   }
@@ -72563,53 +64320,28 @@ class TtlDuration {
     final unit = this.unit;
     final value = this.value;
     return {
-      if (unit != null) 'Unit': unit.toValue(),
+      if (unit != null) 'Unit': unit.value,
       if (value != null) 'Value': value,
     };
   }
 }
 
 enum TtlDurationUnit {
-  seconds,
-  minutes,
-  hours,
-  days,
-  weeks,
-}
+  seconds('Seconds'),
+  minutes('Minutes'),
+  hours('Hours'),
+  days('Days'),
+  weeks('Weeks'),
+  ;
 
-extension TtlDurationUnitValueExtension on TtlDurationUnit {
-  String toValue() {
-    switch (this) {
-      case TtlDurationUnit.seconds:
-        return 'Seconds';
-      case TtlDurationUnit.minutes:
-        return 'Minutes';
-      case TtlDurationUnit.hours:
-        return 'Hours';
-      case TtlDurationUnit.days:
-        return 'Days';
-      case TtlDurationUnit.weeks:
-        return 'Weeks';
-    }
-  }
-}
+  final String value;
 
-extension TtlDurationUnitFromString on String {
-  TtlDurationUnit toTtlDurationUnit() {
-    switch (this) {
-      case 'Seconds':
-        return TtlDurationUnit.seconds;
-      case 'Minutes':
-        return TtlDurationUnit.minutes;
-      case 'Hours':
-        return TtlDurationUnit.hours;
-      case 'Days':
-        return TtlDurationUnit.days;
-      case 'Weeks':
-        return TtlDurationUnit.weeks;
-    }
-    throw Exception('$this is not known in enum TtlDurationUnit');
-  }
+  const TtlDurationUnit(this.value);
+
+  static TtlDurationUnit fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TtlDurationUnit'));
 }
 
 /// The job completion criteria.
@@ -73435,91 +65167,45 @@ class UserProfileDetails {
       creationTime: timeStampFromJson(json['CreationTime']),
       domainId: json['DomainId'] as String?,
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
-      status: (json['Status'] as String?)?.toUserProfileStatus(),
+      status: (json['Status'] as String?)?.let(UserProfileStatus.fromString),
       userProfileName: json['UserProfileName'] as String?,
     );
   }
 }
 
 enum UserProfileSortKey {
-  creationTime,
-  lastModifiedTime,
-}
+  creationTime('CreationTime'),
+  lastModifiedTime('LastModifiedTime'),
+  ;
 
-extension UserProfileSortKeyValueExtension on UserProfileSortKey {
-  String toValue() {
-    switch (this) {
-      case UserProfileSortKey.creationTime:
-        return 'CreationTime';
-      case UserProfileSortKey.lastModifiedTime:
-        return 'LastModifiedTime';
-    }
-  }
-}
+  final String value;
 
-extension UserProfileSortKeyFromString on String {
-  UserProfileSortKey toUserProfileSortKey() {
-    switch (this) {
-      case 'CreationTime':
-        return UserProfileSortKey.creationTime;
-      case 'LastModifiedTime':
-        return UserProfileSortKey.lastModifiedTime;
-    }
-    throw Exception('$this is not known in enum UserProfileSortKey');
-  }
+  const UserProfileSortKey(this.value);
+
+  static UserProfileSortKey fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum UserProfileSortKey'));
 }
 
 enum UserProfileStatus {
-  deleting,
-  failed,
-  inService,
-  pending,
-  updating,
-  updateFailed,
-  deleteFailed,
-}
+  deleting('Deleting'),
+  failed('Failed'),
+  inService('InService'),
+  pending('Pending'),
+  updating('Updating'),
+  updateFailed('Update_Failed'),
+  deleteFailed('Delete_Failed'),
+  ;
 
-extension UserProfileStatusValueExtension on UserProfileStatus {
-  String toValue() {
-    switch (this) {
-      case UserProfileStatus.deleting:
-        return 'Deleting';
-      case UserProfileStatus.failed:
-        return 'Failed';
-      case UserProfileStatus.inService:
-        return 'InService';
-      case UserProfileStatus.pending:
-        return 'Pending';
-      case UserProfileStatus.updating:
-        return 'Updating';
-      case UserProfileStatus.updateFailed:
-        return 'Update_Failed';
-      case UserProfileStatus.deleteFailed:
-        return 'Delete_Failed';
-    }
-  }
-}
+  final String value;
 
-extension UserProfileStatusFromString on String {
-  UserProfileStatus toUserProfileStatus() {
-    switch (this) {
-      case 'Deleting':
-        return UserProfileStatus.deleting;
-      case 'Failed':
-        return UserProfileStatus.failed;
-      case 'InService':
-        return UserProfileStatus.inService;
-      case 'Pending':
-        return UserProfileStatus.pending;
-      case 'Updating':
-        return UserProfileStatus.updating;
-      case 'Update_Failed':
-        return UserProfileStatus.updateFailed;
-      case 'Delete_Failed':
-        return UserProfileStatus.deleteFailed;
-    }
-    throw Exception('$this is not known in enum UserProfileStatus');
-  }
+  const UserProfileStatus(this.value);
+
+  static UserProfileStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum UserProfileStatus'));
 }
 
 /// A collection of settings that apply to users in a domain. These settings are
@@ -73683,7 +65369,7 @@ class UserSettings {
               json['SpaceStorageSettings'] as Map<String, dynamic>)
           : null,
       studioWebPortal:
-          (json['StudioWebPortal'] as String?)?.toStudioWebPortal(),
+          (json['StudioWebPortal'] as String?)?.let(StudioWebPortal.fromString),
       tensorBoardAppSettings: json['TensorBoardAppSettings'] != null
           ? TensorBoardAppSettings.fromJson(
               json['TensorBoardAppSettings'] as Map<String, dynamic>)
@@ -73732,7 +65418,7 @@ class UserSettings {
       if (sharingSettings != null) 'SharingSettings': sharingSettings,
       if (spaceStorageSettings != null)
         'SpaceStorageSettings': spaceStorageSettings,
-      if (studioWebPortal != null) 'StudioWebPortal': studioWebPortal.toValue(),
+      if (studioWebPortal != null) 'StudioWebPortal': studioWebPortal.value,
       if (tensorBoardAppSettings != null)
         'TensorBoardAppSettings': tensorBoardAppSettings,
     };
@@ -73777,85 +65463,43 @@ class VariantProperty {
   Map<String, dynamic> toJson() {
     final variantPropertyType = this.variantPropertyType;
     return {
-      'VariantPropertyType': variantPropertyType.toValue(),
+      'VariantPropertyType': variantPropertyType.value,
     };
   }
 }
 
 enum VariantPropertyType {
-  desiredInstanceCount,
-  desiredWeight,
-  dataCaptureConfig,
-}
+  desiredInstanceCount('DesiredInstanceCount'),
+  desiredWeight('DesiredWeight'),
+  dataCaptureConfig('DataCaptureConfig'),
+  ;
 
-extension VariantPropertyTypeValueExtension on VariantPropertyType {
-  String toValue() {
-    switch (this) {
-      case VariantPropertyType.desiredInstanceCount:
-        return 'DesiredInstanceCount';
-      case VariantPropertyType.desiredWeight:
-        return 'DesiredWeight';
-      case VariantPropertyType.dataCaptureConfig:
-        return 'DataCaptureConfig';
-    }
-  }
-}
+  final String value;
 
-extension VariantPropertyTypeFromString on String {
-  VariantPropertyType toVariantPropertyType() {
-    switch (this) {
-      case 'DesiredInstanceCount':
-        return VariantPropertyType.desiredInstanceCount;
-      case 'DesiredWeight':
-        return VariantPropertyType.desiredWeight;
-      case 'DataCaptureConfig':
-        return VariantPropertyType.dataCaptureConfig;
-    }
-    throw Exception('$this is not known in enum VariantPropertyType');
-  }
+  const VariantPropertyType(this.value);
+
+  static VariantPropertyType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum VariantPropertyType'));
 }
 
 enum VariantStatus {
-  creating,
-  updating,
-  deleting,
-  activatingTraffic,
-  baking,
-}
+  creating('Creating'),
+  updating('Updating'),
+  deleting('Deleting'),
+  activatingTraffic('ActivatingTraffic'),
+  baking('Baking'),
+  ;
 
-extension VariantStatusValueExtension on VariantStatus {
-  String toValue() {
-    switch (this) {
-      case VariantStatus.creating:
-        return 'Creating';
-      case VariantStatus.updating:
-        return 'Updating';
-      case VariantStatus.deleting:
-        return 'Deleting';
-      case VariantStatus.activatingTraffic:
-        return 'ActivatingTraffic';
-      case VariantStatus.baking:
-        return 'Baking';
-    }
-  }
-}
+  final String value;
 
-extension VariantStatusFromString on String {
-  VariantStatus toVariantStatus() {
-    switch (this) {
-      case 'Creating':
-        return VariantStatus.creating;
-      case 'Updating':
-        return VariantStatus.updating;
-      case 'Deleting':
-        return VariantStatus.deleting;
-      case 'ActivatingTraffic':
-        return VariantStatus.activatingTraffic;
-      case 'Baking':
-        return VariantStatus.baking;
-    }
-    throw Exception('$this is not known in enum VariantStatus');
-  }
+  const VariantStatus(this.value);
+
+  static VariantStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum VariantStatus'));
 }
 
 /// Configuration for your vector collection type.
@@ -73882,41 +65526,20 @@ class VectorConfig {
 }
 
 enum VendorGuidance {
-  notProvided,
-  stable,
-  toBeArchived,
-  archived,
-}
+  notProvided('NOT_PROVIDED'),
+  stable('STABLE'),
+  toBeArchived('TO_BE_ARCHIVED'),
+  archived('ARCHIVED'),
+  ;
 
-extension VendorGuidanceValueExtension on VendorGuidance {
-  String toValue() {
-    switch (this) {
-      case VendorGuidance.notProvided:
-        return 'NOT_PROVIDED';
-      case VendorGuidance.stable:
-        return 'STABLE';
-      case VendorGuidance.toBeArchived:
-        return 'TO_BE_ARCHIVED';
-      case VendorGuidance.archived:
-        return 'ARCHIVED';
-    }
-  }
-}
+  final String value;
 
-extension VendorGuidanceFromString on String {
-  VendorGuidance toVendorGuidance() {
-    switch (this) {
-      case 'NOT_PROVIDED':
-        return VendorGuidance.notProvided;
-      case 'STABLE':
-        return VendorGuidance.stable;
-      case 'TO_BE_ARCHIVED':
-        return VendorGuidance.toBeArchived;
-      case 'ARCHIVED':
-        return VendorGuidance.archived;
-    }
-    throw Exception('$this is not known in enum VendorGuidance');
-  }
+  const VendorGuidance(this.value);
+
+  static VendorGuidance fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum VendorGuidance'));
 }
 
 /// A lineage entity connected to the starting entity(ies).
@@ -73940,7 +65563,8 @@ class Vertex {
   factory Vertex.fromJson(Map<String, dynamic> json) {
     return Vertex(
       arn: json['Arn'] as String?,
-      lineageType: (json['LineageType'] as String?)?.toLineageType(),
+      lineageType:
+          (json['LineageType'] as String?)?.let(LineageType.fromString),
       type: json['Type'] as String?,
     );
   }
@@ -74023,41 +65647,20 @@ class VpcConfig {
 }
 
 enum WarmPoolResourceStatus {
-  available,
-  terminated,
-  reused,
-  inUse,
-}
+  available('Available'),
+  terminated('Terminated'),
+  reused('Reused'),
+  inUse('InUse'),
+  ;
 
-extension WarmPoolResourceStatusValueExtension on WarmPoolResourceStatus {
-  String toValue() {
-    switch (this) {
-      case WarmPoolResourceStatus.available:
-        return 'Available';
-      case WarmPoolResourceStatus.terminated:
-        return 'Terminated';
-      case WarmPoolResourceStatus.reused:
-        return 'Reused';
-      case WarmPoolResourceStatus.inUse:
-        return 'InUse';
-    }
-  }
-}
+  final String value;
 
-extension WarmPoolResourceStatusFromString on String {
-  WarmPoolResourceStatus toWarmPoolResourceStatus() {
-    switch (this) {
-      case 'Available':
-        return WarmPoolResourceStatus.available;
-      case 'Terminated':
-        return WarmPoolResourceStatus.terminated;
-      case 'Reused':
-        return WarmPoolResourceStatus.reused;
-      case 'InUse':
-        return WarmPoolResourceStatus.inUse;
-    }
-    throw Exception('$this is not known in enum WarmPoolResourceStatus');
-  }
+  const WarmPoolResourceStatus(this.value);
+
+  static WarmPoolResourceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum WarmPoolResourceStatus'));
 }
 
 /// Status and billing information about the warm pool.
@@ -74106,7 +65709,7 @@ class WarmPoolStatus {
 
   factory WarmPoolStatus.fromJson(Map<String, dynamic> json) {
     return WarmPoolStatus(
-      status: (json['Status'] as String).toWarmPoolResourceStatus(),
+      status: WarmPoolResourceStatus.fromString((json['Status'] as String)),
       resourceRetainedBillableTimeInSeconds:
           json['ResourceRetainedBillableTimeInSeconds'] as int?,
       reusedByJob: json['ReusedByJob'] as String?,
@@ -74226,7 +65829,7 @@ class Workforce {
           ? SourceIpConfig.fromJson(
               json['SourceIpConfig'] as Map<String, dynamic>)
           : null,
-      status: (json['Status'] as String?)?.toWorkforceStatus(),
+      status: (json['Status'] as String?)?.let(WorkforceStatus.fromString),
       subDomain: json['SubDomain'] as String?,
       workforceVpcConfig: json['WorkforceVpcConfig'] != null
           ? WorkforceVpcConfigResponse.fromJson(
@@ -74237,46 +65840,21 @@ class Workforce {
 }
 
 enum WorkforceStatus {
-  initializing,
-  updating,
-  deleting,
-  failed,
-  active,
-}
+  initializing('Initializing'),
+  updating('Updating'),
+  deleting('Deleting'),
+  failed('Failed'),
+  active('Active'),
+  ;
 
-extension WorkforceStatusValueExtension on WorkforceStatus {
-  String toValue() {
-    switch (this) {
-      case WorkforceStatus.initializing:
-        return 'Initializing';
-      case WorkforceStatus.updating:
-        return 'Updating';
-      case WorkforceStatus.deleting:
-        return 'Deleting';
-      case WorkforceStatus.failed:
-        return 'Failed';
-      case WorkforceStatus.active:
-        return 'Active';
-    }
-  }
-}
+  final String value;
 
-extension WorkforceStatusFromString on String {
-  WorkforceStatus toWorkforceStatus() {
-    switch (this) {
-      case 'Initializing':
-        return WorkforceStatus.initializing;
-      case 'Updating':
-        return WorkforceStatus.updating;
-      case 'Deleting':
-        return WorkforceStatus.deleting;
-      case 'Failed':
-        return WorkforceStatus.failed;
-      case 'Active':
-        return WorkforceStatus.active;
-    }
-    throw Exception('$this is not known in enum WorkforceStatus');
-  }
+  const WorkforceStatus(this.value);
+
+  static WorkforceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum WorkforceStatus'));
 }
 
 /// The VPC object you use to create or update a workforce.

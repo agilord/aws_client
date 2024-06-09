@@ -57,7 +57,7 @@ class MapWithEnumKey {
       'QueueName': queueName,
       if (attributes != null)
         for (var e1 in attributes.entries.toList().asMap().entries) ...{
-          'Attributes.${e1.key + 1}.Name': e1.value.key.toValue(),
+          'Attributes.${e1.key + 1}.Name': e1.value.key.value,
           'Attributes.${e1.key + 1}.Value': e1.value.value,
         },
     };
@@ -73,31 +73,18 @@ class MapWithEnumKey {
 }
 
 enum QueueAttributeName {
-  all,
-  policy,
-}
+  all('All'),
+  policy('Policy'),
+  ;
 
-extension QueueAttributeNameValueExtension on QueueAttributeName {
-  String toValue() {
-    switch (this) {
-      case QueueAttributeName.all:
-        return 'All';
-      case QueueAttributeName.policy:
-        return 'Policy';
-    }
-  }
-}
+  final String value;
 
-extension QueueAttributeNameFromString on String {
-  QueueAttributeName toQueueAttributeName() {
-    switch (this) {
-      case 'All':
-        return QueueAttributeName.all;
-      case 'Policy':
-        return QueueAttributeName.policy;
-    }
-    throw Exception('$this is not known in enum QueueAttributeName');
-  }
+  const QueueAttributeName(this.value);
+
+  static QueueAttributeName fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum QueueAttributeName'));
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

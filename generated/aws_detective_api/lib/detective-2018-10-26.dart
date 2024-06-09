@@ -768,7 +768,7 @@ class Detective {
     final $payload = <String, dynamic>{
       'GraphArn': graphArn,
       'InvestigationId': investigationId,
-      if (indicatorType != null) 'IndicatorType': indicatorType.toValue(),
+      if (indicatorType != null) 'IndicatorType': indicatorType.value,
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
     };
@@ -1206,7 +1206,7 @@ class Detective {
     required String graphArn,
   }) async {
     final $payload = <String, dynamic>{
-      'DatasourcePackages': datasourcePackages.map((e) => e.toValue()).toList(),
+      'DatasourcePackages': datasourcePackages.map((e) => e.value).toList(),
       'GraphArn': graphArn,
     };
     await _protocol.send(
@@ -1242,7 +1242,7 @@ class Detective {
     final $payload = <String, dynamic>{
       'GraphArn': graphArn,
       'InvestigationId': investigationId,
-      'State': state.toValue(),
+      'State': state.value,
     };
     await _protocol.send(
       payload: $payload,
@@ -1442,36 +1442,19 @@ class CreateMembersResponse {
 }
 
 enum DatasourcePackage {
-  detectiveCore,
-  eksAudit,
-  asffSecurityhubFinding,
-}
+  detectiveCore('DETECTIVE_CORE'),
+  eksAudit('EKS_AUDIT'),
+  asffSecurityhubFinding('ASFF_SECURITYHUB_FINDING'),
+  ;
 
-extension DatasourcePackageValueExtension on DatasourcePackage {
-  String toValue() {
-    switch (this) {
-      case DatasourcePackage.detectiveCore:
-        return 'DETECTIVE_CORE';
-      case DatasourcePackage.eksAudit:
-        return 'EKS_AUDIT';
-      case DatasourcePackage.asffSecurityhubFinding:
-        return 'ASFF_SECURITYHUB_FINDING';
-    }
-  }
-}
+  final String value;
 
-extension DatasourcePackageFromString on String {
-  DatasourcePackage toDatasourcePackage() {
-    switch (this) {
-      case 'DETECTIVE_CORE':
-        return DatasourcePackage.detectiveCore;
-      case 'EKS_AUDIT':
-        return DatasourcePackage.eksAudit;
-      case 'ASFF_SECURITYHUB_FINDING':
-        return DatasourcePackage.asffSecurityhubFinding;
-    }
-    throw Exception('$this is not known in enum DatasourcePackage');
-  }
+  const DatasourcePackage(this.value);
+
+  static DatasourcePackage fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DatasourcePackage'));
 }
 
 /// Details about the data source packages ingested by your behavior graph.
@@ -1492,47 +1475,29 @@ class DatasourcePackageIngestDetail {
     return DatasourcePackageIngestDetail(
       datasourcePackageIngestState:
           (json['DatasourcePackageIngestState'] as String?)
-              ?.toDatasourcePackageIngestState(),
+              ?.let(DatasourcePackageIngestState.fromString),
       lastIngestStateChange:
           (json['LastIngestStateChange'] as Map<String, dynamic>?)?.map(
-              (k, e) => MapEntry(k.toDatasourcePackageIngestState(),
+              (k, e) => MapEntry(DatasourcePackageIngestState.fromString(k),
                   TimestampForCollection.fromJson(e as Map<String, dynamic>))),
     );
   }
 }
 
 enum DatasourcePackageIngestState {
-  started,
-  stopped,
-  disabled,
-}
+  started('STARTED'),
+  stopped('STOPPED'),
+  disabled('DISABLED'),
+  ;
 
-extension DatasourcePackageIngestStateValueExtension
-    on DatasourcePackageIngestState {
-  String toValue() {
-    switch (this) {
-      case DatasourcePackageIngestState.started:
-        return 'STARTED';
-      case DatasourcePackageIngestState.stopped:
-        return 'STOPPED';
-      case DatasourcePackageIngestState.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension DatasourcePackageIngestStateFromString on String {
-  DatasourcePackageIngestState toDatasourcePackageIngestState() {
-    switch (this) {
-      case 'STARTED':
-        return DatasourcePackageIngestState.started;
-      case 'STOPPED':
-        return DatasourcePackageIngestState.stopped;
-      case 'DISABLED':
-        return DatasourcePackageIngestState.disabled;
-    }
-    throw Exception('$this is not known in enum DatasourcePackageIngestState');
-  }
+  const DatasourcePackageIngestState(this.value);
+
+  static DatasourcePackageIngestState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DatasourcePackageIngestState'));
 }
 
 /// Information on the usage of a data source package in the behavior graph.
@@ -1631,64 +1596,32 @@ class DescribeOrganizationConfigurationResponse {
 }
 
 enum EntityType {
-  iamRole,
-  iamUser,
-}
+  iamRole('IAM_ROLE'),
+  iamUser('IAM_USER'),
+  ;
 
-extension EntityTypeValueExtension on EntityType {
-  String toValue() {
-    switch (this) {
-      case EntityType.iamRole:
-        return 'IAM_ROLE';
-      case EntityType.iamUser:
-        return 'IAM_USER';
-    }
-  }
-}
+  final String value;
 
-extension EntityTypeFromString on String {
-  EntityType toEntityType() {
-    switch (this) {
-      case 'IAM_ROLE':
-        return EntityType.iamRole;
-      case 'IAM_USER':
-        return EntityType.iamUser;
-    }
-    throw Exception('$this is not known in enum EntityType');
-  }
+  const EntityType(this.value);
+
+  static EntityType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum EntityType'));
 }
 
 enum Field {
-  severity,
-  status,
-  createdTime,
-}
+  severity('SEVERITY'),
+  status('STATUS'),
+  createdTime('CREATED_TIME'),
+  ;
 
-extension FieldValueExtension on Field {
-  String toValue() {
-    switch (this) {
-      case Field.severity:
-        return 'SEVERITY';
-      case Field.status:
-        return 'STATUS';
-      case Field.createdTime:
-        return 'CREATED_TIME';
-    }
-  }
-}
+  final String value;
 
-extension FieldFromString on String {
-  Field toField() {
-    switch (this) {
-      case 'SEVERITY':
-        return Field.severity;
-      case 'STATUS':
-        return Field.status;
-      case 'CREATED_TIME':
-        return Field.createdTime;
-    }
-    throw Exception('$this is not known in enum Field');
-  }
+  const Field(this.value);
+
+  static Field fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Field'));
 }
 
 /// Details on the criteria used to define the filter for investigation results.
@@ -1752,7 +1685,7 @@ class FlaggedIpAddressDetail {
   factory FlaggedIpAddressDetail.fromJson(Map<String, dynamic> json) {
     return FlaggedIpAddressDetail(
       ipAddress: json['IpAddress'] as String?,
-      reason: (json['Reason'] as String?)?.toReason(),
+      reason: (json['Reason'] as String?)?.let(Reason.fromString),
     );
   }
 }
@@ -1812,14 +1745,14 @@ class GetInvestigationResponse {
     return GetInvestigationResponse(
       createdTime: timeStampFromJson(json['CreatedTime']),
       entityArn: json['EntityArn'] as String?,
-      entityType: (json['EntityType'] as String?)?.toEntityType(),
+      entityType: (json['EntityType'] as String?)?.let(EntityType.fromString),
       graphArn: json['GraphArn'] as String?,
       investigationId: json['InvestigationId'] as String?,
       scopeEndTime: timeStampFromJson(json['ScopeEndTime']),
       scopeStartTime: timeStampFromJson(json['ScopeStartTime']),
-      severity: (json['Severity'] as String?)?.toSeverity(),
-      state: (json['State'] as String?)?.toState(),
-      status: (json['Status'] as String?)?.toStatus(),
+      severity: (json['Severity'] as String?)?.let(Severity.fromString),
+      state: (json['State'] as String?)?.let(State.fromString),
+      status: (json['Status'] as String?)?.let(Status.fromString),
     );
   }
 }
@@ -1942,7 +1875,8 @@ class Indicator {
           ? IndicatorDetail.fromJson(
               json['IndicatorDetail'] as Map<String, dynamic>)
           : null,
-      indicatorType: (json['IndicatorType'] as String?)?.toIndicatorType(),
+      indicatorType:
+          (json['IndicatorType'] as String?)?.let(IndicatorType.fromString),
     );
   }
 }
@@ -2031,61 +1965,24 @@ class IndicatorDetail {
 }
 
 enum IndicatorType {
-  ttpObserved,
-  impossibleTravel,
-  flaggedIpAddress,
-  newGeolocation,
-  newAso,
-  newUserAgent,
-  relatedFinding,
-  relatedFindingGroup,
-}
+  ttpObserved('TTP_OBSERVED'),
+  impossibleTravel('IMPOSSIBLE_TRAVEL'),
+  flaggedIpAddress('FLAGGED_IP_ADDRESS'),
+  newGeolocation('NEW_GEOLOCATION'),
+  newAso('NEW_ASO'),
+  newUserAgent('NEW_USER_AGENT'),
+  relatedFinding('RELATED_FINDING'),
+  relatedFindingGroup('RELATED_FINDING_GROUP'),
+  ;
 
-extension IndicatorTypeValueExtension on IndicatorType {
-  String toValue() {
-    switch (this) {
-      case IndicatorType.ttpObserved:
-        return 'TTP_OBSERVED';
-      case IndicatorType.impossibleTravel:
-        return 'IMPOSSIBLE_TRAVEL';
-      case IndicatorType.flaggedIpAddress:
-        return 'FLAGGED_IP_ADDRESS';
-      case IndicatorType.newGeolocation:
-        return 'NEW_GEOLOCATION';
-      case IndicatorType.newAso:
-        return 'NEW_ASO';
-      case IndicatorType.newUserAgent:
-        return 'NEW_USER_AGENT';
-      case IndicatorType.relatedFinding:
-        return 'RELATED_FINDING';
-      case IndicatorType.relatedFindingGroup:
-        return 'RELATED_FINDING_GROUP';
-    }
-  }
-}
+  final String value;
 
-extension IndicatorTypeFromString on String {
-  IndicatorType toIndicatorType() {
-    switch (this) {
-      case 'TTP_OBSERVED':
-        return IndicatorType.ttpObserved;
-      case 'IMPOSSIBLE_TRAVEL':
-        return IndicatorType.impossibleTravel;
-      case 'FLAGGED_IP_ADDRESS':
-        return IndicatorType.flaggedIpAddress;
-      case 'NEW_GEOLOCATION':
-        return IndicatorType.newGeolocation;
-      case 'NEW_ASO':
-        return IndicatorType.newAso;
-      case 'NEW_USER_AGENT':
-        return IndicatorType.newUserAgent;
-      case 'RELATED_FINDING':
-        return IndicatorType.relatedFinding;
-      case 'RELATED_FINDING_GROUP':
-        return IndicatorType.relatedFindingGroup;
-    }
-    throw Exception('$this is not known in enum IndicatorType');
-  }
+  const IndicatorType(this.value);
+
+  static IndicatorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum IndicatorType'));
 }
 
 /// Details about the investigation related to a potential security event
@@ -2131,41 +2028,28 @@ class InvestigationDetail {
     return InvestigationDetail(
       createdTime: timeStampFromJson(json['CreatedTime']),
       entityArn: json['EntityArn'] as String?,
-      entityType: (json['EntityType'] as String?)?.toEntityType(),
+      entityType: (json['EntityType'] as String?)?.let(EntityType.fromString),
       investigationId: json['InvestigationId'] as String?,
-      severity: (json['Severity'] as String?)?.toSeverity(),
-      state: (json['State'] as String?)?.toState(),
-      status: (json['Status'] as String?)?.toStatus(),
+      severity: (json['Severity'] as String?)?.let(Severity.fromString),
+      state: (json['State'] as String?)?.let(State.fromString),
+      status: (json['Status'] as String?)?.let(Status.fromString),
     );
   }
 }
 
 enum InvitationType {
-  invitation,
-  organization,
-}
+  invitation('INVITATION'),
+  organization('ORGANIZATION'),
+  ;
 
-extension InvitationTypeValueExtension on InvitationType {
-  String toValue() {
-    switch (this) {
-      case InvitationType.invitation:
-        return 'INVITATION';
-      case InvitationType.organization:
-        return 'ORGANIZATION';
-    }
-  }
-}
+  final String value;
 
-extension InvitationTypeFromString on String {
-  InvitationType toInvitationType() {
-    switch (this) {
-      case 'INVITATION':
-        return InvitationType.invitation;
-      case 'ORGANIZATION':
-        return InvitationType.organization;
-    }
-    throw Exception('$this is not known in enum InvitationType');
-  }
+  const InvitationType(this.value);
+
+  static InvitationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum InvitationType'));
 }
 
 class ListDatasourcePackagesResponse {
@@ -2187,7 +2071,7 @@ class ListDatasourcePackagesResponse {
     return ListDatasourcePackagesResponse(
       datasourcePackages: (json['DatasourcePackages'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(
-              k.toDatasourcePackage(),
+              DatasourcePackage.fromString(k),
               DatasourcePackageIngestDetail.fromJson(
                   e as Map<String, dynamic>))),
       nextToken: json['NextToken'] as String?,
@@ -2543,23 +2427,24 @@ class MemberDetail {
       administratorId: json['AdministratorId'] as String?,
       datasourcePackageIngestStates:
           (json['DatasourcePackageIngestStates'] as Map<String, dynamic>?)?.map(
-              (k, e) => MapEntry(k.toDatasourcePackage(),
-                  (e as String).toDatasourcePackageIngestState())),
-      disabledReason:
-          (json['DisabledReason'] as String?)?.toMemberDisabledReason(),
+              (k, e) => MapEntry(DatasourcePackage.fromString(k),
+                  DatasourcePackageIngestState.fromString((e as String)))),
+      disabledReason: (json['DisabledReason'] as String?)
+          ?.let(MemberDisabledReason.fromString),
       emailAddress: json['EmailAddress'] as String?,
       graphArn: json['GraphArn'] as String?,
-      invitationType: (json['InvitationType'] as String?)?.toInvitationType(),
+      invitationType:
+          (json['InvitationType'] as String?)?.let(InvitationType.fromString),
       invitedTime: timeStampFromJson(json['InvitedTime']),
       masterId: json['MasterId'] as String?,
       percentOfGraphUtilization: json['PercentOfGraphUtilization'] as double?,
       percentOfGraphUtilizationUpdatedTime:
           timeStampFromJson(json['PercentOfGraphUtilizationUpdatedTime']),
-      status: (json['Status'] as String?)?.toMemberStatus(),
+      status: (json['Status'] as String?)?.let(MemberStatus.fromString),
       updatedTime: timeStampFromJson(json['UpdatedTime']),
       volumeUsageByDatasourcePackage: (json['VolumeUsageByDatasourcePackage']
               as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k.toDatasourcePackage(),
+          ?.map((k, e) => MapEntry(DatasourcePackage.fromString(k),
               DatasourcePackageUsageInfo.fromJson(e as Map<String, dynamic>))),
       volumeUsageInBytes: json['VolumeUsageInBytes'] as int?,
       volumeUsageUpdatedTime: timeStampFromJson(json['VolumeUsageUpdatedTime']),
@@ -2568,74 +2453,36 @@ class MemberDetail {
 }
 
 enum MemberDisabledReason {
-  volumeTooHigh,
-  volumeUnknown,
-}
+  volumeTooHigh('VOLUME_TOO_HIGH'),
+  volumeUnknown('VOLUME_UNKNOWN'),
+  ;
 
-extension MemberDisabledReasonValueExtension on MemberDisabledReason {
-  String toValue() {
-    switch (this) {
-      case MemberDisabledReason.volumeTooHigh:
-        return 'VOLUME_TOO_HIGH';
-      case MemberDisabledReason.volumeUnknown:
-        return 'VOLUME_UNKNOWN';
-    }
-  }
-}
+  final String value;
 
-extension MemberDisabledReasonFromString on String {
-  MemberDisabledReason toMemberDisabledReason() {
-    switch (this) {
-      case 'VOLUME_TOO_HIGH':
-        return MemberDisabledReason.volumeTooHigh;
-      case 'VOLUME_UNKNOWN':
-        return MemberDisabledReason.volumeUnknown;
-    }
-    throw Exception('$this is not known in enum MemberDisabledReason');
-  }
+  const MemberDisabledReason(this.value);
+
+  static MemberDisabledReason fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum MemberDisabledReason'));
 }
 
 enum MemberStatus {
-  invited,
-  verificationInProgress,
-  verificationFailed,
-  enabled,
-  acceptedButDisabled,
-}
+  invited('INVITED'),
+  verificationInProgress('VERIFICATION_IN_PROGRESS'),
+  verificationFailed('VERIFICATION_FAILED'),
+  enabled('ENABLED'),
+  acceptedButDisabled('ACCEPTED_BUT_DISABLED'),
+  ;
 
-extension MemberStatusValueExtension on MemberStatus {
-  String toValue() {
-    switch (this) {
-      case MemberStatus.invited:
-        return 'INVITED';
-      case MemberStatus.verificationInProgress:
-        return 'VERIFICATION_IN_PROGRESS';
-      case MemberStatus.verificationFailed:
-        return 'VERIFICATION_FAILED';
-      case MemberStatus.enabled:
-        return 'ENABLED';
-      case MemberStatus.acceptedButDisabled:
-        return 'ACCEPTED_BUT_DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension MemberStatusFromString on String {
-  MemberStatus toMemberStatus() {
-    switch (this) {
-      case 'INVITED':
-        return MemberStatus.invited;
-      case 'VERIFICATION_IN_PROGRESS':
-        return MemberStatus.verificationInProgress;
-      case 'VERIFICATION_FAILED':
-        return MemberStatus.verificationFailed;
-      case 'ENABLED':
-        return MemberStatus.enabled;
-      case 'ACCEPTED_BUT_DISABLED':
-        return MemberStatus.acceptedButDisabled;
-    }
-    throw Exception('$this is not known in enum MemberStatus');
-  }
+  const MemberStatus(this.value);
+
+  static MemberStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MemberStatus'));
 }
 
 /// Details on data source packages for members of the behavior graph.
@@ -2663,9 +2510,9 @@ class MembershipDatasources {
       datasourcePackageIngestHistory:
           (json['DatasourcePackageIngestHistory'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(
-                  k.toDatasourcePackage(),
+                  DatasourcePackage.fromString(k),
                   (e as Map<String, dynamic>).map((k, e) => MapEntry(
-                      k.toDatasourcePackageIngestState(),
+                      DatasourcePackageIngestState.fromString(k),
                       TimestampForCollection.fromJson(
                           e as Map<String, dynamic>))))),
       graphArn: json['GraphArn'] as String?,
@@ -2746,26 +2593,16 @@ class NewUserAgentDetail {
 }
 
 enum Reason {
-  awsThreatIntelligence,
-}
+  awsThreatIntelligence('AWS_THREAT_INTELLIGENCE'),
+  ;
 
-extension ReasonValueExtension on Reason {
-  String toValue() {
-    switch (this) {
-      case Reason.awsThreatIntelligence:
-        return 'AWS_THREAT_INTELLIGENCE';
-    }
-  }
-}
+  final String value;
 
-extension ReasonFromString on String {
-  Reason toReason() {
-    switch (this) {
-      case 'AWS_THREAT_INTELLIGENCE':
-        return Reason.awsThreatIntelligence;
-    }
-    throw Exception('$this is not known in enum Reason');
-  }
+  const Reason(this.value);
+
+  static Reason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Reason'));
 }
 
 /// Details related activities associated with a potential security event. Lists
@@ -2815,46 +2652,20 @@ class RelatedFindingGroupDetail {
 }
 
 enum Severity {
-  informational,
-  low,
-  medium,
-  high,
-  critical,
-}
+  informational('INFORMATIONAL'),
+  low('LOW'),
+  medium('MEDIUM'),
+  high('HIGH'),
+  critical('CRITICAL'),
+  ;
 
-extension SeverityValueExtension on Severity {
-  String toValue() {
-    switch (this) {
-      case Severity.informational:
-        return 'INFORMATIONAL';
-      case Severity.low:
-        return 'LOW';
-      case Severity.medium:
-        return 'MEDIUM';
-      case Severity.high:
-        return 'HIGH';
-      case Severity.critical:
-        return 'CRITICAL';
-    }
-  }
-}
+  final String value;
 
-extension SeverityFromString on String {
-  Severity toSeverity() {
-    switch (this) {
-      case 'INFORMATIONAL':
-        return Severity.informational;
-      case 'LOW':
-        return Severity.low;
-      case 'MEDIUM':
-        return Severity.medium;
-      case 'HIGH':
-        return Severity.high;
-      case 'CRITICAL':
-        return Severity.critical;
-    }
-    throw Exception('$this is not known in enum Severity');
-  }
+  const Severity(this.value);
+
+  static Severity fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Severity'));
 }
 
 /// Details about the criteria used for sorting investigations.
@@ -2874,38 +2685,24 @@ class SortCriteria {
     final field = this.field;
     final sortOrder = this.sortOrder;
     return {
-      if (field != null) 'Field': field.toValue(),
-      if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+      if (field != null) 'Field': field.value,
+      if (sortOrder != null) 'SortOrder': sortOrder.value,
     };
   }
 }
 
 enum SortOrder {
-  asc,
-  desc,
-}
+  asc('ASC'),
+  desc('DESC'),
+  ;
 
-extension SortOrderValueExtension on SortOrder {
-  String toValue() {
-    switch (this) {
-      case SortOrder.asc:
-        return 'ASC';
-      case SortOrder.desc:
-        return 'DESC';
-    }
-  }
-}
+  final String value;
 
-extension SortOrderFromString on String {
-  SortOrder toSortOrder() {
-    switch (this) {
-      case 'ASC':
-        return SortOrder.asc;
-      case 'DESC':
-        return SortOrder.desc;
-    }
-    throw Exception('$this is not known in enum SortOrder');
-  }
+  const SortOrder(this.value);
+
+  static SortOrder fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SortOrder'));
 }
 
 class StartInvestigationResponse {
@@ -2924,64 +2721,32 @@ class StartInvestigationResponse {
 }
 
 enum State {
-  active,
-  archived,
-}
+  active('ACTIVE'),
+  archived('ARCHIVED'),
+  ;
 
-extension StateValueExtension on State {
-  String toValue() {
-    switch (this) {
-      case State.active:
-        return 'ACTIVE';
-      case State.archived:
-        return 'ARCHIVED';
-    }
-  }
-}
+  final String value;
 
-extension StateFromString on String {
-  State toState() {
-    switch (this) {
-      case 'ACTIVE':
-        return State.active;
-      case 'ARCHIVED':
-        return State.archived;
-    }
-    throw Exception('$this is not known in enum State');
-  }
+  const State(this.value);
+
+  static State fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum State'));
 }
 
 enum Status {
-  running,
-  failed,
-  successful,
-}
+  running('RUNNING'),
+  failed('FAILED'),
+  successful('SUCCESSFUL'),
+  ;
 
-extension StatusValueExtension on Status {
-  String toValue() {
-    switch (this) {
-      case Status.running:
-        return 'RUNNING';
-      case Status.failed:
-        return 'FAILED';
-      case Status.successful:
-        return 'SUCCESSFUL';
-    }
-  }
-}
+  final String value;
 
-extension StatusFromString on String {
-  Status toStatus() {
-    switch (this) {
-      case 'RUNNING':
-        return Status.running;
-      case 'FAILED':
-        return Status.failed;
-      case 'SUCCESSFUL':
-        return Status.successful;
-    }
-    throw Exception('$this is not known in enum Status');
-  }
+  const Status(this.value);
+
+  static Status fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Status'));
 }
 
 /// A string for filtering Detective investigations.

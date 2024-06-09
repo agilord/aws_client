@@ -148,7 +148,7 @@ class TranscribeService {
       payload: {
         'CategoryName': categoryName,
         'Rules': rules,
-        if (inputType != null) 'InputType': inputType.toValue(),
+        if (inputType != null) 'InputType': inputType.value,
       },
     );
 
@@ -255,9 +255,9 @@ class TranscribeService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'BaseModelName': baseModelName.toValue(),
+        'BaseModelName': baseModelName.value,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode.value,
         'ModelName': modelName,
         if (tags != null) 'Tags': tags,
       },
@@ -337,7 +337,7 @@ class TranscribeService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode.value,
         'VocabularyFileUri': vocabularyFileUri,
         'VocabularyName': vocabularyName,
         if (tags != null) 'Tags': tags,
@@ -464,7 +464,7 @@ class TranscribeService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode.value,
         'VocabularyName': vocabularyName,
         if (dataAccessRoleArn != null) 'DataAccessRoleArn': dataAccessRoleArn,
         if (phrases != null) 'Phrases': phrases,
@@ -594,7 +594,7 @@ class TranscribeService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode.value,
         'VocabularyFilterName': vocabularyFilterName,
         if (dataAccessRoleArn != null) 'DataAccessRoleArn': dataAccessRoleArn,
         if (tags != null) 'Tags': tags,
@@ -1345,7 +1345,7 @@ class TranscribeService {
         if (jobNameContains != null) 'JobNameContains': jobNameContains,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (status != null) 'Status': status.toValue(),
+        if (status != null) 'Status': status.value,
       },
     );
 
@@ -1411,7 +1411,7 @@ class TranscribeService {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (statusEquals != null) 'StatusEquals': statusEquals.toValue(),
+        if (statusEquals != null) 'StatusEquals': statusEquals.value,
       },
     );
 
@@ -1475,7 +1475,7 @@ class TranscribeService {
         if (jobNameContains != null) 'JobNameContains': jobNameContains,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (status != null) 'Status': status.toValue(),
+        if (status != null) 'Status': status.value,
       },
     );
 
@@ -1540,7 +1540,7 @@ class TranscribeService {
         if (jobNameContains != null) 'JobNameContains': jobNameContains,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (status != null) 'Status': status.toValue(),
+        if (status != null) 'Status': status.value,
       },
     );
 
@@ -1606,7 +1606,7 @@ class TranscribeService {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (stateEquals != null) 'StateEquals': stateEquals.toValue(),
+        if (stateEquals != null) 'StateEquals': stateEquals.value,
       },
     );
 
@@ -1715,7 +1715,7 @@ class TranscribeService {
         if (jobNameContains != null) 'JobNameContains': jobNameContains,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (status != null) 'Status': status.toValue(),
+        if (status != null) 'Status': status.value,
       },
     );
 
@@ -1780,7 +1780,7 @@ class TranscribeService {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (stateEquals != null) 'StateEquals': stateEquals.toValue(),
+        if (stateEquals != null) 'StateEquals': stateEquals.value,
       },
     );
 
@@ -2534,17 +2534,17 @@ class TranscribeService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode.value,
         'Media': media,
         'MedicalTranscriptionJobName': medicalTranscriptionJobName,
         'OutputBucketName': outputBucketName,
-        'Specialty': specialty.toValue(),
-        'Type': type.toValue(),
+        'Specialty': specialty.value,
+        'Type': type.value,
         if (contentIdentificationType != null)
-          'ContentIdentificationType': contentIdentificationType.toValue(),
+          'ContentIdentificationType': contentIdentificationType.value,
         if (kMSEncryptionContext != null)
           'KMSEncryptionContext': kMSEncryptionContext,
-        if (mediaFormat != null) 'MediaFormat': mediaFormat.toValue(),
+        if (mediaFormat != null) 'MediaFormat': mediaFormat.value,
         if (mediaSampleRateHertz != null)
           'MediaSampleRateHertz': mediaSampleRateHertz,
         if (outputEncryptionKMSKeyId != null)
@@ -2987,13 +2987,13 @@ class TranscribeService {
           'JobExecutionSettings': jobExecutionSettings,
         if (kMSEncryptionContext != null)
           'KMSEncryptionContext': kMSEncryptionContext,
-        if (languageCode != null) 'LanguageCode': languageCode.toValue(),
+        if (languageCode != null) 'LanguageCode': languageCode.value,
         if (languageIdSettings != null)
           'LanguageIdSettings':
-              languageIdSettings.map((k, e) => MapEntry(k.toValue(), e)),
+              languageIdSettings.map((k, e) => MapEntry(k.value, e)),
         if (languageOptions != null)
-          'LanguageOptions': languageOptions.map((e) => e.toValue()).toList(),
-        if (mediaFormat != null) 'MediaFormat': mediaFormat.toValue(),
+          'LanguageOptions': languageOptions.map((e) => e.value).toList(),
+        if (mediaFormat != null) 'MediaFormat': mediaFormat.value,
         if (mediaSampleRateHertz != null)
           'MediaSampleRateHertz': mediaSampleRateHertz,
         if (modelSettings != null) 'ModelSettings': modelSettings,
@@ -3159,7 +3159,7 @@ class TranscribeService {
       payload: {
         'CategoryName': categoryName,
         'Rules': rules,
-        if (inputType != null) 'InputType': inputType.toValue(),
+        if (inputType != null) 'InputType': inputType.value,
       },
     );
 
@@ -3208,7 +3208,7 @@ class TranscribeService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode.value,
         'VocabularyFileUri': vocabularyFileUri,
         'VocabularyName': vocabularyName,
       },
@@ -3308,7 +3308,7 @@ class TranscribeService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode.value,
         'VocabularyName': vocabularyName,
         if (dataAccessRoleArn != null) 'DataAccessRoleArn': dataAccessRoleArn,
         if (phrases != null) 'Phrases': phrases,
@@ -3477,107 +3477,52 @@ class AbsoluteTimeRange {
 }
 
 enum BaseModelName {
-  narrowBand,
-  wideBand,
-}
+  narrowBand('NarrowBand'),
+  wideBand('WideBand'),
+  ;
 
-extension BaseModelNameValueExtension on BaseModelName {
-  String toValue() {
-    switch (this) {
-      case BaseModelName.narrowBand:
-        return 'NarrowBand';
-      case BaseModelName.wideBand:
-        return 'WideBand';
-    }
-  }
-}
+  final String value;
 
-extension BaseModelNameFromString on String {
-  BaseModelName toBaseModelName() {
-    switch (this) {
-      case 'NarrowBand':
-        return BaseModelName.narrowBand;
-      case 'WideBand':
-        return BaseModelName.wideBand;
-    }
-    throw Exception('$this is not known in enum BaseModelName');
-  }
+  const BaseModelName(this.value);
+
+  static BaseModelName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum BaseModelName'));
 }
 
 enum CLMLanguageCode {
-  enUs,
-  hiIn,
-  esUs,
-  enGb,
-  enAu,
-  deDe,
-  jaJp,
-}
+  enUs('en-US'),
+  hiIn('hi-IN'),
+  esUs('es-US'),
+  enGb('en-GB'),
+  enAu('en-AU'),
+  deDe('de-DE'),
+  jaJp('ja-JP'),
+  ;
 
-extension CLMLanguageCodeValueExtension on CLMLanguageCode {
-  String toValue() {
-    switch (this) {
-      case CLMLanguageCode.enUs:
-        return 'en-US';
-      case CLMLanguageCode.hiIn:
-        return 'hi-IN';
-      case CLMLanguageCode.esUs:
-        return 'es-US';
-      case CLMLanguageCode.enGb:
-        return 'en-GB';
-      case CLMLanguageCode.enAu:
-        return 'en-AU';
-      case CLMLanguageCode.deDe:
-        return 'de-DE';
-      case CLMLanguageCode.jaJp:
-        return 'ja-JP';
-    }
-  }
-}
+  final String value;
 
-extension CLMLanguageCodeFromString on String {
-  CLMLanguageCode toCLMLanguageCode() {
-    switch (this) {
-      case 'en-US':
-        return CLMLanguageCode.enUs;
-      case 'hi-IN':
-        return CLMLanguageCode.hiIn;
-      case 'es-US':
-        return CLMLanguageCode.esUs;
-      case 'en-GB':
-        return CLMLanguageCode.enGb;
-      case 'en-AU':
-        return CLMLanguageCode.enAu;
-      case 'de-DE':
-        return CLMLanguageCode.deDe;
-      case 'ja-JP':
-        return CLMLanguageCode.jaJp;
-    }
-    throw Exception('$this is not known in enum CLMLanguageCode');
-  }
+  const CLMLanguageCode(this.value);
+
+  static CLMLanguageCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CLMLanguageCode'));
 }
 
 enum CallAnalyticsFeature {
-  generativeSummarization,
-}
+  generativeSummarization('GENERATIVE_SUMMARIZATION'),
+  ;
 
-extension CallAnalyticsFeatureValueExtension on CallAnalyticsFeature {
-  String toValue() {
-    switch (this) {
-      case CallAnalyticsFeature.generativeSummarization:
-        return 'GENERATIVE_SUMMARIZATION';
-    }
-  }
-}
+  final String value;
 
-extension CallAnalyticsFeatureFromString on String {
-  CallAnalyticsFeature toCallAnalyticsFeature() {
-    switch (this) {
-      case 'GENERATIVE_SUMMARIZATION':
-        return CallAnalyticsFeature.generativeSummarization;
-    }
-    throw Exception('$this is not known in enum CallAnalyticsFeature');
-  }
+  const CallAnalyticsFeature(this.value);
+
+  static CallAnalyticsFeature fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum CallAnalyticsFeature'));
 }
 
 /// Provides detailed information about a Call Analytics job.
@@ -3758,7 +3703,7 @@ class CallAnalyticsJob {
           : null,
       callAnalyticsJobName: json['CallAnalyticsJobName'] as String?,
       callAnalyticsJobStatus: (json['CallAnalyticsJobStatus'] as String?)
-          ?.toCallAnalyticsJobStatus(),
+          ?.let(CallAnalyticsJobStatus.fromString),
       channelDefinitions: (json['ChannelDefinitions'] as List?)
           ?.whereNotNull()
           .map((e) => ChannelDefinition.fromJson(e as Map<String, dynamic>))
@@ -3768,11 +3713,13 @@ class CallAnalyticsJob {
       dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
       failureReason: json['FailureReason'] as String?,
       identifiedLanguageScore: json['IdentifiedLanguageScore'] as double?,
-      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
       media: json['Media'] != null
           ? Media.fromJson(json['Media'] as Map<String, dynamic>)
           : null,
-      mediaFormat: (json['MediaFormat'] as String?)?.toMediaFormat(),
+      mediaFormat:
+          (json['MediaFormat'] as String?)?.let(MediaFormat.fromString),
       mediaSampleRateHertz: json['MediaSampleRateHertz'] as int?,
       settings: json['Settings'] != null
           ? CallAnalyticsJobSettings.fromJson(
@@ -3920,19 +3867,19 @@ class CallAnalyticsJobSettings {
               json['ContentRedaction'] as Map<String, dynamic>)
           : null,
       languageIdSettings: (json['LanguageIdSettings'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k.toLanguageCode(),
+          ?.map((k, e) => MapEntry(LanguageCode.fromString(k),
               LanguageIdSettings.fromJson(e as Map<String, dynamic>))),
       languageModelName: json['LanguageModelName'] as String?,
       languageOptions: (json['LanguageOptions'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toLanguageCode())
+          .map((e) => LanguageCode.fromString((e as String)))
           .toList(),
       summarization: json['Summarization'] != null
           ? Summarization.fromJson(
               json['Summarization'] as Map<String, dynamic>)
           : null,
       vocabularyFilterMethod: (json['VocabularyFilterMethod'] as String?)
-          ?.toVocabularyFilterMethod(),
+          ?.let(VocabularyFilterMethod.fromString),
       vocabularyFilterName: json['VocabularyFilterName'] as String?,
       vocabularyName: json['VocabularyName'] as String?,
     );
@@ -3951,13 +3898,13 @@ class CallAnalyticsJobSettings {
       if (contentRedaction != null) 'ContentRedaction': contentRedaction,
       if (languageIdSettings != null)
         'LanguageIdSettings':
-            languageIdSettings.map((k, e) => MapEntry(k.toValue(), e)),
+            languageIdSettings.map((k, e) => MapEntry(k.value, e)),
       if (languageModelName != null) 'LanguageModelName': languageModelName,
       if (languageOptions != null)
-        'LanguageOptions': languageOptions.map((e) => e.toValue()).toList(),
+        'LanguageOptions': languageOptions.map((e) => e.value).toList(),
       if (summarization != null) 'Summarization': summarization,
       if (vocabularyFilterMethod != null)
-        'VocabularyFilterMethod': vocabularyFilterMethod.toValue(),
+        'VocabularyFilterMethod': vocabularyFilterMethod.value,
       if (vocabularyFilterName != null)
         'VocabularyFilterName': vocabularyFilterName,
       if (vocabularyName != null) 'VocabularyName': vocabularyName,
@@ -3966,41 +3913,20 @@ class CallAnalyticsJobSettings {
 }
 
 enum CallAnalyticsJobStatus {
-  queued,
-  inProgress,
-  failed,
-  completed,
-}
+  queued('QUEUED'),
+  inProgress('IN_PROGRESS'),
+  failed('FAILED'),
+  completed('COMPLETED'),
+  ;
 
-extension CallAnalyticsJobStatusValueExtension on CallAnalyticsJobStatus {
-  String toValue() {
-    switch (this) {
-      case CallAnalyticsJobStatus.queued:
-        return 'QUEUED';
-      case CallAnalyticsJobStatus.inProgress:
-        return 'IN_PROGRESS';
-      case CallAnalyticsJobStatus.failed:
-        return 'FAILED';
-      case CallAnalyticsJobStatus.completed:
-        return 'COMPLETED';
-    }
-  }
-}
+  final String value;
 
-extension CallAnalyticsJobStatusFromString on String {
-  CallAnalyticsJobStatus toCallAnalyticsJobStatus() {
-    switch (this) {
-      case 'QUEUED':
-        return CallAnalyticsJobStatus.queued;
-      case 'IN_PROGRESS':
-        return CallAnalyticsJobStatus.inProgress;
-      case 'FAILED':
-        return CallAnalyticsJobStatus.failed;
-      case 'COMPLETED':
-        return CallAnalyticsJobStatus.completed;
-    }
-    throw Exception('$this is not known in enum CallAnalyticsJobStatus');
-  }
+  const CallAnalyticsJobStatus(this.value);
+
+  static CallAnalyticsJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CallAnalyticsJobStatus'));
 }
 
 /// Provides detailed information about a specific Call Analytics job.
@@ -4072,11 +3998,12 @@ class CallAnalyticsJobSummary {
           : null,
       callAnalyticsJobName: json['CallAnalyticsJobName'] as String?,
       callAnalyticsJobStatus: (json['CallAnalyticsJobStatus'] as String?)
-          ?.toCallAnalyticsJobStatus(),
+          ?.let(CallAnalyticsJobStatus.fromString),
       completionTime: timeStampFromJson(json['CompletionTime']),
       creationTime: timeStampFromJson(json['CreationTime']),
       failureReason: json['FailureReason'] as String?,
-      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
       startTime: timeStampFromJson(json['StartTime']),
     );
   }
@@ -4114,42 +4041,28 @@ class CallAnalyticsSkippedFeature {
 
   factory CallAnalyticsSkippedFeature.fromJson(Map<String, dynamic> json) {
     return CallAnalyticsSkippedFeature(
-      feature: (json['Feature'] as String?)?.toCallAnalyticsFeature(),
+      feature:
+          (json['Feature'] as String?)?.let(CallAnalyticsFeature.fromString),
       message: json['Message'] as String?,
-      reasonCode:
-          (json['ReasonCode'] as String?)?.toCallAnalyticsSkippedReasonCode(),
+      reasonCode: (json['ReasonCode'] as String?)
+          ?.let(CallAnalyticsSkippedReasonCode.fromString),
     );
   }
 }
 
 enum CallAnalyticsSkippedReasonCode {
-  insufficientConversationContent,
-  failedSafetyGuidelines,
-}
+  insufficientConversationContent('INSUFFICIENT_CONVERSATION_CONTENT'),
+  failedSafetyGuidelines('FAILED_SAFETY_GUIDELINES'),
+  ;
 
-extension CallAnalyticsSkippedReasonCodeValueExtension
-    on CallAnalyticsSkippedReasonCode {
-  String toValue() {
-    switch (this) {
-      case CallAnalyticsSkippedReasonCode.insufficientConversationContent:
-        return 'INSUFFICIENT_CONVERSATION_CONTENT';
-      case CallAnalyticsSkippedReasonCode.failedSafetyGuidelines:
-        return 'FAILED_SAFETY_GUIDELINES';
-    }
-  }
-}
+  final String value;
 
-extension CallAnalyticsSkippedReasonCodeFromString on String {
-  CallAnalyticsSkippedReasonCode toCallAnalyticsSkippedReasonCode() {
-    switch (this) {
-      case 'INSUFFICIENT_CONVERSATION_CONTENT':
-        return CallAnalyticsSkippedReasonCode.insufficientConversationContent;
-      case 'FAILED_SAFETY_GUIDELINES':
-        return CallAnalyticsSkippedReasonCode.failedSafetyGuidelines;
-    }
-    throw Exception(
-        '$this is not known in enum CallAnalyticsSkippedReasonCode');
-  }
+  const CallAnalyticsSkippedReasonCode(this.value);
+
+  static CallAnalyticsSkippedReasonCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CallAnalyticsSkippedReasonCode'));
 }
 
 /// Provides you with the properties of the Call Analytics category you
@@ -4196,7 +4109,7 @@ class CategoryProperties {
     return CategoryProperties(
       categoryName: json['CategoryName'] as String?,
       createTime: timeStampFromJson(json['CreateTime']),
-      inputType: (json['InputType'] as String?)?.toInputType(),
+      inputType: (json['InputType'] as String?)?.let(InputType.fromString),
       lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
       rules: (json['Rules'] as List?)
           ?.whereNotNull()
@@ -4228,7 +4141,7 @@ class ChannelDefinition {
     return ChannelDefinition(
       channelId: json['ChannelId'] as int?,
       participantRole:
-          (json['ParticipantRole'] as String?)?.toParticipantRole(),
+          (json['ParticipantRole'] as String?)?.let(ParticipantRole.fromString),
     );
   }
 
@@ -4237,7 +4150,7 @@ class ChannelDefinition {
     final participantRole = this.participantRole;
     return {
       if (channelId != null) 'ChannelId': channelId,
-      if (participantRole != null) 'ParticipantRole': participantRole.toValue(),
+      if (participantRole != null) 'ParticipantRole': participantRole.value,
     };
   }
 }
@@ -4280,11 +4193,13 @@ class ContentRedaction {
 
   factory ContentRedaction.fromJson(Map<String, dynamic> json) {
     return ContentRedaction(
-      redactionOutput: (json['RedactionOutput'] as String).toRedactionOutput(),
-      redactionType: (json['RedactionType'] as String).toRedactionType(),
+      redactionOutput:
+          RedactionOutput.fromString((json['RedactionOutput'] as String)),
+      redactionType:
+          RedactionType.fromString((json['RedactionType'] as String)),
       piiEntityTypes: (json['PiiEntityTypes'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toPiiEntityType())
+          .map((e) => PiiEntityType.fromString((e as String)))
           .toList(),
     );
   }
@@ -4294,10 +4209,10 @@ class ContentRedaction {
     final redactionType = this.redactionType;
     final piiEntityTypes = this.piiEntityTypes;
     return {
-      'RedactionOutput': redactionOutput.toValue(),
-      'RedactionType': redactionType.toValue(),
+      'RedactionOutput': redactionOutput.value,
+      'RedactionType': redactionType.value,
       if (piiEntityTypes != null)
-        'PiiEntityTypes': piiEntityTypes.map((e) => e.toValue()).toList(),
+        'PiiEntityTypes': piiEntityTypes.map((e) => e.value).toList(),
     };
   }
 }
@@ -4352,14 +4267,17 @@ class CreateLanguageModelResponse {
 
   factory CreateLanguageModelResponse.fromJson(Map<String, dynamic> json) {
     return CreateLanguageModelResponse(
-      baseModelName: (json['BaseModelName'] as String?)?.toBaseModelName(),
+      baseModelName:
+          (json['BaseModelName'] as String?)?.let(BaseModelName.fromString),
       inputDataConfig: json['InputDataConfig'] != null
           ? InputDataConfig.fromJson(
               json['InputDataConfig'] as Map<String, dynamic>)
           : null,
-      languageCode: (json['LanguageCode'] as String?)?.toCLMLanguageCode(),
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(CLMLanguageCode.fromString),
       modelName: json['ModelName'] as String?,
-      modelStatus: (json['ModelStatus'] as String?)?.toModelStatus(),
+      modelStatus:
+          (json['ModelStatus'] as String?)?.let(ModelStatus.fromString),
     );
   }
 }
@@ -4403,11 +4321,12 @@ class CreateMedicalVocabularyResponse {
   factory CreateMedicalVocabularyResponse.fromJson(Map<String, dynamic> json) {
     return CreateMedicalVocabularyResponse(
       failureReason: json['FailureReason'] as String?,
-      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       vocabularyName: json['VocabularyName'] as String?,
       vocabularyState:
-          (json['VocabularyState'] as String?)?.toVocabularyState(),
+          (json['VocabularyState'] as String?)?.let(VocabularyState.fromString),
     );
   }
 }
@@ -4434,7 +4353,8 @@ class CreateVocabularyFilterResponse {
 
   factory CreateVocabularyFilterResponse.fromJson(Map<String, dynamic> json) {
     return CreateVocabularyFilterResponse(
-      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       vocabularyFilterName: json['VocabularyFilterName'] as String?,
     );
@@ -4478,11 +4398,12 @@ class CreateVocabularyResponse {
   factory CreateVocabularyResponse.fromJson(Map<String, dynamic> json) {
     return CreateVocabularyResponse(
       failureReason: json['FailureReason'] as String?,
-      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       vocabularyName: json['VocabularyName'] as String?,
       vocabularyState:
-          (json['VocabularyState'] as String?)?.toVocabularyState(),
+          (json['VocabularyState'] as String?)?.let(VocabularyState.fromString),
     );
   }
 }
@@ -4652,11 +4573,12 @@ class GetMedicalVocabularyResponse {
     return GetMedicalVocabularyResponse(
       downloadUri: json['DownloadUri'] as String?,
       failureReason: json['FailureReason'] as String?,
-      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       vocabularyName: json['VocabularyName'] as String?,
       vocabularyState:
-          (json['VocabularyState'] as String?)?.toVocabularyState(),
+          (json['VocabularyState'] as String?)?.let(VocabularyState.fromString),
     );
   }
 }
@@ -4708,7 +4630,8 @@ class GetVocabularyFilterResponse {
   factory GetVocabularyFilterResponse.fromJson(Map<String, dynamic> json) {
     return GetVocabularyFilterResponse(
       downloadUri: json['DownloadUri'] as String?,
-      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       vocabularyFilterName: json['VocabularyFilterName'] as String?,
     );
@@ -4758,11 +4681,12 @@ class GetVocabularyResponse {
     return GetVocabularyResponse(
       downloadUri: json['DownloadUri'] as String?,
       failureReason: json['FailureReason'] as String?,
-      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       vocabularyName: json['VocabularyName'] as String?,
       vocabularyState:
-          (json['VocabularyState'] as String?)?.toVocabularyState(),
+          (json['VocabularyState'] as String?)?.let(VocabularyState.fromString),
     );
   }
 }
@@ -4829,31 +4753,17 @@ class InputDataConfig {
 }
 
 enum InputType {
-  realTime,
-  postCall,
-}
+  realTime('REAL_TIME'),
+  postCall('POST_CALL'),
+  ;
 
-extension InputTypeValueExtension on InputType {
-  String toValue() {
-    switch (this) {
-      case InputType.realTime:
-        return 'REAL_TIME';
-      case InputType.postCall:
-        return 'POST_CALL';
-    }
-  }
-}
+  final String value;
 
-extension InputTypeFromString on String {
-  InputType toInputType() {
-    switch (this) {
-      case 'REAL_TIME':
-        return InputType.realTime;
-      case 'POST_CALL':
-        return InputType.postCall;
-    }
-    throw Exception('$this is not known in enum InputType');
-  }
+  const InputType(this.value);
+
+  static InputType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum InputType'));
 }
 
 /// Flag the presence or absence of interruptions in your Call Analytics
@@ -4917,7 +4827,7 @@ class InterruptionFilter {
           : null,
       negate: json['Negate'] as bool?,
       participantRole:
-          (json['ParticipantRole'] as String?)?.toParticipantRole(),
+          (json['ParticipantRole'] as String?)?.let(ParticipantRole.fromString),
       relativeTimeRange: json['RelativeTimeRange'] != null
           ? RelativeTimeRange.fromJson(
               json['RelativeTimeRange'] as Map<String, dynamic>)
@@ -4935,7 +4845,7 @@ class InterruptionFilter {
     return {
       if (absoluteTimeRange != null) 'AbsoluteTimeRange': absoluteTimeRange,
       if (negate != null) 'Negate': negate,
-      if (participantRole != null) 'ParticipantRole': participantRole.toValue(),
+      if (participantRole != null) 'ParticipantRole': participantRole.value,
       if (relativeTimeRange != null) 'RelativeTimeRange': relativeTimeRange,
       if (threshold != null) 'Threshold': threshold,
     };
@@ -5003,536 +4913,119 @@ class JobExecutionSettings {
 }
 
 enum LanguageCode {
-  afZa,
-  arAe,
-  arSa,
-  daDk,
-  deCh,
-  deDe,
-  enAb,
-  enAu,
-  enGb,
-  enIe,
-  enIn,
-  enUs,
-  enWl,
-  esEs,
-  esUs,
-  faIr,
-  frCa,
-  frFr,
-  heIl,
-  hiIn,
-  idId,
-  itIt,
-  jaJp,
-  koKr,
-  msMy,
-  nlNl,
-  ptBr,
-  ptPt,
-  ruRu,
-  taIn,
-  teIn,
-  trTr,
-  zhCn,
-  zhTw,
-  thTh,
-  enZa,
-  enNz,
-  viVn,
-  svSe,
-  abGe,
-  astEs,
-  azAz,
-  baRu,
-  beBy,
-  bgBg,
-  bnIn,
-  bsBa,
-  caEs,
-  ckbIq,
-  ckbIr,
-  csCz,
-  cyWl,
-  elGr,
-  etEt,
-  euEs,
-  fiFi,
-  glEs,
-  guIn,
-  haNg,
-  hrHr,
-  huHu,
-  hyAm,
-  isIs,
-  kaGe,
-  kabDz,
-  kkKz,
-  knIn,
-  kyKg,
-  lgIn,
-  ltLt,
-  lvLv,
-  mhrRu,
-  miNz,
-  mkMk,
-  mlIn,
-  mnMn,
-  mrIn,
-  mtMt,
-  noNo,
-  orIn,
-  paIn,
-  plPl,
-  psAf,
-  roRo,
-  rwRw,
-  siLk,
-  skSk,
-  slSi,
-  soSo,
-  srRs,
-  suId,
-  swBi,
-  swKe,
-  swRw,
-  swTz,
-  swUg,
-  tlPh,
-  ttRu,
-  ugCn,
-  ukUa,
-  uzUz,
-  woSn,
-  zuZa,
-}
+  afZa('af-ZA'),
+  arAe('ar-AE'),
+  arSa('ar-SA'),
+  daDk('da-DK'),
+  deCh('de-CH'),
+  deDe('de-DE'),
+  enAb('en-AB'),
+  enAu('en-AU'),
+  enGb('en-GB'),
+  enIe('en-IE'),
+  enIn('en-IN'),
+  enUs('en-US'),
+  enWl('en-WL'),
+  esEs('es-ES'),
+  esUs('es-US'),
+  faIr('fa-IR'),
+  frCa('fr-CA'),
+  frFr('fr-FR'),
+  heIl('he-IL'),
+  hiIn('hi-IN'),
+  idId('id-ID'),
+  itIt('it-IT'),
+  jaJp('ja-JP'),
+  koKr('ko-KR'),
+  msMy('ms-MY'),
+  nlNl('nl-NL'),
+  ptBr('pt-BR'),
+  ptPt('pt-PT'),
+  ruRu('ru-RU'),
+  taIn('ta-IN'),
+  teIn('te-IN'),
+  trTr('tr-TR'),
+  zhCn('zh-CN'),
+  zhTw('zh-TW'),
+  thTh('th-TH'),
+  enZa('en-ZA'),
+  enNz('en-NZ'),
+  viVn('vi-VN'),
+  svSe('sv-SE'),
+  abGe('ab-GE'),
+  astEs('ast-ES'),
+  azAz('az-AZ'),
+  baRu('ba-RU'),
+  beBy('be-BY'),
+  bgBg('bg-BG'),
+  bnIn('bn-IN'),
+  bsBa('bs-BA'),
+  caEs('ca-ES'),
+  ckbIq('ckb-IQ'),
+  ckbIr('ckb-IR'),
+  csCz('cs-CZ'),
+  cyWl('cy-WL'),
+  elGr('el-GR'),
+  etEt('et-ET'),
+  euEs('eu-ES'),
+  fiFi('fi-FI'),
+  glEs('gl-ES'),
+  guIn('gu-IN'),
+  haNg('ha-NG'),
+  hrHr('hr-HR'),
+  huHu('hu-HU'),
+  hyAm('hy-AM'),
+  isIs('is-IS'),
+  kaGe('ka-GE'),
+  kabDz('kab-DZ'),
+  kkKz('kk-KZ'),
+  knIn('kn-IN'),
+  kyKg('ky-KG'),
+  lgIn('lg-IN'),
+  ltLt('lt-LT'),
+  lvLv('lv-LV'),
+  mhrRu('mhr-RU'),
+  miNz('mi-NZ'),
+  mkMk('mk-MK'),
+  mlIn('ml-IN'),
+  mnMn('mn-MN'),
+  mrIn('mr-IN'),
+  mtMt('mt-MT'),
+  noNo('no-NO'),
+  orIn('or-IN'),
+  paIn('pa-IN'),
+  plPl('pl-PL'),
+  psAf('ps-AF'),
+  roRo('ro-RO'),
+  rwRw('rw-RW'),
+  siLk('si-LK'),
+  skSk('sk-SK'),
+  slSi('sl-SI'),
+  soSo('so-SO'),
+  srRs('sr-RS'),
+  suId('su-ID'),
+  swBi('sw-BI'),
+  swKe('sw-KE'),
+  swRw('sw-RW'),
+  swTz('sw-TZ'),
+  swUg('sw-UG'),
+  tlPh('tl-PH'),
+  ttRu('tt-RU'),
+  ugCn('ug-CN'),
+  ukUa('uk-UA'),
+  uzUz('uz-UZ'),
+  woSn('wo-SN'),
+  zuZa('zu-ZA'),
+  ;
 
-extension LanguageCodeValueExtension on LanguageCode {
-  String toValue() {
-    switch (this) {
-      case LanguageCode.afZa:
-        return 'af-ZA';
-      case LanguageCode.arAe:
-        return 'ar-AE';
-      case LanguageCode.arSa:
-        return 'ar-SA';
-      case LanguageCode.daDk:
-        return 'da-DK';
-      case LanguageCode.deCh:
-        return 'de-CH';
-      case LanguageCode.deDe:
-        return 'de-DE';
-      case LanguageCode.enAb:
-        return 'en-AB';
-      case LanguageCode.enAu:
-        return 'en-AU';
-      case LanguageCode.enGb:
-        return 'en-GB';
-      case LanguageCode.enIe:
-        return 'en-IE';
-      case LanguageCode.enIn:
-        return 'en-IN';
-      case LanguageCode.enUs:
-        return 'en-US';
-      case LanguageCode.enWl:
-        return 'en-WL';
-      case LanguageCode.esEs:
-        return 'es-ES';
-      case LanguageCode.esUs:
-        return 'es-US';
-      case LanguageCode.faIr:
-        return 'fa-IR';
-      case LanguageCode.frCa:
-        return 'fr-CA';
-      case LanguageCode.frFr:
-        return 'fr-FR';
-      case LanguageCode.heIl:
-        return 'he-IL';
-      case LanguageCode.hiIn:
-        return 'hi-IN';
-      case LanguageCode.idId:
-        return 'id-ID';
-      case LanguageCode.itIt:
-        return 'it-IT';
-      case LanguageCode.jaJp:
-        return 'ja-JP';
-      case LanguageCode.koKr:
-        return 'ko-KR';
-      case LanguageCode.msMy:
-        return 'ms-MY';
-      case LanguageCode.nlNl:
-        return 'nl-NL';
-      case LanguageCode.ptBr:
-        return 'pt-BR';
-      case LanguageCode.ptPt:
-        return 'pt-PT';
-      case LanguageCode.ruRu:
-        return 'ru-RU';
-      case LanguageCode.taIn:
-        return 'ta-IN';
-      case LanguageCode.teIn:
-        return 'te-IN';
-      case LanguageCode.trTr:
-        return 'tr-TR';
-      case LanguageCode.zhCn:
-        return 'zh-CN';
-      case LanguageCode.zhTw:
-        return 'zh-TW';
-      case LanguageCode.thTh:
-        return 'th-TH';
-      case LanguageCode.enZa:
-        return 'en-ZA';
-      case LanguageCode.enNz:
-        return 'en-NZ';
-      case LanguageCode.viVn:
-        return 'vi-VN';
-      case LanguageCode.svSe:
-        return 'sv-SE';
-      case LanguageCode.abGe:
-        return 'ab-GE';
-      case LanguageCode.astEs:
-        return 'ast-ES';
-      case LanguageCode.azAz:
-        return 'az-AZ';
-      case LanguageCode.baRu:
-        return 'ba-RU';
-      case LanguageCode.beBy:
-        return 'be-BY';
-      case LanguageCode.bgBg:
-        return 'bg-BG';
-      case LanguageCode.bnIn:
-        return 'bn-IN';
-      case LanguageCode.bsBa:
-        return 'bs-BA';
-      case LanguageCode.caEs:
-        return 'ca-ES';
-      case LanguageCode.ckbIq:
-        return 'ckb-IQ';
-      case LanguageCode.ckbIr:
-        return 'ckb-IR';
-      case LanguageCode.csCz:
-        return 'cs-CZ';
-      case LanguageCode.cyWl:
-        return 'cy-WL';
-      case LanguageCode.elGr:
-        return 'el-GR';
-      case LanguageCode.etEt:
-        return 'et-ET';
-      case LanguageCode.euEs:
-        return 'eu-ES';
-      case LanguageCode.fiFi:
-        return 'fi-FI';
-      case LanguageCode.glEs:
-        return 'gl-ES';
-      case LanguageCode.guIn:
-        return 'gu-IN';
-      case LanguageCode.haNg:
-        return 'ha-NG';
-      case LanguageCode.hrHr:
-        return 'hr-HR';
-      case LanguageCode.huHu:
-        return 'hu-HU';
-      case LanguageCode.hyAm:
-        return 'hy-AM';
-      case LanguageCode.isIs:
-        return 'is-IS';
-      case LanguageCode.kaGe:
-        return 'ka-GE';
-      case LanguageCode.kabDz:
-        return 'kab-DZ';
-      case LanguageCode.kkKz:
-        return 'kk-KZ';
-      case LanguageCode.knIn:
-        return 'kn-IN';
-      case LanguageCode.kyKg:
-        return 'ky-KG';
-      case LanguageCode.lgIn:
-        return 'lg-IN';
-      case LanguageCode.ltLt:
-        return 'lt-LT';
-      case LanguageCode.lvLv:
-        return 'lv-LV';
-      case LanguageCode.mhrRu:
-        return 'mhr-RU';
-      case LanguageCode.miNz:
-        return 'mi-NZ';
-      case LanguageCode.mkMk:
-        return 'mk-MK';
-      case LanguageCode.mlIn:
-        return 'ml-IN';
-      case LanguageCode.mnMn:
-        return 'mn-MN';
-      case LanguageCode.mrIn:
-        return 'mr-IN';
-      case LanguageCode.mtMt:
-        return 'mt-MT';
-      case LanguageCode.noNo:
-        return 'no-NO';
-      case LanguageCode.orIn:
-        return 'or-IN';
-      case LanguageCode.paIn:
-        return 'pa-IN';
-      case LanguageCode.plPl:
-        return 'pl-PL';
-      case LanguageCode.psAf:
-        return 'ps-AF';
-      case LanguageCode.roRo:
-        return 'ro-RO';
-      case LanguageCode.rwRw:
-        return 'rw-RW';
-      case LanguageCode.siLk:
-        return 'si-LK';
-      case LanguageCode.skSk:
-        return 'sk-SK';
-      case LanguageCode.slSi:
-        return 'sl-SI';
-      case LanguageCode.soSo:
-        return 'so-SO';
-      case LanguageCode.srRs:
-        return 'sr-RS';
-      case LanguageCode.suId:
-        return 'su-ID';
-      case LanguageCode.swBi:
-        return 'sw-BI';
-      case LanguageCode.swKe:
-        return 'sw-KE';
-      case LanguageCode.swRw:
-        return 'sw-RW';
-      case LanguageCode.swTz:
-        return 'sw-TZ';
-      case LanguageCode.swUg:
-        return 'sw-UG';
-      case LanguageCode.tlPh:
-        return 'tl-PH';
-      case LanguageCode.ttRu:
-        return 'tt-RU';
-      case LanguageCode.ugCn:
-        return 'ug-CN';
-      case LanguageCode.ukUa:
-        return 'uk-UA';
-      case LanguageCode.uzUz:
-        return 'uz-UZ';
-      case LanguageCode.woSn:
-        return 'wo-SN';
-      case LanguageCode.zuZa:
-        return 'zu-ZA';
-    }
-  }
-}
+  final String value;
 
-extension LanguageCodeFromString on String {
-  LanguageCode toLanguageCode() {
-    switch (this) {
-      case 'af-ZA':
-        return LanguageCode.afZa;
-      case 'ar-AE':
-        return LanguageCode.arAe;
-      case 'ar-SA':
-        return LanguageCode.arSa;
-      case 'da-DK':
-        return LanguageCode.daDk;
-      case 'de-CH':
-        return LanguageCode.deCh;
-      case 'de-DE':
-        return LanguageCode.deDe;
-      case 'en-AB':
-        return LanguageCode.enAb;
-      case 'en-AU':
-        return LanguageCode.enAu;
-      case 'en-GB':
-        return LanguageCode.enGb;
-      case 'en-IE':
-        return LanguageCode.enIe;
-      case 'en-IN':
-        return LanguageCode.enIn;
-      case 'en-US':
-        return LanguageCode.enUs;
-      case 'en-WL':
-        return LanguageCode.enWl;
-      case 'es-ES':
-        return LanguageCode.esEs;
-      case 'es-US':
-        return LanguageCode.esUs;
-      case 'fa-IR':
-        return LanguageCode.faIr;
-      case 'fr-CA':
-        return LanguageCode.frCa;
-      case 'fr-FR':
-        return LanguageCode.frFr;
-      case 'he-IL':
-        return LanguageCode.heIl;
-      case 'hi-IN':
-        return LanguageCode.hiIn;
-      case 'id-ID':
-        return LanguageCode.idId;
-      case 'it-IT':
-        return LanguageCode.itIt;
-      case 'ja-JP':
-        return LanguageCode.jaJp;
-      case 'ko-KR':
-        return LanguageCode.koKr;
-      case 'ms-MY':
-        return LanguageCode.msMy;
-      case 'nl-NL':
-        return LanguageCode.nlNl;
-      case 'pt-BR':
-        return LanguageCode.ptBr;
-      case 'pt-PT':
-        return LanguageCode.ptPt;
-      case 'ru-RU':
-        return LanguageCode.ruRu;
-      case 'ta-IN':
-        return LanguageCode.taIn;
-      case 'te-IN':
-        return LanguageCode.teIn;
-      case 'tr-TR':
-        return LanguageCode.trTr;
-      case 'zh-CN':
-        return LanguageCode.zhCn;
-      case 'zh-TW':
-        return LanguageCode.zhTw;
-      case 'th-TH':
-        return LanguageCode.thTh;
-      case 'en-ZA':
-        return LanguageCode.enZa;
-      case 'en-NZ':
-        return LanguageCode.enNz;
-      case 'vi-VN':
-        return LanguageCode.viVn;
-      case 'sv-SE':
-        return LanguageCode.svSe;
-      case 'ab-GE':
-        return LanguageCode.abGe;
-      case 'ast-ES':
-        return LanguageCode.astEs;
-      case 'az-AZ':
-        return LanguageCode.azAz;
-      case 'ba-RU':
-        return LanguageCode.baRu;
-      case 'be-BY':
-        return LanguageCode.beBy;
-      case 'bg-BG':
-        return LanguageCode.bgBg;
-      case 'bn-IN':
-        return LanguageCode.bnIn;
-      case 'bs-BA':
-        return LanguageCode.bsBa;
-      case 'ca-ES':
-        return LanguageCode.caEs;
-      case 'ckb-IQ':
-        return LanguageCode.ckbIq;
-      case 'ckb-IR':
-        return LanguageCode.ckbIr;
-      case 'cs-CZ':
-        return LanguageCode.csCz;
-      case 'cy-WL':
-        return LanguageCode.cyWl;
-      case 'el-GR':
-        return LanguageCode.elGr;
-      case 'et-ET':
-        return LanguageCode.etEt;
-      case 'eu-ES':
-        return LanguageCode.euEs;
-      case 'fi-FI':
-        return LanguageCode.fiFi;
-      case 'gl-ES':
-        return LanguageCode.glEs;
-      case 'gu-IN':
-        return LanguageCode.guIn;
-      case 'ha-NG':
-        return LanguageCode.haNg;
-      case 'hr-HR':
-        return LanguageCode.hrHr;
-      case 'hu-HU':
-        return LanguageCode.huHu;
-      case 'hy-AM':
-        return LanguageCode.hyAm;
-      case 'is-IS':
-        return LanguageCode.isIs;
-      case 'ka-GE':
-        return LanguageCode.kaGe;
-      case 'kab-DZ':
-        return LanguageCode.kabDz;
-      case 'kk-KZ':
-        return LanguageCode.kkKz;
-      case 'kn-IN':
-        return LanguageCode.knIn;
-      case 'ky-KG':
-        return LanguageCode.kyKg;
-      case 'lg-IN':
-        return LanguageCode.lgIn;
-      case 'lt-LT':
-        return LanguageCode.ltLt;
-      case 'lv-LV':
-        return LanguageCode.lvLv;
-      case 'mhr-RU':
-        return LanguageCode.mhrRu;
-      case 'mi-NZ':
-        return LanguageCode.miNz;
-      case 'mk-MK':
-        return LanguageCode.mkMk;
-      case 'ml-IN':
-        return LanguageCode.mlIn;
-      case 'mn-MN':
-        return LanguageCode.mnMn;
-      case 'mr-IN':
-        return LanguageCode.mrIn;
-      case 'mt-MT':
-        return LanguageCode.mtMt;
-      case 'no-NO':
-        return LanguageCode.noNo;
-      case 'or-IN':
-        return LanguageCode.orIn;
-      case 'pa-IN':
-        return LanguageCode.paIn;
-      case 'pl-PL':
-        return LanguageCode.plPl;
-      case 'ps-AF':
-        return LanguageCode.psAf;
-      case 'ro-RO':
-        return LanguageCode.roRo;
-      case 'rw-RW':
-        return LanguageCode.rwRw;
-      case 'si-LK':
-        return LanguageCode.siLk;
-      case 'sk-SK':
-        return LanguageCode.skSk;
-      case 'sl-SI':
-        return LanguageCode.slSi;
-      case 'so-SO':
-        return LanguageCode.soSo;
-      case 'sr-RS':
-        return LanguageCode.srRs;
-      case 'su-ID':
-        return LanguageCode.suId;
-      case 'sw-BI':
-        return LanguageCode.swBi;
-      case 'sw-KE':
-        return LanguageCode.swKe;
-      case 'sw-RW':
-        return LanguageCode.swRw;
-      case 'sw-TZ':
-        return LanguageCode.swTz;
-      case 'sw-UG':
-        return LanguageCode.swUg;
-      case 'tl-PH':
-        return LanguageCode.tlPh;
-      case 'tt-RU':
-        return LanguageCode.ttRu;
-      case 'ug-CN':
-        return LanguageCode.ugCn;
-      case 'uk-UA':
-        return LanguageCode.ukUa;
-      case 'uz-UZ':
-        return LanguageCode.uzUz;
-      case 'wo-SN':
-        return LanguageCode.woSn;
-      case 'zu-ZA':
-        return LanguageCode.zuZa;
-    }
-    throw Exception('$this is not known in enum LanguageCode');
-  }
+  const LanguageCode(this.value);
+
+  static LanguageCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LanguageCode'));
 }
 
 /// Provides information on the speech contained in a discreet utterance when
@@ -5555,7 +5048,8 @@ class LanguageCodeItem {
   factory LanguageCodeItem.fromJson(Map<String, dynamic> json) {
     return LanguageCodeItem(
       durationInSeconds: json['DurationInSeconds'] as double?,
-      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
     );
   }
 }
@@ -5758,17 +5252,20 @@ class LanguageModel {
 
   factory LanguageModel.fromJson(Map<String, dynamic> json) {
     return LanguageModel(
-      baseModelName: (json['BaseModelName'] as String?)?.toBaseModelName(),
+      baseModelName:
+          (json['BaseModelName'] as String?)?.let(BaseModelName.fromString),
       createTime: timeStampFromJson(json['CreateTime']),
       failureReason: json['FailureReason'] as String?,
       inputDataConfig: json['InputDataConfig'] != null
           ? InputDataConfig.fromJson(
               json['InputDataConfig'] as Map<String, dynamic>)
           : null,
-      languageCode: (json['LanguageCode'] as String?)?.toCLMLanguageCode(),
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(CLMLanguageCode.fromString),
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       modelName: json['ModelName'] as String?,
-      modelStatus: (json['ModelStatus'] as String?)?.toModelStatus(),
+      modelStatus:
+          (json['ModelStatus'] as String?)?.let(ModelStatus.fromString),
       upgradeAvailability: json['UpgradeAvailability'] as bool?,
     );
   }
@@ -5832,7 +5329,8 @@ class ListCallAnalyticsJobsResponse {
               CallAnalyticsJobSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
-      status: (json['Status'] as String?)?.toCallAnalyticsJobStatus(),
+      status:
+          (json['Status'] as String?)?.let(CallAnalyticsJobStatus.fromString),
     );
   }
 }
@@ -5894,7 +5392,8 @@ class ListMedicalScribeJobsResponse {
               MedicalScribeJobSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
-      status: (json['Status'] as String?)?.toMedicalScribeJobStatus(),
+      status:
+          (json['Status'] as String?)?.let(MedicalScribeJobStatus.fromString),
     );
   }
 }
@@ -5930,7 +5429,8 @@ class ListMedicalTranscriptionJobsResponse {
                   e as Map<String, dynamic>))
               .toList(),
       nextToken: json['NextToken'] as String?,
-      status: (json['Status'] as String?)?.toTranscriptionJobStatus(),
+      status:
+          (json['Status'] as String?)?.let(TranscriptionJobStatus.fromString),
     );
   }
 }
@@ -5961,7 +5461,7 @@ class ListMedicalVocabulariesResponse {
   factory ListMedicalVocabulariesResponse.fromJson(Map<String, dynamic> json) {
     return ListMedicalVocabulariesResponse(
       nextToken: json['NextToken'] as String?,
-      status: (json['Status'] as String?)?.toVocabularyState(),
+      status: (json['Status'] as String?)?.let(VocabularyState.fromString),
       vocabularies: (json['Vocabularies'] as List?)
           ?.whereNotNull()
           .map((e) => VocabularyInfo.fromJson(e as Map<String, dynamic>))
@@ -6018,7 +5518,8 @@ class ListTranscriptionJobsResponse {
   factory ListTranscriptionJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListTranscriptionJobsResponse(
       nextToken: json['NextToken'] as String?,
-      status: (json['Status'] as String?)?.toTranscriptionJobStatus(),
+      status:
+          (json['Status'] as String?)?.let(TranscriptionJobStatus.fromString),
       transcriptionJobSummaries: (json['TranscriptionJobSummaries'] as List?)
           ?.whereNotNull()
           .map((e) =>
@@ -6054,7 +5555,7 @@ class ListVocabulariesResponse {
   factory ListVocabulariesResponse.fromJson(Map<String, dynamic> json) {
     return ListVocabulariesResponse(
       nextToken: json['NextToken'] as String?,
-      status: (json['Status'] as String?)?.toVocabularyState(),
+      status: (json['Status'] as String?)?.let(VocabularyState.fromString),
       vocabularies: (json['Vocabularies'] as List?)
           ?.whereNotNull()
           .map((e) => VocabularyInfo.fromJson(e as Map<String, dynamic>))
@@ -6159,86 +5660,37 @@ class Media {
 }
 
 enum MediaFormat {
-  mp3,
-  mp4,
-  wav,
-  flac,
-  ogg,
-  amr,
-  webm,
-  m4a,
-}
+  mp3('mp3'),
+  mp4('mp4'),
+  wav('wav'),
+  flac('flac'),
+  ogg('ogg'),
+  amr('amr'),
+  webm('webm'),
+  m4a('m4a'),
+  ;
 
-extension MediaFormatValueExtension on MediaFormat {
-  String toValue() {
-    switch (this) {
-      case MediaFormat.mp3:
-        return 'mp3';
-      case MediaFormat.mp4:
-        return 'mp4';
-      case MediaFormat.wav:
-        return 'wav';
-      case MediaFormat.flac:
-        return 'flac';
-      case MediaFormat.ogg:
-        return 'ogg';
-      case MediaFormat.amr:
-        return 'amr';
-      case MediaFormat.webm:
-        return 'webm';
-      case MediaFormat.m4a:
-        return 'm4a';
-    }
-  }
-}
+  final String value;
 
-extension MediaFormatFromString on String {
-  MediaFormat toMediaFormat() {
-    switch (this) {
-      case 'mp3':
-        return MediaFormat.mp3;
-      case 'mp4':
-        return MediaFormat.mp4;
-      case 'wav':
-        return MediaFormat.wav;
-      case 'flac':
-        return MediaFormat.flac;
-      case 'ogg':
-        return MediaFormat.ogg;
-      case 'amr':
-        return MediaFormat.amr;
-      case 'webm':
-        return MediaFormat.webm;
-      case 'm4a':
-        return MediaFormat.m4a;
-    }
-    throw Exception('$this is not known in enum MediaFormat');
-  }
+  const MediaFormat(this.value);
+
+  static MediaFormat fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum MediaFormat'));
 }
 
 enum MedicalContentIdentificationType {
-  phi,
-}
+  phi('PHI'),
+  ;
 
-extension MedicalContentIdentificationTypeValueExtension
-    on MedicalContentIdentificationType {
-  String toValue() {
-    switch (this) {
-      case MedicalContentIdentificationType.phi:
-        return 'PHI';
-    }
-  }
-}
+  final String value;
 
-extension MedicalContentIdentificationTypeFromString on String {
-  MedicalContentIdentificationType toMedicalContentIdentificationType() {
-    switch (this) {
-      case 'PHI':
-        return MedicalContentIdentificationType.phi;
-    }
-    throw Exception(
-        '$this is not known in enum MedicalContentIdentificationType');
-  }
+  const MedicalContentIdentificationType(this.value);
+
+  static MedicalContentIdentificationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MedicalContentIdentificationType'));
 }
 
 /// Indicates which speaker is on which channel. The options are
@@ -6259,8 +5711,8 @@ class MedicalScribeChannelDefinition {
   factory MedicalScribeChannelDefinition.fromJson(Map<String, dynamic> json) {
     return MedicalScribeChannelDefinition(
       channelId: json['ChannelId'] as int,
-      participantRole:
-          (json['ParticipantRole'] as String).toMedicalScribeParticipantRole(),
+      participantRole: MedicalScribeParticipantRole.fromString(
+          (json['ParticipantRole'] as String)),
     );
   }
 
@@ -6269,7 +5721,7 @@ class MedicalScribeChannelDefinition {
     final participantRole = this.participantRole;
     return {
       'ChannelId': channelId,
-      'ParticipantRole': participantRole.toValue(),
+      'ParticipantRole': participantRole.value,
     };
   }
 }
@@ -6410,14 +5862,14 @@ class MedicalScribeJob {
       creationTime: timeStampFromJson(json['CreationTime']),
       dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
       failureReason: json['FailureReason'] as String?,
-      languageCode:
-          (json['LanguageCode'] as String?)?.toMedicalScribeLanguageCode(),
+      languageCode: (json['LanguageCode'] as String?)
+          ?.let(MedicalScribeLanguageCode.fromString),
       media: json['Media'] != null
           ? Media.fromJson(json['Media'] as Map<String, dynamic>)
           : null,
       medicalScribeJobName: json['MedicalScribeJobName'] as String?,
       medicalScribeJobStatus: (json['MedicalScribeJobStatus'] as String?)
-          ?.toMedicalScribeJobStatus(),
+          ?.let(MedicalScribeJobStatus.fromString),
       medicalScribeOutput: json['MedicalScribeOutput'] != null
           ? MedicalScribeOutput.fromJson(
               json['MedicalScribeOutput'] as Map<String, dynamic>)
@@ -6436,41 +5888,20 @@ class MedicalScribeJob {
 }
 
 enum MedicalScribeJobStatus {
-  queued,
-  inProgress,
-  failed,
-  completed,
-}
+  queued('QUEUED'),
+  inProgress('IN_PROGRESS'),
+  failed('FAILED'),
+  completed('COMPLETED'),
+  ;
 
-extension MedicalScribeJobStatusValueExtension on MedicalScribeJobStatus {
-  String toValue() {
-    switch (this) {
-      case MedicalScribeJobStatus.queued:
-        return 'QUEUED';
-      case MedicalScribeJobStatus.inProgress:
-        return 'IN_PROGRESS';
-      case MedicalScribeJobStatus.failed:
-        return 'FAILED';
-      case MedicalScribeJobStatus.completed:
-        return 'COMPLETED';
-    }
-  }
-}
+  final String value;
 
-extension MedicalScribeJobStatusFromString on String {
-  MedicalScribeJobStatus toMedicalScribeJobStatus() {
-    switch (this) {
-      case 'QUEUED':
-        return MedicalScribeJobStatus.queued;
-      case 'IN_PROGRESS':
-        return MedicalScribeJobStatus.inProgress;
-      case 'FAILED':
-        return MedicalScribeJobStatus.failed;
-      case 'COMPLETED':
-        return MedicalScribeJobStatus.completed;
-    }
-    throw Exception('$this is not known in enum MedicalScribeJobStatus');
-  }
+  const MedicalScribeJobStatus(this.value);
+
+  static MedicalScribeJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MedicalScribeJobStatus'));
 }
 
 /// Provides detailed information about a specific Medical Scribe job.
@@ -6536,37 +5967,28 @@ class MedicalScribeJobSummary {
       completionTime: timeStampFromJson(json['CompletionTime']),
       creationTime: timeStampFromJson(json['CreationTime']),
       failureReason: json['FailureReason'] as String?,
-      languageCode:
-          (json['LanguageCode'] as String?)?.toMedicalScribeLanguageCode(),
+      languageCode: (json['LanguageCode'] as String?)
+          ?.let(MedicalScribeLanguageCode.fromString),
       medicalScribeJobName: json['MedicalScribeJobName'] as String?,
       medicalScribeJobStatus: (json['MedicalScribeJobStatus'] as String?)
-          ?.toMedicalScribeJobStatus(),
+          ?.let(MedicalScribeJobStatus.fromString),
       startTime: timeStampFromJson(json['StartTime']),
     );
   }
 }
 
 enum MedicalScribeLanguageCode {
-  enUs,
-}
+  enUs('en-US'),
+  ;
 
-extension MedicalScribeLanguageCodeValueExtension on MedicalScribeLanguageCode {
-  String toValue() {
-    switch (this) {
-      case MedicalScribeLanguageCode.enUs:
-        return 'en-US';
-    }
-  }
-}
+  final String value;
 
-extension MedicalScribeLanguageCodeFromString on String {
-  MedicalScribeLanguageCode toMedicalScribeLanguageCode() {
-    switch (this) {
-      case 'en-US':
-        return MedicalScribeLanguageCode.enUs;
-    }
-    throw Exception('$this is not known in enum MedicalScribeLanguageCode');
-  }
+  const MedicalScribeLanguageCode(this.value);
+
+  static MedicalScribeLanguageCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MedicalScribeLanguageCode'));
 }
 
 /// The location of the output of your Medical Scribe job.
@@ -6594,32 +6016,18 @@ class MedicalScribeOutput {
 }
 
 enum MedicalScribeParticipantRole {
-  patient,
-  clinician,
-}
+  patient('PATIENT'),
+  clinician('CLINICIAN'),
+  ;
 
-extension MedicalScribeParticipantRoleValueExtension
-    on MedicalScribeParticipantRole {
-  String toValue() {
-    switch (this) {
-      case MedicalScribeParticipantRole.patient:
-        return 'PATIENT';
-      case MedicalScribeParticipantRole.clinician:
-        return 'CLINICIAN';
-    }
-  }
-}
+  final String value;
 
-extension MedicalScribeParticipantRoleFromString on String {
-  MedicalScribeParticipantRole toMedicalScribeParticipantRole() {
-    switch (this) {
-      case 'PATIENT':
-        return MedicalScribeParticipantRole.patient;
-      case 'CLINICIAN':
-        return MedicalScribeParticipantRole.clinician;
-    }
-    throw Exception('$this is not known in enum MedicalScribeParticipantRole');
-  }
+  const MedicalScribeParticipantRole(this.value);
+
+  static MedicalScribeParticipantRole fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MedicalScribeParticipantRole'));
 }
 
 /// Makes it possible to control how your Medical Scribe job is processed using
@@ -6702,7 +6110,7 @@ class MedicalScribeSettings {
       maxSpeakerLabels: json['MaxSpeakerLabels'] as int?,
       showSpeakerLabels: json['ShowSpeakerLabels'] as bool?,
       vocabularyFilterMethod: (json['VocabularyFilterMethod'] as String?)
-          ?.toVocabularyFilterMethod(),
+          ?.let(VocabularyFilterMethod.fromString),
       vocabularyFilterName: json['VocabularyFilterName'] as String?,
       vocabularyName: json['VocabularyName'] as String?,
     );
@@ -6721,7 +6129,7 @@ class MedicalScribeSettings {
       if (maxSpeakerLabels != null) 'MaxSpeakerLabels': maxSpeakerLabels,
       if (showSpeakerLabels != null) 'ShowSpeakerLabels': showSpeakerLabels,
       if (vocabularyFilterMethod != null)
-        'VocabularyFilterMethod': vocabularyFilterMethod.toValue(),
+        'VocabularyFilterMethod': vocabularyFilterMethod.value,
       if (vocabularyFilterName != null)
         'VocabularyFilterName': vocabularyFilterName,
       if (vocabularyName != null) 'VocabularyName': vocabularyName,
@@ -6907,14 +6315,16 @@ class MedicalTranscriptionJob {
     return MedicalTranscriptionJob(
       completionTime: timeStampFromJson(json['CompletionTime']),
       contentIdentificationType: (json['ContentIdentificationType'] as String?)
-          ?.toMedicalContentIdentificationType(),
+          ?.let(MedicalContentIdentificationType.fromString),
       creationTime: timeStampFromJson(json['CreationTime']),
       failureReason: json['FailureReason'] as String?,
-      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
       media: json['Media'] != null
           ? Media.fromJson(json['Media'] as Map<String, dynamic>)
           : null,
-      mediaFormat: (json['MediaFormat'] as String?)?.toMediaFormat(),
+      mediaFormat:
+          (json['MediaFormat'] as String?)?.let(MediaFormat.fromString),
       mediaSampleRateHertz: json['MediaSampleRateHertz'] as int?,
       medicalTranscriptionJobName:
           json['MedicalTranscriptionJobName'] as String?,
@@ -6922,7 +6332,7 @@ class MedicalTranscriptionJob {
           ? MedicalTranscriptionSetting.fromJson(
               json['Settings'] as Map<String, dynamic>)
           : null,
-      specialty: (json['Specialty'] as String?)?.toSpecialty(),
+      specialty: (json['Specialty'] as String?)?.let(Specialty.fromString),
       startTime: timeStampFromJson(json['StartTime']),
       tags: (json['Tags'] as List?)
           ?.whereNotNull()
@@ -6933,8 +6343,8 @@ class MedicalTranscriptionJob {
               json['Transcript'] as Map<String, dynamic>)
           : null,
       transcriptionJobStatus: (json['TranscriptionJobStatus'] as String?)
-          ?.toTranscriptionJobStatus(),
-      type: (json['Type'] as String?)?.toType(),
+          ?.let(TranscriptionJobStatus.fromString),
+      type: (json['Type'] as String?)?.let(Type.fromString),
     );
   }
 }
@@ -7032,19 +6442,20 @@ class MedicalTranscriptionJobSummary {
     return MedicalTranscriptionJobSummary(
       completionTime: timeStampFromJson(json['CompletionTime']),
       contentIdentificationType: (json['ContentIdentificationType'] as String?)
-          ?.toMedicalContentIdentificationType(),
+          ?.let(MedicalContentIdentificationType.fromString),
       creationTime: timeStampFromJson(json['CreationTime']),
       failureReason: json['FailureReason'] as String?,
-      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
       medicalTranscriptionJobName:
           json['MedicalTranscriptionJobName'] as String?,
-      outputLocationType:
-          (json['OutputLocationType'] as String?)?.toOutputLocationType(),
-      specialty: (json['Specialty'] as String?)?.toSpecialty(),
+      outputLocationType: (json['OutputLocationType'] as String?)
+          ?.let(OutputLocationType.fromString),
+      specialty: (json['Specialty'] as String?)?.let(Specialty.fromString),
       startTime: timeStampFromJson(json['StartTime']),
       transcriptionJobStatus: (json['TranscriptionJobStatus'] as String?)
-          ?.toTranscriptionJobStatus(),
-      type: (json['Type'] as String?)?.toType(),
+          ?.let(TranscriptionJobStatus.fromString),
+      type: (json['Type'] as String?)?.let(Type.fromString),
     );
   }
 }
@@ -7200,36 +6611,18 @@ class ModelSettings {
 }
 
 enum ModelStatus {
-  inProgress,
-  failed,
-  completed,
-}
+  inProgress('IN_PROGRESS'),
+  failed('FAILED'),
+  completed('COMPLETED'),
+  ;
 
-extension ModelStatusValueExtension on ModelStatus {
-  String toValue() {
-    switch (this) {
-      case ModelStatus.inProgress:
-        return 'IN_PROGRESS';
-      case ModelStatus.failed:
-        return 'FAILED';
-      case ModelStatus.completed:
-        return 'COMPLETED';
-    }
-  }
-}
+  final String value;
 
-extension ModelStatusFromString on String {
-  ModelStatus toModelStatus() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return ModelStatus.inProgress;
-      case 'FAILED':
-        return ModelStatus.failed;
-      case 'COMPLETED':
-        return ModelStatus.completed;
-    }
-    throw Exception('$this is not known in enum ModelStatus');
-  }
+  const ModelStatus(this.value);
+
+  static ModelStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ModelStatus'));
 }
 
 /// Flag the presence or absence of periods of silence in your Call Analytics
@@ -7305,188 +6698,87 @@ class NonTalkTimeFilter {
 }
 
 enum OutputLocationType {
-  customerBucket,
-  serviceBucket,
-}
+  customerBucket('CUSTOMER_BUCKET'),
+  serviceBucket('SERVICE_BUCKET'),
+  ;
 
-extension OutputLocationTypeValueExtension on OutputLocationType {
-  String toValue() {
-    switch (this) {
-      case OutputLocationType.customerBucket:
-        return 'CUSTOMER_BUCKET';
-      case OutputLocationType.serviceBucket:
-        return 'SERVICE_BUCKET';
-    }
-  }
-}
+  final String value;
 
-extension OutputLocationTypeFromString on String {
-  OutputLocationType toOutputLocationType() {
-    switch (this) {
-      case 'CUSTOMER_BUCKET':
-        return OutputLocationType.customerBucket;
-      case 'SERVICE_BUCKET':
-        return OutputLocationType.serviceBucket;
-    }
-    throw Exception('$this is not known in enum OutputLocationType');
-  }
+  const OutputLocationType(this.value);
+
+  static OutputLocationType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum OutputLocationType'));
 }
 
 enum ParticipantRole {
-  agent,
-  customer,
-}
+  agent('AGENT'),
+  customer('CUSTOMER'),
+  ;
 
-extension ParticipantRoleValueExtension on ParticipantRole {
-  String toValue() {
-    switch (this) {
-      case ParticipantRole.agent:
-        return 'AGENT';
-      case ParticipantRole.customer:
-        return 'CUSTOMER';
-    }
-  }
-}
+  final String value;
 
-extension ParticipantRoleFromString on String {
-  ParticipantRole toParticipantRole() {
-    switch (this) {
-      case 'AGENT':
-        return ParticipantRole.agent;
-      case 'CUSTOMER':
-        return ParticipantRole.customer;
-    }
-    throw Exception('$this is not known in enum ParticipantRole');
-  }
+  const ParticipantRole(this.value);
+
+  static ParticipantRole fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ParticipantRole'));
 }
 
 enum PiiEntityType {
-  bankAccountNumber,
-  bankRouting,
-  creditDebitNumber,
-  creditDebitCvv,
-  creditDebitExpiry,
-  pin,
-  email,
-  address,
-  name,
-  phone,
-  ssn,
-  all,
-}
+  bankAccountNumber('BANK_ACCOUNT_NUMBER'),
+  bankRouting('BANK_ROUTING'),
+  creditDebitNumber('CREDIT_DEBIT_NUMBER'),
+  creditDebitCvv('CREDIT_DEBIT_CVV'),
+  creditDebitExpiry('CREDIT_DEBIT_EXPIRY'),
+  pin('PIN'),
+  email('EMAIL'),
+  address('ADDRESS'),
+  name('NAME'),
+  phone('PHONE'),
+  ssn('SSN'),
+  all('ALL'),
+  ;
 
-extension PiiEntityTypeValueExtension on PiiEntityType {
-  String toValue() {
-    switch (this) {
-      case PiiEntityType.bankAccountNumber:
-        return 'BANK_ACCOUNT_NUMBER';
-      case PiiEntityType.bankRouting:
-        return 'BANK_ROUTING';
-      case PiiEntityType.creditDebitNumber:
-        return 'CREDIT_DEBIT_NUMBER';
-      case PiiEntityType.creditDebitCvv:
-        return 'CREDIT_DEBIT_CVV';
-      case PiiEntityType.creditDebitExpiry:
-        return 'CREDIT_DEBIT_EXPIRY';
-      case PiiEntityType.pin:
-        return 'PIN';
-      case PiiEntityType.email:
-        return 'EMAIL';
-      case PiiEntityType.address:
-        return 'ADDRESS';
-      case PiiEntityType.name:
-        return 'NAME';
-      case PiiEntityType.phone:
-        return 'PHONE';
-      case PiiEntityType.ssn:
-        return 'SSN';
-      case PiiEntityType.all:
-        return 'ALL';
-    }
-  }
-}
+  final String value;
 
-extension PiiEntityTypeFromString on String {
-  PiiEntityType toPiiEntityType() {
-    switch (this) {
-      case 'BANK_ACCOUNT_NUMBER':
-        return PiiEntityType.bankAccountNumber;
-      case 'BANK_ROUTING':
-        return PiiEntityType.bankRouting;
-      case 'CREDIT_DEBIT_NUMBER':
-        return PiiEntityType.creditDebitNumber;
-      case 'CREDIT_DEBIT_CVV':
-        return PiiEntityType.creditDebitCvv;
-      case 'CREDIT_DEBIT_EXPIRY':
-        return PiiEntityType.creditDebitExpiry;
-      case 'PIN':
-        return PiiEntityType.pin;
-      case 'EMAIL':
-        return PiiEntityType.email;
-      case 'ADDRESS':
-        return PiiEntityType.address;
-      case 'NAME':
-        return PiiEntityType.name;
-      case 'PHONE':
-        return PiiEntityType.phone;
-      case 'SSN':
-        return PiiEntityType.ssn;
-      case 'ALL':
-        return PiiEntityType.all;
-    }
-    throw Exception('$this is not known in enum PiiEntityType');
-  }
+  const PiiEntityType(this.value);
+
+  static PiiEntityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PiiEntityType'));
 }
 
 enum RedactionOutput {
-  redacted,
-  redactedAndUnredacted,
-}
+  redacted('redacted'),
+  redactedAndUnredacted('redacted_and_unredacted'),
+  ;
 
-extension RedactionOutputValueExtension on RedactionOutput {
-  String toValue() {
-    switch (this) {
-      case RedactionOutput.redacted:
-        return 'redacted';
-      case RedactionOutput.redactedAndUnredacted:
-        return 'redacted_and_unredacted';
-    }
-  }
-}
+  final String value;
 
-extension RedactionOutputFromString on String {
-  RedactionOutput toRedactionOutput() {
-    switch (this) {
-      case 'redacted':
-        return RedactionOutput.redacted;
-      case 'redacted_and_unredacted':
-        return RedactionOutput.redactedAndUnredacted;
-    }
-    throw Exception('$this is not known in enum RedactionOutput');
-  }
+  const RedactionOutput(this.value);
+
+  static RedactionOutput fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RedactionOutput'));
 }
 
 enum RedactionType {
-  pii,
-}
+  pii('PII'),
+  ;
 
-extension RedactionTypeValueExtension on RedactionType {
-  String toValue() {
-    switch (this) {
-      case RedactionType.pii:
-        return 'PII';
-    }
-  }
-}
+  final String value;
 
-extension RedactionTypeFromString on String {
-  RedactionType toRedactionType() {
-    switch (this) {
-      case 'PII':
-        return RedactionType.pii;
-    }
-    throw Exception('$this is not known in enum RedactionType');
-  }
+  const RedactionType(this.value);
+
+  static RedactionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RedactionType'));
 }
 
 /// A time range, in percentage, between two points in your media file.
@@ -7691,7 +6983,7 @@ class SentimentFilter {
     return SentimentFilter(
       sentiments: (json['Sentiments'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toSentimentValue())
+          .map((e) => SentimentValue.fromString((e as String)))
           .toList(),
       absoluteTimeRange: json['AbsoluteTimeRange'] != null
           ? AbsoluteTimeRange.fromJson(
@@ -7699,7 +6991,7 @@ class SentimentFilter {
           : null,
       negate: json['Negate'] as bool?,
       participantRole:
-          (json['ParticipantRole'] as String?)?.toParticipantRole(),
+          (json['ParticipantRole'] as String?)?.let(ParticipantRole.fromString),
       relativeTimeRange: json['RelativeTimeRange'] != null
           ? RelativeTimeRange.fromJson(
               json['RelativeTimeRange'] as Map<String, dynamic>)
@@ -7714,51 +7006,30 @@ class SentimentFilter {
     final participantRole = this.participantRole;
     final relativeTimeRange = this.relativeTimeRange;
     return {
-      'Sentiments': sentiments.map((e) => e.toValue()).toList(),
+      'Sentiments': sentiments.map((e) => e.value).toList(),
       if (absoluteTimeRange != null) 'AbsoluteTimeRange': absoluteTimeRange,
       if (negate != null) 'Negate': negate,
-      if (participantRole != null) 'ParticipantRole': participantRole.toValue(),
+      if (participantRole != null) 'ParticipantRole': participantRole.value,
       if (relativeTimeRange != null) 'RelativeTimeRange': relativeTimeRange,
     };
   }
 }
 
 enum SentimentValue {
-  positive,
-  negative,
-  neutral,
-  mixed,
-}
+  positive('POSITIVE'),
+  negative('NEGATIVE'),
+  neutral('NEUTRAL'),
+  mixed('MIXED'),
+  ;
 
-extension SentimentValueValueExtension on SentimentValue {
-  String toValue() {
-    switch (this) {
-      case SentimentValue.positive:
-        return 'POSITIVE';
-      case SentimentValue.negative:
-        return 'NEGATIVE';
-      case SentimentValue.neutral:
-        return 'NEUTRAL';
-      case SentimentValue.mixed:
-        return 'MIXED';
-    }
-  }
-}
+  final String value;
 
-extension SentimentValueFromString on String {
-  SentimentValue toSentimentValue() {
-    switch (this) {
-      case 'POSITIVE':
-        return SentimentValue.positive;
-      case 'NEGATIVE':
-        return SentimentValue.negative;
-      case 'NEUTRAL':
-        return SentimentValue.neutral;
-      case 'MIXED':
-        return SentimentValue.mixed;
-    }
-    throw Exception('$this is not known in enum SentimentValue');
-  }
+  const SentimentValue(this.value);
+
+  static SentimentValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SentimentValue'));
 }
 
 /// Allows additional optional settings in your request, including channel
@@ -7869,7 +7140,7 @@ class Settings {
       showAlternatives: json['ShowAlternatives'] as bool?,
       showSpeakerLabels: json['ShowSpeakerLabels'] as bool?,
       vocabularyFilterMethod: (json['VocabularyFilterMethod'] as String?)
-          ?.toVocabularyFilterMethod(),
+          ?.let(VocabularyFilterMethod.fromString),
       vocabularyFilterName: json['VocabularyFilterName'] as String?,
       vocabularyName: json['VocabularyName'] as String?,
     );
@@ -7892,7 +7163,7 @@ class Settings {
       if (showAlternatives != null) 'ShowAlternatives': showAlternatives,
       if (showSpeakerLabels != null) 'ShowSpeakerLabels': showSpeakerLabels,
       if (vocabularyFilterMethod != null)
-        'VocabularyFilterMethod': vocabularyFilterMethod.toValue(),
+        'VocabularyFilterMethod': vocabularyFilterMethod.value,
       if (vocabularyFilterName != null)
         'VocabularyFilterName': vocabularyFilterName,
       if (vocabularyName != null) 'VocabularyName': vocabularyName,
@@ -7901,26 +7172,16 @@ class Settings {
 }
 
 enum Specialty {
-  primarycare,
-}
+  primarycare('PRIMARYCARE'),
+  ;
 
-extension SpecialtyValueExtension on Specialty {
-  String toValue() {
-    switch (this) {
-      case Specialty.primarycare:
-        return 'PRIMARYCARE';
-    }
-  }
-}
+  final String value;
 
-extension SpecialtyFromString on String {
-  Specialty toSpecialty() {
-    switch (this) {
-      case 'PRIMARYCARE':
-        return Specialty.primarycare;
-    }
-    throw Exception('$this is not known in enum Specialty');
-  }
+  const Specialty(this.value);
+
+  static Specialty fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Specialty'));
 }
 
 class StartCallAnalyticsJobResponse {
@@ -8001,31 +7262,18 @@ class StartTranscriptionJobResponse {
 }
 
 enum SubtitleFormat {
-  vtt,
-  srt,
-}
+  vtt('vtt'),
+  srt('srt'),
+  ;
 
-extension SubtitleFormatValueExtension on SubtitleFormat {
-  String toValue() {
-    switch (this) {
-      case SubtitleFormat.vtt:
-        return 'vtt';
-      case SubtitleFormat.srt:
-        return 'srt';
-    }
-  }
-}
+  final String value;
 
-extension SubtitleFormatFromString on String {
-  SubtitleFormat toSubtitleFormat() {
-    switch (this) {
-      case 'vtt':
-        return SubtitleFormat.vtt;
-      case 'srt':
-        return SubtitleFormat.srt;
-    }
-    throw Exception('$this is not known in enum SubtitleFormat');
-  }
+  const SubtitleFormat(this.value);
+
+  static SubtitleFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SubtitleFormat'));
 }
 
 /// Generate subtitles for your media file with your transcription request.
@@ -8058,7 +7306,7 @@ class Subtitles {
     final formats = this.formats;
     final outputStartIndex = this.outputStartIndex;
     return {
-      if (formats != null) 'Formats': formats.map((e) => e.toValue()).toList(),
+      if (formats != null) 'Formats': formats.map((e) => e.value).toList(),
       if (outputStartIndex != null) 'OutputStartIndex': outputStartIndex,
     };
   }
@@ -8109,7 +7357,7 @@ class SubtitlesOutput {
     return SubtitlesOutput(
       formats: (json['Formats'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toSubtitleFormat())
+          .map((e) => SubtitleFormat.fromString((e as String)))
           .toList(),
       outputStartIndex: json['OutputStartIndex'] as int?,
       subtitleFileUris: (json['SubtitleFileUris'] as List?)
@@ -8207,26 +7455,17 @@ class TagResourceResponse {
 }
 
 enum ToxicityCategory {
-  all,
-}
+  all('ALL'),
+  ;
 
-extension ToxicityCategoryValueExtension on ToxicityCategory {
-  String toValue() {
-    switch (this) {
-      case ToxicityCategory.all:
-        return 'ALL';
-    }
-  }
-}
+  final String value;
 
-extension ToxicityCategoryFromString on String {
-  ToxicityCategory toToxicityCategory() {
-    switch (this) {
-      case 'ALL':
-        return ToxicityCategory.all;
-    }
-    throw Exception('$this is not known in enum ToxicityCategory');
-  }
+  const ToxicityCategory(this.value);
+
+  static ToxicityCategory fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ToxicityCategory'));
 }
 
 /// Contains <code>ToxicityCategories</code>, which is a required parameter if
@@ -8246,7 +7485,7 @@ class ToxicityDetectionSettings {
     return ToxicityDetectionSettings(
       toxicityCategories: (json['ToxicityCategories'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toToxicityCategory())
+          .map((e) => ToxicityCategory.fromString((e as String)))
           .toList(),
     );
   }
@@ -8254,7 +7493,7 @@ class ToxicityDetectionSettings {
   Map<String, dynamic> toJson() {
     final toxicityCategories = this.toxicityCategories;
     return {
-      'ToxicityCategories': toxicityCategories.map((e) => e.toValue()).toList(),
+      'ToxicityCategories': toxicityCategories.map((e) => e.value).toList(),
     };
   }
 }
@@ -8383,15 +7622,15 @@ class TranscriptFilter {
           .whereNotNull()
           .map((e) => e as String)
           .toList(),
-      transcriptFilterType:
-          (json['TranscriptFilterType'] as String).toTranscriptFilterType(),
+      transcriptFilterType: TranscriptFilterType.fromString(
+          (json['TranscriptFilterType'] as String)),
       absoluteTimeRange: json['AbsoluteTimeRange'] != null
           ? AbsoluteTimeRange.fromJson(
               json['AbsoluteTimeRange'] as Map<String, dynamic>)
           : null,
       negate: json['Negate'] as bool?,
       participantRole:
-          (json['ParticipantRole'] as String?)?.toParticipantRole(),
+          (json['ParticipantRole'] as String?)?.let(ParticipantRole.fromString),
       relativeTimeRange: json['RelativeTimeRange'] != null
           ? RelativeTimeRange.fromJson(
               json['RelativeTimeRange'] as Map<String, dynamic>)
@@ -8408,36 +7647,27 @@ class TranscriptFilter {
     final relativeTimeRange = this.relativeTimeRange;
     return {
       'Targets': targets,
-      'TranscriptFilterType': transcriptFilterType.toValue(),
+      'TranscriptFilterType': transcriptFilterType.value,
       if (absoluteTimeRange != null) 'AbsoluteTimeRange': absoluteTimeRange,
       if (negate != null) 'Negate': negate,
-      if (participantRole != null) 'ParticipantRole': participantRole.toValue(),
+      if (participantRole != null) 'ParticipantRole': participantRole.value,
       if (relativeTimeRange != null) 'RelativeTimeRange': relativeTimeRange,
     };
   }
 }
 
 enum TranscriptFilterType {
-  exact,
-}
+  exact('EXACT'),
+  ;
 
-extension TranscriptFilterTypeValueExtension on TranscriptFilterType {
-  String toValue() {
-    switch (this) {
-      case TranscriptFilterType.exact:
-        return 'EXACT';
-    }
-  }
-}
+  final String value;
 
-extension TranscriptFilterTypeFromString on String {
-  TranscriptFilterType toTranscriptFilterType() {
-    switch (this) {
-      case 'EXACT':
-        return TranscriptFilterType.exact;
-    }
-    throw Exception('$this is not known in enum TranscriptFilterType');
-  }
+  const TranscriptFilterType(this.value);
+
+  static TranscriptFilterType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TranscriptFilterType'));
 }
 
 /// Provides detailed information about a transcription job.
@@ -8661,22 +7891,24 @@ class TranscriptionJob {
           ? JobExecutionSettings.fromJson(
               json['JobExecutionSettings'] as Map<String, dynamic>)
           : null,
-      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
       languageCodes: (json['LanguageCodes'] as List?)
           ?.whereNotNull()
           .map((e) => LanguageCodeItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       languageIdSettings: (json['LanguageIdSettings'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k.toLanguageCode(),
+          ?.map((k, e) => MapEntry(LanguageCode.fromString(k),
               LanguageIdSettings.fromJson(e as Map<String, dynamic>))),
       languageOptions: (json['LanguageOptions'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toLanguageCode())
+          .map((e) => LanguageCode.fromString((e as String)))
           .toList(),
       media: json['Media'] != null
           ? Media.fromJson(json['Media'] as Map<String, dynamic>)
           : null,
-      mediaFormat: (json['MediaFormat'] as String?)?.toMediaFormat(),
+      mediaFormat:
+          (json['MediaFormat'] as String?)?.let(MediaFormat.fromString),
       mediaSampleRateHertz: json['MediaSampleRateHertz'] as int?,
       modelSettings: json['ModelSettings'] != null
           ? ModelSettings.fromJson(
@@ -8703,47 +7935,26 @@ class TranscriptionJob {
           : null,
       transcriptionJobName: json['TranscriptionJobName'] as String?,
       transcriptionJobStatus: (json['TranscriptionJobStatus'] as String?)
-          ?.toTranscriptionJobStatus(),
+          ?.let(TranscriptionJobStatus.fromString),
     );
   }
 }
 
 enum TranscriptionJobStatus {
-  queued,
-  inProgress,
-  failed,
-  completed,
-}
+  queued('QUEUED'),
+  inProgress('IN_PROGRESS'),
+  failed('FAILED'),
+  completed('COMPLETED'),
+  ;
 
-extension TranscriptionJobStatusValueExtension on TranscriptionJobStatus {
-  String toValue() {
-    switch (this) {
-      case TranscriptionJobStatus.queued:
-        return 'QUEUED';
-      case TranscriptionJobStatus.inProgress:
-        return 'IN_PROGRESS';
-      case TranscriptionJobStatus.failed:
-        return 'FAILED';
-      case TranscriptionJobStatus.completed:
-        return 'COMPLETED';
-    }
-  }
-}
+  final String value;
 
-extension TranscriptionJobStatusFromString on String {
-  TranscriptionJobStatus toTranscriptionJobStatus() {
-    switch (this) {
-      case 'QUEUED':
-        return TranscriptionJobStatus.queued;
-      case 'IN_PROGRESS':
-        return TranscriptionJobStatus.inProgress;
-      case 'FAILED':
-        return TranscriptionJobStatus.failed;
-      case 'COMPLETED':
-        return TranscriptionJobStatus.completed;
-    }
-    throw Exception('$this is not known in enum TranscriptionJobStatus');
-  }
+  const TranscriptionJobStatus(this.value);
+
+  static TranscriptionJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TranscriptionJobStatus'));
 }
 
 /// Provides detailed information about a specific transcription job.
@@ -8866,7 +8077,8 @@ class TranscriptionJobSummary {
       identifiedLanguageScore: json['IdentifiedLanguageScore'] as double?,
       identifyLanguage: json['IdentifyLanguage'] as bool?,
       identifyMultipleLanguages: json['IdentifyMultipleLanguages'] as bool?,
-      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
       languageCodes: (json['LanguageCodes'] as List?)
           ?.whereNotNull()
           .map((e) => LanguageCodeItem.fromJson(e as Map<String, dynamic>))
@@ -8875,8 +8087,8 @@ class TranscriptionJobSummary {
           ? ModelSettings.fromJson(
               json['ModelSettings'] as Map<String, dynamic>)
           : null,
-      outputLocationType:
-          (json['OutputLocationType'] as String?)?.toOutputLocationType(),
+      outputLocationType: (json['OutputLocationType'] as String?)
+          ?.let(OutputLocationType.fromString),
       startTime: timeStampFromJson(json['StartTime']),
       toxicityDetection: (json['ToxicityDetection'] as List?)
           ?.whereNotNull()
@@ -8885,37 +8097,23 @@ class TranscriptionJobSummary {
           .toList(),
       transcriptionJobName: json['TranscriptionJobName'] as String?,
       transcriptionJobStatus: (json['TranscriptionJobStatus'] as String?)
-          ?.toTranscriptionJobStatus(),
+          ?.let(TranscriptionJobStatus.fromString),
     );
   }
 }
 
 enum Type {
-  conversation,
-  dictation,
-}
+  conversation('CONVERSATION'),
+  dictation('DICTATION'),
+  ;
 
-extension TypeValueExtension on Type {
-  String toValue() {
-    switch (this) {
-      case Type.conversation:
-        return 'CONVERSATION';
-      case Type.dictation:
-        return 'DICTATION';
-    }
-  }
-}
+  final String value;
 
-extension TypeFromString on String {
-  Type toType() {
-    switch (this) {
-      case 'CONVERSATION':
-        return Type.conversation;
-      case 'DICTATION':
-        return Type.dictation;
-    }
-    throw Exception('$this is not known in enum Type');
-  }
+  const Type(this.value);
+
+  static Type fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Type'));
 }
 
 class UntagResourceResponse {
@@ -8976,11 +8174,12 @@ class UpdateMedicalVocabularyResponse {
 
   factory UpdateMedicalVocabularyResponse.fromJson(Map<String, dynamic> json) {
     return UpdateMedicalVocabularyResponse(
-      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       vocabularyName: json['VocabularyName'] as String?,
       vocabularyState:
-          (json['VocabularyState'] as String?)?.toVocabularyState(),
+          (json['VocabularyState'] as String?)?.let(VocabularyState.fromString),
     );
   }
 }
@@ -9007,7 +8206,8 @@ class UpdateVocabularyFilterResponse {
 
   factory UpdateVocabularyFilterResponse.fromJson(Map<String, dynamic> json) {
     return UpdateVocabularyFilterResponse(
-      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       vocabularyFilterName: json['VocabularyFilterName'] as String?,
     );
@@ -9042,11 +8242,12 @@ class UpdateVocabularyResponse {
 
   factory UpdateVocabularyResponse.fromJson(Map<String, dynamic> json) {
     return UpdateVocabularyResponse(
-      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       vocabularyName: json['VocabularyName'] as String?,
       vocabularyState:
-          (json['VocabularyState'] as String?)?.toVocabularyState(),
+          (json['VocabularyState'] as String?)?.let(VocabularyState.fromString),
     );
   }
 }
@@ -9089,7 +8290,8 @@ class VocabularyFilterInfo {
 
   factory VocabularyFilterInfo.fromJson(Map<String, dynamic> json) {
     return VocabularyFilterInfo(
-      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       vocabularyFilterName: json['VocabularyFilterName'] as String?,
     );
@@ -9097,36 +8299,19 @@ class VocabularyFilterInfo {
 }
 
 enum VocabularyFilterMethod {
-  remove,
-  mask,
-  tag,
-}
+  remove('remove'),
+  mask('mask'),
+  tag('tag'),
+  ;
 
-extension VocabularyFilterMethodValueExtension on VocabularyFilterMethod {
-  String toValue() {
-    switch (this) {
-      case VocabularyFilterMethod.remove:
-        return 'remove';
-      case VocabularyFilterMethod.mask:
-        return 'mask';
-      case VocabularyFilterMethod.tag:
-        return 'tag';
-    }
-  }
-}
+  final String value;
 
-extension VocabularyFilterMethodFromString on String {
-  VocabularyFilterMethod toVocabularyFilterMethod() {
-    switch (this) {
-      case 'remove':
-        return VocabularyFilterMethod.remove;
-      case 'mask':
-        return VocabularyFilterMethod.mask;
-      case 'tag':
-        return VocabularyFilterMethod.tag;
-    }
-    throw Exception('$this is not known in enum VocabularyFilterMethod');
-  }
+  const VocabularyFilterMethod(this.value);
+
+  static VocabularyFilterMethod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum VocabularyFilterMethod'));
 }
 
 /// Provides information about a custom vocabulary, including the language of
@@ -9168,46 +8353,30 @@ class VocabularyInfo {
 
   factory VocabularyInfo.fromJson(Map<String, dynamic> json) {
     return VocabularyInfo(
-      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       vocabularyName: json['VocabularyName'] as String?,
       vocabularyState:
-          (json['VocabularyState'] as String?)?.toVocabularyState(),
+          (json['VocabularyState'] as String?)?.let(VocabularyState.fromString),
     );
   }
 }
 
 enum VocabularyState {
-  pending,
-  ready,
-  failed,
-}
+  pending('PENDING'),
+  ready('READY'),
+  failed('FAILED'),
+  ;
 
-extension VocabularyStateValueExtension on VocabularyState {
-  String toValue() {
-    switch (this) {
-      case VocabularyState.pending:
-        return 'PENDING';
-      case VocabularyState.ready:
-        return 'READY';
-      case VocabularyState.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension VocabularyStateFromString on String {
-  VocabularyState toVocabularyState() {
-    switch (this) {
-      case 'PENDING':
-        return VocabularyState.pending;
-      case 'READY':
-        return VocabularyState.ready;
-      case 'FAILED':
-        return VocabularyState.failed;
-    }
-    throw Exception('$this is not known in enum VocabularyState');
-  }
+  const VocabularyState(this.value);
+
+  static VocabularyState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum VocabularyState'));
 }
 
 class BadRequestException extends _s.GenericAwsException {

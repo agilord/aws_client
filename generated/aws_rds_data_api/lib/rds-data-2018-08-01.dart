@@ -443,7 +443,7 @@ class RDSDataService {
       if (continueAfterTimeout != null)
         'continueAfterTimeout': continueAfterTimeout,
       if (database != null) 'database': database,
-      if (formatRecordsAs != null) 'formatRecordsAs': formatRecordsAs.toValue(),
+      if (formatRecordsAs != null) 'formatRecordsAs': formatRecordsAs.value,
       if (includeResultMetadata != null)
         'includeResultMetadata': includeResultMetadata,
       if (parameters != null) 'parameters': parameters,
@@ -707,31 +707,18 @@ class CommitTransactionResponse {
 }
 
 enum DecimalReturnType {
-  string,
-  doubleOrLong,
-}
+  string('STRING'),
+  doubleOrLong('DOUBLE_OR_LONG'),
+  ;
 
-extension DecimalReturnTypeValueExtension on DecimalReturnType {
-  String toValue() {
-    switch (this) {
-      case DecimalReturnType.string:
-        return 'STRING';
-      case DecimalReturnType.doubleOrLong:
-        return 'DOUBLE_OR_LONG';
-    }
-  }
-}
+  final String value;
 
-extension DecimalReturnTypeFromString on String {
-  DecimalReturnType toDecimalReturnType() {
-    switch (this) {
-      case 'STRING':
-        return DecimalReturnType.string;
-      case 'DOUBLE_OR_LONG':
-        return DecimalReturnType.doubleOrLong;
-    }
-    throw Exception('$this is not known in enum DecimalReturnType');
-  }
+  const DecimalReturnType(this.value);
+
+  static DecimalReturnType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DecimalReturnType'));
 }
 
 /// The response elements represent the output of a request to run one or more
@@ -886,31 +873,18 @@ class Field {
 }
 
 enum LongReturnType {
-  string,
-  long,
-}
+  string('STRING'),
+  long('LONG'),
+  ;
 
-extension LongReturnTypeValueExtension on LongReturnType {
-  String toValue() {
-    switch (this) {
-      case LongReturnType.string:
-        return 'STRING';
-      case LongReturnType.long:
-        return 'LONG';
-    }
-  }
-}
+  final String value;
 
-extension LongReturnTypeFromString on String {
-  LongReturnType toLongReturnType() {
-    switch (this) {
-      case 'STRING':
-        return LongReturnType.string;
-      case 'LONG':
-        return LongReturnType.long;
-    }
-    throw Exception('$this is not known in enum LongReturnType');
-  }
+  const LongReturnType(this.value);
+
+  static LongReturnType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LongReturnType'));
 }
 
 /// A record returned by a call.
@@ -938,31 +912,18 @@ class Record {
 }
 
 enum RecordsFormatType {
-  none,
-  json,
-}
+  none('NONE'),
+  json('JSON'),
+  ;
 
-extension RecordsFormatTypeValueExtension on RecordsFormatType {
-  String toValue() {
-    switch (this) {
-      case RecordsFormatType.none:
-        return 'NONE';
-      case RecordsFormatType.json:
-        return 'JSON';
-    }
-  }
-}
+  final String value;
 
-extension RecordsFormatTypeFromString on String {
-  RecordsFormatType toRecordsFormatType() {
-    switch (this) {
-      case 'NONE':
-        return RecordsFormatType.none;
-      case 'JSON':
-        return RecordsFormatType.json;
-    }
-    throw Exception('$this is not known in enum RecordsFormatType');
-  }
+  const RecordsFormatType(this.value);
+
+  static RecordsFormatType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RecordsFormatType'));
 }
 
 /// The result set returned by a SQL statement.
@@ -1051,8 +1012,8 @@ class ResultSetOptions {
     final longReturnType = this.longReturnType;
     return {
       if (decimalReturnType != null)
-        'decimalReturnType': decimalReturnType.toValue(),
-      if (longReturnType != null) 'longReturnType': longReturnType.toValue(),
+        'decimalReturnType': decimalReturnType.value,
+      if (longReturnType != null) 'longReturnType': longReturnType.value,
     };
   }
 }
@@ -1128,7 +1089,7 @@ class SqlParameter {
     final value = this.value;
     return {
       if (name != null) 'name': name,
-      if (typeHint != null) 'typeHint': typeHint.toValue(),
+      if (typeHint != null) 'typeHint': typeHint.value,
       if (value != null) 'value': value,
     };
   }
@@ -1187,51 +1148,21 @@ class StructValue {
 }
 
 enum TypeHint {
-  json,
-  uuid,
-  timestamp,
-  date,
-  time,
-  decimal,
-}
+  json('JSON'),
+  uuid('UUID'),
+  timestamp('TIMESTAMP'),
+  date('DATE'),
+  time('TIME'),
+  decimal('DECIMAL'),
+  ;
 
-extension TypeHintValueExtension on TypeHint {
-  String toValue() {
-    switch (this) {
-      case TypeHint.json:
-        return 'JSON';
-      case TypeHint.uuid:
-        return 'UUID';
-      case TypeHint.timestamp:
-        return 'TIMESTAMP';
-      case TypeHint.date:
-        return 'DATE';
-      case TypeHint.time:
-        return 'TIME';
-      case TypeHint.decimal:
-        return 'DECIMAL';
-    }
-  }
-}
+  final String value;
 
-extension TypeHintFromString on String {
-  TypeHint toTypeHint() {
-    switch (this) {
-      case 'JSON':
-        return TypeHint.json;
-      case 'UUID':
-        return TypeHint.uuid;
-      case 'TIMESTAMP':
-        return TypeHint.timestamp;
-      case 'DATE':
-        return TypeHint.date;
-      case 'TIME':
-        return TypeHint.time;
-      case 'DECIMAL':
-        return TypeHint.decimal;
-    }
-    throw Exception('$this is not known in enum TypeHint');
-  }
+  const TypeHint(this.value);
+
+  static TypeHint fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TypeHint'));
 }
 
 /// The response elements represent the results of an update.

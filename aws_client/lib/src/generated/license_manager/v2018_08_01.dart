@@ -176,7 +176,7 @@ class LicenseManager {
       headers: headers,
       payload: {
         'ClientToken': clientToken,
-        'DigitalSignatureMethod': digitalSignatureMethod.toValue(),
+        'DigitalSignatureMethod': digitalSignatureMethod.value,
         'Entitlements': entitlements,
         'LicenseArn': licenseArn,
         if (checkoutMetadata != null) 'CheckoutMetadata': checkoutMetadata,
@@ -245,7 +245,7 @@ class LicenseManager {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CheckoutType': checkoutType.toValue(),
+        'CheckoutType': checkoutType.value,
         'ClientToken': clientToken,
         'Entitlements': entitlements,
         'KeyFingerprint': keyFingerprint,
@@ -326,7 +326,7 @@ class LicenseManager {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AllowedOperations': allowedOperations.map((e) => e.toValue()).toList(),
+        'AllowedOperations': allowedOperations.map((e) => e.value).toList(),
         'ClientToken': clientToken,
         'GrantName': grantName,
         'HomeRegion': homeRegion,
@@ -398,12 +398,11 @@ class LicenseManager {
         'ClientToken': clientToken,
         'GrantArn': grantArn,
         if (allowedOperations != null)
-          'AllowedOperations':
-              allowedOperations.map((e) => e.toValue()).toList(),
+          'AllowedOperations': allowedOperations.map((e) => e.value).toList(),
         if (grantName != null) 'GrantName': grantName,
         if (options != null) 'Options': options,
         if (sourceVersion != null) 'SourceVersion': sourceVersion,
-        if (status != null) 'Status': status.toValue(),
+        if (status != null) 'Status': status.value,
         if (statusReason != null) 'StatusReason': statusReason,
       },
     );
@@ -595,7 +594,7 @@ class LicenseManager {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LicenseCountingType': licenseCountingType.toValue(),
+        'LicenseCountingType': licenseCountingType.value,
         'Name': name,
         if (description != null) 'Description': description,
         if (disassociateWhenNotFound != null)
@@ -735,7 +734,7 @@ class LicenseManager {
         'ReportContext': reportContext,
         'ReportFrequency': reportFrequency,
         'ReportGeneratorName': reportGeneratorName,
-        'Type': type.map((e) => e.toValue()).toList(),
+        'Type': type.map((e) => e.value).toList(),
         if (description != null) 'Description': description,
         if (tags != null) 'Tags': tags,
       },
@@ -828,7 +827,7 @@ class LicenseManager {
         'LicenseArn': licenseArn,
         'LicenseName': licenseName,
         'ProductName': productName,
-        'Status': status.toValue(),
+        'Status': status.value,
         'Validity': validity,
         if (licenseMetadata != null) 'LicenseMetadata': licenseMetadata,
         if (sourceVersion != null) 'SourceVersion': sourceVersion,
@@ -2546,7 +2545,7 @@ class LicenseManager {
         if (disassociateWhenNotFound != null)
           'DisassociateWhenNotFound': disassociateWhenNotFound,
         if (licenseConfigurationStatus != null)
-          'LicenseConfigurationStatus': licenseConfigurationStatus.toValue(),
+          'LicenseConfigurationStatus': licenseConfigurationStatus.value,
         if (licenseCount != null) 'LicenseCount': licenseCount,
         if (licenseCountHardLimit != null)
           'LicenseCountHardLimit': licenseCountHardLimit,
@@ -2629,7 +2628,7 @@ class LicenseManager {
         'ReportContext': reportContext,
         'ReportFrequency': reportFrequency,
         'ReportGeneratorName': reportGeneratorName,
-        'Type': type.map((e) => e.toValue()).toList(),
+        'Type': type.map((e) => e.value).toList(),
         if (description != null) 'Description': description,
       },
     );
@@ -2752,7 +2751,7 @@ class AcceptGrantResponse {
   factory AcceptGrantResponse.fromJson(Map<String, dynamic> json) {
     return AcceptGrantResponse(
       grantArn: json['GrantArn'] as String?,
-      status: (json['Status'] as String?)?.toGrantStatus(),
+      status: (json['Status'] as String?)?.let(GrantStatus.fromString),
       version: json['Version'] as String?,
     );
   }
@@ -2763,92 +2762,45 @@ class AcceptGrantResponse {
     final version = this.version;
     return {
       if (grantArn != null) 'GrantArn': grantArn,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (version != null) 'Version': version,
     };
   }
 }
 
 enum ActivationOverrideBehavior {
-  distributedGrantsOnly,
-  allGrantsPermittedByIssuer,
-}
+  distributedGrantsOnly('DISTRIBUTED_GRANTS_ONLY'),
+  allGrantsPermittedByIssuer('ALL_GRANTS_PERMITTED_BY_ISSUER'),
+  ;
 
-extension ActivationOverrideBehaviorValueExtension
-    on ActivationOverrideBehavior {
-  String toValue() {
-    switch (this) {
-      case ActivationOverrideBehavior.distributedGrantsOnly:
-        return 'DISTRIBUTED_GRANTS_ONLY';
-      case ActivationOverrideBehavior.allGrantsPermittedByIssuer:
-        return 'ALL_GRANTS_PERMITTED_BY_ISSUER';
-    }
-  }
-}
+  final String value;
 
-extension ActivationOverrideBehaviorFromString on String {
-  ActivationOverrideBehavior toActivationOverrideBehavior() {
-    switch (this) {
-      case 'DISTRIBUTED_GRANTS_ONLY':
-        return ActivationOverrideBehavior.distributedGrantsOnly;
-      case 'ALL_GRANTS_PERMITTED_BY_ISSUER':
-        return ActivationOverrideBehavior.allGrantsPermittedByIssuer;
-    }
-    throw Exception('$this is not known in enum ActivationOverrideBehavior');
-  }
+  const ActivationOverrideBehavior(this.value);
+
+  static ActivationOverrideBehavior fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ActivationOverrideBehavior'));
 }
 
 enum AllowedOperation {
-  createGrant,
-  checkoutLicense,
-  checkoutBorrowLicense,
-  checkInLicense,
-  extendConsumptionLicense,
-  listPurchasedLicenses,
-  createToken,
-}
+  createGrant('CreateGrant'),
+  checkoutLicense('CheckoutLicense'),
+  checkoutBorrowLicense('CheckoutBorrowLicense'),
+  checkInLicense('CheckInLicense'),
+  extendConsumptionLicense('ExtendConsumptionLicense'),
+  listPurchasedLicenses('ListPurchasedLicenses'),
+  createToken('CreateToken'),
+  ;
 
-extension AllowedOperationValueExtension on AllowedOperation {
-  String toValue() {
-    switch (this) {
-      case AllowedOperation.createGrant:
-        return 'CreateGrant';
-      case AllowedOperation.checkoutLicense:
-        return 'CheckoutLicense';
-      case AllowedOperation.checkoutBorrowLicense:
-        return 'CheckoutBorrowLicense';
-      case AllowedOperation.checkInLicense:
-        return 'CheckInLicense';
-      case AllowedOperation.extendConsumptionLicense:
-        return 'ExtendConsumptionLicense';
-      case AllowedOperation.listPurchasedLicenses:
-        return 'ListPurchasedLicenses';
-      case AllowedOperation.createToken:
-        return 'CreateToken';
-    }
-  }
-}
+  final String value;
 
-extension AllowedOperationFromString on String {
-  AllowedOperation toAllowedOperation() {
-    switch (this) {
-      case 'CreateGrant':
-        return AllowedOperation.createGrant;
-      case 'CheckoutLicense':
-        return AllowedOperation.checkoutLicense;
-      case 'CheckoutBorrowLicense':
-        return AllowedOperation.checkoutBorrowLicense;
-      case 'CheckInLicense':
-        return AllowedOperation.checkInLicense;
-      case 'ExtendConsumptionLicense':
-        return AllowedOperation.extendConsumptionLicense;
-      case 'ListPurchasedLicenses':
-        return AllowedOperation.listPurchasedLicenses;
-      case 'CreateToken':
-        return AllowedOperation.createToken;
-    }
-    throw Exception('$this is not known in enum AllowedOperation');
-  }
+  const AllowedOperation(this.value);
+
+  static AllowedOperation fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AllowedOperation'));
 }
 
 /// Describes automated discovery.
@@ -3033,7 +2985,8 @@ class CheckoutLicenseResponse {
 
   factory CheckoutLicenseResponse.fromJson(Map<String, dynamic> json) {
     return CheckoutLicenseResponse(
-      checkoutType: (json['CheckoutType'] as String?)?.toCheckoutType(),
+      checkoutType:
+          (json['CheckoutType'] as String?)?.let(CheckoutType.fromString),
       entitlementsAllowed: (json['EntitlementsAllowed'] as List?)
           ?.whereNotNull()
           .map((e) => EntitlementData.fromJson(e as Map<String, dynamic>))
@@ -3057,7 +3010,7 @@ class CheckoutLicenseResponse {
     final nodeId = this.nodeId;
     final signedToken = this.signedToken;
     return {
-      if (checkoutType != null) 'CheckoutType': checkoutType.toValue(),
+      if (checkoutType != null) 'CheckoutType': checkoutType.value,
       if (entitlementsAllowed != null)
         'EntitlementsAllowed': entitlementsAllowed,
       if (expiration != null) 'Expiration': expiration,
@@ -3072,31 +3025,18 @@ class CheckoutLicenseResponse {
 }
 
 enum CheckoutType {
-  provisional,
-  perpetual,
-}
+  provisional('PROVISIONAL'),
+  perpetual('PERPETUAL'),
+  ;
 
-extension CheckoutTypeValueExtension on CheckoutType {
-  String toValue() {
-    switch (this) {
-      case CheckoutType.provisional:
-        return 'PROVISIONAL';
-      case CheckoutType.perpetual:
-        return 'PERPETUAL';
-    }
-  }
-}
+  final String value;
 
-extension CheckoutTypeFromString on String {
-  CheckoutType toCheckoutType() {
-    switch (this) {
-      case 'PROVISIONAL':
-        return CheckoutType.provisional;
-      case 'PERPETUAL':
-        return CheckoutType.perpetual;
-    }
-    throw Exception('$this is not known in enum CheckoutType');
-  }
+  const CheckoutType(this.value);
+
+  static CheckoutType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CheckoutType'));
 }
 
 /// Details about license consumption.
@@ -3115,7 +3055,8 @@ class ConsumedLicenseSummary {
   factory ConsumedLicenseSummary.fromJson(Map<String, dynamic> json) {
     return ConsumedLicenseSummary(
       consumedLicenses: json['ConsumedLicenses'] as int?,
-      resourceType: (json['ResourceType'] as String?)?.toResourceType(),
+      resourceType:
+          (json['ResourceType'] as String?)?.let(ResourceType.fromString),
     );
   }
 
@@ -3124,7 +3065,7 @@ class ConsumedLicenseSummary {
     final resourceType = this.resourceType;
     return {
       if (consumedLicenses != null) 'ConsumedLicenses': consumedLicenses,
-      if (resourceType != null) 'ResourceType': resourceType.toValue(),
+      if (resourceType != null) 'ResourceType': resourceType.value,
     };
   }
 }
@@ -3156,7 +3097,7 @@ class ConsumptionConfiguration {
           ? ProvisionalConfiguration.fromJson(
               json['ProvisionalConfiguration'] as Map<String, dynamic>)
           : null,
-      renewType: (json['RenewType'] as String?)?.toRenewType(),
+      renewType: (json['RenewType'] as String?)?.let(RenewType.fromString),
     );
   }
 
@@ -3169,7 +3110,7 @@ class ConsumptionConfiguration {
         'BorrowConfiguration': borrowConfiguration,
       if (provisionalConfiguration != null)
         'ProvisionalConfiguration': provisionalConfiguration,
-      if (renewType != null) 'RenewType': renewType.toValue(),
+      if (renewType != null) 'RenewType': renewType.value,
     };
   }
 }
@@ -3193,7 +3134,7 @@ class CreateGrantResponse {
   factory CreateGrantResponse.fromJson(Map<String, dynamic> json) {
     return CreateGrantResponse(
       grantArn: json['GrantArn'] as String?,
-      status: (json['Status'] as String?)?.toGrantStatus(),
+      status: (json['Status'] as String?)?.let(GrantStatus.fromString),
       version: json['Version'] as String?,
     );
   }
@@ -3204,7 +3145,7 @@ class CreateGrantResponse {
     final version = this.version;
     return {
       if (grantArn != null) 'GrantArn': grantArn,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (version != null) 'Version': version,
     };
   }
@@ -3229,7 +3170,7 @@ class CreateGrantVersionResponse {
   factory CreateGrantVersionResponse.fromJson(Map<String, dynamic> json) {
     return CreateGrantVersionResponse(
       grantArn: json['GrantArn'] as String?,
-      status: (json['Status'] as String?)?.toGrantStatus(),
+      status: (json['Status'] as String?)?.let(GrantStatus.fromString),
       version: json['Version'] as String?,
     );
   }
@@ -3240,7 +3181,7 @@ class CreateGrantVersionResponse {
     final version = this.version;
     return {
       if (grantArn != null) 'GrantArn': grantArn,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (version != null) 'Version': version,
     };
   }
@@ -3339,7 +3280,7 @@ class CreateLicenseResponse {
   factory CreateLicenseResponse.fromJson(Map<String, dynamic> json) {
     return CreateLicenseResponse(
       licenseArn: json['LicenseArn'] as String?,
-      status: (json['Status'] as String?)?.toLicenseStatus(),
+      status: (json['Status'] as String?)?.let(LicenseStatus.fromString),
       version: json['Version'] as String?,
     );
   }
@@ -3350,7 +3291,7 @@ class CreateLicenseResponse {
     final version = this.version;
     return {
       if (licenseArn != null) 'LicenseArn': licenseArn,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (version != null) 'Version': version,
     };
   }
@@ -3375,7 +3316,7 @@ class CreateLicenseVersionResponse {
   factory CreateLicenseVersionResponse.fromJson(Map<String, dynamic> json) {
     return CreateLicenseVersionResponse(
       licenseArn: json['LicenseArn'] as String?,
-      status: (json['Status'] as String?)?.toLicenseStatus(),
+      status: (json['Status'] as String?)?.let(LicenseStatus.fromString),
       version: json['Version'] as String?,
     );
   }
@@ -3386,7 +3327,7 @@ class CreateLicenseVersionResponse {
     final version = this.version;
     return {
       if (licenseArn != null) 'LicenseArn': licenseArn,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (version != null) 'Version': version,
     };
   }
@@ -3412,7 +3353,7 @@ class CreateTokenResponse {
     return CreateTokenResponse(
       token: json['Token'] as String?,
       tokenId: json['TokenId'] as String?,
-      tokenType: (json['TokenType'] as String?)?.toTokenType(),
+      tokenType: (json['TokenType'] as String?)?.let(TokenType.fromString),
     );
   }
 
@@ -3423,7 +3364,7 @@ class CreateTokenResponse {
     return {
       if (token != null) 'Token': token,
       if (tokenId != null) 'TokenId': tokenId,
-      if (tokenType != null) 'TokenType': tokenType.toValue(),
+      if (tokenType != null) 'TokenType': tokenType.value,
     };
   }
 }
@@ -3477,7 +3418,7 @@ class DeleteGrantResponse {
   factory DeleteGrantResponse.fromJson(Map<String, dynamic> json) {
     return DeleteGrantResponse(
       grantArn: json['GrantArn'] as String?,
-      status: (json['Status'] as String?)?.toGrantStatus(),
+      status: (json['Status'] as String?)?.let(GrantStatus.fromString),
       version: json['Version'] as String?,
     );
   }
@@ -3488,7 +3429,7 @@ class DeleteGrantResponse {
     final version = this.version;
     return {
       if (grantArn != null) 'GrantArn': grantArn,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (version != null) 'Version': version,
     };
   }
@@ -3534,7 +3475,8 @@ class DeleteLicenseResponse {
   factory DeleteLicenseResponse.fromJson(Map<String, dynamic> json) {
     return DeleteLicenseResponse(
       deletionDate: json['DeletionDate'] as String?,
-      status: (json['Status'] as String?)?.toLicenseDeletionStatus(),
+      status:
+          (json['Status'] as String?)?.let(LicenseDeletionStatus.fromString),
     );
   }
 
@@ -3543,7 +3485,7 @@ class DeleteLicenseResponse {
     final status = this.status;
     return {
       if (deletionDate != null) 'DeletionDate': deletionDate,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -3561,26 +3503,17 @@ class DeleteTokenResponse {
 }
 
 enum DigitalSignatureMethod {
-  jwtPs384,
-}
+  jwtPs384('JWT_PS384'),
+  ;
 
-extension DigitalSignatureMethodValueExtension on DigitalSignatureMethod {
-  String toValue() {
-    switch (this) {
-      case DigitalSignatureMethod.jwtPs384:
-        return 'JWT_PS384';
-    }
-  }
-}
+  final String value;
 
-extension DigitalSignatureMethodFromString on String {
-  DigitalSignatureMethod toDigitalSignatureMethod() {
-    switch (this) {
-      case 'JWT_PS384':
-        return DigitalSignatureMethod.jwtPs384;
-    }
-    throw Exception('$this is not known in enum DigitalSignatureMethod');
-  }
+  const DigitalSignatureMethod(this.value);
+
+  static DigitalSignatureMethod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DigitalSignatureMethod'));
 }
 
 /// Describes a resource entitled for use with a license.
@@ -3615,7 +3548,7 @@ class Entitlement {
   factory Entitlement.fromJson(Map<String, dynamic> json) {
     return Entitlement(
       name: json['Name'] as String,
-      unit: (json['Unit'] as String).toEntitlementUnit(),
+      unit: EntitlementUnit.fromString((json['Unit'] as String)),
       allowCheckIn: json['AllowCheckIn'] as bool?,
       maxCount: json['MaxCount'] as int?,
       overage: json['Overage'] as bool?,
@@ -3632,7 +3565,7 @@ class Entitlement {
     final value = this.value;
     return {
       'Name': name,
-      'Unit': unit.toValue(),
+      'Unit': unit.value,
       if (allowCheckIn != null) 'AllowCheckIn': allowCheckIn,
       if (maxCount != null) 'MaxCount': maxCount,
       if (overage != null) 'Overage': overage,
@@ -3661,7 +3594,7 @@ class EntitlementData {
   factory EntitlementData.fromJson(Map<String, dynamic> json) {
     return EntitlementData(
       name: json['Name'] as String,
-      unit: (json['Unit'] as String).toEntitlementDataUnit(),
+      unit: EntitlementDataUnit.fromString((json['Unit'] as String)),
       value: json['Value'] as String?,
     );
   }
@@ -3672,316 +3605,90 @@ class EntitlementData {
     final value = this.value;
     return {
       'Name': name,
-      'Unit': unit.toValue(),
+      'Unit': unit.value,
       if (value != null) 'Value': value,
     };
   }
 }
 
 enum EntitlementDataUnit {
-  count,
-  none,
-  seconds,
-  microseconds,
-  milliseconds,
-  bytes,
-  kilobytes,
-  megabytes,
-  gigabytes,
-  terabytes,
-  bits,
-  kilobits,
-  megabits,
-  gigabits,
-  terabits,
-  percent,
-  bytesSecond,
-  kilobytesSecond,
-  megabytesSecond,
-  gigabytesSecond,
-  terabytesSecond,
-  bitsSecond,
-  kilobitsSecond,
-  megabitsSecond,
-  gigabitsSecond,
-  terabitsSecond,
-  countSecond,
-}
+  count('Count'),
+  none('None'),
+  seconds('Seconds'),
+  microseconds('Microseconds'),
+  milliseconds('Milliseconds'),
+  bytes('Bytes'),
+  kilobytes('Kilobytes'),
+  megabytes('Megabytes'),
+  gigabytes('Gigabytes'),
+  terabytes('Terabytes'),
+  bits('Bits'),
+  kilobits('Kilobits'),
+  megabits('Megabits'),
+  gigabits('Gigabits'),
+  terabits('Terabits'),
+  percent('Percent'),
+  bytesSecond('Bytes/Second'),
+  kilobytesSecond('Kilobytes/Second'),
+  megabytesSecond('Megabytes/Second'),
+  gigabytesSecond('Gigabytes/Second'),
+  terabytesSecond('Terabytes/Second'),
+  bitsSecond('Bits/Second'),
+  kilobitsSecond('Kilobits/Second'),
+  megabitsSecond('Megabits/Second'),
+  gigabitsSecond('Gigabits/Second'),
+  terabitsSecond('Terabits/Second'),
+  countSecond('Count/Second'),
+  ;
 
-extension EntitlementDataUnitValueExtension on EntitlementDataUnit {
-  String toValue() {
-    switch (this) {
-      case EntitlementDataUnit.count:
-        return 'Count';
-      case EntitlementDataUnit.none:
-        return 'None';
-      case EntitlementDataUnit.seconds:
-        return 'Seconds';
-      case EntitlementDataUnit.microseconds:
-        return 'Microseconds';
-      case EntitlementDataUnit.milliseconds:
-        return 'Milliseconds';
-      case EntitlementDataUnit.bytes:
-        return 'Bytes';
-      case EntitlementDataUnit.kilobytes:
-        return 'Kilobytes';
-      case EntitlementDataUnit.megabytes:
-        return 'Megabytes';
-      case EntitlementDataUnit.gigabytes:
-        return 'Gigabytes';
-      case EntitlementDataUnit.terabytes:
-        return 'Terabytes';
-      case EntitlementDataUnit.bits:
-        return 'Bits';
-      case EntitlementDataUnit.kilobits:
-        return 'Kilobits';
-      case EntitlementDataUnit.megabits:
-        return 'Megabits';
-      case EntitlementDataUnit.gigabits:
-        return 'Gigabits';
-      case EntitlementDataUnit.terabits:
-        return 'Terabits';
-      case EntitlementDataUnit.percent:
-        return 'Percent';
-      case EntitlementDataUnit.bytesSecond:
-        return 'Bytes/Second';
-      case EntitlementDataUnit.kilobytesSecond:
-        return 'Kilobytes/Second';
-      case EntitlementDataUnit.megabytesSecond:
-        return 'Megabytes/Second';
-      case EntitlementDataUnit.gigabytesSecond:
-        return 'Gigabytes/Second';
-      case EntitlementDataUnit.terabytesSecond:
-        return 'Terabytes/Second';
-      case EntitlementDataUnit.bitsSecond:
-        return 'Bits/Second';
-      case EntitlementDataUnit.kilobitsSecond:
-        return 'Kilobits/Second';
-      case EntitlementDataUnit.megabitsSecond:
-        return 'Megabits/Second';
-      case EntitlementDataUnit.gigabitsSecond:
-        return 'Gigabits/Second';
-      case EntitlementDataUnit.terabitsSecond:
-        return 'Terabits/Second';
-      case EntitlementDataUnit.countSecond:
-        return 'Count/Second';
-    }
-  }
-}
+  final String value;
 
-extension EntitlementDataUnitFromString on String {
-  EntitlementDataUnit toEntitlementDataUnit() {
-    switch (this) {
-      case 'Count':
-        return EntitlementDataUnit.count;
-      case 'None':
-        return EntitlementDataUnit.none;
-      case 'Seconds':
-        return EntitlementDataUnit.seconds;
-      case 'Microseconds':
-        return EntitlementDataUnit.microseconds;
-      case 'Milliseconds':
-        return EntitlementDataUnit.milliseconds;
-      case 'Bytes':
-        return EntitlementDataUnit.bytes;
-      case 'Kilobytes':
-        return EntitlementDataUnit.kilobytes;
-      case 'Megabytes':
-        return EntitlementDataUnit.megabytes;
-      case 'Gigabytes':
-        return EntitlementDataUnit.gigabytes;
-      case 'Terabytes':
-        return EntitlementDataUnit.terabytes;
-      case 'Bits':
-        return EntitlementDataUnit.bits;
-      case 'Kilobits':
-        return EntitlementDataUnit.kilobits;
-      case 'Megabits':
-        return EntitlementDataUnit.megabits;
-      case 'Gigabits':
-        return EntitlementDataUnit.gigabits;
-      case 'Terabits':
-        return EntitlementDataUnit.terabits;
-      case 'Percent':
-        return EntitlementDataUnit.percent;
-      case 'Bytes/Second':
-        return EntitlementDataUnit.bytesSecond;
-      case 'Kilobytes/Second':
-        return EntitlementDataUnit.kilobytesSecond;
-      case 'Megabytes/Second':
-        return EntitlementDataUnit.megabytesSecond;
-      case 'Gigabytes/Second':
-        return EntitlementDataUnit.gigabytesSecond;
-      case 'Terabytes/Second':
-        return EntitlementDataUnit.terabytesSecond;
-      case 'Bits/Second':
-        return EntitlementDataUnit.bitsSecond;
-      case 'Kilobits/Second':
-        return EntitlementDataUnit.kilobitsSecond;
-      case 'Megabits/Second':
-        return EntitlementDataUnit.megabitsSecond;
-      case 'Gigabits/Second':
-        return EntitlementDataUnit.gigabitsSecond;
-      case 'Terabits/Second':
-        return EntitlementDataUnit.terabitsSecond;
-      case 'Count/Second':
-        return EntitlementDataUnit.countSecond;
-    }
-    throw Exception('$this is not known in enum EntitlementDataUnit');
-  }
+  const EntitlementDataUnit(this.value);
+
+  static EntitlementDataUnit fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum EntitlementDataUnit'));
 }
 
 enum EntitlementUnit {
-  count,
-  none,
-  seconds,
-  microseconds,
-  milliseconds,
-  bytes,
-  kilobytes,
-  megabytes,
-  gigabytes,
-  terabytes,
-  bits,
-  kilobits,
-  megabits,
-  gigabits,
-  terabits,
-  percent,
-  bytesSecond,
-  kilobytesSecond,
-  megabytesSecond,
-  gigabytesSecond,
-  terabytesSecond,
-  bitsSecond,
-  kilobitsSecond,
-  megabitsSecond,
-  gigabitsSecond,
-  terabitsSecond,
-  countSecond,
-}
+  count('Count'),
+  none('None'),
+  seconds('Seconds'),
+  microseconds('Microseconds'),
+  milliseconds('Milliseconds'),
+  bytes('Bytes'),
+  kilobytes('Kilobytes'),
+  megabytes('Megabytes'),
+  gigabytes('Gigabytes'),
+  terabytes('Terabytes'),
+  bits('Bits'),
+  kilobits('Kilobits'),
+  megabits('Megabits'),
+  gigabits('Gigabits'),
+  terabits('Terabits'),
+  percent('Percent'),
+  bytesSecond('Bytes/Second'),
+  kilobytesSecond('Kilobytes/Second'),
+  megabytesSecond('Megabytes/Second'),
+  gigabytesSecond('Gigabytes/Second'),
+  terabytesSecond('Terabytes/Second'),
+  bitsSecond('Bits/Second'),
+  kilobitsSecond('Kilobits/Second'),
+  megabitsSecond('Megabits/Second'),
+  gigabitsSecond('Gigabits/Second'),
+  terabitsSecond('Terabits/Second'),
+  countSecond('Count/Second'),
+  ;
 
-extension EntitlementUnitValueExtension on EntitlementUnit {
-  String toValue() {
-    switch (this) {
-      case EntitlementUnit.count:
-        return 'Count';
-      case EntitlementUnit.none:
-        return 'None';
-      case EntitlementUnit.seconds:
-        return 'Seconds';
-      case EntitlementUnit.microseconds:
-        return 'Microseconds';
-      case EntitlementUnit.milliseconds:
-        return 'Milliseconds';
-      case EntitlementUnit.bytes:
-        return 'Bytes';
-      case EntitlementUnit.kilobytes:
-        return 'Kilobytes';
-      case EntitlementUnit.megabytes:
-        return 'Megabytes';
-      case EntitlementUnit.gigabytes:
-        return 'Gigabytes';
-      case EntitlementUnit.terabytes:
-        return 'Terabytes';
-      case EntitlementUnit.bits:
-        return 'Bits';
-      case EntitlementUnit.kilobits:
-        return 'Kilobits';
-      case EntitlementUnit.megabits:
-        return 'Megabits';
-      case EntitlementUnit.gigabits:
-        return 'Gigabits';
-      case EntitlementUnit.terabits:
-        return 'Terabits';
-      case EntitlementUnit.percent:
-        return 'Percent';
-      case EntitlementUnit.bytesSecond:
-        return 'Bytes/Second';
-      case EntitlementUnit.kilobytesSecond:
-        return 'Kilobytes/Second';
-      case EntitlementUnit.megabytesSecond:
-        return 'Megabytes/Second';
-      case EntitlementUnit.gigabytesSecond:
-        return 'Gigabytes/Second';
-      case EntitlementUnit.terabytesSecond:
-        return 'Terabytes/Second';
-      case EntitlementUnit.bitsSecond:
-        return 'Bits/Second';
-      case EntitlementUnit.kilobitsSecond:
-        return 'Kilobits/Second';
-      case EntitlementUnit.megabitsSecond:
-        return 'Megabits/Second';
-      case EntitlementUnit.gigabitsSecond:
-        return 'Gigabits/Second';
-      case EntitlementUnit.terabitsSecond:
-        return 'Terabits/Second';
-      case EntitlementUnit.countSecond:
-        return 'Count/Second';
-    }
-  }
-}
+  final String value;
 
-extension EntitlementUnitFromString on String {
-  EntitlementUnit toEntitlementUnit() {
-    switch (this) {
-      case 'Count':
-        return EntitlementUnit.count;
-      case 'None':
-        return EntitlementUnit.none;
-      case 'Seconds':
-        return EntitlementUnit.seconds;
-      case 'Microseconds':
-        return EntitlementUnit.microseconds;
-      case 'Milliseconds':
-        return EntitlementUnit.milliseconds;
-      case 'Bytes':
-        return EntitlementUnit.bytes;
-      case 'Kilobytes':
-        return EntitlementUnit.kilobytes;
-      case 'Megabytes':
-        return EntitlementUnit.megabytes;
-      case 'Gigabytes':
-        return EntitlementUnit.gigabytes;
-      case 'Terabytes':
-        return EntitlementUnit.terabytes;
-      case 'Bits':
-        return EntitlementUnit.bits;
-      case 'Kilobits':
-        return EntitlementUnit.kilobits;
-      case 'Megabits':
-        return EntitlementUnit.megabits;
-      case 'Gigabits':
-        return EntitlementUnit.gigabits;
-      case 'Terabits':
-        return EntitlementUnit.terabits;
-      case 'Percent':
-        return EntitlementUnit.percent;
-      case 'Bytes/Second':
-        return EntitlementUnit.bytesSecond;
-      case 'Kilobytes/Second':
-        return EntitlementUnit.kilobytesSecond;
-      case 'Megabytes/Second':
-        return EntitlementUnit.megabytesSecond;
-      case 'Gigabytes/Second':
-        return EntitlementUnit.gigabytesSecond;
-      case 'Terabytes/Second':
-        return EntitlementUnit.terabytesSecond;
-      case 'Bits/Second':
-        return EntitlementUnit.bitsSecond;
-      case 'Kilobits/Second':
-        return EntitlementUnit.kilobitsSecond;
-      case 'Megabits/Second':
-        return EntitlementUnit.megabitsSecond;
-      case 'Gigabits/Second':
-        return EntitlementUnit.gigabitsSecond;
-      case 'Terabits/Second':
-        return EntitlementUnit.terabitsSecond;
-      case 'Count/Second':
-        return EntitlementUnit.countSecond;
-    }
-    throw Exception('$this is not known in enum EntitlementUnit');
-  }
+  const EntitlementUnit(this.value);
+
+  static EntitlementUnit fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EntitlementUnit'));
 }
 
 /// Usage associated with an entitlement resource.
@@ -4009,7 +3716,7 @@ class EntitlementUsage {
     return EntitlementUsage(
       consumedValue: json['ConsumedValue'] as String,
       name: json['Name'] as String,
-      unit: (json['Unit'] as String).toEntitlementDataUnit(),
+      unit: EntitlementDataUnit.fromString((json['Unit'] as String)),
       maxCount: json['MaxCount'] as String?,
     );
   }
@@ -4022,7 +3729,7 @@ class EntitlementUsage {
     return {
       'ConsumedValue': consumedValue,
       'Name': name,
-      'Unit': unit.toValue(),
+      'Unit': unit.value,
       if (maxCount != null) 'MaxCount': maxCount,
     };
   }
@@ -4221,8 +3928,8 @@ class GetLicenseConfigurationResponse {
       licenseConfigurationId: json['LicenseConfigurationId'] as String?,
       licenseCount: json['LicenseCount'] as int?,
       licenseCountHardLimit: json['LicenseCountHardLimit'] as bool?,
-      licenseCountingType:
-          (json['LicenseCountingType'] as String?)?.toLicenseCountingType(),
+      licenseCountingType: (json['LicenseCountingType'] as String?)
+          ?.let(LicenseCountingType.fromString),
       licenseRules: (json['LicenseRules'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -4281,7 +3988,7 @@ class GetLicenseConfigurationResponse {
       if (licenseCountHardLimit != null)
         'LicenseCountHardLimit': licenseCountHardLimit,
       if (licenseCountingType != null)
-        'LicenseCountingType': licenseCountingType.toValue(),
+        'LicenseCountingType': licenseCountingType.value,
       if (licenseRules != null) 'LicenseRules': licenseRules,
       if (managedResourceSummaryList != null)
         'ManagedResourceSummaryList': managedResourceSummaryList,
@@ -4351,7 +4058,8 @@ class GetLicenseConversionTaskResponse {
               json['SourceLicenseContext'] as Map<String, dynamic>)
           : null,
       startTime: timeStampFromJson(json['StartTime']),
-      status: (json['Status'] as String?)?.toLicenseConversionTaskStatus(),
+      status: (json['Status'] as String?)
+          ?.let(LicenseConversionTaskStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
     );
   }
@@ -4378,7 +4086,7 @@ class GetLicenseConversionTaskResponse {
       if (sourceLicenseContext != null)
         'SourceLicenseContext': sourceLicenseContext,
       if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusMessage != null) 'StatusMessage': statusMessage,
     };
   }
@@ -4573,10 +4281,10 @@ class Grant {
     return Grant(
       grantArn: json['GrantArn'] as String,
       grantName: json['GrantName'] as String,
-      grantStatus: (json['GrantStatus'] as String).toGrantStatus(),
+      grantStatus: GrantStatus.fromString((json['GrantStatus'] as String)),
       grantedOperations: (json['GrantedOperations'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toAllowedOperation())
+          .map((e) => AllowedOperation.fromString((e as String)))
           .toList(),
       granteePrincipalArn: json['GranteePrincipalArn'] as String,
       homeRegion: json['HomeRegion'] as String,
@@ -4605,8 +4313,8 @@ class Grant {
     return {
       'GrantArn': grantArn,
       'GrantName': grantName,
-      'GrantStatus': grantStatus.toValue(),
-      'GrantedOperations': grantedOperations.map((e) => e.toValue()).toList(),
+      'GrantStatus': grantStatus.value,
+      'GrantedOperations': grantedOperations.map((e) => e.value).toList(),
       'GranteePrincipalArn': granteePrincipalArn,
       'HomeRegion': homeRegion,
       'LicenseArn': licenseArn,
@@ -4619,66 +4327,24 @@ class Grant {
 }
 
 enum GrantStatus {
-  pendingWorkflow,
-  pendingAccept,
-  rejected,
-  active,
-  failedWorkflow,
-  deleted,
-  pendingDelete,
-  disabled,
-  workflowCompleted,
-}
+  pendingWorkflow('PENDING_WORKFLOW'),
+  pendingAccept('PENDING_ACCEPT'),
+  rejected('REJECTED'),
+  active('ACTIVE'),
+  failedWorkflow('FAILED_WORKFLOW'),
+  deleted('DELETED'),
+  pendingDelete('PENDING_DELETE'),
+  disabled('DISABLED'),
+  workflowCompleted('WORKFLOW_COMPLETED'),
+  ;
 
-extension GrantStatusValueExtension on GrantStatus {
-  String toValue() {
-    switch (this) {
-      case GrantStatus.pendingWorkflow:
-        return 'PENDING_WORKFLOW';
-      case GrantStatus.pendingAccept:
-        return 'PENDING_ACCEPT';
-      case GrantStatus.rejected:
-        return 'REJECTED';
-      case GrantStatus.active:
-        return 'ACTIVE';
-      case GrantStatus.failedWorkflow:
-        return 'FAILED_WORKFLOW';
-      case GrantStatus.deleted:
-        return 'DELETED';
-      case GrantStatus.pendingDelete:
-        return 'PENDING_DELETE';
-      case GrantStatus.disabled:
-        return 'DISABLED';
-      case GrantStatus.workflowCompleted:
-        return 'WORKFLOW_COMPLETED';
-    }
-  }
-}
+  final String value;
 
-extension GrantStatusFromString on String {
-  GrantStatus toGrantStatus() {
-    switch (this) {
-      case 'PENDING_WORKFLOW':
-        return GrantStatus.pendingWorkflow;
-      case 'PENDING_ACCEPT':
-        return GrantStatus.pendingAccept;
-      case 'REJECTED':
-        return GrantStatus.rejected;
-      case 'ACTIVE':
-        return GrantStatus.active;
-      case 'FAILED_WORKFLOW':
-        return GrantStatus.failedWorkflow;
-      case 'DELETED':
-        return GrantStatus.deleted;
-      case 'PENDING_DELETE':
-        return GrantStatus.pendingDelete;
-      case 'DISABLED':
-        return GrantStatus.disabled;
-      case 'WORKFLOW_COMPLETED':
-        return GrantStatus.workflowCompleted;
-    }
-    throw Exception('$this is not known in enum GrantStatus');
-  }
+  const GrantStatus(this.value);
+
+  static GrantStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum GrantStatus'));
 }
 
 /// Describes a license that is granted to a grantee.
@@ -4775,7 +4441,7 @@ class GrantedLicense {
           ? ReceivedMetadata.fromJson(
               json['ReceivedMetadata'] as Map<String, dynamic>)
           : null,
-      status: (json['Status'] as String?)?.toLicenseStatus(),
+      status: (json['Status'] as String?)?.let(LicenseStatus.fromString),
       validity: json['Validity'] != null
           ? DatetimeRange.fromJson(json['Validity'] as Map<String, dynamic>)
           : null,
@@ -4813,7 +4479,7 @@ class GrantedLicense {
       if (productName != null) 'ProductName': productName,
       if (productSKU != null) 'ProductSKU': productSKU,
       if (receivedMetadata != null) 'ReceivedMetadata': receivedMetadata,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (validity != null) 'Validity': validity,
       if (version != null) 'Version': version,
     };
@@ -4842,7 +4508,7 @@ class InventoryFilter {
     final name = this.name;
     final value = this.value;
     return {
-      'Condition': condition.toValue(),
+      'Condition': condition.value,
       'Name': name,
       if (value != null) 'Value': value,
     };
@@ -4850,41 +4516,20 @@ class InventoryFilter {
 }
 
 enum InventoryFilterCondition {
-  equals,
-  notEquals,
-  beginsWith,
-  contains,
-}
+  equals('EQUALS'),
+  notEquals('NOT_EQUALS'),
+  beginsWith('BEGINS_WITH'),
+  contains('CONTAINS'),
+  ;
 
-extension InventoryFilterConditionValueExtension on InventoryFilterCondition {
-  String toValue() {
-    switch (this) {
-      case InventoryFilterCondition.equals:
-        return 'EQUALS';
-      case InventoryFilterCondition.notEquals:
-        return 'NOT_EQUALS';
-      case InventoryFilterCondition.beginsWith:
-        return 'BEGINS_WITH';
-      case InventoryFilterCondition.contains:
-        return 'CONTAINS';
-    }
-  }
-}
+  final String value;
 
-extension InventoryFilterConditionFromString on String {
-  InventoryFilterCondition toInventoryFilterCondition() {
-    switch (this) {
-      case 'EQUALS':
-        return InventoryFilterCondition.equals;
-      case 'NOT_EQUALS':
-        return InventoryFilterCondition.notEquals;
-      case 'BEGINS_WITH':
-        return InventoryFilterCondition.beginsWith;
-      case 'CONTAINS':
-        return InventoryFilterCondition.contains;
-    }
-    throw Exception('$this is not known in enum InventoryFilterCondition');
-  }
+  const InventoryFilterCondition(this.value);
+
+  static InventoryFilterCondition fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum InventoryFilterCondition'));
 }
 
 /// Details about the issuer of a license.
@@ -5037,7 +4682,7 @@ class License {
       licenseName: json['LicenseName'] as String?,
       productName: json['ProductName'] as String?,
       productSKU: json['ProductSKU'] as String?,
-      status: (json['Status'] as String?)?.toLicenseStatus(),
+      status: (json['Status'] as String?)?.let(LicenseStatus.fromString),
       validity: json['Validity'] != null
           ? DatetimeRange.fromJson(json['Validity'] as Map<String, dynamic>)
           : null,
@@ -5073,7 +4718,7 @@ class License {
       if (licenseName != null) 'LicenseName': licenseName,
       if (productName != null) 'ProductName': productName,
       if (productSKU != null) 'ProductSKU': productSKU,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (validity != null) 'Validity': validity,
       if (version != null) 'Version': version,
     };
@@ -5173,8 +4818,8 @@ class LicenseConfiguration {
       licenseConfigurationId: json['LicenseConfigurationId'] as String?,
       licenseCount: json['LicenseCount'] as int?,
       licenseCountHardLimit: json['LicenseCountHardLimit'] as bool?,
-      licenseCountingType:
-          (json['LicenseCountingType'] as String?)?.toLicenseCountingType(),
+      licenseCountingType: (json['LicenseCountingType'] as String?)
+          ?.let(LicenseCountingType.fromString),
       licenseRules: (json['LicenseRules'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -5228,7 +4873,7 @@ class LicenseConfiguration {
       if (licenseCountHardLimit != null)
         'LicenseCountHardLimit': licenseCountHardLimit,
       if (licenseCountingType != null)
-        'LicenseCountingType': licenseCountingType.toValue(),
+        'LicenseCountingType': licenseCountingType.value,
       if (licenseRules != null) 'LicenseRules': licenseRules,
       if (managedResourceSummaryList != null)
         'ManagedResourceSummaryList': managedResourceSummaryList,
@@ -5273,7 +4918,8 @@ class LicenseConfigurationAssociation {
       associationTime: timeStampFromJson(json['AssociationTime']),
       resourceArn: json['ResourceArn'] as String?,
       resourceOwnerId: json['ResourceOwnerId'] as String?,
-      resourceType: (json['ResourceType'] as String?)?.toResourceType(),
+      resourceType:
+          (json['ResourceType'] as String?)?.let(ResourceType.fromString),
     );
   }
 
@@ -5290,38 +4936,24 @@ class LicenseConfigurationAssociation {
         'AssociationTime': unixTimestampToJson(associationTime),
       if (resourceArn != null) 'ResourceArn': resourceArn,
       if (resourceOwnerId != null) 'ResourceOwnerId': resourceOwnerId,
-      if (resourceType != null) 'ResourceType': resourceType.toValue(),
+      if (resourceType != null) 'ResourceType': resourceType.value,
     };
   }
 }
 
 enum LicenseConfigurationStatus {
-  available,
-  disabled,
-}
+  available('AVAILABLE'),
+  disabled('DISABLED'),
+  ;
 
-extension LicenseConfigurationStatusValueExtension
-    on LicenseConfigurationStatus {
-  String toValue() {
-    switch (this) {
-      case LicenseConfigurationStatus.available:
-        return 'AVAILABLE';
-      case LicenseConfigurationStatus.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension LicenseConfigurationStatusFromString on String {
-  LicenseConfigurationStatus toLicenseConfigurationStatus() {
-    switch (this) {
-      case 'AVAILABLE':
-        return LicenseConfigurationStatus.available;
-      case 'DISABLED':
-        return LicenseConfigurationStatus.disabled;
-    }
-    throw Exception('$this is not known in enum LicenseConfigurationStatus');
-  }
+  const LicenseConfigurationStatus(this.value);
+
+  static LicenseConfigurationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum LicenseConfigurationStatus'));
 }
 
 /// Details about the usage of a resource associated with a license
@@ -5362,7 +4994,8 @@ class LicenseConfigurationUsage {
       resourceArn: json['ResourceArn'] as String?,
       resourceOwnerId: json['ResourceOwnerId'] as String?,
       resourceStatus: json['ResourceStatus'] as String?,
-      resourceType: (json['ResourceType'] as String?)?.toResourceType(),
+      resourceType:
+          (json['ResourceType'] as String?)?.let(ResourceType.fromString),
     );
   }
 
@@ -5380,7 +5013,7 @@ class LicenseConfigurationUsage {
       if (resourceArn != null) 'ResourceArn': resourceArn,
       if (resourceOwnerId != null) 'ResourceOwnerId': resourceOwnerId,
       if (resourceStatus != null) 'ResourceStatus': resourceStatus,
-      if (resourceType != null) 'ResourceType': resourceType.toValue(),
+      if (resourceType != null) 'ResourceType': resourceType.value,
     };
   }
 }
@@ -5469,7 +5102,8 @@ class LicenseConversionTask {
               json['SourceLicenseContext'] as Map<String, dynamic>)
           : null,
       startTime: timeStampFromJson(json['StartTime']),
-      status: (json['Status'] as String?)?.toLicenseConversionTaskStatus(),
+      status: (json['Status'] as String?)
+          ?.let(LicenseConversionTaskStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
     );
   }
@@ -5496,110 +5130,58 @@ class LicenseConversionTask {
       if (sourceLicenseContext != null)
         'SourceLicenseContext': sourceLicenseContext,
       if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusMessage != null) 'StatusMessage': statusMessage,
     };
   }
 }
 
 enum LicenseConversionTaskStatus {
-  inProgress,
-  succeeded,
-  failed,
-}
+  inProgress('IN_PROGRESS'),
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  ;
 
-extension LicenseConversionTaskStatusValueExtension
-    on LicenseConversionTaskStatus {
-  String toValue() {
-    switch (this) {
-      case LicenseConversionTaskStatus.inProgress:
-        return 'IN_PROGRESS';
-      case LicenseConversionTaskStatus.succeeded:
-        return 'SUCCEEDED';
-      case LicenseConversionTaskStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension LicenseConversionTaskStatusFromString on String {
-  LicenseConversionTaskStatus toLicenseConversionTaskStatus() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return LicenseConversionTaskStatus.inProgress;
-      case 'SUCCEEDED':
-        return LicenseConversionTaskStatus.succeeded;
-      case 'FAILED':
-        return LicenseConversionTaskStatus.failed;
-    }
-    throw Exception('$this is not known in enum LicenseConversionTaskStatus');
-  }
+  const LicenseConversionTaskStatus(this.value);
+
+  static LicenseConversionTaskStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum LicenseConversionTaskStatus'));
 }
 
 enum LicenseCountingType {
-  vcpu,
-  instance,
-  core,
-  socket,
-}
+  vcpu('vCPU'),
+  instance('Instance'),
+  core('Core'),
+  socket('Socket'),
+  ;
 
-extension LicenseCountingTypeValueExtension on LicenseCountingType {
-  String toValue() {
-    switch (this) {
-      case LicenseCountingType.vcpu:
-        return 'vCPU';
-      case LicenseCountingType.instance:
-        return 'Instance';
-      case LicenseCountingType.core:
-        return 'Core';
-      case LicenseCountingType.socket:
-        return 'Socket';
-    }
-  }
-}
+  final String value;
 
-extension LicenseCountingTypeFromString on String {
-  LicenseCountingType toLicenseCountingType() {
-    switch (this) {
-      case 'vCPU':
-        return LicenseCountingType.vcpu;
-      case 'Instance':
-        return LicenseCountingType.instance;
-      case 'Core':
-        return LicenseCountingType.core;
-      case 'Socket':
-        return LicenseCountingType.socket;
-    }
-    throw Exception('$this is not known in enum LicenseCountingType');
-  }
+  const LicenseCountingType(this.value);
+
+  static LicenseCountingType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum LicenseCountingType'));
 }
 
 enum LicenseDeletionStatus {
-  pendingDelete,
-  deleted,
-}
+  pendingDelete('PENDING_DELETE'),
+  deleted('DELETED'),
+  ;
 
-extension LicenseDeletionStatusValueExtension on LicenseDeletionStatus {
-  String toValue() {
-    switch (this) {
-      case LicenseDeletionStatus.pendingDelete:
-        return 'PENDING_DELETE';
-      case LicenseDeletionStatus.deleted:
-        return 'DELETED';
-    }
-  }
-}
+  final String value;
 
-extension LicenseDeletionStatusFromString on String {
-  LicenseDeletionStatus toLicenseDeletionStatus() {
-    switch (this) {
-      case 'PENDING_DELETE':
-        return LicenseDeletionStatus.pendingDelete;
-      case 'DELETED':
-        return LicenseDeletionStatus.deleted;
-    }
-    throw Exception('$this is not known in enum LicenseDeletionStatus');
-  }
+  const LicenseDeletionStatus(this.value);
+
+  static LicenseDeletionStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum LicenseDeletionStatus'));
 }
 
 /// Describes the failure of a license operation.
@@ -5651,7 +5233,8 @@ class LicenseOperationFailure {
       operationRequestedBy: json['OperationRequestedBy'] as String?,
       resourceArn: json['ResourceArn'] as String?,
       resourceOwnerId: json['ResourceOwnerId'] as String?,
-      resourceType: (json['ResourceType'] as String?)?.toResourceType(),
+      resourceType:
+          (json['ResourceType'] as String?)?.let(ResourceType.fromString),
     );
   }
 
@@ -5673,7 +5256,7 @@ class LicenseOperationFailure {
         'OperationRequestedBy': operationRequestedBy,
       if (resourceArn != null) 'ResourceArn': resourceArn,
       if (resourceOwnerId != null) 'ResourceOwnerId': resourceOwnerId,
-      if (resourceType != null) 'ResourceType': resourceType.toValue(),
+      if (resourceType != null) 'ResourceType': resourceType.value,
     };
   }
 }
@@ -5710,56 +5293,23 @@ class LicenseSpecification {
 }
 
 enum LicenseStatus {
-  available,
-  pendingAvailable,
-  deactivated,
-  suspended,
-  expired,
-  pendingDelete,
-  deleted,
-}
+  available('AVAILABLE'),
+  pendingAvailable('PENDING_AVAILABLE'),
+  deactivated('DEACTIVATED'),
+  suspended('SUSPENDED'),
+  expired('EXPIRED'),
+  pendingDelete('PENDING_DELETE'),
+  deleted('DELETED'),
+  ;
 
-extension LicenseStatusValueExtension on LicenseStatus {
-  String toValue() {
-    switch (this) {
-      case LicenseStatus.available:
-        return 'AVAILABLE';
-      case LicenseStatus.pendingAvailable:
-        return 'PENDING_AVAILABLE';
-      case LicenseStatus.deactivated:
-        return 'DEACTIVATED';
-      case LicenseStatus.suspended:
-        return 'SUSPENDED';
-      case LicenseStatus.expired:
-        return 'EXPIRED';
-      case LicenseStatus.pendingDelete:
-        return 'PENDING_DELETE';
-      case LicenseStatus.deleted:
-        return 'DELETED';
-    }
-  }
-}
+  final String value;
 
-extension LicenseStatusFromString on String {
-  LicenseStatus toLicenseStatus() {
-    switch (this) {
-      case 'AVAILABLE':
-        return LicenseStatus.available;
-      case 'PENDING_AVAILABLE':
-        return LicenseStatus.pendingAvailable;
-      case 'DEACTIVATED':
-        return LicenseStatus.deactivated;
-      case 'SUSPENDED':
-        return LicenseStatus.suspended;
-      case 'EXPIRED':
-        return LicenseStatus.expired;
-      case 'PENDING_DELETE':
-        return LicenseStatus.pendingDelete;
-      case 'DELETED':
-        return LicenseStatus.deleted;
-    }
-    throw Exception('$this is not known in enum LicenseStatus');
-  }
+  const LicenseStatus(this.value);
+
+  static LicenseStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LicenseStatus'));
 }
 
 /// Describes the entitlement usage associated with a license.
@@ -6365,7 +5915,8 @@ class ManagedResourceSummary {
   factory ManagedResourceSummary.fromJson(Map<String, dynamic> json) {
     return ManagedResourceSummary(
       associationCount: json['AssociationCount'] as int?,
-      resourceType: (json['ResourceType'] as String?)?.toResourceType(),
+      resourceType:
+          (json['ResourceType'] as String?)?.let(ResourceType.fromString),
     );
   }
 
@@ -6374,7 +5925,7 @@ class ManagedResourceSummary {
     final resourceType = this.resourceType;
     return {
       if (associationCount != null) 'AssociationCount': associationCount,
-      if (resourceType != null) 'ResourceType': resourceType.toValue(),
+      if (resourceType != null) 'ResourceType': resourceType.value,
     };
   }
 }
@@ -6453,7 +6004,7 @@ class Options {
     return Options(
       activationOverrideBehavior:
           (json['ActivationOverrideBehavior'] as String?)
-              ?.toActivationOverrideBehavior(),
+              ?.let(ActivationOverrideBehavior.fromString),
     );
   }
 
@@ -6461,7 +6012,7 @@ class Options {
     final activationOverrideBehavior = this.activationOverrideBehavior;
     return {
       if (activationOverrideBehavior != null)
-        'ActivationOverrideBehavior': activationOverrideBehavior.toValue(),
+        'ActivationOverrideBehavior': activationOverrideBehavior.value,
     };
   }
 }
@@ -6685,9 +6236,10 @@ class ReceivedMetadata {
     return ReceivedMetadata(
       allowedOperations: (json['AllowedOperations'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toAllowedOperation())
+          .map((e) => AllowedOperation.fromString((e as String)))
           .toList(),
-      receivedStatus: (json['ReceivedStatus'] as String?)?.toReceivedStatus(),
+      receivedStatus:
+          (json['ReceivedStatus'] as String?)?.let(ReceivedStatus.fromString),
       receivedStatusReason: json['ReceivedStatusReason'] as String?,
     );
   }
@@ -6698,8 +6250,8 @@ class ReceivedMetadata {
     final receivedStatusReason = this.receivedStatusReason;
     return {
       if (allowedOperations != null)
-        'AllowedOperations': allowedOperations.map((e) => e.toValue()).toList(),
-      if (receivedStatus != null) 'ReceivedStatus': receivedStatus.toValue(),
+        'AllowedOperations': allowedOperations.map((e) => e.value).toList(),
+      if (receivedStatus != null) 'ReceivedStatus': receivedStatus.value,
       if (receivedStatusReason != null)
         'ReceivedStatusReason': receivedStatusReason,
     };
@@ -6707,61 +6259,24 @@ class ReceivedMetadata {
 }
 
 enum ReceivedStatus {
-  pendingWorkflow,
-  pendingAccept,
-  rejected,
-  active,
-  failedWorkflow,
-  deleted,
-  disabled,
-  workflowCompleted,
-}
+  pendingWorkflow('PENDING_WORKFLOW'),
+  pendingAccept('PENDING_ACCEPT'),
+  rejected('REJECTED'),
+  active('ACTIVE'),
+  failedWorkflow('FAILED_WORKFLOW'),
+  deleted('DELETED'),
+  disabled('DISABLED'),
+  workflowCompleted('WORKFLOW_COMPLETED'),
+  ;
 
-extension ReceivedStatusValueExtension on ReceivedStatus {
-  String toValue() {
-    switch (this) {
-      case ReceivedStatus.pendingWorkflow:
-        return 'PENDING_WORKFLOW';
-      case ReceivedStatus.pendingAccept:
-        return 'PENDING_ACCEPT';
-      case ReceivedStatus.rejected:
-        return 'REJECTED';
-      case ReceivedStatus.active:
-        return 'ACTIVE';
-      case ReceivedStatus.failedWorkflow:
-        return 'FAILED_WORKFLOW';
-      case ReceivedStatus.deleted:
-        return 'DELETED';
-      case ReceivedStatus.disabled:
-        return 'DISABLED';
-      case ReceivedStatus.workflowCompleted:
-        return 'WORKFLOW_COMPLETED';
-    }
-  }
-}
+  final String value;
 
-extension ReceivedStatusFromString on String {
-  ReceivedStatus toReceivedStatus() {
-    switch (this) {
-      case 'PENDING_WORKFLOW':
-        return ReceivedStatus.pendingWorkflow;
-      case 'PENDING_ACCEPT':
-        return ReceivedStatus.pendingAccept;
-      case 'REJECTED':
-        return ReceivedStatus.rejected;
-      case 'ACTIVE':
-        return ReceivedStatus.active;
-      case 'FAILED_WORKFLOW':
-        return ReceivedStatus.failedWorkflow;
-      case 'DELETED':
-        return ReceivedStatus.deleted;
-      case 'DISABLED':
-        return ReceivedStatus.disabled;
-      case 'WORKFLOW_COMPLETED':
-        return ReceivedStatus.workflowCompleted;
-    }
-    throw Exception('$this is not known in enum ReceivedStatus');
-  }
+  const ReceivedStatus(this.value);
+
+  static ReceivedStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ReceivedStatus'));
 }
 
 class RejectGrantResponse {
@@ -6783,7 +6298,7 @@ class RejectGrantResponse {
   factory RejectGrantResponse.fromJson(Map<String, dynamic> json) {
     return RejectGrantResponse(
       grantArn: json['GrantArn'] as String?,
-      status: (json['Status'] as String?)?.toGrantStatus(),
+      status: (json['Status'] as String?)?.let(GrantStatus.fromString),
       version: json['Version'] as String?,
     );
   }
@@ -6794,43 +6309,25 @@ class RejectGrantResponse {
     final version = this.version;
     return {
       if (grantArn != null) 'GrantArn': grantArn,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (version != null) 'Version': version,
     };
   }
 }
 
 enum RenewType {
-  none,
-  weekly,
-  monthly,
-}
+  none('None'),
+  weekly('Weekly'),
+  monthly('Monthly'),
+  ;
 
-extension RenewTypeValueExtension on RenewType {
-  String toValue() {
-    switch (this) {
-      case RenewType.none:
-        return 'None';
-      case RenewType.weekly:
-        return 'Weekly';
-      case RenewType.monthly:
-        return 'Monthly';
-    }
-  }
-}
+  final String value;
 
-extension RenewTypeFromString on String {
-  RenewType toRenewType() {
-    switch (this) {
-      case 'None':
-        return RenewType.none;
-      case 'Weekly':
-        return RenewType.weekly;
-      case 'Monthly':
-        return RenewType.monthly;
-    }
-    throw Exception('$this is not known in enum RenewType');
-  }
+  const RenewType(this.value);
+
+  static RenewType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum RenewType'));
 }
 
 /// Details of the license configuration that this generator reports on.
@@ -6877,7 +6374,7 @@ class ReportFrequency {
 
   factory ReportFrequency.fromJson(Map<String, dynamic> json) {
     return ReportFrequency(
-      period: (json['period'] as String?)?.toReportFrequencyType(),
+      period: (json['period'] as String?)?.let(ReportFrequencyType.fromString),
       value: json['value'] as int?,
     );
   }
@@ -6886,43 +6383,26 @@ class ReportFrequency {
     final period = this.period;
     final value = this.value;
     return {
-      if (period != null) 'period': period.toValue(),
+      if (period != null) 'period': period.value,
       if (value != null) 'value': value,
     };
   }
 }
 
 enum ReportFrequencyType {
-  day,
-  week,
-  month,
-}
+  day('DAY'),
+  week('WEEK'),
+  month('MONTH'),
+  ;
 
-extension ReportFrequencyTypeValueExtension on ReportFrequencyType {
-  String toValue() {
-    switch (this) {
-      case ReportFrequencyType.day:
-        return 'DAY';
-      case ReportFrequencyType.week:
-        return 'WEEK';
-      case ReportFrequencyType.month:
-        return 'MONTH';
-    }
-  }
-}
+  final String value;
 
-extension ReportFrequencyTypeFromString on String {
-  ReportFrequencyType toReportFrequencyType() {
-    switch (this) {
-      case 'DAY':
-        return ReportFrequencyType.day;
-      case 'WEEK':
-        return ReportFrequencyType.week;
-      case 'MONTH':
-        return ReportFrequencyType.month;
-    }
-    throw Exception('$this is not known in enum ReportFrequencyType');
-  }
+  const ReportFrequencyType(this.value);
+
+  static ReportFrequencyType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ReportFrequencyType'));
 }
 
 /// Describe the details of a report generator.
@@ -7003,7 +6483,7 @@ class ReportGenerator {
       reportGeneratorName: json['ReportGeneratorName'] as String?,
       reportType: (json['ReportType'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toReportType())
+          .map((e) => ReportType.fromString((e as String)))
           .toList(),
       s3Location: json['S3Location'] != null
           ? S3Location.fromJson(json['S3Location'] as Map<String, dynamic>)
@@ -7047,7 +6527,7 @@ class ReportGenerator {
       if (reportGeneratorName != null)
         'ReportGeneratorName': reportGeneratorName,
       if (reportType != null)
-        'ReportType': reportType.map((e) => e.toValue()).toList(),
+        'ReportType': reportType.map((e) => e.value).toList(),
       if (s3Location != null) 'S3Location': s3Location,
       if (tags != null) 'Tags': tags,
     };
@@ -7055,31 +6535,17 @@ class ReportGenerator {
 }
 
 enum ReportType {
-  licenseConfigurationSummaryReport,
-  licenseConfigurationUsageReport,
-}
+  licenseConfigurationSummaryReport('LicenseConfigurationSummaryReport'),
+  licenseConfigurationUsageReport('LicenseConfigurationUsageReport'),
+  ;
 
-extension ReportTypeValueExtension on ReportType {
-  String toValue() {
-    switch (this) {
-      case ReportType.licenseConfigurationSummaryReport:
-        return 'LicenseConfigurationSummaryReport';
-      case ReportType.licenseConfigurationUsageReport:
-        return 'LicenseConfigurationUsageReport';
-    }
-  }
-}
+  final String value;
 
-extension ReportTypeFromString on String {
-  ReportType toReportType() {
-    switch (this) {
-      case 'LicenseConfigurationSummaryReport':
-        return ReportType.licenseConfigurationSummaryReport;
-      case 'LicenseConfigurationUsageReport':
-        return ReportType.licenseConfigurationUsageReport;
-    }
-    throw Exception('$this is not known in enum ReportType');
-  }
+  const ReportType(this.value);
+
+  static ReportType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ReportType'));
 }
 
 /// Details about a resource.
@@ -7118,7 +6584,8 @@ class ResourceInventory {
       resourceArn: json['ResourceArn'] as String?,
       resourceId: json['ResourceId'] as String?,
       resourceOwningAccountId: json['ResourceOwningAccountId'] as String?,
-      resourceType: (json['ResourceType'] as String?)?.toResourceType(),
+      resourceType:
+          (json['ResourceType'] as String?)?.let(ResourceType.fromString),
     );
   }
 
@@ -7136,52 +6603,27 @@ class ResourceInventory {
       if (resourceId != null) 'ResourceId': resourceId,
       if (resourceOwningAccountId != null)
         'ResourceOwningAccountId': resourceOwningAccountId,
-      if (resourceType != null) 'ResourceType': resourceType.toValue(),
+      if (resourceType != null) 'ResourceType': resourceType.value,
     };
   }
 }
 
 enum ResourceType {
-  ec2Instance,
-  ec2Host,
-  ec2Ami,
-  rds,
-  systemsManagerManagedInstance,
-}
+  ec2Instance('EC2_INSTANCE'),
+  ec2Host('EC2_HOST'),
+  ec2Ami('EC2_AMI'),
+  rds('RDS'),
+  systemsManagerManagedInstance('SYSTEMS_MANAGER_MANAGED_INSTANCE'),
+  ;
 
-extension ResourceTypeValueExtension on ResourceType {
-  String toValue() {
-    switch (this) {
-      case ResourceType.ec2Instance:
-        return 'EC2_INSTANCE';
-      case ResourceType.ec2Host:
-        return 'EC2_HOST';
-      case ResourceType.ec2Ami:
-        return 'EC2_AMI';
-      case ResourceType.rds:
-        return 'RDS';
-      case ResourceType.systemsManagerManagedInstance:
-        return 'SYSTEMS_MANAGER_MANAGED_INSTANCE';
-    }
-  }
-}
+  final String value;
 
-extension ResourceTypeFromString on String {
-  ResourceType toResourceType() {
-    switch (this) {
-      case 'EC2_INSTANCE':
-        return ResourceType.ec2Instance;
-      case 'EC2_HOST':
-        return ResourceType.ec2Host;
-      case 'EC2_AMI':
-        return ResourceType.ec2Ami;
-      case 'RDS':
-        return ResourceType.rds;
-      case 'SYSTEMS_MANAGER_MANAGED_INSTANCE':
-        return ResourceType.systemsManagerManagedInstance;
-    }
-    throw Exception('$this is not known in enum ResourceType');
-  }
+  const ResourceType(this.value);
+
+  static ResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResourceType'));
 }
 
 /// Details of the S3 bucket that report generator reports are published to.
@@ -7329,26 +6771,16 @@ class TokenData {
 }
 
 enum TokenType {
-  refreshToken,
-}
+  refreshToken('REFRESH_TOKEN'),
+  ;
 
-extension TokenTypeValueExtension on TokenType {
-  String toValue() {
-    switch (this) {
-      case TokenType.refreshToken:
-        return 'REFRESH_TOKEN';
-    }
-  }
-}
+  final String value;
 
-extension TokenTypeFromString on String {
-  TokenType toTokenType() {
-    switch (this) {
-      case 'REFRESH_TOKEN':
-        return TokenType.refreshToken;
-    }
-    throw Exception('$this is not known in enum TokenType');
-  }
+  const TokenType(this.value);
+
+  static TokenType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TokenType'));
 }
 
 class UntagResourceResponse {

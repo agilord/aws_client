@@ -944,8 +944,8 @@ class ChimeSdkIdentity {
     final $payload = <String, dynamic>{
       'EndpointAttributes': endpointAttributes,
       'ResourceArn': resourceArn,
-      'Type': type.toValue(),
-      if (allowMessages != null) 'AllowMessages': allowMessages.toValue(),
+      'Type': type.value,
+      if (allowMessages != null) 'AllowMessages': allowMessages.value,
       'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (name != null) 'Name': name,
     };
@@ -1172,7 +1172,7 @@ class ChimeSdkIdentity {
     String? name,
   }) async {
     final $payload = <String, dynamic>{
-      if (allowMessages != null) 'AllowMessages': allowMessages.toValue(),
+      if (allowMessages != null) 'AllowMessages': allowMessages.value,
       if (name != null) 'Name': name,
     };
     final response = await _protocol.send(
@@ -1187,31 +1187,18 @@ class ChimeSdkIdentity {
 }
 
 enum AllowMessages {
-  all,
-  none,
-}
+  all('ALL'),
+  none('NONE'),
+  ;
 
-extension AllowMessagesValueExtension on AllowMessages {
-  String toValue() {
-    switch (this) {
-      case AllowMessages.all:
-        return 'ALL';
-      case AllowMessages.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension AllowMessagesFromString on String {
-  AllowMessages toAllowMessages() {
-    switch (this) {
-      case 'ALL':
-        return AllowMessages.all;
-      case 'NONE':
-        return AllowMessages.none;
-    }
-    throw Exception('$this is not known in enum AllowMessages');
-  }
+  const AllowMessages(this.value);
+
+  static AllowMessages fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AllowMessages'));
 }
 
 /// The details of an <code>AppInstance</code>, an instance of an Amazon Chime
@@ -1641,7 +1628,8 @@ class AppInstanceUserEndpoint {
 
   factory AppInstanceUserEndpoint.fromJson(Map<String, dynamic> json) {
     return AppInstanceUserEndpoint(
-      allowMessages: (json['AllowMessages'] as String?)?.toAllowMessages(),
+      allowMessages:
+          (json['AllowMessages'] as String?)?.let(AllowMessages.fromString),
       appInstanceUserArn: json['AppInstanceUserArn'] as String?,
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
       endpointAttributes: json['EndpointAttributes'] != null
@@ -1656,7 +1644,8 @@ class AppInstanceUserEndpoint {
       lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
       name: json['Name'] as String?,
       resourceArn: json['ResourceArn'] as String?,
-      type: (json['Type'] as String?)?.toAppInstanceUserEndpointType(),
+      type: (json['Type'] as String?)
+          ?.let(AppInstanceUserEndpointType.fromString),
     );
   }
 
@@ -1672,7 +1661,7 @@ class AppInstanceUserEndpoint {
     final resourceArn = this.resourceArn;
     final type = this.type;
     return {
-      if (allowMessages != null) 'AllowMessages': allowMessages.toValue(),
+      if (allowMessages != null) 'AllowMessages': allowMessages.value,
       if (appInstanceUserArn != null) 'AppInstanceUserArn': appInstanceUserArn,
       if (createdTimestamp != null)
         'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
@@ -1683,7 +1672,7 @@ class AppInstanceUserEndpoint {
         'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
       if (name != null) 'Name': name,
       if (resourceArn != null) 'ResourceArn': resourceArn,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -1723,7 +1712,8 @@ class AppInstanceUserEndpointSummary {
 
   factory AppInstanceUserEndpointSummary.fromJson(Map<String, dynamic> json) {
     return AppInstanceUserEndpointSummary(
-      allowMessages: (json['AllowMessages'] as String?)?.toAllowMessages(),
+      allowMessages:
+          (json['AllowMessages'] as String?)?.let(AllowMessages.fromString),
       appInstanceUserArn: json['AppInstanceUserArn'] as String?,
       endpointId: json['EndpointId'] as String?,
       endpointState: json['EndpointState'] != null
@@ -1731,7 +1721,8 @@ class AppInstanceUserEndpointSummary {
               json['EndpointState'] as Map<String, dynamic>)
           : null,
       name: json['Name'] as String?,
-      type: (json['Type'] as String?)?.toAppInstanceUserEndpointType(),
+      type: (json['Type'] as String?)
+          ?.let(AppInstanceUserEndpointType.fromString),
     );
   }
 
@@ -1743,48 +1734,30 @@ class AppInstanceUserEndpointSummary {
     final name = this.name;
     final type = this.type;
     return {
-      if (allowMessages != null) 'AllowMessages': allowMessages.toValue(),
+      if (allowMessages != null) 'AllowMessages': allowMessages.value,
       if (appInstanceUserArn != null) 'AppInstanceUserArn': appInstanceUserArn,
       if (endpointId != null) 'EndpointId': endpointId,
       if (endpointState != null) 'EndpointState': endpointState,
       if (name != null) 'Name': name,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum AppInstanceUserEndpointType {
-  apns,
-  apnsSandbox,
-  gcm,
-}
+  apns('APNS'),
+  apnsSandbox('APNS_SANDBOX'),
+  gcm('GCM'),
+  ;
 
-extension AppInstanceUserEndpointTypeValueExtension
-    on AppInstanceUserEndpointType {
-  String toValue() {
-    switch (this) {
-      case AppInstanceUserEndpointType.apns:
-        return 'APNS';
-      case AppInstanceUserEndpointType.apnsSandbox:
-        return 'APNS_SANDBOX';
-      case AppInstanceUserEndpointType.gcm:
-        return 'GCM';
-    }
-  }
-}
+  final String value;
 
-extension AppInstanceUserEndpointTypeFromString on String {
-  AppInstanceUserEndpointType toAppInstanceUserEndpointType() {
-    switch (this) {
-      case 'APNS':
-        return AppInstanceUserEndpointType.apns;
-      case 'APNS_SANDBOX':
-        return AppInstanceUserEndpointType.apnsSandbox;
-      case 'GCM':
-        return AppInstanceUserEndpointType.gcm;
-    }
-    throw Exception('$this is not known in enum AppInstanceUserEndpointType');
-  }
+  const AppInstanceUserEndpointType(this.value);
+
+  static AppInstanceUserEndpointType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AppInstanceUserEndpointType'));
 }
 
 /// Summary of the details of an <code>AppInstanceUser</code>.
@@ -2171,8 +2144,9 @@ class EndpointState {
 
   factory EndpointState.fromJson(Map<String, dynamic> json) {
     return EndpointState(
-      status: (json['Status'] as String).toEndpointStatus(),
-      statusReason: (json['StatusReason'] as String?)?.toEndpointStatusReason(),
+      status: EndpointStatus.fromString((json['Status'] as String)),
+      statusReason: (json['StatusReason'] as String?)
+          ?.let(EndpointStatusReason.fromString),
     );
   }
 
@@ -2180,89 +2154,54 @@ class EndpointState {
     final status = this.status;
     final statusReason = this.statusReason;
     return {
-      'Status': status.toValue(),
-      if (statusReason != null) 'StatusReason': statusReason.toValue(),
+      'Status': status.value,
+      if (statusReason != null) 'StatusReason': statusReason.value,
     };
   }
 }
 
 enum EndpointStatus {
-  active,
-  inactive,
-}
+  active('ACTIVE'),
+  inactive('INACTIVE'),
+  ;
 
-extension EndpointStatusValueExtension on EndpointStatus {
-  String toValue() {
-    switch (this) {
-      case EndpointStatus.active:
-        return 'ACTIVE';
-      case EndpointStatus.inactive:
-        return 'INACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension EndpointStatusFromString on String {
-  EndpointStatus toEndpointStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return EndpointStatus.active;
-      case 'INACTIVE':
-        return EndpointStatus.inactive;
-    }
-    throw Exception('$this is not known in enum EndpointStatus');
-  }
+  const EndpointStatus(this.value);
+
+  static EndpointStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EndpointStatus'));
 }
 
 enum EndpointStatusReason {
-  invalidDeviceToken,
-  invalidPinpointArn,
-}
+  invalidDeviceToken('INVALID_DEVICE_TOKEN'),
+  invalidPinpointArn('INVALID_PINPOINT_ARN'),
+  ;
 
-extension EndpointStatusReasonValueExtension on EndpointStatusReason {
-  String toValue() {
-    switch (this) {
-      case EndpointStatusReason.invalidDeviceToken:
-        return 'INVALID_DEVICE_TOKEN';
-      case EndpointStatusReason.invalidPinpointArn:
-        return 'INVALID_PINPOINT_ARN';
-    }
-  }
-}
+  final String value;
 
-extension EndpointStatusReasonFromString on String {
-  EndpointStatusReason toEndpointStatusReason() {
-    switch (this) {
-      case 'INVALID_DEVICE_TOKEN':
-        return EndpointStatusReason.invalidDeviceToken;
-      case 'INVALID_PINPOINT_ARN':
-        return EndpointStatusReason.invalidPinpointArn;
-    }
-    throw Exception('$this is not known in enum EndpointStatusReason');
-  }
+  const EndpointStatusReason(this.value);
+
+  static EndpointStatusReason fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum EndpointStatusReason'));
 }
 
 enum ExpirationCriterion {
-  createdTimestamp,
-}
+  createdTimestamp('CREATED_TIMESTAMP'),
+  ;
 
-extension ExpirationCriterionValueExtension on ExpirationCriterion {
-  String toValue() {
-    switch (this) {
-      case ExpirationCriterion.createdTimestamp:
-        return 'CREATED_TIMESTAMP';
-    }
-  }
-}
+  final String value;
 
-extension ExpirationCriterionFromString on String {
-  ExpirationCriterion toExpirationCriterion() {
-    switch (this) {
-      case 'CREATED_TIMESTAMP':
-        return ExpirationCriterion.createdTimestamp;
-    }
-    throw Exception('$this is not known in enum ExpirationCriterion');
-  }
+  const ExpirationCriterion(this.value);
+
+  static ExpirationCriterion fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ExpirationCriterion'));
 }
 
 /// Determines the interval after which an <code>AppInstanceUser</code> is
@@ -2283,8 +2222,8 @@ class ExpirationSettings {
 
   factory ExpirationSettings.fromJson(Map<String, dynamic> json) {
     return ExpirationSettings(
-      expirationCriterion:
-          (json['ExpirationCriterion'] as String).toExpirationCriterion(),
+      expirationCriterion: ExpirationCriterion.fromString(
+          (json['ExpirationCriterion'] as String)),
       expirationDays: json['ExpirationDays'] as int,
     );
   }
@@ -2293,7 +2232,7 @@ class ExpirationSettings {
     final expirationCriterion = this.expirationCriterion;
     final expirationDays = this.expirationDays;
     return {
-      'ExpirationCriterion': expirationCriterion.toValue(),
+      'ExpirationCriterion': expirationCriterion.value,
       'ExpirationDays': expirationDays,
     };
   }
@@ -2412,9 +2351,9 @@ class InvokedBy {
   factory InvokedBy.fromJson(Map<String, dynamic> json) {
     return InvokedBy(
       standardMessages:
-          (json['StandardMessages'] as String).toStandardMessages(),
+          StandardMessages.fromString((json['StandardMessages'] as String)),
       targetedMessages:
-          (json['TargetedMessages'] as String).toTargetedMessages(),
+          TargetedMessages.fromString((json['TargetedMessages'] as String)),
     );
   }
 
@@ -2422,8 +2361,8 @@ class InvokedBy {
     final standardMessages = this.standardMessages;
     final targetedMessages = this.targetedMessages;
     return {
-      'StandardMessages': standardMessages.toValue(),
-      'TargetedMessages': targetedMessages.toValue(),
+      'StandardMessages': standardMessages.value,
+      'TargetedMessages': targetedMessages.value,
     };
   }
 }
@@ -2470,7 +2409,7 @@ class LexConfiguration {
       invokedBy: json['InvokedBy'] != null
           ? InvokedBy.fromJson(json['InvokedBy'] as Map<String, dynamic>)
           : null,
-      respondsTo: (json['RespondsTo'] as String?)?.toRespondsTo(),
+      respondsTo: (json['RespondsTo'] as String?)?.let(RespondsTo.fromString),
       welcomeIntent: json['WelcomeIntent'] as String?,
     );
   }
@@ -2485,7 +2424,7 @@ class LexConfiguration {
       'LexBotAliasArn': lexBotAliasArn,
       'LocaleId': localeId,
       if (invokedBy != null) 'InvokedBy': invokedBy,
-      if (respondsTo != null) 'RespondsTo': respondsTo.toValue(),
+      if (respondsTo != null) 'RespondsTo': respondsTo.value,
       if (welcomeIntent != null) 'WelcomeIntent': welcomeIntent,
     };
   }
@@ -2809,64 +2748,33 @@ class RegisterAppInstanceUserEndpointResponse {
 }
 
 enum RespondsTo {
-  standardMessages,
-}
+  standardMessages('STANDARD_MESSAGES'),
+  ;
 
-extension RespondsToValueExtension on RespondsTo {
-  String toValue() {
-    switch (this) {
-      case RespondsTo.standardMessages:
-        return 'STANDARD_MESSAGES';
-    }
-  }
-}
+  final String value;
 
-extension RespondsToFromString on String {
-  RespondsTo toRespondsTo() {
-    switch (this) {
-      case 'STANDARD_MESSAGES':
-        return RespondsTo.standardMessages;
-    }
-    throw Exception('$this is not known in enum RespondsTo');
-  }
+  const RespondsTo(this.value);
+
+  static RespondsTo fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum RespondsTo'));
 }
 
 enum StandardMessages {
-  auto,
-  all,
-  mentions,
-  none,
-}
+  auto('AUTO'),
+  all('ALL'),
+  mentions('MENTIONS'),
+  none('NONE'),
+  ;
 
-extension StandardMessagesValueExtension on StandardMessages {
-  String toValue() {
-    switch (this) {
-      case StandardMessages.auto:
-        return 'AUTO';
-      case StandardMessages.all:
-        return 'ALL';
-      case StandardMessages.mentions:
-        return 'MENTIONS';
-      case StandardMessages.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension StandardMessagesFromString on String {
-  StandardMessages toStandardMessages() {
-    switch (this) {
-      case 'AUTO':
-        return StandardMessages.auto;
-      case 'ALL':
-        return StandardMessages.all;
-      case 'MENTIONS':
-        return StandardMessages.mentions;
-      case 'NONE':
-        return StandardMessages.none;
-    }
-    throw Exception('$this is not known in enum StandardMessages');
-  }
+  const StandardMessages(this.value);
+
+  static StandardMessages fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum StandardMessages'));
 }
 
 /// A tag object containing a key-value pair.
@@ -2900,31 +2808,18 @@ class Tag {
 }
 
 enum TargetedMessages {
-  all,
-  none,
-}
+  all('ALL'),
+  none('NONE'),
+  ;
 
-extension TargetedMessagesValueExtension on TargetedMessages {
-  String toValue() {
-    switch (this) {
-      case TargetedMessages.all:
-        return 'ALL';
-      case TargetedMessages.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension TargetedMessagesFromString on String {
-  TargetedMessages toTargetedMessages() {
-    switch (this) {
-      case 'ALL':
-        return TargetedMessages.all;
-      case 'NONE':
-        return TargetedMessages.none;
-    }
-    throw Exception('$this is not known in enum TargetedMessages');
-  }
+  const TargetedMessages(this.value);
+
+  static TargetedMessages fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TargetedMessages'));
 }
 
 class UpdateAppInstanceBotResponse {

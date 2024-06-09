@@ -613,7 +613,7 @@ class NeptuneData {
     String? token,
   }) async {
     final $payload = <String, dynamic>{
-      'action': action.toValue(),
+      'action': action.value,
       if (token != null) 'token': token,
     };
     final response = await _protocol.send(
@@ -938,7 +938,7 @@ class NeptuneData {
     String? parameters,
   }) async {
     final $payload = <String, dynamic>{
-      'explain': explainMode.toValue(),
+      'explain': explainMode.value,
       'query': openCypherQuery,
       if (parameters != null) 'parameters': parameters,
     };
@@ -1583,11 +1583,11 @@ class NeptuneData {
       100000,
     );
     final headers = <String, String>{
-      if (encoding != null) 'Accept-Encoding': encoding.toValue(),
+      if (encoding != null) 'Accept-Encoding': encoding.value,
     };
     final $query = <String, List<String>>{
       if (commitNum != null) 'commitNum': [commitNum.toString()],
-      if (iteratorType != null) 'iteratorType': [iteratorType.toValue()],
+      if (iteratorType != null) 'iteratorType': [iteratorType.value],
       if (limit != null) 'limit': [limit.toString()],
       if (opNum != null) 'opNum': [opNum.toString()],
     };
@@ -1631,7 +1631,7 @@ class NeptuneData {
     GraphSummaryType? mode,
   }) async {
     final $query = <String, List<String>>{
-      if (mode != null) 'mode': [mode.toValue()],
+      if (mode != null) 'mode': [mode.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1672,7 +1672,7 @@ class NeptuneData {
     GraphSummaryType? mode,
   }) async {
     final $query = <String, List<String>>{
-      if (mode != null) 'mode': [mode.toValue()],
+      if (mode != null) 'mode': [mode.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1813,11 +1813,11 @@ class NeptuneData {
       100000,
     );
     final headers = <String, String>{
-      if (encoding != null) 'Accept-Encoding': encoding.toValue(),
+      if (encoding != null) 'Accept-Encoding': encoding.value,
     };
     final $query = <String, List<String>>{
       if (commitNum != null) 'commitNum': [commitNum.toString()],
-      if (iteratorType != null) 'iteratorType': [iteratorType.toValue()],
+      if (iteratorType != null) 'iteratorType': [iteratorType.value],
       if (limit != null) 'limit': [limit.toString()],
       if (opNum != null) 'opNum': [opNum.toString()],
     };
@@ -2237,7 +2237,7 @@ class NeptuneData {
     StatisticsAutoGenerationMode? mode,
   }) async {
     final $payload = <String, dynamic>{
-      if (mode != null) 'mode': mode.toValue(),
+      if (mode != null) 'mode': mode.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2278,7 +2278,7 @@ class NeptuneData {
     StatisticsAutoGenerationMode? mode,
   }) async {
     final $payload = <String, dynamic>{
-      if (mode != null) 'mode': mode.toValue(),
+      if (mode != null) 'mode': mode.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2626,14 +2626,14 @@ class NeptuneData {
     bool? userProvidedEdgeIds,
   }) async {
     final $payload = <String, dynamic>{
-      'format': format.toValue(),
+      'format': format.value,
       'iamRoleArn': iamRoleArn,
-      'region': s3BucketRegion.toValue(),
+      'region': s3BucketRegion.value,
       'source': source,
       if (dependencies != null) 'dependencies': dependencies,
       if (failOnError != null) 'failOnError': failOnError,
-      if (mode != null) 'mode': mode.toValue(),
-      if (parallelism != null) 'parallelism': parallelism.toValue(),
+      if (mode != null) 'mode': mode.value,
+      if (parallelism != null) 'parallelism': parallelism.value,
       if (parserConfiguration != null)
         'parserConfiguration': parserConfiguration,
       if (queueRequest != null) 'queueRequest': queueRequest,
@@ -3087,31 +3087,17 @@ class NeptuneData {
 }
 
 enum Action {
-  initiateDatabaseReset,
-  performDatabaseReset,
-}
+  initiateDatabaseReset('initiateDatabaseReset'),
+  performDatabaseReset('performDatabaseReset'),
+  ;
 
-extension ActionValueExtension on Action {
-  String toValue() {
-    switch (this) {
-      case Action.initiateDatabaseReset:
-        return 'initiateDatabaseReset';
-      case Action.performDatabaseReset:
-        return 'performDatabaseReset';
-    }
-  }
-}
+  final String value;
 
-extension ActionFromString on String {
-  Action toAction() {
-    switch (this) {
-      case 'initiateDatabaseReset':
-        return Action.initiateDatabaseReset;
-      case 'performDatabaseReset':
-        return Action.performDatabaseReset;
-    }
-    throw Exception('$this is not known in enum Action');
-  }
+  const Action(this.value);
+
+  static Action fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Action'));
 }
 
 class CancelGremlinQueryOutput {
@@ -3542,26 +3528,16 @@ class EdgeStructure {
 }
 
 enum Encoding {
-  gzip,
-}
+  gzip('gzip'),
+  ;
 
-extension EncodingValueExtension on Encoding {
-  String toValue() {
-    switch (this) {
-      case Encoding.gzip:
-        return 'gzip';
-    }
-  }
-}
+  final String value;
 
-extension EncodingFromString on String {
-  Encoding toEncoding() {
-    switch (this) {
-      case 'gzip':
-        return Encoding.gzip;
-    }
-    throw Exception('$this is not known in enum Encoding');
-  }
+  const Encoding(this.value);
+
+  static Encoding fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Encoding'));
 }
 
 class ExecuteFastResetOutput {
@@ -3750,51 +3726,21 @@ class FastResetToken {
 }
 
 enum Format {
-  csv,
-  opencypher,
-  ntriples,
-  nquads,
-  rdfxml,
-  turtle,
-}
+  csv('csv'),
+  opencypher('opencypher'),
+  ntriples('ntriples'),
+  nquads('nquads'),
+  rdfxml('rdfxml'),
+  turtle('turtle'),
+  ;
 
-extension FormatValueExtension on Format {
-  String toValue() {
-    switch (this) {
-      case Format.csv:
-        return 'csv';
-      case Format.opencypher:
-        return 'opencypher';
-      case Format.ntriples:
-        return 'ntriples';
-      case Format.nquads:
-        return 'nquads';
-      case Format.rdfxml:
-        return 'rdfxml';
-      case Format.turtle:
-        return 'turtle';
-    }
-  }
-}
+  final String value;
 
-extension FormatFromString on String {
-  Format toFormat() {
-    switch (this) {
-      case 'csv':
-        return Format.csv;
-      case 'opencypher':
-        return Format.opencypher;
-      case 'ntriples':
-        return Format.ntriples;
-      case 'nquads':
-        return Format.nquads;
-      case 'rdfxml':
-        return Format.rdfxml;
-      case 'turtle':
-        return Format.turtle;
-    }
-    throw Exception('$this is not known in enum Format');
-  }
+  const Format(this.value);
+
+  static Format fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Format'));
 }
 
 class GetEngineStatusOutput {
@@ -4518,31 +4464,18 @@ class GetSparqlStreamOutput {
 }
 
 enum GraphSummaryType {
-  basic,
-  detailed,
-}
+  basic('basic'),
+  detailed('detailed'),
+  ;
 
-extension GraphSummaryTypeValueExtension on GraphSummaryType {
-  String toValue() {
-    switch (this) {
-      case GraphSummaryType.basic:
-        return 'basic';
-      case GraphSummaryType.detailed:
-        return 'detailed';
-    }
-  }
-}
+  final String value;
 
-extension GraphSummaryTypeFromString on String {
-  GraphSummaryType toGraphSummaryType() {
-    switch (this) {
-      case 'basic':
-        return GraphSummaryType.basic;
-      case 'detailed':
-        return GraphSummaryType.detailed;
-    }
-    throw Exception('$this is not known in enum GraphSummaryType');
-  }
+  const GraphSummaryType(this.value);
+
+  static GraphSummaryType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum GraphSummaryType'));
 }
 
 /// Captures the status of a Gremlin query (see the <a
@@ -4627,41 +4560,20 @@ class GremlinQueryStatusAttributes {
 }
 
 enum IteratorType {
-  atSequenceNumber,
-  afterSequenceNumber,
-  trimHorizon,
-  latest,
-}
+  atSequenceNumber('AT_SEQUENCE_NUMBER'),
+  afterSequenceNumber('AFTER_SEQUENCE_NUMBER'),
+  trimHorizon('TRIM_HORIZON'),
+  latest('LATEST'),
+  ;
 
-extension IteratorTypeValueExtension on IteratorType {
-  String toValue() {
-    switch (this) {
-      case IteratorType.atSequenceNumber:
-        return 'AT_SEQUENCE_NUMBER';
-      case IteratorType.afterSequenceNumber:
-        return 'AFTER_SEQUENCE_NUMBER';
-      case IteratorType.trimHorizon:
-        return 'TRIM_HORIZON';
-      case IteratorType.latest:
-        return 'LATEST';
-    }
-  }
-}
+  final String value;
 
-extension IteratorTypeFromString on String {
-  IteratorType toIteratorType() {
-    switch (this) {
-      case 'AT_SEQUENCE_NUMBER':
-        return IteratorType.atSequenceNumber;
-      case 'AFTER_SEQUENCE_NUMBER':
-        return IteratorType.afterSequenceNumber;
-      case 'TRIM_HORIZON':
-        return IteratorType.trimHorizon;
-      case 'LATEST':
-        return IteratorType.latest;
-    }
-    throw Exception('$this is not known in enum IteratorType');
-  }
+  const IteratorType(this.value);
+
+  static IteratorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum IteratorType'));
 }
 
 class ListGremlinQueriesOutput {
@@ -5055,36 +4967,18 @@ class MlResourceDefinition {
 }
 
 enum Mode {
-  resume,
-  $new,
-  auto,
-}
+  resume('RESUME'),
+  $new('NEW'),
+  auto('AUTO'),
+  ;
 
-extension ModeValueExtension on Mode {
-  String toValue() {
-    switch (this) {
-      case Mode.resume:
-        return 'RESUME';
-      case Mode.$new:
-        return 'NEW';
-      case Mode.auto:
-        return 'AUTO';
-    }
-  }
-}
+  final String value;
 
-extension ModeFromString on String {
-  Mode toMode() {
-    switch (this) {
-      case 'RESUME':
-        return Mode.resume;
-      case 'NEW':
-        return Mode.$new;
-      case 'AUTO':
-        return Mode.auto;
-    }
-    throw Exception('$this is not known in enum Mode');
-  }
+  const Mode(this.value);
+
+  static Mode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Mode'));
 }
 
 /// A node structure.
@@ -5132,74 +5026,35 @@ class NodeStructure {
 }
 
 enum OpenCypherExplainMode {
-  static,
-  $dynamic,
-  details,
-}
+  static('static'),
+  $dynamic('dynamic'),
+  details('details'),
+  ;
 
-extension OpenCypherExplainModeValueExtension on OpenCypherExplainMode {
-  String toValue() {
-    switch (this) {
-      case OpenCypherExplainMode.static:
-        return 'static';
-      case OpenCypherExplainMode.$dynamic:
-        return 'dynamic';
-      case OpenCypherExplainMode.details:
-        return 'details';
-    }
-  }
-}
+  final String value;
 
-extension OpenCypherExplainModeFromString on String {
-  OpenCypherExplainMode toOpenCypherExplainMode() {
-    switch (this) {
-      case 'static':
-        return OpenCypherExplainMode.static;
-      case 'dynamic':
-        return OpenCypherExplainMode.$dynamic;
-      case 'details':
-        return OpenCypherExplainMode.details;
-    }
-    throw Exception('$this is not known in enum OpenCypherExplainMode');
-  }
+  const OpenCypherExplainMode(this.value);
+
+  static OpenCypherExplainMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum OpenCypherExplainMode'));
 }
 
 enum Parallelism {
-  low,
-  medium,
-  high,
-  oversubscribe,
-}
+  low('LOW'),
+  medium('MEDIUM'),
+  high('HIGH'),
+  oversubscribe('OVERSUBSCRIBE'),
+  ;
 
-extension ParallelismValueExtension on Parallelism {
-  String toValue() {
-    switch (this) {
-      case Parallelism.low:
-        return 'LOW';
-      case Parallelism.medium:
-        return 'MEDIUM';
-      case Parallelism.high:
-        return 'HIGH';
-      case Parallelism.oversubscribe:
-        return 'OVERSUBSCRIBE';
-    }
-  }
-}
+  final String value;
 
-extension ParallelismFromString on String {
-  Parallelism toParallelism() {
-    switch (this) {
-      case 'LOW':
-        return Parallelism.low;
-      case 'MEDIUM':
-        return Parallelism.medium;
-      case 'HIGH':
-        return Parallelism.high;
-      case 'OVERSUBSCRIBE':
-        return Parallelism.oversubscribe;
-    }
-    throw Exception('$this is not known in enum Parallelism');
-  }
+  const Parallelism(this.value);
+
+  static Parallelism fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Parallelism'));
 }
 
 /// A Gremlin or openCypher change record.
@@ -5743,136 +5598,39 @@ class RefreshStatisticsIdMap {
 }
 
 enum S3BucketRegion {
-  usEast_1,
-  usEast_2,
-  usWest_1,
-  usWest_2,
-  caCentral_1,
-  saEast_1,
-  euNorth_1,
-  euWest_1,
-  euWest_2,
-  euWest_3,
-  euCentral_1,
-  meSouth_1,
-  afSouth_1,
-  apEast_1,
-  apNortheast_1,
-  apNortheast_2,
-  apSoutheast_1,
-  apSoutheast_2,
-  apSouth_1,
-  cnNorth_1,
-  cnNorthwest_1,
-  usGovWest_1,
-  usGovEast_1,
-}
+  usEast_1('us-east-1'),
+  usEast_2('us-east-2'),
+  usWest_1('us-west-1'),
+  usWest_2('us-west-2'),
+  caCentral_1('ca-central-1'),
+  saEast_1('sa-east-1'),
+  euNorth_1('eu-north-1'),
+  euWest_1('eu-west-1'),
+  euWest_2('eu-west-2'),
+  euWest_3('eu-west-3'),
+  euCentral_1('eu-central-1'),
+  meSouth_1('me-south-1'),
+  afSouth_1('af-south-1'),
+  apEast_1('ap-east-1'),
+  apNortheast_1('ap-northeast-1'),
+  apNortheast_2('ap-northeast-2'),
+  apSoutheast_1('ap-southeast-1'),
+  apSoutheast_2('ap-southeast-2'),
+  apSouth_1('ap-south-1'),
+  cnNorth_1('cn-north-1'),
+  cnNorthwest_1('cn-northwest-1'),
+  usGovWest_1('us-gov-west-1'),
+  usGovEast_1('us-gov-east-1'),
+  ;
 
-extension S3BucketRegionValueExtension on S3BucketRegion {
-  String toValue() {
-    switch (this) {
-      case S3BucketRegion.usEast_1:
-        return 'us-east-1';
-      case S3BucketRegion.usEast_2:
-        return 'us-east-2';
-      case S3BucketRegion.usWest_1:
-        return 'us-west-1';
-      case S3BucketRegion.usWest_2:
-        return 'us-west-2';
-      case S3BucketRegion.caCentral_1:
-        return 'ca-central-1';
-      case S3BucketRegion.saEast_1:
-        return 'sa-east-1';
-      case S3BucketRegion.euNorth_1:
-        return 'eu-north-1';
-      case S3BucketRegion.euWest_1:
-        return 'eu-west-1';
-      case S3BucketRegion.euWest_2:
-        return 'eu-west-2';
-      case S3BucketRegion.euWest_3:
-        return 'eu-west-3';
-      case S3BucketRegion.euCentral_1:
-        return 'eu-central-1';
-      case S3BucketRegion.meSouth_1:
-        return 'me-south-1';
-      case S3BucketRegion.afSouth_1:
-        return 'af-south-1';
-      case S3BucketRegion.apEast_1:
-        return 'ap-east-1';
-      case S3BucketRegion.apNortheast_1:
-        return 'ap-northeast-1';
-      case S3BucketRegion.apNortheast_2:
-        return 'ap-northeast-2';
-      case S3BucketRegion.apSoutheast_1:
-        return 'ap-southeast-1';
-      case S3BucketRegion.apSoutheast_2:
-        return 'ap-southeast-2';
-      case S3BucketRegion.apSouth_1:
-        return 'ap-south-1';
-      case S3BucketRegion.cnNorth_1:
-        return 'cn-north-1';
-      case S3BucketRegion.cnNorthwest_1:
-        return 'cn-northwest-1';
-      case S3BucketRegion.usGovWest_1:
-        return 'us-gov-west-1';
-      case S3BucketRegion.usGovEast_1:
-        return 'us-gov-east-1';
-    }
-  }
-}
+  final String value;
 
-extension S3BucketRegionFromString on String {
-  S3BucketRegion toS3BucketRegion() {
-    switch (this) {
-      case 'us-east-1':
-        return S3BucketRegion.usEast_1;
-      case 'us-east-2':
-        return S3BucketRegion.usEast_2;
-      case 'us-west-1':
-        return S3BucketRegion.usWest_1;
-      case 'us-west-2':
-        return S3BucketRegion.usWest_2;
-      case 'ca-central-1':
-        return S3BucketRegion.caCentral_1;
-      case 'sa-east-1':
-        return S3BucketRegion.saEast_1;
-      case 'eu-north-1':
-        return S3BucketRegion.euNorth_1;
-      case 'eu-west-1':
-        return S3BucketRegion.euWest_1;
-      case 'eu-west-2':
-        return S3BucketRegion.euWest_2;
-      case 'eu-west-3':
-        return S3BucketRegion.euWest_3;
-      case 'eu-central-1':
-        return S3BucketRegion.euCentral_1;
-      case 'me-south-1':
-        return S3BucketRegion.meSouth_1;
-      case 'af-south-1':
-        return S3BucketRegion.afSouth_1;
-      case 'ap-east-1':
-        return S3BucketRegion.apEast_1;
-      case 'ap-northeast-1':
-        return S3BucketRegion.apNortheast_1;
-      case 'ap-northeast-2':
-        return S3BucketRegion.apNortheast_2;
-      case 'ap-southeast-1':
-        return S3BucketRegion.apSoutheast_1;
-      case 'ap-southeast-2':
-        return S3BucketRegion.apSoutheast_2;
-      case 'ap-south-1':
-        return S3BucketRegion.apSouth_1;
-      case 'cn-north-1':
-        return S3BucketRegion.cnNorth_1;
-      case 'cn-northwest-1':
-        return S3BucketRegion.cnNorthwest_1;
-      case 'us-gov-west-1':
-        return S3BucketRegion.usGovWest_1;
-      case 'us-gov-east-1':
-        return S3BucketRegion.usGovEast_1;
-    }
-    throw Exception('$this is not known in enum S3BucketRegion');
-  }
+  const S3BucketRegion(this.value);
+
+  static S3BucketRegion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum S3BucketRegion'));
 }
 
 /// Neptune logs are converted to SPARQL quads in the graph using the Resource
@@ -6186,37 +5944,19 @@ class Statistics {
 }
 
 enum StatisticsAutoGenerationMode {
-  disableAutoCompute,
-  enableAutoCompute,
-  refresh,
-}
+  disableAutoCompute('disableAutoCompute'),
+  enableAutoCompute('enableAutoCompute'),
+  refresh('refresh'),
+  ;
 
-extension StatisticsAutoGenerationModeValueExtension
-    on StatisticsAutoGenerationMode {
-  String toValue() {
-    switch (this) {
-      case StatisticsAutoGenerationMode.disableAutoCompute:
-        return 'disableAutoCompute';
-      case StatisticsAutoGenerationMode.enableAutoCompute:
-        return 'enableAutoCompute';
-      case StatisticsAutoGenerationMode.refresh:
-        return 'refresh';
-    }
-  }
-}
+  final String value;
 
-extension StatisticsAutoGenerationModeFromString on String {
-  StatisticsAutoGenerationMode toStatisticsAutoGenerationMode() {
-    switch (this) {
-      case 'disableAutoCompute':
-        return StatisticsAutoGenerationMode.disableAutoCompute;
-      case 'enableAutoCompute':
-        return StatisticsAutoGenerationMode.enableAutoCompute;
-      case 'refresh':
-        return StatisticsAutoGenerationMode.refresh;
-    }
-    throw Exception('$this is not known in enum StatisticsAutoGenerationMode');
-  }
+  const StatisticsAutoGenerationMode(this.value);
+
+  static StatisticsAutoGenerationMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum StatisticsAutoGenerationMode'));
 }
 
 /// Information about the characteristic sets generated in the statistics.

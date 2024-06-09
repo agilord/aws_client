@@ -245,8 +245,7 @@ class Artifact {
   }) async {
     final $payload = <String, dynamic>{
       if (notificationSubscriptionStatus != null)
-        'notificationSubscriptionStatus':
-            notificationSubscriptionStatus.toValue(),
+        'notificationSubscriptionStatus': notificationSubscriptionStatus.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -259,31 +258,18 @@ class Artifact {
 }
 
 enum AcceptanceType {
-  passthrough,
-  explicit,
-}
+  passthrough('PASSTHROUGH'),
+  explicit('EXPLICIT'),
+  ;
 
-extension AcceptanceTypeValueExtension on AcceptanceType {
-  String toValue() {
-    switch (this) {
-      case AcceptanceType.passthrough:
-        return 'PASSTHROUGH';
-      case AcceptanceType.explicit:
-        return 'EXPLICIT';
-    }
-  }
-}
+  final String value;
 
-extension AcceptanceTypeFromString on String {
-  AcceptanceType toAcceptanceType() {
-    switch (this) {
-      case 'PASSTHROUGH':
-        return AcceptanceType.passthrough;
-      case 'EXPLICIT':
-        return AcceptanceType.explicit;
-    }
-    throw Exception('$this is not known in enum AcceptanceType');
-  }
+  const AcceptanceType(this.value);
+
+  static AcceptanceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AcceptanceType'));
 }
 
 /// Account settings for the customer.
@@ -299,7 +285,7 @@ class AccountSettings {
     return AccountSettings(
       notificationSubscriptionStatus:
           (json['notificationSubscriptionStatus'] as String?)
-              ?.toNotificationSubscriptionStatus(),
+              ?.let(NotificationSubscriptionStatus.fromString),
     );
   }
 
@@ -307,8 +293,7 @@ class AccountSettings {
     final notificationSubscriptionStatus = this.notificationSubscriptionStatus;
     return {
       if (notificationSubscriptionStatus != null)
-        'notificationSubscriptionStatus':
-            notificationSubscriptionStatus.toValue(),
+        'notificationSubscriptionStatus': notificationSubscriptionStatus.value,
     };
   }
 }
@@ -447,61 +432,33 @@ class ListReportsResponse {
 }
 
 enum NotificationSubscriptionStatus {
-  subscribed,
-  notSubscribed,
-}
+  subscribed('SUBSCRIBED'),
+  notSubscribed('NOT_SUBSCRIBED'),
+  ;
 
-extension NotificationSubscriptionStatusValueExtension
-    on NotificationSubscriptionStatus {
-  String toValue() {
-    switch (this) {
-      case NotificationSubscriptionStatus.subscribed:
-        return 'SUBSCRIBED';
-      case NotificationSubscriptionStatus.notSubscribed:
-        return 'NOT_SUBSCRIBED';
-    }
-  }
-}
+  final String value;
 
-extension NotificationSubscriptionStatusFromString on String {
-  NotificationSubscriptionStatus toNotificationSubscriptionStatus() {
-    switch (this) {
-      case 'SUBSCRIBED':
-        return NotificationSubscriptionStatus.subscribed;
-      case 'NOT_SUBSCRIBED':
-        return NotificationSubscriptionStatus.notSubscribed;
-    }
-    throw Exception(
-        '$this is not known in enum NotificationSubscriptionStatus');
-  }
+  const NotificationSubscriptionStatus(this.value);
+
+  static NotificationSubscriptionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum NotificationSubscriptionStatus'));
 }
 
 enum PublishedState {
-  published,
-  unpublished,
-}
+  published('PUBLISHED'),
+  unpublished('UNPUBLISHED'),
+  ;
 
-extension PublishedStateValueExtension on PublishedState {
-  String toValue() {
-    switch (this) {
-      case PublishedState.published:
-        return 'PUBLISHED';
-      case PublishedState.unpublished:
-        return 'UNPUBLISHED';
-    }
-  }
-}
+  final String value;
 
-extension PublishedStateFromString on String {
-  PublishedState toPublishedState() {
-    switch (this) {
-      case 'PUBLISHED':
-        return PublishedState.published;
-      case 'UNPUBLISHED':
-        return PublishedState.unpublished;
-    }
-    throw Exception('$this is not known in enum PublishedState');
-  }
+  const PublishedState(this.value);
+
+  static PublishedState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PublishedState'));
 }
 
 class PutAccountSettingsResponse {
@@ -615,7 +572,8 @@ class ReportDetail {
 
   factory ReportDetail.fromJson(Map<String, dynamic> json) {
     return ReportDetail(
-      acceptanceType: (json['acceptanceType'] as String?)?.toAcceptanceType(),
+      acceptanceType:
+          (json['acceptanceType'] as String?)?.let(AcceptanceType.fromString),
       arn: json['arn'] as String?,
       category: json['category'] as String?,
       companyName: json['companyName'] as String?,
@@ -630,10 +588,11 @@ class ReportDetail {
       productName: json['productName'] as String?,
       sequenceNumber: json['sequenceNumber'] as int?,
       series: json['series'] as String?,
-      state: (json['state'] as String?)?.toPublishedState(),
+      state: (json['state'] as String?)?.let(PublishedState.fromString),
       statusMessage: json['statusMessage'] as String?,
       termArn: json['termArn'] as String?,
-      uploadState: (json['uploadState'] as String?)?.toUploadState(),
+      uploadState:
+          (json['uploadState'] as String?)?.let(UploadState.fromString),
       version: json['version'] as int?,
     );
   }
@@ -660,7 +619,7 @@ class ReportDetail {
     final uploadState = this.uploadState;
     final version = this.version;
     return {
-      if (acceptanceType != null) 'acceptanceType': acceptanceType.toValue(),
+      if (acceptanceType != null) 'acceptanceType': acceptanceType.value,
       if (arn != null) 'arn': arn,
       if (category != null) 'category': category,
       if (companyName != null) 'companyName': companyName,
@@ -676,10 +635,10 @@ class ReportDetail {
       if (productName != null) 'productName': productName,
       if (sequenceNumber != null) 'sequenceNumber': sequenceNumber,
       if (series != null) 'series': series,
-      if (state != null) 'state': state.toValue(),
+      if (state != null) 'state': state.value,
       if (statusMessage != null) 'statusMessage': statusMessage,
       if (termArn != null) 'termArn': termArn,
-      if (uploadState != null) 'uploadState': uploadState.toValue(),
+      if (uploadState != null) 'uploadState': uploadState.value,
       if (version != null) 'version': version,
     };
   }
@@ -758,9 +717,10 @@ class ReportSummary {
       periodStart: timeStampFromJson(json['periodStart']),
       productName: json['productName'] as String?,
       series: json['series'] as String?,
-      state: (json['state'] as String?)?.toPublishedState(),
+      state: (json['state'] as String?)?.let(PublishedState.fromString),
       statusMessage: json['statusMessage'] as String?,
-      uploadState: (json['uploadState'] as String?)?.toUploadState(),
+      uploadState:
+          (json['uploadState'] as String?)?.let(UploadState.fromString),
       version: json['version'] as int?,
     );
   }
@@ -791,50 +751,28 @@ class ReportSummary {
       if (periodStart != null) 'periodStart': iso8601ToJson(periodStart),
       if (productName != null) 'productName': productName,
       if (series != null) 'series': series,
-      if (state != null) 'state': state.toValue(),
+      if (state != null) 'state': state.value,
       if (statusMessage != null) 'statusMessage': statusMessage,
-      if (uploadState != null) 'uploadState': uploadState.toValue(),
+      if (uploadState != null) 'uploadState': uploadState.value,
       if (version != null) 'version': version,
     };
   }
 }
 
 enum UploadState {
-  processing,
-  complete,
-  failed,
-  fault,
-}
+  processing('PROCESSING'),
+  complete('COMPLETE'),
+  failed('FAILED'),
+  fault('FAULT'),
+  ;
 
-extension UploadStateValueExtension on UploadState {
-  String toValue() {
-    switch (this) {
-      case UploadState.processing:
-        return 'PROCESSING';
-      case UploadState.complete:
-        return 'COMPLETE';
-      case UploadState.failed:
-        return 'FAILED';
-      case UploadState.fault:
-        return 'FAULT';
-    }
-  }
-}
+  final String value;
 
-extension UploadStateFromString on String {
-  UploadState toUploadState() {
-    switch (this) {
-      case 'PROCESSING':
-        return UploadState.processing;
-      case 'COMPLETE':
-        return UploadState.complete;
-      case 'FAILED':
-        return UploadState.failed;
-      case 'FAULT':
-        return UploadState.fault;
-    }
-    throw Exception('$this is not known in enum UploadState');
-  }
+  const UploadState(this.value);
+
+  static UploadState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum UploadState'));
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

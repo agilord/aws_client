@@ -548,7 +548,7 @@ class WAFRegional {
         'ChangeToken': changeToken,
         'MetricName': metricName,
         'Name': name,
-        'RateKey': rateKey.toValue(),
+        'RateKey': rateKey.value,
         'RateLimit': rateLimit,
         if (tags != null) 'Tags': tags,
       },
@@ -3771,7 +3771,7 @@ class WAFRegional {
       headers: headers,
       payload: {
         'WebACLId': webACLId,
-        if (resourceType != null) 'ResourceType': resourceType.toValue(),
+        if (resourceType != null) 'ResourceType': resourceType.value,
       },
     );
 
@@ -6193,7 +6193,7 @@ class ActivatedRule {
           ? WafOverrideAction.fromJson(
               json['OverrideAction'] as Map<String, dynamic>)
           : null,
-      type: (json['Type'] as String?)?.toWafRuleType(),
+      type: (json['Type'] as String?)?.let(WafRuleType.fromString),
     );
   }
 
@@ -6210,7 +6210,7 @@ class ActivatedRule {
       if (action != null) 'Action': action,
       if (excludedRules != null) 'ExcludedRules': excludedRules,
       if (overrideAction != null) 'OverrideAction': overrideAction,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -6362,7 +6362,7 @@ class ByteMatchSetUpdate {
     final action = this.action;
     final byteMatchTuple = this.byteMatchTuple;
     return {
-      'Action': action.toValue(),
+      'Action': action.value,
       'ByteMatchTuple': byteMatchTuple,
     };
   }
@@ -6625,11 +6625,11 @@ class ByteMatchTuple {
     return ByteMatchTuple(
       fieldToMatch:
           FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
-      positionalConstraint:
-          (json['PositionalConstraint'] as String).toPositionalConstraint(),
+      positionalConstraint: PositionalConstraint.fromString(
+          (json['PositionalConstraint'] as String)),
       targetString: _s.decodeUint8List(json['TargetString']! as String),
       textTransformation:
-          (json['TextTransformation'] as String).toTextTransformation(),
+          TextTransformation.fromString((json['TextTransformation'] as String)),
     );
   }
 
@@ -6640,120 +6640,61 @@ class ByteMatchTuple {
     final textTransformation = this.textTransformation;
     return {
       'FieldToMatch': fieldToMatch,
-      'PositionalConstraint': positionalConstraint.toValue(),
+      'PositionalConstraint': positionalConstraint.value,
       'TargetString': base64Encode(targetString),
-      'TextTransformation': textTransformation.toValue(),
+      'TextTransformation': textTransformation.value,
     };
   }
 }
 
 enum ChangeAction {
-  insert,
-  delete,
-}
+  insert('INSERT'),
+  delete('DELETE'),
+  ;
 
-extension ChangeActionValueExtension on ChangeAction {
-  String toValue() {
-    switch (this) {
-      case ChangeAction.insert:
-        return 'INSERT';
-      case ChangeAction.delete:
-        return 'DELETE';
-    }
-  }
-}
+  final String value;
 
-extension ChangeActionFromString on String {
-  ChangeAction toChangeAction() {
-    switch (this) {
-      case 'INSERT':
-        return ChangeAction.insert;
-      case 'DELETE':
-        return ChangeAction.delete;
-    }
-    throw Exception('$this is not known in enum ChangeAction');
-  }
+  const ChangeAction(this.value);
+
+  static ChangeAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ChangeAction'));
 }
 
 enum ChangeTokenStatus {
-  provisioned,
-  pending,
-  insync,
-}
+  provisioned('PROVISIONED'),
+  pending('PENDING'),
+  insync('INSYNC'),
+  ;
 
-extension ChangeTokenStatusValueExtension on ChangeTokenStatus {
-  String toValue() {
-    switch (this) {
-      case ChangeTokenStatus.provisioned:
-        return 'PROVISIONED';
-      case ChangeTokenStatus.pending:
-        return 'PENDING';
-      case ChangeTokenStatus.insync:
-        return 'INSYNC';
-    }
-  }
-}
+  final String value;
 
-extension ChangeTokenStatusFromString on String {
-  ChangeTokenStatus toChangeTokenStatus() {
-    switch (this) {
-      case 'PROVISIONED':
-        return ChangeTokenStatus.provisioned;
-      case 'PENDING':
-        return ChangeTokenStatus.pending;
-      case 'INSYNC':
-        return ChangeTokenStatus.insync;
-    }
-    throw Exception('$this is not known in enum ChangeTokenStatus');
-  }
+  const ChangeTokenStatus(this.value);
+
+  static ChangeTokenStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ChangeTokenStatus'));
 }
 
 enum ComparisonOperator {
-  eq,
-  ne,
-  le,
-  lt,
-  ge,
-  gt,
-}
+  eq('EQ'),
+  ne('NE'),
+  le('LE'),
+  lt('LT'),
+  ge('GE'),
+  gt('GT'),
+  ;
 
-extension ComparisonOperatorValueExtension on ComparisonOperator {
-  String toValue() {
-    switch (this) {
-      case ComparisonOperator.eq:
-        return 'EQ';
-      case ComparisonOperator.ne:
-        return 'NE';
-      case ComparisonOperator.le:
-        return 'LE';
-      case ComparisonOperator.lt:
-        return 'LT';
-      case ComparisonOperator.ge:
-        return 'GE';
-      case ComparisonOperator.gt:
-        return 'GT';
-    }
-  }
-}
+  final String value;
 
-extension ComparisonOperatorFromString on String {
-  ComparisonOperator toComparisonOperator() {
-    switch (this) {
-      case 'EQ':
-        return ComparisonOperator.eq;
-      case 'NE':
-        return ComparisonOperator.ne;
-      case 'LE':
-        return ComparisonOperator.le;
-      case 'LT':
-        return ComparisonOperator.lt;
-      case 'GE':
-        return ComparisonOperator.ge;
-      case 'GT':
-        return ComparisonOperator.gt;
-    }
-    throw Exception('$this is not known in enum ComparisonOperator');
-  }
+  const ComparisonOperator(this.value);
+
+  static ComparisonOperator fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ComparisonOperator'));
 }
 
 class CreateByteMatchSetResponse {
@@ -7447,7 +7388,7 @@ class FieldToMatch {
 
   factory FieldToMatch.fromJson(Map<String, dynamic> json) {
     return FieldToMatch(
-      type: (json['Type'] as String).toMatchFieldType(),
+      type: MatchFieldType.fromString((json['Type'] as String)),
       data: json['Data'] as String?,
     );
   }
@@ -7456,7 +7397,7 @@ class FieldToMatch {
     final type = this.type;
     final data = this.data;
     return {
-      'Type': type.toValue(),
+      'Type': type.value,
       if (data != null) 'Data': data,
     };
   }
@@ -7490,8 +7431,8 @@ class GeoMatchConstraint {
 
   factory GeoMatchConstraint.fromJson(Map<String, dynamic> json) {
     return GeoMatchConstraint(
-      type: (json['Type'] as String).toGeoMatchConstraintType(),
-      value: (json['Value'] as String).toGeoMatchConstraintValue(),
+      type: GeoMatchConstraintType.fromString((json['Type'] as String)),
+      value: GeoMatchConstraintValue.fromString((json['Value'] as String)),
     );
   }
 
@@ -7499,1296 +7440,286 @@ class GeoMatchConstraint {
     final type = this.type;
     final value = this.value;
     return {
-      'Type': type.toValue(),
-      'Value': value.toValue(),
+      'Type': type.value,
+      'Value': value.value,
     };
   }
 }
 
 enum GeoMatchConstraintType {
-  country,
-}
+  country('Country'),
+  ;
 
-extension GeoMatchConstraintTypeValueExtension on GeoMatchConstraintType {
-  String toValue() {
-    switch (this) {
-      case GeoMatchConstraintType.country:
-        return 'Country';
-    }
-  }
-}
+  final String value;
 
-extension GeoMatchConstraintTypeFromString on String {
-  GeoMatchConstraintType toGeoMatchConstraintType() {
-    switch (this) {
-      case 'Country':
-        return GeoMatchConstraintType.country;
-    }
-    throw Exception('$this is not known in enum GeoMatchConstraintType');
-  }
+  const GeoMatchConstraintType(this.value);
+
+  static GeoMatchConstraintType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GeoMatchConstraintType'));
 }
 
 enum GeoMatchConstraintValue {
-  af,
-  ax,
-  al,
-  dz,
-  as,
-  ad,
-  ao,
-  ai,
-  aq,
-  ag,
-  ar,
-  am,
-  aw,
-  au,
-  at,
-  az,
-  bs,
-  bh,
-  bd,
-  bb,
-  by,
-  be,
-  bz,
-  bj,
-  bm,
-  bt,
-  bo,
-  bq,
-  ba,
-  bw,
-  bv,
-  br,
-  io,
-  bn,
-  bg,
-  bf,
-  bi,
-  kh,
-  cm,
-  ca,
-  cv,
-  ky,
-  cf,
-  td,
-  cl,
-  cn,
-  cx,
-  cc,
-  co,
-  km,
-  cg,
-  cd,
-  ck,
-  cr,
-  ci,
-  hr,
-  cu,
-  cw,
-  cy,
-  cz,
-  dk,
-  dj,
-  dm,
-  $do,
-  ec,
-  eg,
-  sv,
-  gq,
-  er,
-  ee,
-  et,
-  fk,
-  fo,
-  fj,
-  fi,
-  fr,
-  gf,
-  pf,
-  tf,
-  ga,
-  gm,
-  ge,
-  de,
-  gh,
-  gi,
-  gr,
-  gl,
-  gd,
-  gp,
-  gu,
-  gt,
-  gg,
-  gn,
-  gw,
-  gy,
-  ht,
-  hm,
-  va,
-  hn,
-  hk,
-  hu,
-  $is,
-  $in,
-  id,
-  ir,
-  iq,
-  ie,
-  im,
-  il,
-  it,
-  jm,
-  jp,
-  je,
-  jo,
-  kz,
-  ke,
-  ki,
-  kp,
-  kr,
-  kw,
-  kg,
-  la,
-  lv,
-  lb,
-  ls,
-  lr,
-  ly,
-  li,
-  lt,
-  lu,
-  mo,
-  mk,
-  mg,
-  mw,
-  my,
-  mv,
-  ml,
-  mt,
-  mh,
-  mq,
-  mr,
-  mu,
-  yt,
-  mx,
-  fm,
-  md,
-  mc,
-  mn,
-  me,
-  ms,
-  ma,
-  mz,
-  mm,
-  na,
-  nr,
-  np,
-  nl,
-  nc,
-  nz,
-  ni,
-  ne,
-  ng,
-  nu,
-  nf,
-  mp,
-  no,
-  om,
-  pk,
-  pw,
-  ps,
-  pa,
-  pg,
-  py,
-  pe,
-  ph,
-  pn,
-  pl,
-  pt,
-  pr,
-  qa,
-  re,
-  ro,
-  ru,
-  rw,
-  bl,
-  sh,
-  kn,
-  lc,
-  mf,
-  pm,
-  vc,
-  ws,
-  sm,
-  st,
-  sa,
-  sn,
-  rs,
-  sc,
-  sl,
-  sg,
-  sx,
-  sk,
-  si,
-  sb,
-  so,
-  za,
-  gs,
-  ss,
-  es,
-  lk,
-  sd,
-  sr,
-  sj,
-  sz,
-  se,
-  ch,
-  sy,
-  tw,
-  tj,
-  tz,
-  th,
-  tl,
-  tg,
-  tk,
-  to,
-  tt,
-  tn,
-  tr,
-  tm,
-  tc,
-  tv,
-  ug,
-  ua,
-  ae,
-  gb,
-  us,
-  um,
-  uy,
-  uz,
-  vu,
-  ve,
-  vn,
-  vg,
-  vi,
-  wf,
-  eh,
-  ye,
-  zm,
-  zw,
-}
+  af('AF'),
+  ax('AX'),
+  al('AL'),
+  dz('DZ'),
+  as('AS'),
+  ad('AD'),
+  ao('AO'),
+  ai('AI'),
+  aq('AQ'),
+  ag('AG'),
+  ar('AR'),
+  am('AM'),
+  aw('AW'),
+  au('AU'),
+  at('AT'),
+  az('AZ'),
+  bs('BS'),
+  bh('BH'),
+  bd('BD'),
+  bb('BB'),
+  by('BY'),
+  be('BE'),
+  bz('BZ'),
+  bj('BJ'),
+  bm('BM'),
+  bt('BT'),
+  bo('BO'),
+  bq('BQ'),
+  ba('BA'),
+  bw('BW'),
+  bv('BV'),
+  br('BR'),
+  io('IO'),
+  bn('BN'),
+  bg('BG'),
+  bf('BF'),
+  bi('BI'),
+  kh('KH'),
+  cm('CM'),
+  ca('CA'),
+  cv('CV'),
+  ky('KY'),
+  cf('CF'),
+  td('TD'),
+  cl('CL'),
+  cn('CN'),
+  cx('CX'),
+  cc('CC'),
+  co('CO'),
+  km('KM'),
+  cg('CG'),
+  cd('CD'),
+  ck('CK'),
+  cr('CR'),
+  ci('CI'),
+  hr('HR'),
+  cu('CU'),
+  cw('CW'),
+  cy('CY'),
+  cz('CZ'),
+  dk('DK'),
+  dj('DJ'),
+  dm('DM'),
+  $do('DO'),
+  ec('EC'),
+  eg('EG'),
+  sv('SV'),
+  gq('GQ'),
+  er('ER'),
+  ee('EE'),
+  et('ET'),
+  fk('FK'),
+  fo('FO'),
+  fj('FJ'),
+  fi('FI'),
+  fr('FR'),
+  gf('GF'),
+  pf('PF'),
+  tf('TF'),
+  ga('GA'),
+  gm('GM'),
+  ge('GE'),
+  de('DE'),
+  gh('GH'),
+  gi('GI'),
+  gr('GR'),
+  gl('GL'),
+  gd('GD'),
+  gp('GP'),
+  gu('GU'),
+  gt('GT'),
+  gg('GG'),
+  gn('GN'),
+  gw('GW'),
+  gy('GY'),
+  ht('HT'),
+  hm('HM'),
+  va('VA'),
+  hn('HN'),
+  hk('HK'),
+  hu('HU'),
+  $is('IS'),
+  $in('IN'),
+  id('ID'),
+  ir('IR'),
+  iq('IQ'),
+  ie('IE'),
+  im('IM'),
+  il('IL'),
+  it('IT'),
+  jm('JM'),
+  jp('JP'),
+  je('JE'),
+  jo('JO'),
+  kz('KZ'),
+  ke('KE'),
+  ki('KI'),
+  kp('KP'),
+  kr('KR'),
+  kw('KW'),
+  kg('KG'),
+  la('LA'),
+  lv('LV'),
+  lb('LB'),
+  ls('LS'),
+  lr('LR'),
+  ly('LY'),
+  li('LI'),
+  lt('LT'),
+  lu('LU'),
+  mo('MO'),
+  mk('MK'),
+  mg('MG'),
+  mw('MW'),
+  my('MY'),
+  mv('MV'),
+  ml('ML'),
+  mt('MT'),
+  mh('MH'),
+  mq('MQ'),
+  mr('MR'),
+  mu('MU'),
+  yt('YT'),
+  mx('MX'),
+  fm('FM'),
+  md('MD'),
+  mc('MC'),
+  mn('MN'),
+  me('ME'),
+  ms('MS'),
+  ma('MA'),
+  mz('MZ'),
+  mm('MM'),
+  na('NA'),
+  nr('NR'),
+  np('NP'),
+  nl('NL'),
+  nc('NC'),
+  nz('NZ'),
+  ni('NI'),
+  ne('NE'),
+  ng('NG'),
+  nu('NU'),
+  nf('NF'),
+  mp('MP'),
+  no('NO'),
+  om('OM'),
+  pk('PK'),
+  pw('PW'),
+  ps('PS'),
+  pa('PA'),
+  pg('PG'),
+  py('PY'),
+  pe('PE'),
+  ph('PH'),
+  pn('PN'),
+  pl('PL'),
+  pt('PT'),
+  pr('PR'),
+  qa('QA'),
+  re('RE'),
+  ro('RO'),
+  ru('RU'),
+  rw('RW'),
+  bl('BL'),
+  sh('SH'),
+  kn('KN'),
+  lc('LC'),
+  mf('MF'),
+  pm('PM'),
+  vc('VC'),
+  ws('WS'),
+  sm('SM'),
+  st('ST'),
+  sa('SA'),
+  sn('SN'),
+  rs('RS'),
+  sc('SC'),
+  sl('SL'),
+  sg('SG'),
+  sx('SX'),
+  sk('SK'),
+  si('SI'),
+  sb('SB'),
+  so('SO'),
+  za('ZA'),
+  gs('GS'),
+  ss('SS'),
+  es('ES'),
+  lk('LK'),
+  sd('SD'),
+  sr('SR'),
+  sj('SJ'),
+  sz('SZ'),
+  se('SE'),
+  ch('CH'),
+  sy('SY'),
+  tw('TW'),
+  tj('TJ'),
+  tz('TZ'),
+  th('TH'),
+  tl('TL'),
+  tg('TG'),
+  tk('TK'),
+  to('TO'),
+  tt('TT'),
+  tn('TN'),
+  tr('TR'),
+  tm('TM'),
+  tc('TC'),
+  tv('TV'),
+  ug('UG'),
+  ua('UA'),
+  ae('AE'),
+  gb('GB'),
+  us('US'),
+  um('UM'),
+  uy('UY'),
+  uz('UZ'),
+  vu('VU'),
+  ve('VE'),
+  vn('VN'),
+  vg('VG'),
+  vi('VI'),
+  wf('WF'),
+  eh('EH'),
+  ye('YE'),
+  zm('ZM'),
+  zw('ZW'),
+  ;
 
-extension GeoMatchConstraintValueValueExtension on GeoMatchConstraintValue {
-  String toValue() {
-    switch (this) {
-      case GeoMatchConstraintValue.af:
-        return 'AF';
-      case GeoMatchConstraintValue.ax:
-        return 'AX';
-      case GeoMatchConstraintValue.al:
-        return 'AL';
-      case GeoMatchConstraintValue.dz:
-        return 'DZ';
-      case GeoMatchConstraintValue.as:
-        return 'AS';
-      case GeoMatchConstraintValue.ad:
-        return 'AD';
-      case GeoMatchConstraintValue.ao:
-        return 'AO';
-      case GeoMatchConstraintValue.ai:
-        return 'AI';
-      case GeoMatchConstraintValue.aq:
-        return 'AQ';
-      case GeoMatchConstraintValue.ag:
-        return 'AG';
-      case GeoMatchConstraintValue.ar:
-        return 'AR';
-      case GeoMatchConstraintValue.am:
-        return 'AM';
-      case GeoMatchConstraintValue.aw:
-        return 'AW';
-      case GeoMatchConstraintValue.au:
-        return 'AU';
-      case GeoMatchConstraintValue.at:
-        return 'AT';
-      case GeoMatchConstraintValue.az:
-        return 'AZ';
-      case GeoMatchConstraintValue.bs:
-        return 'BS';
-      case GeoMatchConstraintValue.bh:
-        return 'BH';
-      case GeoMatchConstraintValue.bd:
-        return 'BD';
-      case GeoMatchConstraintValue.bb:
-        return 'BB';
-      case GeoMatchConstraintValue.by:
-        return 'BY';
-      case GeoMatchConstraintValue.be:
-        return 'BE';
-      case GeoMatchConstraintValue.bz:
-        return 'BZ';
-      case GeoMatchConstraintValue.bj:
-        return 'BJ';
-      case GeoMatchConstraintValue.bm:
-        return 'BM';
-      case GeoMatchConstraintValue.bt:
-        return 'BT';
-      case GeoMatchConstraintValue.bo:
-        return 'BO';
-      case GeoMatchConstraintValue.bq:
-        return 'BQ';
-      case GeoMatchConstraintValue.ba:
-        return 'BA';
-      case GeoMatchConstraintValue.bw:
-        return 'BW';
-      case GeoMatchConstraintValue.bv:
-        return 'BV';
-      case GeoMatchConstraintValue.br:
-        return 'BR';
-      case GeoMatchConstraintValue.io:
-        return 'IO';
-      case GeoMatchConstraintValue.bn:
-        return 'BN';
-      case GeoMatchConstraintValue.bg:
-        return 'BG';
-      case GeoMatchConstraintValue.bf:
-        return 'BF';
-      case GeoMatchConstraintValue.bi:
-        return 'BI';
-      case GeoMatchConstraintValue.kh:
-        return 'KH';
-      case GeoMatchConstraintValue.cm:
-        return 'CM';
-      case GeoMatchConstraintValue.ca:
-        return 'CA';
-      case GeoMatchConstraintValue.cv:
-        return 'CV';
-      case GeoMatchConstraintValue.ky:
-        return 'KY';
-      case GeoMatchConstraintValue.cf:
-        return 'CF';
-      case GeoMatchConstraintValue.td:
-        return 'TD';
-      case GeoMatchConstraintValue.cl:
-        return 'CL';
-      case GeoMatchConstraintValue.cn:
-        return 'CN';
-      case GeoMatchConstraintValue.cx:
-        return 'CX';
-      case GeoMatchConstraintValue.cc:
-        return 'CC';
-      case GeoMatchConstraintValue.co:
-        return 'CO';
-      case GeoMatchConstraintValue.km:
-        return 'KM';
-      case GeoMatchConstraintValue.cg:
-        return 'CG';
-      case GeoMatchConstraintValue.cd:
-        return 'CD';
-      case GeoMatchConstraintValue.ck:
-        return 'CK';
-      case GeoMatchConstraintValue.cr:
-        return 'CR';
-      case GeoMatchConstraintValue.ci:
-        return 'CI';
-      case GeoMatchConstraintValue.hr:
-        return 'HR';
-      case GeoMatchConstraintValue.cu:
-        return 'CU';
-      case GeoMatchConstraintValue.cw:
-        return 'CW';
-      case GeoMatchConstraintValue.cy:
-        return 'CY';
-      case GeoMatchConstraintValue.cz:
-        return 'CZ';
-      case GeoMatchConstraintValue.dk:
-        return 'DK';
-      case GeoMatchConstraintValue.dj:
-        return 'DJ';
-      case GeoMatchConstraintValue.dm:
-        return 'DM';
-      case GeoMatchConstraintValue.$do:
-        return 'DO';
-      case GeoMatchConstraintValue.ec:
-        return 'EC';
-      case GeoMatchConstraintValue.eg:
-        return 'EG';
-      case GeoMatchConstraintValue.sv:
-        return 'SV';
-      case GeoMatchConstraintValue.gq:
-        return 'GQ';
-      case GeoMatchConstraintValue.er:
-        return 'ER';
-      case GeoMatchConstraintValue.ee:
-        return 'EE';
-      case GeoMatchConstraintValue.et:
-        return 'ET';
-      case GeoMatchConstraintValue.fk:
-        return 'FK';
-      case GeoMatchConstraintValue.fo:
-        return 'FO';
-      case GeoMatchConstraintValue.fj:
-        return 'FJ';
-      case GeoMatchConstraintValue.fi:
-        return 'FI';
-      case GeoMatchConstraintValue.fr:
-        return 'FR';
-      case GeoMatchConstraintValue.gf:
-        return 'GF';
-      case GeoMatchConstraintValue.pf:
-        return 'PF';
-      case GeoMatchConstraintValue.tf:
-        return 'TF';
-      case GeoMatchConstraintValue.ga:
-        return 'GA';
-      case GeoMatchConstraintValue.gm:
-        return 'GM';
-      case GeoMatchConstraintValue.ge:
-        return 'GE';
-      case GeoMatchConstraintValue.de:
-        return 'DE';
-      case GeoMatchConstraintValue.gh:
-        return 'GH';
-      case GeoMatchConstraintValue.gi:
-        return 'GI';
-      case GeoMatchConstraintValue.gr:
-        return 'GR';
-      case GeoMatchConstraintValue.gl:
-        return 'GL';
-      case GeoMatchConstraintValue.gd:
-        return 'GD';
-      case GeoMatchConstraintValue.gp:
-        return 'GP';
-      case GeoMatchConstraintValue.gu:
-        return 'GU';
-      case GeoMatchConstraintValue.gt:
-        return 'GT';
-      case GeoMatchConstraintValue.gg:
-        return 'GG';
-      case GeoMatchConstraintValue.gn:
-        return 'GN';
-      case GeoMatchConstraintValue.gw:
-        return 'GW';
-      case GeoMatchConstraintValue.gy:
-        return 'GY';
-      case GeoMatchConstraintValue.ht:
-        return 'HT';
-      case GeoMatchConstraintValue.hm:
-        return 'HM';
-      case GeoMatchConstraintValue.va:
-        return 'VA';
-      case GeoMatchConstraintValue.hn:
-        return 'HN';
-      case GeoMatchConstraintValue.hk:
-        return 'HK';
-      case GeoMatchConstraintValue.hu:
-        return 'HU';
-      case GeoMatchConstraintValue.$is:
-        return 'IS';
-      case GeoMatchConstraintValue.$in:
-        return 'IN';
-      case GeoMatchConstraintValue.id:
-        return 'ID';
-      case GeoMatchConstraintValue.ir:
-        return 'IR';
-      case GeoMatchConstraintValue.iq:
-        return 'IQ';
-      case GeoMatchConstraintValue.ie:
-        return 'IE';
-      case GeoMatchConstraintValue.im:
-        return 'IM';
-      case GeoMatchConstraintValue.il:
-        return 'IL';
-      case GeoMatchConstraintValue.it:
-        return 'IT';
-      case GeoMatchConstraintValue.jm:
-        return 'JM';
-      case GeoMatchConstraintValue.jp:
-        return 'JP';
-      case GeoMatchConstraintValue.je:
-        return 'JE';
-      case GeoMatchConstraintValue.jo:
-        return 'JO';
-      case GeoMatchConstraintValue.kz:
-        return 'KZ';
-      case GeoMatchConstraintValue.ke:
-        return 'KE';
-      case GeoMatchConstraintValue.ki:
-        return 'KI';
-      case GeoMatchConstraintValue.kp:
-        return 'KP';
-      case GeoMatchConstraintValue.kr:
-        return 'KR';
-      case GeoMatchConstraintValue.kw:
-        return 'KW';
-      case GeoMatchConstraintValue.kg:
-        return 'KG';
-      case GeoMatchConstraintValue.la:
-        return 'LA';
-      case GeoMatchConstraintValue.lv:
-        return 'LV';
-      case GeoMatchConstraintValue.lb:
-        return 'LB';
-      case GeoMatchConstraintValue.ls:
-        return 'LS';
-      case GeoMatchConstraintValue.lr:
-        return 'LR';
-      case GeoMatchConstraintValue.ly:
-        return 'LY';
-      case GeoMatchConstraintValue.li:
-        return 'LI';
-      case GeoMatchConstraintValue.lt:
-        return 'LT';
-      case GeoMatchConstraintValue.lu:
-        return 'LU';
-      case GeoMatchConstraintValue.mo:
-        return 'MO';
-      case GeoMatchConstraintValue.mk:
-        return 'MK';
-      case GeoMatchConstraintValue.mg:
-        return 'MG';
-      case GeoMatchConstraintValue.mw:
-        return 'MW';
-      case GeoMatchConstraintValue.my:
-        return 'MY';
-      case GeoMatchConstraintValue.mv:
-        return 'MV';
-      case GeoMatchConstraintValue.ml:
-        return 'ML';
-      case GeoMatchConstraintValue.mt:
-        return 'MT';
-      case GeoMatchConstraintValue.mh:
-        return 'MH';
-      case GeoMatchConstraintValue.mq:
-        return 'MQ';
-      case GeoMatchConstraintValue.mr:
-        return 'MR';
-      case GeoMatchConstraintValue.mu:
-        return 'MU';
-      case GeoMatchConstraintValue.yt:
-        return 'YT';
-      case GeoMatchConstraintValue.mx:
-        return 'MX';
-      case GeoMatchConstraintValue.fm:
-        return 'FM';
-      case GeoMatchConstraintValue.md:
-        return 'MD';
-      case GeoMatchConstraintValue.mc:
-        return 'MC';
-      case GeoMatchConstraintValue.mn:
-        return 'MN';
-      case GeoMatchConstraintValue.me:
-        return 'ME';
-      case GeoMatchConstraintValue.ms:
-        return 'MS';
-      case GeoMatchConstraintValue.ma:
-        return 'MA';
-      case GeoMatchConstraintValue.mz:
-        return 'MZ';
-      case GeoMatchConstraintValue.mm:
-        return 'MM';
-      case GeoMatchConstraintValue.na:
-        return 'NA';
-      case GeoMatchConstraintValue.nr:
-        return 'NR';
-      case GeoMatchConstraintValue.np:
-        return 'NP';
-      case GeoMatchConstraintValue.nl:
-        return 'NL';
-      case GeoMatchConstraintValue.nc:
-        return 'NC';
-      case GeoMatchConstraintValue.nz:
-        return 'NZ';
-      case GeoMatchConstraintValue.ni:
-        return 'NI';
-      case GeoMatchConstraintValue.ne:
-        return 'NE';
-      case GeoMatchConstraintValue.ng:
-        return 'NG';
-      case GeoMatchConstraintValue.nu:
-        return 'NU';
-      case GeoMatchConstraintValue.nf:
-        return 'NF';
-      case GeoMatchConstraintValue.mp:
-        return 'MP';
-      case GeoMatchConstraintValue.no:
-        return 'NO';
-      case GeoMatchConstraintValue.om:
-        return 'OM';
-      case GeoMatchConstraintValue.pk:
-        return 'PK';
-      case GeoMatchConstraintValue.pw:
-        return 'PW';
-      case GeoMatchConstraintValue.ps:
-        return 'PS';
-      case GeoMatchConstraintValue.pa:
-        return 'PA';
-      case GeoMatchConstraintValue.pg:
-        return 'PG';
-      case GeoMatchConstraintValue.py:
-        return 'PY';
-      case GeoMatchConstraintValue.pe:
-        return 'PE';
-      case GeoMatchConstraintValue.ph:
-        return 'PH';
-      case GeoMatchConstraintValue.pn:
-        return 'PN';
-      case GeoMatchConstraintValue.pl:
-        return 'PL';
-      case GeoMatchConstraintValue.pt:
-        return 'PT';
-      case GeoMatchConstraintValue.pr:
-        return 'PR';
-      case GeoMatchConstraintValue.qa:
-        return 'QA';
-      case GeoMatchConstraintValue.re:
-        return 'RE';
-      case GeoMatchConstraintValue.ro:
-        return 'RO';
-      case GeoMatchConstraintValue.ru:
-        return 'RU';
-      case GeoMatchConstraintValue.rw:
-        return 'RW';
-      case GeoMatchConstraintValue.bl:
-        return 'BL';
-      case GeoMatchConstraintValue.sh:
-        return 'SH';
-      case GeoMatchConstraintValue.kn:
-        return 'KN';
-      case GeoMatchConstraintValue.lc:
-        return 'LC';
-      case GeoMatchConstraintValue.mf:
-        return 'MF';
-      case GeoMatchConstraintValue.pm:
-        return 'PM';
-      case GeoMatchConstraintValue.vc:
-        return 'VC';
-      case GeoMatchConstraintValue.ws:
-        return 'WS';
-      case GeoMatchConstraintValue.sm:
-        return 'SM';
-      case GeoMatchConstraintValue.st:
-        return 'ST';
-      case GeoMatchConstraintValue.sa:
-        return 'SA';
-      case GeoMatchConstraintValue.sn:
-        return 'SN';
-      case GeoMatchConstraintValue.rs:
-        return 'RS';
-      case GeoMatchConstraintValue.sc:
-        return 'SC';
-      case GeoMatchConstraintValue.sl:
-        return 'SL';
-      case GeoMatchConstraintValue.sg:
-        return 'SG';
-      case GeoMatchConstraintValue.sx:
-        return 'SX';
-      case GeoMatchConstraintValue.sk:
-        return 'SK';
-      case GeoMatchConstraintValue.si:
-        return 'SI';
-      case GeoMatchConstraintValue.sb:
-        return 'SB';
-      case GeoMatchConstraintValue.so:
-        return 'SO';
-      case GeoMatchConstraintValue.za:
-        return 'ZA';
-      case GeoMatchConstraintValue.gs:
-        return 'GS';
-      case GeoMatchConstraintValue.ss:
-        return 'SS';
-      case GeoMatchConstraintValue.es:
-        return 'ES';
-      case GeoMatchConstraintValue.lk:
-        return 'LK';
-      case GeoMatchConstraintValue.sd:
-        return 'SD';
-      case GeoMatchConstraintValue.sr:
-        return 'SR';
-      case GeoMatchConstraintValue.sj:
-        return 'SJ';
-      case GeoMatchConstraintValue.sz:
-        return 'SZ';
-      case GeoMatchConstraintValue.se:
-        return 'SE';
-      case GeoMatchConstraintValue.ch:
-        return 'CH';
-      case GeoMatchConstraintValue.sy:
-        return 'SY';
-      case GeoMatchConstraintValue.tw:
-        return 'TW';
-      case GeoMatchConstraintValue.tj:
-        return 'TJ';
-      case GeoMatchConstraintValue.tz:
-        return 'TZ';
-      case GeoMatchConstraintValue.th:
-        return 'TH';
-      case GeoMatchConstraintValue.tl:
-        return 'TL';
-      case GeoMatchConstraintValue.tg:
-        return 'TG';
-      case GeoMatchConstraintValue.tk:
-        return 'TK';
-      case GeoMatchConstraintValue.to:
-        return 'TO';
-      case GeoMatchConstraintValue.tt:
-        return 'TT';
-      case GeoMatchConstraintValue.tn:
-        return 'TN';
-      case GeoMatchConstraintValue.tr:
-        return 'TR';
-      case GeoMatchConstraintValue.tm:
-        return 'TM';
-      case GeoMatchConstraintValue.tc:
-        return 'TC';
-      case GeoMatchConstraintValue.tv:
-        return 'TV';
-      case GeoMatchConstraintValue.ug:
-        return 'UG';
-      case GeoMatchConstraintValue.ua:
-        return 'UA';
-      case GeoMatchConstraintValue.ae:
-        return 'AE';
-      case GeoMatchConstraintValue.gb:
-        return 'GB';
-      case GeoMatchConstraintValue.us:
-        return 'US';
-      case GeoMatchConstraintValue.um:
-        return 'UM';
-      case GeoMatchConstraintValue.uy:
-        return 'UY';
-      case GeoMatchConstraintValue.uz:
-        return 'UZ';
-      case GeoMatchConstraintValue.vu:
-        return 'VU';
-      case GeoMatchConstraintValue.ve:
-        return 'VE';
-      case GeoMatchConstraintValue.vn:
-        return 'VN';
-      case GeoMatchConstraintValue.vg:
-        return 'VG';
-      case GeoMatchConstraintValue.vi:
-        return 'VI';
-      case GeoMatchConstraintValue.wf:
-        return 'WF';
-      case GeoMatchConstraintValue.eh:
-        return 'EH';
-      case GeoMatchConstraintValue.ye:
-        return 'YE';
-      case GeoMatchConstraintValue.zm:
-        return 'ZM';
-      case GeoMatchConstraintValue.zw:
-        return 'ZW';
-    }
-  }
-}
+  final String value;
 
-extension GeoMatchConstraintValueFromString on String {
-  GeoMatchConstraintValue toGeoMatchConstraintValue() {
-    switch (this) {
-      case 'AF':
-        return GeoMatchConstraintValue.af;
-      case 'AX':
-        return GeoMatchConstraintValue.ax;
-      case 'AL':
-        return GeoMatchConstraintValue.al;
-      case 'DZ':
-        return GeoMatchConstraintValue.dz;
-      case 'AS':
-        return GeoMatchConstraintValue.as;
-      case 'AD':
-        return GeoMatchConstraintValue.ad;
-      case 'AO':
-        return GeoMatchConstraintValue.ao;
-      case 'AI':
-        return GeoMatchConstraintValue.ai;
-      case 'AQ':
-        return GeoMatchConstraintValue.aq;
-      case 'AG':
-        return GeoMatchConstraintValue.ag;
-      case 'AR':
-        return GeoMatchConstraintValue.ar;
-      case 'AM':
-        return GeoMatchConstraintValue.am;
-      case 'AW':
-        return GeoMatchConstraintValue.aw;
-      case 'AU':
-        return GeoMatchConstraintValue.au;
-      case 'AT':
-        return GeoMatchConstraintValue.at;
-      case 'AZ':
-        return GeoMatchConstraintValue.az;
-      case 'BS':
-        return GeoMatchConstraintValue.bs;
-      case 'BH':
-        return GeoMatchConstraintValue.bh;
-      case 'BD':
-        return GeoMatchConstraintValue.bd;
-      case 'BB':
-        return GeoMatchConstraintValue.bb;
-      case 'BY':
-        return GeoMatchConstraintValue.by;
-      case 'BE':
-        return GeoMatchConstraintValue.be;
-      case 'BZ':
-        return GeoMatchConstraintValue.bz;
-      case 'BJ':
-        return GeoMatchConstraintValue.bj;
-      case 'BM':
-        return GeoMatchConstraintValue.bm;
-      case 'BT':
-        return GeoMatchConstraintValue.bt;
-      case 'BO':
-        return GeoMatchConstraintValue.bo;
-      case 'BQ':
-        return GeoMatchConstraintValue.bq;
-      case 'BA':
-        return GeoMatchConstraintValue.ba;
-      case 'BW':
-        return GeoMatchConstraintValue.bw;
-      case 'BV':
-        return GeoMatchConstraintValue.bv;
-      case 'BR':
-        return GeoMatchConstraintValue.br;
-      case 'IO':
-        return GeoMatchConstraintValue.io;
-      case 'BN':
-        return GeoMatchConstraintValue.bn;
-      case 'BG':
-        return GeoMatchConstraintValue.bg;
-      case 'BF':
-        return GeoMatchConstraintValue.bf;
-      case 'BI':
-        return GeoMatchConstraintValue.bi;
-      case 'KH':
-        return GeoMatchConstraintValue.kh;
-      case 'CM':
-        return GeoMatchConstraintValue.cm;
-      case 'CA':
-        return GeoMatchConstraintValue.ca;
-      case 'CV':
-        return GeoMatchConstraintValue.cv;
-      case 'KY':
-        return GeoMatchConstraintValue.ky;
-      case 'CF':
-        return GeoMatchConstraintValue.cf;
-      case 'TD':
-        return GeoMatchConstraintValue.td;
-      case 'CL':
-        return GeoMatchConstraintValue.cl;
-      case 'CN':
-        return GeoMatchConstraintValue.cn;
-      case 'CX':
-        return GeoMatchConstraintValue.cx;
-      case 'CC':
-        return GeoMatchConstraintValue.cc;
-      case 'CO':
-        return GeoMatchConstraintValue.co;
-      case 'KM':
-        return GeoMatchConstraintValue.km;
-      case 'CG':
-        return GeoMatchConstraintValue.cg;
-      case 'CD':
-        return GeoMatchConstraintValue.cd;
-      case 'CK':
-        return GeoMatchConstraintValue.ck;
-      case 'CR':
-        return GeoMatchConstraintValue.cr;
-      case 'CI':
-        return GeoMatchConstraintValue.ci;
-      case 'HR':
-        return GeoMatchConstraintValue.hr;
-      case 'CU':
-        return GeoMatchConstraintValue.cu;
-      case 'CW':
-        return GeoMatchConstraintValue.cw;
-      case 'CY':
-        return GeoMatchConstraintValue.cy;
-      case 'CZ':
-        return GeoMatchConstraintValue.cz;
-      case 'DK':
-        return GeoMatchConstraintValue.dk;
-      case 'DJ':
-        return GeoMatchConstraintValue.dj;
-      case 'DM':
-        return GeoMatchConstraintValue.dm;
-      case 'DO':
-        return GeoMatchConstraintValue.$do;
-      case 'EC':
-        return GeoMatchConstraintValue.ec;
-      case 'EG':
-        return GeoMatchConstraintValue.eg;
-      case 'SV':
-        return GeoMatchConstraintValue.sv;
-      case 'GQ':
-        return GeoMatchConstraintValue.gq;
-      case 'ER':
-        return GeoMatchConstraintValue.er;
-      case 'EE':
-        return GeoMatchConstraintValue.ee;
-      case 'ET':
-        return GeoMatchConstraintValue.et;
-      case 'FK':
-        return GeoMatchConstraintValue.fk;
-      case 'FO':
-        return GeoMatchConstraintValue.fo;
-      case 'FJ':
-        return GeoMatchConstraintValue.fj;
-      case 'FI':
-        return GeoMatchConstraintValue.fi;
-      case 'FR':
-        return GeoMatchConstraintValue.fr;
-      case 'GF':
-        return GeoMatchConstraintValue.gf;
-      case 'PF':
-        return GeoMatchConstraintValue.pf;
-      case 'TF':
-        return GeoMatchConstraintValue.tf;
-      case 'GA':
-        return GeoMatchConstraintValue.ga;
-      case 'GM':
-        return GeoMatchConstraintValue.gm;
-      case 'GE':
-        return GeoMatchConstraintValue.ge;
-      case 'DE':
-        return GeoMatchConstraintValue.de;
-      case 'GH':
-        return GeoMatchConstraintValue.gh;
-      case 'GI':
-        return GeoMatchConstraintValue.gi;
-      case 'GR':
-        return GeoMatchConstraintValue.gr;
-      case 'GL':
-        return GeoMatchConstraintValue.gl;
-      case 'GD':
-        return GeoMatchConstraintValue.gd;
-      case 'GP':
-        return GeoMatchConstraintValue.gp;
-      case 'GU':
-        return GeoMatchConstraintValue.gu;
-      case 'GT':
-        return GeoMatchConstraintValue.gt;
-      case 'GG':
-        return GeoMatchConstraintValue.gg;
-      case 'GN':
-        return GeoMatchConstraintValue.gn;
-      case 'GW':
-        return GeoMatchConstraintValue.gw;
-      case 'GY':
-        return GeoMatchConstraintValue.gy;
-      case 'HT':
-        return GeoMatchConstraintValue.ht;
-      case 'HM':
-        return GeoMatchConstraintValue.hm;
-      case 'VA':
-        return GeoMatchConstraintValue.va;
-      case 'HN':
-        return GeoMatchConstraintValue.hn;
-      case 'HK':
-        return GeoMatchConstraintValue.hk;
-      case 'HU':
-        return GeoMatchConstraintValue.hu;
-      case 'IS':
-        return GeoMatchConstraintValue.$is;
-      case 'IN':
-        return GeoMatchConstraintValue.$in;
-      case 'ID':
-        return GeoMatchConstraintValue.id;
-      case 'IR':
-        return GeoMatchConstraintValue.ir;
-      case 'IQ':
-        return GeoMatchConstraintValue.iq;
-      case 'IE':
-        return GeoMatchConstraintValue.ie;
-      case 'IM':
-        return GeoMatchConstraintValue.im;
-      case 'IL':
-        return GeoMatchConstraintValue.il;
-      case 'IT':
-        return GeoMatchConstraintValue.it;
-      case 'JM':
-        return GeoMatchConstraintValue.jm;
-      case 'JP':
-        return GeoMatchConstraintValue.jp;
-      case 'JE':
-        return GeoMatchConstraintValue.je;
-      case 'JO':
-        return GeoMatchConstraintValue.jo;
-      case 'KZ':
-        return GeoMatchConstraintValue.kz;
-      case 'KE':
-        return GeoMatchConstraintValue.ke;
-      case 'KI':
-        return GeoMatchConstraintValue.ki;
-      case 'KP':
-        return GeoMatchConstraintValue.kp;
-      case 'KR':
-        return GeoMatchConstraintValue.kr;
-      case 'KW':
-        return GeoMatchConstraintValue.kw;
-      case 'KG':
-        return GeoMatchConstraintValue.kg;
-      case 'LA':
-        return GeoMatchConstraintValue.la;
-      case 'LV':
-        return GeoMatchConstraintValue.lv;
-      case 'LB':
-        return GeoMatchConstraintValue.lb;
-      case 'LS':
-        return GeoMatchConstraintValue.ls;
-      case 'LR':
-        return GeoMatchConstraintValue.lr;
-      case 'LY':
-        return GeoMatchConstraintValue.ly;
-      case 'LI':
-        return GeoMatchConstraintValue.li;
-      case 'LT':
-        return GeoMatchConstraintValue.lt;
-      case 'LU':
-        return GeoMatchConstraintValue.lu;
-      case 'MO':
-        return GeoMatchConstraintValue.mo;
-      case 'MK':
-        return GeoMatchConstraintValue.mk;
-      case 'MG':
-        return GeoMatchConstraintValue.mg;
-      case 'MW':
-        return GeoMatchConstraintValue.mw;
-      case 'MY':
-        return GeoMatchConstraintValue.my;
-      case 'MV':
-        return GeoMatchConstraintValue.mv;
-      case 'ML':
-        return GeoMatchConstraintValue.ml;
-      case 'MT':
-        return GeoMatchConstraintValue.mt;
-      case 'MH':
-        return GeoMatchConstraintValue.mh;
-      case 'MQ':
-        return GeoMatchConstraintValue.mq;
-      case 'MR':
-        return GeoMatchConstraintValue.mr;
-      case 'MU':
-        return GeoMatchConstraintValue.mu;
-      case 'YT':
-        return GeoMatchConstraintValue.yt;
-      case 'MX':
-        return GeoMatchConstraintValue.mx;
-      case 'FM':
-        return GeoMatchConstraintValue.fm;
-      case 'MD':
-        return GeoMatchConstraintValue.md;
-      case 'MC':
-        return GeoMatchConstraintValue.mc;
-      case 'MN':
-        return GeoMatchConstraintValue.mn;
-      case 'ME':
-        return GeoMatchConstraintValue.me;
-      case 'MS':
-        return GeoMatchConstraintValue.ms;
-      case 'MA':
-        return GeoMatchConstraintValue.ma;
-      case 'MZ':
-        return GeoMatchConstraintValue.mz;
-      case 'MM':
-        return GeoMatchConstraintValue.mm;
-      case 'NA':
-        return GeoMatchConstraintValue.na;
-      case 'NR':
-        return GeoMatchConstraintValue.nr;
-      case 'NP':
-        return GeoMatchConstraintValue.np;
-      case 'NL':
-        return GeoMatchConstraintValue.nl;
-      case 'NC':
-        return GeoMatchConstraintValue.nc;
-      case 'NZ':
-        return GeoMatchConstraintValue.nz;
-      case 'NI':
-        return GeoMatchConstraintValue.ni;
-      case 'NE':
-        return GeoMatchConstraintValue.ne;
-      case 'NG':
-        return GeoMatchConstraintValue.ng;
-      case 'NU':
-        return GeoMatchConstraintValue.nu;
-      case 'NF':
-        return GeoMatchConstraintValue.nf;
-      case 'MP':
-        return GeoMatchConstraintValue.mp;
-      case 'NO':
-        return GeoMatchConstraintValue.no;
-      case 'OM':
-        return GeoMatchConstraintValue.om;
-      case 'PK':
-        return GeoMatchConstraintValue.pk;
-      case 'PW':
-        return GeoMatchConstraintValue.pw;
-      case 'PS':
-        return GeoMatchConstraintValue.ps;
-      case 'PA':
-        return GeoMatchConstraintValue.pa;
-      case 'PG':
-        return GeoMatchConstraintValue.pg;
-      case 'PY':
-        return GeoMatchConstraintValue.py;
-      case 'PE':
-        return GeoMatchConstraintValue.pe;
-      case 'PH':
-        return GeoMatchConstraintValue.ph;
-      case 'PN':
-        return GeoMatchConstraintValue.pn;
-      case 'PL':
-        return GeoMatchConstraintValue.pl;
-      case 'PT':
-        return GeoMatchConstraintValue.pt;
-      case 'PR':
-        return GeoMatchConstraintValue.pr;
-      case 'QA':
-        return GeoMatchConstraintValue.qa;
-      case 'RE':
-        return GeoMatchConstraintValue.re;
-      case 'RO':
-        return GeoMatchConstraintValue.ro;
-      case 'RU':
-        return GeoMatchConstraintValue.ru;
-      case 'RW':
-        return GeoMatchConstraintValue.rw;
-      case 'BL':
-        return GeoMatchConstraintValue.bl;
-      case 'SH':
-        return GeoMatchConstraintValue.sh;
-      case 'KN':
-        return GeoMatchConstraintValue.kn;
-      case 'LC':
-        return GeoMatchConstraintValue.lc;
-      case 'MF':
-        return GeoMatchConstraintValue.mf;
-      case 'PM':
-        return GeoMatchConstraintValue.pm;
-      case 'VC':
-        return GeoMatchConstraintValue.vc;
-      case 'WS':
-        return GeoMatchConstraintValue.ws;
-      case 'SM':
-        return GeoMatchConstraintValue.sm;
-      case 'ST':
-        return GeoMatchConstraintValue.st;
-      case 'SA':
-        return GeoMatchConstraintValue.sa;
-      case 'SN':
-        return GeoMatchConstraintValue.sn;
-      case 'RS':
-        return GeoMatchConstraintValue.rs;
-      case 'SC':
-        return GeoMatchConstraintValue.sc;
-      case 'SL':
-        return GeoMatchConstraintValue.sl;
-      case 'SG':
-        return GeoMatchConstraintValue.sg;
-      case 'SX':
-        return GeoMatchConstraintValue.sx;
-      case 'SK':
-        return GeoMatchConstraintValue.sk;
-      case 'SI':
-        return GeoMatchConstraintValue.si;
-      case 'SB':
-        return GeoMatchConstraintValue.sb;
-      case 'SO':
-        return GeoMatchConstraintValue.so;
-      case 'ZA':
-        return GeoMatchConstraintValue.za;
-      case 'GS':
-        return GeoMatchConstraintValue.gs;
-      case 'SS':
-        return GeoMatchConstraintValue.ss;
-      case 'ES':
-        return GeoMatchConstraintValue.es;
-      case 'LK':
-        return GeoMatchConstraintValue.lk;
-      case 'SD':
-        return GeoMatchConstraintValue.sd;
-      case 'SR':
-        return GeoMatchConstraintValue.sr;
-      case 'SJ':
-        return GeoMatchConstraintValue.sj;
-      case 'SZ':
-        return GeoMatchConstraintValue.sz;
-      case 'SE':
-        return GeoMatchConstraintValue.se;
-      case 'CH':
-        return GeoMatchConstraintValue.ch;
-      case 'SY':
-        return GeoMatchConstraintValue.sy;
-      case 'TW':
-        return GeoMatchConstraintValue.tw;
-      case 'TJ':
-        return GeoMatchConstraintValue.tj;
-      case 'TZ':
-        return GeoMatchConstraintValue.tz;
-      case 'TH':
-        return GeoMatchConstraintValue.th;
-      case 'TL':
-        return GeoMatchConstraintValue.tl;
-      case 'TG':
-        return GeoMatchConstraintValue.tg;
-      case 'TK':
-        return GeoMatchConstraintValue.tk;
-      case 'TO':
-        return GeoMatchConstraintValue.to;
-      case 'TT':
-        return GeoMatchConstraintValue.tt;
-      case 'TN':
-        return GeoMatchConstraintValue.tn;
-      case 'TR':
-        return GeoMatchConstraintValue.tr;
-      case 'TM':
-        return GeoMatchConstraintValue.tm;
-      case 'TC':
-        return GeoMatchConstraintValue.tc;
-      case 'TV':
-        return GeoMatchConstraintValue.tv;
-      case 'UG':
-        return GeoMatchConstraintValue.ug;
-      case 'UA':
-        return GeoMatchConstraintValue.ua;
-      case 'AE':
-        return GeoMatchConstraintValue.ae;
-      case 'GB':
-        return GeoMatchConstraintValue.gb;
-      case 'US':
-        return GeoMatchConstraintValue.us;
-      case 'UM':
-        return GeoMatchConstraintValue.um;
-      case 'UY':
-        return GeoMatchConstraintValue.uy;
-      case 'UZ':
-        return GeoMatchConstraintValue.uz;
-      case 'VU':
-        return GeoMatchConstraintValue.vu;
-      case 'VE':
-        return GeoMatchConstraintValue.ve;
-      case 'VN':
-        return GeoMatchConstraintValue.vn;
-      case 'VG':
-        return GeoMatchConstraintValue.vg;
-      case 'VI':
-        return GeoMatchConstraintValue.vi;
-      case 'WF':
-        return GeoMatchConstraintValue.wf;
-      case 'EH':
-        return GeoMatchConstraintValue.eh;
-      case 'YE':
-        return GeoMatchConstraintValue.ye;
-      case 'ZM':
-        return GeoMatchConstraintValue.zm;
-      case 'ZW':
-        return GeoMatchConstraintValue.zw;
-    }
-    throw Exception('$this is not known in enum GeoMatchConstraintValue');
-  }
+  const GeoMatchConstraintValue(this.value);
+
+  static GeoMatchConstraintValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GeoMatchConstraintValue'));
 }
 
 /// <note>
@@ -8908,7 +7839,7 @@ class GeoMatchSetUpdate {
     final action = this.action;
     final geoMatchConstraint = this.geoMatchConstraint;
     return {
-      'Action': action.toValue(),
+      'Action': action.value,
       'GeoMatchConstraint': geoMatchConstraint,
     };
   }
@@ -8976,8 +7907,8 @@ class GetChangeTokenStatusResponse {
 
   factory GetChangeTokenStatusResponse.fromJson(Map<String, dynamic> json) {
     return GetChangeTokenStatusResponse(
-      changeTokenStatus:
-          (json['ChangeTokenStatus'] as String?)?.toChangeTokenStatus(),
+      changeTokenStatus: (json['ChangeTokenStatus'] as String?)
+          ?.let(ChangeTokenStatus.fromString),
     );
   }
 }
@@ -9643,7 +8574,7 @@ class IPSetDescriptor {
 
   factory IPSetDescriptor.fromJson(Map<String, dynamic> json) {
     return IPSetDescriptor(
-      type: (json['Type'] as String).toIPSetDescriptorType(),
+      type: IPSetDescriptorType.fromString((json['Type'] as String)),
       value: json['Value'] as String,
     );
   }
@@ -9652,38 +8583,25 @@ class IPSetDescriptor {
     final type = this.type;
     final value = this.value;
     return {
-      'Type': type.toValue(),
+      'Type': type.value,
       'Value': value,
     };
   }
 }
 
 enum IPSetDescriptorType {
-  ipv4,
-  ipv6,
-}
+  ipv4('IPV4'),
+  ipv6('IPV6'),
+  ;
 
-extension IPSetDescriptorTypeValueExtension on IPSetDescriptorType {
-  String toValue() {
-    switch (this) {
-      case IPSetDescriptorType.ipv4:
-        return 'IPV4';
-      case IPSetDescriptorType.ipv6:
-        return 'IPV6';
-    }
-  }
-}
+  final String value;
 
-extension IPSetDescriptorTypeFromString on String {
-  IPSetDescriptorType toIPSetDescriptorType() {
-    switch (this) {
-      case 'IPV4':
-        return IPSetDescriptorType.ipv4;
-      case 'IPV6':
-        return IPSetDescriptorType.ipv6;
-    }
-    throw Exception('$this is not known in enum IPSetDescriptorType');
-  }
+  const IPSetDescriptorType(this.value);
+
+  static IPSetDescriptorType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum IPSetDescriptorType'));
 }
 
 /// <note>
@@ -9751,7 +8669,7 @@ class IPSetUpdate {
     final action = this.action;
     final iPSetDescriptor = this.iPSetDescriptor;
     return {
-      'Action': action.toValue(),
+      'Action': action.value,
       'IPSetDescriptor': iPSetDescriptor,
     };
   }
@@ -10287,99 +9205,41 @@ class LoggingConfiguration {
 }
 
 enum MatchFieldType {
-  uri,
-  queryString,
-  header,
-  method,
-  body,
-  singleQueryArg,
-  allQueryArgs,
-}
+  uri('URI'),
+  queryString('QUERY_STRING'),
+  header('HEADER'),
+  method('METHOD'),
+  body('BODY'),
+  singleQueryArg('SINGLE_QUERY_ARG'),
+  allQueryArgs('ALL_QUERY_ARGS'),
+  ;
 
-extension MatchFieldTypeValueExtension on MatchFieldType {
-  String toValue() {
-    switch (this) {
-      case MatchFieldType.uri:
-        return 'URI';
-      case MatchFieldType.queryString:
-        return 'QUERY_STRING';
-      case MatchFieldType.header:
-        return 'HEADER';
-      case MatchFieldType.method:
-        return 'METHOD';
-      case MatchFieldType.body:
-        return 'BODY';
-      case MatchFieldType.singleQueryArg:
-        return 'SINGLE_QUERY_ARG';
-      case MatchFieldType.allQueryArgs:
-        return 'ALL_QUERY_ARGS';
-    }
-  }
-}
+  final String value;
 
-extension MatchFieldTypeFromString on String {
-  MatchFieldType toMatchFieldType() {
-    switch (this) {
-      case 'URI':
-        return MatchFieldType.uri;
-      case 'QUERY_STRING':
-        return MatchFieldType.queryString;
-      case 'HEADER':
-        return MatchFieldType.header;
-      case 'METHOD':
-        return MatchFieldType.method;
-      case 'BODY':
-        return MatchFieldType.body;
-      case 'SINGLE_QUERY_ARG':
-        return MatchFieldType.singleQueryArg;
-      case 'ALL_QUERY_ARGS':
-        return MatchFieldType.allQueryArgs;
-    }
-    throw Exception('$this is not known in enum MatchFieldType');
-  }
+  const MatchFieldType(this.value);
+
+  static MatchFieldType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MatchFieldType'));
 }
 
 enum PositionalConstraint {
-  exactly,
-  startsWith,
-  endsWith,
-  contains,
-  containsWord,
-}
+  exactly('EXACTLY'),
+  startsWith('STARTS_WITH'),
+  endsWith('ENDS_WITH'),
+  contains('CONTAINS'),
+  containsWord('CONTAINS_WORD'),
+  ;
 
-extension PositionalConstraintValueExtension on PositionalConstraint {
-  String toValue() {
-    switch (this) {
-      case PositionalConstraint.exactly:
-        return 'EXACTLY';
-      case PositionalConstraint.startsWith:
-        return 'STARTS_WITH';
-      case PositionalConstraint.endsWith:
-        return 'ENDS_WITH';
-      case PositionalConstraint.contains:
-        return 'CONTAINS';
-      case PositionalConstraint.containsWord:
-        return 'CONTAINS_WORD';
-    }
-  }
-}
+  final String value;
 
-extension PositionalConstraintFromString on String {
-  PositionalConstraint toPositionalConstraint() {
-    switch (this) {
-      case 'EXACTLY':
-        return PositionalConstraint.exactly;
-      case 'STARTS_WITH':
-        return PositionalConstraint.startsWith;
-      case 'ENDS_WITH':
-        return PositionalConstraint.endsWith;
-      case 'CONTAINS':
-        return PositionalConstraint.contains;
-      case 'CONTAINS_WORD':
-        return PositionalConstraint.containsWord;
-    }
-    throw Exception('$this is not known in enum PositionalConstraint');
-  }
+  const PositionalConstraint(this.value);
+
+  static PositionalConstraint fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum PositionalConstraint'));
 }
 
 /// <note>
@@ -10436,7 +9296,7 @@ class Predicate {
     return Predicate(
       dataId: json['DataId'] as String,
       negated: json['Negated'] as bool,
-      type: (json['Type'] as String).toPredicateType(),
+      type: PredicateType.fromString((json['Type'] as String)),
     );
   }
 
@@ -10447,62 +9307,29 @@ class Predicate {
     return {
       'DataId': dataId,
       'Negated': negated,
-      'Type': type.toValue(),
+      'Type': type.value,
     };
   }
 }
 
 enum PredicateType {
-  iPMatch,
-  byteMatch,
-  sqlInjectionMatch,
-  geoMatch,
-  sizeConstraint,
-  xssMatch,
-  regexMatch,
-}
+  iPMatch('IPMatch'),
+  byteMatch('ByteMatch'),
+  sqlInjectionMatch('SqlInjectionMatch'),
+  geoMatch('GeoMatch'),
+  sizeConstraint('SizeConstraint'),
+  xssMatch('XssMatch'),
+  regexMatch('RegexMatch'),
+  ;
 
-extension PredicateTypeValueExtension on PredicateType {
-  String toValue() {
-    switch (this) {
-      case PredicateType.iPMatch:
-        return 'IPMatch';
-      case PredicateType.byteMatch:
-        return 'ByteMatch';
-      case PredicateType.sqlInjectionMatch:
-        return 'SqlInjectionMatch';
-      case PredicateType.geoMatch:
-        return 'GeoMatch';
-      case PredicateType.sizeConstraint:
-        return 'SizeConstraint';
-      case PredicateType.xssMatch:
-        return 'XssMatch';
-      case PredicateType.regexMatch:
-        return 'RegexMatch';
-    }
-  }
-}
+  final String value;
 
-extension PredicateTypeFromString on String {
-  PredicateType toPredicateType() {
-    switch (this) {
-      case 'IPMatch':
-        return PredicateType.iPMatch;
-      case 'ByteMatch':
-        return PredicateType.byteMatch;
-      case 'SqlInjectionMatch':
-        return PredicateType.sqlInjectionMatch;
-      case 'GeoMatch':
-        return PredicateType.geoMatch;
-      case 'SizeConstraint':
-        return PredicateType.sizeConstraint;
-      case 'XssMatch':
-        return PredicateType.xssMatch;
-      case 'RegexMatch':
-        return PredicateType.regexMatch;
-    }
-    throw Exception('$this is not known in enum PredicateType');
-  }
+  const PredicateType(this.value);
+
+  static PredicateType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PredicateType'));
 }
 
 class PutLoggingConfigurationResponse {
@@ -10619,7 +9446,7 @@ class RateBasedRule {
           .whereNotNull()
           .map((e) => Predicate.fromJson(e as Map<String, dynamic>))
           .toList(),
-      rateKey: (json['RateKey'] as String).toRateKey(),
+      rateKey: RateKey.fromString((json['RateKey'] as String)),
       rateLimit: json['RateLimit'] as int,
       ruleId: json['RuleId'] as String,
       metricName: json['MetricName'] as String?,
@@ -10629,26 +9456,16 @@ class RateBasedRule {
 }
 
 enum RateKey {
-  ip,
-}
+  ip('IP'),
+  ;
 
-extension RateKeyValueExtension on RateKey {
-  String toValue() {
-    switch (this) {
-      case RateKey.ip:
-        return 'IP';
-    }
-  }
-}
+  final String value;
 
-extension RateKeyFromString on String {
-  RateKey toRateKey() {
-    switch (this) {
-      case 'IP':
-        return RateKey.ip;
-    }
-    throw Exception('$this is not known in enum RateKey');
-  }
+  const RateKey(this.value);
+
+  static RateKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum RateKey'));
 }
 
 /// <note>
@@ -10804,7 +9621,7 @@ class RegexMatchSetUpdate {
     final action = this.action;
     final regexMatchTuple = this.regexMatchTuple;
     return {
-      'Action': action.toValue(),
+      'Action': action.value,
       'RegexMatchTuple': regexMatchTuple,
     };
   }
@@ -10970,7 +9787,7 @@ class RegexMatchTuple {
           FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
       regexPatternSetId: json['RegexPatternSetId'] as String,
       textTransformation:
-          (json['TextTransformation'] as String).toTextTransformation(),
+          TextTransformation.fromString((json['TextTransformation'] as String)),
     );
   }
 
@@ -10981,7 +9798,7 @@ class RegexMatchTuple {
     return {
       'FieldToMatch': fieldToMatch,
       'RegexPatternSetId': regexPatternSetId,
-      'TextTransformation': textTransformation.toValue(),
+      'TextTransformation': textTransformation.value,
     };
   }
 }
@@ -11112,38 +9929,25 @@ class RegexPatternSetUpdate {
     final action = this.action;
     final regexPatternString = this.regexPatternString;
     return {
-      'Action': action.toValue(),
+      'Action': action.value,
       'RegexPatternString': regexPatternString,
     };
   }
 }
 
 enum ResourceType {
-  applicationLoadBalancer,
-  apiGateway,
-}
+  applicationLoadBalancer('APPLICATION_LOAD_BALANCER'),
+  apiGateway('API_GATEWAY'),
+  ;
 
-extension ResourceTypeValueExtension on ResourceType {
-  String toValue() {
-    switch (this) {
-      case ResourceType.applicationLoadBalancer:
-        return 'APPLICATION_LOAD_BALANCER';
-      case ResourceType.apiGateway:
-        return 'API_GATEWAY';
-    }
-  }
-}
+  final String value;
 
-extension ResourceTypeFromString on String {
-  ResourceType toResourceType() {
-    switch (this) {
-      case 'APPLICATION_LOAD_BALANCER':
-        return ResourceType.applicationLoadBalancer;
-      case 'API_GATEWAY':
-        return ResourceType.apiGateway;
-    }
-    throw Exception('$this is not known in enum ResourceType');
-  }
+  const ResourceType(this.value);
+
+  static ResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResourceType'));
 }
 
 /// <note>
@@ -11371,7 +10175,7 @@ class RuleGroupUpdate {
     final action = this.action;
     final activatedRule = this.activatedRule;
     return {
-      'Action': action.toValue(),
+      'Action': action.value,
       'ActivatedRule': activatedRule,
     };
   }
@@ -11452,7 +10256,7 @@ class RuleUpdate {
     final action = this.action;
     final predicate = this.predicate;
     return {
-      'Action': action.toValue(),
+      'Action': action.value,
       'Predicate': predicate,
     };
   }
@@ -11696,12 +10500,12 @@ class SizeConstraint {
   factory SizeConstraint.fromJson(Map<String, dynamic> json) {
     return SizeConstraint(
       comparisonOperator:
-          (json['ComparisonOperator'] as String).toComparisonOperator(),
+          ComparisonOperator.fromString((json['ComparisonOperator'] as String)),
       fieldToMatch:
           FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
       size: json['Size'] as int,
       textTransformation:
-          (json['TextTransformation'] as String).toTextTransformation(),
+          TextTransformation.fromString((json['TextTransformation'] as String)),
     );
   }
 
@@ -11711,10 +10515,10 @@ class SizeConstraint {
     final size = this.size;
     final textTransformation = this.textTransformation;
     return {
-      'ComparisonOperator': comparisonOperator.toValue(),
+      'ComparisonOperator': comparisonOperator.value,
       'FieldToMatch': fieldToMatch,
       'Size': size,
-      'TextTransformation': textTransformation.toValue(),
+      'TextTransformation': textTransformation.value,
     };
   }
 }
@@ -11853,7 +10657,7 @@ class SizeConstraintSetUpdate {
     final action = this.action;
     final sizeConstraint = this.sizeConstraint;
     return {
-      'Action': action.toValue(),
+      'Action': action.value,
       'SizeConstraint': sizeConstraint,
     };
   }
@@ -11999,7 +10803,7 @@ class SqlInjectionMatchSetUpdate {
     final action = this.action;
     final sqlInjectionMatchTuple = this.sqlInjectionMatchTuple;
     return {
-      'Action': action.toValue(),
+      'Action': action.value,
       'SqlInjectionMatchTuple': sqlInjectionMatchTuple,
     };
   }
@@ -12134,7 +10938,7 @@ class SqlInjectionMatchTuple {
       fieldToMatch:
           FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
       textTransformation:
-          (json['TextTransformation'] as String).toTextTransformation(),
+          TextTransformation.fromString((json['TextTransformation'] as String)),
     );
   }
 
@@ -12143,7 +10947,7 @@ class SqlInjectionMatchTuple {
     final textTransformation = this.textTransformation;
     return {
       'FieldToMatch': fieldToMatch,
-      'TextTransformation': textTransformation.toValue(),
+      'TextTransformation': textTransformation.value,
     };
   }
 }
@@ -12294,51 +11098,22 @@ class TagResourceResponse {
 }
 
 enum TextTransformation {
-  none,
-  compressWhiteSpace,
-  htmlEntityDecode,
-  lowercase,
-  cmdLine,
-  urlDecode,
-}
+  none('NONE'),
+  compressWhiteSpace('COMPRESS_WHITE_SPACE'),
+  htmlEntityDecode('HTML_ENTITY_DECODE'),
+  lowercase('LOWERCASE'),
+  cmdLine('CMD_LINE'),
+  urlDecode('URL_DECODE'),
+  ;
 
-extension TextTransformationValueExtension on TextTransformation {
-  String toValue() {
-    switch (this) {
-      case TextTransformation.none:
-        return 'NONE';
-      case TextTransformation.compressWhiteSpace:
-        return 'COMPRESS_WHITE_SPACE';
-      case TextTransformation.htmlEntityDecode:
-        return 'HTML_ENTITY_DECODE';
-      case TextTransformation.lowercase:
-        return 'LOWERCASE';
-      case TextTransformation.cmdLine:
-        return 'CMD_LINE';
-      case TextTransformation.urlDecode:
-        return 'URL_DECODE';
-    }
-  }
-}
+  final String value;
 
-extension TextTransformationFromString on String {
-  TextTransformation toTextTransformation() {
-    switch (this) {
-      case 'NONE':
-        return TextTransformation.none;
-      case 'COMPRESS_WHITE_SPACE':
-        return TextTransformation.compressWhiteSpace;
-      case 'HTML_ENTITY_DECODE':
-        return TextTransformation.htmlEntityDecode;
-      case 'LOWERCASE':
-        return TextTransformation.lowercase;
-      case 'CMD_LINE':
-        return TextTransformation.cmdLine;
-      case 'URL_DECODE':
-        return TextTransformation.urlDecode;
-    }
-    throw Exception('$this is not known in enum TextTransformation');
-  }
+  const TextTransformation(this.value);
+
+  static TextTransformation fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TextTransformation'));
 }
 
 /// <note>
@@ -12677,49 +11452,32 @@ class WafAction {
 
   factory WafAction.fromJson(Map<String, dynamic> json) {
     return WafAction(
-      type: (json['Type'] as String).toWafActionType(),
+      type: WafActionType.fromString((json['Type'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final type = this.type;
     return {
-      'Type': type.toValue(),
+      'Type': type.value,
     };
   }
 }
 
 enum WafActionType {
-  block,
-  allow,
-  count,
-}
+  block('BLOCK'),
+  allow('ALLOW'),
+  count('COUNT'),
+  ;
 
-extension WafActionTypeValueExtension on WafActionType {
-  String toValue() {
-    switch (this) {
-      case WafActionType.block:
-        return 'BLOCK';
-      case WafActionType.allow:
-        return 'ALLOW';
-      case WafActionType.count:
-        return 'COUNT';
-    }
-  }
-}
+  final String value;
 
-extension WafActionTypeFromString on String {
-  WafActionType toWafActionType() {
-    switch (this) {
-      case 'BLOCK':
-        return WafActionType.block;
-      case 'ALLOW':
-        return WafActionType.allow;
-      case 'COUNT':
-        return WafActionType.count;
-    }
-    throw Exception('$this is not known in enum WafActionType');
-  }
+  const WafActionType(this.value);
+
+  static WafActionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum WafActionType'));
 }
 
 /// <note>
@@ -12747,77 +11505,46 @@ class WafOverrideAction {
 
   factory WafOverrideAction.fromJson(Map<String, dynamic> json) {
     return WafOverrideAction(
-      type: (json['Type'] as String).toWafOverrideActionType(),
+      type: WafOverrideActionType.fromString((json['Type'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final type = this.type;
     return {
-      'Type': type.toValue(),
+      'Type': type.value,
     };
   }
 }
 
 enum WafOverrideActionType {
-  none,
-  count,
-}
+  none('NONE'),
+  count('COUNT'),
+  ;
 
-extension WafOverrideActionTypeValueExtension on WafOverrideActionType {
-  String toValue() {
-    switch (this) {
-      case WafOverrideActionType.none:
-        return 'NONE';
-      case WafOverrideActionType.count:
-        return 'COUNT';
-    }
-  }
-}
+  final String value;
 
-extension WafOverrideActionTypeFromString on String {
-  WafOverrideActionType toWafOverrideActionType() {
-    switch (this) {
-      case 'NONE':
-        return WafOverrideActionType.none;
-      case 'COUNT':
-        return WafOverrideActionType.count;
-    }
-    throw Exception('$this is not known in enum WafOverrideActionType');
-  }
+  const WafOverrideActionType(this.value);
+
+  static WafOverrideActionType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum WafOverrideActionType'));
 }
 
 enum WafRuleType {
-  regular,
-  rateBased,
-  group,
-}
+  regular('REGULAR'),
+  rateBased('RATE_BASED'),
+  group('GROUP'),
+  ;
 
-extension WafRuleTypeValueExtension on WafRuleType {
-  String toValue() {
-    switch (this) {
-      case WafRuleType.regular:
-        return 'REGULAR';
-      case WafRuleType.rateBased:
-        return 'RATE_BASED';
-      case WafRuleType.group:
-        return 'GROUP';
-    }
-  }
-}
+  final String value;
 
-extension WafRuleTypeFromString on String {
-  WafRuleType toWafRuleType() {
-    switch (this) {
-      case 'REGULAR':
-        return WafRuleType.regular;
-      case 'RATE_BASED':
-        return WafRuleType.rateBased;
-      case 'GROUP':
-        return WafRuleType.group;
-    }
-    throw Exception('$this is not known in enum WafRuleType');
-  }
+  const WafRuleType(this.value);
+
+  static WafRuleType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum WafRuleType'));
 }
 
 /// <note>
@@ -12975,7 +11702,7 @@ class WebACLUpdate {
     final action = this.action;
     final activatedRule = this.activatedRule;
     return {
-      'Action': action.toValue(),
+      'Action': action.value,
       'ActivatedRule': activatedRule,
     };
   }
@@ -13113,7 +11840,7 @@ class XssMatchSetUpdate {
     final action = this.action;
     final xssMatchTuple = this.xssMatchTuple;
     return {
-      'Action': action.toValue(),
+      'Action': action.value,
       'XssMatchTuple': xssMatchTuple,
     };
   }
@@ -13248,7 +11975,7 @@ class XssMatchTuple {
       fieldToMatch:
           FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
       textTransformation:
-          (json['TextTransformation'] as String).toTextTransformation(),
+          TextTransformation.fromString((json['TextTransformation'] as String)),
     );
   }
 
@@ -13257,7 +11984,7 @@ class XssMatchTuple {
     final textTransformation = this.textTransformation;
     return {
       'FieldToMatch': fieldToMatch,
-      'TextTransformation': textTransformation.toValue(),
+      'TextTransformation': textTransformation.value,
     };
   }
 }

@@ -489,7 +489,7 @@ class DataZone {
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (configuration != null) 'configuration': configuration,
       if (description != null) 'description': description,
-      if (enableSetting != null) 'enableSetting': enableSetting.toValue(),
+      if (enableSetting != null) 'enableSetting': enableSetting.value,
       if (publishOnImport != null) 'publishOnImport': publishOnImport,
       if (recommendation != null) 'recommendation': recommendation,
       if (schedule != null) 'schedule': schedule,
@@ -734,7 +734,7 @@ class DataZone {
       'name': name,
       'owningProjectIdentifier': owningProjectIdentifier,
       if (description != null) 'description': description,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -788,7 +788,7 @@ class DataZone {
       'owningProjectIdentifier': owningProjectIdentifier,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (description != null) 'description': description,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -852,7 +852,7 @@ class DataZone {
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (longDescription != null) 'longDescription': longDescription,
       if (shortDescription != null) 'shortDescription': shortDescription,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (termRelations != null) 'termRelations': termRelations,
     };
     final response = await _protocol.send(
@@ -942,9 +942,9 @@ class DataZone {
     String? entityRevision,
   }) async {
     final $payload = <String, dynamic>{
-      'action': action.toValue(),
+      'action': action.value,
       'entityIdentifier': entityIdentifier,
-      'entityType': entityType.toValue(),
+      'entityType': entityType.value,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (entityRevision != null) 'entityRevision': entityRevision,
     };
@@ -1029,7 +1029,7 @@ class DataZone {
     required String projectIdentifier,
   }) async {
     final $payload = <String, dynamic>{
-      'designation': designation.toValue(),
+      'designation': designation.value,
       'member': member,
     };
     final response = await _protocol.send(
@@ -1250,7 +1250,7 @@ class DataZone {
     final $payload = <String, dynamic>{
       'userIdentifier': userIdentifier,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
-      if (userType != null) 'userType': userType.toValue(),
+      if (userType != null) 'userType': userType.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1798,7 +1798,7 @@ class DataZone {
       payload: null,
       method: 'DELETE',
       requestUri:
-          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/entities/${Uri.encodeComponent(entityType.toValue())}/${Uri.encodeComponent(entityIdentifier)}/time-series-data-points',
+          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/entities/${Uri.encodeComponent(entityType.value)}/${Uri.encodeComponent(entityIdentifier)}/time-series-data-points',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
@@ -2475,7 +2475,7 @@ class DataZone {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/entities/${Uri.encodeComponent(entityType.toValue())}/${Uri.encodeComponent(entityIdentifier)}/time-series-data-points/${Uri.encodeComponent(identifier)}',
+          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/entities/${Uri.encodeComponent(entityType.value)}/${Uri.encodeComponent(entityIdentifier)}/time-series-data-points/${Uri.encodeComponent(identifier)}',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
@@ -2506,7 +2506,7 @@ class DataZone {
     UserProfileType? type,
   }) async {
     final $query = <String, List<String>>{
-      if (type != null) 'type': [type.toValue()],
+      if (type != null) 'type': [type.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -2628,7 +2628,7 @@ class DataZone {
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (status != null) 'status': [status.toValue()],
+      if (status != null) 'status': [status.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -2692,7 +2692,7 @@ class DataZone {
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (status != null) 'status': [status.toValue()],
+      if (status != null) 'status': [status.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -2772,7 +2772,7 @@ class DataZone {
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (name != null) 'name': [name],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (status != null) 'status': [status.toValue()],
+      if (status != null) 'status': [status.value],
       if (type != null) 'type': [type],
     };
     final response = await _protocol.send(
@@ -2828,7 +2828,7 @@ class DataZone {
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (status != null) 'status': [status.toValue()],
+      if (status != null) 'status': [status.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -3126,7 +3126,7 @@ class DataZone {
       if (name != null) 'name': [name],
       if (nextToken != null) 'nextToken': [nextToken],
       if (provider != null) 'provider': [provider],
-      if (status != null) 'status': [status.toValue()],
+      if (status != null) 'status': [status.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -3188,8 +3188,8 @@ class DataZone {
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (status != null) 'status': [status.toValue()],
-      if (type != null) 'type': [type.toValue()],
+      if (status != null) 'status': [status.value],
+      if (type != null) 'type': [type.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -3261,7 +3261,7 @@ class DataZone {
       50,
     );
     final $query = <String, List<String>>{
-      'type': [type.toValue()],
+      'type': [type.value],
       if (afterTimestamp != null)
         'afterTimestamp': [_s.iso8601ToJson(afterTimestamp).toString()],
       if (beforeTimestamp != null)
@@ -3269,7 +3269,7 @@ class DataZone {
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
       if (subjects != null) 'subjects': subjects,
-      if (taskStatus != null) 'taskStatus': [taskStatus.toValue()],
+      if (taskStatus != null) 'taskStatus': [taskStatus.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -3336,8 +3336,8 @@ class DataZone {
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (sortBy != null) 'sortBy': [sortBy.toValue()],
-      if (sortOrder != null) 'sortOrder': [sortOrder.toValue()],
+      if (sortBy != null) 'sortBy': [sortBy.value],
+      if (sortOrder != null) 'sortOrder': [sortOrder.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -3483,8 +3483,8 @@ class DataZone {
       if (environmentId != null) 'environmentId': [environmentId],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (sortBy != null) 'sortBy': [sortBy.toValue()],
-      if (sortOrder != null) 'sortOrder': [sortOrder.toValue()],
+      if (sortBy != null) 'sortBy': [sortBy.value],
+      if (sortOrder != null) 'sortOrder': [sortOrder.value],
       if (subscribedListingId != null)
         'subscribedListingId': [subscribedListingId],
       if (subscriptionId != null) 'subscriptionId': [subscriptionId],
@@ -3571,9 +3571,9 @@ class DataZone {
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
       if (owningProjectId != null) 'owningProjectId': [owningProjectId],
-      if (sortBy != null) 'sortBy': [sortBy.toValue()],
-      if (sortOrder != null) 'sortOrder': [sortOrder.toValue()],
-      if (status != null) 'status': [status.toValue()],
+      if (sortBy != null) 'sortBy': [sortBy.value],
+      if (sortOrder != null) 'sortOrder': [sortOrder.value],
+      if (status != null) 'status': [status.value],
       if (subscribedListingId != null)
         'subscribedListingId': [subscribedListingId],
     };
@@ -3644,8 +3644,8 @@ class DataZone {
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (sortBy != null) 'sortBy': [sortBy.toValue()],
-      if (sortOrder != null) 'sortOrder': [sortOrder.toValue()],
+      if (sortBy != null) 'sortBy': [sortBy.value],
+      if (sortOrder != null) 'sortOrder': [sortOrder.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -3731,9 +3731,9 @@ class DataZone {
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
       if (owningProjectId != null) 'owningProjectId': [owningProjectId],
-      if (sortBy != null) 'sortBy': [sortBy.toValue()],
-      if (sortOrder != null) 'sortOrder': [sortOrder.toValue()],
-      if (status != null) 'status': [status.toValue()],
+      if (sortBy != null) 'sortBy': [sortBy.value],
+      if (sortOrder != null) 'sortOrder': [sortOrder.value],
+      if (status != null) 'status': [status.value],
       if (subscribedListingId != null)
         'subscribedListingId': [subscribedListingId],
       if (subscriptionRequestIdentifier != null)
@@ -3843,7 +3843,7 @@ class DataZone {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/entities/${Uri.encodeComponent(entityType.toValue())}/${Uri.encodeComponent(entityIdentifier)}/time-series-data-points',
+          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/entities/${Uri.encodeComponent(entityType.value)}/${Uri.encodeComponent(entityIdentifier)}/time-series-data-points',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
@@ -3892,7 +3892,7 @@ class DataZone {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/entities/${Uri.encodeComponent(entityType.toValue())}/${Uri.encodeComponent(entityIdentifier)}/time-series-data-points',
+          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/entities/${Uri.encodeComponent(entityType.value)}/${Uri.encodeComponent(entityIdentifier)}/time-series-data-points',
       exceptionFnMap: _exceptionFns,
     );
     return PostTimeSeriesDataPointsOutput.fromJson(response);
@@ -4152,10 +4152,10 @@ class DataZone {
       50,
     );
     final $payload = <String, dynamic>{
-      'searchScope': searchScope.toValue(),
+      'searchScope': searchScope.value,
       if (additionalAttributes != null)
         'additionalAttributes':
-            additionalAttributes.map((e) => e.toValue()).toList(),
+            additionalAttributes.map((e) => e.value).toList(),
       if (filters != null) 'filters': filters,
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
@@ -4221,7 +4221,7 @@ class DataZone {
       50,
     );
     final $payload = <String, dynamic>{
-      'groupType': groupType.toValue(),
+      'groupType': groupType.value,
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
       if (searchText != null) 'searchText': searchText,
@@ -4296,7 +4296,7 @@ class DataZone {
     final $payload = <String, dynamic>{
       if (additionalAttributes != null)
         'additionalAttributes':
-            additionalAttributes.map((e) => e.toValue()).toList(),
+            additionalAttributes.map((e) => e.value).toList(),
       if (filters != null) 'filters': filters,
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
@@ -4377,7 +4377,7 @@ class DataZone {
     );
     final $payload = <String, dynamic>{
       'managed': managed,
-      'searchScope': searchScope.toValue(),
+      'searchScope': searchScope.value,
       if (filters != null) 'filters': filters,
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
@@ -4442,7 +4442,7 @@ class DataZone {
       50,
     );
     final $payload = <String, dynamic>{
-      'userType': userType.toValue(),
+      'userType': userType.value,
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
       if (searchText != null) 'searchText': searchText,
@@ -4534,7 +4534,7 @@ class DataZone {
     final $payload = <String, dynamic>{
       'owningProjectIdentifier': owningProjectIdentifier,
       'target': target,
-      'type': type.toValue(),
+      'type': type.value,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
     };
     final response = await _protocol.send(
@@ -4669,7 +4669,7 @@ class DataZone {
       if (assetFormsInput != null) 'assetFormsInput': assetFormsInput,
       if (configuration != null) 'configuration': configuration,
       if (description != null) 'description': description,
-      if (enableSetting != null) 'enableSetting': enableSetting.toValue(),
+      if (enableSetting != null) 'enableSetting': enableSetting.value,
       if (name != null) 'name': name,
       if (publishOnImport != null) 'publishOnImport': publishOnImport,
       if (recommendation != null) 'recommendation': recommendation,
@@ -4900,7 +4900,7 @@ class DataZone {
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (description != null) 'description': description,
       if (name != null) 'name': name,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -4966,7 +4966,7 @@ class DataZone {
       if (longDescription != null) 'longDescription': longDescription,
       if (name != null) 'name': name,
       if (shortDescription != null) 'shortDescription': shortDescription,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (termRelations != null) 'termRelations': termRelations,
     };
     final response = await _protocol.send(
@@ -5003,7 +5003,7 @@ class DataZone {
     required GroupProfileStatus status,
   }) async {
     final $payload = <String, dynamic>{
-      'status': status.toValue(),
+      'status': status.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -5108,7 +5108,7 @@ class DataZone {
     String? targetName,
   }) async {
     final $payload = <String, dynamic>{
-      'status': status.toValue(),
+      'status': status.value,
       if (failureCause != null) 'failureCause': failureCause,
       if (targetName != null) 'targetName': targetName,
     };
@@ -5263,8 +5263,8 @@ class DataZone {
     UserProfileType? type,
   }) async {
     final $payload = <String, dynamic>{
-      'status': status.toValue(),
-      if (type != null) 'type': type.toValue(),
+      'status': status.value,
+      if (type != null) 'type': type.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -5365,38 +5365,25 @@ class AcceptRule {
     final rule = this.rule;
     final threshold = this.threshold;
     return {
-      if (rule != null) 'rule': rule.toValue(),
+      if (rule != null) 'rule': rule.value,
       if (threshold != null) 'threshold': threshold,
     };
   }
 }
 
 enum AcceptRuleBehavior {
-  all,
-  none,
-}
+  all('ALL'),
+  none('NONE'),
+  ;
 
-extension AcceptRuleBehaviorValueExtension on AcceptRuleBehavior {
-  String toValue() {
-    switch (this) {
-      case AcceptRuleBehavior.all:
-        return 'ALL';
-      case AcceptRuleBehavior.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension AcceptRuleBehaviorFromString on String {
-  AcceptRuleBehavior toAcceptRuleBehavior() {
-    switch (this) {
-      case 'ALL':
-        return AcceptRuleBehavior.all;
-      case 'NONE':
-        return AcceptRuleBehavior.none;
-    }
-    throw Exception('$this is not known in enum AcceptRuleBehavior');
-  }
+  const AcceptRuleBehavior(this.value);
+
+  static AcceptRuleBehavior fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AcceptRuleBehavior'));
 }
 
 class AcceptSubscriptionRequestOutput {
@@ -5462,7 +5449,7 @@ class AcceptSubscriptionRequestOutput {
       domainId: json['domainId'] as String,
       id: json['id'] as String,
       requestReason: json['requestReason'] as String,
-      status: (json['status'] as String).toSubscriptionRequestStatus(),
+      status: SubscriptionRequestStatus.fromString((json['status'] as String)),
       subscribedListings: (json['subscribedListings'] as List)
           .whereNotNull()
           .map((e) => SubscribedListing.fromJson(e as Map<String, dynamic>))
@@ -5497,7 +5484,7 @@ class AcceptSubscriptionRequestOutput {
       'domainId': domainId,
       'id': id,
       'requestReason': requestReason,
-      'status': status.toValue(),
+      'status': status.value,
       'subscribedListings': subscribedListings,
       'subscribedPrincipals': subscribedPrincipals,
       'updatedAt': unixTimestampToJson(updatedAt),
@@ -5792,7 +5779,8 @@ class AssetListingDetails {
   factory AssetListingDetails.fromJson(Map<String, dynamic> json) {
     return AssetListingDetails(
       listingId: json['listingId'] as String,
-      listingStatus: (json['listingStatus'] as String).toListingStatus(),
+      listingStatus:
+          ListingStatus.fromString((json['listingStatus'] as String)),
     );
   }
 
@@ -5801,7 +5789,7 @@ class AssetListingDetails {
     final listingStatus = this.listingStatus;
     return {
       'listingId': listingId,
-      'listingStatus': listingStatus.toValue(),
+      'listingStatus': listingStatus.value,
     };
   }
 }
@@ -6138,31 +6126,17 @@ class AssetTypeItem {
 }
 
 enum AuthType {
-  iamIdc,
-  disabled,
-}
+  iamIdc('IAM_IDC'),
+  disabled('DISABLED'),
+  ;
 
-extension AuthTypeValueExtension on AuthType {
-  String toValue() {
-    switch (this) {
-      case AuthType.iamIdc:
-        return 'IAM_IDC';
-      case AuthType.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension AuthTypeFromString on String {
-  AuthType toAuthType() {
-    switch (this) {
-      case 'IAM_IDC':
-        return AuthType.iamIdc;
-      case 'DISABLED':
-        return AuthType.disabled;
-    }
-    throw Exception('$this is not known in enum AuthType');
-  }
+  const AuthType(this.value);
+
+  static AuthType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AuthType'));
 }
 
 /// The configuration of the business name generation.
@@ -6260,7 +6234,7 @@ class CancelSubscriptionOutput {
       createdBy: json['createdBy'] as String,
       domainId: json['domainId'] as String,
       id: json['id'] as String,
-      status: (json['status'] as String).toSubscriptionStatus(),
+      status: SubscriptionStatus.fromString((json['status'] as String)),
       subscribedListing: SubscribedListing.fromJson(
           json['subscribedListing'] as Map<String, dynamic>),
       subscribedPrincipal: SubscribedPrincipal.fromJson(
@@ -6289,7 +6263,7 @@ class CancelSubscriptionOutput {
       'createdBy': createdBy,
       'domainId': domainId,
       'id': id,
-      'status': status.toValue(),
+      'status': status.value,
       'subscribedListing': subscribedListing,
       'subscribedPrincipal': subscribedPrincipal,
       'updatedAt': unixTimestampToJson(updatedAt),
@@ -6302,31 +6276,18 @@ class CancelSubscriptionOutput {
 }
 
 enum ChangeAction {
-  publish,
-  unpublish,
-}
+  publish('PUBLISH'),
+  unpublish('UNPUBLISH'),
+  ;
 
-extension ChangeActionValueExtension on ChangeAction {
-  String toValue() {
-    switch (this) {
-      case ChangeAction.publish:
-        return 'PUBLISH';
-      case ChangeAction.unpublish:
-        return 'UNPUBLISH';
-    }
-  }
-}
+  final String value;
 
-extension ChangeActionFromString on String {
-  ChangeAction toChangeAction() {
-    switch (this) {
-      case 'PUBLISH':
-        return ChangeAction.publish;
-      case 'UNPUBLISH':
-        return ChangeAction.unpublish;
-    }
-    throw Exception('$this is not known in enum ChangeAction');
-  }
+  const ChangeAction(this.value);
+
+  static ChangeAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ChangeAction'));
 }
 
 /// Part of the provisioning properties of the environment blueprint.
@@ -6384,33 +6345,18 @@ class ConfigurableActionParameter {
 }
 
 enum ConfigurableActionTypeAuthorization {
-  iam,
-  https,
-}
+  iam('IAM'),
+  https('HTTPS'),
+  ;
 
-extension ConfigurableActionTypeAuthorizationValueExtension
-    on ConfigurableActionTypeAuthorization {
-  String toValue() {
-    switch (this) {
-      case ConfigurableActionTypeAuthorization.iam:
-        return 'IAM';
-      case ConfigurableActionTypeAuthorization.https:
-        return 'HTTPS';
-    }
-  }
-}
+  final String value;
 
-extension ConfigurableActionTypeAuthorizationFromString on String {
-  ConfigurableActionTypeAuthorization toConfigurableActionTypeAuthorization() {
-    switch (this) {
-      case 'IAM':
-        return ConfigurableActionTypeAuthorization.iam;
-      case 'HTTPS':
-        return ConfigurableActionTypeAuthorization.https;
-    }
-    throw Exception(
-        '$this is not known in enum ConfigurableActionTypeAuthorization');
-  }
+  const ConfigurableActionTypeAuthorization(this.value);
+
+  static ConfigurableActionTypeAuthorization fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ConfigurableActionTypeAuthorization'));
 }
 
 /// The configurable action of a Amazon DataZone environment.
@@ -6439,7 +6385,8 @@ class ConfigurableEnvironmentAction {
               ConfigurableActionParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
       type: json['type'] as String,
-      auth: (json['auth'] as String?)?.toConfigurableActionTypeAuthorization(),
+      auth: (json['auth'] as String?)
+          ?.let(ConfigurableActionTypeAuthorization.fromString),
     );
   }
 
@@ -6450,7 +6397,7 @@ class ConfigurableEnvironmentAction {
     return {
       'parameters': parameters,
       'type': type,
-      if (auth != null) 'auth': auth.toValue(),
+      if (auth != null) 'auth': auth.value,
     };
   }
 }
@@ -7024,7 +6971,8 @@ class CreateDataSourceOutput {
           : null,
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
-      enableSetting: (json['enableSetting'] as String?)?.toEnableSetting(),
+      enableSetting:
+          (json['enableSetting'] as String?)?.let(EnableSetting.fromString),
       errorMessage: json['errorMessage'] != null
           ? DataSourceErrorMessage.fromJson(
               json['errorMessage'] as Map<String, dynamic>)
@@ -7034,8 +6982,8 @@ class CreateDataSourceOutput {
           ? DataSourceErrorMessage.fromJson(
               json['lastRunErrorMessage'] as Map<String, dynamic>)
           : null,
-      lastRunStatus:
-          (json['lastRunStatus'] as String?)?.toDataSourceRunStatus(),
+      lastRunStatus: (json['lastRunStatus'] as String?)
+          ?.let(DataSourceRunStatus.fromString),
       publishOnImport: json['publishOnImport'] as bool?,
       recommendation: json['recommendation'] != null
           ? RecommendationConfiguration.fromJson(
@@ -7045,7 +6993,7 @@ class CreateDataSourceOutput {
           ? ScheduleConfiguration.fromJson(
               json['schedule'] as Map<String, dynamic>)
           : null,
-      status: (json['status'] as String?)?.toDataSourceStatus(),
+      status: (json['status'] as String?)?.let(DataSourceStatus.fromString),
       type: json['type'] as String?,
       updatedAt: timeStampFromJson(json['updatedAt']),
     );
@@ -7082,16 +7030,16 @@ class CreateDataSourceOutput {
       if (configuration != null) 'configuration': configuration,
       if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
       if (description != null) 'description': description,
-      if (enableSetting != null) 'enableSetting': enableSetting.toValue(),
+      if (enableSetting != null) 'enableSetting': enableSetting.value,
       if (errorMessage != null) 'errorMessage': errorMessage,
       if (lastRunAt != null) 'lastRunAt': iso8601ToJson(lastRunAt),
       if (lastRunErrorMessage != null)
         'lastRunErrorMessage': lastRunErrorMessage,
-      if (lastRunStatus != null) 'lastRunStatus': lastRunStatus.toValue(),
+      if (lastRunStatus != null) 'lastRunStatus': lastRunStatus.value,
       if (publishOnImport != null) 'publishOnImport': publishOnImport,
       if (recommendation != null) 'recommendation': recommendation,
       if (schedule != null) 'schedule': schedule,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (type != null) 'type': type,
       if (updatedAt != null) 'updatedAt': iso8601ToJson(updatedAt),
     };
@@ -7158,7 +7106,7 @@ class CreateDomainOutput {
       singleSignOn: json['singleSignOn'] != null
           ? SingleSignOn.fromJson(json['singleSignOn'] as Map<String, dynamic>)
           : null,
-      status: (json['status'] as String?)?.toDomainStatus(),
+      status: (json['status'] as String?)?.let(DomainStatus.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -7185,7 +7133,7 @@ class CreateDomainOutput {
       if (name != null) 'name': name,
       if (portalUrl != null) 'portalUrl': portalUrl,
       if (singleSignOn != null) 'singleSignOn': singleSignOn,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (tags != null) 'tags': tags,
     };
   }
@@ -7322,7 +7270,7 @@ class CreateEnvironmentOutput {
           ? ProvisioningProperties.fromJson(
               json['provisioningProperties'] as Map<String, dynamic>)
           : null,
-      status: (json['status'] as String?)?.toEnvironmentStatus(),
+      status: (json['status'] as String?)?.let(EnvironmentStatus.fromString),
       updatedAt: timeStampFromJson(json['updatedAt']),
       userParameters: (json['userParameters'] as List?)
           ?.whereNotNull()
@@ -7376,7 +7324,7 @@ class CreateEnvironmentOutput {
         'provisionedResources': provisionedResources,
       if (provisioningProperties != null)
         'provisioningProperties': provisioningProperties,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (updatedAt != null) 'updatedAt': iso8601ToJson(updatedAt),
       if (userParameters != null) 'userParameters': userParameters,
     };
@@ -7592,7 +7540,7 @@ class CreateGlossaryOutput {
       name: json['name'] as String,
       owningProjectId: json['owningProjectId'] as String,
       description: json['description'] as String?,
-      status: (json['status'] as String?)?.toGlossaryStatus(),
+      status: (json['status'] as String?)?.let(GlossaryStatus.fromString),
     );
   }
 
@@ -7609,7 +7557,7 @@ class CreateGlossaryOutput {
       'name': name,
       'owningProjectId': owningProjectId,
       if (description != null) 'description': description,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -7657,7 +7605,7 @@ class CreateGlossaryTermOutput {
       glossaryId: json['glossaryId'] as String,
       id: json['id'] as String,
       name: json['name'] as String,
-      status: (json['status'] as String).toGlossaryTermStatus(),
+      status: GlossaryTermStatus.fromString((json['status'] as String)),
       longDescription: json['longDescription'] as String?,
       shortDescription: json['shortDescription'] as String?,
       termRelations: json['termRelations'] != null
@@ -7681,7 +7629,7 @@ class CreateGlossaryTermOutput {
       'glossaryId': glossaryId,
       'id': id,
       'name': name,
-      'status': status.toValue(),
+      'status': status.value,
       if (longDescription != null) 'longDescription': longDescription,
       if (shortDescription != null) 'shortDescription': shortDescription,
       if (termRelations != null) 'termRelations': termRelations,
@@ -7715,7 +7663,7 @@ class CreateGroupProfileOutput {
       domainId: json['domainId'] as String?,
       groupName: json['groupName'] as String?,
       id: json['id'] as String?,
-      status: (json['status'] as String?)?.toGroupProfileStatus(),
+      status: (json['status'] as String?)?.let(GroupProfileStatus.fromString),
     );
   }
 
@@ -7728,7 +7676,7 @@ class CreateGroupProfileOutput {
       if (domainId != null) 'domainId': domainId,
       if (groupName != null) 'groupName': groupName,
       if (id != null) 'id': id,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -7753,7 +7701,7 @@ class CreateListingChangeSetOutput {
     return CreateListingChangeSetOutput(
       listingId: json['listingId'] as String,
       listingRevision: json['listingRevision'] as String,
-      status: (json['status'] as String).toListingStatus(),
+      status: ListingStatus.fromString((json['status'] as String)),
     );
   }
 
@@ -7764,7 +7712,7 @@ class CreateListingChangeSetOutput {
     return {
       'listingId': listingId,
       'listingRevision': listingRevision,
-      'status': status.toValue(),
+      'status': status.value,
     };
   }
 }
@@ -7844,7 +7792,8 @@ class CreateProjectOutput {
           .map((e) => e as String)
           .toList(),
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
-      projectStatus: (json['projectStatus'] as String?)?.toProjectStatus(),
+      projectStatus:
+          (json['projectStatus'] as String?)?.let(ProjectStatus.fromString),
     );
   }
 
@@ -7869,7 +7818,7 @@ class CreateProjectOutput {
       if (failureReasons != null) 'failureReasons': failureReasons,
       if (glossaryTerms != null) 'glossaryTerms': glossaryTerms,
       if (lastUpdatedAt != null) 'lastUpdatedAt': iso8601ToJson(lastUpdatedAt),
-      if (projectStatus != null) 'projectStatus': projectStatus.toValue(),
+      if (projectStatus != null) 'projectStatus': projectStatus.value,
     };
   }
 }
@@ -7932,7 +7881,8 @@ class CreateSubscriptionGrantOutput {
       grantedEntity:
           GrantedEntity.fromJson(json['grantedEntity'] as Map<String, dynamic>),
       id: json['id'] as String,
-      status: (json['status'] as String).toSubscriptionGrantOverallStatus(),
+      status:
+          SubscriptionGrantOverallStatus.fromString((json['status'] as String)),
       subscriptionTargetId: json['subscriptionTargetId'] as String,
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       assets: (json['assets'] as List?)
@@ -7962,7 +7912,7 @@ class CreateSubscriptionGrantOutput {
       'domainId': domainId,
       'grantedEntity': grantedEntity,
       'id': id,
-      'status': status.toValue(),
+      'status': status.value,
       'subscriptionTargetId': subscriptionTargetId,
       'updatedAt': unixTimestampToJson(updatedAt),
       if (assets != null) 'assets': assets,
@@ -8032,7 +7982,7 @@ class CreateSubscriptionRequestOutput {
       domainId: json['domainId'] as String,
       id: json['id'] as String,
       requestReason: json['requestReason'] as String,
-      status: (json['status'] as String).toSubscriptionRequestStatus(),
+      status: SubscriptionRequestStatus.fromString((json['status'] as String)),
       subscribedListings: (json['subscribedListings'] as List)
           .whereNotNull()
           .map((e) => SubscribedListing.fromJson(e as Map<String, dynamic>))
@@ -8067,7 +8017,7 @@ class CreateSubscriptionRequestOutput {
       'domainId': domainId,
       'id': id,
       'requestReason': requestReason,
-      'status': status.toValue(),
+      'status': status.value,
       'subscribedListings': subscribedListings,
       'subscribedPrincipals': subscribedPrincipals,
       'updatedAt': unixTimestampToJson(updatedAt),
@@ -8240,8 +8190,8 @@ class CreateUserProfileOutput {
           : null,
       domainId: json['domainId'] as String?,
       id: json['id'] as String?,
-      status: (json['status'] as String?)?.toUserProfileStatus(),
-      type: (json['type'] as String?)?.toUserProfileType(),
+      status: (json['status'] as String?)?.let(UserProfileStatus.fromString),
+      type: (json['type'] as String?)?.let(UserProfileType.fromString),
     );
   }
 
@@ -8255,8 +8205,8 @@ class CreateUserProfileOutput {
       if (details != null) 'details': details,
       if (domainId != null) 'domainId': domainId,
       if (id != null) 'id': id,
-      if (status != null) 'status': status.toValue(),
-      if (type != null) 'type': type.toValue(),
+      if (status != null) 'status': status.value,
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -8320,61 +8270,24 @@ class CustomParameter {
 }
 
 enum DataAssetActivityStatus {
-  failed,
-  publishingFailed,
-  succeededCreated,
-  succeededUpdated,
-  skippedAlreadyImported,
-  skippedArchived,
-  skippedNoAccess,
-  unchanged,
-}
+  failed('FAILED'),
+  publishingFailed('PUBLISHING_FAILED'),
+  succeededCreated('SUCCEEDED_CREATED'),
+  succeededUpdated('SUCCEEDED_UPDATED'),
+  skippedAlreadyImported('SKIPPED_ALREADY_IMPORTED'),
+  skippedArchived('SKIPPED_ARCHIVED'),
+  skippedNoAccess('SKIPPED_NO_ACCESS'),
+  unchanged('UNCHANGED'),
+  ;
 
-extension DataAssetActivityStatusValueExtension on DataAssetActivityStatus {
-  String toValue() {
-    switch (this) {
-      case DataAssetActivityStatus.failed:
-        return 'FAILED';
-      case DataAssetActivityStatus.publishingFailed:
-        return 'PUBLISHING_FAILED';
-      case DataAssetActivityStatus.succeededCreated:
-        return 'SUCCEEDED_CREATED';
-      case DataAssetActivityStatus.succeededUpdated:
-        return 'SUCCEEDED_UPDATED';
-      case DataAssetActivityStatus.skippedAlreadyImported:
-        return 'SKIPPED_ALREADY_IMPORTED';
-      case DataAssetActivityStatus.skippedArchived:
-        return 'SKIPPED_ARCHIVED';
-      case DataAssetActivityStatus.skippedNoAccess:
-        return 'SKIPPED_NO_ACCESS';
-      case DataAssetActivityStatus.unchanged:
-        return 'UNCHANGED';
-    }
-  }
-}
+  final String value;
 
-extension DataAssetActivityStatusFromString on String {
-  DataAssetActivityStatus toDataAssetActivityStatus() {
-    switch (this) {
-      case 'FAILED':
-        return DataAssetActivityStatus.failed;
-      case 'PUBLISHING_FAILED':
-        return DataAssetActivityStatus.publishingFailed;
-      case 'SUCCEEDED_CREATED':
-        return DataAssetActivityStatus.succeededCreated;
-      case 'SUCCEEDED_UPDATED':
-        return DataAssetActivityStatus.succeededUpdated;
-      case 'SKIPPED_ALREADY_IMPORTED':
-        return DataAssetActivityStatus.skippedAlreadyImported;
-      case 'SKIPPED_ARCHIVED':
-        return DataAssetActivityStatus.skippedArchived;
-      case 'SKIPPED_NO_ACCESS':
-        return DataAssetActivityStatus.skippedNoAccess;
-      case 'UNCHANGED':
-        return DataAssetActivityStatus.unchanged;
-    }
-    throw Exception('$this is not known in enum DataAssetActivityStatus');
-  }
+  const DataAssetActivityStatus(this.value);
+
+  static DataAssetActivityStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DataAssetActivityStatus'));
 }
 
 /// <p/>
@@ -8587,7 +8500,7 @@ class DataSourceErrorMessage {
 
   factory DataSourceErrorMessage.fromJson(Map<String, dynamic> json) {
     return DataSourceErrorMessage(
-      errorType: (json['errorType'] as String).toDataSourceErrorType(),
+      errorType: DataSourceErrorType.fromString((json['errorType'] as String)),
       errorDetail: json['errorDetail'] as String?,
     );
   }
@@ -8596,63 +8509,30 @@ class DataSourceErrorMessage {
     final errorType = this.errorType;
     final errorDetail = this.errorDetail;
     return {
-      'errorType': errorType.toValue(),
+      'errorType': errorType.value,
       if (errorDetail != null) 'errorDetail': errorDetail,
     };
   }
 }
 
 enum DataSourceErrorType {
-  accessDeniedException,
-  conflictException,
-  internalServerException,
-  resourceNotFoundException,
-  serviceQuotaExceededException,
-  throttlingException,
-  validationException,
-}
+  accessDeniedException('ACCESS_DENIED_EXCEPTION'),
+  conflictException('CONFLICT_EXCEPTION'),
+  internalServerException('INTERNAL_SERVER_EXCEPTION'),
+  resourceNotFoundException('RESOURCE_NOT_FOUND_EXCEPTION'),
+  serviceQuotaExceededException('SERVICE_QUOTA_EXCEEDED_EXCEPTION'),
+  throttlingException('THROTTLING_EXCEPTION'),
+  validationException('VALIDATION_EXCEPTION'),
+  ;
 
-extension DataSourceErrorTypeValueExtension on DataSourceErrorType {
-  String toValue() {
-    switch (this) {
-      case DataSourceErrorType.accessDeniedException:
-        return 'ACCESS_DENIED_EXCEPTION';
-      case DataSourceErrorType.conflictException:
-        return 'CONFLICT_EXCEPTION';
-      case DataSourceErrorType.internalServerException:
-        return 'INTERNAL_SERVER_EXCEPTION';
-      case DataSourceErrorType.resourceNotFoundException:
-        return 'RESOURCE_NOT_FOUND_EXCEPTION';
-      case DataSourceErrorType.serviceQuotaExceededException:
-        return 'SERVICE_QUOTA_EXCEEDED_EXCEPTION';
-      case DataSourceErrorType.throttlingException:
-        return 'THROTTLING_EXCEPTION';
-      case DataSourceErrorType.validationException:
-        return 'VALIDATION_EXCEPTION';
-    }
-  }
-}
+  final String value;
 
-extension DataSourceErrorTypeFromString on String {
-  DataSourceErrorType toDataSourceErrorType() {
-    switch (this) {
-      case 'ACCESS_DENIED_EXCEPTION':
-        return DataSourceErrorType.accessDeniedException;
-      case 'CONFLICT_EXCEPTION':
-        return DataSourceErrorType.conflictException;
-      case 'INTERNAL_SERVER_EXCEPTION':
-        return DataSourceErrorType.internalServerException;
-      case 'RESOURCE_NOT_FOUND_EXCEPTION':
-        return DataSourceErrorType.resourceNotFoundException;
-      case 'SERVICE_QUOTA_EXCEEDED_EXCEPTION':
-        return DataSourceErrorType.serviceQuotaExceededException;
-      case 'THROTTLING_EXCEPTION':
-        return DataSourceErrorType.throttlingException;
-      case 'VALIDATION_EXCEPTION':
-        return DataSourceErrorType.validationException;
-    }
-    throw Exception('$this is not known in enum DataSourceErrorType');
-  }
+  const DataSourceErrorType(this.value);
+
+  static DataSourceErrorType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DataSourceErrorType'));
 }
 
 /// The activity details of the data source run.
@@ -8701,8 +8581,8 @@ class DataSourceRunActivity {
   factory DataSourceRunActivity.fromJson(Map<String, dynamic> json) {
     return DataSourceRunActivity(
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      dataAssetStatus:
-          (json['dataAssetStatus'] as String).toDataAssetActivityStatus(),
+      dataAssetStatus: DataAssetActivityStatus.fromString(
+          (json['dataAssetStatus'] as String)),
       dataSourceRunId: json['dataSourceRunId'] as String,
       database: json['database'] as String,
       projectId: json['projectId'] as String,
@@ -8730,7 +8610,7 @@ class DataSourceRunActivity {
     final technicalDescription = this.technicalDescription;
     return {
       'createdAt': iso8601ToJson(createdAt),
-      'dataAssetStatus': dataAssetStatus.toValue(),
+      'dataAssetStatus': dataAssetStatus.value,
       'dataSourceRunId': dataSourceRunId,
       'database': database,
       'projectId': projectId,
@@ -8745,46 +8625,21 @@ class DataSourceRunActivity {
 }
 
 enum DataSourceRunStatus {
-  requested,
-  running,
-  failed,
-  partiallySucceeded,
-  success,
-}
+  requested('REQUESTED'),
+  running('RUNNING'),
+  failed('FAILED'),
+  partiallySucceeded('PARTIALLY_SUCCEEDED'),
+  success('SUCCESS'),
+  ;
 
-extension DataSourceRunStatusValueExtension on DataSourceRunStatus {
-  String toValue() {
-    switch (this) {
-      case DataSourceRunStatus.requested:
-        return 'REQUESTED';
-      case DataSourceRunStatus.running:
-        return 'RUNNING';
-      case DataSourceRunStatus.failed:
-        return 'FAILED';
-      case DataSourceRunStatus.partiallySucceeded:
-        return 'PARTIALLY_SUCCEEDED';
-      case DataSourceRunStatus.success:
-        return 'SUCCESS';
-    }
-  }
-}
+  final String value;
 
-extension DataSourceRunStatusFromString on String {
-  DataSourceRunStatus toDataSourceRunStatus() {
-    switch (this) {
-      case 'REQUESTED':
-        return DataSourceRunStatus.requested;
-      case 'RUNNING':
-        return DataSourceRunStatus.running;
-      case 'FAILED':
-        return DataSourceRunStatus.failed;
-      case 'PARTIALLY_SUCCEEDED':
-        return DataSourceRunStatus.partiallySucceeded;
-      case 'SUCCESS':
-        return DataSourceRunStatus.success;
-    }
-    throw Exception('$this is not known in enum DataSourceRunStatus');
-  }
+  const DataSourceRunStatus(this.value);
+
+  static DataSourceRunStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DataSourceRunStatus'));
 }
 
 /// The details of a data source run.
@@ -8838,8 +8693,8 @@ class DataSourceRunSummary {
       dataSourceId: json['dataSourceId'] as String,
       id: json['id'] as String,
       projectId: json['projectId'] as String,
-      status: (json['status'] as String).toDataSourceRunStatus(),
-      type: (json['type'] as String).toDataSourceRunType(),
+      status: DataSourceRunStatus.fromString((json['status'] as String)),
+      type: DataSourceRunType.fromString((json['type'] as String)),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       errorMessage: json['errorMessage'] != null
           ? DataSourceErrorMessage.fromJson(
@@ -8871,8 +8726,8 @@ class DataSourceRunSummary {
       'dataSourceId': dataSourceId,
       'id': id,
       'projectId': projectId,
-      'status': status.toValue(),
-      'type': type.toValue(),
+      'status': status.value,
+      'type': type.value,
       'updatedAt': iso8601ToJson(updatedAt),
       if (errorMessage != null) 'errorMessage': errorMessage,
       if (runStatisticsForAssets != null)
@@ -8884,89 +8739,39 @@ class DataSourceRunSummary {
 }
 
 enum DataSourceRunType {
-  prioritized,
-  scheduled,
-}
+  prioritized('PRIORITIZED'),
+  scheduled('SCHEDULED'),
+  ;
 
-extension DataSourceRunTypeValueExtension on DataSourceRunType {
-  String toValue() {
-    switch (this) {
-      case DataSourceRunType.prioritized:
-        return 'PRIORITIZED';
-      case DataSourceRunType.scheduled:
-        return 'SCHEDULED';
-    }
-  }
-}
+  final String value;
 
-extension DataSourceRunTypeFromString on String {
-  DataSourceRunType toDataSourceRunType() {
-    switch (this) {
-      case 'PRIORITIZED':
-        return DataSourceRunType.prioritized;
-      case 'SCHEDULED':
-        return DataSourceRunType.scheduled;
-    }
-    throw Exception('$this is not known in enum DataSourceRunType');
-  }
+  const DataSourceRunType(this.value);
+
+  static DataSourceRunType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DataSourceRunType'));
 }
 
 enum DataSourceStatus {
-  creating,
-  failedCreation,
-  ready,
-  updating,
-  failedUpdate,
-  running,
-  deleting,
-  failedDeletion,
-}
+  creating('CREATING'),
+  failedCreation('FAILED_CREATION'),
+  ready('READY'),
+  updating('UPDATING'),
+  failedUpdate('FAILED_UPDATE'),
+  running('RUNNING'),
+  deleting('DELETING'),
+  failedDeletion('FAILED_DELETION'),
+  ;
 
-extension DataSourceStatusValueExtension on DataSourceStatus {
-  String toValue() {
-    switch (this) {
-      case DataSourceStatus.creating:
-        return 'CREATING';
-      case DataSourceStatus.failedCreation:
-        return 'FAILED_CREATION';
-      case DataSourceStatus.ready:
-        return 'READY';
-      case DataSourceStatus.updating:
-        return 'UPDATING';
-      case DataSourceStatus.failedUpdate:
-        return 'FAILED_UPDATE';
-      case DataSourceStatus.running:
-        return 'RUNNING';
-      case DataSourceStatus.deleting:
-        return 'DELETING';
-      case DataSourceStatus.failedDeletion:
-        return 'FAILED_DELETION';
-    }
-  }
-}
+  final String value;
 
-extension DataSourceStatusFromString on String {
-  DataSourceStatus toDataSourceStatus() {
-    switch (this) {
-      case 'CREATING':
-        return DataSourceStatus.creating;
-      case 'FAILED_CREATION':
-        return DataSourceStatus.failedCreation;
-      case 'READY':
-        return DataSourceStatus.ready;
-      case 'UPDATING':
-        return DataSourceStatus.updating;
-      case 'FAILED_UPDATE':
-        return DataSourceStatus.failedUpdate;
-      case 'RUNNING':
-        return DataSourceStatus.running;
-      case 'DELETING':
-        return DataSourceStatus.deleting;
-      case 'FAILED_DELETION':
-        return DataSourceStatus.failedDeletion;
-    }
-    throw Exception('$this is not known in enum DataSourceStatus');
-  }
+  const DataSourceStatus(this.value);
+
+  static DataSourceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DataSourceStatus'));
 }
 
 /// The details of the data source.
@@ -9032,18 +8837,19 @@ class DataSourceSummary {
       domainId: json['domainId'] as String,
       environmentId: json['environmentId'] as String,
       name: json['name'] as String,
-      status: (json['status'] as String).toDataSourceStatus(),
+      status: DataSourceStatus.fromString((json['status'] as String)),
       type: json['type'] as String,
       createdAt: timeStampFromJson(json['createdAt']),
-      enableSetting: (json['enableSetting'] as String?)?.toEnableSetting(),
+      enableSetting:
+          (json['enableSetting'] as String?)?.let(EnableSetting.fromString),
       lastRunAssetCount: json['lastRunAssetCount'] as int?,
       lastRunAt: timeStampFromJson(json['lastRunAt']),
       lastRunErrorMessage: json['lastRunErrorMessage'] != null
           ? DataSourceErrorMessage.fromJson(
               json['lastRunErrorMessage'] as Map<String, dynamic>)
           : null,
-      lastRunStatus:
-          (json['lastRunStatus'] as String?)?.toDataSourceRunStatus(),
+      lastRunStatus: (json['lastRunStatus'] as String?)
+          ?.let(DataSourceRunStatus.fromString),
       schedule: json['schedule'] != null
           ? ScheduleConfiguration.fromJson(
               json['schedule'] as Map<String, dynamic>)
@@ -9072,15 +8878,15 @@ class DataSourceSummary {
       'domainId': domainId,
       'environmentId': environmentId,
       'name': name,
-      'status': status.toValue(),
+      'status': status.value,
       'type': type,
       if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
-      if (enableSetting != null) 'enableSetting': enableSetting.toValue(),
+      if (enableSetting != null) 'enableSetting': enableSetting.value,
       if (lastRunAssetCount != null) 'lastRunAssetCount': lastRunAssetCount,
       if (lastRunAt != null) 'lastRunAt': iso8601ToJson(lastRunAt),
       if (lastRunErrorMessage != null)
         'lastRunErrorMessage': lastRunErrorMessage,
-      if (lastRunStatus != null) 'lastRunStatus': lastRunStatus.toValue(),
+      if (lastRunStatus != null) 'lastRunStatus': lastRunStatus.value,
       if (schedule != null) 'schedule': schedule,
       if (updatedAt != null) 'updatedAt': iso8601ToJson(updatedAt),
     };
@@ -9213,7 +9019,8 @@ class DeleteDataSourceOutput {
           : null,
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
-      enableSetting: (json['enableSetting'] as String?)?.toEnableSetting(),
+      enableSetting:
+          (json['enableSetting'] as String?)?.let(EnableSetting.fromString),
       errorMessage: json['errorMessage'] != null
           ? DataSourceErrorMessage.fromJson(
               json['errorMessage'] as Map<String, dynamic>)
@@ -9223,14 +9030,14 @@ class DeleteDataSourceOutput {
           ? DataSourceErrorMessage.fromJson(
               json['lastRunErrorMessage'] as Map<String, dynamic>)
           : null,
-      lastRunStatus:
-          (json['lastRunStatus'] as String?)?.toDataSourceRunStatus(),
+      lastRunStatus: (json['lastRunStatus'] as String?)
+          ?.let(DataSourceRunStatus.fromString),
       publishOnImport: json['publishOnImport'] as bool?,
       schedule: json['schedule'] != null
           ? ScheduleConfiguration.fromJson(
               json['schedule'] as Map<String, dynamic>)
           : null,
-      status: (json['status'] as String?)?.toDataSourceStatus(),
+      status: (json['status'] as String?)?.let(DataSourceStatus.fromString),
       type: json['type'] as String?,
       updatedAt: timeStampFromJson(json['updatedAt']),
     );
@@ -9266,15 +9073,15 @@ class DeleteDataSourceOutput {
       if (configuration != null) 'configuration': configuration,
       if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
       if (description != null) 'description': description,
-      if (enableSetting != null) 'enableSetting': enableSetting.toValue(),
+      if (enableSetting != null) 'enableSetting': enableSetting.value,
       if (errorMessage != null) 'errorMessage': errorMessage,
       if (lastRunAt != null) 'lastRunAt': iso8601ToJson(lastRunAt),
       if (lastRunErrorMessage != null)
         'lastRunErrorMessage': lastRunErrorMessage,
-      if (lastRunStatus != null) 'lastRunStatus': lastRunStatus.toValue(),
+      if (lastRunStatus != null) 'lastRunStatus': lastRunStatus.value,
       if (publishOnImport != null) 'publishOnImport': publishOnImport,
       if (schedule != null) 'schedule': schedule,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (type != null) 'type': type,
       if (updatedAt != null) 'updatedAt': iso8601ToJson(updatedAt),
     };
@@ -9291,14 +9098,14 @@ class DeleteDomainOutput {
 
   factory DeleteDomainOutput.fromJson(Map<String, dynamic> json) {
     return DeleteDomainOutput(
-      status: (json['status'] as String).toDomainStatus(),
+      status: DomainStatus.fromString((json['status'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {
-      'status': status.toValue(),
+      'status': status.value,
     };
   }
 }
@@ -9447,7 +9254,8 @@ class DeleteSubscriptionGrantOutput {
       grantedEntity:
           GrantedEntity.fromJson(json['grantedEntity'] as Map<String, dynamic>),
       id: json['id'] as String,
-      status: (json['status'] as String).toSubscriptionGrantOverallStatus(),
+      status:
+          SubscriptionGrantOverallStatus.fromString((json['status'] as String)),
       subscriptionTargetId: json['subscriptionTargetId'] as String,
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       assets: (json['assets'] as List?)
@@ -9477,7 +9285,7 @@ class DeleteSubscriptionGrantOutput {
       'domainId': domainId,
       'grantedEntity': grantedEntity,
       'id': id,
-      'status': status.toValue(),
+      'status': status.value,
       'subscriptionTargetId': subscriptionTargetId,
       'updatedAt': unixTimestampToJson(updatedAt),
       if (assets != null) 'assets': assets,
@@ -9531,9 +9339,10 @@ class Deployment {
   factory Deployment.fromJson(Map<String, dynamic> json) {
     return Deployment(
       deploymentId: json['deploymentId'] as String?,
-      deploymentStatus:
-          (json['deploymentStatus'] as String?)?.toDeploymentStatus(),
-      deploymentType: (json['deploymentType'] as String?)?.toDeploymentType(),
+      deploymentStatus: (json['deploymentStatus'] as String?)
+          ?.let(DeploymentStatus.fromString),
+      deploymentType:
+          (json['deploymentType'] as String?)?.let(DeploymentType.fromString),
       failureReason: json['failureReason'] != null
           ? EnvironmentError.fromJson(
               json['failureReason'] as Map<String, dynamic>)
@@ -9555,9 +9364,8 @@ class Deployment {
     final messages = this.messages;
     return {
       if (deploymentId != null) 'deploymentId': deploymentId,
-      if (deploymentStatus != null)
-        'deploymentStatus': deploymentStatus.toValue(),
-      if (deploymentType != null) 'deploymentType': deploymentType.toValue(),
+      if (deploymentStatus != null) 'deploymentStatus': deploymentStatus.value,
+      if (deploymentType != null) 'deploymentType': deploymentType.value,
       if (failureReason != null) 'failureReason': failureReason,
       if (isDeploymentComplete != null)
         'isDeploymentComplete': isDeploymentComplete,
@@ -9598,74 +9406,36 @@ class DeploymentProperties {
 }
 
 enum DeploymentStatus {
-  inProgress,
-  successful,
-  failed,
-  pendingDeployment,
-}
+  inProgress('IN_PROGRESS'),
+  successful('SUCCESSFUL'),
+  failed('FAILED'),
+  pendingDeployment('PENDING_DEPLOYMENT'),
+  ;
 
-extension DeploymentStatusValueExtension on DeploymentStatus {
-  String toValue() {
-    switch (this) {
-      case DeploymentStatus.inProgress:
-        return 'IN_PROGRESS';
-      case DeploymentStatus.successful:
-        return 'SUCCESSFUL';
-      case DeploymentStatus.failed:
-        return 'FAILED';
-      case DeploymentStatus.pendingDeployment:
-        return 'PENDING_DEPLOYMENT';
-    }
-  }
-}
+  final String value;
 
-extension DeploymentStatusFromString on String {
-  DeploymentStatus toDeploymentStatus() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return DeploymentStatus.inProgress;
-      case 'SUCCESSFUL':
-        return DeploymentStatus.successful;
-      case 'FAILED':
-        return DeploymentStatus.failed;
-      case 'PENDING_DEPLOYMENT':
-        return DeploymentStatus.pendingDeployment;
-    }
-    throw Exception('$this is not known in enum DeploymentStatus');
-  }
+  const DeploymentStatus(this.value);
+
+  static DeploymentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DeploymentStatus'));
 }
 
 enum DeploymentType {
-  create,
-  update,
-  delete,
-}
+  create('CREATE'),
+  update('UPDATE'),
+  delete('DELETE'),
+  ;
 
-extension DeploymentTypeValueExtension on DeploymentType {
-  String toValue() {
-    switch (this) {
-      case DeploymentType.create:
-        return 'CREATE';
-      case DeploymentType.update:
-        return 'UPDATE';
-      case DeploymentType.delete:
-        return 'DELETE';
-    }
-  }
-}
+  final String value;
 
-extension DeploymentTypeFromString on String {
-  DeploymentType toDeploymentType() {
-    switch (this) {
-      case 'CREATE':
-        return DeploymentType.create;
-      case 'UPDATE':
-        return DeploymentType.update;
-      case 'DELETE':
-        return DeploymentType.delete;
-    }
-    throw Exception('$this is not known in enum DeploymentType');
-  }
+  const DeploymentType(this.value);
+
+  static DeploymentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DeploymentType'));
 }
 
 /// Details of a glossary term attached to the inventory asset.
@@ -9699,51 +9469,22 @@ class DetailedGlossaryTerm {
 }
 
 enum DomainStatus {
-  creating,
-  available,
-  creationFailed,
-  deleting,
-  deleted,
-  deletionFailed,
-}
+  creating('CREATING'),
+  available('AVAILABLE'),
+  creationFailed('CREATION_FAILED'),
+  deleting('DELETING'),
+  deleted('DELETED'),
+  deletionFailed('DELETION_FAILED'),
+  ;
 
-extension DomainStatusValueExtension on DomainStatus {
-  String toValue() {
-    switch (this) {
-      case DomainStatus.creating:
-        return 'CREATING';
-      case DomainStatus.available:
-        return 'AVAILABLE';
-      case DomainStatus.creationFailed:
-        return 'CREATION_FAILED';
-      case DomainStatus.deleting:
-        return 'DELETING';
-      case DomainStatus.deleted:
-        return 'DELETED';
-      case DomainStatus.deletionFailed:
-        return 'DELETION_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension DomainStatusFromString on String {
-  DomainStatus toDomainStatus() {
-    switch (this) {
-      case 'CREATING':
-        return DomainStatus.creating;
-      case 'AVAILABLE':
-        return DomainStatus.available;
-      case 'CREATION_FAILED':
-        return DomainStatus.creationFailed;
-      case 'DELETING':
-        return DomainStatus.deleting;
-      case 'DELETED':
-        return DomainStatus.deleted;
-      case 'DELETION_FAILED':
-        return DomainStatus.deletionFailed;
-    }
-    throw Exception('$this is not known in enum DomainStatus');
-  }
+  const DomainStatus(this.value);
+
+  static DomainStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DomainStatus'));
 }
 
 /// A summary of a Amazon DataZone domain.
@@ -9794,7 +9535,7 @@ class DomainSummary {
       id: json['id'] as String,
       managedAccountId: json['managedAccountId'] as String,
       name: json['name'] as String,
-      status: (json['status'] as String).toDomainStatus(),
+      status: DomainStatus.fromString((json['status'] as String)),
       description: json['description'] as String?,
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
       portalUrl: json['portalUrl'] as String?,
@@ -9817,7 +9558,7 @@ class DomainSummary {
       'id': id,
       'managedAccountId': managedAccountId,
       'name': name,
-      'status': status.toValue(),
+      'status': status.value,
       if (description != null) 'description': description,
       if (lastUpdatedAt != null)
         'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
@@ -9827,54 +9568,31 @@ class DomainSummary {
 }
 
 enum EnableSetting {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension EnableSettingValueExtension on EnableSetting {
-  String toValue() {
-    switch (this) {
-      case EnableSetting.enabled:
-        return 'ENABLED';
-      case EnableSetting.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension EnableSettingFromString on String {
-  EnableSetting toEnableSetting() {
-    switch (this) {
-      case 'ENABLED':
-        return EnableSetting.enabled;
-      case 'DISABLED':
-        return EnableSetting.disabled;
-    }
-    throw Exception('$this is not known in enum EnableSetting');
-  }
+  const EnableSetting(this.value);
+
+  static EnableSetting fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EnableSetting'));
 }
 
 enum EntityType {
-  asset,
-}
+  asset('ASSET'),
+  ;
 
-extension EntityTypeValueExtension on EntityType {
-  String toValue() {
-    switch (this) {
-      case EntityType.asset:
-        return 'ASSET';
-    }
-  }
-}
+  final String value;
 
-extension EntityTypeFromString on String {
-  EntityType toEntityType() {
-    switch (this) {
-      case 'ASSET':
-        return EntityType.asset;
-    }
-    throw Exception('$this is not known in enum EntityType');
-  }
+  const EntityType(this.value);
+
+  static EntityType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum EntityType'));
 }
 
 /// The configuration details of an environment blueprint.
@@ -10178,86 +9896,29 @@ class EnvironmentProfileSummary {
 }
 
 enum EnvironmentStatus {
-  active,
-  creating,
-  updating,
-  deleting,
-  createFailed,
-  updateFailed,
-  deleteFailed,
-  validationFailed,
-  suspended,
-  disabled,
-  expired,
-  deleted,
-  inaccessible,
-}
+  active('ACTIVE'),
+  creating('CREATING'),
+  updating('UPDATING'),
+  deleting('DELETING'),
+  createFailed('CREATE_FAILED'),
+  updateFailed('UPDATE_FAILED'),
+  deleteFailed('DELETE_FAILED'),
+  validationFailed('VALIDATION_FAILED'),
+  suspended('SUSPENDED'),
+  disabled('DISABLED'),
+  expired('EXPIRED'),
+  deleted('DELETED'),
+  inaccessible('INACCESSIBLE'),
+  ;
 
-extension EnvironmentStatusValueExtension on EnvironmentStatus {
-  String toValue() {
-    switch (this) {
-      case EnvironmentStatus.active:
-        return 'ACTIVE';
-      case EnvironmentStatus.creating:
-        return 'CREATING';
-      case EnvironmentStatus.updating:
-        return 'UPDATING';
-      case EnvironmentStatus.deleting:
-        return 'DELETING';
-      case EnvironmentStatus.createFailed:
-        return 'CREATE_FAILED';
-      case EnvironmentStatus.updateFailed:
-        return 'UPDATE_FAILED';
-      case EnvironmentStatus.deleteFailed:
-        return 'DELETE_FAILED';
-      case EnvironmentStatus.validationFailed:
-        return 'VALIDATION_FAILED';
-      case EnvironmentStatus.suspended:
-        return 'SUSPENDED';
-      case EnvironmentStatus.disabled:
-        return 'DISABLED';
-      case EnvironmentStatus.expired:
-        return 'EXPIRED';
-      case EnvironmentStatus.deleted:
-        return 'DELETED';
-      case EnvironmentStatus.inaccessible:
-        return 'INACCESSIBLE';
-    }
-  }
-}
+  final String value;
 
-extension EnvironmentStatusFromString on String {
-  EnvironmentStatus toEnvironmentStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return EnvironmentStatus.active;
-      case 'CREATING':
-        return EnvironmentStatus.creating;
-      case 'UPDATING':
-        return EnvironmentStatus.updating;
-      case 'DELETING':
-        return EnvironmentStatus.deleting;
-      case 'CREATE_FAILED':
-        return EnvironmentStatus.createFailed;
-      case 'UPDATE_FAILED':
-        return EnvironmentStatus.updateFailed;
-      case 'DELETE_FAILED':
-        return EnvironmentStatus.deleteFailed;
-      case 'VALIDATION_FAILED':
-        return EnvironmentStatus.validationFailed;
-      case 'SUSPENDED':
-        return EnvironmentStatus.suspended;
-      case 'DISABLED':
-        return EnvironmentStatus.disabled;
-      case 'EXPIRED':
-        return EnvironmentStatus.expired;
-      case 'DELETED':
-        return EnvironmentStatus.deleted;
-      case 'INACCESSIBLE':
-        return EnvironmentStatus.inaccessible;
-    }
-    throw Exception('$this is not known in enum EnvironmentStatus');
-  }
+  const EnvironmentStatus(this.value);
+
+  static EnvironmentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EnvironmentStatus'));
 }
 
 /// The details of an environment.
@@ -10333,7 +9994,7 @@ class EnvironmentSummary {
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
       id: json['id'] as String?,
-      status: (json['status'] as String?)?.toEnvironmentStatus(),
+      status: (json['status'] as String?)?.let(EnvironmentStatus.fromString),
       updatedAt: timeStampFromJson(json['updatedAt']),
     );
   }
@@ -10364,7 +10025,7 @@ class EnvironmentSummary {
       if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
       if (description != null) 'description': description,
       if (id != null) 'id': id,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (updatedAt != null) 'updatedAt': iso8601ToJson(updatedAt),
     };
   }
@@ -10462,7 +10123,7 @@ class FilterExpression {
   factory FilterExpression.fromJson(Map<String, dynamic> json) {
     return FilterExpression(
       expression: json['expression'] as String,
-      type: (json['type'] as String).toFilterExpressionType(),
+      type: FilterExpressionType.fromString((json['type'] as String)),
     );
   }
 
@@ -10471,37 +10132,24 @@ class FilterExpression {
     final type = this.type;
     return {
       'expression': expression,
-      'type': type.toValue(),
+      'type': type.value,
     };
   }
 }
 
 enum FilterExpressionType {
-  include,
-  exclude,
-}
+  include('INCLUDE'),
+  exclude('EXCLUDE'),
+  ;
 
-extension FilterExpressionTypeValueExtension on FilterExpressionType {
-  String toValue() {
-    switch (this) {
-      case FilterExpressionType.include:
-        return 'INCLUDE';
-      case FilterExpressionType.exclude:
-        return 'EXCLUDE';
-    }
-  }
-}
+  final String value;
 
-extension FilterExpressionTypeFromString on String {
-  FilterExpressionType toFilterExpressionType() {
-    switch (this) {
-      case 'INCLUDE':
-        return FilterExpressionType.include;
-      case 'EXCLUDE':
-        return FilterExpressionType.exclude;
-    }
-    throw Exception('$this is not known in enum FilterExpressionType');
-  }
+  const FilterExpressionType(this.value);
+
+  static FilterExpressionType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum FilterExpressionType'));
 }
 
 /// The details of the form entry.
@@ -10721,7 +10369,7 @@ class FormTypeData {
       originDomainId: json['originDomainId'] as String?,
       originProjectId: json['originProjectId'] as String?,
       owningProjectId: json['owningProjectId'] as String?,
-      status: (json['status'] as String?)?.toFormTypeStatus(),
+      status: (json['status'] as String?)?.let(FormTypeStatus.fromString),
     );
   }
 
@@ -10750,37 +10398,24 @@ class FormTypeData {
       if (originDomainId != null) 'originDomainId': originDomainId,
       if (originProjectId != null) 'originProjectId': originProjectId,
       if (owningProjectId != null) 'owningProjectId': owningProjectId,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
 
 enum FormTypeStatus {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension FormTypeStatusValueExtension on FormTypeStatus {
-  String toValue() {
-    switch (this) {
-      case FormTypeStatus.enabled:
-        return 'ENABLED';
-      case FormTypeStatus.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension FormTypeStatusFromString on String {
-  FormTypeStatus toFormTypeStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return FormTypeStatus.enabled;
-      case 'DISABLED':
-        return FormTypeStatus.disabled;
-    }
-    throw Exception('$this is not known in enum FormTypeStatus');
-  }
+  const FormTypeStatus(this.value);
+
+  static FormTypeStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FormTypeStatus'));
 }
 
 class GetAssetOutput {
@@ -11160,7 +10795,8 @@ class GetDataSourceOutput {
           : null,
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
-      enableSetting: (json['enableSetting'] as String?)?.toEnableSetting(),
+      enableSetting:
+          (json['enableSetting'] as String?)?.let(EnableSetting.fromString),
       errorMessage: json['errorMessage'] != null
           ? DataSourceErrorMessage.fromJson(
               json['errorMessage'] as Map<String, dynamic>)
@@ -11171,8 +10807,8 @@ class GetDataSourceOutput {
           ? DataSourceErrorMessage.fromJson(
               json['lastRunErrorMessage'] as Map<String, dynamic>)
           : null,
-      lastRunStatus:
-          (json['lastRunStatus'] as String?)?.toDataSourceRunStatus(),
+      lastRunStatus: (json['lastRunStatus'] as String?)
+          ?.let(DataSourceRunStatus.fromString),
       publishOnImport: json['publishOnImport'] as bool?,
       recommendation: json['recommendation'] != null
           ? RecommendationConfiguration.fromJson(
@@ -11182,7 +10818,7 @@ class GetDataSourceOutput {
           ? ScheduleConfiguration.fromJson(
               json['schedule'] as Map<String, dynamic>)
           : null,
-      status: (json['status'] as String?)?.toDataSourceStatus(),
+      status: (json['status'] as String?)?.let(DataSourceStatus.fromString),
       type: json['type'] as String?,
       updatedAt: timeStampFromJson(json['updatedAt']),
     );
@@ -11220,17 +10856,17 @@ class GetDataSourceOutput {
       if (configuration != null) 'configuration': configuration,
       if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
       if (description != null) 'description': description,
-      if (enableSetting != null) 'enableSetting': enableSetting.toValue(),
+      if (enableSetting != null) 'enableSetting': enableSetting.value,
       if (errorMessage != null) 'errorMessage': errorMessage,
       if (lastRunAssetCount != null) 'lastRunAssetCount': lastRunAssetCount,
       if (lastRunAt != null) 'lastRunAt': iso8601ToJson(lastRunAt),
       if (lastRunErrorMessage != null)
         'lastRunErrorMessage': lastRunErrorMessage,
-      if (lastRunStatus != null) 'lastRunStatus': lastRunStatus.toValue(),
+      if (lastRunStatus != null) 'lastRunStatus': lastRunStatus.value,
       if (publishOnImport != null) 'publishOnImport': publishOnImport,
       if (recommendation != null) 'recommendation': recommendation,
       if (schedule != null) 'schedule': schedule,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (type != null) 'type': type,
       if (updatedAt != null) 'updatedAt': iso8601ToJson(updatedAt),
     };
@@ -11301,8 +10937,8 @@ class GetDataSourceRunOutput {
       domainId: json['domainId'] as String,
       id: json['id'] as String,
       projectId: json['projectId'] as String,
-      status: (json['status'] as String).toDataSourceRunStatus(),
-      type: (json['type'] as String).toDataSourceRunType(),
+      status: DataSourceRunStatus.fromString((json['status'] as String)),
+      type: DataSourceRunType.fromString((json['type'] as String)),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       dataSourceConfigurationSnapshot:
           json['dataSourceConfigurationSnapshot'] as String?,
@@ -11340,8 +10976,8 @@ class GetDataSourceRunOutput {
       'domainId': domainId,
       'id': id,
       'projectId': projectId,
-      'status': status.toValue(),
-      'type': type.toValue(),
+      'status': status.value,
+      'type': type.value,
       'updatedAt': iso8601ToJson(updatedAt),
       if (dataSourceConfigurationSnapshot != null)
         'dataSourceConfigurationSnapshot': dataSourceConfigurationSnapshot,
@@ -11412,7 +11048,7 @@ class GetDomainOutput {
     return GetDomainOutput(
       domainExecutionRole: json['domainExecutionRole'] as String,
       id: json['id'] as String,
-      status: (json['status'] as String).toDomainStatus(),
+      status: DomainStatus.fromString((json['status'] as String)),
       arn: json['arn'] as String?,
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
@@ -11444,7 +11080,7 @@ class GetDomainOutput {
     return {
       'domainExecutionRole': domainExecutionRole,
       'id': id,
-      'status': status.toValue(),
+      'status': status.value,
       if (arn != null) 'arn': arn,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (description != null) 'description': description,
@@ -11762,7 +11398,7 @@ class GetEnvironmentOutput {
           ? ProvisioningProperties.fromJson(
               json['provisioningProperties'] as Map<String, dynamic>)
           : null,
-      status: (json['status'] as String?)?.toEnvironmentStatus(),
+      status: (json['status'] as String?)?.let(EnvironmentStatus.fromString),
       updatedAt: timeStampFromJson(json['updatedAt']),
       userParameters: (json['userParameters'] as List?)
           ?.whereNotNull()
@@ -11816,7 +11452,7 @@ class GetEnvironmentOutput {
         'provisionedResources': provisionedResources,
       if (provisioningProperties != null)
         'provisioningProperties': provisioningProperties,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (updatedAt != null) 'updatedAt': iso8601ToJson(updatedAt),
       if (userParameters != null) 'userParameters': userParameters,
     };
@@ -11999,7 +11635,7 @@ class GetFormTypeOutput {
       originDomainId: json['originDomainId'] as String?,
       originProjectId: json['originProjectId'] as String?,
       owningProjectId: json['owningProjectId'] as String?,
-      status: (json['status'] as String?)?.toFormTypeStatus(),
+      status: (json['status'] as String?)?.let(FormTypeStatus.fromString),
     );
   }
 
@@ -12028,7 +11664,7 @@ class GetFormTypeOutput {
       if (originDomainId != null) 'originDomainId': originDomainId,
       if (originProjectId != null) 'originProjectId': originProjectId,
       if (owningProjectId != null) 'owningProjectId': owningProjectId,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -12083,7 +11719,7 @@ class GetGlossaryOutput {
       id: json['id'] as String,
       name: json['name'] as String,
       owningProjectId: json['owningProjectId'] as String,
-      status: (json['status'] as String).toGlossaryStatus(),
+      status: GlossaryStatus.fromString((json['status'] as String)),
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
       description: json['description'] as String?,
@@ -12108,7 +11744,7 @@ class GetGlossaryOutput {
       'id': id,
       'name': name,
       'owningProjectId': owningProjectId,
-      'status': status.toValue(),
+      'status': status.value,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (createdBy != null) 'createdBy': createdBy,
       if (description != null) 'description': description,
@@ -12177,7 +11813,7 @@ class GetGlossaryTermOutput {
       glossaryId: json['glossaryId'] as String,
       id: json['id'] as String,
       name: json['name'] as String,
-      status: (json['status'] as String).toGlossaryTermStatus(),
+      status: GlossaryTermStatus.fromString((json['status'] as String)),
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
       longDescription: json['longDescription'] as String?,
@@ -12209,7 +11845,7 @@ class GetGlossaryTermOutput {
       'glossaryId': glossaryId,
       'id': id,
       'name': name,
-      'status': status.toValue(),
+      'status': status.value,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (createdBy != null) 'createdBy': createdBy,
       if (longDescription != null) 'longDescription': longDescription,
@@ -12247,7 +11883,7 @@ class GetGroupProfileOutput {
       domainId: json['domainId'] as String?,
       groupName: json['groupName'] as String?,
       id: json['id'] as String?,
-      status: (json['status'] as String?)?.toGroupProfileStatus(),
+      status: (json['status'] as String?)?.let(GroupProfileStatus.fromString),
     );
   }
 
@@ -12260,7 +11896,7 @@ class GetGroupProfileOutput {
       if (domainId != null) 'domainId': domainId,
       if (groupName != null) 'groupName': groupName,
       if (id != null) 'id': id,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -12354,7 +11990,7 @@ class GetListingOutput {
           ? ListingItem.fromJson(json['item'] as Map<String, dynamic>)
           : null,
       name: json['name'] as String?,
-      status: (json['status'] as String?)?.toListingStatus(),
+      status: (json['status'] as String?)?.let(ListingStatus.fromString),
       updatedAt: timeStampFromJson(json['updatedAt']),
       updatedBy: json['updatedBy'] as String?,
     );
@@ -12381,7 +12017,7 @@ class GetListingOutput {
       if (description != null) 'description': description,
       if (item != null) 'item': item,
       if (name != null) 'name': name,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
       if (updatedBy != null) 'updatedBy': updatedBy,
     };
@@ -12433,12 +12069,14 @@ class GetMetadataGenerationRunOutput {
       owningProjectId: json['owningProjectId'] as String,
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
-      status: (json['status'] as String?)?.toMetadataGenerationRunStatus(),
+      status: (json['status'] as String?)
+          ?.let(MetadataGenerationRunStatus.fromString),
       target: json['target'] != null
           ? MetadataGenerationRunTarget.fromJson(
               json['target'] as Map<String, dynamic>)
           : null,
-      type: (json['type'] as String?)?.toMetadataGenerationRunType(),
+      type:
+          (json['type'] as String?)?.let(MetadataGenerationRunType.fromString),
     );
   }
 
@@ -12457,9 +12095,9 @@ class GetMetadataGenerationRunOutput {
       'owningProjectId': owningProjectId,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (createdBy != null) 'createdBy': createdBy,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (target != null) 'target': target,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -12526,7 +12164,8 @@ class GetProjectOutput {
           .map((e) => e as String)
           .toList(),
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
-      projectStatus: (json['projectStatus'] as String?)?.toProjectStatus(),
+      projectStatus:
+          (json['projectStatus'] as String?)?.let(ProjectStatus.fromString),
     );
   }
 
@@ -12551,7 +12190,7 @@ class GetProjectOutput {
       if (failureReasons != null) 'failureReasons': failureReasons,
       if (glossaryTerms != null) 'glossaryTerms': glossaryTerms,
       if (lastUpdatedAt != null) 'lastUpdatedAt': iso8601ToJson(lastUpdatedAt),
-      if (projectStatus != null) 'projectStatus': projectStatus.toValue(),
+      if (projectStatus != null) 'projectStatus': projectStatus.value,
     };
   }
 }
@@ -12612,7 +12251,8 @@ class GetSubscriptionGrantOutput {
       grantedEntity:
           GrantedEntity.fromJson(json['grantedEntity'] as Map<String, dynamic>),
       id: json['id'] as String,
-      status: (json['status'] as String).toSubscriptionGrantOverallStatus(),
+      status:
+          SubscriptionGrantOverallStatus.fromString((json['status'] as String)),
       subscriptionTargetId: json['subscriptionTargetId'] as String,
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       assets: (json['assets'] as List?)
@@ -12642,7 +12282,7 @@ class GetSubscriptionGrantOutput {
       'domainId': domainId,
       'grantedEntity': grantedEntity,
       'id': id,
-      'status': status.toValue(),
+      'status': status.value,
       'subscriptionTargetId': subscriptionTargetId,
       'updatedAt': unixTimestampToJson(updatedAt),
       if (assets != null) 'assets': assets,
@@ -12707,7 +12347,7 @@ class GetSubscriptionOutput {
       createdBy: json['createdBy'] as String,
       domainId: json['domainId'] as String,
       id: json['id'] as String,
-      status: (json['status'] as String).toSubscriptionStatus(),
+      status: SubscriptionStatus.fromString((json['status'] as String)),
       subscribedListing: SubscribedListing.fromJson(
           json['subscribedListing'] as Map<String, dynamic>),
       subscribedPrincipal: SubscribedPrincipal.fromJson(
@@ -12736,7 +12376,7 @@ class GetSubscriptionOutput {
       'createdBy': createdBy,
       'domainId': domainId,
       'id': id,
-      'status': status.toValue(),
+      'status': status.value,
       'subscribedListing': subscribedListing,
       'subscribedPrincipal': subscribedPrincipal,
       'updatedAt': unixTimestampToJson(updatedAt),
@@ -12809,7 +12449,7 @@ class GetSubscriptionRequestDetailsOutput {
       domainId: json['domainId'] as String,
       id: json['id'] as String,
       requestReason: json['requestReason'] as String,
-      status: (json['status'] as String).toSubscriptionRequestStatus(),
+      status: SubscriptionRequestStatus.fromString((json['status'] as String)),
       subscribedListings: (json['subscribedListings'] as List)
           .whereNotNull()
           .map((e) => SubscribedListing.fromJson(e as Map<String, dynamic>))
@@ -12844,7 +12484,7 @@ class GetSubscriptionRequestDetailsOutput {
       'domainId': domainId,
       'id': id,
       'requestReason': requestReason,
-      'status': status.toValue(),
+      'status': status.value,
       'subscribedListings': subscribedListings,
       'subscribedPrincipals': subscribedPrincipals,
       'updatedAt': unixTimestampToJson(updatedAt),
@@ -13016,7 +12656,8 @@ class GetTimeSeriesDataPointOutput {
     return GetTimeSeriesDataPointOutput(
       domainId: json['domainId'] as String?,
       entityId: json['entityId'] as String?,
-      entityType: (json['entityType'] as String?)?.toTimeSeriesEntityType(),
+      entityType:
+          (json['entityType'] as String?)?.let(TimeSeriesEntityType.fromString),
       form: json['form'] != null
           ? TimeSeriesDataPointFormOutput.fromJson(
               json['form'] as Map<String, dynamic>)
@@ -13034,7 +12675,7 @@ class GetTimeSeriesDataPointOutput {
     return {
       if (domainId != null) 'domainId': domainId,
       if (entityId != null) 'entityId': entityId,
-      if (entityType != null) 'entityType': entityType.toValue(),
+      if (entityType != null) 'entityType': entityType.value,
       if (form != null) 'form': form,
       if (formName != null) 'formName': formName,
     };
@@ -13072,8 +12713,8 @@ class GetUserProfileOutput {
           : null,
       domainId: json['domainId'] as String?,
       id: json['id'] as String?,
-      status: (json['status'] as String?)?.toUserProfileStatus(),
-      type: (json['type'] as String?)?.toUserProfileType(),
+      status: (json['status'] as String?)?.let(UserProfileStatus.fromString),
+      type: (json['type'] as String?)?.let(UserProfileType.fromString),
     );
   }
 
@@ -13087,8 +12728,8 @@ class GetUserProfileOutput {
       if (details != null) 'details': details,
       if (domainId != null) 'domainId': domainId,
       if (id != null) 'id': id,
-      if (status != null) 'status': status.toValue(),
-      if (type != null) 'type': type.toValue(),
+      if (status != null) 'status': status.value,
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -13145,7 +12786,7 @@ class GlossaryItem {
       id: json['id'] as String,
       name: json['name'] as String,
       owningProjectId: json['owningProjectId'] as String,
-      status: (json['status'] as String).toGlossaryStatus(),
+      status: GlossaryStatus.fromString((json['status'] as String)),
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
       description: json['description'] as String?,
@@ -13170,7 +12811,7 @@ class GlossaryItem {
       'id': id,
       'name': name,
       'owningProjectId': owningProjectId,
-      'status': status.toValue(),
+      'status': status.value,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (createdBy != null) 'createdBy': createdBy,
       if (description != null) 'description': description,
@@ -13181,31 +12822,18 @@ class GlossaryItem {
 }
 
 enum GlossaryStatus {
-  disabled,
-  enabled,
-}
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
 
-extension GlossaryStatusValueExtension on GlossaryStatus {
-  String toValue() {
-    switch (this) {
-      case GlossaryStatus.disabled:
-        return 'DISABLED';
-      case GlossaryStatus.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension GlossaryStatusFromString on String {
-  GlossaryStatus toGlossaryStatus() {
-    switch (this) {
-      case 'DISABLED':
-        return GlossaryStatus.disabled;
-      case 'ENABLED':
-        return GlossaryStatus.enabled;
-    }
-    throw Exception('$this is not known in enum GlossaryStatus');
-  }
+  const GlossaryStatus(this.value);
+
+  static GlossaryStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum GlossaryStatus'));
 }
 
 /// The details of a business glossary term.
@@ -13268,7 +12896,7 @@ class GlossaryTermItem {
       glossaryId: json['glossaryId'] as String,
       id: json['id'] as String,
       name: json['name'] as String,
-      status: (json['status'] as String).toGlossaryTermStatus(),
+      status: GlossaryTermStatus.fromString((json['status'] as String)),
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
       longDescription: json['longDescription'] as String?,
@@ -13300,7 +12928,7 @@ class GlossaryTermItem {
       'glossaryId': glossaryId,
       'id': id,
       'name': name,
-      'status': status.toValue(),
+      'status': status.value,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (createdBy != null) 'createdBy': createdBy,
       if (longDescription != null) 'longDescription': longDescription,
@@ -13313,31 +12941,18 @@ class GlossaryTermItem {
 }
 
 enum GlossaryTermStatus {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension GlossaryTermStatusValueExtension on GlossaryTermStatus {
-  String toValue() {
-    switch (this) {
-      case GlossaryTermStatus.enabled:
-        return 'ENABLED';
-      case GlossaryTermStatus.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension GlossaryTermStatusFromString on String {
-  GlossaryTermStatus toGlossaryTermStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return GlossaryTermStatus.enabled;
-      case 'DISABLED':
-        return GlossaryTermStatus.disabled;
-    }
-    throw Exception('$this is not known in enum GlossaryTermStatus');
-  }
+  const GlossaryTermStatus(this.value);
+
+  static GlossaryTermStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum GlossaryTermStatus'));
 }
 
 /// The configuration details of the Amazon Web Services Glue data source.
@@ -13501,31 +13116,18 @@ class GroupDetails {
 }
 
 enum GroupProfileStatus {
-  assigned,
-  notAssigned,
-}
+  assigned('ASSIGNED'),
+  notAssigned('NOT_ASSIGNED'),
+  ;
 
-extension GroupProfileStatusValueExtension on GroupProfileStatus {
-  String toValue() {
-    switch (this) {
-      case GroupProfileStatus.assigned:
-        return 'ASSIGNED';
-      case GroupProfileStatus.notAssigned:
-        return 'NOT_ASSIGNED';
-    }
-  }
-}
+  final String value;
 
-extension GroupProfileStatusFromString on String {
-  GroupProfileStatus toGroupProfileStatus() {
-    switch (this) {
-      case 'ASSIGNED':
-        return GroupProfileStatus.assigned;
-      case 'NOT_ASSIGNED':
-        return GroupProfileStatus.notAssigned;
-    }
-    throw Exception('$this is not known in enum GroupProfileStatus');
-  }
+  const GroupProfileStatus(this.value);
+
+  static GroupProfileStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum GroupProfileStatus'));
 }
 
 /// The details of a group profile.
@@ -13554,7 +13156,7 @@ class GroupProfileSummary {
       domainId: json['domainId'] as String?,
       groupName: json['groupName'] as String?,
       id: json['id'] as String?,
-      status: (json['status'] as String?)?.toGroupProfileStatus(),
+      status: (json['status'] as String?)?.let(GroupProfileStatus.fromString),
     );
   }
 
@@ -13567,37 +13169,24 @@ class GroupProfileSummary {
       if (domainId != null) 'domainId': domainId,
       if (groupName != null) 'groupName': groupName,
       if (id != null) 'id': id,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
 
 enum GroupSearchType {
-  ssoGroup,
-  datazoneSsoGroup,
-}
+  ssoGroup('SSO_GROUP'),
+  datazoneSsoGroup('DATAZONE_SSO_GROUP'),
+  ;
 
-extension GroupSearchTypeValueExtension on GroupSearchType {
-  String toValue() {
-    switch (this) {
-      case GroupSearchType.ssoGroup:
-        return 'SSO_GROUP';
-      case GroupSearchType.datazoneSsoGroup:
-        return 'DATAZONE_SSO_GROUP';
-    }
-  }
-}
+  final String value;
 
-extension GroupSearchTypeFromString on String {
-  GroupSearchType toGroupSearchType() {
-    switch (this) {
-      case 'SSO_GROUP':
-        return GroupSearchType.ssoGroup;
-      case 'DATAZONE_SSO_GROUP':
-        return GroupSearchType.datazoneSsoGroup;
-    }
-    throw Exception('$this is not known in enum GroupSearchType');
-  }
+  const GroupSearchType(this.value);
+
+  static GroupSearchType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum GroupSearchType'));
 }
 
 /// The details of an IAM user profile in Amazon DataZone.
@@ -13654,36 +13243,19 @@ class Import {
 }
 
 enum InventorySearchScope {
-  asset,
-  glossary,
-  glossaryTerm,
-}
+  asset('ASSET'),
+  glossary('GLOSSARY'),
+  glossaryTerm('GLOSSARY_TERM'),
+  ;
 
-extension InventorySearchScopeValueExtension on InventorySearchScope {
-  String toValue() {
-    switch (this) {
-      case InventorySearchScope.asset:
-        return 'ASSET';
-      case InventorySearchScope.glossary:
-        return 'GLOSSARY';
-      case InventorySearchScope.glossaryTerm:
-        return 'GLOSSARY_TERM';
-    }
-  }
-}
+  final String value;
 
-extension InventorySearchScopeFromString on String {
-  InventorySearchScope toInventorySearchScope() {
-    switch (this) {
-      case 'ASSET':
-        return InventorySearchScope.asset;
-      case 'GLOSSARY':
-        return InventorySearchScope.glossary;
-      case 'GLOSSARY_TERM':
-        return InventorySearchScope.glossaryTerm;
-    }
-    throw Exception('$this is not known in enum InventorySearchScope');
-  }
+  const InventorySearchScope(this.value);
+
+  static InventorySearchScope fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum InventorySearchScope'));
 }
 
 class ListAssetRevisionsOutput {
@@ -14475,36 +14047,19 @@ class ListingRevisionInput {
 }
 
 enum ListingStatus {
-  creating,
-  active,
-  inactive,
-}
+  creating('CREATING'),
+  active('ACTIVE'),
+  inactive('INACTIVE'),
+  ;
 
-extension ListingStatusValueExtension on ListingStatus {
-  String toValue() {
-    switch (this) {
-      case ListingStatus.creating:
-        return 'CREATING';
-      case ListingStatus.active:
-        return 'ACTIVE';
-      case ListingStatus.inactive:
-        return 'INACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension ListingStatusFromString on String {
-  ListingStatus toListingStatus() {
-    switch (this) {
-      case 'CREATING':
-        return ListingStatus.creating;
-      case 'ACTIVE':
-        return ListingStatus.active;
-      case 'INACTIVE':
-        return ListingStatus.inactive;
-    }
-    throw Exception('$this is not known in enum ListingStatus');
-  }
+  const ListingStatus(this.value);
+
+  static ListingStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ListingStatus'));
 }
 
 /// The details about a project member.
@@ -14610,12 +14165,14 @@ class MetadataGenerationRunItem {
       owningProjectId: json['owningProjectId'] as String,
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
-      status: (json['status'] as String?)?.toMetadataGenerationRunStatus(),
+      status: (json['status'] as String?)
+          ?.let(MetadataGenerationRunStatus.fromString),
       target: json['target'] != null
           ? MetadataGenerationRunTarget.fromJson(
               json['target'] as Map<String, dynamic>)
           : null,
-      type: (json['type'] as String?)?.toMetadataGenerationRunType(),
+      type:
+          (json['type'] as String?)?.let(MetadataGenerationRunType.fromString),
     );
   }
 
@@ -14634,55 +14191,29 @@ class MetadataGenerationRunItem {
       'owningProjectId': owningProjectId,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (createdBy != null) 'createdBy': createdBy,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (target != null) 'target': target,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
 
 enum MetadataGenerationRunStatus {
-  submitted,
-  inProgress,
-  canceled,
-  succeeded,
-  failed,
-}
+  submitted('SUBMITTED'),
+  inProgress('IN_PROGRESS'),
+  canceled('CANCELED'),
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  ;
 
-extension MetadataGenerationRunStatusValueExtension
-    on MetadataGenerationRunStatus {
-  String toValue() {
-    switch (this) {
-      case MetadataGenerationRunStatus.submitted:
-        return 'SUBMITTED';
-      case MetadataGenerationRunStatus.inProgress:
-        return 'IN_PROGRESS';
-      case MetadataGenerationRunStatus.canceled:
-        return 'CANCELED';
-      case MetadataGenerationRunStatus.succeeded:
-        return 'SUCCEEDED';
-      case MetadataGenerationRunStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension MetadataGenerationRunStatusFromString on String {
-  MetadataGenerationRunStatus toMetadataGenerationRunStatus() {
-    switch (this) {
-      case 'SUBMITTED':
-        return MetadataGenerationRunStatus.submitted;
-      case 'IN_PROGRESS':
-        return MetadataGenerationRunStatus.inProgress;
-      case 'CANCELED':
-        return MetadataGenerationRunStatus.canceled;
-      case 'SUCCEEDED':
-        return MetadataGenerationRunStatus.succeeded;
-      case 'FAILED':
-        return MetadataGenerationRunStatus.failed;
-    }
-    throw Exception('$this is not known in enum MetadataGenerationRunStatus');
-  }
+  const MetadataGenerationRunStatus(this.value);
+
+  static MetadataGenerationRunStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MetadataGenerationRunStatus'));
 }
 
 /// The asset for which metadata was generated.
@@ -14705,7 +14236,7 @@ class MetadataGenerationRunTarget {
   factory MetadataGenerationRunTarget.fromJson(Map<String, dynamic> json) {
     return MetadataGenerationRunTarget(
       identifier: json['identifier'] as String,
-      type: (json['type'] as String).toMetadataGenerationTargetType(),
+      type: MetadataGenerationTargetType.fromString((json['type'] as String)),
       revision: json['revision'] as String?,
     );
   }
@@ -14716,57 +14247,38 @@ class MetadataGenerationRunTarget {
     final revision = this.revision;
     return {
       'identifier': identifier,
-      'type': type.toValue(),
+      'type': type.value,
       if (revision != null) 'revision': revision,
     };
   }
 }
 
 enum MetadataGenerationRunType {
-  businessDescriptions,
-}
+  businessDescriptions('BUSINESS_DESCRIPTIONS'),
+  ;
 
-extension MetadataGenerationRunTypeValueExtension on MetadataGenerationRunType {
-  String toValue() {
-    switch (this) {
-      case MetadataGenerationRunType.businessDescriptions:
-        return 'BUSINESS_DESCRIPTIONS';
-    }
-  }
-}
+  final String value;
 
-extension MetadataGenerationRunTypeFromString on String {
-  MetadataGenerationRunType toMetadataGenerationRunType() {
-    switch (this) {
-      case 'BUSINESS_DESCRIPTIONS':
-        return MetadataGenerationRunType.businessDescriptions;
-    }
-    throw Exception('$this is not known in enum MetadataGenerationRunType');
-  }
+  const MetadataGenerationRunType(this.value);
+
+  static MetadataGenerationRunType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MetadataGenerationRunType'));
 }
 
 enum MetadataGenerationTargetType {
-  asset,
-}
+  asset('ASSET'),
+  ;
 
-extension MetadataGenerationTargetTypeValueExtension
-    on MetadataGenerationTargetType {
-  String toValue() {
-    switch (this) {
-      case MetadataGenerationTargetType.asset:
-        return 'ASSET';
-    }
-  }
-}
+  final String value;
 
-extension MetadataGenerationTargetTypeFromString on String {
-  MetadataGenerationTargetType toMetadataGenerationTargetType() {
-    switch (this) {
-      case 'ASSET':
-        return MetadataGenerationTargetType.asset;
-    }
-    throw Exception('$this is not known in enum MetadataGenerationTargetType');
-  }
+  const MetadataGenerationTargetType(this.value);
+
+  static MetadataGenerationTargetType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MetadataGenerationTargetType'));
 }
 
 /// The model of the API.
@@ -14853,10 +14365,10 @@ class NotificationOutput {
       message: json['message'] as String,
       title: json['title'] as String,
       topic: Topic.fromJson(json['topic'] as Map<String, dynamic>),
-      type: (json['type'] as String).toNotificationType(),
+      type: NotificationType.fromString((json['type'] as String)),
       metadata: (json['metadata'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
-      status: (json['status'] as String?)?.toTaskStatus(),
+      status: (json['status'] as String?)?.let(TaskStatus.fromString),
     );
   }
 
@@ -14881,9 +14393,9 @@ class NotificationOutput {
       'message': message,
       'title': title,
       'topic': topic,
-      'type': type.toValue(),
+      'type': type.value,
       if (metadata != null) 'metadata': metadata,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -14908,7 +14420,7 @@ class NotificationResource {
   factory NotificationResource.fromJson(Map<String, dynamic> json) {
     return NotificationResource(
       id: json['id'] as String,
-      type: (json['type'] as String).toNotificationResourceType(),
+      type: NotificationResourceType.fromString((json['type'] as String)),
       name: json['name'] as String?,
     );
   }
@@ -14919,104 +14431,57 @@ class NotificationResource {
     final name = this.name;
     return {
       'id': id,
-      'type': type.toValue(),
+      'type': type.value,
       if (name != null) 'name': name,
     };
   }
 }
 
 enum NotificationResourceType {
-  project,
-}
+  project('PROJECT'),
+  ;
 
-extension NotificationResourceTypeValueExtension on NotificationResourceType {
-  String toValue() {
-    switch (this) {
-      case NotificationResourceType.project:
-        return 'PROJECT';
-    }
-  }
-}
+  final String value;
 
-extension NotificationResourceTypeFromString on String {
-  NotificationResourceType toNotificationResourceType() {
-    switch (this) {
-      case 'PROJECT':
-        return NotificationResourceType.project;
-    }
-    throw Exception('$this is not known in enum NotificationResourceType');
-  }
+  const NotificationResourceType(this.value);
+
+  static NotificationResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum NotificationResourceType'));
 }
 
 enum NotificationRole {
-  projectOwner,
-  projectContributor,
-  projectViewer,
-  domainOwner,
-  projectSubscriber,
-}
+  projectOwner('PROJECT_OWNER'),
+  projectContributor('PROJECT_CONTRIBUTOR'),
+  projectViewer('PROJECT_VIEWER'),
+  domainOwner('DOMAIN_OWNER'),
+  projectSubscriber('PROJECT_SUBSCRIBER'),
+  ;
 
-extension NotificationRoleValueExtension on NotificationRole {
-  String toValue() {
-    switch (this) {
-      case NotificationRole.projectOwner:
-        return 'PROJECT_OWNER';
-      case NotificationRole.projectContributor:
-        return 'PROJECT_CONTRIBUTOR';
-      case NotificationRole.projectViewer:
-        return 'PROJECT_VIEWER';
-      case NotificationRole.domainOwner:
-        return 'DOMAIN_OWNER';
-      case NotificationRole.projectSubscriber:
-        return 'PROJECT_SUBSCRIBER';
-    }
-  }
-}
+  final String value;
 
-extension NotificationRoleFromString on String {
-  NotificationRole toNotificationRole() {
-    switch (this) {
-      case 'PROJECT_OWNER':
-        return NotificationRole.projectOwner;
-      case 'PROJECT_CONTRIBUTOR':
-        return NotificationRole.projectContributor;
-      case 'PROJECT_VIEWER':
-        return NotificationRole.projectViewer;
-      case 'DOMAIN_OWNER':
-        return NotificationRole.domainOwner;
-      case 'PROJECT_SUBSCRIBER':
-        return NotificationRole.projectSubscriber;
-    }
-    throw Exception('$this is not known in enum NotificationRole');
-  }
+  const NotificationRole(this.value);
+
+  static NotificationRole fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum NotificationRole'));
 }
 
 enum NotificationType {
-  task,
-  event,
-}
+  task('TASK'),
+  event('EVENT'),
+  ;
 
-extension NotificationTypeValueExtension on NotificationType {
-  String toValue() {
-    switch (this) {
-      case NotificationType.task:
-        return 'TASK';
-      case NotificationType.event:
-        return 'EVENT';
-    }
-  }
-}
+  final String value;
 
-extension NotificationTypeFromString on String {
-  NotificationType toNotificationType() {
-    switch (this) {
-      case 'TASK':
-        return NotificationType.task;
-      case 'EVENT':
-        return NotificationType.event;
-    }
-    throw Exception('$this is not known in enum NotificationType');
-  }
+  const NotificationType(this.value);
+
+  static NotificationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum NotificationType'));
 }
 
 class PostTimeSeriesDataPointsOutput {
@@ -15044,7 +14509,8 @@ class PostTimeSeriesDataPointsOutput {
     return PostTimeSeriesDataPointsOutput(
       domainId: json['domainId'] as String?,
       entityId: json['entityId'] as String?,
-      entityType: (json['entityType'] as String?)?.toTimeSeriesEntityType(),
+      entityType:
+          (json['entityType'] as String?)?.let(TimeSeriesEntityType.fromString),
       forms: (json['forms'] as List?)
           ?.whereNotNull()
           .map((e) =>
@@ -15061,7 +14527,7 @@ class PostTimeSeriesDataPointsOutput {
     return {
       if (domainId != null) 'domainId': domainId,
       if (entityId != null) 'entityId': entityId,
-      if (entityType != null) 'entityType': entityType.toValue(),
+      if (entityType != null) 'entityType': entityType.value,
       if (forms != null) 'forms': forms,
     };
   }
@@ -15140,7 +14606,7 @@ class ProjectMember {
 
   factory ProjectMember.fromJson(Map<String, dynamic> json) {
     return ProjectMember(
-      designation: (json['designation'] as String).toUserDesignation(),
+      designation: UserDesignation.fromString((json['designation'] as String)),
       memberDetails:
           MemberDetails.fromJson(json['memberDetails'] as Map<String, dynamic>),
     );
@@ -15150,43 +14616,26 @@ class ProjectMember {
     final designation = this.designation;
     final memberDetails = this.memberDetails;
     return {
-      'designation': designation.toValue(),
+      'designation': designation.value,
       'memberDetails': memberDetails,
     };
   }
 }
 
 enum ProjectStatus {
-  active,
-  deleting,
-  deleteFailed,
-}
+  active('ACTIVE'),
+  deleting('DELETING'),
+  deleteFailed('DELETE_FAILED'),
+  ;
 
-extension ProjectStatusValueExtension on ProjectStatus {
-  String toValue() {
-    switch (this) {
-      case ProjectStatus.active:
-        return 'ACTIVE';
-      case ProjectStatus.deleting:
-        return 'DELETING';
-      case ProjectStatus.deleteFailed:
-        return 'DELETE_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ProjectStatusFromString on String {
-  ProjectStatus toProjectStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return ProjectStatus.active;
-      case 'DELETING':
-        return ProjectStatus.deleting;
-      case 'DELETE_FAILED':
-        return ProjectStatus.deleteFailed;
-    }
-    throw Exception('$this is not known in enum ProjectStatus');
-  }
+  const ProjectStatus(this.value);
+
+  static ProjectStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ProjectStatus'));
 }
 
 /// The details of a Amazon DataZone project.
@@ -15243,7 +14692,8 @@ class ProjectSummary {
           ?.whereNotNull()
           .map((e) => ProjectDeletionError.fromJson(e as Map<String, dynamic>))
           .toList(),
-      projectStatus: (json['projectStatus'] as String?)?.toProjectStatus(),
+      projectStatus:
+          (json['projectStatus'] as String?)?.let(ProjectStatus.fromString),
       updatedAt: timeStampFromJson(json['updatedAt']),
     );
   }
@@ -15266,7 +14716,7 @@ class ProjectSummary {
       if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
       if (description != null) 'description': description,
       if (failureReasons != null) 'failureReasons': failureReasons,
-      if (projectStatus != null) 'projectStatus': projectStatus.toValue(),
+      if (projectStatus != null) 'projectStatus': projectStatus.value,
       if (updatedAt != null) 'updatedAt': iso8601ToJson(updatedAt),
     };
   }
@@ -15700,38 +15150,25 @@ class RejectRule {
     final rule = this.rule;
     final threshold = this.threshold;
     return {
-      if (rule != null) 'rule': rule.toValue(),
+      if (rule != null) 'rule': rule.value,
       if (threshold != null) 'threshold': threshold,
     };
   }
 }
 
 enum RejectRuleBehavior {
-  all,
-  none,
-}
+  all('ALL'),
+  none('NONE'),
+  ;
 
-extension RejectRuleBehaviorValueExtension on RejectRuleBehavior {
-  String toValue() {
-    switch (this) {
-      case RejectRuleBehavior.all:
-        return 'ALL';
-      case RejectRuleBehavior.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension RejectRuleBehaviorFromString on String {
-  RejectRuleBehavior toRejectRuleBehavior() {
-    switch (this) {
-      case 'ALL':
-        return RejectRuleBehavior.all;
-      case 'NONE':
-        return RejectRuleBehavior.none;
-    }
-    throw Exception('$this is not known in enum RejectRuleBehavior');
-  }
+  const RejectRuleBehavior(this.value);
+
+  static RejectRuleBehavior fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RejectRuleBehavior'));
 }
 
 class RejectSubscriptionRequestOutput {
@@ -15794,7 +15231,7 @@ class RejectSubscriptionRequestOutput {
       domainId: json['domainId'] as String,
       id: json['id'] as String,
       requestReason: json['requestReason'] as String,
-      status: (json['status'] as String).toSubscriptionRequestStatus(),
+      status: SubscriptionRequestStatus.fromString((json['status'] as String)),
       subscribedListings: (json['subscribedListings'] as List)
           .whereNotNull()
           .map((e) => SubscribedListing.fromJson(e as Map<String, dynamic>))
@@ -15829,7 +15266,7 @@ class RejectSubscriptionRequestOutput {
       'domainId': domainId,
       'id': id,
       'requestReason': requestReason,
-      'status': status.toValue(),
+      'status': status.value,
       'subscribedListings': subscribedListings,
       'subscribedPrincipals': subscribedPrincipals,
       'updatedAt': unixTimestampToJson(updatedAt),
@@ -15982,7 +15419,7 @@ class RevokeSubscriptionOutput {
       createdBy: json['createdBy'] as String,
       domainId: json['domainId'] as String,
       id: json['id'] as String,
-      status: (json['status'] as String).toSubscriptionStatus(),
+      status: SubscriptionStatus.fromString((json['status'] as String)),
       subscribedListing: SubscribedListing.fromJson(
           json['subscribedListing'] as Map<String, dynamic>),
       subscribedPrincipal: SubscribedPrincipal.fromJson(
@@ -16011,7 +15448,7 @@ class RevokeSubscriptionOutput {
       'createdBy': createdBy,
       'domainId': domainId,
       'id': id,
-      'status': status.toValue(),
+      'status': status.value,
       'subscribedListing': subscribedListing,
       'subscribedPrincipal': subscribedPrincipal,
       'updatedAt': unixTimestampToJson(updatedAt),
@@ -16090,7 +15527,7 @@ class ScheduleConfiguration {
   factory ScheduleConfiguration.fromJson(Map<String, dynamic> json) {
     return ScheduleConfiguration(
       schedule: json['schedule'] as String?,
-      timezone: (json['timezone'] as String?)?.toTimezone(),
+      timezone: (json['timezone'] as String?)?.let(Timezone.fromString),
     );
   }
 
@@ -16099,7 +15536,7 @@ class ScheduleConfiguration {
     final timezone = this.timezone;
     return {
       if (schedule != null) 'schedule': schedule,
-      if (timezone != null) 'timezone': timezone.toValue(),
+      if (timezone != null) 'timezone': timezone.value,
     };
   }
 }
@@ -16302,33 +15739,18 @@ class SearchOutput {
 }
 
 enum SearchOutputAdditionalAttribute {
-  forms,
-  timeSeriesDataPointForms,
-}
+  forms('FORMS'),
+  timeSeriesDataPointForms('TIME_SERIES_DATA_POINT_FORMS'),
+  ;
 
-extension SearchOutputAdditionalAttributeValueExtension
-    on SearchOutputAdditionalAttribute {
-  String toValue() {
-    switch (this) {
-      case SearchOutputAdditionalAttribute.forms:
-        return 'FORMS';
-      case SearchOutputAdditionalAttribute.timeSeriesDataPointForms:
-        return 'TIME_SERIES_DATA_POINT_FORMS';
-    }
-  }
-}
+  final String value;
 
-extension SearchOutputAdditionalAttributeFromString on String {
-  SearchOutputAdditionalAttribute toSearchOutputAdditionalAttribute() {
-    switch (this) {
-      case 'FORMS':
-        return SearchOutputAdditionalAttribute.forms;
-      case 'TIME_SERIES_DATA_POINT_FORMS':
-        return SearchOutputAdditionalAttribute.timeSeriesDataPointForms;
-    }
-    throw Exception(
-        '$this is not known in enum SearchOutputAdditionalAttribute');
-  }
+  const SearchOutputAdditionalAttribute(this.value);
+
+  static SearchOutputAdditionalAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SearchOutputAdditionalAttribute'));
 }
 
 /// The details of the results of the <code>SearchListings</code> action.
@@ -16376,7 +15798,7 @@ class SearchSort {
     final order = this.order;
     return {
       'attribute': attribute,
-      if (order != null) 'order': order.toValue(),
+      if (order != null) 'order': order.value,
     };
   }
 }
@@ -16514,8 +15936,9 @@ class SingleSignOn {
 
   factory SingleSignOn.fromJson(Map<String, dynamic> json) {
     return SingleSignOn(
-      type: (json['type'] as String?)?.toAuthType(),
-      userAssignment: (json['userAssignment'] as String?)?.toUserAssignment(),
+      type: (json['type'] as String?)?.let(AuthType.fromString),
+      userAssignment:
+          (json['userAssignment'] as String?)?.let(UserAssignment.fromString),
     );
   }
 
@@ -16523,89 +15946,52 @@ class SingleSignOn {
     final type = this.type;
     final userAssignment = this.userAssignment;
     return {
-      if (type != null) 'type': type.toValue(),
-      if (userAssignment != null) 'userAssignment': userAssignment.toValue(),
+      if (type != null) 'type': type.value,
+      if (userAssignment != null) 'userAssignment': userAssignment.value,
     };
   }
 }
 
 enum SortFieldProject {
-  name,
-}
+  name('NAME'),
+  ;
 
-extension SortFieldProjectValueExtension on SortFieldProject {
-  String toValue() {
-    switch (this) {
-      case SortFieldProject.name:
-        return 'NAME';
-    }
-  }
-}
+  final String value;
 
-extension SortFieldProjectFromString on String {
-  SortFieldProject toSortFieldProject() {
-    switch (this) {
-      case 'NAME':
-        return SortFieldProject.name;
-    }
-    throw Exception('$this is not known in enum SortFieldProject');
-  }
+  const SortFieldProject(this.value);
+
+  static SortFieldProject fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SortFieldProject'));
 }
 
 enum SortKey {
-  createdAt,
-  updatedAt,
-}
+  createdAt('CREATED_AT'),
+  updatedAt('UPDATED_AT'),
+  ;
 
-extension SortKeyValueExtension on SortKey {
-  String toValue() {
-    switch (this) {
-      case SortKey.createdAt:
-        return 'CREATED_AT';
-      case SortKey.updatedAt:
-        return 'UPDATED_AT';
-    }
-  }
-}
+  final String value;
 
-extension SortKeyFromString on String {
-  SortKey toSortKey() {
-    switch (this) {
-      case 'CREATED_AT':
-        return SortKey.createdAt;
-      case 'UPDATED_AT':
-        return SortKey.updatedAt;
-    }
-    throw Exception('$this is not known in enum SortKey');
-  }
+  const SortKey(this.value);
+
+  static SortKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum SortKey'));
 }
 
 enum SortOrder {
-  ascending,
-  descending,
-}
+  ascending('ASCENDING'),
+  descending('DESCENDING'),
+  ;
 
-extension SortOrderValueExtension on SortOrder {
-  String toValue() {
-    switch (this) {
-      case SortOrder.ascending:
-        return 'ASCENDING';
-      case SortOrder.descending:
-        return 'DESCENDING';
-    }
-  }
-}
+  final String value;
 
-extension SortOrderFromString on String {
-  SortOrder toSortOrder() {
-    switch (this) {
-      case 'ASCENDING':
-        return SortOrder.ascending;
-      case 'DESCENDING':
-        return SortOrder.descending;
-    }
-    throw Exception('$this is not known in enum SortOrder');
-  }
+  const SortOrder(this.value);
+
+  static SortOrder fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SortOrder'));
 }
 
 /// The single sign-on details of the user profile.
@@ -16710,8 +16096,8 @@ class StartDataSourceRunOutput {
       domainId: json['domainId'] as String,
       id: json['id'] as String,
       projectId: json['projectId'] as String,
-      status: (json['status'] as String).toDataSourceRunStatus(),
-      type: (json['type'] as String).toDataSourceRunType(),
+      status: DataSourceRunStatus.fromString((json['status'] as String)),
+      type: DataSourceRunType.fromString((json['type'] as String)),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       dataSourceConfigurationSnapshot:
           json['dataSourceConfigurationSnapshot'] as String?,
@@ -16749,8 +16135,8 @@ class StartDataSourceRunOutput {
       'domainId': domainId,
       'id': id,
       'projectId': projectId,
-      'status': status.toValue(),
-      'type': type.toValue(),
+      'status': status.value,
+      'type': type.value,
       'updatedAt': iso8601ToJson(updatedAt),
       if (dataSourceConfigurationSnapshot != null)
         'dataSourceConfigurationSnapshot': dataSourceConfigurationSnapshot,
@@ -16804,8 +16190,10 @@ class StartMetadataGenerationRunOutput {
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
       owningProjectId: json['owningProjectId'] as String?,
-      status: (json['status'] as String?)?.toMetadataGenerationRunStatus(),
-      type: (json['type'] as String?)?.toMetadataGenerationRunType(),
+      status: (json['status'] as String?)
+          ?.let(MetadataGenerationRunStatus.fromString),
+      type:
+          (json['type'] as String?)?.let(MetadataGenerationRunType.fromString),
     );
   }
 
@@ -16823,8 +16211,8 @@ class StartMetadataGenerationRunOutput {
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (createdBy != null) 'createdBy': createdBy,
       if (owningProjectId != null) 'owningProjectId': owningProjectId,
-      if (status != null) 'status': status.toValue(),
-      if (type != null) 'type': type.toValue(),
+      if (status != null) 'status': status.value,
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -16868,7 +16256,7 @@ class SubscribedAsset {
     return SubscribedAsset(
       assetId: json['assetId'] as String,
       assetRevision: json['assetRevision'] as String,
-      status: (json['status'] as String).toSubscriptionGrantStatus(),
+      status: SubscriptionGrantStatus.fromString((json['status'] as String)),
       failureCause: json['failureCause'] != null
           ? FailureCause.fromJson(json['failureCause'] as Map<String, dynamic>)
           : null,
@@ -16889,7 +16277,7 @@ class SubscribedAsset {
     return {
       'assetId': assetId,
       'assetRevision': assetRevision,
-      'status': status.toValue(),
+      'status': status.value,
       if (failureCause != null) 'failureCause': failureCause,
       if (failureTimestamp != null)
         'failureTimestamp': unixTimestampToJson(failureTimestamp),
@@ -17165,116 +16553,44 @@ class SubscribedProjectInput {
 }
 
 enum SubscriptionGrantOverallStatus {
-  pending,
-  inProgress,
-  grantFailed,
-  revokeFailed,
-  grantAndRevokeFailed,
-  completed,
-  inaccessible,
-}
+  pending('PENDING'),
+  inProgress('IN_PROGRESS'),
+  grantFailed('GRANT_FAILED'),
+  revokeFailed('REVOKE_FAILED'),
+  grantAndRevokeFailed('GRANT_AND_REVOKE_FAILED'),
+  completed('COMPLETED'),
+  inaccessible('INACCESSIBLE'),
+  ;
 
-extension SubscriptionGrantOverallStatusValueExtension
-    on SubscriptionGrantOverallStatus {
-  String toValue() {
-    switch (this) {
-      case SubscriptionGrantOverallStatus.pending:
-        return 'PENDING';
-      case SubscriptionGrantOverallStatus.inProgress:
-        return 'IN_PROGRESS';
-      case SubscriptionGrantOverallStatus.grantFailed:
-        return 'GRANT_FAILED';
-      case SubscriptionGrantOverallStatus.revokeFailed:
-        return 'REVOKE_FAILED';
-      case SubscriptionGrantOverallStatus.grantAndRevokeFailed:
-        return 'GRANT_AND_REVOKE_FAILED';
-      case SubscriptionGrantOverallStatus.completed:
-        return 'COMPLETED';
-      case SubscriptionGrantOverallStatus.inaccessible:
-        return 'INACCESSIBLE';
-    }
-  }
-}
+  final String value;
 
-extension SubscriptionGrantOverallStatusFromString on String {
-  SubscriptionGrantOverallStatus toSubscriptionGrantOverallStatus() {
-    switch (this) {
-      case 'PENDING':
-        return SubscriptionGrantOverallStatus.pending;
-      case 'IN_PROGRESS':
-        return SubscriptionGrantOverallStatus.inProgress;
-      case 'GRANT_FAILED':
-        return SubscriptionGrantOverallStatus.grantFailed;
-      case 'REVOKE_FAILED':
-        return SubscriptionGrantOverallStatus.revokeFailed;
-      case 'GRANT_AND_REVOKE_FAILED':
-        return SubscriptionGrantOverallStatus.grantAndRevokeFailed;
-      case 'COMPLETED':
-        return SubscriptionGrantOverallStatus.completed;
-      case 'INACCESSIBLE':
-        return SubscriptionGrantOverallStatus.inaccessible;
-    }
-    throw Exception(
-        '$this is not known in enum SubscriptionGrantOverallStatus');
-  }
+  const SubscriptionGrantOverallStatus(this.value);
+
+  static SubscriptionGrantOverallStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SubscriptionGrantOverallStatus'));
 }
 
 enum SubscriptionGrantStatus {
-  grantPending,
-  revokePending,
-  grantInProgress,
-  revokeInProgress,
-  granted,
-  revoked,
-  grantFailed,
-  revokeFailed,
-}
+  grantPending('GRANT_PENDING'),
+  revokePending('REVOKE_PENDING'),
+  grantInProgress('GRANT_IN_PROGRESS'),
+  revokeInProgress('REVOKE_IN_PROGRESS'),
+  granted('GRANTED'),
+  revoked('REVOKED'),
+  grantFailed('GRANT_FAILED'),
+  revokeFailed('REVOKE_FAILED'),
+  ;
 
-extension SubscriptionGrantStatusValueExtension on SubscriptionGrantStatus {
-  String toValue() {
-    switch (this) {
-      case SubscriptionGrantStatus.grantPending:
-        return 'GRANT_PENDING';
-      case SubscriptionGrantStatus.revokePending:
-        return 'REVOKE_PENDING';
-      case SubscriptionGrantStatus.grantInProgress:
-        return 'GRANT_IN_PROGRESS';
-      case SubscriptionGrantStatus.revokeInProgress:
-        return 'REVOKE_IN_PROGRESS';
-      case SubscriptionGrantStatus.granted:
-        return 'GRANTED';
-      case SubscriptionGrantStatus.revoked:
-        return 'REVOKED';
-      case SubscriptionGrantStatus.grantFailed:
-        return 'GRANT_FAILED';
-      case SubscriptionGrantStatus.revokeFailed:
-        return 'REVOKE_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension SubscriptionGrantStatusFromString on String {
-  SubscriptionGrantStatus toSubscriptionGrantStatus() {
-    switch (this) {
-      case 'GRANT_PENDING':
-        return SubscriptionGrantStatus.grantPending;
-      case 'REVOKE_PENDING':
-        return SubscriptionGrantStatus.revokePending;
-      case 'GRANT_IN_PROGRESS':
-        return SubscriptionGrantStatus.grantInProgress;
-      case 'REVOKE_IN_PROGRESS':
-        return SubscriptionGrantStatus.revokeInProgress;
-      case 'GRANTED':
-        return SubscriptionGrantStatus.granted;
-      case 'REVOKED':
-        return SubscriptionGrantStatus.revoked;
-      case 'GRANT_FAILED':
-        return SubscriptionGrantStatus.grantFailed;
-      case 'REVOKE_FAILED':
-        return SubscriptionGrantStatus.revokeFailed;
-    }
-    throw Exception('$this is not known in enum SubscriptionGrantStatus');
-  }
+  const SubscriptionGrantStatus(this.value);
+
+  static SubscriptionGrantStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SubscriptionGrantStatus'));
 }
 
 /// The details of the subscription grant.
@@ -17335,7 +16651,8 @@ class SubscriptionGrantSummary {
       grantedEntity:
           GrantedEntity.fromJson(json['grantedEntity'] as Map<String, dynamic>),
       id: json['id'] as String,
-      status: (json['status'] as String).toSubscriptionGrantOverallStatus(),
+      status:
+          SubscriptionGrantOverallStatus.fromString((json['status'] as String)),
       subscriptionTargetId: json['subscriptionTargetId'] as String,
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       assets: (json['assets'] as List?)
@@ -17365,7 +16682,7 @@ class SubscriptionGrantSummary {
       'domainId': domainId,
       'grantedEntity': grantedEntity,
       'id': id,
-      'status': status.toValue(),
+      'status': status.value,
       'subscriptionTargetId': subscriptionTargetId,
       'updatedAt': unixTimestampToJson(updatedAt),
       if (assets != null) 'assets': assets,
@@ -17376,36 +16693,19 @@ class SubscriptionGrantSummary {
 }
 
 enum SubscriptionRequestStatus {
-  pending,
-  accepted,
-  rejected,
-}
+  pending('PENDING'),
+  accepted('ACCEPTED'),
+  rejected('REJECTED'),
+  ;
 
-extension SubscriptionRequestStatusValueExtension on SubscriptionRequestStatus {
-  String toValue() {
-    switch (this) {
-      case SubscriptionRequestStatus.pending:
-        return 'PENDING';
-      case SubscriptionRequestStatus.accepted:
-        return 'ACCEPTED';
-      case SubscriptionRequestStatus.rejected:
-        return 'REJECTED';
-    }
-  }
-}
+  final String value;
 
-extension SubscriptionRequestStatusFromString on String {
-  SubscriptionRequestStatus toSubscriptionRequestStatus() {
-    switch (this) {
-      case 'PENDING':
-        return SubscriptionRequestStatus.pending;
-      case 'ACCEPTED':
-        return SubscriptionRequestStatus.accepted;
-      case 'REJECTED':
-        return SubscriptionRequestStatus.rejected;
-    }
-    throw Exception('$this is not known in enum SubscriptionRequestStatus');
-  }
+  const SubscriptionRequestStatus(this.value);
+
+  static SubscriptionRequestStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SubscriptionRequestStatus'));
 }
 
 /// The details of the subscription request.
@@ -17470,7 +16770,7 @@ class SubscriptionRequestSummary {
       domainId: json['domainId'] as String,
       id: json['id'] as String,
       requestReason: json['requestReason'] as String,
-      status: (json['status'] as String).toSubscriptionRequestStatus(),
+      status: SubscriptionRequestStatus.fromString((json['status'] as String)),
       subscribedListings: (json['subscribedListings'] as List)
           .whereNotNull()
           .map((e) => SubscribedListing.fromJson(e as Map<String, dynamic>))
@@ -17505,7 +16805,7 @@ class SubscriptionRequestSummary {
       'domainId': domainId,
       'id': id,
       'requestReason': requestReason,
-      'status': status.toValue(),
+      'status': status.value,
       'subscribedListings': subscribedListings,
       'subscribedPrincipals': subscribedPrincipals,
       'updatedAt': unixTimestampToJson(updatedAt),
@@ -17517,36 +16817,19 @@ class SubscriptionRequestSummary {
 }
 
 enum SubscriptionStatus {
-  approved,
-  revoked,
-  cancelled,
-}
+  approved('APPROVED'),
+  revoked('REVOKED'),
+  cancelled('CANCELLED'),
+  ;
 
-extension SubscriptionStatusValueExtension on SubscriptionStatus {
-  String toValue() {
-    switch (this) {
-      case SubscriptionStatus.approved:
-        return 'APPROVED';
-      case SubscriptionStatus.revoked:
-        return 'REVOKED';
-      case SubscriptionStatus.cancelled:
-        return 'CANCELLED';
-    }
-  }
-}
+  final String value;
 
-extension SubscriptionStatusFromString on String {
-  SubscriptionStatus toSubscriptionStatus() {
-    switch (this) {
-      case 'APPROVED':
-        return SubscriptionStatus.approved;
-      case 'REVOKED':
-        return SubscriptionStatus.revoked;
-      case 'CANCELLED':
-        return SubscriptionStatus.cancelled;
-    }
-    throw Exception('$this is not known in enum SubscriptionStatus');
-  }
+  const SubscriptionStatus(this.value);
+
+  static SubscriptionStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SubscriptionStatus'));
 }
 
 /// The details of the subscription.
@@ -17604,7 +16887,7 @@ class SubscriptionSummary {
       createdBy: json['createdBy'] as String,
       domainId: json['domainId'] as String,
       id: json['id'] as String,
-      status: (json['status'] as String).toSubscriptionStatus(),
+      status: SubscriptionStatus.fromString((json['status'] as String)),
       subscribedListing: SubscribedListing.fromJson(
           json['subscribedListing'] as Map<String, dynamic>),
       subscribedPrincipal: SubscribedPrincipal.fromJson(
@@ -17633,7 +16916,7 @@ class SubscriptionSummary {
       'createdBy': createdBy,
       'domainId': domainId,
       'id': id,
-      'status': status.toValue(),
+      'status': status.value,
       'subscribedListing': subscribedListing,
       'subscribedPrincipal': subscribedPrincipal,
       'updatedAt': unixTimestampToJson(updatedAt),
@@ -17820,31 +17103,17 @@ class TagResourceResponse {
 }
 
 enum TaskStatus {
-  active,
-  inactive,
-}
+  active('ACTIVE'),
+  inactive('INACTIVE'),
+  ;
 
-extension TaskStatusValueExtension on TaskStatus {
-  String toValue() {
-    switch (this) {
-      case TaskStatus.active:
-        return 'ACTIVE';
-      case TaskStatus.inactive:
-        return 'INACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension TaskStatusFromString on String {
-  TaskStatus toTaskStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return TaskStatus.active;
-      case 'INACTIVE':
-        return TaskStatus.inactive;
-    }
-    throw Exception('$this is not known in enum TaskStatus');
-  }
+  const TaskStatus(this.value);
+
+  static TaskStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TaskStatus'));
 }
 
 /// The details of the term relations.
@@ -18042,369 +17311,94 @@ class TimeSeriesDataPointSummaryFormOutput {
 }
 
 enum TimeSeriesEntityType {
-  asset,
-  listing,
-}
+  asset('ASSET'),
+  listing('LISTING'),
+  ;
 
-extension TimeSeriesEntityTypeValueExtension on TimeSeriesEntityType {
-  String toValue() {
-    switch (this) {
-      case TimeSeriesEntityType.asset:
-        return 'ASSET';
-      case TimeSeriesEntityType.listing:
-        return 'LISTING';
-    }
-  }
-}
+  final String value;
 
-extension TimeSeriesEntityTypeFromString on String {
-  TimeSeriesEntityType toTimeSeriesEntityType() {
-    switch (this) {
-      case 'ASSET':
-        return TimeSeriesEntityType.asset;
-      case 'LISTING':
-        return TimeSeriesEntityType.listing;
-    }
-    throw Exception('$this is not known in enum TimeSeriesEntityType');
-  }
+  const TimeSeriesEntityType(this.value);
+
+  static TimeSeriesEntityType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TimeSeriesEntityType'));
 }
 
 enum Timezone {
-  utc,
-  africaJohannesburg,
-  americaMontreal,
-  americaSaoPaulo,
-  asiaBahrain,
-  asiaBangkok,
-  asiaCalcutta,
-  asiaDubai,
-  asiaHongKong,
-  asiaJakarta,
-  asiaKualaLumpur,
-  asiaSeoul,
-  asiaShanghai,
-  asiaSingapore,
-  asiaTaipei,
-  asiaTokyo,
-  australiaMelbourne,
-  australiaSydney,
-  canadaCentral,
-  cet,
-  cst6cdt,
-  etcGmt,
-  etcGmt0,
-  etcGmtAdd_0,
-  etcGmtAdd_1,
-  etcGmtAdd_10,
-  etcGmtAdd_11,
-  etcGmtAdd_12,
-  etcGmtAdd_2,
-  etcGmtAdd_3,
-  etcGmtAdd_4,
-  etcGmtAdd_5,
-  etcGmtAdd_6,
-  etcGmtAdd_7,
-  etcGmtAdd_8,
-  etcGmtAdd_9,
-  etcGmtNeg_0,
-  etcGmtNeg_1,
-  etcGmtNeg_10,
-  etcGmtNeg_11,
-  etcGmtNeg_12,
-  etcGmtNeg_13,
-  etcGmtNeg_14,
-  etcGmtNeg_2,
-  etcGmtNeg_3,
-  etcGmtNeg_4,
-  etcGmtNeg_5,
-  etcGmtNeg_6,
-  etcGmtNeg_7,
-  etcGmtNeg_8,
-  etcGmtNeg_9,
-  europeDublin,
-  europeLondon,
-  europeParis,
-  europeStockholm,
-  europeZurich,
-  israel,
-  mexicoGeneral,
-  mst7mdt,
-  pacificAuckland,
-  usCentral,
-  usEastern,
-  usMountain,
-  usPacific,
-}
+  utc('UTC'),
+  africaJohannesburg('AFRICA_JOHANNESBURG'),
+  americaMontreal('AMERICA_MONTREAL'),
+  americaSaoPaulo('AMERICA_SAO_PAULO'),
+  asiaBahrain('ASIA_BAHRAIN'),
+  asiaBangkok('ASIA_BANGKOK'),
+  asiaCalcutta('ASIA_CALCUTTA'),
+  asiaDubai('ASIA_DUBAI'),
+  asiaHongKong('ASIA_HONG_KONG'),
+  asiaJakarta('ASIA_JAKARTA'),
+  asiaKualaLumpur('ASIA_KUALA_LUMPUR'),
+  asiaSeoul('ASIA_SEOUL'),
+  asiaShanghai('ASIA_SHANGHAI'),
+  asiaSingapore('ASIA_SINGAPORE'),
+  asiaTaipei('ASIA_TAIPEI'),
+  asiaTokyo('ASIA_TOKYO'),
+  australiaMelbourne('AUSTRALIA_MELBOURNE'),
+  australiaSydney('AUSTRALIA_SYDNEY'),
+  canadaCentral('CANADA_CENTRAL'),
+  cet('CET'),
+  cst6cdt('CST6CDT'),
+  etcGmt('ETC_GMT'),
+  etcGmt0('ETC_GMT0'),
+  etcGmtAdd_0('ETC_GMT_ADD_0'),
+  etcGmtAdd_1('ETC_GMT_ADD_1'),
+  etcGmtAdd_10('ETC_GMT_ADD_10'),
+  etcGmtAdd_11('ETC_GMT_ADD_11'),
+  etcGmtAdd_12('ETC_GMT_ADD_12'),
+  etcGmtAdd_2('ETC_GMT_ADD_2'),
+  etcGmtAdd_3('ETC_GMT_ADD_3'),
+  etcGmtAdd_4('ETC_GMT_ADD_4'),
+  etcGmtAdd_5('ETC_GMT_ADD_5'),
+  etcGmtAdd_6('ETC_GMT_ADD_6'),
+  etcGmtAdd_7('ETC_GMT_ADD_7'),
+  etcGmtAdd_8('ETC_GMT_ADD_8'),
+  etcGmtAdd_9('ETC_GMT_ADD_9'),
+  etcGmtNeg_0('ETC_GMT_NEG_0'),
+  etcGmtNeg_1('ETC_GMT_NEG_1'),
+  etcGmtNeg_10('ETC_GMT_NEG_10'),
+  etcGmtNeg_11('ETC_GMT_NEG_11'),
+  etcGmtNeg_12('ETC_GMT_NEG_12'),
+  etcGmtNeg_13('ETC_GMT_NEG_13'),
+  etcGmtNeg_14('ETC_GMT_NEG_14'),
+  etcGmtNeg_2('ETC_GMT_NEG_2'),
+  etcGmtNeg_3('ETC_GMT_NEG_3'),
+  etcGmtNeg_4('ETC_GMT_NEG_4'),
+  etcGmtNeg_5('ETC_GMT_NEG_5'),
+  etcGmtNeg_6('ETC_GMT_NEG_6'),
+  etcGmtNeg_7('ETC_GMT_NEG_7'),
+  etcGmtNeg_8('ETC_GMT_NEG_8'),
+  etcGmtNeg_9('ETC_GMT_NEG_9'),
+  europeDublin('EUROPE_DUBLIN'),
+  europeLondon('EUROPE_LONDON'),
+  europeParis('EUROPE_PARIS'),
+  europeStockholm('EUROPE_STOCKHOLM'),
+  europeZurich('EUROPE_ZURICH'),
+  israel('ISRAEL'),
+  mexicoGeneral('MEXICO_GENERAL'),
+  mst7mdt('MST7MDT'),
+  pacificAuckland('PACIFIC_AUCKLAND'),
+  usCentral('US_CENTRAL'),
+  usEastern('US_EASTERN'),
+  usMountain('US_MOUNTAIN'),
+  usPacific('US_PACIFIC'),
+  ;
 
-extension TimezoneValueExtension on Timezone {
-  String toValue() {
-    switch (this) {
-      case Timezone.utc:
-        return 'UTC';
-      case Timezone.africaJohannesburg:
-        return 'AFRICA_JOHANNESBURG';
-      case Timezone.americaMontreal:
-        return 'AMERICA_MONTREAL';
-      case Timezone.americaSaoPaulo:
-        return 'AMERICA_SAO_PAULO';
-      case Timezone.asiaBahrain:
-        return 'ASIA_BAHRAIN';
-      case Timezone.asiaBangkok:
-        return 'ASIA_BANGKOK';
-      case Timezone.asiaCalcutta:
-        return 'ASIA_CALCUTTA';
-      case Timezone.asiaDubai:
-        return 'ASIA_DUBAI';
-      case Timezone.asiaHongKong:
-        return 'ASIA_HONG_KONG';
-      case Timezone.asiaJakarta:
-        return 'ASIA_JAKARTA';
-      case Timezone.asiaKualaLumpur:
-        return 'ASIA_KUALA_LUMPUR';
-      case Timezone.asiaSeoul:
-        return 'ASIA_SEOUL';
-      case Timezone.asiaShanghai:
-        return 'ASIA_SHANGHAI';
-      case Timezone.asiaSingapore:
-        return 'ASIA_SINGAPORE';
-      case Timezone.asiaTaipei:
-        return 'ASIA_TAIPEI';
-      case Timezone.asiaTokyo:
-        return 'ASIA_TOKYO';
-      case Timezone.australiaMelbourne:
-        return 'AUSTRALIA_MELBOURNE';
-      case Timezone.australiaSydney:
-        return 'AUSTRALIA_SYDNEY';
-      case Timezone.canadaCentral:
-        return 'CANADA_CENTRAL';
-      case Timezone.cet:
-        return 'CET';
-      case Timezone.cst6cdt:
-        return 'CST6CDT';
-      case Timezone.etcGmt:
-        return 'ETC_GMT';
-      case Timezone.etcGmt0:
-        return 'ETC_GMT0';
-      case Timezone.etcGmtAdd_0:
-        return 'ETC_GMT_ADD_0';
-      case Timezone.etcGmtAdd_1:
-        return 'ETC_GMT_ADD_1';
-      case Timezone.etcGmtAdd_10:
-        return 'ETC_GMT_ADD_10';
-      case Timezone.etcGmtAdd_11:
-        return 'ETC_GMT_ADD_11';
-      case Timezone.etcGmtAdd_12:
-        return 'ETC_GMT_ADD_12';
-      case Timezone.etcGmtAdd_2:
-        return 'ETC_GMT_ADD_2';
-      case Timezone.etcGmtAdd_3:
-        return 'ETC_GMT_ADD_3';
-      case Timezone.etcGmtAdd_4:
-        return 'ETC_GMT_ADD_4';
-      case Timezone.etcGmtAdd_5:
-        return 'ETC_GMT_ADD_5';
-      case Timezone.etcGmtAdd_6:
-        return 'ETC_GMT_ADD_6';
-      case Timezone.etcGmtAdd_7:
-        return 'ETC_GMT_ADD_7';
-      case Timezone.etcGmtAdd_8:
-        return 'ETC_GMT_ADD_8';
-      case Timezone.etcGmtAdd_9:
-        return 'ETC_GMT_ADD_9';
-      case Timezone.etcGmtNeg_0:
-        return 'ETC_GMT_NEG_0';
-      case Timezone.etcGmtNeg_1:
-        return 'ETC_GMT_NEG_1';
-      case Timezone.etcGmtNeg_10:
-        return 'ETC_GMT_NEG_10';
-      case Timezone.etcGmtNeg_11:
-        return 'ETC_GMT_NEG_11';
-      case Timezone.etcGmtNeg_12:
-        return 'ETC_GMT_NEG_12';
-      case Timezone.etcGmtNeg_13:
-        return 'ETC_GMT_NEG_13';
-      case Timezone.etcGmtNeg_14:
-        return 'ETC_GMT_NEG_14';
-      case Timezone.etcGmtNeg_2:
-        return 'ETC_GMT_NEG_2';
-      case Timezone.etcGmtNeg_3:
-        return 'ETC_GMT_NEG_3';
-      case Timezone.etcGmtNeg_4:
-        return 'ETC_GMT_NEG_4';
-      case Timezone.etcGmtNeg_5:
-        return 'ETC_GMT_NEG_5';
-      case Timezone.etcGmtNeg_6:
-        return 'ETC_GMT_NEG_6';
-      case Timezone.etcGmtNeg_7:
-        return 'ETC_GMT_NEG_7';
-      case Timezone.etcGmtNeg_8:
-        return 'ETC_GMT_NEG_8';
-      case Timezone.etcGmtNeg_9:
-        return 'ETC_GMT_NEG_9';
-      case Timezone.europeDublin:
-        return 'EUROPE_DUBLIN';
-      case Timezone.europeLondon:
-        return 'EUROPE_LONDON';
-      case Timezone.europeParis:
-        return 'EUROPE_PARIS';
-      case Timezone.europeStockholm:
-        return 'EUROPE_STOCKHOLM';
-      case Timezone.europeZurich:
-        return 'EUROPE_ZURICH';
-      case Timezone.israel:
-        return 'ISRAEL';
-      case Timezone.mexicoGeneral:
-        return 'MEXICO_GENERAL';
-      case Timezone.mst7mdt:
-        return 'MST7MDT';
-      case Timezone.pacificAuckland:
-        return 'PACIFIC_AUCKLAND';
-      case Timezone.usCentral:
-        return 'US_CENTRAL';
-      case Timezone.usEastern:
-        return 'US_EASTERN';
-      case Timezone.usMountain:
-        return 'US_MOUNTAIN';
-      case Timezone.usPacific:
-        return 'US_PACIFIC';
-    }
-  }
-}
+  final String value;
 
-extension TimezoneFromString on String {
-  Timezone toTimezone() {
-    switch (this) {
-      case 'UTC':
-        return Timezone.utc;
-      case 'AFRICA_JOHANNESBURG':
-        return Timezone.africaJohannesburg;
-      case 'AMERICA_MONTREAL':
-        return Timezone.americaMontreal;
-      case 'AMERICA_SAO_PAULO':
-        return Timezone.americaSaoPaulo;
-      case 'ASIA_BAHRAIN':
-        return Timezone.asiaBahrain;
-      case 'ASIA_BANGKOK':
-        return Timezone.asiaBangkok;
-      case 'ASIA_CALCUTTA':
-        return Timezone.asiaCalcutta;
-      case 'ASIA_DUBAI':
-        return Timezone.asiaDubai;
-      case 'ASIA_HONG_KONG':
-        return Timezone.asiaHongKong;
-      case 'ASIA_JAKARTA':
-        return Timezone.asiaJakarta;
-      case 'ASIA_KUALA_LUMPUR':
-        return Timezone.asiaKualaLumpur;
-      case 'ASIA_SEOUL':
-        return Timezone.asiaSeoul;
-      case 'ASIA_SHANGHAI':
-        return Timezone.asiaShanghai;
-      case 'ASIA_SINGAPORE':
-        return Timezone.asiaSingapore;
-      case 'ASIA_TAIPEI':
-        return Timezone.asiaTaipei;
-      case 'ASIA_TOKYO':
-        return Timezone.asiaTokyo;
-      case 'AUSTRALIA_MELBOURNE':
-        return Timezone.australiaMelbourne;
-      case 'AUSTRALIA_SYDNEY':
-        return Timezone.australiaSydney;
-      case 'CANADA_CENTRAL':
-        return Timezone.canadaCentral;
-      case 'CET':
-        return Timezone.cet;
-      case 'CST6CDT':
-        return Timezone.cst6cdt;
-      case 'ETC_GMT':
-        return Timezone.etcGmt;
-      case 'ETC_GMT0':
-        return Timezone.etcGmt0;
-      case 'ETC_GMT_ADD_0':
-        return Timezone.etcGmtAdd_0;
-      case 'ETC_GMT_ADD_1':
-        return Timezone.etcGmtAdd_1;
-      case 'ETC_GMT_ADD_10':
-        return Timezone.etcGmtAdd_10;
-      case 'ETC_GMT_ADD_11':
-        return Timezone.etcGmtAdd_11;
-      case 'ETC_GMT_ADD_12':
-        return Timezone.etcGmtAdd_12;
-      case 'ETC_GMT_ADD_2':
-        return Timezone.etcGmtAdd_2;
-      case 'ETC_GMT_ADD_3':
-        return Timezone.etcGmtAdd_3;
-      case 'ETC_GMT_ADD_4':
-        return Timezone.etcGmtAdd_4;
-      case 'ETC_GMT_ADD_5':
-        return Timezone.etcGmtAdd_5;
-      case 'ETC_GMT_ADD_6':
-        return Timezone.etcGmtAdd_6;
-      case 'ETC_GMT_ADD_7':
-        return Timezone.etcGmtAdd_7;
-      case 'ETC_GMT_ADD_8':
-        return Timezone.etcGmtAdd_8;
-      case 'ETC_GMT_ADD_9':
-        return Timezone.etcGmtAdd_9;
-      case 'ETC_GMT_NEG_0':
-        return Timezone.etcGmtNeg_0;
-      case 'ETC_GMT_NEG_1':
-        return Timezone.etcGmtNeg_1;
-      case 'ETC_GMT_NEG_10':
-        return Timezone.etcGmtNeg_10;
-      case 'ETC_GMT_NEG_11':
-        return Timezone.etcGmtNeg_11;
-      case 'ETC_GMT_NEG_12':
-        return Timezone.etcGmtNeg_12;
-      case 'ETC_GMT_NEG_13':
-        return Timezone.etcGmtNeg_13;
-      case 'ETC_GMT_NEG_14':
-        return Timezone.etcGmtNeg_14;
-      case 'ETC_GMT_NEG_2':
-        return Timezone.etcGmtNeg_2;
-      case 'ETC_GMT_NEG_3':
-        return Timezone.etcGmtNeg_3;
-      case 'ETC_GMT_NEG_4':
-        return Timezone.etcGmtNeg_4;
-      case 'ETC_GMT_NEG_5':
-        return Timezone.etcGmtNeg_5;
-      case 'ETC_GMT_NEG_6':
-        return Timezone.etcGmtNeg_6;
-      case 'ETC_GMT_NEG_7':
-        return Timezone.etcGmtNeg_7;
-      case 'ETC_GMT_NEG_8':
-        return Timezone.etcGmtNeg_8;
-      case 'ETC_GMT_NEG_9':
-        return Timezone.etcGmtNeg_9;
-      case 'EUROPE_DUBLIN':
-        return Timezone.europeDublin;
-      case 'EUROPE_LONDON':
-        return Timezone.europeLondon;
-      case 'EUROPE_PARIS':
-        return Timezone.europeParis;
-      case 'EUROPE_STOCKHOLM':
-        return Timezone.europeStockholm;
-      case 'EUROPE_ZURICH':
-        return Timezone.europeZurich;
-      case 'ISRAEL':
-        return Timezone.israel;
-      case 'MEXICO_GENERAL':
-        return Timezone.mexicoGeneral;
-      case 'MST7MDT':
-        return Timezone.mst7mdt;
-      case 'PACIFIC_AUCKLAND':
-        return Timezone.pacificAuckland;
-      case 'US_CENTRAL':
-        return Timezone.usCentral;
-      case 'US_EASTERN':
-        return Timezone.usEastern;
-      case 'US_MOUNTAIN':
-        return Timezone.usMountain;
-      case 'US_PACIFIC':
-        return Timezone.usPacific;
-    }
-    throw Exception('$this is not known in enum Timezone');
-  }
+  const Timezone(this.value);
+
+  static Timezone fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Timezone'));
 }
 
 /// The topic of the notification.
@@ -18427,7 +17421,7 @@ class Topic {
     return Topic(
       resource: NotificationResource.fromJson(
           json['resource'] as Map<String, dynamic>),
-      role: (json['role'] as String).toNotificationRole(),
+      role: NotificationRole.fromString((json['role'] as String)),
       subject: json['subject'] as String,
     );
   }
@@ -18438,38 +17432,25 @@ class Topic {
     final subject = this.subject;
     return {
       'resource': resource,
-      'role': role.toValue(),
+      'role': role.value,
       'subject': subject,
     };
   }
 }
 
 enum TypesSearchScope {
-  assetType,
-  formType,
-}
+  assetType('ASSET_TYPE'),
+  formType('FORM_TYPE'),
+  ;
 
-extension TypesSearchScopeValueExtension on TypesSearchScope {
-  String toValue() {
-    switch (this) {
-      case TypesSearchScope.assetType:
-        return 'ASSET_TYPE';
-      case TypesSearchScope.formType:
-        return 'FORM_TYPE';
-    }
-  }
-}
+  final String value;
 
-extension TypesSearchScopeFromString on String {
-  TypesSearchScope toTypesSearchScope() {
-    switch (this) {
-      case 'ASSET_TYPE':
-        return TypesSearchScope.assetType;
-      case 'FORM_TYPE':
-        return TypesSearchScope.formType;
-    }
-    throw Exception('$this is not known in enum TypesSearchScope');
-  }
+  const TypesSearchScope(this.value);
+
+  static TypesSearchScope fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TypesSearchScope'));
 }
 
 class UntagResourceResponse {
@@ -18595,7 +17576,8 @@ class UpdateDataSourceOutput {
           : null,
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
-      enableSetting: (json['enableSetting'] as String?)?.toEnableSetting(),
+      enableSetting:
+          (json['enableSetting'] as String?)?.let(EnableSetting.fromString),
       errorMessage: json['errorMessage'] != null
           ? DataSourceErrorMessage.fromJson(
               json['errorMessage'] as Map<String, dynamic>)
@@ -18605,8 +17587,8 @@ class UpdateDataSourceOutput {
           ? DataSourceErrorMessage.fromJson(
               json['lastRunErrorMessage'] as Map<String, dynamic>)
           : null,
-      lastRunStatus:
-          (json['lastRunStatus'] as String?)?.toDataSourceRunStatus(),
+      lastRunStatus: (json['lastRunStatus'] as String?)
+          ?.let(DataSourceRunStatus.fromString),
       publishOnImport: json['publishOnImport'] as bool?,
       recommendation: json['recommendation'] != null
           ? RecommendationConfiguration.fromJson(
@@ -18616,7 +17598,7 @@ class UpdateDataSourceOutput {
           ? ScheduleConfiguration.fromJson(
               json['schedule'] as Map<String, dynamic>)
           : null,
-      status: (json['status'] as String?)?.toDataSourceStatus(),
+      status: (json['status'] as String?)?.let(DataSourceStatus.fromString),
       type: json['type'] as String?,
       updatedAt: timeStampFromJson(json['updatedAt']),
     );
@@ -18653,16 +17635,16 @@ class UpdateDataSourceOutput {
       if (configuration != null) 'configuration': configuration,
       if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
       if (description != null) 'description': description,
-      if (enableSetting != null) 'enableSetting': enableSetting.toValue(),
+      if (enableSetting != null) 'enableSetting': enableSetting.value,
       if (errorMessage != null) 'errorMessage': errorMessage,
       if (lastRunAt != null) 'lastRunAt': iso8601ToJson(lastRunAt),
       if (lastRunErrorMessage != null)
         'lastRunErrorMessage': lastRunErrorMessage,
-      if (lastRunStatus != null) 'lastRunStatus': lastRunStatus.toValue(),
+      if (lastRunStatus != null) 'lastRunStatus': lastRunStatus.value,
       if (publishOnImport != null) 'publishOnImport': publishOnImport,
       if (recommendation != null) 'recommendation': recommendation,
       if (schedule != null) 'schedule': schedule,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (type != null) 'type': type,
       if (updatedAt != null) 'updatedAt': iso8601ToJson(updatedAt),
     };
@@ -18867,7 +17849,7 @@ class UpdateEnvironmentOutput {
           ? ProvisioningProperties.fromJson(
               json['provisioningProperties'] as Map<String, dynamic>)
           : null,
-      status: (json['status'] as String?)?.toEnvironmentStatus(),
+      status: (json['status'] as String?)?.let(EnvironmentStatus.fromString),
       updatedAt: timeStampFromJson(json['updatedAt']),
       userParameters: (json['userParameters'] as List?)
           ?.whereNotNull()
@@ -18921,7 +17903,7 @@ class UpdateEnvironmentOutput {
         'provisionedResources': provisionedResources,
       if (provisioningProperties != null)
         'provisioningProperties': provisioningProperties,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (updatedAt != null) 'updatedAt': iso8601ToJson(updatedAt),
       if (userParameters != null) 'userParameters': userParameters,
     };
@@ -19075,7 +18057,7 @@ class UpdateGlossaryOutput {
       name: json['name'] as String,
       owningProjectId: json['owningProjectId'] as String,
       description: json['description'] as String?,
-      status: (json['status'] as String?)?.toGlossaryStatus(),
+      status: (json['status'] as String?)?.let(GlossaryStatus.fromString),
     );
   }
 
@@ -19092,7 +18074,7 @@ class UpdateGlossaryOutput {
       'name': name,
       'owningProjectId': owningProjectId,
       if (description != null) 'description': description,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -19145,7 +18127,7 @@ class UpdateGlossaryTermOutput {
       glossaryId: json['glossaryId'] as String,
       id: json['id'] as String,
       name: json['name'] as String,
-      status: (json['status'] as String).toGlossaryTermStatus(),
+      status: GlossaryTermStatus.fromString((json['status'] as String)),
       longDescription: json['longDescription'] as String?,
       shortDescription: json['shortDescription'] as String?,
       termRelations: json['termRelations'] != null
@@ -19169,7 +18151,7 @@ class UpdateGlossaryTermOutput {
       'glossaryId': glossaryId,
       'id': id,
       'name': name,
-      'status': status.toValue(),
+      'status': status.value,
       if (longDescription != null) 'longDescription': longDescription,
       if (shortDescription != null) 'shortDescription': shortDescription,
       if (termRelations != null) 'termRelations': termRelations,
@@ -19203,7 +18185,7 @@ class UpdateGroupProfileOutput {
       domainId: json['domainId'] as String?,
       groupName: json['groupName'] as String?,
       id: json['id'] as String?,
-      status: (json['status'] as String?)?.toGroupProfileStatus(),
+      status: (json['status'] as String?)?.let(GroupProfileStatus.fromString),
     );
   }
 
@@ -19216,7 +18198,7 @@ class UpdateGroupProfileOutput {
       if (domainId != null) 'domainId': domainId,
       if (groupName != null) 'groupName': groupName,
       if (id != null) 'id': id,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -19283,7 +18265,8 @@ class UpdateProjectOutput {
           .map((e) => e as String)
           .toList(),
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
-      projectStatus: (json['projectStatus'] as String?)?.toProjectStatus(),
+      projectStatus:
+          (json['projectStatus'] as String?)?.let(ProjectStatus.fromString),
     );
   }
 
@@ -19308,7 +18291,7 @@ class UpdateProjectOutput {
       if (failureReasons != null) 'failureReasons': failureReasons,
       if (glossaryTerms != null) 'glossaryTerms': glossaryTerms,
       if (lastUpdatedAt != null) 'lastUpdatedAt': iso8601ToJson(lastUpdatedAt),
-      if (projectStatus != null) 'projectStatus': projectStatus.toValue(),
+      if (projectStatus != null) 'projectStatus': projectStatus.value,
     };
   }
 }
@@ -19374,7 +18357,8 @@ class UpdateSubscriptionGrantStatusOutput {
       grantedEntity:
           GrantedEntity.fromJson(json['grantedEntity'] as Map<String, dynamic>),
       id: json['id'] as String,
-      status: (json['status'] as String).toSubscriptionGrantOverallStatus(),
+      status:
+          SubscriptionGrantOverallStatus.fromString((json['status'] as String)),
       subscriptionTargetId: json['subscriptionTargetId'] as String,
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       assets: (json['assets'] as List?)
@@ -19404,7 +18388,7 @@ class UpdateSubscriptionGrantStatusOutput {
       'domainId': domainId,
       'grantedEntity': grantedEntity,
       'id': id,
-      'status': status.toValue(),
+      'status': status.value,
       'subscriptionTargetId': subscriptionTargetId,
       'updatedAt': unixTimestampToJson(updatedAt),
       if (assets != null) 'assets': assets,
@@ -19475,7 +18459,7 @@ class UpdateSubscriptionRequestOutput {
       domainId: json['domainId'] as String,
       id: json['id'] as String,
       requestReason: json['requestReason'] as String,
-      status: (json['status'] as String).toSubscriptionRequestStatus(),
+      status: SubscriptionRequestStatus.fromString((json['status'] as String)),
       subscribedListings: (json['subscribedListings'] as List)
           .whereNotNull()
           .map((e) => SubscribedListing.fromJson(e as Map<String, dynamic>))
@@ -19510,7 +18494,7 @@ class UpdateSubscriptionRequestOutput {
       'domainId': domainId,
       'id': id,
       'requestReason': requestReason,
-      'status': status.toValue(),
+      'status': status.value,
       'subscribedListings': subscribedListings,
       'subscribedPrincipals': subscribedPrincipals,
       'updatedAt': unixTimestampToJson(updatedAt),
@@ -19692,8 +18676,8 @@ class UpdateUserProfileOutput {
           : null,
       domainId: json['domainId'] as String?,
       id: json['id'] as String?,
-      status: (json['status'] as String?)?.toUserProfileStatus(),
-      type: (json['type'] as String?)?.toUserProfileType(),
+      status: (json['status'] as String?)?.let(UserProfileStatus.fromString),
+      type: (json['type'] as String?)?.let(UserProfileType.fromString),
     );
   }
 
@@ -19707,66 +18691,40 @@ class UpdateUserProfileOutput {
       if (details != null) 'details': details,
       if (domainId != null) 'domainId': domainId,
       if (id != null) 'id': id,
-      if (status != null) 'status': status.toValue(),
-      if (type != null) 'type': type.toValue(),
+      if (status != null) 'status': status.value,
+      if (type != null) 'type': type.value,
     };
   }
 }
 
 enum UserAssignment {
-  automatic,
-  manual,
-}
+  automatic('AUTOMATIC'),
+  manual('MANUAL'),
+  ;
 
-extension UserAssignmentValueExtension on UserAssignment {
-  String toValue() {
-    switch (this) {
-      case UserAssignment.automatic:
-        return 'AUTOMATIC';
-      case UserAssignment.manual:
-        return 'MANUAL';
-    }
-  }
-}
+  final String value;
 
-extension UserAssignmentFromString on String {
-  UserAssignment toUserAssignment() {
-    switch (this) {
-      case 'AUTOMATIC':
-        return UserAssignment.automatic;
-      case 'MANUAL':
-        return UserAssignment.manual;
-    }
-    throw Exception('$this is not known in enum UserAssignment');
-  }
+  const UserAssignment(this.value);
+
+  static UserAssignment fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum UserAssignment'));
 }
 
 enum UserDesignation {
-  projectOwner,
-  projectContributor,
-}
+  projectOwner('PROJECT_OWNER'),
+  projectContributor('PROJECT_CONTRIBUTOR'),
+  ;
 
-extension UserDesignationValueExtension on UserDesignation {
-  String toValue() {
-    switch (this) {
-      case UserDesignation.projectOwner:
-        return 'PROJECT_OWNER';
-      case UserDesignation.projectContributor:
-        return 'PROJECT_CONTRIBUTOR';
-    }
-  }
-}
+  final String value;
 
-extension UserDesignationFromString on String {
-  UserDesignation toUserDesignation() {
-    switch (this) {
-      case 'PROJECT_OWNER':
-        return UserDesignation.projectOwner;
-      case 'PROJECT_CONTRIBUTOR':
-        return UserDesignation.projectContributor;
-    }
-    throw Exception('$this is not known in enum UserDesignation');
-  }
+  const UserDesignation(this.value);
+
+  static UserDesignation fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum UserDesignation'));
 }
 
 /// The user details of a project member.
@@ -19827,41 +18785,20 @@ class UserProfileDetails {
 }
 
 enum UserProfileStatus {
-  assigned,
-  notAssigned,
-  activated,
-  deactivated,
-}
+  assigned('ASSIGNED'),
+  notAssigned('NOT_ASSIGNED'),
+  activated('ACTIVATED'),
+  deactivated('DEACTIVATED'),
+  ;
 
-extension UserProfileStatusValueExtension on UserProfileStatus {
-  String toValue() {
-    switch (this) {
-      case UserProfileStatus.assigned:
-        return 'ASSIGNED';
-      case UserProfileStatus.notAssigned:
-        return 'NOT_ASSIGNED';
-      case UserProfileStatus.activated:
-        return 'ACTIVATED';
-      case UserProfileStatus.deactivated:
-        return 'DEACTIVATED';
-    }
-  }
-}
+  final String value;
 
-extension UserProfileStatusFromString on String {
-  UserProfileStatus toUserProfileStatus() {
-    switch (this) {
-      case 'ASSIGNED':
-        return UserProfileStatus.assigned;
-      case 'NOT_ASSIGNED':
-        return UserProfileStatus.notAssigned;
-      case 'ACTIVATED':
-        return UserProfileStatus.activated;
-      case 'DEACTIVATED':
-        return UserProfileStatus.deactivated;
-    }
-    throw Exception('$this is not known in enum UserProfileStatus');
-  }
+  const UserProfileStatus(this.value);
+
+  static UserProfileStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum UserProfileStatus'));
 }
 
 /// The details of the user profile.
@@ -19896,8 +18833,8 @@ class UserProfileSummary {
           : null,
       domainId: json['domainId'] as String?,
       id: json['id'] as String?,
-      status: (json['status'] as String?)?.toUserProfileStatus(),
-      type: (json['type'] as String?)?.toUserProfileType(),
+      status: (json['status'] as String?)?.let(UserProfileStatus.fromString),
+      type: (json['type'] as String?)?.let(UserProfileType.fromString),
     );
   }
 
@@ -19911,109 +18848,57 @@ class UserProfileSummary {
       if (details != null) 'details': details,
       if (domainId != null) 'domainId': domainId,
       if (id != null) 'id': id,
-      if (status != null) 'status': status.toValue(),
-      if (type != null) 'type': type.toValue(),
+      if (status != null) 'status': status.value,
+      if (type != null) 'type': type.value,
     };
   }
 }
 
 enum UserProfileType {
-  iam,
-  sso,
-}
+  iam('IAM'),
+  sso('SSO'),
+  ;
 
-extension UserProfileTypeValueExtension on UserProfileType {
-  String toValue() {
-    switch (this) {
-      case UserProfileType.iam:
-        return 'IAM';
-      case UserProfileType.sso:
-        return 'SSO';
-    }
-  }
-}
+  final String value;
 
-extension UserProfileTypeFromString on String {
-  UserProfileType toUserProfileType() {
-    switch (this) {
-      case 'IAM':
-        return UserProfileType.iam;
-      case 'SSO':
-        return UserProfileType.sso;
-    }
-    throw Exception('$this is not known in enum UserProfileType');
-  }
+  const UserProfileType(this.value);
+
+  static UserProfileType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum UserProfileType'));
 }
 
 enum UserSearchType {
-  ssoUser,
-  datazoneUser,
-  datazoneSsoUser,
-  datazoneIamUser,
-}
+  ssoUser('SSO_USER'),
+  datazoneUser('DATAZONE_USER'),
+  datazoneSsoUser('DATAZONE_SSO_USER'),
+  datazoneIamUser('DATAZONE_IAM_USER'),
+  ;
 
-extension UserSearchTypeValueExtension on UserSearchType {
-  String toValue() {
-    switch (this) {
-      case UserSearchType.ssoUser:
-        return 'SSO_USER';
-      case UserSearchType.datazoneUser:
-        return 'DATAZONE_USER';
-      case UserSearchType.datazoneSsoUser:
-        return 'DATAZONE_SSO_USER';
-      case UserSearchType.datazoneIamUser:
-        return 'DATAZONE_IAM_USER';
-    }
-  }
-}
+  final String value;
 
-extension UserSearchTypeFromString on String {
-  UserSearchType toUserSearchType() {
-    switch (this) {
-      case 'SSO_USER':
-        return UserSearchType.ssoUser;
-      case 'DATAZONE_USER':
-        return UserSearchType.datazoneUser;
-      case 'DATAZONE_SSO_USER':
-        return UserSearchType.datazoneSsoUser;
-      case 'DATAZONE_IAM_USER':
-        return UserSearchType.datazoneIamUser;
-    }
-    throw Exception('$this is not known in enum UserSearchType');
-  }
+  const UserSearchType(this.value);
+
+  static UserSearchType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum UserSearchType'));
 }
 
 enum UserType {
-  iamUser,
-  iamRole,
-  ssoUser,
-}
+  iamUser('IAM_USER'),
+  iamRole('IAM_ROLE'),
+  ssoUser('SSO_USER'),
+  ;
 
-extension UserTypeValueExtension on UserType {
-  String toValue() {
-    switch (this) {
-      case UserType.iamUser:
-        return 'IAM_USER';
-      case UserType.iamRole:
-        return 'IAM_ROLE';
-      case UserType.ssoUser:
-        return 'SSO_USER';
-    }
-  }
-}
+  final String value;
 
-extension UserTypeFromString on String {
-  UserType toUserType() {
-    switch (this) {
-      case 'IAM_USER':
-        return UserType.iamUser;
-      case 'IAM_ROLE':
-        return UserType.iamRole;
-      case 'SSO_USER':
-        return UserType.ssoUser;
-    }
-    throw Exception('$this is not known in enum UserType');
-  }
+  const UserType(this.value);
+
+  static UserType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum UserType'));
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

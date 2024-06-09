@@ -412,13 +412,13 @@ class CodeGuruReviewer {
       100,
     );
     final $query = <String, List<String>>{
-      'Type': [type.toValue()],
+      'Type': [type.value],
       if (maxResults != null) 'MaxResults': [maxResults.toString()],
       if (nextToken != null) 'NextToken': [nextToken],
       if (providerTypes != null)
-        'ProviderTypes': providerTypes.map((e) => e.toValue()).toList(),
+        'ProviderTypes': providerTypes.map((e) => e.value).toList(),
       if (repositoryNames != null) 'RepositoryNames': repositoryNames,
-      if (states != null) 'States': states.map((e) => e.toValue()).toList(),
+      if (states != null) 'States': states.map((e) => e.value).toList(),
     };
     final response = await _protocol.send(
       payload: null,
@@ -663,8 +663,8 @@ class CodeGuruReviewer {
       if (nextToken != null) 'NextToken': [nextToken],
       if (owners != null) 'Owner': owners,
       if (providerTypes != null)
-        'ProviderType': providerTypes.map((e) => e.toValue()).toList(),
-      if (states != null) 'State': states.map((e) => e.toValue()).toList(),
+        'ProviderType': providerTypes.map((e) => e.value).toList(),
+      if (states != null) 'State': states.map((e) => e.value).toList(),
     };
     final response = await _protocol.send(
       payload: null,
@@ -729,7 +729,7 @@ class CodeGuruReviewer {
   }) async {
     final $payload = <String, dynamic>{
       'CodeReviewArn': codeReviewArn,
-      'Reactions': reactions.map((e) => e.toValue()).toList(),
+      'Reactions': reactions.map((e) => e.value).toList(),
       'RecommendationId': recommendationId,
     };
     final response = await _protocol.send(
@@ -817,31 +817,18 @@ class CodeGuruReviewer {
 }
 
 enum AnalysisType {
-  security,
-  codeQuality,
-}
+  security('Security'),
+  codeQuality('CodeQuality'),
+  ;
 
-extension AnalysisTypeValueExtension on AnalysisType {
-  String toValue() {
-    switch (this) {
-      case AnalysisType.security:
-        return 'Security';
-      case AnalysisType.codeQuality:
-        return 'CodeQuality';
-    }
-  }
-}
+  final String value;
 
-extension AnalysisTypeFromString on String {
-  AnalysisType toAnalysisType() {
-    switch (this) {
-      case 'Security':
-        return AnalysisType.security;
-      case 'CodeQuality':
-        return AnalysisType.codeQuality;
-    }
-    throw Exception('$this is not known in enum AnalysisType');
-  }
+  const AnalysisType(this.value);
+
+  static AnalysisType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AnalysisType'));
 }
 
 class AssociateRepositoryResponse {
@@ -1106,12 +1093,12 @@ class CodeReview {
     return CodeReview(
       analysisTypes: (json['AnalysisTypes'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toAnalysisType())
+          .map((e) => AnalysisType.fromString((e as String)))
           .toList(),
       associationArn: json['AssociationArn'] as String?,
       codeReviewArn: json['CodeReviewArn'] as String?,
       configFileState:
-          (json['ConfigFileState'] as String?)?.toConfigFileState(),
+          (json['ConfigFileState'] as String?)?.let(ConfigFileState.fromString),
       createdTimeStamp: timeStampFromJson(json['CreatedTimeStamp']),
       lastUpdatedTimeStamp: timeStampFromJson(json['LastUpdatedTimeStamp']),
       metrics: json['Metrics'] != null
@@ -1119,16 +1106,17 @@ class CodeReview {
           : null,
       name: json['Name'] as String?,
       owner: json['Owner'] as String?,
-      providerType: (json['ProviderType'] as String?)?.toProviderType(),
+      providerType:
+          (json['ProviderType'] as String?)?.let(ProviderType.fromString),
       pullRequestId: json['PullRequestId'] as String?,
       repositoryName: json['RepositoryName'] as String?,
       sourceCodeType: json['SourceCodeType'] != null
           ? SourceCodeType.fromJson(
               json['SourceCodeType'] as Map<String, dynamic>)
           : null,
-      state: (json['State'] as String?)?.toJobState(),
+      state: (json['State'] as String?)?.let(JobState.fromString),
       stateReason: json['StateReason'] as String?,
-      type: (json['Type'] as String?)?.toType(),
+      type: (json['Type'] as String?)?.let(Type.fromString),
     );
   }
 
@@ -1151,10 +1139,10 @@ class CodeReview {
     final type = this.type;
     return {
       if (analysisTypes != null)
-        'AnalysisTypes': analysisTypes.map((e) => e.toValue()).toList(),
+        'AnalysisTypes': analysisTypes.map((e) => e.value).toList(),
       if (associationArn != null) 'AssociationArn': associationArn,
       if (codeReviewArn != null) 'CodeReviewArn': codeReviewArn,
-      if (configFileState != null) 'ConfigFileState': configFileState.toValue(),
+      if (configFileState != null) 'ConfigFileState': configFileState.value,
       if (createdTimeStamp != null)
         'CreatedTimeStamp': unixTimestampToJson(createdTimeStamp),
       if (lastUpdatedTimeStamp != null)
@@ -1162,13 +1150,13 @@ class CodeReview {
       if (metrics != null) 'Metrics': metrics,
       if (name != null) 'Name': name,
       if (owner != null) 'Owner': owner,
-      if (providerType != null) 'ProviderType': providerType.toValue(),
+      if (providerType != null) 'ProviderType': providerType.value,
       if (pullRequestId != null) 'PullRequestId': pullRequestId,
       if (repositoryName != null) 'RepositoryName': repositoryName,
       if (sourceCodeType != null) 'SourceCodeType': sourceCodeType,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (stateReason != null) 'StateReason': stateReason,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -1261,15 +1249,16 @@ class CodeReviewSummary {
           : null,
       name: json['Name'] as String?,
       owner: json['Owner'] as String?,
-      providerType: (json['ProviderType'] as String?)?.toProviderType(),
+      providerType:
+          (json['ProviderType'] as String?)?.let(ProviderType.fromString),
       pullRequestId: json['PullRequestId'] as String?,
       repositoryName: json['RepositoryName'] as String?,
       sourceCodeType: json['SourceCodeType'] != null
           ? SourceCodeType.fromJson(
               json['SourceCodeType'] as Map<String, dynamic>)
           : null,
-      state: (json['State'] as String?)?.toJobState(),
-      type: (json['Type'] as String?)?.toType(),
+      state: (json['State'] as String?)?.let(JobState.fromString),
+      type: (json['Type'] as String?)?.let(Type.fromString),
     );
   }
 
@@ -1295,12 +1284,12 @@ class CodeReviewSummary {
       if (metricsSummary != null) 'MetricsSummary': metricsSummary,
       if (name != null) 'Name': name,
       if (owner != null) 'Owner': owner,
-      if (providerType != null) 'ProviderType': providerType.toValue(),
+      if (providerType != null) 'ProviderType': providerType.value,
       if (pullRequestId != null) 'PullRequestId': pullRequestId,
       if (repositoryName != null) 'RepositoryName': repositoryName,
       if (sourceCodeType != null) 'SourceCodeType': sourceCodeType,
-      if (state != null) 'State': state.toValue(),
-      if (type != null) 'Type': type.toValue(),
+      if (state != null) 'State': state.value,
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -1342,7 +1331,7 @@ class CodeReviewType {
     return {
       'RepositoryAnalysis': repositoryAnalysis,
       if (analysisTypes != null)
-        'AnalysisTypes': analysisTypes.map((e) => e.toValue()).toList(),
+        'AnalysisTypes': analysisTypes.map((e) => e.value).toList(),
     };
   }
 }
@@ -1391,36 +1380,19 @@ class CommitDiffSourceCodeType {
 }
 
 enum ConfigFileState {
-  present,
-  absent,
-  presentWithErrors,
-}
+  present('Present'),
+  absent('Absent'),
+  presentWithErrors('PresentWithErrors'),
+  ;
 
-extension ConfigFileStateValueExtension on ConfigFileState {
-  String toValue() {
-    switch (this) {
-      case ConfigFileState.present:
-        return 'Present';
-      case ConfigFileState.absent:
-        return 'Absent';
-      case ConfigFileState.presentWithErrors:
-        return 'PresentWithErrors';
-    }
-  }
-}
+  final String value;
 
-extension ConfigFileStateFromString on String {
-  ConfigFileState toConfigFileState() {
-    switch (this) {
-      case 'Present':
-        return ConfigFileState.present;
-      case 'Absent':
-        return ConfigFileState.absent;
-      case 'PresentWithErrors':
-        return ConfigFileState.presentWithErrors;
-    }
-    throw Exception('$this is not known in enum ConfigFileState');
-  }
+  const ConfigFileState(this.value);
+
+  static ConfigFileState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ConfigFileState'));
 }
 
 class CreateCodeReviewResponse {
@@ -1597,31 +1569,18 @@ class DisassociateRepositoryResponse {
 }
 
 enum EncryptionOption {
-  awsOwnedCmk,
-  customerManagedCmk,
-}
+  awsOwnedCmk('AWS_OWNED_CMK'),
+  customerManagedCmk('CUSTOMER_MANAGED_CMK'),
+  ;
 
-extension EncryptionOptionValueExtension on EncryptionOption {
-  String toValue() {
-    switch (this) {
-      case EncryptionOption.awsOwnedCmk:
-        return 'AWS_OWNED_CMK';
-      case EncryptionOption.customerManagedCmk:
-        return 'CUSTOMER_MANAGED_CMK';
-    }
-  }
-}
+  final String value;
 
-extension EncryptionOptionFromString on String {
-  EncryptionOption toEncryptionOption() {
-    switch (this) {
-      case 'AWS_OWNED_CMK':
-        return EncryptionOption.awsOwnedCmk;
-      case 'CUSTOMER_MANAGED_CMK':
-        return EncryptionOption.customerManagedCmk;
-    }
-    throw Exception('$this is not known in enum EncryptionOption');
-  }
+  const EncryptionOption(this.value);
+
+  static EncryptionOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EncryptionOption'));
 }
 
 /// Information about an event. The event might be a push, pull request,
@@ -1657,41 +1616,19 @@ class EventInfo {
 }
 
 enum JobState {
-  completed,
-  pending,
-  failed,
-  deleting,
-}
+  completed('Completed'),
+  pending('Pending'),
+  failed('Failed'),
+  deleting('Deleting'),
+  ;
 
-extension JobStateValueExtension on JobState {
-  String toValue() {
-    switch (this) {
-      case JobState.completed:
-        return 'Completed';
-      case JobState.pending:
-        return 'Pending';
-      case JobState.failed:
-        return 'Failed';
-      case JobState.deleting:
-        return 'Deleting';
-    }
-  }
-}
+  final String value;
 
-extension JobStateFromString on String {
-  JobState toJobState() {
-    switch (this) {
-      case 'Completed':
-        return JobState.completed;
-      case 'Pending':
-        return JobState.pending;
-      case 'Failed':
-        return JobState.failed;
-      case 'Deleting':
-        return JobState.deleting;
-    }
-    throw Exception('$this is not known in enum JobState');
-  }
+  const JobState(this.value);
+
+  static JobState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum JobState'));
 }
 
 /// An object that contains:
@@ -1726,8 +1663,8 @@ class KMSKeyDetails {
 
   factory KMSKeyDetails.fromJson(Map<String, dynamic> json) {
     return KMSKeyDetails(
-      encryptionOption:
-          (json['EncryptionOption'] as String?)?.toEncryptionOption(),
+      encryptionOption: (json['EncryptionOption'] as String?)
+          ?.let(EncryptionOption.fromString),
       kMSKeyId: json['KMSKeyId'] as String?,
     );
   }
@@ -1736,8 +1673,7 @@ class KMSKeyDetails {
     final encryptionOption = this.encryptionOption;
     final kMSKeyId = this.kMSKeyId;
     return {
-      if (encryptionOption != null)
-        'EncryptionOption': encryptionOption.toValue(),
+      if (encryptionOption != null) 'EncryptionOption': encryptionOption.value,
       if (kMSKeyId != null) 'KMSKeyId': kMSKeyId,
     };
   }
@@ -2038,46 +1974,21 @@ class MetricsSummary {
 }
 
 enum ProviderType {
-  codeCommit,
-  gitHub,
-  bitbucket,
-  gitHubEnterpriseServer,
-  s3Bucket,
-}
+  codeCommit('CodeCommit'),
+  gitHub('GitHub'),
+  bitbucket('Bitbucket'),
+  gitHubEnterpriseServer('GitHubEnterpriseServer'),
+  s3Bucket('S3Bucket'),
+  ;
 
-extension ProviderTypeValueExtension on ProviderType {
-  String toValue() {
-    switch (this) {
-      case ProviderType.codeCommit:
-        return 'CodeCommit';
-      case ProviderType.gitHub:
-        return 'GitHub';
-      case ProviderType.bitbucket:
-        return 'Bitbucket';
-      case ProviderType.gitHubEnterpriseServer:
-        return 'GitHubEnterpriseServer';
-      case ProviderType.s3Bucket:
-        return 'S3Bucket';
-    }
-  }
-}
+  final String value;
 
-extension ProviderTypeFromString on String {
-  ProviderType toProviderType() {
-    switch (this) {
-      case 'CodeCommit':
-        return ProviderType.codeCommit;
-      case 'GitHub':
-        return ProviderType.gitHub;
-      case 'Bitbucket':
-        return ProviderType.bitbucket;
-      case 'GitHubEnterpriseServer':
-        return ProviderType.gitHubEnterpriseServer;
-      case 'S3Bucket':
-        return ProviderType.s3Bucket;
-    }
-    throw Exception('$this is not known in enum ProviderType');
-  }
+  const ProviderType(this.value);
+
+  static ProviderType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ProviderType'));
 }
 
 class PutRecommendationFeedbackResponse {
@@ -2093,104 +2004,41 @@ class PutRecommendationFeedbackResponse {
 }
 
 enum Reaction {
-  thumbsUp,
-  thumbsDown,
-}
+  thumbsUp('ThumbsUp'),
+  thumbsDown('ThumbsDown'),
+  ;
 
-extension ReactionValueExtension on Reaction {
-  String toValue() {
-    switch (this) {
-      case Reaction.thumbsUp:
-        return 'ThumbsUp';
-      case Reaction.thumbsDown:
-        return 'ThumbsDown';
-    }
-  }
-}
+  final String value;
 
-extension ReactionFromString on String {
-  Reaction toReaction() {
-    switch (this) {
-      case 'ThumbsUp':
-        return Reaction.thumbsUp;
-      case 'ThumbsDown':
-        return Reaction.thumbsDown;
-    }
-    throw Exception('$this is not known in enum Reaction');
-  }
+  const Reaction(this.value);
+
+  static Reaction fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Reaction'));
 }
 
 enum RecommendationCategory {
-  awsBestPractices,
-  awsCloudFormationIssues,
-  duplicateCode,
-  codeMaintenanceIssues,
-  concurrencyIssues,
-  inputValidations,
-  pythonBestPractices,
-  javaBestPractices,
-  resourceLeaks,
-  securityIssues,
-  codeInconsistencies,
-}
+  awsBestPractices('AWSBestPractices'),
+  awsCloudFormationIssues('AWSCloudFormationIssues'),
+  duplicateCode('DuplicateCode'),
+  codeMaintenanceIssues('CodeMaintenanceIssues'),
+  concurrencyIssues('ConcurrencyIssues'),
+  inputValidations('InputValidations'),
+  pythonBestPractices('PythonBestPractices'),
+  javaBestPractices('JavaBestPractices'),
+  resourceLeaks('ResourceLeaks'),
+  securityIssues('SecurityIssues'),
+  codeInconsistencies('CodeInconsistencies'),
+  ;
 
-extension RecommendationCategoryValueExtension on RecommendationCategory {
-  String toValue() {
-    switch (this) {
-      case RecommendationCategory.awsBestPractices:
-        return 'AWSBestPractices';
-      case RecommendationCategory.awsCloudFormationIssues:
-        return 'AWSCloudFormationIssues';
-      case RecommendationCategory.duplicateCode:
-        return 'DuplicateCode';
-      case RecommendationCategory.codeMaintenanceIssues:
-        return 'CodeMaintenanceIssues';
-      case RecommendationCategory.concurrencyIssues:
-        return 'ConcurrencyIssues';
-      case RecommendationCategory.inputValidations:
-        return 'InputValidations';
-      case RecommendationCategory.pythonBestPractices:
-        return 'PythonBestPractices';
-      case RecommendationCategory.javaBestPractices:
-        return 'JavaBestPractices';
-      case RecommendationCategory.resourceLeaks:
-        return 'ResourceLeaks';
-      case RecommendationCategory.securityIssues:
-        return 'SecurityIssues';
-      case RecommendationCategory.codeInconsistencies:
-        return 'CodeInconsistencies';
-    }
-  }
-}
+  final String value;
 
-extension RecommendationCategoryFromString on String {
-  RecommendationCategory toRecommendationCategory() {
-    switch (this) {
-      case 'AWSBestPractices':
-        return RecommendationCategory.awsBestPractices;
-      case 'AWSCloudFormationIssues':
-        return RecommendationCategory.awsCloudFormationIssues;
-      case 'DuplicateCode':
-        return RecommendationCategory.duplicateCode;
-      case 'CodeMaintenanceIssues':
-        return RecommendationCategory.codeMaintenanceIssues;
-      case 'ConcurrencyIssues':
-        return RecommendationCategory.concurrencyIssues;
-      case 'InputValidations':
-        return RecommendationCategory.inputValidations;
-      case 'PythonBestPractices':
-        return RecommendationCategory.pythonBestPractices;
-      case 'JavaBestPractices':
-        return RecommendationCategory.javaBestPractices;
-      case 'ResourceLeaks':
-        return RecommendationCategory.resourceLeaks;
-      case 'SecurityIssues':
-        return RecommendationCategory.securityIssues;
-      case 'CodeInconsistencies':
-        return RecommendationCategory.codeInconsistencies;
-    }
-    throw Exception('$this is not known in enum RecommendationCategory');
-  }
+  const RecommendationCategory(this.value);
+
+  static RecommendationCategory fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RecommendationCategory'));
 }
 
 /// Information about the recommendation feedback.
@@ -2240,7 +2088,7 @@ class RecommendationFeedback {
       lastUpdatedTimeStamp: timeStampFromJson(json['LastUpdatedTimeStamp']),
       reactions: (json['Reactions'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toReaction())
+          .map((e) => Reaction.fromString((e as String)))
           .toList(),
       recommendationId: json['RecommendationId'] as String?,
       userId: json['UserId'] as String?,
@@ -2261,7 +2109,7 @@ class RecommendationFeedback {
       if (lastUpdatedTimeStamp != null)
         'LastUpdatedTimeStamp': unixTimestampToJson(lastUpdatedTimeStamp),
       if (reactions != null)
-        'Reactions': reactions.map((e) => e.toValue()).toList(),
+        'Reactions': reactions.map((e) => e.value).toList(),
       if (recommendationId != null) 'RecommendationId': recommendationId,
       if (userId != null) 'UserId': userId,
     };
@@ -2297,7 +2145,7 @@ class RecommendationFeedbackSummary {
     return RecommendationFeedbackSummary(
       reactions: (json['Reactions'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toReaction())
+          .map((e) => Reaction.fromString((e as String)))
           .toList(),
       recommendationId: json['RecommendationId'] as String?,
       userId: json['UserId'] as String?,
@@ -2310,7 +2158,7 @@ class RecommendationFeedbackSummary {
     final userId = this.userId;
     return {
       if (reactions != null)
-        'Reactions': reactions.map((e) => e.toValue()).toList(),
+        'Reactions': reactions.map((e) => e.value).toList(),
       if (recommendationId != null) 'RecommendationId': recommendationId,
       if (userId != null) 'UserId': userId,
     };
@@ -2368,12 +2216,12 @@ class RecommendationSummary {
       endLine: json['EndLine'] as int?,
       filePath: json['FilePath'] as String?,
       recommendationCategory: (json['RecommendationCategory'] as String?)
-          ?.toRecommendationCategory(),
+          ?.let(RecommendationCategory.fromString),
       recommendationId: json['RecommendationId'] as String?,
       ruleMetadata: json['RuleMetadata'] != null
           ? RuleMetadata.fromJson(json['RuleMetadata'] as Map<String, dynamic>)
           : null,
-      severity: (json['Severity'] as String?)?.toSeverity(),
+      severity: (json['Severity'] as String?)?.let(Severity.fromString),
       startLine: json['StartLine'] as int?,
     );
   }
@@ -2392,10 +2240,10 @@ class RecommendationSummary {
       if (endLine != null) 'EndLine': endLine,
       if (filePath != null) 'FilePath': filePath,
       if (recommendationCategory != null)
-        'RecommendationCategory': recommendationCategory.toValue(),
+        'RecommendationCategory': recommendationCategory.value,
       if (recommendationId != null) 'RecommendationId': recommendationId,
       if (ruleMetadata != null) 'RuleMetadata': ruleMetadata,
-      if (severity != null) 'Severity': severity.toValue(),
+      if (severity != null) 'Severity': severity.value,
       if (startLine != null) 'StartLine': startLine,
     };
   }
@@ -2599,12 +2447,14 @@ class RepositoryAssociation {
       lastUpdatedTimeStamp: timeStampFromJson(json['LastUpdatedTimeStamp']),
       name: json['Name'] as String?,
       owner: json['Owner'] as String?,
-      providerType: (json['ProviderType'] as String?)?.toProviderType(),
+      providerType:
+          (json['ProviderType'] as String?)?.let(ProviderType.fromString),
       s3RepositoryDetails: json['S3RepositoryDetails'] != null
           ? S3RepositoryDetails.fromJson(
               json['S3RepositoryDetails'] as Map<String, dynamic>)
           : null,
-      state: (json['State'] as String?)?.toRepositoryAssociationState(),
+      state: (json['State'] as String?)
+          ?.let(RepositoryAssociationState.fromString),
       stateReason: json['StateReason'] as String?,
     );
   }
@@ -2633,57 +2483,31 @@ class RepositoryAssociation {
         'LastUpdatedTimeStamp': unixTimestampToJson(lastUpdatedTimeStamp),
       if (name != null) 'Name': name,
       if (owner != null) 'Owner': owner,
-      if (providerType != null) 'ProviderType': providerType.toValue(),
+      if (providerType != null) 'ProviderType': providerType.value,
       if (s3RepositoryDetails != null)
         'S3RepositoryDetails': s3RepositoryDetails,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (stateReason != null) 'StateReason': stateReason,
     };
   }
 }
 
 enum RepositoryAssociationState {
-  associated,
-  associating,
-  failed,
-  disassociating,
-  disassociated,
-}
+  associated('Associated'),
+  associating('Associating'),
+  failed('Failed'),
+  disassociating('Disassociating'),
+  disassociated('Disassociated'),
+  ;
 
-extension RepositoryAssociationStateValueExtension
-    on RepositoryAssociationState {
-  String toValue() {
-    switch (this) {
-      case RepositoryAssociationState.associated:
-        return 'Associated';
-      case RepositoryAssociationState.associating:
-        return 'Associating';
-      case RepositoryAssociationState.failed:
-        return 'Failed';
-      case RepositoryAssociationState.disassociating:
-        return 'Disassociating';
-      case RepositoryAssociationState.disassociated:
-        return 'Disassociated';
-    }
-  }
-}
+  final String value;
 
-extension RepositoryAssociationStateFromString on String {
-  RepositoryAssociationState toRepositoryAssociationState() {
-    switch (this) {
-      case 'Associated':
-        return RepositoryAssociationState.associated;
-      case 'Associating':
-        return RepositoryAssociationState.associating;
-      case 'Failed':
-        return RepositoryAssociationState.failed;
-      case 'Disassociating':
-        return RepositoryAssociationState.disassociating;
-      case 'Disassociated':
-        return RepositoryAssociationState.disassociated;
-    }
-    throw Exception('$this is not known in enum RepositoryAssociationState');
-  }
+  const RepositoryAssociationState(this.value);
+
+  static RepositoryAssociationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RepositoryAssociationState'));
 }
 
 /// Summary information about a repository association. The <a
@@ -2792,8 +2616,10 @@ class RepositoryAssociationSummary {
       lastUpdatedTimeStamp: timeStampFromJson(json['LastUpdatedTimeStamp']),
       name: json['Name'] as String?,
       owner: json['Owner'] as String?,
-      providerType: (json['ProviderType'] as String?)?.toProviderType(),
-      state: (json['State'] as String?)?.toRepositoryAssociationState(),
+      providerType:
+          (json['ProviderType'] as String?)?.let(ProviderType.fromString),
+      state: (json['State'] as String?)
+          ?.let(RepositoryAssociationState.fromString),
     );
   }
 
@@ -2814,8 +2640,8 @@ class RepositoryAssociationSummary {
         'LastUpdatedTimeStamp': unixTimestampToJson(lastUpdatedTimeStamp),
       if (name != null) 'Name': name,
       if (owner != null) 'Owner': owner,
-      if (providerType != null) 'ProviderType': providerType.toValue(),
-      if (state != null) 'State': state.toValue(),
+      if (providerType != null) 'ProviderType': providerType.value,
+      if (state != null) 'State': state.value,
     };
   }
 }
@@ -2883,7 +2709,7 @@ class RequestMetadata {
           : null,
       requestId: json['RequestId'] as String?,
       requester: json['Requester'] as String?,
-      vendorName: (json['VendorName'] as String?)?.toVendorName(),
+      vendorName: (json['VendorName'] as String?)?.let(VendorName.fromString),
     );
   }
 
@@ -2896,7 +2722,7 @@ class RequestMetadata {
       if (eventInfo != null) 'EventInfo': eventInfo,
       if (requestId != null) 'RequestId': requestId,
       if (requester != null) 'Requester': requester,
-      if (vendorName != null) 'VendorName': vendorName.toValue(),
+      if (vendorName != null) 'VendorName': vendorName.value,
     };
   }
 }
@@ -3060,46 +2886,20 @@ class S3RepositoryDetails {
 }
 
 enum Severity {
-  info,
-  low,
-  medium,
-  high,
-  critical,
-}
+  info('Info'),
+  low('Low'),
+  medium('Medium'),
+  high('High'),
+  critical('Critical'),
+  ;
 
-extension SeverityValueExtension on Severity {
-  String toValue() {
-    switch (this) {
-      case Severity.info:
-        return 'Info';
-      case Severity.low:
-        return 'Low';
-      case Severity.medium:
-        return 'Medium';
-      case Severity.high:
-        return 'High';
-      case Severity.critical:
-        return 'Critical';
-    }
-  }
-}
+  final String value;
 
-extension SeverityFromString on String {
-  Severity toSeverity() {
-    switch (this) {
-      case 'Info':
-        return Severity.info;
-      case 'Low':
-        return Severity.low;
-      case 'Medium':
-        return Severity.medium;
-      case 'High':
-        return Severity.high;
-      case 'Critical':
-        return Severity.critical;
-    }
-    throw Exception('$this is not known in enum Severity');
-  }
+  const Severity(this.value);
+
+  static Severity fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Severity'));
 }
 
 /// Specifies the source code that is analyzed in a code review.
@@ -3232,31 +3032,17 @@ class ThirdPartySourceRepository {
 }
 
 enum Type {
-  pullRequest,
-  repositoryAnalysis,
-}
+  pullRequest('PullRequest'),
+  repositoryAnalysis('RepositoryAnalysis'),
+  ;
 
-extension TypeValueExtension on Type {
-  String toValue() {
-    switch (this) {
-      case Type.pullRequest:
-        return 'PullRequest';
-      case Type.repositoryAnalysis:
-        return 'RepositoryAnalysis';
-    }
-  }
-}
+  final String value;
 
-extension TypeFromString on String {
-  Type toType() {
-    switch (this) {
-      case 'PullRequest':
-        return Type.pullRequest;
-      case 'RepositoryAnalysis':
-        return Type.repositoryAnalysis;
-    }
-    throw Exception('$this is not known in enum Type');
-  }
+  const Type(this.value);
+
+  static Type fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Type'));
 }
 
 class UntagResourceResponse {
@@ -3272,36 +3058,18 @@ class UntagResourceResponse {
 }
 
 enum VendorName {
-  gitHub,
-  gitLab,
-  nativeS3,
-}
+  gitHub('GitHub'),
+  gitLab('GitLab'),
+  nativeS3('NativeS3'),
+  ;
 
-extension VendorNameValueExtension on VendorName {
-  String toValue() {
-    switch (this) {
-      case VendorName.gitHub:
-        return 'GitHub';
-      case VendorName.gitLab:
-        return 'GitLab';
-      case VendorName.nativeS3:
-        return 'NativeS3';
-    }
-  }
-}
+  final String value;
 
-extension VendorNameFromString on String {
-  VendorName toVendorName() {
-    switch (this) {
-      case 'GitHub':
-        return VendorName.gitHub;
-      case 'GitLab':
-        return VendorName.gitLab;
-      case 'NativeS3':
-        return VendorName.nativeS3;
-    }
-    throw Exception('$this is not known in enum VendorName');
-  }
+  const VendorName(this.value);
+
+  static VendorName fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum VendorName'));
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

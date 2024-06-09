@@ -57,14 +57,14 @@ class Enum {
     );
     final $json = await _s.jsonFromResponse(response);
     return OutputShape(
-      fooEnum: ($json['FooEnum'] as String?)?.toRESTJSONEnumType(),
+      fooEnum: ($json['FooEnum'] as String?)?.let(RESTJSONEnumType.fromString),
       listEnums: ($json['ListEnums'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toRESTJSONEnumType())
+          .map((e) => RESTJSONEnumType.fromString((e as String)))
           .toList(),
       headerEnum: _s
           .extractHeaderStringValue(response.headers, 'x-amz-enum')
-          ?.toRESTJSONEnumType(),
+          ?.let(RESTJSONEnumType.fromString),
     );
   }
 
@@ -74,12 +74,12 @@ class Enum {
     List<RESTJSONEnumType>? listEnums,
   }) async {
     final headers = <String, String>{
-      if (headerEnum != null) 'x-amz-enum': headerEnum.toValue(),
+      if (headerEnum != null) 'x-amz-enum': headerEnum.value,
     };
     final $payload = <String, dynamic>{
-      if (fooEnum != null) 'FooEnum': fooEnum.toValue(),
+      if (fooEnum != null) 'FooEnum': fooEnum.value,
       if (listEnums != null)
-        'ListEnums': listEnums.map((e) => e.toValue()).toList(),
+        'ListEnums': listEnums.map((e) => e.value).toList(),
     };
     await _protocol.send(
       payload: $payload,
@@ -104,46 +104,21 @@ class OutputShape {
 }
 
 enum RESTJSONEnumType {
-  foo,
-  bar,
-  baz,
-  $0,
-  $1,
-}
+  foo('foo'),
+  bar('bar'),
+  baz('baz'),
+  $0('0'),
+  $1('1'),
+  ;
 
-extension RESTJSONEnumTypeValueExtension on RESTJSONEnumType {
-  String toValue() {
-    switch (this) {
-      case RESTJSONEnumType.foo:
-        return 'foo';
-      case RESTJSONEnumType.bar:
-        return 'bar';
-      case RESTJSONEnumType.baz:
-        return 'baz';
-      case RESTJSONEnumType.$0:
-        return '0';
-      case RESTJSONEnumType.$1:
-        return '1';
-    }
-  }
-}
+  final String value;
 
-extension RESTJSONEnumTypeFromString on String {
-  RESTJSONEnumType toRESTJSONEnumType() {
-    switch (this) {
-      case 'foo':
-        return RESTJSONEnumType.foo;
-      case 'bar':
-        return RESTJSONEnumType.bar;
-      case 'baz':
-        return RESTJSONEnumType.baz;
-      case '0':
-        return RESTJSONEnumType.$0;
-      case '1':
-        return RESTJSONEnumType.$1;
-    }
-    throw Exception('$this is not known in enum RESTJSONEnumType');
-  }
+  const RESTJSONEnumType(this.value);
+
+  static RESTJSONEnumType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RESTJSONEnumType'));
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

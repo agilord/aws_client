@@ -897,8 +897,8 @@ class SsmIncidents {
       if (filters != null) 'filters': filters,
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
-      if (sortBy != null) 'sortBy': sortBy.toValue(),
-      if (sortOrder != null) 'sortOrder': sortOrder.toValue(),
+      if (sortBy != null) 'sortBy': sortBy.value,
+      if (sortOrder != null) 'sortOrder': sortOrder.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1212,7 +1212,7 @@ class SsmIncidents {
       if (impact != null) 'impact': impact,
       if (notificationTargets != null)
         'notificationTargets': notificationTargets,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (summary != null) 'summary': summary,
       if (title != null) 'title': title,
     };
@@ -1998,14 +1998,14 @@ class DynamicSsmParameterValue {
 
   factory DynamicSsmParameterValue.fromJson(Map<String, dynamic> json) {
     return DynamicSsmParameterValue(
-      variable: (json['variable'] as String?)?.toVariableType(),
+      variable: (json['variable'] as String?)?.let(VariableType.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final variable = this.variable;
     return {
-      if (variable != null) 'variable': variable.toValue(),
+      if (variable != null) 'variable': variable.value,
     };
   }
 }
@@ -2549,7 +2549,7 @@ class IncidentRecord {
       lastModifiedBy: json['lastModifiedBy'] as String,
       lastModifiedTime:
           nonNullableTimeStampFromJson(json['lastModifiedTime'] as Object),
-      status: (json['status'] as String).toIncidentRecordStatus(),
+      status: IncidentRecordStatus.fromString((json['status'] as String)),
       title: json['title'] as String,
       automationExecutions: (json['automationExecutions'] as List?)
           ?.whereNotNull()
@@ -2591,7 +2591,7 @@ class IncidentRecord {
       'incidentRecordSource': incidentRecordSource,
       'lastModifiedBy': lastModifiedBy,
       'lastModifiedTime': unixTimestampToJson(lastModifiedTime),
-      'status': status.toValue(),
+      'status': status.value,
       'title': title,
       if (automationExecutions != null)
         'automationExecutions': automationExecutions,
@@ -2654,31 +2654,18 @@ class IncidentRecordSource {
 }
 
 enum IncidentRecordStatus {
-  open,
-  resolved,
-}
+  open('OPEN'),
+  resolved('RESOLVED'),
+  ;
 
-extension IncidentRecordStatusValueExtension on IncidentRecordStatus {
-  String toValue() {
-    switch (this) {
-      case IncidentRecordStatus.open:
-        return 'OPEN';
-      case IncidentRecordStatus.resolved:
-        return 'RESOLVED';
-    }
-  }
-}
+  final String value;
 
-extension IncidentRecordStatusFromString on String {
-  IncidentRecordStatus toIncidentRecordStatus() {
-    switch (this) {
-      case 'OPEN':
-        return IncidentRecordStatus.open;
-      case 'RESOLVED':
-        return IncidentRecordStatus.resolved;
-    }
-    throw Exception('$this is not known in enum IncidentRecordStatus');
-  }
+  const IncidentRecordStatus(this.value);
+
+  static IncidentRecordStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum IncidentRecordStatus'));
 }
 
 /// Details describing an incident record.
@@ -2723,7 +2710,7 @@ class IncidentRecordSummary {
       impact: json['impact'] as int,
       incidentRecordSource: IncidentRecordSource.fromJson(
           json['incidentRecordSource'] as Map<String, dynamic>),
-      status: (json['status'] as String).toIncidentRecordStatus(),
+      status: IncidentRecordStatus.fromString((json['status'] as String)),
       title: json['title'] as String,
       resolvedTime: timeStampFromJson(json['resolvedTime']),
     );
@@ -2742,7 +2729,7 @@ class IncidentRecordSummary {
       'creationTime': unixTimestampToJson(creationTime),
       'impact': impact,
       'incidentRecordSource': incidentRecordSource,
-      'status': status.toValue(),
+      'status': status.value,
       'title': title,
       if (resolvedTime != null)
         'resolvedTime': unixTimestampToJson(resolvedTime),
@@ -2895,7 +2882,7 @@ class ItemIdentifier {
 
   factory ItemIdentifier.fromJson(Map<String, dynamic> json) {
     return ItemIdentifier(
-      type: (json['type'] as String).toItemType(),
+      type: ItemType.fromString((json['type'] as String)),
       value: ItemValue.fromJson(json['value'] as Map<String, dynamic>),
     );
   }
@@ -2904,73 +2891,31 @@ class ItemIdentifier {
     final type = this.type;
     final value = this.value;
     return {
-      'type': type.toValue(),
+      'type': type.value,
       'value': value,
     };
   }
 }
 
 enum ItemType {
-  analysis,
-  incident,
-  metric,
-  parent,
-  attachment,
-  other,
-  automation,
-  involvedResource,
-  task,
-}
+  analysis('ANALYSIS'),
+  incident('INCIDENT'),
+  metric('METRIC'),
+  parent('PARENT'),
+  attachment('ATTACHMENT'),
+  other('OTHER'),
+  automation('AUTOMATION'),
+  involvedResource('INVOLVED_RESOURCE'),
+  task('TASK'),
+  ;
 
-extension ItemTypeValueExtension on ItemType {
-  String toValue() {
-    switch (this) {
-      case ItemType.analysis:
-        return 'ANALYSIS';
-      case ItemType.incident:
-        return 'INCIDENT';
-      case ItemType.metric:
-        return 'METRIC';
-      case ItemType.parent:
-        return 'PARENT';
-      case ItemType.attachment:
-        return 'ATTACHMENT';
-      case ItemType.other:
-        return 'OTHER';
-      case ItemType.automation:
-        return 'AUTOMATION';
-      case ItemType.involvedResource:
-        return 'INVOLVED_RESOURCE';
-      case ItemType.task:
-        return 'TASK';
-    }
-  }
-}
+  final String value;
 
-extension ItemTypeFromString on String {
-  ItemType toItemType() {
-    switch (this) {
-      case 'ANALYSIS':
-        return ItemType.analysis;
-      case 'INCIDENT':
-        return ItemType.incident;
-      case 'METRIC':
-        return ItemType.metric;
-      case 'PARENT':
-        return ItemType.parent;
-      case 'ATTACHMENT':
-        return ItemType.attachment;
-      case 'OTHER':
-        return ItemType.other;
-      case 'AUTOMATION':
-        return ItemType.automation;
-      case 'INVOLVED_RESOURCE':
-        return ItemType.involvedResource;
-      case 'TASK':
-        return ItemType.task;
-    }
-    throw Exception('$this is not known in enum ItemType');
-  }
+  const ItemType(this.value);
+
+  static ItemType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ItemType'));
 }
 
 /// Describes a related item.
@@ -3421,7 +3366,7 @@ class RegionInfo {
 
   factory RegionInfo.fromJson(Map<String, dynamic> json) {
     return RegionInfo(
-      status: (json['status'] as String).toRegionStatus(),
+      status: RegionStatus.fromString((json['status'] as String)),
       statusUpdateDateTime:
           nonNullableTimeStampFromJson(json['statusUpdateDateTime'] as Object),
       sseKmsKeyId: json['sseKmsKeyId'] as String?,
@@ -3435,7 +3380,7 @@ class RegionInfo {
     final sseKmsKeyId = this.sseKmsKeyId;
     final statusMessage = this.statusMessage;
     return {
-      'status': status.toValue(),
+      'status': status.value,
       'statusUpdateDateTime': unixTimestampToJson(statusUpdateDateTime),
       if (sseKmsKeyId != null) 'sseKmsKeyId': sseKmsKeyId,
       if (statusMessage != null) 'statusMessage': statusMessage,
@@ -3462,41 +3407,20 @@ class RegionMapInputValue {
 }
 
 enum RegionStatus {
-  active,
-  creating,
-  deleting,
-  failed,
-}
+  active('ACTIVE'),
+  creating('CREATING'),
+  deleting('DELETING'),
+  failed('FAILED'),
+  ;
 
-extension RegionStatusValueExtension on RegionStatus {
-  String toValue() {
-    switch (this) {
-      case RegionStatus.active:
-        return 'ACTIVE';
-      case RegionStatus.creating:
-        return 'CREATING';
-      case RegionStatus.deleting:
-        return 'DELETING';
-      case RegionStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension RegionStatusFromString on String {
-  RegionStatus toRegionStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return RegionStatus.active;
-      case 'CREATING':
-        return RegionStatus.creating;
-      case 'DELETING':
-        return RegionStatus.deleting;
-      case 'FAILED':
-        return RegionStatus.failed;
-    }
-    throw Exception('$this is not known in enum RegionStatus');
-  }
+  const RegionStatus(this.value);
+
+  static RegionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RegionStatus'));
 }
 
 /// Resources that responders use to triage and mitigate the incident.
@@ -3616,7 +3540,7 @@ class ReplicationSet {
           nonNullableTimeStampFromJson(json['lastModifiedTime'] as Object),
       regionMap: (json['regionMap'] as Map<String, dynamic>).map((k, e) =>
           MapEntry(k, RegionInfo.fromJson(e as Map<String, dynamic>))),
-      status: (json['status'] as String).toReplicationSetStatus(),
+      status: ReplicationSetStatus.fromString((json['status'] as String)),
       arn: json['arn'] as String?,
     );
   }
@@ -3637,53 +3561,28 @@ class ReplicationSet {
       'lastModifiedBy': lastModifiedBy,
       'lastModifiedTime': unixTimestampToJson(lastModifiedTime),
       'regionMap': regionMap,
-      'status': status.toValue(),
+      'status': status.value,
       if (arn != null) 'arn': arn,
     };
   }
 }
 
 enum ReplicationSetStatus {
-  active,
-  creating,
-  updating,
-  deleting,
-  failed,
-}
+  active('ACTIVE'),
+  creating('CREATING'),
+  updating('UPDATING'),
+  deleting('DELETING'),
+  failed('FAILED'),
+  ;
 
-extension ReplicationSetStatusValueExtension on ReplicationSetStatus {
-  String toValue() {
-    switch (this) {
-      case ReplicationSetStatus.active:
-        return 'ACTIVE';
-      case ReplicationSetStatus.creating:
-        return 'CREATING';
-      case ReplicationSetStatus.updating:
-        return 'UPDATING';
-      case ReplicationSetStatus.deleting:
-        return 'DELETING';
-      case ReplicationSetStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ReplicationSetStatusFromString on String {
-  ReplicationSetStatus toReplicationSetStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return ReplicationSetStatus.active;
-      case 'CREATING':
-        return ReplicationSetStatus.creating;
-      case 'UPDATING':
-        return ReplicationSetStatus.updating;
-      case 'DELETING':
-        return ReplicationSetStatus.deleting;
-      case 'FAILED':
-        return ReplicationSetStatus.failed;
-    }
-    throw Exception('$this is not known in enum ReplicationSetStatus');
-  }
+  const ReplicationSetStatus(this.value);
+
+  static ReplicationSetStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ReplicationSetStatus'));
 }
 
 /// The resource policy that allows Incident Manager to perform actions on
@@ -3762,31 +3661,17 @@ class ResponsePlanSummary {
 }
 
 enum SortOrder {
-  ascending,
-  descending,
-}
+  ascending('ASCENDING'),
+  descending('DESCENDING'),
+  ;
 
-extension SortOrderValueExtension on SortOrder {
-  String toValue() {
-    switch (this) {
-      case SortOrder.ascending:
-        return 'ASCENDING';
-      case SortOrder.descending:
-        return 'DESCENDING';
-    }
-  }
-}
+  final String value;
 
-extension SortOrderFromString on String {
-  SortOrder toSortOrder() {
-    switch (this) {
-      case 'ASCENDING':
-        return SortOrder.ascending;
-      case 'DESCENDING':
-        return SortOrder.descending;
-    }
-    throw Exception('$this is not known in enum SortOrder');
-  }
+  const SortOrder(this.value);
+
+  static SortOrder fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SortOrder'));
 }
 
 /// Details about the Systems Manager automation document that will be used as a
@@ -3833,7 +3718,8 @@ class SsmAutomation {
       parameters: (json['parameters'] as Map<String, dynamic>?)?.map((k, e) =>
           MapEntry(
               k, (e as List).whereNotNull().map((e) => e as String).toList())),
-      targetAccount: (json['targetAccount'] as String?)?.toSsmTargetAccount(),
+      targetAccount:
+          (json['targetAccount'] as String?)?.let(SsmTargetAccount.fromString),
     );
   }
 
@@ -3850,37 +3736,24 @@ class SsmAutomation {
       if (documentVersion != null) 'documentVersion': documentVersion,
       if (dynamicParameters != null) 'dynamicParameters': dynamicParameters,
       if (parameters != null) 'parameters': parameters,
-      if (targetAccount != null) 'targetAccount': targetAccount.toValue(),
+      if (targetAccount != null) 'targetAccount': targetAccount.value,
     };
   }
 }
 
 enum SsmTargetAccount {
-  responsePlanOwnerAccount,
-  impactedAccount,
-}
+  responsePlanOwnerAccount('RESPONSE_PLAN_OWNER_ACCOUNT'),
+  impactedAccount('IMPACTED_ACCOUNT'),
+  ;
 
-extension SsmTargetAccountValueExtension on SsmTargetAccount {
-  String toValue() {
-    switch (this) {
-      case SsmTargetAccount.responsePlanOwnerAccount:
-        return 'RESPONSE_PLAN_OWNER_ACCOUNT';
-      case SsmTargetAccount.impactedAccount:
-        return 'IMPACTED_ACCOUNT';
-    }
-  }
-}
+  final String value;
 
-extension SsmTargetAccountFromString on String {
-  SsmTargetAccount toSsmTargetAccount() {
-    switch (this) {
-      case 'RESPONSE_PLAN_OWNER_ACCOUNT':
-        return SsmTargetAccount.responsePlanOwnerAccount;
-      case 'IMPACTED_ACCOUNT':
-        return SsmTargetAccount.impactedAccount;
-    }
-    throw Exception('$this is not known in enum SsmTargetAccount');
-  }
+  const SsmTargetAccount(this.value);
+
+  static SsmTargetAccount fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SsmTargetAccount'));
 }
 
 class StartIncidentOutput {
@@ -3989,26 +3862,17 @@ class TimelineEvent {
 }
 
 enum TimelineEventSort {
-  eventTime,
-}
+  eventTime('EVENT_TIME'),
+  ;
 
-extension TimelineEventSortValueExtension on TimelineEventSort {
-  String toValue() {
-    switch (this) {
-      case TimelineEventSort.eventTime:
-        return 'EVENT_TIME';
-    }
-  }
-}
+  final String value;
 
-extension TimelineEventSortFromString on String {
-  TimelineEventSort toTimelineEventSort() {
-    switch (this) {
-      case 'EVENT_TIME':
-        return TimelineEventSort.eventTime;
-    }
-    throw Exception('$this is not known in enum TimelineEventSort');
-  }
+  const TimelineEventSort(this.value);
+
+  static TimelineEventSort fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TimelineEventSort'));
 }
 
 /// Details about what caused the incident to be created in Incident Manager.
@@ -4161,31 +4025,18 @@ class UpdateTimelineEventOutput {
 }
 
 enum VariableType {
-  incidentRecordArn,
-  involvedResources,
-}
+  incidentRecordArn('INCIDENT_RECORD_ARN'),
+  involvedResources('INVOLVED_RESOURCES'),
+  ;
 
-extension VariableTypeValueExtension on VariableType {
-  String toValue() {
-    switch (this) {
-      case VariableType.incidentRecordArn:
-        return 'INCIDENT_RECORD_ARN';
-      case VariableType.involvedResources:
-        return 'INVOLVED_RESOURCES';
-    }
-  }
-}
+  final String value;
 
-extension VariableTypeFromString on String {
-  VariableType toVariableType() {
-    switch (this) {
-      case 'INCIDENT_RECORD_ARN':
-        return VariableType.incidentRecordArn;
-      case 'INVOLVED_RESOURCES':
-        return VariableType.involvedResources;
-    }
-    throw Exception('$this is not known in enum VariableType');
-  }
+  const VariableType(this.value);
+
+  static VariableType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum VariableType'));
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

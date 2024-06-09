@@ -284,7 +284,7 @@ class Omics {
     String? versionName,
   }) async {
     final $payload = <String, dynamic>{
-      'storeFormat': storeFormat.toValue(),
+      'storeFormat': storeFormat.value,
       if (description != null) 'description': description,
       if (name != null) 'name': name,
       if (reference != null) 'reference': reference,
@@ -407,7 +407,7 @@ class Omics {
     final $payload = <String, dynamic>{
       'name': name,
       'sampleId': sampleId,
-      'sourceFileType': sourceFileType.toValue(),
+      'sourceFileType': sourceFileType.value,
       'subjectId': subjectId,
       if (clientToken != null) 'clientToken': clientToken,
       if (description != null) 'description': description,
@@ -600,7 +600,7 @@ class Omics {
       if (clientToken != null) 'clientToken': clientToken,
       if (description != null) 'description': description,
       if (eTagAlgorithmFamily != null)
-        'eTagAlgorithmFamily': eTagAlgorithmFamily.toValue(),
+        'eTagAlgorithmFamily': eTagAlgorithmFamily.value,
       if (fallbackLocation != null) 'fallbackLocation': fallbackLocation,
       if (sseConfig != null) 'sseConfig': sseConfig,
       if (tags != null) 'tags': tags,
@@ -779,11 +779,11 @@ class Omics {
       100000,
     );
     final $payload = <String, dynamic>{
-      if (accelerators != null) 'accelerators': accelerators.toValue(),
+      if (accelerators != null) 'accelerators': accelerators.value,
       if (definitionUri != null) 'definitionUri': definitionUri,
       if (definitionZip != null) 'definitionZip': base64Encode(definitionZip),
       if (description != null) 'description': description,
-      if (engine != null) 'engine': engine.toValue(),
+      if (engine != null) 'engine': engine.value,
       if (main != null) 'main': main,
       if (name != null) 'name': name,
       if (parameterTemplate != null) 'parameterTemplate': parameterTemplate,
@@ -1184,7 +1184,7 @@ class Omics {
     );
     final $query = <String, List<String>>{
       'partNumber': [partNumber.toString()],
-      if (file != null) 'file': [file.toValue()],
+      if (file != null) 'file': [file.value],
     };
     final response = await _protocol.sendRaw(
       payload: null,
@@ -1354,7 +1354,7 @@ class Omics {
     };
     final $query = <String, List<String>>{
       'partNumber': [partNumber.toString()],
-      if (file != null) 'file': [file.toValue()],
+      if (file != null) 'file': [file.value],
     };
     final response = await _protocol.sendRaw(
       payload: null,
@@ -1473,7 +1473,7 @@ class Omics {
     List<RunExport>? export,
   }) async {
     final $query = <String, List<String>>{
-      if (export != null) 'export': export.map((e) => e.toValue()).toList(),
+      if (export != null) 'export': export.map((e) => e.value).toList(),
     };
     final response = await _protocol.send(
       payload: null,
@@ -1662,8 +1662,8 @@ class Omics {
     String? workflowOwnerId,
   }) async {
     final $query = <String, List<String>>{
-      if (export != null) 'export': export.map((e) => e.toValue()).toList(),
-      if (type != null) 'type': [type.toValue()],
+      if (export != null) 'export': export.map((e) => e.value).toList(),
+      if (type != null) 'type': [type.value],
       if (workflowOwnerId != null) 'workflowOwnerId': [workflowOwnerId],
     };
     final response = await _protocol.send(
@@ -2077,7 +2077,7 @@ class Omics {
       if (nextToken != null) 'nextToken': [nextToken],
     };
     final $payload = <String, dynamic>{
-      'partSource': partSource.toValue(),
+      'partSource': partSource.value,
       if (filter != null) 'filter': filter,
     };
     final response = await _protocol.send(
@@ -2373,7 +2373,7 @@ class Omics {
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (startingToken != null) 'startingToken': [startingToken],
-      if (status != null) 'status': [status.toValue()],
+      if (status != null) 'status': [status.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -2429,7 +2429,7 @@ class Omics {
       if (name != null) 'name': [name],
       if (runGroupId != null) 'runGroupId': [runGroupId],
       if (startingToken != null) 'startingToken': [startingToken],
-      if (status != null) 'status': [status.toValue()],
+      if (status != null) 'status': [status.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -2521,7 +2521,7 @@ class Omics {
       if (nextToken != null) 'nextToken': [nextToken],
     };
     final $payload = <String, dynamic>{
-      'resourceOwner': resourceOwner.toValue(),
+      'resourceOwner': resourceOwner.value,
       if (filter != null) 'filter': filter,
     };
     final response = await _protocol.send(
@@ -2698,7 +2698,7 @@ class Omics {
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (name != null) 'name': [name],
       if (startingToken != null) 'startingToken': [startingToken],
-      if (type != null) 'type': [type.toValue()],
+      if (type != null) 'type': [type.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -3051,21 +3051,21 @@ class Omics {
     );
     final $payload = <String, dynamic>{
       'roleArn': roleArn,
-      if (logLevel != null) 'logLevel': logLevel.toValue(),
+      if (logLevel != null) 'logLevel': logLevel.value,
       if (name != null) 'name': name,
       if (outputUri != null) 'outputUri': outputUri,
       if (parameters != null) 'parameters': parameters,
       if (priority != null) 'priority': priority,
       'requestId': requestId ?? _s.generateIdempotencyToken(),
-      if (retentionMode != null) 'retentionMode': retentionMode.toValue(),
+      if (retentionMode != null) 'retentionMode': retentionMode.value,
       if (runGroupId != null) 'runGroupId': runGroupId,
       if (runId != null) 'runId': runId,
       if (storageCapacity != null) 'storageCapacity': storageCapacity,
-      if (storageType != null) 'storageType': storageType.toValue(),
+      if (storageType != null) 'storageType': storageType.value,
       if (tags != null) 'tags': tags,
       if (workflowId != null) 'workflowId': workflowId,
       if (workflowOwnerId != null) 'workflowOwnerId': workflowOwnerId,
-      if (workflowType != null) 'workflowType': workflowType.toValue(),
+      if (workflowType != null) 'workflowType': workflowType.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -3432,7 +3432,7 @@ class Omics {
     );
     final $query = <String, List<String>>{
       'partNumber': [partNumber.toString()],
-      'partSource': [partSource.toValue()],
+      'partSource': [partSource.value],
     };
     final response = await _protocol.send(
       payload: payload,
@@ -3459,26 +3459,17 @@ class AbortMultipartReadSetUploadResponse {
 }
 
 enum Accelerators {
-  gpu,
-}
+  gpu('GPU'),
+  ;
 
-extension AcceleratorsValueExtension on Accelerators {
-  String toValue() {
-    switch (this) {
-      case Accelerators.gpu:
-        return 'GPU';
-    }
-  }
-}
+  final String value;
 
-extension AcceleratorsFromString on String {
-  Accelerators toAccelerators() {
-    switch (this) {
-      case 'GPU':
-        return Accelerators.gpu;
-    }
-    throw Exception('$this is not known in enum Accelerators');
-  }
+  const Accelerators(this.value);
+
+  static Accelerators fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum Accelerators'));
 }
 
 class AcceptShareResponse {
@@ -3491,14 +3482,14 @@ class AcceptShareResponse {
 
   factory AcceptShareResponse.fromJson(Map<String, dynamic> json) {
     return AcceptShareResponse(
-      status: (json['status'] as String?)?.toShareStatus(),
+      status: (json['status'] as String?)?.let(ShareStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -3527,7 +3518,7 @@ class ActivateReadSetFilter {
     return {
       if (createdAfter != null) 'createdAfter': iso8601ToJson(createdAfter),
       if (createdBefore != null) 'createdBefore': iso8601ToJson(createdBefore),
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -3563,7 +3554,7 @@ class ActivateReadSetJobItem {
           nonNullableTimeStampFromJson(json['creationTime'] as Object),
       id: json['id'] as String,
       sequenceStoreId: json['sequenceStoreId'] as String,
-      status: (json['status'] as String).toReadSetActivationJobStatus(),
+      status: ReadSetActivationJobStatus.fromString((json['status'] as String)),
       completionTime: timeStampFromJson(json['completionTime']),
     );
   }
@@ -3578,7 +3569,7 @@ class ActivateReadSetJobItem {
       'creationTime': iso8601ToJson(creationTime),
       'id': id,
       'sequenceStoreId': sequenceStoreId,
-      'status': status.toValue(),
+      'status': status.value,
       if (completionTime != null)
         'completionTime': iso8601ToJson(completionTime),
     };
@@ -3605,7 +3596,8 @@ class ActivateReadSetSourceItem {
   factory ActivateReadSetSourceItem.fromJson(Map<String, dynamic> json) {
     return ActivateReadSetSourceItem(
       readSetId: json['readSetId'] as String,
-      status: (json['status'] as String).toReadSetActivationJobItemStatus(),
+      status:
+          ReadSetActivationJobItemStatus.fromString((json['status'] as String)),
       statusMessage: json['statusMessage'] as String?,
     );
   }
@@ -3616,7 +3608,7 @@ class ActivateReadSetSourceItem {
     final statusMessage = this.statusMessage;
     return {
       'readSetId': readSetId,
-      'status': status.toValue(),
+      'status': status.value,
       if (statusMessage != null) 'statusMessage': statusMessage,
     };
   }
@@ -3637,7 +3629,7 @@ class AnnotationImportItemDetail {
 
   factory AnnotationImportItemDetail.fromJson(Map<String, dynamic> json) {
     return AnnotationImportItemDetail(
-      jobStatus: (json['jobStatus'] as String).toJobStatus(),
+      jobStatus: JobStatus.fromString((json['jobStatus'] as String)),
       source: json['source'] as String,
     );
   }
@@ -3646,7 +3638,7 @@ class AnnotationImportItemDetail {
     final jobStatus = this.jobStatus;
     final source = this.source;
     return {
-      'jobStatus': jobStatus.toValue(),
+      'jobStatus': jobStatus.value,
       'source': source,
     };
   }
@@ -3721,7 +3713,7 @@ class AnnotationImportJobItem {
       destinationName: json['destinationName'] as String,
       id: json['id'] as String,
       roleArn: json['roleArn'] as String,
-      status: (json['status'] as String).toJobStatus(),
+      status: JobStatus.fromString((json['status'] as String)),
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
       versionName: json['versionName'] as String,
       annotationFields: (json['annotationFields'] as Map<String, dynamic>?)
@@ -3747,7 +3739,7 @@ class AnnotationImportJobItem {
       'destinationName': destinationName,
       'id': id,
       'roleArn': roleArn,
-      'status': status.toValue(),
+      'status': status.value,
       'updateTime': iso8601ToJson(updateTime),
       'versionName': versionName,
       if (annotationFields != null) 'annotationFields': annotationFields,
@@ -3822,10 +3814,10 @@ class AnnotationStoreItem {
       reference:
           ReferenceItem.fromJson(json['reference'] as Map<String, dynamic>),
       sseConfig: SseConfig.fromJson(json['sseConfig'] as Map<String, dynamic>),
-      status: (json['status'] as String).toStoreStatus(),
+      status: StoreStatus.fromString((json['status'] as String)),
       statusMessage: json['statusMessage'] as String,
       storeArn: json['storeArn'] as String,
-      storeFormat: (json['storeFormat'] as String).toStoreFormat(),
+      storeFormat: StoreFormat.fromString((json['storeFormat'] as String)),
       storeSizeBytes: json['storeSizeBytes'] as int,
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
     );
@@ -3851,10 +3843,10 @@ class AnnotationStoreItem {
       'name': name,
       'reference': reference,
       'sseConfig': sseConfig,
-      'status': status.toValue(),
+      'status': status.value,
       'statusMessage': statusMessage,
       'storeArn': storeArn,
-      'storeFormat': storeFormat.toValue(),
+      'storeFormat': storeFormat.value,
       'storeSizeBytes': storeSizeBytes,
       'updateTime': iso8601ToJson(updateTime),
     };
@@ -3917,7 +3909,7 @@ class AnnotationStoreVersionItem {
       description: json['description'] as String,
       id: json['id'] as String,
       name: json['name'] as String,
-      status: (json['status'] as String).toVersionStatus(),
+      status: VersionStatus.fromString((json['status'] as String)),
       statusMessage: json['statusMessage'] as String,
       storeId: json['storeId'] as String,
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
@@ -3944,7 +3936,7 @@ class AnnotationStoreVersionItem {
       'description': description,
       'id': id,
       'name': name,
-      'status': status.toValue(),
+      'status': status.value,
       'statusMessage': statusMessage,
       'storeId': storeId,
       'updateTime': iso8601ToJson(updateTime),
@@ -3956,56 +3948,23 @@ class AnnotationStoreVersionItem {
 }
 
 enum AnnotationType {
-  generic,
-  chrPos,
-  chrPosRefAlt,
-  chrStartEndOneBase,
-  chrStartEndRefAltOneBase,
-  chrStartEndZeroBase,
-  chrStartEndRefAltZeroBase,
-}
+  generic('GENERIC'),
+  chrPos('CHR_POS'),
+  chrPosRefAlt('CHR_POS_REF_ALT'),
+  chrStartEndOneBase('CHR_START_END_ONE_BASE'),
+  chrStartEndRefAltOneBase('CHR_START_END_REF_ALT_ONE_BASE'),
+  chrStartEndZeroBase('CHR_START_END_ZERO_BASE'),
+  chrStartEndRefAltZeroBase('CHR_START_END_REF_ALT_ZERO_BASE'),
+  ;
 
-extension AnnotationTypeValueExtension on AnnotationType {
-  String toValue() {
-    switch (this) {
-      case AnnotationType.generic:
-        return 'GENERIC';
-      case AnnotationType.chrPos:
-        return 'CHR_POS';
-      case AnnotationType.chrPosRefAlt:
-        return 'CHR_POS_REF_ALT';
-      case AnnotationType.chrStartEndOneBase:
-        return 'CHR_START_END_ONE_BASE';
-      case AnnotationType.chrStartEndRefAltOneBase:
-        return 'CHR_START_END_REF_ALT_ONE_BASE';
-      case AnnotationType.chrStartEndZeroBase:
-        return 'CHR_START_END_ZERO_BASE';
-      case AnnotationType.chrStartEndRefAltZeroBase:
-        return 'CHR_START_END_REF_ALT_ZERO_BASE';
-    }
-  }
-}
+  final String value;
 
-extension AnnotationTypeFromString on String {
-  AnnotationType toAnnotationType() {
-    switch (this) {
-      case 'GENERIC':
-        return AnnotationType.generic;
-      case 'CHR_POS':
-        return AnnotationType.chrPos;
-      case 'CHR_POS_REF_ALT':
-        return AnnotationType.chrPosRefAlt;
-      case 'CHR_START_END_ONE_BASE':
-        return AnnotationType.chrStartEndOneBase;
-      case 'CHR_START_END_REF_ALT_ONE_BASE':
-        return AnnotationType.chrStartEndRefAltOneBase;
-      case 'CHR_START_END_ZERO_BASE':
-        return AnnotationType.chrStartEndZeroBase;
-      case 'CHR_START_END_REF_ALT_ZERO_BASE':
-        return AnnotationType.chrStartEndRefAltZeroBase;
-    }
-    throw Exception('$this is not known in enum AnnotationType');
-  }
+  const AnnotationType(this.value);
+
+  static AnnotationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AnnotationType'));
 }
 
 class BatchDeleteReadSetResponse {
@@ -4105,7 +4064,7 @@ class CompleteReadSetUploadPartListItem {
     return {
       'checksum': checksum,
       'partNumber': partNumber,
-      'partSource': partSource.toValue(),
+      'partSource': partSource.value,
     };
   }
 }
@@ -4154,12 +4113,13 @@ class CreateAnnotationStoreResponse {
           nonNullableTimeStampFromJson(json['creationTime'] as Object),
       id: json['id'] as String,
       name: json['name'] as String,
-      status: (json['status'] as String).toStoreStatus(),
+      status: StoreStatus.fromString((json['status'] as String)),
       versionName: json['versionName'] as String,
       reference: json['reference'] != null
           ? ReferenceItem.fromJson(json['reference'] as Map<String, dynamic>)
           : null,
-      storeFormat: (json['storeFormat'] as String?)?.toStoreFormat(),
+      storeFormat:
+          (json['storeFormat'] as String?)?.let(StoreFormat.fromString),
       storeOptions: json['storeOptions'] != null
           ? StoreOptions.fromJson(json['storeOptions'] as Map<String, dynamic>)
           : null,
@@ -4179,10 +4139,10 @@ class CreateAnnotationStoreResponse {
       'creationTime': iso8601ToJson(creationTime),
       'id': id,
       'name': name,
-      'status': status.toValue(),
+      'status': status.value,
       'versionName': versionName,
       if (reference != null) 'reference': reference,
-      if (storeFormat != null) 'storeFormat': storeFormat.toValue(),
+      if (storeFormat != null) 'storeFormat': storeFormat.value,
       if (storeOptions != null) 'storeOptions': storeOptions,
     };
   }
@@ -4229,7 +4189,7 @@ class CreateAnnotationStoreVersionResponse {
           nonNullableTimeStampFromJson(json['creationTime'] as Object),
       id: json['id'] as String,
       name: json['name'] as String,
-      status: (json['status'] as String).toVersionStatus(),
+      status: VersionStatus.fromString((json['status'] as String)),
       storeId: json['storeId'] as String,
       versionName: json['versionName'] as String,
       versionOptions: json['versionOptions'] != null
@@ -4251,7 +4211,7 @@ class CreateAnnotationStoreVersionResponse {
       'creationTime': iso8601ToJson(creationTime),
       'id': id,
       'name': name,
-      'status': status.toValue(),
+      'status': status.value,
       'storeId': storeId,
       'versionName': versionName,
       if (versionOptions != null) 'versionOptions': versionOptions,
@@ -4315,7 +4275,7 @@ class CreateMultipartReadSetUploadResponse {
       referenceArn: json['referenceArn'] as String,
       sampleId: json['sampleId'] as String,
       sequenceStoreId: json['sequenceStoreId'] as String,
-      sourceFileType: (json['sourceFileType'] as String).toFileType(),
+      sourceFileType: FileType.fromString((json['sourceFileType'] as String)),
       subjectId: json['subjectId'] as String,
       uploadId: json['uploadId'] as String,
       description: json['description'] as String?,
@@ -4343,7 +4303,7 @@ class CreateMultipartReadSetUploadResponse {
       'referenceArn': referenceArn,
       'sampleId': sampleId,
       'sequenceStoreId': sequenceStoreId,
-      'sourceFileType': sourceFileType.toValue(),
+      'sourceFileType': sourceFileType.value,
       'subjectId': subjectId,
       'uploadId': uploadId,
       if (description != null) 'description': description,
@@ -4494,8 +4454,8 @@ class CreateSequenceStoreResponse {
           nonNullableTimeStampFromJson(json['creationTime'] as Object),
       id: json['id'] as String,
       description: json['description'] as String?,
-      eTagAlgorithmFamily:
-          (json['eTagAlgorithmFamily'] as String?)?.toETagAlgorithmFamily(),
+      eTagAlgorithmFamily: (json['eTagAlgorithmFamily'] as String?)
+          ?.let(ETagAlgorithmFamily.fromString),
       fallbackLocation: json['fallbackLocation'] as String?,
       name: json['name'] as String?,
       sseConfig: json['sseConfig'] != null
@@ -4519,7 +4479,7 @@ class CreateSequenceStoreResponse {
       'id': id,
       if (description != null) 'description': description,
       if (eTagAlgorithmFamily != null)
-        'eTagAlgorithmFamily': eTagAlgorithmFamily.toValue(),
+        'eTagAlgorithmFamily': eTagAlgorithmFamily.value,
       if (fallbackLocation != null) 'fallbackLocation': fallbackLocation,
       if (name != null) 'name': name,
       if (sseConfig != null) 'sseConfig': sseConfig,
@@ -4547,7 +4507,7 @@ class CreateShareResponse {
     return CreateShareResponse(
       shareId: json['shareId'] as String?,
       shareName: json['shareName'] as String?,
-      status: (json['status'] as String?)?.toShareStatus(),
+      status: (json['status'] as String?)?.let(ShareStatus.fromString),
     );
   }
 
@@ -4558,7 +4518,7 @@ class CreateShareResponse {
     return {
       if (shareId != null) 'shareId': shareId,
       if (shareName != null) 'shareName': shareName,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -4593,7 +4553,7 @@ class CreateVariantStoreResponse {
           nonNullableTimeStampFromJson(json['creationTime'] as Object),
       id: json['id'] as String,
       name: json['name'] as String,
-      status: (json['status'] as String).toStoreStatus(),
+      status: StoreStatus.fromString((json['status'] as String)),
       reference: json['reference'] != null
           ? ReferenceItem.fromJson(json['reference'] as Map<String, dynamic>)
           : null,
@@ -4610,7 +4570,7 @@ class CreateVariantStoreResponse {
       'creationTime': iso8601ToJson(creationTime),
       'id': id,
       'name': name,
-      'status': status.toValue(),
+      'status': status.value,
       if (reference != null) 'reference': reference,
     };
   }
@@ -4640,7 +4600,7 @@ class CreateWorkflowResponse {
     return CreateWorkflowResponse(
       arn: json['arn'] as String?,
       id: json['id'] as String?,
-      status: (json['status'] as String?)?.toWorkflowStatus(),
+      status: (json['status'] as String?)?.let(WorkflowStatus.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -4654,38 +4614,25 @@ class CreateWorkflowResponse {
     return {
       if (arn != null) 'arn': arn,
       if (id != null) 'id': id,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (tags != null) 'tags': tags,
     };
   }
 }
 
 enum CreationType {
-  import,
-  upload,
-}
+  import('IMPORT'),
+  upload('UPLOAD'),
+  ;
 
-extension CreationTypeValueExtension on CreationType {
-  String toValue() {
-    switch (this) {
-      case CreationType.import:
-        return 'IMPORT';
-      case CreationType.upload:
-        return 'UPLOAD';
-    }
-  }
-}
+  final String value;
 
-extension CreationTypeFromString on String {
-  CreationType toCreationType() {
-    switch (this) {
-      case 'IMPORT':
-        return CreationType.import;
-      case 'UPLOAD':
-        return CreationType.upload;
-    }
-    throw Exception('$this is not known in enum CreationType');
-  }
+  const CreationType(this.value);
+
+  static CreationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CreationType'));
 }
 
 class DeleteAnnotationStoreResponse {
@@ -4698,14 +4645,14 @@ class DeleteAnnotationStoreResponse {
 
   factory DeleteAnnotationStoreResponse.fromJson(Map<String, dynamic> json) {
     return DeleteAnnotationStoreResponse(
-      status: (json['status'] as String).toStoreStatus(),
+      status: StoreStatus.fromString((json['status'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {
-      'status': status.toValue(),
+      'status': status.value,
     };
   }
 }
@@ -4782,14 +4729,14 @@ class DeleteShareResponse {
 
   factory DeleteShareResponse.fromJson(Map<String, dynamic> json) {
     return DeleteShareResponse(
-      status: (json['status'] as String?)?.toShareStatus(),
+      status: (json['status'] as String?)?.let(ShareStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -4804,14 +4751,14 @@ class DeleteVariantStoreResponse {
 
   factory DeleteVariantStoreResponse.fromJson(Map<String, dynamic> json) {
     return DeleteVariantStoreResponse(
-      status: (json['status'] as String).toStoreStatus(),
+      status: StoreStatus.fromString((json['status'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {
-      'status': status.toValue(),
+      'status': status.value,
     };
   }
 }
@@ -4836,7 +4783,7 @@ class ETag {
 
   factory ETag.fromJson(Map<String, dynamic> json) {
     return ETag(
-      algorithm: (json['algorithm'] as String?)?.toETagAlgorithm(),
+      algorithm: (json['algorithm'] as String?)?.let(ETagAlgorithm.fromString),
       source1: json['source1'] as String?,
       source2: json['source2'] as String?,
     );
@@ -4847,7 +4794,7 @@ class ETag {
     final source1 = this.source1;
     final source2 = this.source2;
     return {
-      if (algorithm != null) 'algorithm': algorithm.toValue(),
+      if (algorithm != null) 'algorithm': algorithm.value,
       if (source1 != null) 'source1': source1,
       if (source2 != null) 'source2': source2,
     };
@@ -4855,122 +4802,55 @@ class ETag {
 }
 
 enum ETagAlgorithm {
-  fastqMD5up,
-  bamMD5up,
-  cramMD5up,
-  fastqSHA256up,
-  bamSHA256up,
-  cramSHA256up,
-  fastqSHA512up,
-  bamSHA512up,
-  cramSHA512up,
-}
+  fastqMD5up('FASTQ_MD5up'),
+  bamMD5up('BAM_MD5up'),
+  cramMD5up('CRAM_MD5up'),
+  fastqSHA256up('FASTQ_SHA256up'),
+  bamSHA256up('BAM_SHA256up'),
+  cramSHA256up('CRAM_SHA256up'),
+  fastqSHA512up('FASTQ_SHA512up'),
+  bamSHA512up('BAM_SHA512up'),
+  cramSHA512up('CRAM_SHA512up'),
+  ;
 
-extension ETagAlgorithmValueExtension on ETagAlgorithm {
-  String toValue() {
-    switch (this) {
-      case ETagAlgorithm.fastqMD5up:
-        return 'FASTQ_MD5up';
-      case ETagAlgorithm.bamMD5up:
-        return 'BAM_MD5up';
-      case ETagAlgorithm.cramMD5up:
-        return 'CRAM_MD5up';
-      case ETagAlgorithm.fastqSHA256up:
-        return 'FASTQ_SHA256up';
-      case ETagAlgorithm.bamSHA256up:
-        return 'BAM_SHA256up';
-      case ETagAlgorithm.cramSHA256up:
-        return 'CRAM_SHA256up';
-      case ETagAlgorithm.fastqSHA512up:
-        return 'FASTQ_SHA512up';
-      case ETagAlgorithm.bamSHA512up:
-        return 'BAM_SHA512up';
-      case ETagAlgorithm.cramSHA512up:
-        return 'CRAM_SHA512up';
-    }
-  }
-}
+  final String value;
 
-extension ETagAlgorithmFromString on String {
-  ETagAlgorithm toETagAlgorithm() {
-    switch (this) {
-      case 'FASTQ_MD5up':
-        return ETagAlgorithm.fastqMD5up;
-      case 'BAM_MD5up':
-        return ETagAlgorithm.bamMD5up;
-      case 'CRAM_MD5up':
-        return ETagAlgorithm.cramMD5up;
-      case 'FASTQ_SHA256up':
-        return ETagAlgorithm.fastqSHA256up;
-      case 'BAM_SHA256up':
-        return ETagAlgorithm.bamSHA256up;
-      case 'CRAM_SHA256up':
-        return ETagAlgorithm.cramSHA256up;
-      case 'FASTQ_SHA512up':
-        return ETagAlgorithm.fastqSHA512up;
-      case 'BAM_SHA512up':
-        return ETagAlgorithm.bamSHA512up;
-      case 'CRAM_SHA512up':
-        return ETagAlgorithm.cramSHA512up;
-    }
-    throw Exception('$this is not known in enum ETagAlgorithm');
-  }
+  const ETagAlgorithm(this.value);
+
+  static ETagAlgorithm fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ETagAlgorithm'));
 }
 
 enum ETagAlgorithmFamily {
-  mD5up,
-  sHA256up,
-  sHA512up,
-}
+  mD5up('MD5up'),
+  sHA256up('SHA256up'),
+  sHA512up('SHA512up'),
+  ;
 
-extension ETagAlgorithmFamilyValueExtension on ETagAlgorithmFamily {
-  String toValue() {
-    switch (this) {
-      case ETagAlgorithmFamily.mD5up:
-        return 'MD5up';
-      case ETagAlgorithmFamily.sHA256up:
-        return 'SHA256up';
-      case ETagAlgorithmFamily.sHA512up:
-        return 'SHA512up';
-    }
-  }
-}
+  final String value;
 
-extension ETagAlgorithmFamilyFromString on String {
-  ETagAlgorithmFamily toETagAlgorithmFamily() {
-    switch (this) {
-      case 'MD5up':
-        return ETagAlgorithmFamily.mD5up;
-      case 'SHA256up':
-        return ETagAlgorithmFamily.sHA256up;
-      case 'SHA512up':
-        return ETagAlgorithmFamily.sHA512up;
-    }
-    throw Exception('$this is not known in enum ETagAlgorithmFamily');
-  }
+  const ETagAlgorithmFamily(this.value);
+
+  static ETagAlgorithmFamily fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ETagAlgorithmFamily'));
 }
 
 enum EncryptionType {
-  kms,
-}
+  kms('KMS'),
+  ;
 
-extension EncryptionTypeValueExtension on EncryptionType {
-  String toValue() {
-    switch (this) {
-      case EncryptionType.kms:
-        return 'KMS';
-    }
-  }
-}
+  final String value;
 
-extension EncryptionTypeFromString on String {
-  EncryptionType toEncryptionType() {
-    switch (this) {
-      case 'KMS':
-        return EncryptionType.kms;
-    }
-    throw Exception('$this is not known in enum EncryptionType');
-  }
+  const EncryptionType(this.value);
+
+  static EncryptionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EncryptionType'));
 }
 
 /// A read set.
@@ -5010,7 +4890,7 @@ class ExportReadSetDetail {
   factory ExportReadSetDetail.fromJson(Map<String, dynamic> json) {
     return ExportReadSetDetail(
       id: json['id'] as String,
-      status: (json['status'] as String).toReadSetExportJobItemStatus(),
+      status: ReadSetExportJobItemStatus.fromString((json['status'] as String)),
       statusMessage: json['statusMessage'] as String?,
     );
   }
@@ -5021,7 +4901,7 @@ class ExportReadSetDetail {
     final statusMessage = this.statusMessage;
     return {
       'id': id,
-      'status': status.toValue(),
+      'status': status.value,
       if (statusMessage != null) 'statusMessage': statusMessage,
     };
   }
@@ -5051,7 +4931,7 @@ class ExportReadSetFilter {
     return {
       if (createdAfter != null) 'createdAfter': iso8601ToJson(createdAfter),
       if (createdBefore != null) 'createdBefore': iso8601ToJson(createdBefore),
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -5092,7 +4972,7 @@ class ExportReadSetJobDetail {
       destination: json['destination'] as String,
       id: json['id'] as String,
       sequenceStoreId: json['sequenceStoreId'] as String,
-      status: (json['status'] as String).toReadSetExportJobStatus(),
+      status: ReadSetExportJobStatus.fromString((json['status'] as String)),
       completionTime: timeStampFromJson(json['completionTime']),
     );
   }
@@ -5109,7 +4989,7 @@ class ExportReadSetJobDetail {
       'destination': destination,
       'id': id,
       'sequenceStoreId': sequenceStoreId,
-      'status': status.toValue(),
+      'status': status.value,
       if (completionTime != null)
         'completionTime': iso8601ToJson(completionTime),
     };
@@ -5163,41 +5043,19 @@ class FileInformation {
 }
 
 enum FileType {
-  fastq,
-  bam,
-  cram,
-  ubam,
-}
+  fastq('FASTQ'),
+  bam('BAM'),
+  cram('CRAM'),
+  ubam('UBAM'),
+  ;
 
-extension FileTypeValueExtension on FileType {
-  String toValue() {
-    switch (this) {
-      case FileType.fastq:
-        return 'FASTQ';
-      case FileType.bam:
-        return 'BAM';
-      case FileType.cram:
-        return 'CRAM';
-      case FileType.ubam:
-        return 'UBAM';
-    }
-  }
-}
+  final String value;
 
-extension FileTypeFromString on String {
-  FileType toFileType() {
-    switch (this) {
-      case 'FASTQ':
-        return FileType.fastq;
-      case 'BAM':
-        return FileType.bam;
-      case 'CRAM':
-        return FileType.cram;
-      case 'UBAM':
-        return FileType.ubam;
-    }
-    throw Exception('$this is not known in enum FileType');
-  }
+  const FileType(this.value);
+
+  static FileType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum FileType'));
 }
 
 /// Use filters to return a subset of resources. You can define filters for
@@ -5226,8 +5084,8 @@ class Filter {
     final type = this.type;
     return {
       if (resourceArns != null) 'resourceArns': resourceArns,
-      if (status != null) 'status': status.map((e) => e.toValue()).toList(),
-      if (type != null) 'type': type.map((e) => e.toValue()).toList(),
+      if (status != null) 'status': status.map((e) => e.value).toList(),
+      if (type != null) 'type': type.map((e) => e.value).toList(),
     };
   }
 }
@@ -5267,51 +5125,22 @@ class FormatOptions {
 }
 
 enum FormatToHeaderKey {
-  chr,
-  start,
-  end,
-  ref,
-  alt,
-  pos,
-}
+  chr('CHR'),
+  start('START'),
+  end('END'),
+  ref('REF'),
+  alt('ALT'),
+  pos('POS'),
+  ;
 
-extension FormatToHeaderKeyValueExtension on FormatToHeaderKey {
-  String toValue() {
-    switch (this) {
-      case FormatToHeaderKey.chr:
-        return 'CHR';
-      case FormatToHeaderKey.start:
-        return 'START';
-      case FormatToHeaderKey.end:
-        return 'END';
-      case FormatToHeaderKey.ref:
-        return 'REF';
-      case FormatToHeaderKey.alt:
-        return 'ALT';
-      case FormatToHeaderKey.pos:
-        return 'POS';
-    }
-  }
-}
+  final String value;
 
-extension FormatToHeaderKeyFromString on String {
-  FormatToHeaderKey toFormatToHeaderKey() {
-    switch (this) {
-      case 'CHR':
-        return FormatToHeaderKey.chr;
-      case 'START':
-        return FormatToHeaderKey.start;
-      case 'END':
-        return FormatToHeaderKey.end;
-      case 'REF':
-        return FormatToHeaderKey.ref;
-      case 'ALT':
-        return FormatToHeaderKey.alt;
-      case 'POS':
-        return FormatToHeaderKey.pos;
-    }
-    throw Exception('$this is not known in enum FormatToHeaderKey');
-  }
+  const FormatToHeaderKey(this.value);
+
+  static FormatToHeaderKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FormatToHeaderKey'));
 }
 
 class GetAnnotationImportResponse {
@@ -5385,7 +5214,7 @@ class GetAnnotationImportResponse {
           .toList(),
       roleArn: json['roleArn'] as String,
       runLeftNormalization: json['runLeftNormalization'] as bool,
-      status: (json['status'] as String).toJobStatus(),
+      status: JobStatus.fromString((json['status'] as String)),
       statusMessage: json['statusMessage'] as String,
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
       versionName: json['versionName'] as String,
@@ -5417,7 +5246,7 @@ class GetAnnotationImportResponse {
       'items': items,
       'roleArn': roleArn,
       'runLeftNormalization': runLeftNormalization,
-      'status': status.toValue(),
+      'status': status.value,
       'statusMessage': statusMessage,
       'updateTime': iso8601ToJson(updateTime),
       'versionName': versionName,
@@ -5501,14 +5330,15 @@ class GetAnnotationStoreResponse {
       reference:
           ReferenceItem.fromJson(json['reference'] as Map<String, dynamic>),
       sseConfig: SseConfig.fromJson(json['sseConfig'] as Map<String, dynamic>),
-      status: (json['status'] as String).toStoreStatus(),
+      status: StoreStatus.fromString((json['status'] as String)),
       statusMessage: json['statusMessage'] as String,
       storeArn: json['storeArn'] as String,
       storeSizeBytes: json['storeSizeBytes'] as int,
       tags: (json['tags'] as Map<String, dynamic>)
           .map((k, e) => MapEntry(k, e as String)),
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
-      storeFormat: (json['storeFormat'] as String?)?.toStoreFormat(),
+      storeFormat:
+          (json['storeFormat'] as String?)?.let(StoreFormat.fromString),
       storeOptions: json['storeOptions'] != null
           ? StoreOptions.fromJson(json['storeOptions'] as Map<String, dynamic>)
           : null,
@@ -5539,13 +5369,13 @@ class GetAnnotationStoreResponse {
       'numVersions': numVersions,
       'reference': reference,
       'sseConfig': sseConfig,
-      'status': status.toValue(),
+      'status': status.value,
       'statusMessage': statusMessage,
       'storeArn': storeArn,
       'storeSizeBytes': storeSizeBytes,
       'tags': tags,
       'updateTime': iso8601ToJson(updateTime),
-      if (storeFormat != null) 'storeFormat': storeFormat.toValue(),
+      if (storeFormat != null) 'storeFormat': storeFormat.value,
       if (storeOptions != null) 'storeOptions': storeOptions,
     };
   }
@@ -5615,7 +5445,7 @@ class GetAnnotationStoreVersionResponse {
       description: json['description'] as String,
       id: json['id'] as String,
       name: json['name'] as String,
-      status: (json['status'] as String).toVersionStatus(),
+      status: VersionStatus.fromString((json['status'] as String)),
       statusMessage: json['statusMessage'] as String,
       storeId: json['storeId'] as String,
       tags: (json['tags'] as Map<String, dynamic>)
@@ -5650,7 +5480,7 @@ class GetAnnotationStoreVersionResponse {
       'description': description,
       'id': id,
       'name': name,
-      'status': status.toValue(),
+      'status': status.value,
       'statusMessage': statusMessage,
       'storeId': storeId,
       'tags': tags,
@@ -5701,7 +5531,7 @@ class GetReadSetActivationJobResponse {
           nonNullableTimeStampFromJson(json['creationTime'] as Object),
       id: json['id'] as String,
       sequenceStoreId: json['sequenceStoreId'] as String,
-      status: (json['status'] as String).toReadSetActivationJobStatus(),
+      status: ReadSetActivationJobStatus.fromString((json['status'] as String)),
       completionTime: timeStampFromJson(json['completionTime']),
       sources: (json['sources'] as List?)
           ?.whereNotNull()
@@ -5724,7 +5554,7 @@ class GetReadSetActivationJobResponse {
       'creationTime': iso8601ToJson(creationTime),
       'id': id,
       'sequenceStoreId': sequenceStoreId,
-      'status': status.toValue(),
+      'status': status.value,
       if (completionTime != null)
         'completionTime': iso8601ToJson(completionTime),
       if (sources != null) 'sources': sources,
@@ -5776,7 +5606,7 @@ class GetReadSetExportJobResponse {
       destination: json['destination'] as String,
       id: json['id'] as String,
       sequenceStoreId: json['sequenceStoreId'] as String,
-      status: (json['status'] as String).toReadSetExportJobStatus(),
+      status: ReadSetExportJobStatus.fromString((json['status'] as String)),
       completionTime: timeStampFromJson(json['completionTime']),
       readSets: (json['readSets'] as List?)
           ?.whereNotNull()
@@ -5800,7 +5630,7 @@ class GetReadSetExportJobResponse {
       'destination': destination,
       'id': id,
       'sequenceStoreId': sequenceStoreId,
-      'status': status.toValue(),
+      'status': status.value,
       if (completionTime != null)
         'completionTime': iso8601ToJson(completionTime),
       if (readSets != null) 'readSets': readSets,
@@ -5857,7 +5687,7 @@ class GetReadSetImportJobResponse {
           .map((e) =>
               ImportReadSetSourceItem.fromJson(e as Map<String, dynamic>))
           .toList(),
-      status: (json['status'] as String).toReadSetImportJobStatus(),
+      status: ReadSetImportJobStatus.fromString((json['status'] as String)),
       completionTime: timeStampFromJson(json['completionTime']),
       statusMessage: json['statusMessage'] as String?,
     );
@@ -5878,7 +5708,7 @@ class GetReadSetImportJobResponse {
       'roleArn': roleArn,
       'sequenceStoreId': sequenceStoreId,
       'sources': sources,
-      'status': status.toValue(),
+      'status': status.value,
       if (completionTime != null)
         'completionTime': iso8601ToJson(completionTime),
       if (statusMessage != null) 'statusMessage': statusMessage,
@@ -5961,11 +5791,12 @@ class GetReadSetMetadataResponse {
       arn: json['arn'] as String,
       creationTime:
           nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      fileType: (json['fileType'] as String).toFileType(),
+      fileType: FileType.fromString((json['fileType'] as String)),
       id: json['id'] as String,
       sequenceStoreId: json['sequenceStoreId'] as String,
-      status: (json['status'] as String).toReadSetStatus(),
-      creationType: (json['creationType'] as String?)?.toCreationType(),
+      status: ReadSetStatus.fromString((json['status'] as String)),
+      creationType:
+          (json['creationType'] as String?)?.let(CreationType.fromString),
       description: json['description'] as String?,
       etag: json['etag'] != null
           ? ETag.fromJson(json['etag'] as Map<String, dynamic>)
@@ -6005,11 +5836,11 @@ class GetReadSetMetadataResponse {
     return {
       'arn': arn,
       'creationTime': iso8601ToJson(creationTime),
-      'fileType': fileType.toValue(),
+      'fileType': fileType.value,
       'id': id,
       'sequenceStoreId': sequenceStoreId,
-      'status': status.toValue(),
-      if (creationType != null) 'creationType': creationType.toValue(),
+      'status': status.value,
+      if (creationType != null) 'creationType': creationType.value,
       if (description != null) 'description': description,
       if (etag != null) 'etag': etag,
       if (files != null) 'files': files,
@@ -6088,7 +5919,7 @@ class GetReferenceImportJobResponse {
           .map((e) =>
               ImportReferenceSourceItem.fromJson(e as Map<String, dynamic>))
           .toList(),
-      status: (json['status'] as String).toReferenceImportJobStatus(),
+      status: ReferenceImportJobStatus.fromString((json['status'] as String)),
       completionTime: timeStampFromJson(json['completionTime']),
       statusMessage: json['statusMessage'] as String?,
     );
@@ -6109,7 +5940,7 @@ class GetReferenceImportJobResponse {
       'referenceStoreId': referenceStoreId,
       'roleArn': roleArn,
       'sources': sources,
-      'status': status.toValue(),
+      'status': status.value,
       if (completionTime != null)
         'completionTime': iso8601ToJson(completionTime),
       if (statusMessage != null) 'statusMessage': statusMessage,
@@ -6175,7 +6006,7 @@ class GetReferenceMetadataResponse {
           ? ReferenceFiles.fromJson(json['files'] as Map<String, dynamic>)
           : null,
       name: json['name'] as String?,
-      status: (json['status'] as String?)?.toReferenceStatus(),
+      status: (json['status'] as String?)?.let(ReferenceStatus.fromString),
     );
   }
 
@@ -6200,7 +6031,7 @@ class GetReferenceMetadataResponse {
       if (description != null) 'description': description,
       if (files != null) 'files': files,
       if (name != null) 'name': name,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -6492,14 +6323,15 @@ class GetRunResponse {
 
   factory GetRunResponse.fromJson(Map<String, dynamic> json) {
     return GetRunResponse(
-      accelerators: (json['accelerators'] as String?)?.toAccelerators(),
+      accelerators:
+          (json['accelerators'] as String?)?.let(Accelerators.fromString),
       arn: json['arn'] as String?,
       creationTime: timeStampFromJson(json['creationTime']),
       definition: json['definition'] as String?,
       digest: json['digest'] as String?,
       failureReason: json['failureReason'] as String?,
       id: json['id'] as String?,
-      logLevel: (json['logLevel'] as String?)?.toRunLogLevel(),
+      logLevel: (json['logLevel'] as String?)?.let(RunLogLevel.fromString),
       logLocation: json['logLocation'] != null
           ? RunLogLocation.fromJson(json['logLocation'] as Map<String, dynamic>)
           : null,
@@ -6511,24 +6343,27 @@ class GetRunResponse {
       priority: json['priority'] as int?,
       resourceDigests: (json['resourceDigests'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
-      retentionMode: (json['retentionMode'] as String?)?.toRunRetentionMode(),
+      retentionMode:
+          (json['retentionMode'] as String?)?.let(RunRetentionMode.fromString),
       roleArn: json['roleArn'] as String?,
       runGroupId: json['runGroupId'] as String?,
       runId: json['runId'] as String?,
       runOutputUri: json['runOutputUri'] as String?,
       startTime: timeStampFromJson(json['startTime']),
       startedBy: json['startedBy'] as String?,
-      status: (json['status'] as String?)?.toRunStatus(),
+      status: (json['status'] as String?)?.let(RunStatus.fromString),
       statusMessage: json['statusMessage'] as String?,
       stopTime: timeStampFromJson(json['stopTime']),
       storageCapacity: json['storageCapacity'] as int?,
-      storageType: (json['storageType'] as String?)?.toStorageType(),
+      storageType:
+          (json['storageType'] as String?)?.let(StorageType.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       uuid: json['uuid'] as String?,
       workflowId: json['workflowId'] as String?,
       workflowOwnerId: json['workflowOwnerId'] as String?,
-      workflowType: (json['workflowType'] as String?)?.toWorkflowType(),
+      workflowType:
+          (json['workflowType'] as String?)?.let(WorkflowType.fromString),
     );
   }
 
@@ -6565,37 +6400,37 @@ class GetRunResponse {
     final workflowOwnerId = this.workflowOwnerId;
     final workflowType = this.workflowType;
     return {
-      if (accelerators != null) 'accelerators': accelerators.toValue(),
+      if (accelerators != null) 'accelerators': accelerators.value,
       if (arn != null) 'arn': arn,
       if (creationTime != null) 'creationTime': iso8601ToJson(creationTime),
       if (definition != null) 'definition': definition,
       if (digest != null) 'digest': digest,
       if (failureReason != null) 'failureReason': failureReason,
       if (id != null) 'id': id,
-      if (logLevel != null) 'logLevel': logLevel.toValue(),
+      if (logLevel != null) 'logLevel': logLevel.value,
       if (logLocation != null) 'logLocation': logLocation,
       if (name != null) 'name': name,
       if (outputUri != null) 'outputUri': outputUri,
       if (parameters != null) 'parameters': parameters,
       if (priority != null) 'priority': priority,
       if (resourceDigests != null) 'resourceDigests': resourceDigests,
-      if (retentionMode != null) 'retentionMode': retentionMode.toValue(),
+      if (retentionMode != null) 'retentionMode': retentionMode.value,
       if (roleArn != null) 'roleArn': roleArn,
       if (runGroupId != null) 'runGroupId': runGroupId,
       if (runId != null) 'runId': runId,
       if (runOutputUri != null) 'runOutputUri': runOutputUri,
       if (startTime != null) 'startTime': iso8601ToJson(startTime),
       if (startedBy != null) 'startedBy': startedBy,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (statusMessage != null) 'statusMessage': statusMessage,
       if (stopTime != null) 'stopTime': iso8601ToJson(stopTime),
       if (storageCapacity != null) 'storageCapacity': storageCapacity,
-      if (storageType != null) 'storageType': storageType.toValue(),
+      if (storageType != null) 'storageType': storageType.value,
       if (tags != null) 'tags': tags,
       if (uuid != null) 'uuid': uuid,
       if (workflowId != null) 'workflowId': workflowId,
       if (workflowOwnerId != null) 'workflowOwnerId': workflowOwnerId,
-      if (workflowType != null) 'workflowType': workflowType.toValue(),
+      if (workflowType != null) 'workflowType': workflowType.value,
     };
   }
 }
@@ -6667,7 +6502,7 @@ class GetRunTaskResponse {
       memory: json['memory'] as int?,
       name: json['name'] as String?,
       startTime: timeStampFromJson(json['startTime']),
-      status: (json['status'] as String?)?.toTaskStatus(),
+      status: (json['status'] as String?)?.let(TaskStatus.fromString),
       statusMessage: json['statusMessage'] as String?,
       stopTime: timeStampFromJson(json['stopTime']),
       taskId: json['taskId'] as String?,
@@ -6698,7 +6533,7 @@ class GetRunTaskResponse {
       if (memory != null) 'memory': memory,
       if (name != null) 'name': name,
       if (startTime != null) 'startTime': iso8601ToJson(startTime),
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (statusMessage != null) 'statusMessage': statusMessage,
       if (stopTime != null) 'stopTime': iso8601ToJson(stopTime),
       if (taskId != null) 'taskId': taskId,
@@ -6754,8 +6589,8 @@ class GetSequenceStoreResponse {
           nonNullableTimeStampFromJson(json['creationTime'] as Object),
       id: json['id'] as String,
       description: json['description'] as String?,
-      eTagAlgorithmFamily:
-          (json['eTagAlgorithmFamily'] as String?)?.toETagAlgorithmFamily(),
+      eTagAlgorithmFamily: (json['eTagAlgorithmFamily'] as String?)
+          ?.let(ETagAlgorithmFamily.fromString),
       fallbackLocation: json['fallbackLocation'] as String?,
       name: json['name'] as String?,
       s3Access: json['s3Access'] != null
@@ -6784,7 +6619,7 @@ class GetSequenceStoreResponse {
       'id': id,
       if (description != null) 'description': description,
       if (eTagAlgorithmFamily != null)
-        'eTagAlgorithmFamily': eTagAlgorithmFamily.toValue(),
+        'eTagAlgorithmFamily': eTagAlgorithmFamily.value,
       if (fallbackLocation != null) 'fallbackLocation': fallbackLocation,
       if (name != null) 'name': name,
       if (s3Access != null) 's3Access': s3Access,
@@ -6879,7 +6714,7 @@ class GetVariantImportResponse {
           .toList(),
       roleArn: json['roleArn'] as String,
       runLeftNormalization: json['runLeftNormalization'] as bool,
-      status: (json['status'] as String).toJobStatus(),
+      status: JobStatus.fromString((json['status'] as String)),
       statusMessage: json['statusMessage'] as String,
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
       annotationFields: (json['annotationFields'] as Map<String, dynamic>?)
@@ -6907,7 +6742,7 @@ class GetVariantImportResponse {
       'items': items,
       'roleArn': roleArn,
       'runLeftNormalization': runLeftNormalization,
-      'status': status.toValue(),
+      'status': status.value,
       'statusMessage': statusMessage,
       'updateTime': iso8601ToJson(updateTime),
       if (annotationFields != null) 'annotationFields': annotationFields,
@@ -6979,7 +6814,7 @@ class GetVariantStoreResponse {
       reference:
           ReferenceItem.fromJson(json['reference'] as Map<String, dynamic>),
       sseConfig: SseConfig.fromJson(json['sseConfig'] as Map<String, dynamic>),
-      status: (json['status'] as String).toStoreStatus(),
+      status: StoreStatus.fromString((json['status'] as String)),
       statusMessage: json['statusMessage'] as String,
       storeArn: json['storeArn'] as String,
       storeSizeBytes: json['storeSizeBytes'] as int,
@@ -7009,7 +6844,7 @@ class GetVariantStoreResponse {
       'name': name,
       'reference': reference,
       'sseConfig': sseConfig,
-      'status': status.toValue(),
+      'status': status.value,
       'statusMessage': statusMessage,
       'storeArn': storeArn,
       'storeSizeBytes': storeSizeBytes,
@@ -7093,13 +6928,14 @@ class GetWorkflowResponse {
 
   factory GetWorkflowResponse.fromJson(Map<String, dynamic> json) {
     return GetWorkflowResponse(
-      accelerators: (json['accelerators'] as String?)?.toAccelerators(),
+      accelerators:
+          (json['accelerators'] as String?)?.let(Accelerators.fromString),
       arn: json['arn'] as String?,
       creationTime: timeStampFromJson(json['creationTime']),
       definition: json['definition'] as String?,
       description: json['description'] as String?,
       digest: json['digest'] as String?,
-      engine: (json['engine'] as String?)?.toWorkflowEngine(),
+      engine: (json['engine'] as String?)?.let(WorkflowEngine.fromString),
       id: json['id'] as String?,
       main: json['main'] as String?,
       metadata: (json['metadata'] as Map<String, dynamic>?)
@@ -7108,12 +6944,12 @@ class GetWorkflowResponse {
       parameterTemplate: (json['parameterTemplate'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(
               k, WorkflowParameter.fromJson(e as Map<String, dynamic>))),
-      status: (json['status'] as String?)?.toWorkflowStatus(),
+      status: (json['status'] as String?)?.let(WorkflowStatus.fromString),
       statusMessage: json['statusMessage'] as String?,
       storageCapacity: json['storageCapacity'] as int?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
-      type: (json['type'] as String?)?.toWorkflowType(),
+      type: (json['type'] as String?)?.let(WorkflowType.fromString),
     );
   }
 
@@ -7136,23 +6972,23 @@ class GetWorkflowResponse {
     final tags = this.tags;
     final type = this.type;
     return {
-      if (accelerators != null) 'accelerators': accelerators.toValue(),
+      if (accelerators != null) 'accelerators': accelerators.value,
       if (arn != null) 'arn': arn,
       if (creationTime != null) 'creationTime': iso8601ToJson(creationTime),
       if (definition != null) 'definition': definition,
       if (description != null) 'description': description,
       if (digest != null) 'digest': digest,
-      if (engine != null) 'engine': engine.toValue(),
+      if (engine != null) 'engine': engine.value,
       if (id != null) 'id': id,
       if (main != null) 'main': main,
       if (metadata != null) 'metadata': metadata,
       if (name != null) 'name': name,
       if (parameterTemplate != null) 'parameterTemplate': parameterTemplate,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (statusMessage != null) 'statusMessage': statusMessage,
       if (storageCapacity != null) 'storageCapacity': storageCapacity,
       if (tags != null) 'tags': tags,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -7181,7 +7017,7 @@ class ImportReadSetFilter {
     return {
       if (createdAfter != null) 'createdAfter': iso8601ToJson(createdAfter),
       if (createdBefore != null) 'createdBefore': iso8601ToJson(createdBefore),
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -7222,7 +7058,7 @@ class ImportReadSetJobItem {
       id: json['id'] as String,
       roleArn: json['roleArn'] as String,
       sequenceStoreId: json['sequenceStoreId'] as String,
-      status: (json['status'] as String).toReadSetImportJobStatus(),
+      status: ReadSetImportJobStatus.fromString((json['status'] as String)),
       completionTime: timeStampFromJson(json['completionTime']),
     );
   }
@@ -7239,7 +7075,7 @@ class ImportReadSetJobItem {
       'id': id,
       'roleArn': roleArn,
       'sequenceStoreId': sequenceStoreId,
-      'status': status.toValue(),
+      'status': status.value,
       if (completionTime != null)
         'completionTime': iso8601ToJson(completionTime),
     };
@@ -7298,10 +7134,10 @@ class ImportReadSetSourceItem {
   factory ImportReadSetSourceItem.fromJson(Map<String, dynamic> json) {
     return ImportReadSetSourceItem(
       sampleId: json['sampleId'] as String,
-      sourceFileType: (json['sourceFileType'] as String).toFileType(),
+      sourceFileType: FileType.fromString((json['sourceFileType'] as String)),
       sourceFiles:
           SourceFiles.fromJson(json['sourceFiles'] as Map<String, dynamic>),
-      status: (json['status'] as String).toReadSetImportJobItemStatus(),
+      status: ReadSetImportJobItemStatus.fromString((json['status'] as String)),
       subjectId: json['subjectId'] as String,
       description: json['description'] as String?,
       generatedFrom: json['generatedFrom'] as String?,
@@ -7327,9 +7163,9 @@ class ImportReadSetSourceItem {
     final tags = this.tags;
     return {
       'sampleId': sampleId,
-      'sourceFileType': sourceFileType.toValue(),
+      'sourceFileType': sourceFileType.value,
       'sourceFiles': sourceFiles,
-      'status': status.toValue(),
+      'status': status.value,
       'subjectId': subjectId,
       if (description != null) 'description': description,
       if (generatedFrom != null) 'generatedFrom': generatedFrom,
@@ -7365,7 +7201,7 @@ class ImportReferenceFilter {
     return {
       if (createdAfter != null) 'createdAfter': iso8601ToJson(createdAfter),
       if (createdBefore != null) 'createdBefore': iso8601ToJson(createdBefore),
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -7406,7 +7242,7 @@ class ImportReferenceJobItem {
       id: json['id'] as String,
       referenceStoreId: json['referenceStoreId'] as String,
       roleArn: json['roleArn'] as String,
-      status: (json['status'] as String).toReferenceImportJobStatus(),
+      status: ReferenceImportJobStatus.fromString((json['status'] as String)),
       completionTime: timeStampFromJson(json['completionTime']),
     );
   }
@@ -7423,7 +7259,7 @@ class ImportReferenceJobItem {
       'id': id,
       'referenceStoreId': referenceStoreId,
       'roleArn': roleArn,
-      'status': status.toValue(),
+      'status': status.value,
       if (completionTime != null)
         'completionTime': iso8601ToJson(completionTime),
     };
@@ -7461,7 +7297,8 @@ class ImportReferenceSourceItem {
 
   factory ImportReferenceSourceItem.fromJson(Map<String, dynamic> json) {
     return ImportReferenceSourceItem(
-      status: (json['status'] as String).toReferenceImportJobItemStatus(),
+      status:
+          ReferenceImportJobItemStatus.fromString((json['status'] as String)),
       description: json['description'] as String?,
       name: json['name'] as String?,
       sourceFile: json['sourceFile'] as String?,
@@ -7479,7 +7316,7 @@ class ImportReferenceSourceItem {
     final statusMessage = this.statusMessage;
     final tags = this.tags;
     return {
-      'status': status.toValue(),
+      'status': status.value,
       if (description != null) 'description': description,
       if (name != null) 'name': name,
       if (sourceFile != null) 'sourceFile': sourceFile,
@@ -7490,51 +7327,21 @@ class ImportReferenceSourceItem {
 }
 
 enum JobStatus {
-  submitted,
-  inProgress,
-  cancelled,
-  completed,
-  failed,
-  completedWithFailures,
-}
+  submitted('SUBMITTED'),
+  inProgress('IN_PROGRESS'),
+  cancelled('CANCELLED'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  completedWithFailures('COMPLETED_WITH_FAILURES'),
+  ;
 
-extension JobStatusValueExtension on JobStatus {
-  String toValue() {
-    switch (this) {
-      case JobStatus.submitted:
-        return 'SUBMITTED';
-      case JobStatus.inProgress:
-        return 'IN_PROGRESS';
-      case JobStatus.cancelled:
-        return 'CANCELLED';
-      case JobStatus.completed:
-        return 'COMPLETED';
-      case JobStatus.failed:
-        return 'FAILED';
-      case JobStatus.completedWithFailures:
-        return 'COMPLETED_WITH_FAILURES';
-    }
-  }
-}
+  final String value;
 
-extension JobStatusFromString on String {
-  JobStatus toJobStatus() {
-    switch (this) {
-      case 'SUBMITTED':
-        return JobStatus.submitted;
-      case 'IN_PROGRESS':
-        return JobStatus.inProgress;
-      case 'CANCELLED':
-        return JobStatus.cancelled;
-      case 'COMPLETED':
-        return JobStatus.completed;
-      case 'FAILED':
-        return JobStatus.failed;
-      case 'COMPLETED_WITH_FAILURES':
-        return JobStatus.completedWithFailures;
-    }
-    throw Exception('$this is not known in enum JobStatus');
-  }
+  const JobStatus(this.value);
+
+  static JobStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum JobStatus'));
 }
 
 /// A filter for annotation import jobs.
@@ -7554,7 +7361,7 @@ class ListAnnotationImportJobsFilter {
     final status = this.status;
     final storeName = this.storeName;
     return {
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (storeName != null) 'storeName': storeName,
     };
   }
@@ -7608,7 +7415,7 @@ class ListAnnotationStoreVersionsFilter {
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -7661,7 +7468,7 @@ class ListAnnotationStoresFilter {
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -8196,7 +8003,7 @@ class ListVariantImportJobsFilter {
     final status = this.status;
     final storeName = this.storeName;
     return {
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (storeName != null) 'storeName': storeName,
     };
   }
@@ -8246,7 +8053,7 @@ class ListVariantStoresFilter {
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -8373,7 +8180,7 @@ class MultipartReadSetUploadListItem {
       referenceArn: json['referenceArn'] as String,
       sampleId: json['sampleId'] as String,
       sequenceStoreId: json['sequenceStoreId'] as String,
-      sourceFileType: (json['sourceFileType'] as String).toFileType(),
+      sourceFileType: FileType.fromString((json['sourceFileType'] as String)),
       subjectId: json['subjectId'] as String,
       uploadId: json['uploadId'] as String,
       description: json['description'] as String?,
@@ -8401,7 +8208,7 @@ class MultipartReadSetUploadListItem {
       'referenceArn': referenceArn,
       'sampleId': sampleId,
       'sequenceStoreId': sequenceStoreId,
-      'sourceFileType': sourceFileType.toValue(),
+      'sourceFileType': sourceFileType.value,
       'subjectId': subjectId,
       'uploadId': uploadId,
       if (description != null) 'description': description,
@@ -8491,97 +8298,40 @@ class ReadOptions {
 }
 
 enum ReadSetActivationJobItemStatus {
-  notStarted,
-  inProgress,
-  finished,
-  failed,
-}
+  notStarted('NOT_STARTED'),
+  inProgress('IN_PROGRESS'),
+  finished('FINISHED'),
+  failed('FAILED'),
+  ;
 
-extension ReadSetActivationJobItemStatusValueExtension
-    on ReadSetActivationJobItemStatus {
-  String toValue() {
-    switch (this) {
-      case ReadSetActivationJobItemStatus.notStarted:
-        return 'NOT_STARTED';
-      case ReadSetActivationJobItemStatus.inProgress:
-        return 'IN_PROGRESS';
-      case ReadSetActivationJobItemStatus.finished:
-        return 'FINISHED';
-      case ReadSetActivationJobItemStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ReadSetActivationJobItemStatusFromString on String {
-  ReadSetActivationJobItemStatus toReadSetActivationJobItemStatus() {
-    switch (this) {
-      case 'NOT_STARTED':
-        return ReadSetActivationJobItemStatus.notStarted;
-      case 'IN_PROGRESS':
-        return ReadSetActivationJobItemStatus.inProgress;
-      case 'FINISHED':
-        return ReadSetActivationJobItemStatus.finished;
-      case 'FAILED':
-        return ReadSetActivationJobItemStatus.failed;
-    }
-    throw Exception(
-        '$this is not known in enum ReadSetActivationJobItemStatus');
-  }
+  const ReadSetActivationJobItemStatus(this.value);
+
+  static ReadSetActivationJobItemStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ReadSetActivationJobItemStatus'));
 }
 
 enum ReadSetActivationJobStatus {
-  submitted,
-  inProgress,
-  cancelling,
-  cancelled,
-  failed,
-  completed,
-  completedWithFailures,
-}
+  submitted('SUBMITTED'),
+  inProgress('IN_PROGRESS'),
+  cancelling('CANCELLING'),
+  cancelled('CANCELLED'),
+  failed('FAILED'),
+  completed('COMPLETED'),
+  completedWithFailures('COMPLETED_WITH_FAILURES'),
+  ;
 
-extension ReadSetActivationJobStatusValueExtension
-    on ReadSetActivationJobStatus {
-  String toValue() {
-    switch (this) {
-      case ReadSetActivationJobStatus.submitted:
-        return 'SUBMITTED';
-      case ReadSetActivationJobStatus.inProgress:
-        return 'IN_PROGRESS';
-      case ReadSetActivationJobStatus.cancelling:
-        return 'CANCELLING';
-      case ReadSetActivationJobStatus.cancelled:
-        return 'CANCELLED';
-      case ReadSetActivationJobStatus.failed:
-        return 'FAILED';
-      case ReadSetActivationJobStatus.completed:
-        return 'COMPLETED';
-      case ReadSetActivationJobStatus.completedWithFailures:
-        return 'COMPLETED_WITH_FAILURES';
-    }
-  }
-}
+  final String value;
 
-extension ReadSetActivationJobStatusFromString on String {
-  ReadSetActivationJobStatus toReadSetActivationJobStatus() {
-    switch (this) {
-      case 'SUBMITTED':
-        return ReadSetActivationJobStatus.submitted;
-      case 'IN_PROGRESS':
-        return ReadSetActivationJobStatus.inProgress;
-      case 'CANCELLING':
-        return ReadSetActivationJobStatus.cancelling;
-      case 'CANCELLED':
-        return ReadSetActivationJobStatus.cancelled;
-      case 'FAILED':
-        return ReadSetActivationJobStatus.failed;
-      case 'COMPLETED':
-        return ReadSetActivationJobStatus.completed;
-      case 'COMPLETED_WITH_FAILURES':
-        return ReadSetActivationJobStatus.completedWithFailures;
-    }
-    throw Exception('$this is not known in enum ReadSetActivationJobStatus');
-  }
+  const ReadSetActivationJobStatus(this.value);
+
+  static ReadSetActivationJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ReadSetActivationJobStatus'));
 }
 
 /// An error from a batch read set operation.
@@ -8622,128 +8372,55 @@ class ReadSetBatchError {
 }
 
 enum ReadSetExportJobItemStatus {
-  notStarted,
-  inProgress,
-  finished,
-  failed,
-}
+  notStarted('NOT_STARTED'),
+  inProgress('IN_PROGRESS'),
+  finished('FINISHED'),
+  failed('FAILED'),
+  ;
 
-extension ReadSetExportJobItemStatusValueExtension
-    on ReadSetExportJobItemStatus {
-  String toValue() {
-    switch (this) {
-      case ReadSetExportJobItemStatus.notStarted:
-        return 'NOT_STARTED';
-      case ReadSetExportJobItemStatus.inProgress:
-        return 'IN_PROGRESS';
-      case ReadSetExportJobItemStatus.finished:
-        return 'FINISHED';
-      case ReadSetExportJobItemStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ReadSetExportJobItemStatusFromString on String {
-  ReadSetExportJobItemStatus toReadSetExportJobItemStatus() {
-    switch (this) {
-      case 'NOT_STARTED':
-        return ReadSetExportJobItemStatus.notStarted;
-      case 'IN_PROGRESS':
-        return ReadSetExportJobItemStatus.inProgress;
-      case 'FINISHED':
-        return ReadSetExportJobItemStatus.finished;
-      case 'FAILED':
-        return ReadSetExportJobItemStatus.failed;
-    }
-    throw Exception('$this is not known in enum ReadSetExportJobItemStatus');
-  }
+  const ReadSetExportJobItemStatus(this.value);
+
+  static ReadSetExportJobItemStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ReadSetExportJobItemStatus'));
 }
 
 enum ReadSetExportJobStatus {
-  submitted,
-  inProgress,
-  cancelling,
-  cancelled,
-  failed,
-  completed,
-  completedWithFailures,
-}
+  submitted('SUBMITTED'),
+  inProgress('IN_PROGRESS'),
+  cancelling('CANCELLING'),
+  cancelled('CANCELLED'),
+  failed('FAILED'),
+  completed('COMPLETED'),
+  completedWithFailures('COMPLETED_WITH_FAILURES'),
+  ;
 
-extension ReadSetExportJobStatusValueExtension on ReadSetExportJobStatus {
-  String toValue() {
-    switch (this) {
-      case ReadSetExportJobStatus.submitted:
-        return 'SUBMITTED';
-      case ReadSetExportJobStatus.inProgress:
-        return 'IN_PROGRESS';
-      case ReadSetExportJobStatus.cancelling:
-        return 'CANCELLING';
-      case ReadSetExportJobStatus.cancelled:
-        return 'CANCELLED';
-      case ReadSetExportJobStatus.failed:
-        return 'FAILED';
-      case ReadSetExportJobStatus.completed:
-        return 'COMPLETED';
-      case ReadSetExportJobStatus.completedWithFailures:
-        return 'COMPLETED_WITH_FAILURES';
-    }
-  }
-}
+  final String value;
 
-extension ReadSetExportJobStatusFromString on String {
-  ReadSetExportJobStatus toReadSetExportJobStatus() {
-    switch (this) {
-      case 'SUBMITTED':
-        return ReadSetExportJobStatus.submitted;
-      case 'IN_PROGRESS':
-        return ReadSetExportJobStatus.inProgress;
-      case 'CANCELLING':
-        return ReadSetExportJobStatus.cancelling;
-      case 'CANCELLED':
-        return ReadSetExportJobStatus.cancelled;
-      case 'FAILED':
-        return ReadSetExportJobStatus.failed;
-      case 'COMPLETED':
-        return ReadSetExportJobStatus.completed;
-      case 'COMPLETED_WITH_FAILURES':
-        return ReadSetExportJobStatus.completedWithFailures;
-    }
-    throw Exception('$this is not known in enum ReadSetExportJobStatus');
-  }
+  const ReadSetExportJobStatus(this.value);
+
+  static ReadSetExportJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ReadSetExportJobStatus'));
 }
 
 enum ReadSetFile {
-  source1,
-  source2,
-  $index,
-}
+  source1('SOURCE1'),
+  source2('SOURCE2'),
+  $index('INDEX'),
+  ;
 
-extension ReadSetFileValueExtension on ReadSetFile {
-  String toValue() {
-    switch (this) {
-      case ReadSetFile.source1:
-        return 'SOURCE1';
-      case ReadSetFile.source2:
-        return 'SOURCE2';
-      case ReadSetFile.$index:
-        return 'INDEX';
-    }
-  }
-}
+  final String value;
 
-extension ReadSetFileFromString on String {
-  ReadSetFile toReadSetFile() {
-    switch (this) {
-      case 'SOURCE1':
-        return ReadSetFile.source1;
-      case 'SOURCE2':
-        return ReadSetFile.source2;
-      case 'INDEX':
-        return ReadSetFile.$index;
-    }
-    throw Exception('$this is not known in enum ReadSetFile');
-  }
+  const ReadSetFile(this.value);
+
+  static ReadSetFile fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ReadSetFile'));
 }
 
 /// Files in a read set.
@@ -8843,107 +8520,52 @@ class ReadSetFilter {
     return {
       if (createdAfter != null) 'createdAfter': iso8601ToJson(createdAfter),
       if (createdBefore != null) 'createdBefore': iso8601ToJson(createdBefore),
-      if (creationType != null) 'creationType': creationType.toValue(),
+      if (creationType != null) 'creationType': creationType.value,
       if (generatedFrom != null) 'generatedFrom': generatedFrom,
       if (name != null) 'name': name,
       if (referenceArn != null) 'referenceArn': referenceArn,
       if (sampleId != null) 'sampleId': sampleId,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (subjectId != null) 'subjectId': subjectId,
     };
   }
 }
 
 enum ReadSetImportJobItemStatus {
-  notStarted,
-  inProgress,
-  finished,
-  failed,
-}
+  notStarted('NOT_STARTED'),
+  inProgress('IN_PROGRESS'),
+  finished('FINISHED'),
+  failed('FAILED'),
+  ;
 
-extension ReadSetImportJobItemStatusValueExtension
-    on ReadSetImportJobItemStatus {
-  String toValue() {
-    switch (this) {
-      case ReadSetImportJobItemStatus.notStarted:
-        return 'NOT_STARTED';
-      case ReadSetImportJobItemStatus.inProgress:
-        return 'IN_PROGRESS';
-      case ReadSetImportJobItemStatus.finished:
-        return 'FINISHED';
-      case ReadSetImportJobItemStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ReadSetImportJobItemStatusFromString on String {
-  ReadSetImportJobItemStatus toReadSetImportJobItemStatus() {
-    switch (this) {
-      case 'NOT_STARTED':
-        return ReadSetImportJobItemStatus.notStarted;
-      case 'IN_PROGRESS':
-        return ReadSetImportJobItemStatus.inProgress;
-      case 'FINISHED':
-        return ReadSetImportJobItemStatus.finished;
-      case 'FAILED':
-        return ReadSetImportJobItemStatus.failed;
-    }
-    throw Exception('$this is not known in enum ReadSetImportJobItemStatus');
-  }
+  const ReadSetImportJobItemStatus(this.value);
+
+  static ReadSetImportJobItemStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ReadSetImportJobItemStatus'));
 }
 
 enum ReadSetImportJobStatus {
-  submitted,
-  inProgress,
-  cancelling,
-  cancelled,
-  failed,
-  completed,
-  completedWithFailures,
-}
+  submitted('SUBMITTED'),
+  inProgress('IN_PROGRESS'),
+  cancelling('CANCELLING'),
+  cancelled('CANCELLED'),
+  failed('FAILED'),
+  completed('COMPLETED'),
+  completedWithFailures('COMPLETED_WITH_FAILURES'),
+  ;
 
-extension ReadSetImportJobStatusValueExtension on ReadSetImportJobStatus {
-  String toValue() {
-    switch (this) {
-      case ReadSetImportJobStatus.submitted:
-        return 'SUBMITTED';
-      case ReadSetImportJobStatus.inProgress:
-        return 'IN_PROGRESS';
-      case ReadSetImportJobStatus.cancelling:
-        return 'CANCELLING';
-      case ReadSetImportJobStatus.cancelled:
-        return 'CANCELLED';
-      case ReadSetImportJobStatus.failed:
-        return 'FAILED';
-      case ReadSetImportJobStatus.completed:
-        return 'COMPLETED';
-      case ReadSetImportJobStatus.completedWithFailures:
-        return 'COMPLETED_WITH_FAILURES';
-    }
-  }
-}
+  final String value;
 
-extension ReadSetImportJobStatusFromString on String {
-  ReadSetImportJobStatus toReadSetImportJobStatus() {
-    switch (this) {
-      case 'SUBMITTED':
-        return ReadSetImportJobStatus.submitted;
-      case 'IN_PROGRESS':
-        return ReadSetImportJobStatus.inProgress;
-      case 'CANCELLING':
-        return ReadSetImportJobStatus.cancelling;
-      case 'CANCELLED':
-        return ReadSetImportJobStatus.cancelled;
-      case 'FAILED':
-        return ReadSetImportJobStatus.failed;
-      case 'COMPLETED':
-        return ReadSetImportJobStatus.completed;
-      case 'COMPLETED_WITH_FAILURES':
-        return ReadSetImportJobStatus.completedWithFailures;
-    }
-    throw Exception('$this is not known in enum ReadSetImportJobStatus');
-  }
+  const ReadSetImportJobStatus(this.value);
+
+  static ReadSetImportJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ReadSetImportJobStatus'));
 }
 
 /// A read set.
@@ -9016,11 +8638,12 @@ class ReadSetListItem {
       arn: json['arn'] as String,
       creationTime:
           nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      fileType: (json['fileType'] as String).toFileType(),
+      fileType: FileType.fromString((json['fileType'] as String)),
       id: json['id'] as String,
       sequenceStoreId: json['sequenceStoreId'] as String,
-      status: (json['status'] as String).toReadSetStatus(),
-      creationType: (json['creationType'] as String?)?.toCreationType(),
+      status: ReadSetStatus.fromString((json['status'] as String)),
+      creationType:
+          (json['creationType'] as String?)?.let(CreationType.fromString),
       description: json['description'] as String?,
       etag: json['etag'] != null
           ? ETag.fromJson(json['etag'] as Map<String, dynamic>)
@@ -9056,11 +8679,11 @@ class ReadSetListItem {
     return {
       'arn': arn,
       'creationTime': iso8601ToJson(creationTime),
-      'fileType': fileType.toValue(),
+      'fileType': fileType.value,
       'id': id,
       'sequenceStoreId': sequenceStoreId,
-      'status': status.toValue(),
-      if (creationType != null) 'creationType': creationType.toValue(),
+      'status': status.value,
+      if (creationType != null) 'creationType': creationType.value,
       if (description != null) 'description': description,
       if (etag != null) 'etag': etag,
       if (name != null) 'name': name,
@@ -9075,31 +8698,18 @@ class ReadSetListItem {
 }
 
 enum ReadSetPartSource {
-  source1,
-  source2,
-}
+  source1('SOURCE1'),
+  source2('SOURCE2'),
+  ;
 
-extension ReadSetPartSourceValueExtension on ReadSetPartSource {
-  String toValue() {
-    switch (this) {
-      case ReadSetPartSource.source1:
-        return 'SOURCE1';
-      case ReadSetPartSource.source2:
-        return 'SOURCE2';
-    }
-  }
-}
+  final String value;
 
-extension ReadSetPartSourceFromString on String {
-  ReadSetPartSource toReadSetPartSource() {
-    switch (this) {
-      case 'SOURCE1':
-        return ReadSetPartSource.source1;
-      case 'SOURCE2':
-        return ReadSetPartSource.source2;
-    }
-    throw Exception('$this is not known in enum ReadSetPartSource');
-  }
+  const ReadSetPartSource(this.value);
+
+  static ReadSetPartSource fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ReadSetPartSource'));
 }
 
 /// The S3 URI for each read set file.
@@ -9126,56 +8736,23 @@ class ReadSetS3Access {
 }
 
 enum ReadSetStatus {
-  archived,
-  activating,
-  active,
-  deleting,
-  deleted,
-  processingUpload,
-  uploadFailed,
-}
+  archived('ARCHIVED'),
+  activating('ACTIVATING'),
+  active('ACTIVE'),
+  deleting('DELETING'),
+  deleted('DELETED'),
+  processingUpload('PROCESSING_UPLOAD'),
+  uploadFailed('UPLOAD_FAILED'),
+  ;
 
-extension ReadSetStatusValueExtension on ReadSetStatus {
-  String toValue() {
-    switch (this) {
-      case ReadSetStatus.archived:
-        return 'ARCHIVED';
-      case ReadSetStatus.activating:
-        return 'ACTIVATING';
-      case ReadSetStatus.active:
-        return 'ACTIVE';
-      case ReadSetStatus.deleting:
-        return 'DELETING';
-      case ReadSetStatus.deleted:
-        return 'DELETED';
-      case ReadSetStatus.processingUpload:
-        return 'PROCESSING_UPLOAD';
-      case ReadSetStatus.uploadFailed:
-        return 'UPLOAD_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ReadSetStatusFromString on String {
-  ReadSetStatus toReadSetStatus() {
-    switch (this) {
-      case 'ARCHIVED':
-        return ReadSetStatus.archived;
-      case 'ACTIVATING':
-        return ReadSetStatus.activating;
-      case 'ACTIVE':
-        return ReadSetStatus.active;
-      case 'DELETING':
-        return ReadSetStatus.deleting;
-      case 'DELETED':
-        return ReadSetStatus.deleted;
-      case 'PROCESSING_UPLOAD':
-        return ReadSetStatus.processingUpload;
-      case 'UPLOAD_FAILED':
-        return ReadSetStatus.uploadFailed;
-    }
-    throw Exception('$this is not known in enum ReadSetStatus');
-  }
+  const ReadSetStatus(this.value);
+
+  static ReadSetStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ReadSetStatus'));
 }
 
 /// Filter settings that select for read set upload parts of interest.
@@ -9238,7 +8815,7 @@ class ReadSetUploadPartListItem {
       checksum: json['checksum'] as String,
       partNumber: json['partNumber'] as int,
       partSize: json['partSize'] as int,
-      partSource: (json['partSource'] as String).toReadSetPartSource(),
+      partSource: ReadSetPartSource.fromString((json['partSource'] as String)),
       creationTime: timeStampFromJson(json['creationTime']),
       lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
     );
@@ -9255,7 +8832,7 @@ class ReadSetUploadPartListItem {
       'checksum': checksum,
       'partNumber': partNumber,
       'partSize': partSize,
-      'partSource': partSource.toValue(),
+      'partSource': partSource.value,
       if (creationTime != null) 'creationTime': iso8601ToJson(creationTime),
       if (lastUpdatedTime != null)
         'lastUpdatedTime': iso8601ToJson(lastUpdatedTime),
@@ -9264,31 +8841,18 @@ class ReadSetUploadPartListItem {
 }
 
 enum ReferenceFile {
-  source,
-  $index,
-}
+  source('SOURCE'),
+  $index('INDEX'),
+  ;
 
-extension ReferenceFileValueExtension on ReferenceFile {
-  String toValue() {
-    switch (this) {
-      case ReferenceFile.source:
-        return 'SOURCE';
-      case ReferenceFile.$index:
-        return 'INDEX';
-    }
-  }
-}
+  final String value;
 
-extension ReferenceFileFromString on String {
-  ReferenceFile toReferenceFile() {
-    switch (this) {
-      case 'SOURCE':
-        return ReferenceFile.source;
-      case 'INDEX':
-        return ReferenceFile.$index;
-    }
-    throw Exception('$this is not known in enum ReferenceFile');
-  }
+  const ReferenceFile(this.value);
+
+  static ReferenceFile fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ReferenceFile'));
 }
 
 /// A set of genome reference files.
@@ -9361,95 +8925,40 @@ class ReferenceFilter {
 }
 
 enum ReferenceImportJobItemStatus {
-  notStarted,
-  inProgress,
-  finished,
-  failed,
-}
+  notStarted('NOT_STARTED'),
+  inProgress('IN_PROGRESS'),
+  finished('FINISHED'),
+  failed('FAILED'),
+  ;
 
-extension ReferenceImportJobItemStatusValueExtension
-    on ReferenceImportJobItemStatus {
-  String toValue() {
-    switch (this) {
-      case ReferenceImportJobItemStatus.notStarted:
-        return 'NOT_STARTED';
-      case ReferenceImportJobItemStatus.inProgress:
-        return 'IN_PROGRESS';
-      case ReferenceImportJobItemStatus.finished:
-        return 'FINISHED';
-      case ReferenceImportJobItemStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ReferenceImportJobItemStatusFromString on String {
-  ReferenceImportJobItemStatus toReferenceImportJobItemStatus() {
-    switch (this) {
-      case 'NOT_STARTED':
-        return ReferenceImportJobItemStatus.notStarted;
-      case 'IN_PROGRESS':
-        return ReferenceImportJobItemStatus.inProgress;
-      case 'FINISHED':
-        return ReferenceImportJobItemStatus.finished;
-      case 'FAILED':
-        return ReferenceImportJobItemStatus.failed;
-    }
-    throw Exception('$this is not known in enum ReferenceImportJobItemStatus');
-  }
+  const ReferenceImportJobItemStatus(this.value);
+
+  static ReferenceImportJobItemStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ReferenceImportJobItemStatus'));
 }
 
 enum ReferenceImportJobStatus {
-  submitted,
-  inProgress,
-  cancelling,
-  cancelled,
-  failed,
-  completed,
-  completedWithFailures,
-}
+  submitted('SUBMITTED'),
+  inProgress('IN_PROGRESS'),
+  cancelling('CANCELLING'),
+  cancelled('CANCELLED'),
+  failed('FAILED'),
+  completed('COMPLETED'),
+  completedWithFailures('COMPLETED_WITH_FAILURES'),
+  ;
 
-extension ReferenceImportJobStatusValueExtension on ReferenceImportJobStatus {
-  String toValue() {
-    switch (this) {
-      case ReferenceImportJobStatus.submitted:
-        return 'SUBMITTED';
-      case ReferenceImportJobStatus.inProgress:
-        return 'IN_PROGRESS';
-      case ReferenceImportJobStatus.cancelling:
-        return 'CANCELLING';
-      case ReferenceImportJobStatus.cancelled:
-        return 'CANCELLED';
-      case ReferenceImportJobStatus.failed:
-        return 'FAILED';
-      case ReferenceImportJobStatus.completed:
-        return 'COMPLETED';
-      case ReferenceImportJobStatus.completedWithFailures:
-        return 'COMPLETED_WITH_FAILURES';
-    }
-  }
-}
+  final String value;
 
-extension ReferenceImportJobStatusFromString on String {
-  ReferenceImportJobStatus toReferenceImportJobStatus() {
-    switch (this) {
-      case 'SUBMITTED':
-        return ReferenceImportJobStatus.submitted;
-      case 'IN_PROGRESS':
-        return ReferenceImportJobStatus.inProgress;
-      case 'CANCELLING':
-        return ReferenceImportJobStatus.cancelling;
-      case 'CANCELLED':
-        return ReferenceImportJobStatus.cancelled;
-      case 'FAILED':
-        return ReferenceImportJobStatus.failed;
-      case 'COMPLETED':
-        return ReferenceImportJobStatus.completed;
-      case 'COMPLETED_WITH_FAILURES':
-        return ReferenceImportJobStatus.completedWithFailures;
-    }
-    throw Exception('$this is not known in enum ReferenceImportJobStatus');
-  }
+  const ReferenceImportJobStatus(this.value);
+
+  static ReferenceImportJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ReferenceImportJobStatus'));
 }
 
 /// A genome reference.
@@ -9527,7 +9036,7 @@ class ReferenceListItem {
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
       description: json['description'] as String?,
       name: json['name'] as String?,
-      status: (json['status'] as String?)?.toReferenceStatus(),
+      status: (json['status'] as String?)?.let(ReferenceStatus.fromString),
     );
   }
 
@@ -9550,42 +9059,25 @@ class ReferenceListItem {
       'updateTime': iso8601ToJson(updateTime),
       if (description != null) 'description': description,
       if (name != null) 'name': name,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
 
 enum ReferenceStatus {
-  active,
-  deleting,
-  deleted,
-}
+  active('ACTIVE'),
+  deleting('DELETING'),
+  deleted('DELETED'),
+  ;
 
-extension ReferenceStatusValueExtension on ReferenceStatus {
-  String toValue() {
-    switch (this) {
-      case ReferenceStatus.active:
-        return 'ACTIVE';
-      case ReferenceStatus.deleting:
-        return 'DELETING';
-      case ReferenceStatus.deleted:
-        return 'DELETED';
-    }
-  }
-}
+  final String value;
 
-extension ReferenceStatusFromString on String {
-  ReferenceStatus toReferenceStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return ReferenceStatus.active;
-      case 'DELETING':
-        return ReferenceStatus.deleting;
-      case 'DELETED':
-        return ReferenceStatus.deleted;
-    }
-    throw Exception('$this is not known in enum ReferenceStatus');
-  }
+  const ReferenceStatus(this.value);
+
+  static ReferenceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ReferenceStatus'));
 }
 
 /// Details about a reference store.
@@ -9679,54 +9171,31 @@ class ReferenceStoreFilter {
 }
 
 enum ResourceOwner {
-  self,
-  other,
-}
+  self('SELF'),
+  other('OTHER'),
+  ;
 
-extension ResourceOwnerValueExtension on ResourceOwner {
-  String toValue() {
-    switch (this) {
-      case ResourceOwner.self:
-        return 'SELF';
-      case ResourceOwner.other:
-        return 'OTHER';
-    }
-  }
-}
+  final String value;
 
-extension ResourceOwnerFromString on String {
-  ResourceOwner toResourceOwner() {
-    switch (this) {
-      case 'SELF':
-        return ResourceOwner.self;
-      case 'OTHER':
-        return ResourceOwner.other;
-    }
-    throw Exception('$this is not known in enum ResourceOwner');
-  }
+  const ResourceOwner(this.value);
+
+  static ResourceOwner fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResourceOwner'));
 }
 
 enum RunExport {
-  definition,
-}
+  definition('DEFINITION'),
+  ;
 
-extension RunExportValueExtension on RunExport {
-  String toValue() {
-    switch (this) {
-      case RunExport.definition:
-        return 'DEFINITION';
-    }
-  }
-}
+  final String value;
 
-extension RunExportFromString on String {
-  RunExport toRunExport() {
-    switch (this) {
-      case 'DEFINITION':
-        return RunExport.definition;
-    }
-    throw Exception('$this is not known in enum RunExport');
-  }
+  const RunExport(this.value);
+
+  static RunExport fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum RunExport'));
 }
 
 /// A run group.
@@ -9860,10 +9329,11 @@ class RunListItem {
       name: json['name'] as String?,
       priority: json['priority'] as int?,
       startTime: timeStampFromJson(json['startTime']),
-      status: (json['status'] as String?)?.toRunStatus(),
+      status: (json['status'] as String?)?.let(RunStatus.fromString),
       stopTime: timeStampFromJson(json['stopTime']),
       storageCapacity: json['storageCapacity'] as int?,
-      storageType: (json['storageType'] as String?)?.toStorageType(),
+      storageType:
+          (json['storageType'] as String?)?.let(StorageType.fromString),
       workflowId: json['workflowId'] as String?,
     );
   }
@@ -9887,51 +9357,29 @@ class RunListItem {
       if (name != null) 'name': name,
       if (priority != null) 'priority': priority,
       if (startTime != null) 'startTime': iso8601ToJson(startTime),
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (stopTime != null) 'stopTime': iso8601ToJson(stopTime),
       if (storageCapacity != null) 'storageCapacity': storageCapacity,
-      if (storageType != null) 'storageType': storageType.toValue(),
+      if (storageType != null) 'storageType': storageType.value,
       if (workflowId != null) 'workflowId': workflowId,
     };
   }
 }
 
 enum RunLogLevel {
-  off,
-  fatal,
-  error,
-  all,
-}
+  off('OFF'),
+  fatal('FATAL'),
+  error('ERROR'),
+  all('ALL'),
+  ;
 
-extension RunLogLevelValueExtension on RunLogLevel {
-  String toValue() {
-    switch (this) {
-      case RunLogLevel.off:
-        return 'OFF';
-      case RunLogLevel.fatal:
-        return 'FATAL';
-      case RunLogLevel.error:
-        return 'ERROR';
-      case RunLogLevel.all:
-        return 'ALL';
-    }
-  }
-}
+  final String value;
 
-extension RunLogLevelFromString on String {
-  RunLogLevel toRunLogLevel() {
-    switch (this) {
-      case 'OFF':
-        return RunLogLevel.off;
-      case 'FATAL':
-        return RunLogLevel.fatal;
-      case 'ERROR':
-        return RunLogLevel.error;
-      case 'ALL':
-        return RunLogLevel.all;
-    }
-    throw Exception('$this is not known in enum RunLogLevel');
-  }
+  const RunLogLevel(this.value);
+
+  static RunLogLevel fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum RunLogLevel'));
 }
 
 /// The URI for the run log.
@@ -9977,137 +9425,57 @@ class RunParameters {
 }
 
 enum RunRetentionMode {
-  retain,
-  remove,
-}
+  retain('RETAIN'),
+  remove('REMOVE'),
+  ;
 
-extension RunRetentionModeValueExtension on RunRetentionMode {
-  String toValue() {
-    switch (this) {
-      case RunRetentionMode.retain:
-        return 'RETAIN';
-      case RunRetentionMode.remove:
-        return 'REMOVE';
-    }
-  }
-}
+  final String value;
 
-extension RunRetentionModeFromString on String {
-  RunRetentionMode toRunRetentionMode() {
-    switch (this) {
-      case 'RETAIN':
-        return RunRetentionMode.retain;
-      case 'REMOVE':
-        return RunRetentionMode.remove;
-    }
-    throw Exception('$this is not known in enum RunRetentionMode');
-  }
+  const RunRetentionMode(this.value);
+
+  static RunRetentionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RunRetentionMode'));
 }
 
 enum RunStatus {
-  pending,
-  starting,
-  running,
-  stopping,
-  completed,
-  deleted,
-  cancelled,
-  failed,
-}
+  pending('PENDING'),
+  starting('STARTING'),
+  running('RUNNING'),
+  stopping('STOPPING'),
+  completed('COMPLETED'),
+  deleted('DELETED'),
+  cancelled('CANCELLED'),
+  failed('FAILED'),
+  ;
 
-extension RunStatusValueExtension on RunStatus {
-  String toValue() {
-    switch (this) {
-      case RunStatus.pending:
-        return 'PENDING';
-      case RunStatus.starting:
-        return 'STARTING';
-      case RunStatus.running:
-        return 'RUNNING';
-      case RunStatus.stopping:
-        return 'STOPPING';
-      case RunStatus.completed:
-        return 'COMPLETED';
-      case RunStatus.deleted:
-        return 'DELETED';
-      case RunStatus.cancelled:
-        return 'CANCELLED';
-      case RunStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension RunStatusFromString on String {
-  RunStatus toRunStatus() {
-    switch (this) {
-      case 'PENDING':
-        return RunStatus.pending;
-      case 'STARTING':
-        return RunStatus.starting;
-      case 'RUNNING':
-        return RunStatus.running;
-      case 'STOPPING':
-        return RunStatus.stopping;
-      case 'COMPLETED':
-        return RunStatus.completed;
-      case 'DELETED':
-        return RunStatus.deleted;
-      case 'CANCELLED':
-        return RunStatus.cancelled;
-      case 'FAILED':
-        return RunStatus.failed;
-    }
-    throw Exception('$this is not known in enum RunStatus');
-  }
+  const RunStatus(this.value);
+
+  static RunStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum RunStatus'));
 }
 
 enum SchemaValueType {
-  long,
-  int,
-  string,
-  float,
-  double,
-  boolean,
-}
+  long('LONG'),
+  int('INT'),
+  string('STRING'),
+  float('FLOAT'),
+  double('DOUBLE'),
+  boolean('BOOLEAN'),
+  ;
 
-extension SchemaValueTypeValueExtension on SchemaValueType {
-  String toValue() {
-    switch (this) {
-      case SchemaValueType.long:
-        return 'LONG';
-      case SchemaValueType.int:
-        return 'INT';
-      case SchemaValueType.string:
-        return 'STRING';
-      case SchemaValueType.float:
-        return 'FLOAT';
-      case SchemaValueType.double:
-        return 'DOUBLE';
-      case SchemaValueType.boolean:
-        return 'BOOLEAN';
-    }
-  }
-}
+  final String value;
 
-extension SchemaValueTypeFromString on String {
-  SchemaValueType toSchemaValueType() {
-    switch (this) {
-      case 'LONG':
-        return SchemaValueType.long;
-      case 'INT':
-        return SchemaValueType.int;
-      case 'STRING':
-        return SchemaValueType.string;
-      case 'FLOAT':
-        return SchemaValueType.float;
-      case 'DOUBLE':
-        return SchemaValueType.double;
-      case 'BOOLEAN':
-        return SchemaValueType.boolean;
-    }
-    throw Exception('$this is not known in enum SchemaValueType');
-  }
+  const SchemaValueType(this.value);
+
+  static SchemaValueType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SchemaValueType'));
 }
 
 /// Details about a sequence.
@@ -10198,8 +9566,8 @@ class SequenceStoreDetail {
           nonNullableTimeStampFromJson(json['creationTime'] as Object),
       id: json['id'] as String,
       description: json['description'] as String?,
-      eTagAlgorithmFamily:
-          (json['eTagAlgorithmFamily'] as String?)?.toETagAlgorithmFamily(),
+      eTagAlgorithmFamily: (json['eTagAlgorithmFamily'] as String?)
+          ?.let(ETagAlgorithmFamily.fromString),
       fallbackLocation: json['fallbackLocation'] as String?,
       name: json['name'] as String?,
       sseConfig: json['sseConfig'] != null
@@ -10223,7 +9591,7 @@ class SequenceStoreDetail {
       'id': id,
       if (description != null) 'description': description,
       if (eTagAlgorithmFamily != null)
-        'eTagAlgorithmFamily': eTagAlgorithmFamily.toValue(),
+        'eTagAlgorithmFamily': eTagAlgorithmFamily.value,
       if (fallbackLocation != null) 'fallbackLocation': fallbackLocation,
       if (name != null) 'name': name,
       if (sseConfig != null) 'sseConfig': sseConfig,
@@ -10346,7 +9714,7 @@ class ShareDetails {
       resourceId: json['resourceId'] as String?,
       shareId: json['shareId'] as String?,
       shareName: json['shareName'] as String?,
-      status: (json['status'] as String?)?.toShareStatus(),
+      status: (json['status'] as String?)?.let(ShareStatus.fromString),
       statusMessage: json['statusMessage'] as String?,
       updateTime: timeStampFromJson(json['updateTime']),
     );
@@ -10372,7 +9740,7 @@ class ShareDetails {
       if (resourceId != null) 'resourceId': resourceId,
       if (shareId != null) 'shareId': shareId,
       if (shareName != null) 'shareName': shareName,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (statusMessage != null) 'statusMessage': statusMessage,
       if (updateTime != null) 'updateTime': iso8601ToJson(updateTime),
     };
@@ -10380,84 +9748,37 @@ class ShareDetails {
 }
 
 enum ShareResourceType {
-  variantStore,
-  annotationStore,
-  workflow,
-}
+  variantStore('VARIANT_STORE'),
+  annotationStore('ANNOTATION_STORE'),
+  workflow('WORKFLOW'),
+  ;
 
-extension ShareResourceTypeValueExtension on ShareResourceType {
-  String toValue() {
-    switch (this) {
-      case ShareResourceType.variantStore:
-        return 'VARIANT_STORE';
-      case ShareResourceType.annotationStore:
-        return 'ANNOTATION_STORE';
-      case ShareResourceType.workflow:
-        return 'WORKFLOW';
-    }
-  }
-}
+  final String value;
 
-extension ShareResourceTypeFromString on String {
-  ShareResourceType toShareResourceType() {
-    switch (this) {
-      case 'VARIANT_STORE':
-        return ShareResourceType.variantStore;
-      case 'ANNOTATION_STORE':
-        return ShareResourceType.annotationStore;
-      case 'WORKFLOW':
-        return ShareResourceType.workflow;
-    }
-    throw Exception('$this is not known in enum ShareResourceType');
-  }
+  const ShareResourceType(this.value);
+
+  static ShareResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ShareResourceType'));
 }
 
 enum ShareStatus {
-  pending,
-  activating,
-  active,
-  deleting,
-  deleted,
-  failed,
-}
+  pending('PENDING'),
+  activating('ACTIVATING'),
+  active('ACTIVE'),
+  deleting('DELETING'),
+  deleted('DELETED'),
+  failed('FAILED'),
+  ;
 
-extension ShareStatusValueExtension on ShareStatus {
-  String toValue() {
-    switch (this) {
-      case ShareStatus.pending:
-        return 'PENDING';
-      case ShareStatus.activating:
-        return 'ACTIVATING';
-      case ShareStatus.active:
-        return 'ACTIVE';
-      case ShareStatus.deleting:
-        return 'DELETING';
-      case ShareStatus.deleted:
-        return 'DELETED';
-      case ShareStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ShareStatusFromString on String {
-  ShareStatus toShareStatus() {
-    switch (this) {
-      case 'PENDING':
-        return ShareStatus.pending;
-      case 'ACTIVATING':
-        return ShareStatus.activating;
-      case 'ACTIVE':
-        return ShareStatus.active;
-      case 'DELETING':
-        return ShareStatus.deleting;
-      case 'DELETED':
-        return ShareStatus.deleted;
-      case 'FAILED':
-        return ShareStatus.failed;
-    }
-    throw Exception('$this is not known in enum ShareStatus');
-  }
+  const ShareStatus(this.value);
+
+  static ShareStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ShareStatus'));
 }
 
 /// Source files for a sequence.
@@ -10505,7 +9826,7 @@ class SseConfig {
 
   factory SseConfig.fromJson(Map<String, dynamic> json) {
     return SseConfig(
-      type: (json['type'] as String).toEncryptionType(),
+      type: EncryptionType.fromString((json['type'] as String)),
       keyArn: json['keyArn'] as String?,
     );
   }
@@ -10514,7 +9835,7 @@ class SseConfig {
     final type = this.type;
     final keyArn = this.keyArn;
     return {
-      'type': type.toValue(),
+      'type': type.value,
       if (keyArn != null) 'keyArn': keyArn,
     };
   }
@@ -10569,7 +9890,7 @@ class StartReadSetActivationJobResponse {
           nonNullableTimeStampFromJson(json['creationTime'] as Object),
       id: json['id'] as String,
       sequenceStoreId: json['sequenceStoreId'] as String,
-      status: (json['status'] as String).toReadSetActivationJobStatus(),
+      status: ReadSetActivationJobStatus.fromString((json['status'] as String)),
     );
   }
 
@@ -10582,7 +9903,7 @@ class StartReadSetActivationJobResponse {
       'creationTime': iso8601ToJson(creationTime),
       'id': id,
       'sequenceStoreId': sequenceStoreId,
-      'status': status.toValue(),
+      'status': status.value,
     };
   }
 }
@@ -10635,7 +9956,7 @@ class StartReadSetExportJobResponse {
       destination: json['destination'] as String,
       id: json['id'] as String,
       sequenceStoreId: json['sequenceStoreId'] as String,
-      status: (json['status'] as String).toReadSetExportJobStatus(),
+      status: ReadSetExportJobStatus.fromString((json['status'] as String)),
     );
   }
 
@@ -10650,7 +9971,7 @@ class StartReadSetExportJobResponse {
       'destination': destination,
       'id': id,
       'sequenceStoreId': sequenceStoreId,
-      'status': status.toValue(),
+      'status': status.value,
     };
   }
 }
@@ -10686,7 +10007,7 @@ class StartReadSetImportJobResponse {
       id: json['id'] as String,
       roleArn: json['roleArn'] as String,
       sequenceStoreId: json['sequenceStoreId'] as String,
-      status: (json['status'] as String).toReadSetImportJobStatus(),
+      status: ReadSetImportJobStatus.fromString((json['status'] as String)),
     );
   }
 
@@ -10701,7 +10022,7 @@ class StartReadSetImportJobResponse {
       'id': id,
       'roleArn': roleArn,
       'sequenceStoreId': sequenceStoreId,
-      'status': status.toValue(),
+      'status': status.value,
     };
   }
 }
@@ -10759,7 +10080,7 @@ class StartReadSetImportJobSourceItem {
     final tags = this.tags;
     return {
       'sampleId': sampleId,
-      'sourceFileType': sourceFileType.toValue(),
+      'sourceFileType': sourceFileType.value,
       'sourceFiles': sourceFiles,
       'subjectId': subjectId,
       if (description != null) 'description': description,
@@ -10802,7 +10123,7 @@ class StartReferenceImportJobResponse {
       id: json['id'] as String,
       referenceStoreId: json['referenceStoreId'] as String,
       roleArn: json['roleArn'] as String,
-      status: (json['status'] as String).toReferenceImportJobStatus(),
+      status: ReferenceImportJobStatus.fromString((json['status'] as String)),
     );
   }
 
@@ -10817,7 +10138,7 @@ class StartReferenceImportJobResponse {
       'id': id,
       'referenceStoreId': referenceStoreId,
       'roleArn': roleArn,
-      'status': status.toValue(),
+      'status': status.value,
     };
   }
 }
@@ -10890,7 +10211,7 @@ class StartRunResponse {
       arn: json['arn'] as String?,
       id: json['id'] as String?,
       runOutputUri: json['runOutputUri'] as String?,
-      status: (json['status'] as String?)?.toRunStatus(),
+      status: (json['status'] as String?)?.let(RunStatus.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       uuid: json['uuid'] as String?,
@@ -10908,7 +10229,7 @@ class StartRunResponse {
       if (arn != null) 'arn': arn,
       if (id != null) 'id': id,
       if (runOutputUri != null) 'runOutputUri': runOutputUri,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (tags != null) 'tags': tags,
       if (uuid != null) 'uuid': uuid,
     };
@@ -10938,64 +10259,32 @@ class StartVariantImportResponse {
 }
 
 enum StorageType {
-  static,
-  $dynamic,
-}
+  static('STATIC'),
+  $dynamic('DYNAMIC'),
+  ;
 
-extension StorageTypeValueExtension on StorageType {
-  String toValue() {
-    switch (this) {
-      case StorageType.static:
-        return 'STATIC';
-      case StorageType.$dynamic:
-        return 'DYNAMIC';
-    }
-  }
-}
+  final String value;
 
-extension StorageTypeFromString on String {
-  StorageType toStorageType() {
-    switch (this) {
-      case 'STATIC':
-        return StorageType.static;
-      case 'DYNAMIC':
-        return StorageType.$dynamic;
-    }
-    throw Exception('$this is not known in enum StorageType');
-  }
+  const StorageType(this.value);
+
+  static StorageType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum StorageType'));
 }
 
 enum StoreFormat {
-  gff,
-  tsv,
-  vcf,
-}
+  gff('GFF'),
+  tsv('TSV'),
+  vcf('VCF'),
+  ;
 
-extension StoreFormatValueExtension on StoreFormat {
-  String toValue() {
-    switch (this) {
-      case StoreFormat.gff:
-        return 'GFF';
-      case StoreFormat.tsv:
-        return 'TSV';
-      case StoreFormat.vcf:
-        return 'VCF';
-    }
-  }
-}
+  final String value;
 
-extension StoreFormatFromString on String {
-  StoreFormat toStoreFormat() {
-    switch (this) {
-      case 'GFF':
-        return StoreFormat.gff;
-      case 'TSV':
-        return StoreFormat.tsv;
-      case 'VCF':
-        return StoreFormat.vcf;
-    }
-    throw Exception('$this is not known in enum StoreFormat');
-  }
+  const StoreFormat(this.value);
+
+  static StoreFormat fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum StoreFormat'));
 }
 
 /// Settings for a store.
@@ -11025,46 +10314,20 @@ class StoreOptions {
 }
 
 enum StoreStatus {
-  creating,
-  updating,
-  deleting,
-  active,
-  failed,
-}
+  creating('CREATING'),
+  updating('UPDATING'),
+  deleting('DELETING'),
+  active('ACTIVE'),
+  failed('FAILED'),
+  ;
 
-extension StoreStatusValueExtension on StoreStatus {
-  String toValue() {
-    switch (this) {
-      case StoreStatus.creating:
-        return 'CREATING';
-      case StoreStatus.updating:
-        return 'UPDATING';
-      case StoreStatus.deleting:
-        return 'DELETING';
-      case StoreStatus.active:
-        return 'ACTIVE';
-      case StoreStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension StoreStatusFromString on String {
-  StoreStatus toStoreStatus() {
-    switch (this) {
-      case 'CREATING':
-        return StoreStatus.creating;
-      case 'UPDATING':
-        return StoreStatus.updating;
-      case 'DELETING':
-        return StoreStatus.deleting;
-      case 'ACTIVE':
-        return StoreStatus.active;
-      case 'FAILED':
-        return StoreStatus.failed;
-    }
-    throw Exception('$this is not known in enum StoreStatus');
-  }
+  const StoreStatus(this.value);
+
+  static StoreStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum StoreStatus'));
 }
 
 class TagResourceResponse {
@@ -11133,7 +10396,7 @@ class TaskListItem {
       memory: json['memory'] as int?,
       name: json['name'] as String?,
       startTime: timeStampFromJson(json['startTime']),
-      status: (json['status'] as String?)?.toTaskStatus(),
+      status: (json['status'] as String?)?.let(TaskStatus.fromString),
       stopTime: timeStampFromJson(json['stopTime']),
       taskId: json['taskId'] as String?,
     );
@@ -11158,7 +10421,7 @@ class TaskListItem {
       if (memory != null) 'memory': memory,
       if (name != null) 'name': name,
       if (startTime != null) 'startTime': iso8601ToJson(startTime),
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (stopTime != null) 'stopTime': iso8601ToJson(stopTime),
       if (taskId != null) 'taskId': taskId,
     };
@@ -11166,56 +10429,22 @@ class TaskListItem {
 }
 
 enum TaskStatus {
-  pending,
-  starting,
-  running,
-  stopping,
-  completed,
-  cancelled,
-  failed,
-}
+  pending('PENDING'),
+  starting('STARTING'),
+  running('RUNNING'),
+  stopping('STOPPING'),
+  completed('COMPLETED'),
+  cancelled('CANCELLED'),
+  failed('FAILED'),
+  ;
 
-extension TaskStatusValueExtension on TaskStatus {
-  String toValue() {
-    switch (this) {
-      case TaskStatus.pending:
-        return 'PENDING';
-      case TaskStatus.starting:
-        return 'STARTING';
-      case TaskStatus.running:
-        return 'RUNNING';
-      case TaskStatus.stopping:
-        return 'STOPPING';
-      case TaskStatus.completed:
-        return 'COMPLETED';
-      case TaskStatus.cancelled:
-        return 'CANCELLED';
-      case TaskStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension TaskStatusFromString on String {
-  TaskStatus toTaskStatus() {
-    switch (this) {
-      case 'PENDING':
-        return TaskStatus.pending;
-      case 'STARTING':
-        return TaskStatus.starting;
-      case 'RUNNING':
-        return TaskStatus.running;
-      case 'STOPPING':
-        return TaskStatus.stopping;
-      case 'COMPLETED':
-        return TaskStatus.completed;
-      case 'CANCELLED':
-        return TaskStatus.cancelled;
-      case 'FAILED':
-        return TaskStatus.failed;
-    }
-    throw Exception('$this is not known in enum TaskStatus');
-  }
+  const TaskStatus(this.value);
+
+  static TaskStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TaskStatus'));
 }
 
 /// Formatting options for a TSV file.
@@ -11262,13 +10491,14 @@ class TsvStoreOptions {
 
   factory TsvStoreOptions.fromJson(Map<String, dynamic> json) {
     return TsvStoreOptions(
-      annotationType: (json['annotationType'] as String?)?.toAnnotationType(),
-      formatToHeader: (json['formatToHeader'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k.toFormatToHeaderKey(), e as String)),
+      annotationType:
+          (json['annotationType'] as String?)?.let(AnnotationType.fromString),
+      formatToHeader: (json['formatToHeader'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(FormatToHeaderKey.fromString(k), e as String)),
       schema: (json['schema'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as Map<String, dynamic>)
-              .map((k, e) => MapEntry(k, (e as String).toSchemaValueType())))
+          .map((e) => (e as Map<String, dynamic>).map(
+              (k, e) => MapEntry(k, SchemaValueType.fromString((e as String)))))
           .toList(),
     );
   }
@@ -11278,14 +10508,12 @@ class TsvStoreOptions {
     final formatToHeader = this.formatToHeader;
     final schema = this.schema;
     return {
-      if (annotationType != null) 'annotationType': annotationType.toValue(),
+      if (annotationType != null) 'annotationType': annotationType.value,
       if (formatToHeader != null)
-        'formatToHeader':
-            formatToHeader.map((k, e) => MapEntry(k.toValue(), e)),
+        'formatToHeader': formatToHeader.map((k, e) => MapEntry(k.value, e)),
       if (schema != null)
-        'schema': schema
-            .map((e) => e.map((k, e) => MapEntry(k, e.toValue())))
-            .toList(),
+        'schema':
+            schema.map((e) => e.map((k, e) => MapEntry(k, e.value))).toList(),
     };
   }
 }
@@ -11309,13 +10537,14 @@ class TsvVersionOptions {
 
   factory TsvVersionOptions.fromJson(Map<String, dynamic> json) {
     return TsvVersionOptions(
-      annotationType: (json['annotationType'] as String?)?.toAnnotationType(),
-      formatToHeader: (json['formatToHeader'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k.toFormatToHeaderKey(), e as String)),
+      annotationType:
+          (json['annotationType'] as String?)?.let(AnnotationType.fromString),
+      formatToHeader: (json['formatToHeader'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(FormatToHeaderKey.fromString(k), e as String)),
       schema: (json['schema'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as Map<String, dynamic>)
-              .map((k, e) => MapEntry(k, (e as String).toSchemaValueType())))
+          .map((e) => (e as Map<String, dynamic>).map(
+              (k, e) => MapEntry(k, SchemaValueType.fromString((e as String)))))
           .toList(),
     );
   }
@@ -11325,14 +10554,12 @@ class TsvVersionOptions {
     final formatToHeader = this.formatToHeader;
     final schema = this.schema;
     return {
-      if (annotationType != null) 'annotationType': annotationType.toValue(),
+      if (annotationType != null) 'annotationType': annotationType.value,
       if (formatToHeader != null)
-        'formatToHeader':
-            formatToHeader.map((k, e) => MapEntry(k.toValue(), e)),
+        'formatToHeader': formatToHeader.map((k, e) => MapEntry(k.value, e)),
       if (schema != null)
-        'schema': schema
-            .map((e) => e.map((k, e) => MapEntry(k, e.toValue())))
-            .toList(),
+        'schema':
+            schema.map((e) => e.map((k, e) => MapEntry(k, e.value))).toList(),
     };
   }
 }
@@ -11398,9 +10625,10 @@ class UpdateAnnotationStoreResponse {
       name: json['name'] as String,
       reference:
           ReferenceItem.fromJson(json['reference'] as Map<String, dynamic>),
-      status: (json['status'] as String).toStoreStatus(),
+      status: StoreStatus.fromString((json['status'] as String)),
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
-      storeFormat: (json['storeFormat'] as String?)?.toStoreFormat(),
+      storeFormat:
+          (json['storeFormat'] as String?)?.let(StoreFormat.fromString),
       storeOptions: json['storeOptions'] != null
           ? StoreOptions.fromJson(json['storeOptions'] as Map<String, dynamic>)
           : null,
@@ -11423,9 +10651,9 @@ class UpdateAnnotationStoreResponse {
       'id': id,
       'name': name,
       'reference': reference,
-      'status': status.toValue(),
+      'status': status.value,
       'updateTime': iso8601ToJson(updateTime),
-      if (storeFormat != null) 'storeFormat': storeFormat.toValue(),
+      if (storeFormat != null) 'storeFormat': storeFormat.value,
       if (storeOptions != null) 'storeOptions': storeOptions,
     };
   }
@@ -11475,7 +10703,7 @@ class UpdateAnnotationStoreVersionResponse {
       description: json['description'] as String,
       id: json['id'] as String,
       name: json['name'] as String,
-      status: (json['status'] as String).toVersionStatus(),
+      status: VersionStatus.fromString((json['status'] as String)),
       storeId: json['storeId'] as String,
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
       versionName: json['versionName'] as String,
@@ -11496,7 +10724,7 @@ class UpdateAnnotationStoreVersionResponse {
       'description': description,
       'id': id,
       'name': name,
-      'status': status.toValue(),
+      'status': status.value,
       'storeId': storeId,
       'updateTime': iso8601ToJson(updateTime),
       'versionName': versionName,
@@ -11545,7 +10773,7 @@ class UpdateVariantStoreResponse {
       name: json['name'] as String,
       reference:
           ReferenceItem.fromJson(json['reference'] as Map<String, dynamic>),
-      status: (json['status'] as String).toStoreStatus(),
+      status: StoreStatus.fromString((json['status'] as String)),
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
     );
   }
@@ -11564,7 +10792,7 @@ class UpdateVariantStoreResponse {
       'id': id,
       'name': name,
       'reference': reference,
-      'status': status.toValue(),
+      'status': status.value,
       'updateTime': iso8601ToJson(updateTime),
     };
   }
@@ -11612,7 +10840,7 @@ class VariantImportItemDetail {
 
   factory VariantImportItemDetail.fromJson(Map<String, dynamic> json) {
     return VariantImportItemDetail(
-      jobStatus: (json['jobStatus'] as String).toJobStatus(),
+      jobStatus: JobStatus.fromString((json['jobStatus'] as String)),
       source: json['source'] as String,
       statusMessage: json['statusMessage'] as String?,
     );
@@ -11623,7 +10851,7 @@ class VariantImportItemDetail {
     final source = this.source;
     final statusMessage = this.statusMessage;
     return {
-      'jobStatus': jobStatus.toValue(),
+      'jobStatus': jobStatus.value,
       'source': source,
       if (statusMessage != null) 'statusMessage': statusMessage,
     };
@@ -11695,7 +10923,7 @@ class VariantImportJobItem {
       destinationName: json['destinationName'] as String,
       id: json['id'] as String,
       roleArn: json['roleArn'] as String,
-      status: (json['status'] as String).toJobStatus(),
+      status: JobStatus.fromString((json['status'] as String)),
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
       annotationFields: (json['annotationFields'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -11719,7 +10947,7 @@ class VariantImportJobItem {
       'destinationName': destinationName,
       'id': id,
       'roleArn': roleArn,
-      'status': status.toValue(),
+      'status': status.value,
       'updateTime': iso8601ToJson(updateTime),
       if (annotationFields != null) 'annotationFields': annotationFields,
       if (completionTime != null)
@@ -11789,7 +11017,7 @@ class VariantStoreItem {
       reference:
           ReferenceItem.fromJson(json['reference'] as Map<String, dynamic>),
       sseConfig: SseConfig.fromJson(json['sseConfig'] as Map<String, dynamic>),
-      status: (json['status'] as String).toStoreStatus(),
+      status: StoreStatus.fromString((json['status'] as String)),
       statusMessage: json['statusMessage'] as String,
       storeArn: json['storeArn'] as String,
       storeSizeBytes: json['storeSizeBytes'] as int,
@@ -11816,7 +11044,7 @@ class VariantStoreItem {
       'name': name,
       'reference': reference,
       'sseConfig': sseConfig,
-      'status': status.toValue(),
+      'status': status.value,
       'statusMessage': statusMessage,
       'storeArn': storeArn,
       'storeSizeBytes': storeSizeBytes,
@@ -11912,102 +11140,51 @@ class VersionOptions {
 }
 
 enum VersionStatus {
-  creating,
-  updating,
-  deleting,
-  active,
-  failed,
-}
+  creating('CREATING'),
+  updating('UPDATING'),
+  deleting('DELETING'),
+  active('ACTIVE'),
+  failed('FAILED'),
+  ;
 
-extension VersionStatusValueExtension on VersionStatus {
-  String toValue() {
-    switch (this) {
-      case VersionStatus.creating:
-        return 'CREATING';
-      case VersionStatus.updating:
-        return 'UPDATING';
-      case VersionStatus.deleting:
-        return 'DELETING';
-      case VersionStatus.active:
-        return 'ACTIVE';
-      case VersionStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension VersionStatusFromString on String {
-  VersionStatus toVersionStatus() {
-    switch (this) {
-      case 'CREATING':
-        return VersionStatus.creating;
-      case 'UPDATING':
-        return VersionStatus.updating;
-      case 'DELETING':
-        return VersionStatus.deleting;
-      case 'ACTIVE':
-        return VersionStatus.active;
-      case 'FAILED':
-        return VersionStatus.failed;
-    }
-    throw Exception('$this is not known in enum VersionStatus');
-  }
+  const VersionStatus(this.value);
+
+  static VersionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum VersionStatus'));
 }
 
 enum WorkflowEngine {
-  wdl,
-  nextflow,
-  cwl,
-}
+  wdl('WDL'),
+  nextflow('NEXTFLOW'),
+  cwl('CWL'),
+  ;
 
-extension WorkflowEngineValueExtension on WorkflowEngine {
-  String toValue() {
-    switch (this) {
-      case WorkflowEngine.wdl:
-        return 'WDL';
-      case WorkflowEngine.nextflow:
-        return 'NEXTFLOW';
-      case WorkflowEngine.cwl:
-        return 'CWL';
-    }
-  }
-}
+  final String value;
 
-extension WorkflowEngineFromString on String {
-  WorkflowEngine toWorkflowEngine() {
-    switch (this) {
-      case 'WDL':
-        return WorkflowEngine.wdl;
-      case 'NEXTFLOW':
-        return WorkflowEngine.nextflow;
-      case 'CWL':
-        return WorkflowEngine.cwl;
-    }
-    throw Exception('$this is not known in enum WorkflowEngine');
-  }
+  const WorkflowEngine(this.value);
+
+  static WorkflowEngine fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum WorkflowEngine'));
 }
 
 enum WorkflowExport {
-  definition,
-}
+  definition('DEFINITION'),
+  ;
 
-extension WorkflowExportValueExtension on WorkflowExport {
-  String toValue() {
-    switch (this) {
-      case WorkflowExport.definition:
-        return 'DEFINITION';
-    }
-  }
-}
+  final String value;
 
-extension WorkflowExportFromString on String {
-  WorkflowExport toWorkflowExport() {
-    switch (this) {
-      case 'DEFINITION':
-        return WorkflowExport.definition;
-    }
-    throw Exception('$this is not known in enum WorkflowExport');
-  }
+  const WorkflowExport(this.value);
+
+  static WorkflowExport fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum WorkflowExport'));
 }
 
 /// A workflow.
@@ -12057,8 +11234,8 @@ class WorkflowListItem {
       metadata: (json['metadata'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       name: json['name'] as String?,
-      status: (json['status'] as String?)?.toWorkflowStatus(),
-      type: (json['type'] as String?)?.toWorkflowType(),
+      status: (json['status'] as String?)?.let(WorkflowStatus.fromString),
+      type: (json['type'] as String?)?.let(WorkflowType.fromString),
     );
   }
 
@@ -12078,8 +11255,8 @@ class WorkflowListItem {
       if (id != null) 'id': id,
       if (metadata != null) 'metadata': metadata,
       if (name != null) 'name': name,
-      if (status != null) 'status': status.toValue(),
-      if (type != null) 'type': type.toValue(),
+      if (status != null) 'status': status.value,
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -12115,79 +11292,37 @@ class WorkflowParameter {
 }
 
 enum WorkflowStatus {
-  creating,
-  active,
-  updating,
-  deleted,
-  failed,
-  inactive,
-}
+  creating('CREATING'),
+  active('ACTIVE'),
+  updating('UPDATING'),
+  deleted('DELETED'),
+  failed('FAILED'),
+  inactive('INACTIVE'),
+  ;
 
-extension WorkflowStatusValueExtension on WorkflowStatus {
-  String toValue() {
-    switch (this) {
-      case WorkflowStatus.creating:
-        return 'CREATING';
-      case WorkflowStatus.active:
-        return 'ACTIVE';
-      case WorkflowStatus.updating:
-        return 'UPDATING';
-      case WorkflowStatus.deleted:
-        return 'DELETED';
-      case WorkflowStatus.failed:
-        return 'FAILED';
-      case WorkflowStatus.inactive:
-        return 'INACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension WorkflowStatusFromString on String {
-  WorkflowStatus toWorkflowStatus() {
-    switch (this) {
-      case 'CREATING':
-        return WorkflowStatus.creating;
-      case 'ACTIVE':
-        return WorkflowStatus.active;
-      case 'UPDATING':
-        return WorkflowStatus.updating;
-      case 'DELETED':
-        return WorkflowStatus.deleted;
-      case 'FAILED':
-        return WorkflowStatus.failed;
-      case 'INACTIVE':
-        return WorkflowStatus.inactive;
-    }
-    throw Exception('$this is not known in enum WorkflowStatus');
-  }
+  const WorkflowStatus(this.value);
+
+  static WorkflowStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum WorkflowStatus'));
 }
 
 enum WorkflowType {
-  private,
-  ready2run,
-}
+  private('PRIVATE'),
+  ready2run('READY2RUN'),
+  ;
 
-extension WorkflowTypeValueExtension on WorkflowType {
-  String toValue() {
-    switch (this) {
-      case WorkflowType.private:
-        return 'PRIVATE';
-      case WorkflowType.ready2run:
-        return 'READY2RUN';
-    }
-  }
-}
+  final String value;
 
-extension WorkflowTypeFromString on String {
-  WorkflowType toWorkflowType() {
-    switch (this) {
-      case 'PRIVATE':
-        return WorkflowType.private;
-      case 'READY2RUN':
-        return WorkflowType.ready2run;
-    }
-    throw Exception('$this is not known in enum WorkflowType');
-  }
+  const WorkflowType(this.value);
+
+  static WorkflowType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum WorkflowType'));
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

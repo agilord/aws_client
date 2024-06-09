@@ -123,7 +123,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode.value,
         'TextList': textList,
       },
     );
@@ -163,7 +163,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode.value,
         'TextList': textList,
       },
     );
@@ -205,7 +205,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode.value,
         'TextList': textList,
       },
     );
@@ -250,7 +250,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode.value,
         'TextList': textList,
       },
     );
@@ -294,7 +294,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode.value,
         'TextList': textList,
       },
     );
@@ -441,7 +441,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode.value,
         'Text': text,
       },
     );
@@ -512,7 +512,7 @@ class Comprehend {
         'InputDataConfig': inputDataConfig,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
-        if (datasetType != null) 'DatasetType': datasetType.toValue(),
+        if (datasetType != null) 'DatasetType': datasetType.value,
         if (description != null) 'Description': description,
         if (tags != null) 'Tags': tags,
       },
@@ -665,10 +665,10 @@ class Comprehend {
         'DataAccessRoleArn': dataAccessRoleArn,
         'DocumentClassifierName': documentClassifierName,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode.value,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
-        if (mode != null) 'Mode': mode.toValue(),
+        if (mode != null) 'Mode': mode.value,
         if (modelKmsKeyId != null) 'ModelKmsKeyId': modelKmsKeyId,
         if (modelPolicy != null) 'ModelPolicy': modelPolicy,
         if (outputDataConfig != null) 'OutputDataConfig': outputDataConfig,
@@ -899,7 +899,7 @@ class Comprehend {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode.value,
         'RecognizerName': recognizerName,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
@@ -1013,7 +1013,7 @@ class Comprehend {
             clientRequestToken ?? _s.generateIdempotencyToken(),
         if (dataSecurityConfig != null)
           'DataSecurityConfig': dataSecurityConfig,
-        if (modelType != null) 'ModelType': modelType.toValue(),
+        if (modelType != null) 'ModelType': modelType.value,
         if (tags != null) 'Tags': tags,
         if (taskConfig != null) 'TaskConfig': taskConfig,
       },
@@ -1872,7 +1872,7 @@ class Comprehend {
         if (documentReaderConfig != null)
           'DocumentReaderConfig': documentReaderConfig,
         if (endpointArn != null) 'EndpointArn': endpointArn,
-        if (languageCode != null) 'LanguageCode': languageCode.toValue(),
+        if (languageCode != null) 'LanguageCode': languageCode.value,
         if (text != null) 'Text': text,
       },
     );
@@ -1910,7 +1910,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode.value,
         'Text': text,
       },
     );
@@ -1947,7 +1947,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode.value,
         'Text': text,
       },
     );
@@ -1986,7 +1986,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode.value,
         'Text': text,
       },
     );
@@ -2027,7 +2027,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode.value,
         'Text': text,
       },
     );
@@ -2068,7 +2068,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode.value,
         'Text': text,
       },
     );
@@ -2109,7 +2109,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode.value,
         'TextSegments': textSegments,
       },
     );
@@ -3434,7 +3434,7 @@ class Comprehend {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode.value,
         'OutputDataConfig': outputDataConfig,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
@@ -3511,7 +3511,7 @@ class Comprehend {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode.value,
         'OutputDataConfig': outputDataConfig,
         'TargetEventTypes': targetEventTypes,
         'ClientRequestToken':
@@ -3651,7 +3651,7 @@ class Comprehend {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode.value,
         'OutputDataConfig': outputDataConfig,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
@@ -3738,8 +3738,8 @@ class Comprehend {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode.toValue(),
-        'Mode': mode.toValue(),
+        'LanguageCode': languageCode.value,
+        'Mode': mode.value,
         'OutputDataConfig': outputDataConfig,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
@@ -3838,7 +3838,7 @@ class Comprehend {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode.value,
         'OutputDataConfig': outputDataConfig,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
@@ -3928,7 +3928,7 @@ class Comprehend {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode.toValue(),
+        'LanguageCode': languageCode.value,
         'OutputDataConfig': outputDataConfig,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
@@ -4589,34 +4589,18 @@ class Comprehend {
 }
 
 enum AugmentedManifestsDocumentTypeFormat {
-  plainTextDocument,
-  semiStructuredDocument,
-}
+  plainTextDocument('PLAIN_TEXT_DOCUMENT'),
+  semiStructuredDocument('SEMI_STRUCTURED_DOCUMENT'),
+  ;
 
-extension AugmentedManifestsDocumentTypeFormatValueExtension
-    on AugmentedManifestsDocumentTypeFormat {
-  String toValue() {
-    switch (this) {
-      case AugmentedManifestsDocumentTypeFormat.plainTextDocument:
-        return 'PLAIN_TEXT_DOCUMENT';
-      case AugmentedManifestsDocumentTypeFormat.semiStructuredDocument:
-        return 'SEMI_STRUCTURED_DOCUMENT';
-    }
-  }
-}
+  final String value;
 
-extension AugmentedManifestsDocumentTypeFormatFromString on String {
-  AugmentedManifestsDocumentTypeFormat
-      toAugmentedManifestsDocumentTypeFormat() {
-    switch (this) {
-      case 'PLAIN_TEXT_DOCUMENT':
-        return AugmentedManifestsDocumentTypeFormat.plainTextDocument;
-      case 'SEMI_STRUCTURED_DOCUMENT':
-        return AugmentedManifestsDocumentTypeFormat.semiStructuredDocument;
-    }
-    throw Exception(
-        '$this is not known in enum AugmentedManifestsDocumentTypeFormat');
-  }
+  const AugmentedManifestsDocumentTypeFormat(this.value);
+
+  static AugmentedManifestsDocumentTypeFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AugmentedManifestsDocumentTypeFormat'));
 }
 
 /// An augmented manifest file that provides training data for your custom
@@ -4693,9 +4677,9 @@ class AugmentedManifestsListItem {
       s3Uri: json['S3Uri'] as String,
       annotationDataS3Uri: json['AnnotationDataS3Uri'] as String?,
       documentType: (json['DocumentType'] as String?)
-          ?.toAugmentedManifestsDocumentTypeFormat(),
+          ?.let(AugmentedManifestsDocumentTypeFormat.fromString),
       sourceDocumentsS3Uri: json['SourceDocumentsS3Uri'] as String?,
-      split: (json['Split'] as String?)?.toSplit(),
+      split: (json['Split'] as String?)?.let(Split.fromString),
     );
   }
 
@@ -4711,10 +4695,10 @@ class AugmentedManifestsListItem {
       'S3Uri': s3Uri,
       if (annotationDataS3Uri != null)
         'AnnotationDataS3Uri': annotationDataS3Uri,
-      if (documentType != null) 'DocumentType': documentType.toValue(),
+      if (documentType != null) 'DocumentType': documentType.value,
       if (sourceDocumentsS3Uri != null)
         'SourceDocumentsS3Uri': sourceDocumentsS3Uri,
-      if (split != null) 'Split': split.toValue(),
+      if (split != null) 'Split': split.value,
     };
   }
 }
@@ -4920,7 +4904,7 @@ class BatchDetectSentimentItemResult {
   factory BatchDetectSentimentItemResult.fromJson(Map<String, dynamic> json) {
     return BatchDetectSentimentItemResult(
       index: json['Index'] as int?,
-      sentiment: (json['Sentiment'] as String?)?.toSentimentType(),
+      sentiment: (json['Sentiment'] as String?)?.let(SentimentType.fromString),
       sentimentScore: json['SentimentScore'] != null
           ? SentimentScore.fromJson(
               json['SentimentScore'] as Map<String, dynamic>)
@@ -5152,7 +5136,7 @@ class Block {
 
   factory Block.fromJson(Map<String, dynamic> json) {
     return Block(
-      blockType: (json['BlockType'] as String?)?.toBlockType(),
+      blockType: (json['BlockType'] as String?)?.let(BlockType.fromString),
       geometry: json['Geometry'] != null
           ? Geometry.fromJson(json['Geometry'] as Map<String, dynamic>)
           : null,
@@ -5202,31 +5186,17 @@ class BlockReference {
 }
 
 enum BlockType {
-  line,
-  word,
-}
+  line('LINE'),
+  word('WORD'),
+  ;
 
-extension BlockTypeValueExtension on BlockType {
-  String toValue() {
-    switch (this) {
-      case BlockType.line:
-        return 'LINE';
-      case BlockType.word:
-        return 'WORD';
-    }
-  }
-}
+  final String value;
 
-extension BlockTypeFromString on String {
-  BlockType toBlockType() {
-    switch (this) {
-      case 'LINE':
-        return BlockType.line;
-      case 'WORD':
-        return BlockType.word;
-    }
-    throw Exception('$this is not known in enum BlockType');
-  }
+  const BlockType(this.value);
+
+  static BlockType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum BlockType'));
 }
 
 /// The bounding box around the detected page or around an element on a document
@@ -5704,7 +5674,7 @@ class DatasetAugmentedManifestsListItem {
       'S3Uri': s3Uri,
       if (annotationDataS3Uri != null)
         'AnnotationDataS3Uri': annotationDataS3Uri,
-      if (documentType != null) 'DocumentType': documentType.toValue(),
+      if (documentType != null) 'DocumentType': documentType.value,
       if (sourceDocumentsS3Uri != null)
         'SourceDocumentsS3Uri': sourceDocumentsS3Uri,
     };
@@ -5712,31 +5682,18 @@ class DatasetAugmentedManifestsListItem {
 }
 
 enum DatasetDataFormat {
-  comprehendCsv,
-  augmentedManifest,
-}
+  comprehendCsv('COMPREHEND_CSV'),
+  augmentedManifest('AUGMENTED_MANIFEST'),
+  ;
 
-extension DatasetDataFormatValueExtension on DatasetDataFormat {
-  String toValue() {
-    switch (this) {
-      case DatasetDataFormat.comprehendCsv:
-        return 'COMPREHEND_CSV';
-      case DatasetDataFormat.augmentedManifest:
-        return 'AUGMENTED_MANIFEST';
-    }
-  }
-}
+  final String value;
 
-extension DatasetDataFormatFromString on String {
-  DatasetDataFormat toDatasetDataFormat() {
-    switch (this) {
-      case 'COMPREHEND_CSV':
-        return DatasetDataFormat.comprehendCsv;
-      case 'AUGMENTED_MANIFEST':
-        return DatasetDataFormat.augmentedManifest;
-    }
-    throw Exception('$this is not known in enum DatasetDataFormat');
-  }
+  const DatasetDataFormat(this.value);
+
+  static DatasetDataFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DatasetDataFormat'));
 }
 
 /// Describes the dataset input data configuration for a document classifier
@@ -5829,7 +5786,7 @@ class DatasetEntityRecognizerDocuments {
     final inputFormat = this.inputFormat;
     return {
       'S3Uri': s3Uri,
-      if (inputFormat != null) 'InputFormat': inputFormat.toValue(),
+      if (inputFormat != null) 'InputFormat': inputFormat.value,
     };
   }
 }
@@ -5919,8 +5876,8 @@ class DatasetFilter {
         'CreationTimeAfter': unixTimestampToJson(creationTimeAfter),
       if (creationTimeBefore != null)
         'CreationTimeBefore': unixTimestampToJson(creationTimeBefore),
-      if (datasetType != null) 'DatasetType': datasetType.toValue(),
-      if (status != null) 'Status': status.toValue(),
+      if (datasetType != null) 'DatasetType': datasetType.value,
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -5965,7 +5922,7 @@ class DatasetInputDataConfig {
         this.entityRecognizerInputDataConfig;
     return {
       if (augmentedManifests != null) 'AugmentedManifests': augmentedManifests,
-      if (dataFormat != null) 'DataFormat': dataFormat.toValue(),
+      if (dataFormat != null) 'DataFormat': dataFormat.value,
       if (documentClassifierInputDataConfig != null)
         'DocumentClassifierInputDataConfig': documentClassifierInputDataConfig,
       if (entityRecognizerInputDataConfig != null)
@@ -6027,75 +5984,45 @@ class DatasetProperties {
       datasetArn: json['DatasetArn'] as String?,
       datasetName: json['DatasetName'] as String?,
       datasetS3Uri: json['DatasetS3Uri'] as String?,
-      datasetType: (json['DatasetType'] as String?)?.toDatasetType(),
+      datasetType:
+          (json['DatasetType'] as String?)?.let(DatasetType.fromString),
       description: json['Description'] as String?,
       endTime: timeStampFromJson(json['EndTime']),
       message: json['Message'] as String?,
       numberOfDocuments: json['NumberOfDocuments'] as int?,
-      status: (json['Status'] as String?)?.toDatasetStatus(),
+      status: (json['Status'] as String?)?.let(DatasetStatus.fromString),
     );
   }
 }
 
 enum DatasetStatus {
-  creating,
-  completed,
-  failed,
-}
+  creating('CREATING'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  ;
 
-extension DatasetStatusValueExtension on DatasetStatus {
-  String toValue() {
-    switch (this) {
-      case DatasetStatus.creating:
-        return 'CREATING';
-      case DatasetStatus.completed:
-        return 'COMPLETED';
-      case DatasetStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension DatasetStatusFromString on String {
-  DatasetStatus toDatasetStatus() {
-    switch (this) {
-      case 'CREATING':
-        return DatasetStatus.creating;
-      case 'COMPLETED':
-        return DatasetStatus.completed;
-      case 'FAILED':
-        return DatasetStatus.failed;
-    }
-    throw Exception('$this is not known in enum DatasetStatus');
-  }
+  const DatasetStatus(this.value);
+
+  static DatasetStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DatasetStatus'));
 }
 
 enum DatasetType {
-  train,
-  test,
-}
+  train('TRAIN'),
+  test('TEST'),
+  ;
 
-extension DatasetTypeValueExtension on DatasetType {
-  String toValue() {
-    switch (this) {
-      case DatasetType.train:
-        return 'TRAIN';
-      case DatasetType.test:
-        return 'TEST';
-    }
-  }
-}
+  final String value;
 
-extension DatasetTypeFromString on String {
-  DatasetType toDatasetType() {
-    switch (this) {
-      case 'TRAIN':
-        return DatasetType.train;
-      case 'TEST':
-        return DatasetType.test;
-    }
-    throw Exception('$this is not known in enum DatasetType');
-  }
+  const DatasetType(this.value);
+
+  static DatasetType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum DatasetType'));
 }
 
 class DeleteDocumentClassifierResponse {
@@ -6629,7 +6556,7 @@ class DetectSentimentResponse {
 
   factory DetectSentimentResponse.fromJson(Map<String, dynamic> json) {
     return DetectSentimentResponse(
-      sentiment: (json['Sentiment'] as String?)?.toSentimentType(),
+      sentiment: (json['Sentiment'] as String?)?.let(SentimentType.fromString),
       sentimentScore: json['SentimentScore'] != null
           ? SentimentScore.fromJson(
               json['SentimentScore'] as Map<String, dynamic>)
@@ -6746,7 +6673,7 @@ class DocumentClassificationConfig {
 
   factory DocumentClassificationConfig.fromJson(Map<String, dynamic> json) {
     return DocumentClassificationConfig(
-      mode: (json['Mode'] as String).toDocumentClassifierMode(),
+      mode: DocumentClassifierMode.fromString((json['Mode'] as String)),
       labels: (json['Labels'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -6758,7 +6685,7 @@ class DocumentClassificationConfig {
     final mode = this.mode;
     final labels = this.labels;
     return {
-      'Mode': mode.toValue(),
+      'Mode': mode.value,
       if (labels != null) 'Labels': labels,
     };
   }
@@ -6799,7 +6726,7 @@ class DocumentClassificationJobFilter {
     final submitTimeBefore = this.submitTimeBefore;
     return {
       if (jobName != null) 'JobName': jobName,
-      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (jobStatus != null) 'JobStatus': jobStatus.value,
       if (submitTimeAfter != null)
         'SubmitTimeAfter': unixTimestampToJson(submitTimeAfter),
       if (submitTimeBefore != null)
@@ -6914,7 +6841,7 @@ class DocumentClassificationJobProperties {
       jobArn: json['JobArn'] as String?,
       jobId: json['JobId'] as String?,
       jobName: json['JobName'] as String?,
-      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      jobStatus: (json['JobStatus'] as String?)?.let(JobStatus.fromString),
       message: json['Message'] as String?,
       outputDataConfig: json['OutputDataConfig'] != null
           ? OutputDataConfig.fromJson(
@@ -6930,63 +6857,33 @@ class DocumentClassificationJobProperties {
 }
 
 enum DocumentClassifierDataFormat {
-  comprehendCsv,
-  augmentedManifest,
-}
+  comprehendCsv('COMPREHEND_CSV'),
+  augmentedManifest('AUGMENTED_MANIFEST'),
+  ;
 
-extension DocumentClassifierDataFormatValueExtension
-    on DocumentClassifierDataFormat {
-  String toValue() {
-    switch (this) {
-      case DocumentClassifierDataFormat.comprehendCsv:
-        return 'COMPREHEND_CSV';
-      case DocumentClassifierDataFormat.augmentedManifest:
-        return 'AUGMENTED_MANIFEST';
-    }
-  }
-}
+  final String value;
 
-extension DocumentClassifierDataFormatFromString on String {
-  DocumentClassifierDataFormat toDocumentClassifierDataFormat() {
-    switch (this) {
-      case 'COMPREHEND_CSV':
-        return DocumentClassifierDataFormat.comprehendCsv;
-      case 'AUGMENTED_MANIFEST':
-        return DocumentClassifierDataFormat.augmentedManifest;
-    }
-    throw Exception('$this is not known in enum DocumentClassifierDataFormat');
-  }
+  const DocumentClassifierDataFormat(this.value);
+
+  static DocumentClassifierDataFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DocumentClassifierDataFormat'));
 }
 
 enum DocumentClassifierDocumentTypeFormat {
-  plainTextDocument,
-  semiStructuredDocument,
-}
+  plainTextDocument('PLAIN_TEXT_DOCUMENT'),
+  semiStructuredDocument('SEMI_STRUCTURED_DOCUMENT'),
+  ;
 
-extension DocumentClassifierDocumentTypeFormatValueExtension
-    on DocumentClassifierDocumentTypeFormat {
-  String toValue() {
-    switch (this) {
-      case DocumentClassifierDocumentTypeFormat.plainTextDocument:
-        return 'PLAIN_TEXT_DOCUMENT';
-      case DocumentClassifierDocumentTypeFormat.semiStructuredDocument:
-        return 'SEMI_STRUCTURED_DOCUMENT';
-    }
-  }
-}
+  final String value;
 
-extension DocumentClassifierDocumentTypeFormatFromString on String {
-  DocumentClassifierDocumentTypeFormat
-      toDocumentClassifierDocumentTypeFormat() {
-    switch (this) {
-      case 'PLAIN_TEXT_DOCUMENT':
-        return DocumentClassifierDocumentTypeFormat.plainTextDocument;
-      case 'SEMI_STRUCTURED_DOCUMENT':
-        return DocumentClassifierDocumentTypeFormat.semiStructuredDocument;
-    }
-    throw Exception(
-        '$this is not known in enum DocumentClassifierDocumentTypeFormat');
-  }
+  const DocumentClassifierDocumentTypeFormat(this.value);
+
+  static DocumentClassifierDocumentTypeFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DocumentClassifierDocumentTypeFormat'));
 }
 
 /// The location of the training documents. This parameter is required in a
@@ -7059,7 +6956,7 @@ class DocumentClassifierFilter {
     return {
       if (documentClassifierName != null)
         'DocumentClassifierName': documentClassifierName,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (submitTimeAfter != null)
         'SubmitTimeAfter': unixTimestampToJson(submitTimeAfter),
       if (submitTimeBefore != null)
@@ -7162,14 +7059,14 @@ class DocumentClassifierInputDataConfig {
           .map((e) =>
               AugmentedManifestsListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
-      dataFormat:
-          (json['DataFormat'] as String?)?.toDocumentClassifierDataFormat(),
+      dataFormat: (json['DataFormat'] as String?)
+          ?.let(DocumentClassifierDataFormat.fromString),
       documentReaderConfig: json['DocumentReaderConfig'] != null
           ? DocumentReaderConfig.fromJson(
               json['DocumentReaderConfig'] as Map<String, dynamic>)
           : null,
       documentType: (json['DocumentType'] as String?)
-          ?.toDocumentClassifierDocumentTypeFormat(),
+          ?.let(DocumentClassifierDocumentTypeFormat.fromString),
       documents: json['Documents'] != null
           ? DocumentClassifierDocuments.fromJson(
               json['Documents'] as Map<String, dynamic>)
@@ -7191,10 +7088,10 @@ class DocumentClassifierInputDataConfig {
     final testS3Uri = this.testS3Uri;
     return {
       if (augmentedManifests != null) 'AugmentedManifests': augmentedManifests,
-      if (dataFormat != null) 'DataFormat': dataFormat.toValue(),
+      if (dataFormat != null) 'DataFormat': dataFormat.value,
       if (documentReaderConfig != null)
         'DocumentReaderConfig': documentReaderConfig,
-      if (documentType != null) 'DocumentType': documentType.toValue(),
+      if (documentType != null) 'DocumentType': documentType.value,
       if (documents != null) 'Documents': documents,
       if (labelDelimiter != null) 'LabelDelimiter': labelDelimiter,
       if (s3Uri != null) 'S3Uri': s3Uri,
@@ -7204,31 +7101,18 @@ class DocumentClassifierInputDataConfig {
 }
 
 enum DocumentClassifierMode {
-  multiClass,
-  multiLabel,
-}
+  multiClass('MULTI_CLASS'),
+  multiLabel('MULTI_LABEL'),
+  ;
 
-extension DocumentClassifierModeValueExtension on DocumentClassifierMode {
-  String toValue() {
-    switch (this) {
-      case DocumentClassifierMode.multiClass:
-        return 'MULTI_CLASS';
-      case DocumentClassifierMode.multiLabel:
-        return 'MULTI_LABEL';
-    }
-  }
-}
+  final String value;
 
-extension DocumentClassifierModeFromString on String {
-  DocumentClassifierMode toDocumentClassifierMode() {
-    switch (this) {
-      case 'MULTI_CLASS':
-        return DocumentClassifierMode.multiClass;
-      case 'MULTI_LABEL':
-        return DocumentClassifierMode.multiLabel;
-    }
-    throw Exception('$this is not known in enum DocumentClassifierMode');
-  }
+  const DocumentClassifierMode(this.value);
+
+  static DocumentClassifierMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DocumentClassifierMode'));
 }
 
 /// Provide the location for output data from a custom classifier job. This
@@ -7444,16 +7328,17 @@ class DocumentClassifierProperties {
           ? DocumentClassifierInputDataConfig.fromJson(
               json['InputDataConfig'] as Map<String, dynamic>)
           : null,
-      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
       message: json['Message'] as String?,
-      mode: (json['Mode'] as String?)?.toDocumentClassifierMode(),
+      mode: (json['Mode'] as String?)?.let(DocumentClassifierMode.fromString),
       modelKmsKeyId: json['ModelKmsKeyId'] as String?,
       outputDataConfig: json['OutputDataConfig'] != null
           ? DocumentClassifierOutputDataConfig.fromJson(
               json['OutputDataConfig'] as Map<String, dynamic>)
           : null,
       sourceModelArn: json['SourceModelArn'] as String?,
-      status: (json['Status'] as String?)?.toModelStatus(),
+      status: (json['Status'] as String?)?.let(ModelStatus.fromString),
       submitTime: timeStampFromJson(json['SubmitTime']),
       trainingEndTime: timeStampFromJson(json['TrainingEndTime']),
       trainingStartTime: timeStampFromJson(json['TrainingStartTime']),
@@ -7498,7 +7383,7 @@ class DocumentClassifierSummary {
       latestVersionCreatedAt: timeStampFromJson(json['LatestVersionCreatedAt']),
       latestVersionName: json['LatestVersionName'] as String?,
       latestVersionStatus:
-          (json['LatestVersionStatus'] as String?)?.toModelStatus(),
+          (json['LatestVersionStatus'] as String?)?.let(ModelStatus.fromString),
       numberOfVersions: json['NumberOfVersions'] as int?,
     );
   }
@@ -7560,88 +7445,49 @@ class DocumentMetadata {
 }
 
 enum DocumentReadAction {
-  textractDetectDocumentText,
-  textractAnalyzeDocument,
-}
+  textractDetectDocumentText('TEXTRACT_DETECT_DOCUMENT_TEXT'),
+  textractAnalyzeDocument('TEXTRACT_ANALYZE_DOCUMENT'),
+  ;
 
-extension DocumentReadActionValueExtension on DocumentReadAction {
-  String toValue() {
-    switch (this) {
-      case DocumentReadAction.textractDetectDocumentText:
-        return 'TEXTRACT_DETECT_DOCUMENT_TEXT';
-      case DocumentReadAction.textractAnalyzeDocument:
-        return 'TEXTRACT_ANALYZE_DOCUMENT';
-    }
-  }
-}
+  final String value;
 
-extension DocumentReadActionFromString on String {
-  DocumentReadAction toDocumentReadAction() {
-    switch (this) {
-      case 'TEXTRACT_DETECT_DOCUMENT_TEXT':
-        return DocumentReadAction.textractDetectDocumentText;
-      case 'TEXTRACT_ANALYZE_DOCUMENT':
-        return DocumentReadAction.textractAnalyzeDocument;
-    }
-    throw Exception('$this is not known in enum DocumentReadAction');
-  }
+  const DocumentReadAction(this.value);
+
+  static DocumentReadAction fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DocumentReadAction'));
 }
 
 /// TABLES or FORMS
 enum DocumentReadFeatureTypes {
-  tables,
-  forms,
-}
+  tables('TABLES'),
+  forms('FORMS'),
+  ;
 
-extension DocumentReadFeatureTypesValueExtension on DocumentReadFeatureTypes {
-  String toValue() {
-    switch (this) {
-      case DocumentReadFeatureTypes.tables:
-        return 'TABLES';
-      case DocumentReadFeatureTypes.forms:
-        return 'FORMS';
-    }
-  }
-}
+  final String value;
 
-extension DocumentReadFeatureTypesFromString on String {
-  DocumentReadFeatureTypes toDocumentReadFeatureTypes() {
-    switch (this) {
-      case 'TABLES':
-        return DocumentReadFeatureTypes.tables;
-      case 'FORMS':
-        return DocumentReadFeatureTypes.forms;
-    }
-    throw Exception('$this is not known in enum DocumentReadFeatureTypes');
-  }
+  const DocumentReadFeatureTypes(this.value);
+
+  static DocumentReadFeatureTypes fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DocumentReadFeatureTypes'));
 }
 
 enum DocumentReadMode {
-  serviceDefault,
-  forceDocumentReadAction,
-}
+  serviceDefault('SERVICE_DEFAULT'),
+  forceDocumentReadAction('FORCE_DOCUMENT_READ_ACTION'),
+  ;
 
-extension DocumentReadModeValueExtension on DocumentReadMode {
-  String toValue() {
-    switch (this) {
-      case DocumentReadMode.serviceDefault:
-        return 'SERVICE_DEFAULT';
-      case DocumentReadMode.forceDocumentReadAction:
-        return 'FORCE_DOCUMENT_READ_ACTION';
-    }
-  }
-}
+  final String value;
 
-extension DocumentReadModeFromString on String {
-  DocumentReadMode toDocumentReadMode() {
-    switch (this) {
-      case 'SERVICE_DEFAULT':
-        return DocumentReadMode.serviceDefault;
-      case 'FORCE_DOCUMENT_READ_ACTION':
-        return DocumentReadMode.forceDocumentReadAction;
-    }
-    throw Exception('$this is not known in enum DocumentReadMode');
-  }
+  const DocumentReadMode(this.value);
+
+  static DocumentReadMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DocumentReadMode'));
 }
 
 /// Provides configuration parameters to override the default actions for
@@ -7727,12 +7573,12 @@ class DocumentReaderConfig {
   factory DocumentReaderConfig.fromJson(Map<String, dynamic> json) {
     return DocumentReaderConfig(
       documentReadAction:
-          (json['DocumentReadAction'] as String).toDocumentReadAction(),
-      documentReadMode:
-          (json['DocumentReadMode'] as String?)?.toDocumentReadMode(),
+          DocumentReadAction.fromString((json['DocumentReadAction'] as String)),
+      documentReadMode: (json['DocumentReadMode'] as String?)
+          ?.let(DocumentReadMode.fromString),
       featureTypes: (json['FeatureTypes'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toDocumentReadFeatureTypes())
+          .map((e) => DocumentReadFeatureTypes.fromString((e as String)))
           .toList(),
     );
   }
@@ -7742,66 +7588,32 @@ class DocumentReaderConfig {
     final documentReadMode = this.documentReadMode;
     final featureTypes = this.featureTypes;
     return {
-      'DocumentReadAction': documentReadAction.toValue(),
-      if (documentReadMode != null)
-        'DocumentReadMode': documentReadMode.toValue(),
+      'DocumentReadAction': documentReadAction.value,
+      if (documentReadMode != null) 'DocumentReadMode': documentReadMode.value,
       if (featureTypes != null)
-        'FeatureTypes': featureTypes.map((e) => e.toValue()).toList(),
+        'FeatureTypes': featureTypes.map((e) => e.value).toList(),
     };
   }
 }
 
 enum DocumentType {
-  nativePdf,
-  scannedPdf,
-  msWord,
-  image,
-  plainText,
-  textractDetectDocumentTextJson,
-  textractAnalyzeDocumentJson,
-}
+  nativePdf('NATIVE_PDF'),
+  scannedPdf('SCANNED_PDF'),
+  msWord('MS_WORD'),
+  image('IMAGE'),
+  plainText('PLAIN_TEXT'),
+  textractDetectDocumentTextJson('TEXTRACT_DETECT_DOCUMENT_TEXT_JSON'),
+  textractAnalyzeDocumentJson('TEXTRACT_ANALYZE_DOCUMENT_JSON'),
+  ;
 
-extension DocumentTypeValueExtension on DocumentType {
-  String toValue() {
-    switch (this) {
-      case DocumentType.nativePdf:
-        return 'NATIVE_PDF';
-      case DocumentType.scannedPdf:
-        return 'SCANNED_PDF';
-      case DocumentType.msWord:
-        return 'MS_WORD';
-      case DocumentType.image:
-        return 'IMAGE';
-      case DocumentType.plainText:
-        return 'PLAIN_TEXT';
-      case DocumentType.textractDetectDocumentTextJson:
-        return 'TEXTRACT_DETECT_DOCUMENT_TEXT_JSON';
-      case DocumentType.textractAnalyzeDocumentJson:
-        return 'TEXTRACT_ANALYZE_DOCUMENT_JSON';
-    }
-  }
-}
+  final String value;
 
-extension DocumentTypeFromString on String {
-  DocumentType toDocumentType() {
-    switch (this) {
-      case 'NATIVE_PDF':
-        return DocumentType.nativePdf;
-      case 'SCANNED_PDF':
-        return DocumentType.scannedPdf;
-      case 'MS_WORD':
-        return DocumentType.msWord;
-      case 'IMAGE':
-        return DocumentType.image;
-      case 'PLAIN_TEXT':
-        return DocumentType.plainText;
-      case 'TEXTRACT_DETECT_DOCUMENT_TEXT_JSON':
-        return DocumentType.textractDetectDocumentTextJson;
-      case 'TEXTRACT_ANALYZE_DOCUMENT_JSON':
-        return DocumentType.textractAnalyzeDocumentJson;
-    }
-    throw Exception('$this is not known in enum DocumentType');
-  }
+  const DocumentType(this.value);
+
+  static DocumentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DocumentType'));
 }
 
 /// Document type for each page in the document.
@@ -7820,7 +7632,7 @@ class DocumentTypeListItem {
   factory DocumentTypeListItem.fromJson(Map<String, dynamic> json) {
     return DocumentTypeListItem(
       page: json['Page'] as int?,
-      type: (json['Type'] as String?)?.toDocumentType(),
+      type: (json['Type'] as String?)?.let(DocumentType.fromString),
     );
   }
 }
@@ -7884,7 +7696,7 @@ class DominantLanguageDetectionJobFilter {
     final submitTimeBefore = this.submitTimeBefore;
     return {
       if (jobName != null) 'JobName': jobName,
-      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (jobStatus != null) 'JobStatus': jobStatus.value,
       if (submitTimeAfter != null)
         'SubmitTimeAfter': unixTimestampToJson(submitTimeAfter),
       if (submitTimeBefore != null)
@@ -7990,7 +7802,7 @@ class DominantLanguageDetectionJobProperties {
       jobArn: json['JobArn'] as String?,
       jobId: json['JobId'] as String?,
       jobName: json['JobName'] as String?,
-      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      jobStatus: (json['JobStatus'] as String?)?.let(JobStatus.fromString),
       message: json['Message'] as String?,
       outputDataConfig: json['OutputDataConfig'] != null
           ? OutputDataConfig.fromJson(
@@ -8043,7 +7855,7 @@ class EndpointFilter {
       if (creationTimeBefore != null)
         'CreationTimeBefore': unixTimestampToJson(creationTimeBefore),
       if (modelArn != null) 'ModelArn': modelArn,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -8127,52 +7939,27 @@ class EndpointProperties {
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       message: json['Message'] as String?,
       modelArn: json['ModelArn'] as String?,
-      status: (json['Status'] as String?)?.toEndpointStatus(),
+      status: (json['Status'] as String?)?.let(EndpointStatus.fromString),
     );
   }
 }
 
 enum EndpointStatus {
-  creating,
-  deleting,
-  failed,
-  inService,
-  updating,
-}
+  creating('CREATING'),
+  deleting('DELETING'),
+  failed('FAILED'),
+  inService('IN_SERVICE'),
+  updating('UPDATING'),
+  ;
 
-extension EndpointStatusValueExtension on EndpointStatus {
-  String toValue() {
-    switch (this) {
-      case EndpointStatus.creating:
-        return 'CREATING';
-      case EndpointStatus.deleting:
-        return 'DELETING';
-      case EndpointStatus.failed:
-        return 'FAILED';
-      case EndpointStatus.inService:
-        return 'IN_SERVICE';
-      case EndpointStatus.updating:
-        return 'UPDATING';
-    }
-  }
-}
+  final String value;
 
-extension EndpointStatusFromString on String {
-  EndpointStatus toEndpointStatus() {
-    switch (this) {
-      case 'CREATING':
-        return EndpointStatus.creating;
-      case 'DELETING':
-        return EndpointStatus.deleting;
-      case 'FAILED':
-        return EndpointStatus.failed;
-      case 'IN_SERVICE':
-        return EndpointStatus.inService;
-      case 'UPDATING':
-        return EndpointStatus.updating;
-    }
-    throw Exception('$this is not known in enum EndpointStatus');
-  }
+  const EndpointStatus(this.value);
+
+  static EndpointStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EndpointStatus'));
 }
 
 /// Provides information for filtering a list of dominant language detection
@@ -8209,7 +7996,7 @@ class EntitiesDetectionJobFilter {
     final submitTimeBefore = this.submitTimeBefore;
     return {
       if (jobName != null) 'JobName': jobName,
-      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (jobStatus != null) 'JobStatus': jobStatus.value,
       if (submitTimeAfter != null)
         'SubmitTimeAfter': unixTimestampToJson(submitTimeAfter),
       if (submitTimeBefore != null)
@@ -8327,8 +8114,9 @@ class EntitiesDetectionJobProperties {
       jobArn: json['JobArn'] as String?,
       jobId: json['JobId'] as String?,
       jobName: json['JobName'] as String?,
-      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
-      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      jobStatus: (json['JobStatus'] as String?)?.let(JobStatus.fromString),
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
       message: json['Message'] as String?,
       outputDataConfig: json['OutputDataConfig'] != null
           ? OutputDataConfig.fromJson(
@@ -8396,7 +8184,7 @@ class Entity {
       endOffset: json['EndOffset'] as int?,
       score: json['Score'] as double?,
       text: json['Text'] as String?,
-      type: (json['Type'] as String?)?.toEntityType(),
+      type: (json['Type'] as String?)?.let(EntityType.fromString),
     );
   }
 }
@@ -8418,7 +8206,7 @@ class EntityLabel {
 
   factory EntityLabel.fromJson(Map<String, dynamic> json) {
     return EntityLabel(
-      name: (json['Name'] as String?)?.toPiiEntityType(),
+      name: (json['Name'] as String?)?.let(PiiEntityType.fromString),
       score: json['Score'] as double?,
     );
   }
@@ -8485,32 +8273,18 @@ class EntityRecognizerAnnotations {
 }
 
 enum EntityRecognizerDataFormat {
-  comprehendCsv,
-  augmentedManifest,
-}
+  comprehendCsv('COMPREHEND_CSV'),
+  augmentedManifest('AUGMENTED_MANIFEST'),
+  ;
 
-extension EntityRecognizerDataFormatValueExtension
-    on EntityRecognizerDataFormat {
-  String toValue() {
-    switch (this) {
-      case EntityRecognizerDataFormat.comprehendCsv:
-        return 'COMPREHEND_CSV';
-      case EntityRecognizerDataFormat.augmentedManifest:
-        return 'AUGMENTED_MANIFEST';
-    }
-  }
-}
+  final String value;
 
-extension EntityRecognizerDataFormatFromString on String {
-  EntityRecognizerDataFormat toEntityRecognizerDataFormat() {
-    switch (this) {
-      case 'COMPREHEND_CSV':
-        return EntityRecognizerDataFormat.comprehendCsv;
-      case 'AUGMENTED_MANIFEST':
-        return EntityRecognizerDataFormat.augmentedManifest;
-    }
-    throw Exception('$this is not known in enum EntityRecognizerDataFormat');
-  }
+  const EntityRecognizerDataFormat(this.value);
+
+  static EntityRecognizerDataFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum EntityRecognizerDataFormat'));
 }
 
 /// Describes the training documents submitted with an entity recognizer.
@@ -8543,7 +8317,8 @@ class EntityRecognizerDocuments {
   factory EntityRecognizerDocuments.fromJson(Map<String, dynamic> json) {
     return EntityRecognizerDocuments(
       s3Uri: json['S3Uri'] as String,
-      inputFormat: (json['InputFormat'] as String?)?.toInputFormat(),
+      inputFormat:
+          (json['InputFormat'] as String?)?.let(InputFormat.fromString),
       testS3Uri: json['TestS3Uri'] as String?,
     );
   }
@@ -8554,7 +8329,7 @@ class EntityRecognizerDocuments {
     final testS3Uri = this.testS3Uri;
     return {
       'S3Uri': s3Uri,
-      if (inputFormat != null) 'InputFormat': inputFormat.toValue(),
+      if (inputFormat != null) 'InputFormat': inputFormat.value,
       if (testS3Uri != null) 'TestS3Uri': testS3Uri,
     };
   }
@@ -8653,7 +8428,7 @@ class EntityRecognizerFilter {
     final submitTimeBefore = this.submitTimeBefore;
     return {
       if (recognizerName != null) 'RecognizerName': recognizerName,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (submitTimeAfter != null)
         'SubmitTimeAfter': unixTimestampToJson(submitTimeAfter),
       if (submitTimeBefore != null)
@@ -8749,8 +8524,8 @@ class EntityRecognizerInputDataConfig {
           .map((e) =>
               AugmentedManifestsListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
-      dataFormat:
-          (json['DataFormat'] as String?)?.toEntityRecognizerDataFormat(),
+      dataFormat: (json['DataFormat'] as String?)
+          ?.let(EntityRecognizerDataFormat.fromString),
       documents: json['Documents'] != null
           ? EntityRecognizerDocuments.fromJson(
               json['Documents'] as Map<String, dynamic>)
@@ -8773,7 +8548,7 @@ class EntityRecognizerInputDataConfig {
       'EntityTypes': entityTypes,
       if (annotations != null) 'Annotations': annotations,
       if (augmentedManifests != null) 'AugmentedManifests': augmentedManifests,
-      if (dataFormat != null) 'DataFormat': dataFormat.toValue(),
+      if (dataFormat != null) 'DataFormat': dataFormat.value,
       if (documents != null) 'Documents': documents,
       if (entityList != null) 'EntityList': entityList,
     };
@@ -8989,7 +8764,8 @@ class EntityRecognizerProperties {
           ? EntityRecognizerInputDataConfig.fromJson(
               json['InputDataConfig'] as Map<String, dynamic>)
           : null,
-      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
       message: json['Message'] as String?,
       modelKmsKeyId: json['ModelKmsKeyId'] as String?,
       outputDataConfig: json['OutputDataConfig'] != null
@@ -9001,7 +8777,7 @@ class EntityRecognizerProperties {
               json['RecognizerMetadata'] as Map<String, dynamic>)
           : null,
       sourceModelArn: json['SourceModelArn'] as String?,
-      status: (json['Status'] as String?)?.toModelStatus(),
+      status: (json['Status'] as String?)?.let(ModelStatus.fromString),
       submitTime: timeStampFromJson(json['SubmitTime']),
       trainingEndTime: timeStampFromJson(json['TrainingEndTime']),
       trainingStartTime: timeStampFromJson(json['TrainingStartTime']),
@@ -9045,7 +8821,7 @@ class EntityRecognizerSummary {
       latestVersionCreatedAt: timeStampFromJson(json['LatestVersionCreatedAt']),
       latestVersionName: json['LatestVersionName'] as String?,
       latestVersionStatus:
-          (json['LatestVersionStatus'] as String?)?.toModelStatus(),
+          (json['LatestVersionStatus'] as String?)?.let(ModelStatus.fromString),
       numberOfVersions: json['NumberOfVersions'] as int?,
       recognizerName: json['RecognizerName'] as String?,
     );
@@ -9053,66 +8829,24 @@ class EntityRecognizerSummary {
 }
 
 enum EntityType {
-  person,
-  location,
-  organization,
-  commercialItem,
-  event,
-  date,
-  quantity,
-  title,
-  other,
-}
+  person('PERSON'),
+  location('LOCATION'),
+  organization('ORGANIZATION'),
+  commercialItem('COMMERCIAL_ITEM'),
+  event('EVENT'),
+  date('DATE'),
+  quantity('QUANTITY'),
+  title('TITLE'),
+  other('OTHER'),
+  ;
 
-extension EntityTypeValueExtension on EntityType {
-  String toValue() {
-    switch (this) {
-      case EntityType.person:
-        return 'PERSON';
-      case EntityType.location:
-        return 'LOCATION';
-      case EntityType.organization:
-        return 'ORGANIZATION';
-      case EntityType.commercialItem:
-        return 'COMMERCIAL_ITEM';
-      case EntityType.event:
-        return 'EVENT';
-      case EntityType.date:
-        return 'DATE';
-      case EntityType.quantity:
-        return 'QUANTITY';
-      case EntityType.title:
-        return 'TITLE';
-      case EntityType.other:
-        return 'OTHER';
-    }
-  }
-}
+  final String value;
 
-extension EntityTypeFromString on String {
-  EntityType toEntityType() {
-    switch (this) {
-      case 'PERSON':
-        return EntityType.person;
-      case 'LOCATION':
-        return EntityType.location;
-      case 'ORGANIZATION':
-        return EntityType.organization;
-      case 'COMMERCIAL_ITEM':
-        return EntityType.commercialItem;
-      case 'EVENT':
-        return EntityType.event;
-      case 'DATE':
-        return EntityType.date;
-      case 'QUANTITY':
-        return EntityType.quantity;
-      case 'TITLE':
-        return EntityType.title;
-      case 'OTHER':
-        return EntityType.other;
-    }
-    throw Exception('$this is not known in enum EntityType');
-  }
+  const EntityType(this.value);
+
+  static EntityType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum EntityType'));
 }
 
 /// Detailed information about the accuracy of an entity recognizer for a
@@ -9227,7 +8961,8 @@ class ErrorsListItem {
 
   factory ErrorsListItem.fromJson(Map<String, dynamic> json) {
     return ErrorsListItem(
-      errorCode: (json['ErrorCode'] as String?)?.toPageBasedErrorCode(),
+      errorCode:
+          (json['ErrorCode'] as String?)?.let(PageBasedErrorCode.fromString),
       errorMessage: json['ErrorMessage'] as String?,
       page: json['Page'] as int?,
     );
@@ -9267,7 +9002,7 @@ class EventsDetectionJobFilter {
     final submitTimeBefore = this.submitTimeBefore;
     return {
       if (jobName != null) 'JobName': jobName,
-      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (jobStatus != null) 'JobStatus': jobStatus.value,
       if (submitTimeAfter != null)
         'SubmitTimeAfter': unixTimestampToJson(submitTimeAfter),
       if (submitTimeBefore != null)
@@ -9352,8 +9087,9 @@ class EventsDetectionJobProperties {
       jobArn: json['JobArn'] as String?,
       jobId: json['JobId'] as String?,
       jobName: json['JobName'] as String?,
-      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
-      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      jobStatus: (json['JobStatus'] as String?)?.let(JobStatus.fromString),
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
       message: json['Message'] as String?,
       outputDataConfig: json['OutputDataConfig'] != null
           ? OutputDataConfig.fromJson(
@@ -9415,7 +9151,7 @@ class FlywheelFilter {
         'CreationTimeAfter': unixTimestampToJson(creationTimeAfter),
       if (creationTimeBefore != null)
         'CreationTimeBefore': unixTimestampToJson(creationTimeBefore),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -9507,7 +9243,8 @@ class FlywheelIterationProperties {
       flywheelArn: json['FlywheelArn'] as String?,
       flywheelIterationId: json['FlywheelIterationId'] as String?,
       message: json['Message'] as String?,
-      status: (json['Status'] as String?)?.toFlywheelIterationStatus(),
+      status:
+          (json['Status'] as String?)?.let(FlywheelIterationStatus.fromString),
       trainedModelArn: json['TrainedModelArn'] as String?,
       trainedModelMetrics: json['TrainedModelMetrics'] != null
           ? FlywheelModelEvaluationMetrics.fromJson(
@@ -9518,51 +9255,22 @@ class FlywheelIterationProperties {
 }
 
 enum FlywheelIterationStatus {
-  training,
-  evaluating,
-  completed,
-  failed,
-  stopRequested,
-  stopped,
-}
+  training('TRAINING'),
+  evaluating('EVALUATING'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  stopRequested('STOP_REQUESTED'),
+  stopped('STOPPED'),
+  ;
 
-extension FlywheelIterationStatusValueExtension on FlywheelIterationStatus {
-  String toValue() {
-    switch (this) {
-      case FlywheelIterationStatus.training:
-        return 'TRAINING';
-      case FlywheelIterationStatus.evaluating:
-        return 'EVALUATING';
-      case FlywheelIterationStatus.completed:
-        return 'COMPLETED';
-      case FlywheelIterationStatus.failed:
-        return 'FAILED';
-      case FlywheelIterationStatus.stopRequested:
-        return 'STOP_REQUESTED';
-      case FlywheelIterationStatus.stopped:
-        return 'STOPPED';
-    }
-  }
-}
+  final String value;
 
-extension FlywheelIterationStatusFromString on String {
-  FlywheelIterationStatus toFlywheelIterationStatus() {
-    switch (this) {
-      case 'TRAINING':
-        return FlywheelIterationStatus.training;
-      case 'EVALUATING':
-        return FlywheelIterationStatus.evaluating;
-      case 'COMPLETED':
-        return FlywheelIterationStatus.completed;
-      case 'FAILED':
-        return FlywheelIterationStatus.failed;
-      case 'STOP_REQUESTED':
-        return FlywheelIterationStatus.stopRequested;
-      case 'STOPPED':
-        return FlywheelIterationStatus.stopped;
-    }
-    throw Exception('$this is not known in enum FlywheelIterationStatus');
-  }
+  const FlywheelIterationStatus(this.value);
+
+  static FlywheelIterationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum FlywheelIterationStatus'));
 }
 
 /// The evaluation metrics associated with the evaluated model.
@@ -9664,8 +9372,8 @@ class FlywheelProperties {
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       latestFlywheelIteration: json['LatestFlywheelIteration'] as String?,
       message: json['Message'] as String?,
-      modelType: (json['ModelType'] as String?)?.toModelType(),
-      status: (json['Status'] as String?)?.toFlywheelStatus(),
+      modelType: (json['ModelType'] as String?)?.let(ModelType.fromString),
+      status: (json['Status'] as String?)?.let(FlywheelStatus.fromString),
       taskConfig: json['TaskConfig'] != null
           ? TaskConfig.fromJson(json['TaskConfig'] as Map<String, dynamic>)
           : null,
@@ -9674,46 +9382,21 @@ class FlywheelProperties {
 }
 
 enum FlywheelStatus {
-  creating,
-  active,
-  updating,
-  deleting,
-  failed,
-}
+  creating('CREATING'),
+  active('ACTIVE'),
+  updating('UPDATING'),
+  deleting('DELETING'),
+  failed('FAILED'),
+  ;
 
-extension FlywheelStatusValueExtension on FlywheelStatus {
-  String toValue() {
-    switch (this) {
-      case FlywheelStatus.creating:
-        return 'CREATING';
-      case FlywheelStatus.active:
-        return 'ACTIVE';
-      case FlywheelStatus.updating:
-        return 'UPDATING';
-      case FlywheelStatus.deleting:
-        return 'DELETING';
-      case FlywheelStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension FlywheelStatusFromString on String {
-  FlywheelStatus toFlywheelStatus() {
-    switch (this) {
-      case 'CREATING':
-        return FlywheelStatus.creating;
-      case 'ACTIVE':
-        return FlywheelStatus.active;
-      case 'UPDATING':
-        return FlywheelStatus.updating;
-      case 'DELETING':
-        return FlywheelStatus.deleting;
-      case 'FAILED':
-        return FlywheelStatus.failed;
-    }
-    throw Exception('$this is not known in enum FlywheelStatus');
-  }
+  const FlywheelStatus(this.value);
+
+  static FlywheelStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FlywheelStatus'));
 }
 
 /// Flywheel summary information.
@@ -9766,8 +9449,8 @@ class FlywheelSummary {
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       latestFlywheelIteration: json['LatestFlywheelIteration'] as String?,
       message: json['Message'] as String?,
-      modelType: (json['ModelType'] as String?)?.toModelType(),
-      status: (json['Status'] as String?)?.toFlywheelStatus(),
+      modelType: (json['ModelType'] as String?)?.let(ModelType.fromString),
+      status: (json['Status'] as String?)?.let(FlywheelStatus.fromString),
     );
   }
 }
@@ -9864,7 +9547,8 @@ class InputDataConfig {
           ? DocumentReaderConfig.fromJson(
               json['DocumentReaderConfig'] as Map<String, dynamic>)
           : null,
-      inputFormat: (json['InputFormat'] as String?)?.toInputFormat(),
+      inputFormat:
+          (json['InputFormat'] as String?)?.let(InputFormat.fromString),
     );
   }
 
@@ -9876,85 +9560,41 @@ class InputDataConfig {
       'S3Uri': s3Uri,
       if (documentReaderConfig != null)
         'DocumentReaderConfig': documentReaderConfig,
-      if (inputFormat != null) 'InputFormat': inputFormat.toValue(),
+      if (inputFormat != null) 'InputFormat': inputFormat.value,
     };
   }
 }
 
 enum InputFormat {
-  oneDocPerFile,
-  oneDocPerLine,
-}
+  oneDocPerFile('ONE_DOC_PER_FILE'),
+  oneDocPerLine('ONE_DOC_PER_LINE'),
+  ;
 
-extension InputFormatValueExtension on InputFormat {
-  String toValue() {
-    switch (this) {
-      case InputFormat.oneDocPerFile:
-        return 'ONE_DOC_PER_FILE';
-      case InputFormat.oneDocPerLine:
-        return 'ONE_DOC_PER_LINE';
-    }
-  }
-}
+  final String value;
 
-extension InputFormatFromString on String {
-  InputFormat toInputFormat() {
-    switch (this) {
-      case 'ONE_DOC_PER_FILE':
-        return InputFormat.oneDocPerFile;
-      case 'ONE_DOC_PER_LINE':
-        return InputFormat.oneDocPerLine;
-    }
-    throw Exception('$this is not known in enum InputFormat');
-  }
+  const InputFormat(this.value);
+
+  static InputFormat fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum InputFormat'));
 }
 
 enum JobStatus {
-  submitted,
-  inProgress,
-  completed,
-  failed,
-  stopRequested,
-  stopped,
-}
+  submitted('SUBMITTED'),
+  inProgress('IN_PROGRESS'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  stopRequested('STOP_REQUESTED'),
+  stopped('STOPPED'),
+  ;
 
-extension JobStatusValueExtension on JobStatus {
-  String toValue() {
-    switch (this) {
-      case JobStatus.submitted:
-        return 'SUBMITTED';
-      case JobStatus.inProgress:
-        return 'IN_PROGRESS';
-      case JobStatus.completed:
-        return 'COMPLETED';
-      case JobStatus.failed:
-        return 'FAILED';
-      case JobStatus.stopRequested:
-        return 'STOP_REQUESTED';
-      case JobStatus.stopped:
-        return 'STOPPED';
-    }
-  }
-}
+  final String value;
 
-extension JobStatusFromString on String {
-  JobStatus toJobStatus() {
-    switch (this) {
-      case 'SUBMITTED':
-        return JobStatus.submitted;
-      case 'IN_PROGRESS':
-        return JobStatus.inProgress;
-      case 'COMPLETED':
-        return JobStatus.completed;
-      case 'FAILED':
-        return JobStatus.failed;
-      case 'STOP_REQUESTED':
-        return JobStatus.stopRequested;
-      case 'STOPPED':
-        return JobStatus.stopped;
-    }
-    throw Exception('$this is not known in enum JobStatus');
-  }
+  const JobStatus(this.value);
+
+  static JobStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum JobStatus'));
 }
 
 /// Describes a key noun phrase.
@@ -10025,7 +9665,7 @@ class KeyPhrasesDetectionJobFilter {
     final submitTimeBefore = this.submitTimeBefore;
     return {
       if (jobName != null) 'JobName': jobName,
-      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (jobStatus != null) 'JobStatus': jobStatus.value,
       if (submitTimeAfter != null)
         'SubmitTimeAfter': unixTimestampToJson(submitTimeAfter),
       if (submitTimeBefore != null)
@@ -10132,8 +9772,9 @@ class KeyPhrasesDetectionJobProperties {
       jobArn: json['JobArn'] as String?,
       jobId: json['JobId'] as String?,
       jobName: json['JobName'] as String?,
-      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
-      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      jobStatus: (json['JobStatus'] as String?)?.let(JobStatus.fromString),
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
       message: json['Message'] as String?,
       outputDataConfig: json['OutputDataConfig'] != null
           ? OutputDataConfig.fromJson(
@@ -10149,81 +9790,28 @@ class KeyPhrasesDetectionJobProperties {
 }
 
 enum LanguageCode {
-  en,
-  es,
-  fr,
-  de,
-  it,
-  pt,
-  ar,
-  hi,
-  ja,
-  ko,
-  zh,
-  zhTw,
-}
+  en('en'),
+  es('es'),
+  fr('fr'),
+  de('de'),
+  it('it'),
+  pt('pt'),
+  ar('ar'),
+  hi('hi'),
+  ja('ja'),
+  ko('ko'),
+  zh('zh'),
+  zhTw('zh-TW'),
+  ;
 
-extension LanguageCodeValueExtension on LanguageCode {
-  String toValue() {
-    switch (this) {
-      case LanguageCode.en:
-        return 'en';
-      case LanguageCode.es:
-        return 'es';
-      case LanguageCode.fr:
-        return 'fr';
-      case LanguageCode.de:
-        return 'de';
-      case LanguageCode.it:
-        return 'it';
-      case LanguageCode.pt:
-        return 'pt';
-      case LanguageCode.ar:
-        return 'ar';
-      case LanguageCode.hi:
-        return 'hi';
-      case LanguageCode.ja:
-        return 'ja';
-      case LanguageCode.ko:
-        return 'ko';
-      case LanguageCode.zh:
-        return 'zh';
-      case LanguageCode.zhTw:
-        return 'zh-TW';
-    }
-  }
-}
+  final String value;
 
-extension LanguageCodeFromString on String {
-  LanguageCode toLanguageCode() {
-    switch (this) {
-      case 'en':
-        return LanguageCode.en;
-      case 'es':
-        return LanguageCode.es;
-      case 'fr':
-        return LanguageCode.fr;
-      case 'de':
-        return LanguageCode.de;
-      case 'it':
-        return LanguageCode.it;
-      case 'pt':
-        return LanguageCode.pt;
-      case 'ar':
-        return LanguageCode.ar;
-      case 'hi':
-        return LanguageCode.hi;
-      case 'ja':
-        return LanguageCode.ja;
-      case 'ko':
-        return LanguageCode.ko;
-      case 'zh':
-        return LanguageCode.zh;
-      case 'zh-TW':
-        return LanguageCode.zhTw;
-    }
-    throw Exception('$this is not known in enum LanguageCode');
-  }
+  const LanguageCode(this.value);
+
+  static LanguageCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LanguageCode'));
 }
 
 class ListDatasetsResponse {
@@ -10708,7 +10296,7 @@ class MentionSentiment {
 
   factory MentionSentiment.fromJson(Map<String, dynamic> json) {
     return MentionSentiment(
-      sentiment: (json['Sentiment'] as String?)?.toSentimentType(),
+      sentiment: (json['Sentiment'] as String?)?.let(SentimentType.fromString),
       sentimentScore: json['SentimentScore'] != null
           ? SentimentScore.fromJson(
               json['SentimentScore'] as Map<String, dynamic>)
@@ -10718,89 +10306,37 @@ class MentionSentiment {
 }
 
 enum ModelStatus {
-  submitted,
-  training,
-  deleting,
-  stopRequested,
-  stopped,
-  inError,
-  trained,
-  trainedWithWarning,
-}
+  submitted('SUBMITTED'),
+  training('TRAINING'),
+  deleting('DELETING'),
+  stopRequested('STOP_REQUESTED'),
+  stopped('STOPPED'),
+  inError('IN_ERROR'),
+  trained('TRAINED'),
+  trainedWithWarning('TRAINED_WITH_WARNING'),
+  ;
 
-extension ModelStatusValueExtension on ModelStatus {
-  String toValue() {
-    switch (this) {
-      case ModelStatus.submitted:
-        return 'SUBMITTED';
-      case ModelStatus.training:
-        return 'TRAINING';
-      case ModelStatus.deleting:
-        return 'DELETING';
-      case ModelStatus.stopRequested:
-        return 'STOP_REQUESTED';
-      case ModelStatus.stopped:
-        return 'STOPPED';
-      case ModelStatus.inError:
-        return 'IN_ERROR';
-      case ModelStatus.trained:
-        return 'TRAINED';
-      case ModelStatus.trainedWithWarning:
-        return 'TRAINED_WITH_WARNING';
-    }
-  }
-}
+  final String value;
 
-extension ModelStatusFromString on String {
-  ModelStatus toModelStatus() {
-    switch (this) {
-      case 'SUBMITTED':
-        return ModelStatus.submitted;
-      case 'TRAINING':
-        return ModelStatus.training;
-      case 'DELETING':
-        return ModelStatus.deleting;
-      case 'STOP_REQUESTED':
-        return ModelStatus.stopRequested;
-      case 'STOPPED':
-        return ModelStatus.stopped;
-      case 'IN_ERROR':
-        return ModelStatus.inError;
-      case 'TRAINED':
-        return ModelStatus.trained;
-      case 'TRAINED_WITH_WARNING':
-        return ModelStatus.trainedWithWarning;
-    }
-    throw Exception('$this is not known in enum ModelStatus');
-  }
+  const ModelStatus(this.value);
+
+  static ModelStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ModelStatus'));
 }
 
 enum ModelType {
-  documentClassifier,
-  entityRecognizer,
-}
+  documentClassifier('DOCUMENT_CLASSIFIER'),
+  entityRecognizer('ENTITY_RECOGNIZER'),
+  ;
 
-extension ModelTypeValueExtension on ModelType {
-  String toValue() {
-    switch (this) {
-      case ModelType.documentClassifier:
-        return 'DOCUMENT_CLASSIFIER';
-      case ModelType.entityRecognizer:
-        return 'ENTITY_RECOGNIZER';
-    }
-  }
-}
+  final String value;
 
-extension ModelTypeFromString on String {
-  ModelType toModelType() {
-    switch (this) {
-      case 'DOCUMENT_CLASSIFIER':
-        return ModelType.documentClassifier;
-      case 'ENTITY_RECOGNIZER':
-        return ModelType.entityRecognizer;
-    }
-    throw Exception('$this is not known in enum ModelType');
-  }
+  const ModelType(this.value);
+
+  static ModelType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ModelType'));
 }
 
 /// Provides configuration parameters for the output of inference jobs.
@@ -10870,76 +10406,39 @@ class OutputDataConfig {
 }
 
 enum PageBasedErrorCode {
-  textractBadPage,
-  textractProvisionedThroughputExceeded,
-  pageCharactersExceeded,
-  pageSizeExceeded,
-  internalServerError,
-}
+  textractBadPage('TEXTRACT_BAD_PAGE'),
+  textractProvisionedThroughputExceeded(
+      'TEXTRACT_PROVISIONED_THROUGHPUT_EXCEEDED'),
+  pageCharactersExceeded('PAGE_CHARACTERS_EXCEEDED'),
+  pageSizeExceeded('PAGE_SIZE_EXCEEDED'),
+  internalServerError('INTERNAL_SERVER_ERROR'),
+  ;
 
-extension PageBasedErrorCodeValueExtension on PageBasedErrorCode {
-  String toValue() {
-    switch (this) {
-      case PageBasedErrorCode.textractBadPage:
-        return 'TEXTRACT_BAD_PAGE';
-      case PageBasedErrorCode.textractProvisionedThroughputExceeded:
-        return 'TEXTRACT_PROVISIONED_THROUGHPUT_EXCEEDED';
-      case PageBasedErrorCode.pageCharactersExceeded:
-        return 'PAGE_CHARACTERS_EXCEEDED';
-      case PageBasedErrorCode.pageSizeExceeded:
-        return 'PAGE_SIZE_EXCEEDED';
-      case PageBasedErrorCode.internalServerError:
-        return 'INTERNAL_SERVER_ERROR';
-    }
-  }
-}
+  final String value;
 
-extension PageBasedErrorCodeFromString on String {
-  PageBasedErrorCode toPageBasedErrorCode() {
-    switch (this) {
-      case 'TEXTRACT_BAD_PAGE':
-        return PageBasedErrorCode.textractBadPage;
-      case 'TEXTRACT_PROVISIONED_THROUGHPUT_EXCEEDED':
-        return PageBasedErrorCode.textractProvisionedThroughputExceeded;
-      case 'PAGE_CHARACTERS_EXCEEDED':
-        return PageBasedErrorCode.pageCharactersExceeded;
-      case 'PAGE_SIZE_EXCEEDED':
-        return PageBasedErrorCode.pageSizeExceeded;
-      case 'INTERNAL_SERVER_ERROR':
-        return PageBasedErrorCode.internalServerError;
-    }
-    throw Exception('$this is not known in enum PageBasedErrorCode');
-  }
+  const PageBasedErrorCode(this.value);
+
+  static PageBasedErrorCode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum PageBasedErrorCode'));
 }
 
 enum PageBasedWarningCode {
-  inferencingPlaintextWithNativeTrainedModel,
-  inferencingNativeDocumentWithPlaintextTrainedModel,
-}
+  inferencingPlaintextWithNativeTrainedModel(
+      'INFERENCING_PLAINTEXT_WITH_NATIVE_TRAINED_MODEL'),
+  inferencingNativeDocumentWithPlaintextTrainedModel(
+      'INFERENCING_NATIVE_DOCUMENT_WITH_PLAINTEXT_TRAINED_MODEL'),
+  ;
 
-extension PageBasedWarningCodeValueExtension on PageBasedWarningCode {
-  String toValue() {
-    switch (this) {
-      case PageBasedWarningCode.inferencingPlaintextWithNativeTrainedModel:
-        return 'INFERENCING_PLAINTEXT_WITH_NATIVE_TRAINED_MODEL';
-      case PageBasedWarningCode
-            .inferencingNativeDocumentWithPlaintextTrainedModel:
-        return 'INFERENCING_NATIVE_DOCUMENT_WITH_PLAINTEXT_TRAINED_MODEL';
-    }
-  }
-}
+  final String value;
 
-extension PageBasedWarningCodeFromString on String {
-  PageBasedWarningCode toPageBasedWarningCode() {
-    switch (this) {
-      case 'INFERENCING_PLAINTEXT_WITH_NATIVE_TRAINED_MODEL':
-        return PageBasedWarningCode.inferencingPlaintextWithNativeTrainedModel;
-      case 'INFERENCING_NATIVE_DOCUMENT_WITH_PLAINTEXT_TRAINED_MODEL':
-        return PageBasedWarningCode
-            .inferencingNativeDocumentWithPlaintextTrainedModel;
-    }
-    throw Exception('$this is not known in enum PageBasedWarningCode');
-  }
+  const PageBasedWarningCode(this.value);
+
+  static PageBasedWarningCode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum PageBasedWarningCode'));
 }
 
 /// Identifies the part of speech represented by the token and gives the
@@ -10964,117 +10463,40 @@ class PartOfSpeechTag {
   factory PartOfSpeechTag.fromJson(Map<String, dynamic> json) {
     return PartOfSpeechTag(
       score: json['Score'] as double?,
-      tag: (json['Tag'] as String?)?.toPartOfSpeechTagType(),
+      tag: (json['Tag'] as String?)?.let(PartOfSpeechTagType.fromString),
     );
   }
 }
 
 enum PartOfSpeechTagType {
-  adj,
-  adp,
-  adv,
-  aux,
-  conj,
-  cconj,
-  det,
-  intj,
-  noun,
-  num,
-  o,
-  part,
-  pron,
-  propn,
-  punct,
-  sconj,
-  sym,
-  verb,
-}
+  adj('ADJ'),
+  adp('ADP'),
+  adv('ADV'),
+  aux('AUX'),
+  conj('CONJ'),
+  cconj('CCONJ'),
+  det('DET'),
+  intj('INTJ'),
+  noun('NOUN'),
+  num('NUM'),
+  o('O'),
+  part('PART'),
+  pron('PRON'),
+  propn('PROPN'),
+  punct('PUNCT'),
+  sconj('SCONJ'),
+  sym('SYM'),
+  verb('VERB'),
+  ;
 
-extension PartOfSpeechTagTypeValueExtension on PartOfSpeechTagType {
-  String toValue() {
-    switch (this) {
-      case PartOfSpeechTagType.adj:
-        return 'ADJ';
-      case PartOfSpeechTagType.adp:
-        return 'ADP';
-      case PartOfSpeechTagType.adv:
-        return 'ADV';
-      case PartOfSpeechTagType.aux:
-        return 'AUX';
-      case PartOfSpeechTagType.conj:
-        return 'CONJ';
-      case PartOfSpeechTagType.cconj:
-        return 'CCONJ';
-      case PartOfSpeechTagType.det:
-        return 'DET';
-      case PartOfSpeechTagType.intj:
-        return 'INTJ';
-      case PartOfSpeechTagType.noun:
-        return 'NOUN';
-      case PartOfSpeechTagType.num:
-        return 'NUM';
-      case PartOfSpeechTagType.o:
-        return 'O';
-      case PartOfSpeechTagType.part:
-        return 'PART';
-      case PartOfSpeechTagType.pron:
-        return 'PRON';
-      case PartOfSpeechTagType.propn:
-        return 'PROPN';
-      case PartOfSpeechTagType.punct:
-        return 'PUNCT';
-      case PartOfSpeechTagType.sconj:
-        return 'SCONJ';
-      case PartOfSpeechTagType.sym:
-        return 'SYM';
-      case PartOfSpeechTagType.verb:
-        return 'VERB';
-    }
-  }
-}
+  final String value;
 
-extension PartOfSpeechTagTypeFromString on String {
-  PartOfSpeechTagType toPartOfSpeechTagType() {
-    switch (this) {
-      case 'ADJ':
-        return PartOfSpeechTagType.adj;
-      case 'ADP':
-        return PartOfSpeechTagType.adp;
-      case 'ADV':
-        return PartOfSpeechTagType.adv;
-      case 'AUX':
-        return PartOfSpeechTagType.aux;
-      case 'CONJ':
-        return PartOfSpeechTagType.conj;
-      case 'CCONJ':
-        return PartOfSpeechTagType.cconj;
-      case 'DET':
-        return PartOfSpeechTagType.det;
-      case 'INTJ':
-        return PartOfSpeechTagType.intj;
-      case 'NOUN':
-        return PartOfSpeechTagType.noun;
-      case 'NUM':
-        return PartOfSpeechTagType.num;
-      case 'O':
-        return PartOfSpeechTagType.o;
-      case 'PART':
-        return PartOfSpeechTagType.part;
-      case 'PRON':
-        return PartOfSpeechTagType.pron;
-      case 'PROPN':
-        return PartOfSpeechTagType.propn;
-      case 'PUNCT':
-        return PartOfSpeechTagType.punct;
-      case 'SCONJ':
-        return PartOfSpeechTagType.sconj;
-      case 'SYM':
-        return PartOfSpeechTagType.sym;
-      case 'VERB':
-        return PartOfSpeechTagType.verb;
-    }
-    throw Exception('$this is not known in enum PartOfSpeechTagType');
-  }
+  const PartOfSpeechTagType(this.value);
+
+  static PartOfSpeechTagType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum PartOfSpeechTagType'));
 }
 
 /// Provides information for filtering a list of PII entity detection jobs.
@@ -11110,7 +10532,7 @@ class PiiEntitiesDetectionJobFilter {
     final submitTimeBefore = this.submitTimeBefore;
     return {
       if (jobName != null) 'JobName': jobName,
-      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (jobStatus != null) 'JobStatus': jobStatus.value,
       if (submitTimeAfter != null)
         'SubmitTimeAfter': unixTimestampToJson(submitTimeAfter),
       if (submitTimeBefore != null)
@@ -11207,10 +10629,11 @@ class PiiEntitiesDetectionJobProperties {
       jobArn: json['JobArn'] as String?,
       jobId: json['JobId'] as String?,
       jobName: json['JobName'] as String?,
-      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
-      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      jobStatus: (json['JobStatus'] as String?)?.let(JobStatus.fromString),
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
       message: json['Message'] as String?,
-      mode: (json['Mode'] as String?)?.toPiiEntitiesDetectionMode(),
+      mode: (json['Mode'] as String?)?.let(PiiEntitiesDetectionMode.fromString),
       outputDataConfig: json['OutputDataConfig'] != null
           ? PiiOutputDataConfig.fromJson(
               json['OutputDataConfig'] as Map<String, dynamic>)
@@ -11225,60 +10648,33 @@ class PiiEntitiesDetectionJobProperties {
 }
 
 enum PiiEntitiesDetectionMaskMode {
-  mask,
-  replaceWithPiiEntityType,
-}
+  mask('MASK'),
+  replaceWithPiiEntityType('REPLACE_WITH_PII_ENTITY_TYPE'),
+  ;
 
-extension PiiEntitiesDetectionMaskModeValueExtension
-    on PiiEntitiesDetectionMaskMode {
-  String toValue() {
-    switch (this) {
-      case PiiEntitiesDetectionMaskMode.mask:
-        return 'MASK';
-      case PiiEntitiesDetectionMaskMode.replaceWithPiiEntityType:
-        return 'REPLACE_WITH_PII_ENTITY_TYPE';
-    }
-  }
-}
+  final String value;
 
-extension PiiEntitiesDetectionMaskModeFromString on String {
-  PiiEntitiesDetectionMaskMode toPiiEntitiesDetectionMaskMode() {
-    switch (this) {
-      case 'MASK':
-        return PiiEntitiesDetectionMaskMode.mask;
-      case 'REPLACE_WITH_PII_ENTITY_TYPE':
-        return PiiEntitiesDetectionMaskMode.replaceWithPiiEntityType;
-    }
-    throw Exception('$this is not known in enum PiiEntitiesDetectionMaskMode');
-  }
+  const PiiEntitiesDetectionMaskMode(this.value);
+
+  static PiiEntitiesDetectionMaskMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PiiEntitiesDetectionMaskMode'));
 }
 
 enum PiiEntitiesDetectionMode {
-  onlyRedaction,
-  onlyOffsets,
-}
+  onlyRedaction('ONLY_REDACTION'),
+  onlyOffsets('ONLY_OFFSETS'),
+  ;
 
-extension PiiEntitiesDetectionModeValueExtension on PiiEntitiesDetectionMode {
-  String toValue() {
-    switch (this) {
-      case PiiEntitiesDetectionMode.onlyRedaction:
-        return 'ONLY_REDACTION';
-      case PiiEntitiesDetectionMode.onlyOffsets:
-        return 'ONLY_OFFSETS';
-    }
-  }
-}
+  final String value;
 
-extension PiiEntitiesDetectionModeFromString on String {
-  PiiEntitiesDetectionMode toPiiEntitiesDetectionMode() {
-    switch (this) {
-      case 'ONLY_REDACTION':
-        return PiiEntitiesDetectionMode.onlyRedaction;
-      case 'ONLY_OFFSETS':
-        return PiiEntitiesDetectionMode.onlyOffsets;
-    }
-    throw Exception('$this is not known in enum PiiEntitiesDetectionMode');
-  }
+  const PiiEntitiesDetectionMode(this.value);
+
+  static PiiEntitiesDetectionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PiiEntitiesDetectionMode'));
 }
 
 /// Provides information about a PII entity.
@@ -11310,212 +10706,60 @@ class PiiEntity {
       beginOffset: json['BeginOffset'] as int?,
       endOffset: json['EndOffset'] as int?,
       score: json['Score'] as double?,
-      type: (json['Type'] as String?)?.toPiiEntityType(),
+      type: (json['Type'] as String?)?.let(PiiEntityType.fromString),
     );
   }
 }
 
 enum PiiEntityType {
-  bankAccountNumber,
-  bankRouting,
-  creditDebitNumber,
-  creditDebitCvv,
-  creditDebitExpiry,
-  pin,
-  email,
-  address,
-  name,
-  phone,
-  ssn,
-  dateTime,
-  passportNumber,
-  driverId,
-  url,
-  age,
-  username,
-  password,
-  awsAccessKey,
-  awsSecretKey,
-  ipAddress,
-  macAddress,
-  all,
-  licensePlate,
-  vehicleIdentificationNumber,
-  ukNationalInsuranceNumber,
-  caSocialInsuranceNumber,
-  usIndividualTaxIdentificationNumber,
-  ukUniqueTaxpayerReferenceNumber,
-  inPermanentAccountNumber,
-  inNrega,
-  internationalBankAccountNumber,
-  swiftCode,
-  ukNationalHealthServiceNumber,
-  caHealthNumber,
-  inAadhaar,
-  inVoterNumber,
-}
+  bankAccountNumber('BANK_ACCOUNT_NUMBER'),
+  bankRouting('BANK_ROUTING'),
+  creditDebitNumber('CREDIT_DEBIT_NUMBER'),
+  creditDebitCvv('CREDIT_DEBIT_CVV'),
+  creditDebitExpiry('CREDIT_DEBIT_EXPIRY'),
+  pin('PIN'),
+  email('EMAIL'),
+  address('ADDRESS'),
+  name('NAME'),
+  phone('PHONE'),
+  ssn('SSN'),
+  dateTime('DATE_TIME'),
+  passportNumber('PASSPORT_NUMBER'),
+  driverId('DRIVER_ID'),
+  url('URL'),
+  age('AGE'),
+  username('USERNAME'),
+  password('PASSWORD'),
+  awsAccessKey('AWS_ACCESS_KEY'),
+  awsSecretKey('AWS_SECRET_KEY'),
+  ipAddress('IP_ADDRESS'),
+  macAddress('MAC_ADDRESS'),
+  all('ALL'),
+  licensePlate('LICENSE_PLATE'),
+  vehicleIdentificationNumber('VEHICLE_IDENTIFICATION_NUMBER'),
+  ukNationalInsuranceNumber('UK_NATIONAL_INSURANCE_NUMBER'),
+  caSocialInsuranceNumber('CA_SOCIAL_INSURANCE_NUMBER'),
+  usIndividualTaxIdentificationNumber(
+      'US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER'),
+  ukUniqueTaxpayerReferenceNumber('UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER'),
+  inPermanentAccountNumber('IN_PERMANENT_ACCOUNT_NUMBER'),
+  inNrega('IN_NREGA'),
+  internationalBankAccountNumber('INTERNATIONAL_BANK_ACCOUNT_NUMBER'),
+  swiftCode('SWIFT_CODE'),
+  ukNationalHealthServiceNumber('UK_NATIONAL_HEALTH_SERVICE_NUMBER'),
+  caHealthNumber('CA_HEALTH_NUMBER'),
+  inAadhaar('IN_AADHAAR'),
+  inVoterNumber('IN_VOTER_NUMBER'),
+  ;
 
-extension PiiEntityTypeValueExtension on PiiEntityType {
-  String toValue() {
-    switch (this) {
-      case PiiEntityType.bankAccountNumber:
-        return 'BANK_ACCOUNT_NUMBER';
-      case PiiEntityType.bankRouting:
-        return 'BANK_ROUTING';
-      case PiiEntityType.creditDebitNumber:
-        return 'CREDIT_DEBIT_NUMBER';
-      case PiiEntityType.creditDebitCvv:
-        return 'CREDIT_DEBIT_CVV';
-      case PiiEntityType.creditDebitExpiry:
-        return 'CREDIT_DEBIT_EXPIRY';
-      case PiiEntityType.pin:
-        return 'PIN';
-      case PiiEntityType.email:
-        return 'EMAIL';
-      case PiiEntityType.address:
-        return 'ADDRESS';
-      case PiiEntityType.name:
-        return 'NAME';
-      case PiiEntityType.phone:
-        return 'PHONE';
-      case PiiEntityType.ssn:
-        return 'SSN';
-      case PiiEntityType.dateTime:
-        return 'DATE_TIME';
-      case PiiEntityType.passportNumber:
-        return 'PASSPORT_NUMBER';
-      case PiiEntityType.driverId:
-        return 'DRIVER_ID';
-      case PiiEntityType.url:
-        return 'URL';
-      case PiiEntityType.age:
-        return 'AGE';
-      case PiiEntityType.username:
-        return 'USERNAME';
-      case PiiEntityType.password:
-        return 'PASSWORD';
-      case PiiEntityType.awsAccessKey:
-        return 'AWS_ACCESS_KEY';
-      case PiiEntityType.awsSecretKey:
-        return 'AWS_SECRET_KEY';
-      case PiiEntityType.ipAddress:
-        return 'IP_ADDRESS';
-      case PiiEntityType.macAddress:
-        return 'MAC_ADDRESS';
-      case PiiEntityType.all:
-        return 'ALL';
-      case PiiEntityType.licensePlate:
-        return 'LICENSE_PLATE';
-      case PiiEntityType.vehicleIdentificationNumber:
-        return 'VEHICLE_IDENTIFICATION_NUMBER';
-      case PiiEntityType.ukNationalInsuranceNumber:
-        return 'UK_NATIONAL_INSURANCE_NUMBER';
-      case PiiEntityType.caSocialInsuranceNumber:
-        return 'CA_SOCIAL_INSURANCE_NUMBER';
-      case PiiEntityType.usIndividualTaxIdentificationNumber:
-        return 'US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER';
-      case PiiEntityType.ukUniqueTaxpayerReferenceNumber:
-        return 'UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER';
-      case PiiEntityType.inPermanentAccountNumber:
-        return 'IN_PERMANENT_ACCOUNT_NUMBER';
-      case PiiEntityType.inNrega:
-        return 'IN_NREGA';
-      case PiiEntityType.internationalBankAccountNumber:
-        return 'INTERNATIONAL_BANK_ACCOUNT_NUMBER';
-      case PiiEntityType.swiftCode:
-        return 'SWIFT_CODE';
-      case PiiEntityType.ukNationalHealthServiceNumber:
-        return 'UK_NATIONAL_HEALTH_SERVICE_NUMBER';
-      case PiiEntityType.caHealthNumber:
-        return 'CA_HEALTH_NUMBER';
-      case PiiEntityType.inAadhaar:
-        return 'IN_AADHAAR';
-      case PiiEntityType.inVoterNumber:
-        return 'IN_VOTER_NUMBER';
-    }
-  }
-}
+  final String value;
 
-extension PiiEntityTypeFromString on String {
-  PiiEntityType toPiiEntityType() {
-    switch (this) {
-      case 'BANK_ACCOUNT_NUMBER':
-        return PiiEntityType.bankAccountNumber;
-      case 'BANK_ROUTING':
-        return PiiEntityType.bankRouting;
-      case 'CREDIT_DEBIT_NUMBER':
-        return PiiEntityType.creditDebitNumber;
-      case 'CREDIT_DEBIT_CVV':
-        return PiiEntityType.creditDebitCvv;
-      case 'CREDIT_DEBIT_EXPIRY':
-        return PiiEntityType.creditDebitExpiry;
-      case 'PIN':
-        return PiiEntityType.pin;
-      case 'EMAIL':
-        return PiiEntityType.email;
-      case 'ADDRESS':
-        return PiiEntityType.address;
-      case 'NAME':
-        return PiiEntityType.name;
-      case 'PHONE':
-        return PiiEntityType.phone;
-      case 'SSN':
-        return PiiEntityType.ssn;
-      case 'DATE_TIME':
-        return PiiEntityType.dateTime;
-      case 'PASSPORT_NUMBER':
-        return PiiEntityType.passportNumber;
-      case 'DRIVER_ID':
-        return PiiEntityType.driverId;
-      case 'URL':
-        return PiiEntityType.url;
-      case 'AGE':
-        return PiiEntityType.age;
-      case 'USERNAME':
-        return PiiEntityType.username;
-      case 'PASSWORD':
-        return PiiEntityType.password;
-      case 'AWS_ACCESS_KEY':
-        return PiiEntityType.awsAccessKey;
-      case 'AWS_SECRET_KEY':
-        return PiiEntityType.awsSecretKey;
-      case 'IP_ADDRESS':
-        return PiiEntityType.ipAddress;
-      case 'MAC_ADDRESS':
-        return PiiEntityType.macAddress;
-      case 'ALL':
-        return PiiEntityType.all;
-      case 'LICENSE_PLATE':
-        return PiiEntityType.licensePlate;
-      case 'VEHICLE_IDENTIFICATION_NUMBER':
-        return PiiEntityType.vehicleIdentificationNumber;
-      case 'UK_NATIONAL_INSURANCE_NUMBER':
-        return PiiEntityType.ukNationalInsuranceNumber;
-      case 'CA_SOCIAL_INSURANCE_NUMBER':
-        return PiiEntityType.caSocialInsuranceNumber;
-      case 'US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER':
-        return PiiEntityType.usIndividualTaxIdentificationNumber;
-      case 'UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER':
-        return PiiEntityType.ukUniqueTaxpayerReferenceNumber;
-      case 'IN_PERMANENT_ACCOUNT_NUMBER':
-        return PiiEntityType.inPermanentAccountNumber;
-      case 'IN_NREGA':
-        return PiiEntityType.inNrega;
-      case 'INTERNATIONAL_BANK_ACCOUNT_NUMBER':
-        return PiiEntityType.internationalBankAccountNumber;
-      case 'SWIFT_CODE':
-        return PiiEntityType.swiftCode;
-      case 'UK_NATIONAL_HEALTH_SERVICE_NUMBER':
-        return PiiEntityType.ukNationalHealthServiceNumber;
-      case 'CA_HEALTH_NUMBER':
-        return PiiEntityType.caHealthNumber;
-      case 'IN_AADHAAR':
-        return PiiEntityType.inAadhaar;
-      case 'IN_VOTER_NUMBER':
-        return PiiEntityType.inVoterNumber;
-    }
-    throw Exception('$this is not known in enum PiiEntityType');
-  }
+  const PiiEntityType(this.value);
+
+  static PiiEntityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PiiEntityType'));
 }
 
 /// Provides configuration parameters for the output of PII entity detection
@@ -11611,10 +10855,11 @@ class RedactionConfig {
   factory RedactionConfig.fromJson(Map<String, dynamic> json) {
     return RedactionConfig(
       maskCharacter: json['MaskCharacter'] as String?,
-      maskMode: (json['MaskMode'] as String?)?.toPiiEntitiesDetectionMaskMode(),
+      maskMode: (json['MaskMode'] as String?)
+          ?.let(PiiEntitiesDetectionMaskMode.fromString),
       piiEntityTypes: (json['PiiEntityTypes'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toPiiEntityType())
+          .map((e) => PiiEntityType.fromString((e as String)))
           .toList(),
     );
   }
@@ -11625,34 +10870,25 @@ class RedactionConfig {
     final piiEntityTypes = this.piiEntityTypes;
     return {
       if (maskCharacter != null) 'MaskCharacter': maskCharacter,
-      if (maskMode != null) 'MaskMode': maskMode.toValue(),
+      if (maskMode != null) 'MaskMode': maskMode.value,
       if (piiEntityTypes != null)
-        'PiiEntityTypes': piiEntityTypes.map((e) => e.toValue()).toList(),
+        'PiiEntityTypes': piiEntityTypes.map((e) => e.value).toList(),
     };
   }
 }
 
 enum RelationshipType {
-  child,
-}
+  child('CHILD'),
+  ;
 
-extension RelationshipTypeValueExtension on RelationshipType {
-  String toValue() {
-    switch (this) {
-      case RelationshipType.child:
-        return 'CHILD';
-    }
-  }
-}
+  final String value;
 
-extension RelationshipTypeFromString on String {
-  RelationshipType toRelationshipType() {
-    switch (this) {
-      case 'CHILD':
-        return RelationshipType.child;
-    }
-    throw Exception('$this is not known in enum RelationshipType');
-  }
+  const RelationshipType(this.value);
+
+  static RelationshipType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RelationshipType'));
 }
 
 /// List of child blocks for the current block.
@@ -11674,7 +10910,7 @@ class RelationshipsListItem {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      type: (json['Type'] as String?)?.toRelationshipType(),
+      type: (json['Type'] as String?)?.let(RelationshipType.fromString),
     );
   }
 }
@@ -11713,7 +10949,7 @@ class SentimentDetectionJobFilter {
     final submitTimeBefore = this.submitTimeBefore;
     return {
       if (jobName != null) 'JobName': jobName,
-      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (jobStatus != null) 'JobStatus': jobStatus.value,
       if (submitTimeAfter != null)
         'SubmitTimeAfter': unixTimestampToJson(submitTimeAfter),
       if (submitTimeBefore != null)
@@ -11821,8 +11057,9 @@ class SentimentDetectionJobProperties {
       jobArn: json['JobArn'] as String?,
       jobId: json['JobId'] as String?,
       jobName: json['JobName'] as String?,
-      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
-      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      jobStatus: (json['JobStatus'] as String?)?.let(JobStatus.fromString),
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
       message: json['Message'] as String?,
       outputDataConfig: json['OutputDataConfig'] != null
           ? OutputDataConfig.fromJson(
@@ -11874,69 +11111,34 @@ class SentimentScore {
 }
 
 enum SentimentType {
-  positive,
-  negative,
-  neutral,
-  mixed,
-}
+  positive('POSITIVE'),
+  negative('NEGATIVE'),
+  neutral('NEUTRAL'),
+  mixed('MIXED'),
+  ;
 
-extension SentimentTypeValueExtension on SentimentType {
-  String toValue() {
-    switch (this) {
-      case SentimentType.positive:
-        return 'POSITIVE';
-      case SentimentType.negative:
-        return 'NEGATIVE';
-      case SentimentType.neutral:
-        return 'NEUTRAL';
-      case SentimentType.mixed:
-        return 'MIXED';
-    }
-  }
-}
+  final String value;
 
-extension SentimentTypeFromString on String {
-  SentimentType toSentimentType() {
-    switch (this) {
-      case 'POSITIVE':
-        return SentimentType.positive;
-      case 'NEGATIVE':
-        return SentimentType.negative;
-      case 'NEUTRAL':
-        return SentimentType.neutral;
-      case 'MIXED':
-        return SentimentType.mixed;
-    }
-    throw Exception('$this is not known in enum SentimentType');
-  }
+  const SentimentType(this.value);
+
+  static SentimentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SentimentType'));
 }
 
 enum Split {
-  train,
-  test,
-}
+  train('TRAIN'),
+  test('TEST'),
+  ;
 
-extension SplitValueExtension on Split {
-  String toValue() {
-    switch (this) {
-      case Split.train:
-        return 'TRAIN';
-      case Split.test:
-        return 'TEST';
-    }
-  }
-}
+  final String value;
 
-extension SplitFromString on String {
-  Split toSplit() {
-    switch (this) {
-      case 'TRAIN':
-        return Split.train;
-      case 'TEST':
-        return Split.test;
-    }
-    throw Exception('$this is not known in enum Split');
-  }
+  const Split(this.value);
+
+  static Split fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Split'));
 }
 
 class StartDocumentClassificationJobResponse {
@@ -11999,7 +11201,7 @@ class StartDocumentClassificationJobResponse {
       documentClassifierArn: json['DocumentClassifierArn'] as String?,
       jobArn: json['JobArn'] as String?,
       jobId: json['JobId'] as String?,
-      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      jobStatus: (json['JobStatus'] as String?)?.let(JobStatus.fromString),
     );
   }
 }
@@ -12050,7 +11252,7 @@ class StartDominantLanguageDetectionJobResponse {
     return StartDominantLanguageDetectionJobResponse(
       jobArn: json['JobArn'] as String?,
       jobId: json['JobId'] as String?,
-      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      jobStatus: (json['JobStatus'] as String?)?.let(JobStatus.fromString),
     );
   }
 }
@@ -12113,7 +11315,7 @@ class StartEntitiesDetectionJobResponse {
       entityRecognizerArn: json['EntityRecognizerArn'] as String?,
       jobArn: json['JobArn'] as String?,
       jobId: json['JobId'] as String?,
-      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      jobStatus: (json['JobStatus'] as String?)?.let(JobStatus.fromString),
     );
   }
 }
@@ -12148,7 +11350,7 @@ class StartEventsDetectionJobResponse {
     return StartEventsDetectionJobResponse(
       jobArn: json['JobArn'] as String?,
       jobId: json['JobId'] as String?,
-      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      jobStatus: (json['JobStatus'] as String?)?.let(JobStatus.fromString),
     );
   }
 }
@@ -12219,7 +11421,7 @@ class StartKeyPhrasesDetectionJobResponse {
     return StartKeyPhrasesDetectionJobResponse(
       jobArn: json['JobArn'] as String?,
       jobId: json['JobId'] as String?,
-      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      jobStatus: (json['JobStatus'] as String?)?.let(JobStatus.fromString),
     );
   }
 }
@@ -12254,7 +11456,7 @@ class StartPiiEntitiesDetectionJobResponse {
     return StartPiiEntitiesDetectionJobResponse(
       jobArn: json['JobArn'] as String?,
       jobId: json['JobId'] as String?,
-      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      jobStatus: (json['JobStatus'] as String?)?.let(JobStatus.fromString),
     );
   }
 }
@@ -12305,7 +11507,7 @@ class StartSentimentDetectionJobResponse {
     return StartSentimentDetectionJobResponse(
       jobArn: json['JobArn'] as String?,
       jobId: json['JobId'] as String?,
-      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      jobStatus: (json['JobStatus'] as String?)?.let(JobStatus.fromString),
     );
   }
 }
@@ -12358,7 +11560,7 @@ class StartTargetedSentimentDetectionJobResponse {
     return StartTargetedSentimentDetectionJobResponse(
       jobArn: json['JobArn'] as String?,
       jobId: json['JobId'] as String?,
-      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      jobStatus: (json['JobStatus'] as String?)?.let(JobStatus.fromString),
     );
   }
 }
@@ -12409,7 +11611,7 @@ class StartTopicsDetectionJobResponse {
     return StartTopicsDetectionJobResponse(
       jobArn: json['JobArn'] as String?,
       jobId: json['JobId'] as String?,
-      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      jobStatus: (json['JobStatus'] as String?)?.let(JobStatus.fromString),
     );
   }
 }
@@ -12432,7 +11634,7 @@ class StopDominantLanguageDetectionJobResponse {
       Map<String, dynamic> json) {
     return StopDominantLanguageDetectionJobResponse(
       jobId: json['JobId'] as String?,
-      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      jobStatus: (json['JobStatus'] as String?)?.let(JobStatus.fromString),
     );
   }
 }
@@ -12454,7 +11656,7 @@ class StopEntitiesDetectionJobResponse {
   factory StopEntitiesDetectionJobResponse.fromJson(Map<String, dynamic> json) {
     return StopEntitiesDetectionJobResponse(
       jobId: json['JobId'] as String?,
-      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      jobStatus: (json['JobStatus'] as String?)?.let(JobStatus.fromString),
     );
   }
 }
@@ -12474,7 +11676,7 @@ class StopEventsDetectionJobResponse {
   factory StopEventsDetectionJobResponse.fromJson(Map<String, dynamic> json) {
     return StopEventsDetectionJobResponse(
       jobId: json['JobId'] as String?,
-      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      jobStatus: (json['JobStatus'] as String?)?.let(JobStatus.fromString),
     );
   }
 }
@@ -12497,7 +11699,7 @@ class StopKeyPhrasesDetectionJobResponse {
       Map<String, dynamic> json) {
     return StopKeyPhrasesDetectionJobResponse(
       jobId: json['JobId'] as String?,
-      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      jobStatus: (json['JobStatus'] as String?)?.let(JobStatus.fromString),
     );
   }
 }
@@ -12518,7 +11720,7 @@ class StopPiiEntitiesDetectionJobResponse {
       Map<String, dynamic> json) {
     return StopPiiEntitiesDetectionJobResponse(
       jobId: json['JobId'] as String?,
-      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      jobStatus: (json['JobStatus'] as String?)?.let(JobStatus.fromString),
     );
   }
 }
@@ -12541,7 +11743,7 @@ class StopSentimentDetectionJobResponse {
       Map<String, dynamic> json) {
     return StopSentimentDetectionJobResponse(
       jobId: json['JobId'] as String?,
-      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      jobStatus: (json['JobStatus'] as String?)?.let(JobStatus.fromString),
     );
   }
 }
@@ -12564,7 +11766,7 @@ class StopTargetedSentimentDetectionJobResponse {
       Map<String, dynamic> json) {
     return StopTargetedSentimentDetectionJobResponse(
       jobId: json['JobId'] as String?,
-      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      jobStatus: (json['JobStatus'] as String?)?.let(JobStatus.fromString),
     );
   }
 }
@@ -12588,51 +11790,22 @@ class StopTrainingEntityRecognizerResponse {
 }
 
 enum SyntaxLanguageCode {
-  en,
-  es,
-  fr,
-  de,
-  it,
-  pt,
-}
+  en('en'),
+  es('es'),
+  fr('fr'),
+  de('de'),
+  it('it'),
+  pt('pt'),
+  ;
 
-extension SyntaxLanguageCodeValueExtension on SyntaxLanguageCode {
-  String toValue() {
-    switch (this) {
-      case SyntaxLanguageCode.en:
-        return 'en';
-      case SyntaxLanguageCode.es:
-        return 'es';
-      case SyntaxLanguageCode.fr:
-        return 'fr';
-      case SyntaxLanguageCode.de:
-        return 'de';
-      case SyntaxLanguageCode.it:
-        return 'it';
-      case SyntaxLanguageCode.pt:
-        return 'pt';
-    }
-  }
-}
+  final String value;
 
-extension SyntaxLanguageCodeFromString on String {
-  SyntaxLanguageCode toSyntaxLanguageCode() {
-    switch (this) {
-      case 'en':
-        return SyntaxLanguageCode.en;
-      case 'es':
-        return SyntaxLanguageCode.es;
-      case 'fr':
-        return SyntaxLanguageCode.fr;
-      case 'de':
-        return SyntaxLanguageCode.de;
-      case 'it':
-        return SyntaxLanguageCode.it;
-      case 'pt':
-        return SyntaxLanguageCode.pt;
-    }
-    throw Exception('$this is not known in enum SyntaxLanguageCode');
-  }
+  const SyntaxLanguageCode(this.value);
+
+  static SyntaxLanguageCode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SyntaxLanguageCode'));
 }
 
 /// Represents a work in the input text that was recognized and assigned a part
@@ -12764,7 +11937,7 @@ class TargetedSentimentDetectionJobFilter {
     final submitTimeBefore = this.submitTimeBefore;
     return {
       if (jobName != null) 'JobName': jobName,
-      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (jobStatus != null) 'JobStatus': jobStatus.value,
       if (submitTimeAfter != null)
         'SubmitTimeAfter': unixTimestampToJson(submitTimeAfter),
       if (submitTimeBefore != null)
@@ -12862,8 +12035,9 @@ class TargetedSentimentDetectionJobProperties {
       jobArn: json['JobArn'] as String?,
       jobId: json['JobId'] as String?,
       jobName: json['JobName'] as String?,
-      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
-      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      jobStatus: (json['JobStatus'] as String?)?.let(JobStatus.fromString),
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
       message: json['Message'] as String?,
       outputDataConfig: json['OutputDataConfig'] != null
           ? OutputDataConfig.fromJson(
@@ -12915,107 +12089,33 @@ class TargetedSentimentEntity {
 }
 
 enum TargetedSentimentEntityType {
-  person,
-  location,
-  organization,
-  facility,
-  brand,
-  commercialItem,
-  movie,
-  music,
-  book,
-  software,
-  game,
-  personalTitle,
-  event,
-  date,
-  quantity,
-  attribute,
-  other,
-}
+  person('PERSON'),
+  location('LOCATION'),
+  organization('ORGANIZATION'),
+  facility('FACILITY'),
+  brand('BRAND'),
+  commercialItem('COMMERCIAL_ITEM'),
+  movie('MOVIE'),
+  music('MUSIC'),
+  book('BOOK'),
+  software('SOFTWARE'),
+  game('GAME'),
+  personalTitle('PERSONAL_TITLE'),
+  event('EVENT'),
+  date('DATE'),
+  quantity('QUANTITY'),
+  attribute('ATTRIBUTE'),
+  other('OTHER'),
+  ;
 
-extension TargetedSentimentEntityTypeValueExtension
-    on TargetedSentimentEntityType {
-  String toValue() {
-    switch (this) {
-      case TargetedSentimentEntityType.person:
-        return 'PERSON';
-      case TargetedSentimentEntityType.location:
-        return 'LOCATION';
-      case TargetedSentimentEntityType.organization:
-        return 'ORGANIZATION';
-      case TargetedSentimentEntityType.facility:
-        return 'FACILITY';
-      case TargetedSentimentEntityType.brand:
-        return 'BRAND';
-      case TargetedSentimentEntityType.commercialItem:
-        return 'COMMERCIAL_ITEM';
-      case TargetedSentimentEntityType.movie:
-        return 'MOVIE';
-      case TargetedSentimentEntityType.music:
-        return 'MUSIC';
-      case TargetedSentimentEntityType.book:
-        return 'BOOK';
-      case TargetedSentimentEntityType.software:
-        return 'SOFTWARE';
-      case TargetedSentimentEntityType.game:
-        return 'GAME';
-      case TargetedSentimentEntityType.personalTitle:
-        return 'PERSONAL_TITLE';
-      case TargetedSentimentEntityType.event:
-        return 'EVENT';
-      case TargetedSentimentEntityType.date:
-        return 'DATE';
-      case TargetedSentimentEntityType.quantity:
-        return 'QUANTITY';
-      case TargetedSentimentEntityType.attribute:
-        return 'ATTRIBUTE';
-      case TargetedSentimentEntityType.other:
-        return 'OTHER';
-    }
-  }
-}
+  final String value;
 
-extension TargetedSentimentEntityTypeFromString on String {
-  TargetedSentimentEntityType toTargetedSentimentEntityType() {
-    switch (this) {
-      case 'PERSON':
-        return TargetedSentimentEntityType.person;
-      case 'LOCATION':
-        return TargetedSentimentEntityType.location;
-      case 'ORGANIZATION':
-        return TargetedSentimentEntityType.organization;
-      case 'FACILITY':
-        return TargetedSentimentEntityType.facility;
-      case 'BRAND':
-        return TargetedSentimentEntityType.brand;
-      case 'COMMERCIAL_ITEM':
-        return TargetedSentimentEntityType.commercialItem;
-      case 'MOVIE':
-        return TargetedSentimentEntityType.movie;
-      case 'MUSIC':
-        return TargetedSentimentEntityType.music;
-      case 'BOOK':
-        return TargetedSentimentEntityType.book;
-      case 'SOFTWARE':
-        return TargetedSentimentEntityType.software;
-      case 'GAME':
-        return TargetedSentimentEntityType.game;
-      case 'PERSONAL_TITLE':
-        return TargetedSentimentEntityType.personalTitle;
-      case 'EVENT':
-        return TargetedSentimentEntityType.event;
-      case 'DATE':
-        return TargetedSentimentEntityType.date;
-      case 'QUANTITY':
-        return TargetedSentimentEntityType.quantity;
-      case 'ATTRIBUTE':
-        return TargetedSentimentEntityType.attribute;
-      case 'OTHER':
-        return TargetedSentimentEntityType.other;
-    }
-    throw Exception('$this is not known in enum TargetedSentimentEntityType');
-  }
+  const TargetedSentimentEntityType(this.value);
+
+  static TargetedSentimentEntityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TargetedSentimentEntityType'));
 }
 
 /// Information about one mention of an entity. The mention information includes
@@ -13071,7 +12171,8 @@ class TargetedSentimentMention {
           : null,
       score: json['Score'] as double?,
       text: json['Text'] as String?,
-      type: (json['Type'] as String?)?.toTargetedSentimentEntityType(),
+      type: (json['Type'] as String?)
+          ?.let(TargetedSentimentEntityType.fromString),
     );
   }
 }
@@ -13095,7 +12196,7 @@ class TaskConfig {
 
   factory TaskConfig.fromJson(Map<String, dynamic> json) {
     return TaskConfig(
-      languageCode: (json['LanguageCode'] as String).toLanguageCode(),
+      languageCode: LanguageCode.fromString((json['LanguageCode'] as String)),
       documentClassificationConfig: json['DocumentClassificationConfig'] != null
           ? DocumentClassificationConfig.fromJson(
               json['DocumentClassificationConfig'] as Map<String, dynamic>)
@@ -13112,7 +12213,7 @@ class TaskConfig {
     final documentClassificationConfig = this.documentClassificationConfig;
     final entityRecognitionConfig = this.entityRecognitionConfig;
     return {
-      'LanguageCode': languageCode.toValue(),
+      'LanguageCode': languageCode.value,
       if (documentClassificationConfig != null)
         'DocumentClassificationConfig': documentClassificationConfig,
       if (entityRecognitionConfig != null)
@@ -13172,7 +12273,7 @@ class TopicsDetectionJobFilter {
     final submitTimeBefore = this.submitTimeBefore;
     return {
       if (jobName != null) 'JobName': jobName,
-      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (jobStatus != null) 'JobStatus': jobStatus.value,
       if (submitTimeAfter != null)
         'SubmitTimeAfter': unixTimestampToJson(submitTimeAfter),
       if (submitTimeBefore != null)
@@ -13281,7 +12382,7 @@ class TopicsDetectionJobProperties {
       jobArn: json['JobArn'] as String?,
       jobId: json['JobId'] as String?,
       jobName: json['JobName'] as String?,
-      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      jobStatus: (json['JobStatus'] as String?)?.let(JobStatus.fromString),
       message: json['Message'] as String?,
       numberOfTopics: json['NumberOfTopics'] as int?,
       outputDataConfig: json['OutputDataConfig'] != null
@@ -13316,63 +12417,30 @@ class ToxicContent {
 
   factory ToxicContent.fromJson(Map<String, dynamic> json) {
     return ToxicContent(
-      name: (json['Name'] as String?)?.toToxicContentType(),
+      name: (json['Name'] as String?)?.let(ToxicContentType.fromString),
       score: json['Score'] as double?,
     );
   }
 }
 
 enum ToxicContentType {
-  graphic,
-  harassmentOrAbuse,
-  hateSpeech,
-  insult,
-  profanity,
-  sexual,
-  violenceOrThreat,
-}
+  graphic('GRAPHIC'),
+  harassmentOrAbuse('HARASSMENT_OR_ABUSE'),
+  hateSpeech('HATE_SPEECH'),
+  insult('INSULT'),
+  profanity('PROFANITY'),
+  sexual('SEXUAL'),
+  violenceOrThreat('VIOLENCE_OR_THREAT'),
+  ;
 
-extension ToxicContentTypeValueExtension on ToxicContentType {
-  String toValue() {
-    switch (this) {
-      case ToxicContentType.graphic:
-        return 'GRAPHIC';
-      case ToxicContentType.harassmentOrAbuse:
-        return 'HARASSMENT_OR_ABUSE';
-      case ToxicContentType.hateSpeech:
-        return 'HATE_SPEECH';
-      case ToxicContentType.insult:
-        return 'INSULT';
-      case ToxicContentType.profanity:
-        return 'PROFANITY';
-      case ToxicContentType.sexual:
-        return 'SEXUAL';
-      case ToxicContentType.violenceOrThreat:
-        return 'VIOLENCE_OR_THREAT';
-    }
-  }
-}
+  final String value;
 
-extension ToxicContentTypeFromString on String {
-  ToxicContentType toToxicContentType() {
-    switch (this) {
-      case 'GRAPHIC':
-        return ToxicContentType.graphic;
-      case 'HARASSMENT_OR_ABUSE':
-        return ToxicContentType.harassmentOrAbuse;
-      case 'HATE_SPEECH':
-        return ToxicContentType.hateSpeech;
-      case 'INSULT':
-        return ToxicContentType.insult;
-      case 'PROFANITY':
-        return ToxicContentType.profanity;
-      case 'SEXUAL':
-        return ToxicContentType.sexual;
-      case 'VIOLENCE_OR_THREAT':
-        return ToxicContentType.violenceOrThreat;
-    }
-    throw Exception('$this is not known in enum ToxicContentType');
-  }
+  const ToxicContentType(this.value);
+
+  static ToxicContentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ToxicContentType'));
 }
 
 /// Toxicity analysis result for one string. For more information about toxicity
@@ -13566,7 +12634,8 @@ class WarningsListItem {
   factory WarningsListItem.fromJson(Map<String, dynamic> json) {
     return WarningsListItem(
       page: json['Page'] as int?,
-      warnCode: (json['WarnCode'] as String?)?.toPageBasedWarningCode(),
+      warnCode:
+          (json['WarnCode'] as String?)?.let(PageBasedWarningCode.fromString),
       warnMessage: json['WarnMessage'] as String?,
     );
   }

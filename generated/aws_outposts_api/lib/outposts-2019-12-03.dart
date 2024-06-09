@@ -132,8 +132,8 @@ class Outposts {
     final $payload = <String, dynamic>{
       'LineItems': lineItems,
       'OutpostIdentifier': outpostIdentifier,
-      'PaymentOption': paymentOption.toValue(),
-      if (paymentTerm != null) 'PaymentTerm': paymentTerm.toValue(),
+      'PaymentOption': paymentOption.value,
+      if (paymentTerm != null) 'PaymentTerm': paymentTerm.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -179,7 +179,7 @@ class Outposts {
       if (availabilityZoneId != null) 'AvailabilityZoneId': availabilityZoneId,
       if (description != null) 'Description': description,
       if (supportedHardwareType != null)
-        'SupportedHardwareType': supportedHardwareType.toValue(),
+        'SupportedHardwareType': supportedHardwareType.value,
       if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
@@ -527,7 +527,7 @@ class Outposts {
     required String siteId,
   }) async {
     final $query = <String, List<String>>{
-      'AddressType': [addressType.toValue()],
+      'AddressType': [addressType.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -578,7 +578,7 @@ class Outposts {
       if (maxResults != null) 'MaxResults': [maxResults.toString()],
       if (nextToken != null) 'NextToken': [nextToken],
       if (statusFilter != null)
-        'StatusFilter': statusFilter.map((e) => e.toValue()).toList(),
+        'StatusFilter': statusFilter.map((e) => e.value).toList(),
     };
     final response = await _protocol.send(
       payload: null,
@@ -624,7 +624,7 @@ class Outposts {
     final $query = <String, List<String>>{
       if (capacityTaskStatusFilter != null)
         'CapacityTaskStatusFilter':
-            capacityTaskStatusFilter.map((e) => e.toValue()).toList(),
+            capacityTaskStatusFilter.map((e) => e.value).toList(),
       if (maxResults != null) 'MaxResults': [maxResults.toString()],
       if (nextToken != null) 'NextToken': [nextToken],
       if (outpostIdentifierFilter != null)
@@ -676,12 +676,12 @@ class Outposts {
     final $query = <String, List<String>>{
       if (eC2FamilyFilter != null) 'EC2FamilyFilter': eC2FamilyFilter,
       if (itemClassFilter != null)
-        'ItemClassFilter': itemClassFilter.map((e) => e.toValue()).toList(),
+        'ItemClassFilter': itemClassFilter.map((e) => e.value).toList(),
       if (maxResults != null) 'MaxResults': [maxResults.toString()],
       if (nextToken != null) 'NextToken': [nextToken],
       if (supportedStorageFilter != null)
         'SupportedStorageFilter':
-            supportedStorageFilter.map((e) => e.toValue()).toList(),
+            supportedStorageFilter.map((e) => e.value).toList(),
     };
     final response = await _protocol.send(
       payload: null,
@@ -1037,7 +1037,7 @@ class Outposts {
       if (description != null) 'Description': description,
       if (name != null) 'Name': name,
       if (supportedHardwareType != null)
-        'SupportedHardwareType': supportedHardwareType.toValue(),
+        'SupportedHardwareType': supportedHardwareType.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1110,7 +1110,7 @@ class Outposts {
   }) async {
     final $payload = <String, dynamic>{
       'Address': address,
-      'AddressType': addressType.toValue(),
+      'AddressType': addressType.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1281,16 +1281,16 @@ class Outposts {
   }) async {
     final $payload = <String, dynamic>{
       if (fiberOpticCableType != null)
-        'FiberOpticCableType': fiberOpticCableType.toValue(),
+        'FiberOpticCableType': fiberOpticCableType.value,
       if (maximumSupportedWeightLbs != null)
-        'MaximumSupportedWeightLbs': maximumSupportedWeightLbs.toValue(),
-      if (opticalStandard != null) 'OpticalStandard': opticalStandard.toValue(),
-      if (powerConnector != null) 'PowerConnector': powerConnector.toValue(),
-      if (powerDrawKva != null) 'PowerDrawKva': powerDrawKva.toValue(),
-      if (powerFeedDrop != null) 'PowerFeedDrop': powerFeedDrop.toValue(),
-      if (powerPhase != null) 'PowerPhase': powerPhase.toValue(),
-      if (uplinkCount != null) 'UplinkCount': uplinkCount.toValue(),
-      if (uplinkGbps != null) 'UplinkGbps': uplinkGbps.toValue(),
+        'MaximumSupportedWeightLbs': maximumSupportedWeightLbs.value,
+      if (opticalStandard != null) 'OpticalStandard': opticalStandard.value,
+      if (powerConnector != null) 'PowerConnector': powerConnector.value,
+      if (powerDrawKva != null) 'PowerDrawKva': powerDrawKva.value,
+      if (powerFeedDrop != null) 'PowerFeedDrop': powerFeedDrop.value,
+      if (powerPhase != null) 'PowerPhase': powerPhase.value,
+      if (uplinkCount != null) 'UplinkCount': uplinkCount.value,
+      if (uplinkGbps != null) 'UplinkGbps': uplinkGbps.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1397,31 +1397,17 @@ class Address {
 }
 
 enum AddressType {
-  shippingAddress,
-  operatingAddress,
-}
+  shippingAddress('SHIPPING_ADDRESS'),
+  operatingAddress('OPERATING_ADDRESS'),
+  ;
 
-extension AddressTypeValueExtension on AddressType {
-  String toValue() {
-    switch (this) {
-      case AddressType.shippingAddress:
-        return 'SHIPPING_ADDRESS';
-      case AddressType.operatingAddress:
-        return 'OPERATING_ADDRESS';
-    }
-  }
-}
+  final String value;
 
-extension AddressTypeFromString on String {
-  AddressType toAddressType() {
-    switch (this) {
-      case 'SHIPPING_ADDRESS':
-        return AddressType.shippingAddress;
-      case 'OPERATING_ADDRESS':
-        return AddressType.operatingAddress;
-    }
-    throw Exception('$this is not known in enum AddressType');
-  }
+  const AddressType(this.value);
+
+  static AddressType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AddressType'));
 }
 
 /// Information about hardware assets.
@@ -1456,7 +1442,7 @@ class AssetInfo {
           ? AssetLocation.fromJson(
               json['AssetLocation'] as Map<String, dynamic>)
           : null,
-      assetType: (json['AssetType'] as String?)?.toAssetType(),
+      assetType: (json['AssetType'] as String?)?.let(AssetType.fromString),
       computeAttributes: json['ComputeAttributes'] != null
           ? ComputeAttributes.fromJson(
               json['ComputeAttributes'] as Map<String, dynamic>)
@@ -1483,59 +1469,31 @@ class AssetLocation {
 }
 
 enum AssetState {
-  active,
-  retiring,
-  isolated,
-}
+  active('ACTIVE'),
+  retiring('RETIRING'),
+  isolated('ISOLATED'),
+  ;
 
-extension AssetStateValueExtension on AssetState {
-  String toValue() {
-    switch (this) {
-      case AssetState.active:
-        return 'ACTIVE';
-      case AssetState.retiring:
-        return 'RETIRING';
-      case AssetState.isolated:
-        return 'ISOLATED';
-    }
-  }
-}
+  final String value;
 
-extension AssetStateFromString on String {
-  AssetState toAssetState() {
-    switch (this) {
-      case 'ACTIVE':
-        return AssetState.active;
-      case 'RETIRING':
-        return AssetState.retiring;
-      case 'ISOLATED':
-        return AssetState.isolated;
-    }
-    throw Exception('$this is not known in enum AssetState');
-  }
+  const AssetState(this.value);
+
+  static AssetState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AssetState'));
 }
 
 enum AssetType {
-  compute,
-}
+  compute('COMPUTE'),
+  ;
 
-extension AssetTypeValueExtension on AssetType {
-  String toValue() {
-    switch (this) {
-      case AssetType.compute:
-        return 'COMPUTE';
-    }
-  }
-}
+  final String value;
 
-extension AssetTypeFromString on String {
-  AssetType toAssetType() {
-    switch (this) {
-      case 'COMPUTE':
-        return AssetType.compute;
-    }
-    throw Exception('$this is not known in enum AssetType');
-  }
+  const AssetType(this.value);
+
+  static AssetType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AssetType'));
 }
 
 class CancelCapacityTaskOutput {
@@ -1570,75 +1528,41 @@ class CapacityTaskFailure {
   factory CapacityTaskFailure.fromJson(Map<String, dynamic> json) {
     return CapacityTaskFailure(
       reason: json['Reason'] as String,
-      type: (json['Type'] as String?)?.toCapacityTaskFailureType(),
+      type: (json['Type'] as String?)?.let(CapacityTaskFailureType.fromString),
     );
   }
 }
 
 enum CapacityTaskFailureType {
-  unsupportedCapacityConfiguration,
-}
+  unsupportedCapacityConfiguration('UNSUPPORTED_CAPACITY_CONFIGURATION'),
+  ;
 
-extension CapacityTaskFailureTypeValueExtension on CapacityTaskFailureType {
-  String toValue() {
-    switch (this) {
-      case CapacityTaskFailureType.unsupportedCapacityConfiguration:
-        return 'UNSUPPORTED_CAPACITY_CONFIGURATION';
-    }
-  }
-}
+  final String value;
 
-extension CapacityTaskFailureTypeFromString on String {
-  CapacityTaskFailureType toCapacityTaskFailureType() {
-    switch (this) {
-      case 'UNSUPPORTED_CAPACITY_CONFIGURATION':
-        return CapacityTaskFailureType.unsupportedCapacityConfiguration;
-    }
-    throw Exception('$this is not known in enum CapacityTaskFailureType');
-  }
+  const CapacityTaskFailureType(this.value);
+
+  static CapacityTaskFailureType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CapacityTaskFailureType'));
 }
 
 enum CapacityTaskStatus {
-  requested,
-  inProgress,
-  failed,
-  completed,
-  cancelled,
-}
+  requested('REQUESTED'),
+  inProgress('IN_PROGRESS'),
+  failed('FAILED'),
+  completed('COMPLETED'),
+  cancelled('CANCELLED'),
+  ;
 
-extension CapacityTaskStatusValueExtension on CapacityTaskStatus {
-  String toValue() {
-    switch (this) {
-      case CapacityTaskStatus.requested:
-        return 'REQUESTED';
-      case CapacityTaskStatus.inProgress:
-        return 'IN_PROGRESS';
-      case CapacityTaskStatus.failed:
-        return 'FAILED';
-      case CapacityTaskStatus.completed:
-        return 'COMPLETED';
-      case CapacityTaskStatus.cancelled:
-        return 'CANCELLED';
-    }
-  }
-}
+  final String value;
 
-extension CapacityTaskStatusFromString on String {
-  CapacityTaskStatus toCapacityTaskStatus() {
-    switch (this) {
-      case 'REQUESTED':
-        return CapacityTaskStatus.requested;
-      case 'IN_PROGRESS':
-        return CapacityTaskStatus.inProgress;
-      case 'FAILED':
-        return CapacityTaskStatus.failed;
-      case 'COMPLETED':
-        return CapacityTaskStatus.completed;
-      case 'CANCELLED':
-        return CapacityTaskStatus.cancelled;
-    }
-    throw Exception('$this is not known in enum CapacityTaskStatus');
-  }
+  const CapacityTaskStatus(this.value);
+
+  static CapacityTaskStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum CapacityTaskStatus'));
 }
 
 /// The summary of the capacity task.
@@ -1678,8 +1602,8 @@ class CapacityTaskSummary {
   factory CapacityTaskSummary.fromJson(Map<String, dynamic> json) {
     return CapacityTaskSummary(
       capacityTaskId: json['CapacityTaskId'] as String?,
-      capacityTaskStatus:
-          (json['CapacityTaskStatus'] as String?)?.toCapacityTaskStatus(),
+      capacityTaskStatus: (json['CapacityTaskStatus'] as String?)
+          ?.let(CapacityTaskStatus.fromString),
       completionDate: timeStampFromJson(json['CompletionDate']),
       creationDate: timeStampFromJson(json['CreationDate']),
       lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
@@ -1730,11 +1654,12 @@ class CatalogItem {
           ?.whereNotNull()
           .map((e) => EC2Capacity.fromJson(e as Map<String, dynamic>))
           .toList(),
-      itemStatus: (json['ItemStatus'] as String?)?.toCatalogItemStatus(),
+      itemStatus:
+          (json['ItemStatus'] as String?)?.let(CatalogItemStatus.fromString),
       powerKva: json['PowerKva'] as double?,
       supportedStorage: (json['SupportedStorage'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toSupportedStorageEnum())
+          .map((e) => SupportedStorageEnum.fromString((e as String)))
           .toList(),
       supportedUplinkGbps: (json['SupportedUplinkGbps'] as List?)
           ?.whereNotNull()
@@ -1746,92 +1671,49 @@ class CatalogItem {
 }
 
 enum CatalogItemClass {
-  rack,
-  server,
-}
+  rack('RACK'),
+  server('SERVER'),
+  ;
 
-extension CatalogItemClassValueExtension on CatalogItemClass {
-  String toValue() {
-    switch (this) {
-      case CatalogItemClass.rack:
-        return 'RACK';
-      case CatalogItemClass.server:
-        return 'SERVER';
-    }
-  }
-}
+  final String value;
 
-extension CatalogItemClassFromString on String {
-  CatalogItemClass toCatalogItemClass() {
-    switch (this) {
-      case 'RACK':
-        return CatalogItemClass.rack;
-      case 'SERVER':
-        return CatalogItemClass.server;
-    }
-    throw Exception('$this is not known in enum CatalogItemClass');
-  }
+  const CatalogItemClass(this.value);
+
+  static CatalogItemClass fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CatalogItemClass'));
 }
 
 enum CatalogItemStatus {
-  available,
-  discontinued,
-}
+  available('AVAILABLE'),
+  discontinued('DISCONTINUED'),
+  ;
 
-extension CatalogItemStatusValueExtension on CatalogItemStatus {
-  String toValue() {
-    switch (this) {
-      case CatalogItemStatus.available:
-        return 'AVAILABLE';
-      case CatalogItemStatus.discontinued:
-        return 'DISCONTINUED';
-    }
-  }
-}
+  final String value;
 
-extension CatalogItemStatusFromString on String {
-  CatalogItemStatus toCatalogItemStatus() {
-    switch (this) {
-      case 'AVAILABLE':
-        return CatalogItemStatus.available;
-      case 'DISCONTINUED':
-        return CatalogItemStatus.discontinued;
-    }
-    throw Exception('$this is not known in enum CatalogItemStatus');
-  }
+  const CatalogItemStatus(this.value);
+
+  static CatalogItemStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CatalogItemStatus'));
 }
 
 enum ComputeAssetState {
-  active,
-  isolated,
-  retiring,
-}
+  active('ACTIVE'),
+  isolated('ISOLATED'),
+  retiring('RETIRING'),
+  ;
 
-extension ComputeAssetStateValueExtension on ComputeAssetState {
-  String toValue() {
-    switch (this) {
-      case ComputeAssetState.active:
-        return 'ACTIVE';
-      case ComputeAssetState.isolated:
-        return 'ISOLATED';
-      case ComputeAssetState.retiring:
-        return 'RETIRING';
-    }
-  }
-}
+  final String value;
 
-extension ComputeAssetStateFromString on String {
-  ComputeAssetState toComputeAssetState() {
-    switch (this) {
-      case 'ACTIVE':
-        return ComputeAssetState.active;
-      case 'ISOLATED':
-        return ComputeAssetState.isolated;
-      case 'RETIRING':
-        return ComputeAssetState.retiring;
-    }
-    throw Exception('$this is not known in enum ComputeAssetState');
-  }
+  const ComputeAssetState(this.value);
+
+  static ComputeAssetState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ComputeAssetState'));
 }
 
 /// Information about compute hardware assets.
@@ -1876,7 +1758,7 @@ class ComputeAttributes {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      state: (json['State'] as String?)?.toComputeAssetState(),
+      state: (json['State'] as String?)?.let(ComputeAssetState.fromString),
     );
   }
 }
@@ -2017,31 +1899,18 @@ class EC2Capacity {
 }
 
 enum FiberOpticCableType {
-  singleMode,
-  multiMode,
-}
+  singleMode('SINGLE_MODE'),
+  multiMode('MULTI_MODE'),
+  ;
 
-extension FiberOpticCableTypeValueExtension on FiberOpticCableType {
-  String toValue() {
-    switch (this) {
-      case FiberOpticCableType.singleMode:
-        return 'SINGLE_MODE';
-      case FiberOpticCableType.multiMode:
-        return 'MULTI_MODE';
-    }
-  }
-}
+  final String value;
 
-extension FiberOpticCableTypeFromString on String {
-  FiberOpticCableType toFiberOpticCableType() {
-    switch (this) {
-      case 'SINGLE_MODE':
-        return FiberOpticCableType.singleMode;
-      case 'MULTI_MODE':
-        return FiberOpticCableType.multiMode;
-    }
-    throw Exception('$this is not known in enum FiberOpticCableType');
-  }
+  const FiberOpticCableType(this.value);
+
+  static FiberOpticCableType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum FiberOpticCableType'));
 }
 
 class GetCapacityTaskOutput {
@@ -2110,8 +1979,8 @@ class GetCapacityTaskOutput {
   factory GetCapacityTaskOutput.fromJson(Map<String, dynamic> json) {
     return GetCapacityTaskOutput(
       capacityTaskId: json['CapacityTaskId'] as String?,
-      capacityTaskStatus:
-          (json['CapacityTaskStatus'] as String?)?.toCapacityTaskStatus(),
+      capacityTaskStatus: (json['CapacityTaskStatus'] as String?)
+          ?.let(CapacityTaskStatus.fromString),
       completionDate: timeStampFromJson(json['CompletionDate']),
       creationDate: timeStampFromJson(json['CreationDate']),
       dryRun: json['DryRun'] as bool?,
@@ -2269,7 +2138,8 @@ class GetSiteAddressOutput {
       address: json['Address'] != null
           ? Address.fromJson(json['Address'] as Map<String, dynamic>)
           : null,
-      addressType: (json['AddressType'] as String?)?.toAddressType(),
+      addressType:
+          (json['AddressType'] as String?)?.let(AddressType.fromString),
       siteId: json['SiteId'] as String?,
     );
   }
@@ -2390,7 +2260,7 @@ class LineItem {
           ? ShipmentInformation.fromJson(
               json['ShipmentInformation'] as Map<String, dynamic>)
           : null,
-      status: (json['Status'] as String?)?.toLineItemStatus(),
+      status: (json['Status'] as String?)?.let(LineItemStatus.fromString),
     );
   }
 }
@@ -2443,66 +2313,25 @@ class LineItemRequest {
 }
 
 enum LineItemStatus {
-  preparing,
-  building,
-  shipped,
-  delivered,
-  installing,
-  installed,
-  error,
-  cancelled,
-  replaced,
-}
+  preparing('PREPARING'),
+  building('BUILDING'),
+  shipped('SHIPPED'),
+  delivered('DELIVERED'),
+  installing('INSTALLING'),
+  installed('INSTALLED'),
+  error('ERROR'),
+  cancelled('CANCELLED'),
+  replaced('REPLACED'),
+  ;
 
-extension LineItemStatusValueExtension on LineItemStatus {
-  String toValue() {
-    switch (this) {
-      case LineItemStatus.preparing:
-        return 'PREPARING';
-      case LineItemStatus.building:
-        return 'BUILDING';
-      case LineItemStatus.shipped:
-        return 'SHIPPED';
-      case LineItemStatus.delivered:
-        return 'DELIVERED';
-      case LineItemStatus.installing:
-        return 'INSTALLING';
-      case LineItemStatus.installed:
-        return 'INSTALLED';
-      case LineItemStatus.error:
-        return 'ERROR';
-      case LineItemStatus.cancelled:
-        return 'CANCELLED';
-      case LineItemStatus.replaced:
-        return 'REPLACED';
-    }
-  }
-}
+  final String value;
 
-extension LineItemStatusFromString on String {
-  LineItemStatus toLineItemStatus() {
-    switch (this) {
-      case 'PREPARING':
-        return LineItemStatus.preparing;
-      case 'BUILDING':
-        return LineItemStatus.building;
-      case 'SHIPPED':
-        return LineItemStatus.shipped;
-      case 'DELIVERED':
-        return LineItemStatus.delivered;
-      case 'INSTALLING':
-        return LineItemStatus.installing;
-      case 'INSTALLED':
-        return LineItemStatus.installed;
-      case 'ERROR':
-        return LineItemStatus.error;
-      case 'CANCELLED':
-        return LineItemStatus.cancelled;
-      case 'REPLACED':
-        return LineItemStatus.replaced;
-    }
-    throw Exception('$this is not known in enum LineItemStatus');
-  }
+  const LineItemStatus(this.value);
+
+  static LineItemStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LineItemStatus'));
 }
 
 class ListAssetsOutput {
@@ -2647,129 +2476,47 @@ class ListTagsForResourceResponse {
 }
 
 enum MaximumSupportedWeightLbs {
-  noLimit,
-  max_1400Lbs,
-  max_1600Lbs,
-  max_1800Lbs,
-  max_2000Lbs,
-}
+  noLimit('NO_LIMIT'),
+  max_1400Lbs('MAX_1400_LBS'),
+  max_1600Lbs('MAX_1600_LBS'),
+  max_1800Lbs('MAX_1800_LBS'),
+  max_2000Lbs('MAX_2000_LBS'),
+  ;
 
-extension MaximumSupportedWeightLbsValueExtension on MaximumSupportedWeightLbs {
-  String toValue() {
-    switch (this) {
-      case MaximumSupportedWeightLbs.noLimit:
-        return 'NO_LIMIT';
-      case MaximumSupportedWeightLbs.max_1400Lbs:
-        return 'MAX_1400_LBS';
-      case MaximumSupportedWeightLbs.max_1600Lbs:
-        return 'MAX_1600_LBS';
-      case MaximumSupportedWeightLbs.max_1800Lbs:
-        return 'MAX_1800_LBS';
-      case MaximumSupportedWeightLbs.max_2000Lbs:
-        return 'MAX_2000_LBS';
-    }
-  }
-}
+  final String value;
 
-extension MaximumSupportedWeightLbsFromString on String {
-  MaximumSupportedWeightLbs toMaximumSupportedWeightLbs() {
-    switch (this) {
-      case 'NO_LIMIT':
-        return MaximumSupportedWeightLbs.noLimit;
-      case 'MAX_1400_LBS':
-        return MaximumSupportedWeightLbs.max_1400Lbs;
-      case 'MAX_1600_LBS':
-        return MaximumSupportedWeightLbs.max_1600Lbs;
-      case 'MAX_1800_LBS':
-        return MaximumSupportedWeightLbs.max_1800Lbs;
-      case 'MAX_2000_LBS':
-        return MaximumSupportedWeightLbs.max_2000Lbs;
-    }
-    throw Exception('$this is not known in enum MaximumSupportedWeightLbs');
-  }
+  const MaximumSupportedWeightLbs(this.value);
+
+  static MaximumSupportedWeightLbs fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MaximumSupportedWeightLbs'));
 }
 
 enum OpticalStandard {
-  optic_10gbaseSr,
-  optic_10gbaseIr,
-  optic_10gbaseLr,
-  optic_40gbaseSr,
-  optic_40gbaseEsr,
-  optic_40gbaseIr4Lr4l,
-  optic_40gbaseLr4,
-  optic_100gbaseSr4,
-  optic_100gbaseCwdm4,
-  optic_100gbaseLr4,
-  optic_100gPsm4Msa,
-  optic_1000baseLx,
-  optic_1000baseSx,
-}
+  optic_10gbaseSr('OPTIC_10GBASE_SR'),
+  optic_10gbaseIr('OPTIC_10GBASE_IR'),
+  optic_10gbaseLr('OPTIC_10GBASE_LR'),
+  optic_40gbaseSr('OPTIC_40GBASE_SR'),
+  optic_40gbaseEsr('OPTIC_40GBASE_ESR'),
+  optic_40gbaseIr4Lr4l('OPTIC_40GBASE_IR4_LR4L'),
+  optic_40gbaseLr4('OPTIC_40GBASE_LR4'),
+  optic_100gbaseSr4('OPTIC_100GBASE_SR4'),
+  optic_100gbaseCwdm4('OPTIC_100GBASE_CWDM4'),
+  optic_100gbaseLr4('OPTIC_100GBASE_LR4'),
+  optic_100gPsm4Msa('OPTIC_100G_PSM4_MSA'),
+  optic_1000baseLx('OPTIC_1000BASE_LX'),
+  optic_1000baseSx('OPTIC_1000BASE_SX'),
+  ;
 
-extension OpticalStandardValueExtension on OpticalStandard {
-  String toValue() {
-    switch (this) {
-      case OpticalStandard.optic_10gbaseSr:
-        return 'OPTIC_10GBASE_SR';
-      case OpticalStandard.optic_10gbaseIr:
-        return 'OPTIC_10GBASE_IR';
-      case OpticalStandard.optic_10gbaseLr:
-        return 'OPTIC_10GBASE_LR';
-      case OpticalStandard.optic_40gbaseSr:
-        return 'OPTIC_40GBASE_SR';
-      case OpticalStandard.optic_40gbaseEsr:
-        return 'OPTIC_40GBASE_ESR';
-      case OpticalStandard.optic_40gbaseIr4Lr4l:
-        return 'OPTIC_40GBASE_IR4_LR4L';
-      case OpticalStandard.optic_40gbaseLr4:
-        return 'OPTIC_40GBASE_LR4';
-      case OpticalStandard.optic_100gbaseSr4:
-        return 'OPTIC_100GBASE_SR4';
-      case OpticalStandard.optic_100gbaseCwdm4:
-        return 'OPTIC_100GBASE_CWDM4';
-      case OpticalStandard.optic_100gbaseLr4:
-        return 'OPTIC_100GBASE_LR4';
-      case OpticalStandard.optic_100gPsm4Msa:
-        return 'OPTIC_100G_PSM4_MSA';
-      case OpticalStandard.optic_1000baseLx:
-        return 'OPTIC_1000BASE_LX';
-      case OpticalStandard.optic_1000baseSx:
-        return 'OPTIC_1000BASE_SX';
-    }
-  }
-}
+  final String value;
 
-extension OpticalStandardFromString on String {
-  OpticalStandard toOpticalStandard() {
-    switch (this) {
-      case 'OPTIC_10GBASE_SR':
-        return OpticalStandard.optic_10gbaseSr;
-      case 'OPTIC_10GBASE_IR':
-        return OpticalStandard.optic_10gbaseIr;
-      case 'OPTIC_10GBASE_LR':
-        return OpticalStandard.optic_10gbaseLr;
-      case 'OPTIC_40GBASE_SR':
-        return OpticalStandard.optic_40gbaseSr;
-      case 'OPTIC_40GBASE_ESR':
-        return OpticalStandard.optic_40gbaseEsr;
-      case 'OPTIC_40GBASE_IR4_LR4L':
-        return OpticalStandard.optic_40gbaseIr4Lr4l;
-      case 'OPTIC_40GBASE_LR4':
-        return OpticalStandard.optic_40gbaseLr4;
-      case 'OPTIC_100GBASE_SR4':
-        return OpticalStandard.optic_100gbaseSr4;
-      case 'OPTIC_100GBASE_CWDM4':
-        return OpticalStandard.optic_100gbaseCwdm4;
-      case 'OPTIC_100GBASE_LR4':
-        return OpticalStandard.optic_100gbaseLr4;
-      case 'OPTIC_100G_PSM4_MSA':
-        return OpticalStandard.optic_100gPsm4Msa;
-      case 'OPTIC_1000BASE_LX':
-        return OpticalStandard.optic_1000baseLx;
-      case 'OPTIC_1000BASE_SX':
-        return OpticalStandard.optic_1000baseSx;
-    }
-    throw Exception('$this is not known in enum OpticalStandard');
-  }
+  const OpticalStandard(this.value);
+
+  static OpticalStandard fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OpticalStandard'));
 }
 
 /// Information about an order.
@@ -2845,81 +2592,37 @@ class Order {
       orderFulfilledDate: timeStampFromJson(json['OrderFulfilledDate']),
       orderId: json['OrderId'] as String?,
       orderSubmissionDate: timeStampFromJson(json['OrderSubmissionDate']),
-      orderType: (json['OrderType'] as String?)?.toOrderType(),
+      orderType: (json['OrderType'] as String?)?.let(OrderType.fromString),
       outpostId: json['OutpostId'] as String?,
-      paymentOption: (json['PaymentOption'] as String?)?.toPaymentOption(),
-      paymentTerm: (json['PaymentTerm'] as String?)?.toPaymentTerm(),
-      status: (json['Status'] as String?)?.toOrderStatus(),
+      paymentOption:
+          (json['PaymentOption'] as String?)?.let(PaymentOption.fromString),
+      paymentTerm:
+          (json['PaymentTerm'] as String?)?.let(PaymentTerm.fromString),
+      status: (json['Status'] as String?)?.let(OrderStatus.fromString),
     );
   }
 }
 
 enum OrderStatus {
-  received,
-  pending,
-  processing,
-  installing,
-  fulfilled,
-  cancelled,
-  preparing,
-  inProgress,
-  completed,
-  error,
-}
+  received('RECEIVED'),
+  pending('PENDING'),
+  processing('PROCESSING'),
+  installing('INSTALLING'),
+  fulfilled('FULFILLED'),
+  cancelled('CANCELLED'),
+  preparing('PREPARING'),
+  inProgress('IN_PROGRESS'),
+  completed('COMPLETED'),
+  error('ERROR'),
+  ;
 
-extension OrderStatusValueExtension on OrderStatus {
-  String toValue() {
-    switch (this) {
-      case OrderStatus.received:
-        return 'RECEIVED';
-      case OrderStatus.pending:
-        return 'PENDING';
-      case OrderStatus.processing:
-        return 'PROCESSING';
-      case OrderStatus.installing:
-        return 'INSTALLING';
-      case OrderStatus.fulfilled:
-        return 'FULFILLED';
-      case OrderStatus.cancelled:
-        return 'CANCELLED';
-      case OrderStatus.preparing:
-        return 'PREPARING';
-      case OrderStatus.inProgress:
-        return 'IN_PROGRESS';
-      case OrderStatus.completed:
-        return 'COMPLETED';
-      case OrderStatus.error:
-        return 'ERROR';
-    }
-  }
-}
+  final String value;
 
-extension OrderStatusFromString on String {
-  OrderStatus toOrderStatus() {
-    switch (this) {
-      case 'RECEIVED':
-        return OrderStatus.received;
-      case 'PENDING':
-        return OrderStatus.pending;
-      case 'PROCESSING':
-        return OrderStatus.processing;
-      case 'INSTALLING':
-        return OrderStatus.installing;
-      case 'FULFILLED':
-        return OrderStatus.fulfilled;
-      case 'CANCELLED':
-        return OrderStatus.cancelled;
-      case 'PREPARING':
-        return OrderStatus.preparing;
-      case 'IN_PROGRESS':
-        return OrderStatus.inProgress;
-      case 'COMPLETED':
-        return OrderStatus.completed;
-      case 'ERROR':
-        return OrderStatus.error;
-    }
-    throw Exception('$this is not known in enum OrderStatus');
-  }
+  const OrderStatus(this.value);
+
+  static OrderStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum OrderStatus'));
 }
 
 /// A summary of line items in your order.
@@ -2982,43 +2685,29 @@ class OrderSummary {
     return OrderSummary(
       lineItemCountsByStatus:
           (json['LineItemCountsByStatus'] as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(k.toLineItemStatus(), e as int)),
+              ?.map((k, e) => MapEntry(LineItemStatus.fromString(k), e as int)),
       orderFulfilledDate: timeStampFromJson(json['OrderFulfilledDate']),
       orderId: json['OrderId'] as String?,
       orderSubmissionDate: timeStampFromJson(json['OrderSubmissionDate']),
-      orderType: (json['OrderType'] as String?)?.toOrderType(),
+      orderType: (json['OrderType'] as String?)?.let(OrderType.fromString),
       outpostId: json['OutpostId'] as String?,
-      status: (json['Status'] as String?)?.toOrderStatus(),
+      status: (json['Status'] as String?)?.let(OrderStatus.fromString),
     );
   }
 }
 
 enum OrderType {
-  outpost,
-  replacement,
-}
+  outpost('OUTPOST'),
+  replacement('REPLACEMENT'),
+  ;
 
-extension OrderTypeValueExtension on OrderType {
-  String toValue() {
-    switch (this) {
-      case OrderType.outpost:
-        return 'OUTPOST';
-      case OrderType.replacement:
-        return 'REPLACEMENT';
-    }
-  }
-}
+  final String value;
 
-extension OrderTypeFromString on String {
-  OrderType toOrderType() {
-    switch (this) {
-      case 'OUTPOST':
-        return OrderType.outpost;
-      case 'REPLACEMENT':
-        return OrderType.replacement;
-    }
-    throw Exception('$this is not known in enum OrderType');
-  }
+  const OrderType(this.value);
+
+  static OrderType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum OrderType'));
 }
 
 /// Information about an Outpost.
@@ -3069,8 +2758,8 @@ class Outpost {
       ownerId: json['OwnerId'] as String?,
       siteArn: json['SiteArn'] as String?,
       siteId: json['SiteId'] as String?,
-      supportedHardwareType:
-          (json['SupportedHardwareType'] as String?)?.toSupportedHardwareType(),
+      supportedHardwareType: (json['SupportedHardwareType'] as String?)
+          ?.let(SupportedHardwareType.fromString),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -3078,196 +2767,96 @@ class Outpost {
 }
 
 enum PaymentOption {
-  allUpfront,
-  noUpfront,
-  partialUpfront,
-}
+  allUpfront('ALL_UPFRONT'),
+  noUpfront('NO_UPFRONT'),
+  partialUpfront('PARTIAL_UPFRONT'),
+  ;
 
-extension PaymentOptionValueExtension on PaymentOption {
-  String toValue() {
-    switch (this) {
-      case PaymentOption.allUpfront:
-        return 'ALL_UPFRONT';
-      case PaymentOption.noUpfront:
-        return 'NO_UPFRONT';
-      case PaymentOption.partialUpfront:
-        return 'PARTIAL_UPFRONT';
-    }
-  }
-}
+  final String value;
 
-extension PaymentOptionFromString on String {
-  PaymentOption toPaymentOption() {
-    switch (this) {
-      case 'ALL_UPFRONT':
-        return PaymentOption.allUpfront;
-      case 'NO_UPFRONT':
-        return PaymentOption.noUpfront;
-      case 'PARTIAL_UPFRONT':
-        return PaymentOption.partialUpfront;
-    }
-    throw Exception('$this is not known in enum PaymentOption');
-  }
+  const PaymentOption(this.value);
+
+  static PaymentOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PaymentOption'));
 }
 
 enum PaymentTerm {
-  threeYears,
-  oneYear,
-}
+  threeYears('THREE_YEARS'),
+  oneYear('ONE_YEAR'),
+  ;
 
-extension PaymentTermValueExtension on PaymentTerm {
-  String toValue() {
-    switch (this) {
-      case PaymentTerm.threeYears:
-        return 'THREE_YEARS';
-      case PaymentTerm.oneYear:
-        return 'ONE_YEAR';
-    }
-  }
-}
+  final String value;
 
-extension PaymentTermFromString on String {
-  PaymentTerm toPaymentTerm() {
-    switch (this) {
-      case 'THREE_YEARS':
-        return PaymentTerm.threeYears;
-      case 'ONE_YEAR':
-        return PaymentTerm.oneYear;
-    }
-    throw Exception('$this is not known in enum PaymentTerm');
-  }
+  const PaymentTerm(this.value);
+
+  static PaymentTerm fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum PaymentTerm'));
 }
 
 enum PowerConnector {
-  l6_30p,
-  iec309,
-  ah530p7w,
-  ah532p6w,
-}
+  l6_30p('L6_30P'),
+  iec309('IEC309'),
+  ah530p7w('AH530P7W'),
+  ah532p6w('AH532P6W'),
+  ;
 
-extension PowerConnectorValueExtension on PowerConnector {
-  String toValue() {
-    switch (this) {
-      case PowerConnector.l6_30p:
-        return 'L6_30P';
-      case PowerConnector.iec309:
-        return 'IEC309';
-      case PowerConnector.ah530p7w:
-        return 'AH530P7W';
-      case PowerConnector.ah532p6w:
-        return 'AH532P6W';
-    }
-  }
-}
+  final String value;
 
-extension PowerConnectorFromString on String {
-  PowerConnector toPowerConnector() {
-    switch (this) {
-      case 'L6_30P':
-        return PowerConnector.l6_30p;
-      case 'IEC309':
-        return PowerConnector.iec309;
-      case 'AH530P7W':
-        return PowerConnector.ah530p7w;
-      case 'AH532P6W':
-        return PowerConnector.ah532p6w;
-    }
-    throw Exception('$this is not known in enum PowerConnector');
-  }
+  const PowerConnector(this.value);
+
+  static PowerConnector fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PowerConnector'));
 }
 
 enum PowerDrawKva {
-  power_5Kva,
-  power_10Kva,
-  power_15Kva,
-  power_30Kva,
-}
+  power_5Kva('POWER_5_KVA'),
+  power_10Kva('POWER_10_KVA'),
+  power_15Kva('POWER_15_KVA'),
+  power_30Kva('POWER_30_KVA'),
+  ;
 
-extension PowerDrawKvaValueExtension on PowerDrawKva {
-  String toValue() {
-    switch (this) {
-      case PowerDrawKva.power_5Kva:
-        return 'POWER_5_KVA';
-      case PowerDrawKva.power_10Kva:
-        return 'POWER_10_KVA';
-      case PowerDrawKva.power_15Kva:
-        return 'POWER_15_KVA';
-      case PowerDrawKva.power_30Kva:
-        return 'POWER_30_KVA';
-    }
-  }
-}
+  final String value;
 
-extension PowerDrawKvaFromString on String {
-  PowerDrawKva toPowerDrawKva() {
-    switch (this) {
-      case 'POWER_5_KVA':
-        return PowerDrawKva.power_5Kva;
-      case 'POWER_10_KVA':
-        return PowerDrawKva.power_10Kva;
-      case 'POWER_15_KVA':
-        return PowerDrawKva.power_15Kva;
-      case 'POWER_30_KVA':
-        return PowerDrawKva.power_30Kva;
-    }
-    throw Exception('$this is not known in enum PowerDrawKva');
-  }
+  const PowerDrawKva(this.value);
+
+  static PowerDrawKva fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PowerDrawKva'));
 }
 
 enum PowerFeedDrop {
-  aboveRack,
-  belowRack,
-}
+  aboveRack('ABOVE_RACK'),
+  belowRack('BELOW_RACK'),
+  ;
 
-extension PowerFeedDropValueExtension on PowerFeedDrop {
-  String toValue() {
-    switch (this) {
-      case PowerFeedDrop.aboveRack:
-        return 'ABOVE_RACK';
-      case PowerFeedDrop.belowRack:
-        return 'BELOW_RACK';
-    }
-  }
-}
+  final String value;
 
-extension PowerFeedDropFromString on String {
-  PowerFeedDrop toPowerFeedDrop() {
-    switch (this) {
-      case 'ABOVE_RACK':
-        return PowerFeedDrop.aboveRack;
-      case 'BELOW_RACK':
-        return PowerFeedDrop.belowRack;
-    }
-    throw Exception('$this is not known in enum PowerFeedDrop');
-  }
+  const PowerFeedDrop(this.value);
+
+  static PowerFeedDrop fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PowerFeedDrop'));
 }
 
 enum PowerPhase {
-  singlePhase,
-  threePhase,
-}
+  singlePhase('SINGLE_PHASE'),
+  threePhase('THREE_PHASE'),
+  ;
 
-extension PowerPhaseValueExtension on PowerPhase {
-  String toValue() {
-    switch (this) {
-      case PowerPhase.singlePhase:
-        return 'SINGLE_PHASE';
-      case PowerPhase.threePhase:
-        return 'THREE_PHASE';
-    }
-  }
-}
+  final String value;
 
-extension PowerPhaseFromString on String {
-  PowerPhase toPowerPhase() {
-    switch (this) {
-      case 'SINGLE_PHASE':
-        return PowerPhase.singlePhase;
-      case 'THREE_PHASE':
-        return PowerPhase.threePhase;
-    }
-    throw Exception('$this is not known in enum PowerPhase');
-  }
+  const PowerPhase(this.value);
+
+  static PowerPhase fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum PowerPhase'));
 }
 
 /// Information about the physical and logistical details for racks at sites.
@@ -3321,18 +2910,22 @@ class RackPhysicalProperties {
 
   factory RackPhysicalProperties.fromJson(Map<String, dynamic> json) {
     return RackPhysicalProperties(
-      fiberOpticCableType:
-          (json['FiberOpticCableType'] as String?)?.toFiberOpticCableType(),
+      fiberOpticCableType: (json['FiberOpticCableType'] as String?)
+          ?.let(FiberOpticCableType.fromString),
       maximumSupportedWeightLbs: (json['MaximumSupportedWeightLbs'] as String?)
-          ?.toMaximumSupportedWeightLbs(),
+          ?.let(MaximumSupportedWeightLbs.fromString),
       opticalStandard:
-          (json['OpticalStandard'] as String?)?.toOpticalStandard(),
-      powerConnector: (json['PowerConnector'] as String?)?.toPowerConnector(),
-      powerDrawKva: (json['PowerDrawKva'] as String?)?.toPowerDrawKva(),
-      powerFeedDrop: (json['PowerFeedDrop'] as String?)?.toPowerFeedDrop(),
-      powerPhase: (json['PowerPhase'] as String?)?.toPowerPhase(),
-      uplinkCount: (json['UplinkCount'] as String?)?.toUplinkCount(),
-      uplinkGbps: (json['UplinkGbps'] as String?)?.toUplinkGbps(),
+          (json['OpticalStandard'] as String?)?.let(OpticalStandard.fromString),
+      powerConnector:
+          (json['PowerConnector'] as String?)?.let(PowerConnector.fromString),
+      powerDrawKva:
+          (json['PowerDrawKva'] as String?)?.let(PowerDrawKva.fromString),
+      powerFeedDrop:
+          (json['PowerFeedDrop'] as String?)?.let(PowerFeedDrop.fromString),
+      powerPhase: (json['PowerPhase'] as String?)?.let(PowerPhase.fromString),
+      uplinkCount:
+          (json['UplinkCount'] as String?)?.let(UplinkCount.fromString),
+      uplinkGbps: (json['UplinkGbps'] as String?)?.let(UplinkGbps.fromString),
     );
   }
 
@@ -3348,61 +2941,36 @@ class RackPhysicalProperties {
     final uplinkGbps = this.uplinkGbps;
     return {
       if (fiberOpticCableType != null)
-        'FiberOpticCableType': fiberOpticCableType.toValue(),
+        'FiberOpticCableType': fiberOpticCableType.value,
       if (maximumSupportedWeightLbs != null)
-        'MaximumSupportedWeightLbs': maximumSupportedWeightLbs.toValue(),
-      if (opticalStandard != null) 'OpticalStandard': opticalStandard.toValue(),
-      if (powerConnector != null) 'PowerConnector': powerConnector.toValue(),
-      if (powerDrawKva != null) 'PowerDrawKva': powerDrawKva.toValue(),
-      if (powerFeedDrop != null) 'PowerFeedDrop': powerFeedDrop.toValue(),
-      if (powerPhase != null) 'PowerPhase': powerPhase.toValue(),
-      if (uplinkCount != null) 'UplinkCount': uplinkCount.toValue(),
-      if (uplinkGbps != null) 'UplinkGbps': uplinkGbps.toValue(),
+        'MaximumSupportedWeightLbs': maximumSupportedWeightLbs.value,
+      if (opticalStandard != null) 'OpticalStandard': opticalStandard.value,
+      if (powerConnector != null) 'PowerConnector': powerConnector.value,
+      if (powerDrawKva != null) 'PowerDrawKva': powerDrawKva.value,
+      if (powerFeedDrop != null) 'PowerFeedDrop': powerFeedDrop.value,
+      if (powerPhase != null) 'PowerPhase': powerPhase.value,
+      if (uplinkCount != null) 'UplinkCount': uplinkCount.value,
+      if (uplinkGbps != null) 'UplinkGbps': uplinkGbps.value,
     };
   }
 }
 
 enum ShipmentCarrier {
-  dhl,
-  dbs,
-  fedex,
-  ups,
-  expeditors,
-}
+  dhl('DHL'),
+  dbs('DBS'),
+  fedex('FEDEX'),
+  ups('UPS'),
+  expeditors('EXPEDITORS'),
+  ;
 
-extension ShipmentCarrierValueExtension on ShipmentCarrier {
-  String toValue() {
-    switch (this) {
-      case ShipmentCarrier.dhl:
-        return 'DHL';
-      case ShipmentCarrier.dbs:
-        return 'DBS';
-      case ShipmentCarrier.fedex:
-        return 'FEDEX';
-      case ShipmentCarrier.ups:
-        return 'UPS';
-      case ShipmentCarrier.expeditors:
-        return 'EXPEDITORS';
-    }
-  }
-}
+  final String value;
 
-extension ShipmentCarrierFromString on String {
-  ShipmentCarrier toShipmentCarrier() {
-    switch (this) {
-      case 'DHL':
-        return ShipmentCarrier.dhl;
-      case 'DBS':
-        return ShipmentCarrier.dbs;
-      case 'FEDEX':
-        return ShipmentCarrier.fedex;
-      case 'UPS':
-        return ShipmentCarrier.ups;
-      case 'EXPEDITORS':
-        return ShipmentCarrier.expeditors;
-    }
-    throw Exception('$this is not known in enum ShipmentCarrier');
-  }
+  const ShipmentCarrier(this.value);
+
+  static ShipmentCarrier fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ShipmentCarrier'));
 }
 
 /// Information about a line item shipment.
@@ -3421,7 +2989,7 @@ class ShipmentInformation {
   factory ShipmentInformation.fromJson(Map<String, dynamic> json) {
     return ShipmentInformation(
       shipmentCarrier:
-          (json['ShipmentCarrier'] as String?)?.toShipmentCarrier(),
+          (json['ShipmentCarrier'] as String?)?.let(ShipmentCarrier.fromString),
       shipmentTrackingNumber: json['ShipmentTrackingNumber'] as String?,
     );
   }
@@ -3541,8 +3109,8 @@ class StartCapacityTaskOutput {
   factory StartCapacityTaskOutput.fromJson(Map<String, dynamic> json) {
     return StartCapacityTaskOutput(
       capacityTaskId: json['CapacityTaskId'] as String?,
-      capacityTaskStatus:
-          (json['CapacityTaskStatus'] as String?)?.toCapacityTaskStatus(),
+      capacityTaskStatus: (json['CapacityTaskStatus'] as String?)
+          ?.let(CapacityTaskStatus.fromString),
       completionDate: timeStampFromJson(json['CompletionDate']),
       creationDate: timeStampFromJson(json['CreationDate']),
       dryRun: json['DryRun'] as bool?,
@@ -3581,59 +3149,33 @@ class StartConnectionResponse {
 }
 
 enum SupportedHardwareType {
-  rack,
-  server,
-}
+  rack('RACK'),
+  server('SERVER'),
+  ;
 
-extension SupportedHardwareTypeValueExtension on SupportedHardwareType {
-  String toValue() {
-    switch (this) {
-      case SupportedHardwareType.rack:
-        return 'RACK';
-      case SupportedHardwareType.server:
-        return 'SERVER';
-    }
-  }
-}
+  final String value;
 
-extension SupportedHardwareTypeFromString on String {
-  SupportedHardwareType toSupportedHardwareType() {
-    switch (this) {
-      case 'RACK':
-        return SupportedHardwareType.rack;
-      case 'SERVER':
-        return SupportedHardwareType.server;
-    }
-    throw Exception('$this is not known in enum SupportedHardwareType');
-  }
+  const SupportedHardwareType(this.value);
+
+  static SupportedHardwareType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SupportedHardwareType'));
 }
 
 enum SupportedStorageEnum {
-  ebs,
-  s3,
-}
+  ebs('EBS'),
+  s3('S3'),
+  ;
 
-extension SupportedStorageEnumValueExtension on SupportedStorageEnum {
-  String toValue() {
-    switch (this) {
-      case SupportedStorageEnum.ebs:
-        return 'EBS';
-      case SupportedStorageEnum.s3:
-        return 'S3';
-    }
-  }
-}
+  final String value;
 
-extension SupportedStorageEnumFromString on String {
-  SupportedStorageEnum toSupportedStorageEnum() {
-    switch (this) {
-      case 'EBS':
-        return SupportedStorageEnum.ebs;
-      case 'S3':
-        return SupportedStorageEnum.s3;
-    }
-    throw Exception('$this is not known in enum SupportedStorageEnum');
-  }
+  const SupportedStorageEnum(this.value);
+
+  static SupportedStorageEnum fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SupportedStorageEnum'));
 }
 
 class TagResourceResponse {
@@ -3685,7 +3227,8 @@ class UpdateSiteAddressOutput {
       address: json['Address'] != null
           ? Address.fromJson(json['Address'] as Map<String, dynamic>)
           : null,
-      addressType: (json['AddressType'] as String?)?.toAddressType(),
+      addressType:
+          (json['AddressType'] as String?)?.let(AddressType.fromString),
     );
   }
 }
@@ -3724,109 +3267,41 @@ class UpdateSiteRackPhysicalPropertiesOutput {
 }
 
 enum UplinkCount {
-  uplinkCount_1,
-  uplinkCount_2,
-  uplinkCount_3,
-  uplinkCount_4,
-  uplinkCount_5,
-  uplinkCount_6,
-  uplinkCount_7,
-  uplinkCount_8,
-  uplinkCount_12,
-  uplinkCount_16,
-}
+  uplinkCount_1('UPLINK_COUNT_1'),
+  uplinkCount_2('UPLINK_COUNT_2'),
+  uplinkCount_3('UPLINK_COUNT_3'),
+  uplinkCount_4('UPLINK_COUNT_4'),
+  uplinkCount_5('UPLINK_COUNT_5'),
+  uplinkCount_6('UPLINK_COUNT_6'),
+  uplinkCount_7('UPLINK_COUNT_7'),
+  uplinkCount_8('UPLINK_COUNT_8'),
+  uplinkCount_12('UPLINK_COUNT_12'),
+  uplinkCount_16('UPLINK_COUNT_16'),
+  ;
 
-extension UplinkCountValueExtension on UplinkCount {
-  String toValue() {
-    switch (this) {
-      case UplinkCount.uplinkCount_1:
-        return 'UPLINK_COUNT_1';
-      case UplinkCount.uplinkCount_2:
-        return 'UPLINK_COUNT_2';
-      case UplinkCount.uplinkCount_3:
-        return 'UPLINK_COUNT_3';
-      case UplinkCount.uplinkCount_4:
-        return 'UPLINK_COUNT_4';
-      case UplinkCount.uplinkCount_5:
-        return 'UPLINK_COUNT_5';
-      case UplinkCount.uplinkCount_6:
-        return 'UPLINK_COUNT_6';
-      case UplinkCount.uplinkCount_7:
-        return 'UPLINK_COUNT_7';
-      case UplinkCount.uplinkCount_8:
-        return 'UPLINK_COUNT_8';
-      case UplinkCount.uplinkCount_12:
-        return 'UPLINK_COUNT_12';
-      case UplinkCount.uplinkCount_16:
-        return 'UPLINK_COUNT_16';
-    }
-  }
-}
+  final String value;
 
-extension UplinkCountFromString on String {
-  UplinkCount toUplinkCount() {
-    switch (this) {
-      case 'UPLINK_COUNT_1':
-        return UplinkCount.uplinkCount_1;
-      case 'UPLINK_COUNT_2':
-        return UplinkCount.uplinkCount_2;
-      case 'UPLINK_COUNT_3':
-        return UplinkCount.uplinkCount_3;
-      case 'UPLINK_COUNT_4':
-        return UplinkCount.uplinkCount_4;
-      case 'UPLINK_COUNT_5':
-        return UplinkCount.uplinkCount_5;
-      case 'UPLINK_COUNT_6':
-        return UplinkCount.uplinkCount_6;
-      case 'UPLINK_COUNT_7':
-        return UplinkCount.uplinkCount_7;
-      case 'UPLINK_COUNT_8':
-        return UplinkCount.uplinkCount_8;
-      case 'UPLINK_COUNT_12':
-        return UplinkCount.uplinkCount_12;
-      case 'UPLINK_COUNT_16':
-        return UplinkCount.uplinkCount_16;
-    }
-    throw Exception('$this is not known in enum UplinkCount');
-  }
+  const UplinkCount(this.value);
+
+  static UplinkCount fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum UplinkCount'));
 }
 
 enum UplinkGbps {
-  uplink_1g,
-  uplink_10g,
-  uplink_40g,
-  uplink_100g,
-}
+  uplink_1g('UPLINK_1G'),
+  uplink_10g('UPLINK_10G'),
+  uplink_40g('UPLINK_40G'),
+  uplink_100g('UPLINK_100G'),
+  ;
 
-extension UplinkGbpsValueExtension on UplinkGbps {
-  String toValue() {
-    switch (this) {
-      case UplinkGbps.uplink_1g:
-        return 'UPLINK_1G';
-      case UplinkGbps.uplink_10g:
-        return 'UPLINK_10G';
-      case UplinkGbps.uplink_40g:
-        return 'UPLINK_40G';
-      case UplinkGbps.uplink_100g:
-        return 'UPLINK_100G';
-    }
-  }
-}
+  final String value;
 
-extension UplinkGbpsFromString on String {
-  UplinkGbps toUplinkGbps() {
-    switch (this) {
-      case 'UPLINK_1G':
-        return UplinkGbps.uplink_1g;
-      case 'UPLINK_10G':
-        return UplinkGbps.uplink_10g;
-      case 'UPLINK_40G':
-        return UplinkGbps.uplink_40g;
-      case 'UPLINK_100G':
-        return UplinkGbps.uplink_100g;
-    }
-    throw Exception('$this is not known in enum UplinkGbps');
-  }
+  const UplinkGbps(this.value);
+
+  static UplinkGbps fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum UplinkGbps'));
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

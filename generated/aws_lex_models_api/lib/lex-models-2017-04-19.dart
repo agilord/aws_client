@@ -932,7 +932,7 @@ class LexModelBuildingService {
       50,
     );
     final $query = <String, List<String>>{
-      if (locale != null) 'locale': [locale.toValue()],
+      if (locale != null) 'locale': [locale.value],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
       if (signatureContains != null) 'signatureContains': [signatureContains],
@@ -990,7 +990,7 @@ class LexModelBuildingService {
       50,
     );
     final $query = <String, List<String>>{
-      if (locale != null) 'locale': [locale.toValue()],
+      if (locale != null) 'locale': [locale.value],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
       if (signatureContains != null) 'signatureContains': [signatureContains],
@@ -1030,9 +1030,9 @@ class LexModelBuildingService {
     required String version,
   }) async {
     final $query = <String, List<String>>{
-      'exportType': [exportType.toValue()],
+      'exportType': [exportType.value],
       'name': [name],
-      'resourceType': [resourceType.toValue()],
+      'resourceType': [resourceType.value],
       'version': [version],
     };
     final response = await _protocol.send(
@@ -1285,11 +1285,10 @@ class LexModelBuildingService {
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (migrationStatusEquals != null)
-        'migrationStatusEquals': [migrationStatusEquals.toValue()],
+        'migrationStatusEquals': [migrationStatusEquals.value],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (sortByAttribute != null)
-        'sortByAttribute': [sortByAttribute.toValue()],
-      if (sortByOrder != null) 'sortByOrder': [sortByOrder.toValue()],
+      if (sortByAttribute != null) 'sortByAttribute': [sortByAttribute.value],
+      if (sortByOrder != null) 'sortByOrder': [sortByOrder.value],
       if (v1BotNameContains != null) 'v1BotNameContains': [v1BotNameContains],
     };
     final response = await _protocol.send(
@@ -1502,7 +1501,7 @@ class LexModelBuildingService {
   }) async {
     final $query = <String, List<String>>{
       'bot_versions': botVersions,
-      'status_type': [statusType.toValue()],
+      'status_type': [statusType.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1859,7 +1858,7 @@ class LexModelBuildingService {
     );
     final $payload = <String, dynamic>{
       'childDirected': childDirected,
-      'locale': locale.toValue(),
+      'locale': locale.value,
       if (abortStatement != null) 'abortStatement': abortStatement,
       if (checksum != null) 'checksum': checksum,
       if (clarificationPrompt != null)
@@ -1874,7 +1873,7 @@ class LexModelBuildingService {
       if (intents != null) 'intents': intents,
       if (nluIntentConfidenceThreshold != null)
         'nluIntentConfidenceThreshold': nluIntentConfidenceThreshold,
-      if (processBehavior != null) 'processBehavior': processBehavior.toValue(),
+      if (processBehavior != null) 'processBehavior': processBehavior.value,
       if (tags != null) 'tags': tags,
       if (voiceId != null) 'voiceId': voiceId,
     };
@@ -2353,7 +2352,7 @@ class LexModelBuildingService {
       if (slotTypeConfigurations != null)
         'slotTypeConfigurations': slotTypeConfigurations,
       if (valueSelectionStrategy != null)
-        'valueSelectionStrategy': valueSelectionStrategy.toValue(),
+        'valueSelectionStrategy': valueSelectionStrategy.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2415,9 +2414,9 @@ class LexModelBuildingService {
     List<Tag>? tags,
   }) async {
     final $payload = <String, dynamic>{
-      'mergeStrategy': mergeStrategy.toValue(),
+      'mergeStrategy': mergeStrategy.value,
       'payload': base64Encode(payload),
-      'resourceType': resourceType.toValue(),
+      'resourceType': resourceType.value,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -2491,7 +2490,7 @@ class LexModelBuildingService {
     required String v2BotRole,
   }) async {
     final $payload = <String, dynamic>{
-      'migrationStrategy': migrationStrategy.toValue(),
+      'migrationStrategy': migrationStrategy.value,
       'v1BotName': v1BotName,
       'v1BotVersion': v1BotVersion,
       'v2BotName': v2BotName,
@@ -2697,8 +2696,8 @@ class BotChannelAssociation {
       description: json['description'] as String?,
       failureReason: json['failureReason'] as String?,
       name: json['name'] as String?,
-      status: (json['status'] as String?)?.toChannelStatus(),
-      type: (json['type'] as String?)?.toChannelType(),
+      status: (json['status'] as String?)?.let(ChannelStatus.fromString),
+      type: (json['type'] as String?)?.let(ChannelType.fromString),
     );
   }
 }
@@ -2740,7 +2739,7 @@ class BotMetadata {
       description: json['description'] as String?,
       lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
       name: json['name'] as String?,
-      status: (json['status'] as String?)?.toStatus(),
+      status: (json['status'] as String?)?.let(Status.fromString),
       version: json['version'] as String?,
     );
   }
@@ -2767,7 +2766,7 @@ class BuiltinIntentMetadata {
       signature: json['signature'] as String?,
       supportedLocales: (json['supportedLocales'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toLocale())
+          .map((e) => Locale.fromString((e as String)))
           .toList(),
     );
   }
@@ -2810,81 +2809,42 @@ class BuiltinSlotTypeMetadata {
       signature: json['signature'] as String?,
       supportedLocales: (json['supportedLocales'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toLocale())
+          .map((e) => Locale.fromString((e as String)))
           .toList(),
     );
   }
 }
 
 enum ChannelStatus {
-  inProgress,
-  created,
-  failed,
-}
+  inProgress('IN_PROGRESS'),
+  created('CREATED'),
+  failed('FAILED'),
+  ;
 
-extension ChannelStatusValueExtension on ChannelStatus {
-  String toValue() {
-    switch (this) {
-      case ChannelStatus.inProgress:
-        return 'IN_PROGRESS';
-      case ChannelStatus.created:
-        return 'CREATED';
-      case ChannelStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ChannelStatusFromString on String {
-  ChannelStatus toChannelStatus() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return ChannelStatus.inProgress;
-      case 'CREATED':
-        return ChannelStatus.created;
-      case 'FAILED':
-        return ChannelStatus.failed;
-    }
-    throw Exception('$this is not known in enum ChannelStatus');
-  }
+  const ChannelStatus(this.value);
+
+  static ChannelStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ChannelStatus'));
 }
 
 enum ChannelType {
-  facebook,
-  slack,
-  twilioSms,
-  kik,
-}
+  facebook('Facebook'),
+  slack('Slack'),
+  twilioSms('Twilio-Sms'),
+  kik('Kik'),
+  ;
 
-extension ChannelTypeValueExtension on ChannelType {
-  String toValue() {
-    switch (this) {
-      case ChannelType.facebook:
-        return 'Facebook';
-      case ChannelType.slack:
-        return 'Slack';
-      case ChannelType.twilioSms:
-        return 'Twilio-Sms';
-      case ChannelType.kik:
-        return 'Kik';
-    }
-  }
-}
+  final String value;
 
-extension ChannelTypeFromString on String {
-  ChannelType toChannelType() {
-    switch (this) {
-      case 'Facebook':
-        return ChannelType.facebook;
-      case 'Slack':
-        return ChannelType.slack;
-      case 'Twilio-Sms':
-        return ChannelType.twilioSms;
-      case 'Kik':
-        return ChannelType.kik;
-    }
-    throw Exception('$this is not known in enum ChannelType');
-  }
+  const ChannelType(this.value);
+
+  static ChannelType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ChannelType'));
 }
 
 /// Specifies a Lambda function that verifies requests to a bot or fulfills the
@@ -2920,36 +2880,18 @@ class CodeHook {
 }
 
 enum ContentType {
-  plainText,
-  ssml,
-  customPayload,
-}
+  plainText('PlainText'),
+  ssml('SSML'),
+  customPayload('CustomPayload'),
+  ;
 
-extension ContentTypeValueExtension on ContentType {
-  String toValue() {
-    switch (this) {
-      case ContentType.plainText:
-        return 'PlainText';
-      case ContentType.ssml:
-        return 'SSML';
-      case ContentType.customPayload:
-        return 'CustomPayload';
-    }
-  }
-}
+  final String value;
 
-extension ContentTypeFromString on String {
-  ContentType toContentType() {
-    switch (this) {
-      case 'PlainText':
-        return ContentType.plainText;
-      case 'SSML':
-        return ContentType.ssml;
-      case 'CustomPayload':
-        return ContentType.customPayload;
-    }
-    throw Exception('$this is not known in enum ContentType');
-  }
+  const ContentType(this.value);
+
+  static ContentType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ContentType'));
 }
 
 /// Provides the settings needed for conversation logs.
@@ -3138,9 +3080,9 @@ class CreateBotVersionResponse {
           .map((e) => Intent.fromJson(e as Map<String, dynamic>))
           .toList(),
       lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
-      locale: (json['locale'] as String?)?.toLocale(),
+      locale: (json['locale'] as String?)?.let(Locale.fromString),
       name: json['name'] as String?,
-      status: (json['status'] as String?)?.toStatus(),
+      status: (json['status'] as String?)?.let(Status.fromString),
       version: json['version'] as String?,
       voiceId: json['voiceId'] as String?,
     );
@@ -3352,38 +3294,24 @@ class CreateSlotTypeVersionResponse {
           .map((e) => SlotTypeConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
       valueSelectionStrategy: (json['valueSelectionStrategy'] as String?)
-          ?.toSlotValueSelectionStrategy(),
+          ?.let(SlotValueSelectionStrategy.fromString),
       version: json['version'] as String?,
     );
   }
 }
 
 enum Destination {
-  cloudwatchLogs,
-  s3,
-}
+  cloudwatchLogs('CLOUDWATCH_LOGS'),
+  s3('S3'),
+  ;
 
-extension DestinationValueExtension on Destination {
-  String toValue() {
-    switch (this) {
-      case Destination.cloudwatchLogs:
-        return 'CLOUDWATCH_LOGS';
-      case Destination.s3:
-        return 'S3';
-    }
-  }
-}
+  final String value;
 
-extension DestinationFromString on String {
-  Destination toDestination() {
-    switch (this) {
-      case 'CLOUDWATCH_LOGS':
-        return Destination.cloudwatchLogs;
-      case 'S3':
-        return Destination.s3;
-    }
-    throw Exception('$this is not known in enum Destination');
-  }
+  const Destination(this.value);
+
+  static Destination fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Destination'));
 }
 
 /// Each slot type can have a set of values. Each enumeration value represents a
@@ -3437,64 +3365,33 @@ class EnumerationValue {
 }
 
 enum ExportStatus {
-  inProgress,
-  ready,
-  failed,
-}
+  inProgress('IN_PROGRESS'),
+  ready('READY'),
+  failed('FAILED'),
+  ;
 
-extension ExportStatusValueExtension on ExportStatus {
-  String toValue() {
-    switch (this) {
-      case ExportStatus.inProgress:
-        return 'IN_PROGRESS';
-      case ExportStatus.ready:
-        return 'READY';
-      case ExportStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ExportStatusFromString on String {
-  ExportStatus toExportStatus() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return ExportStatus.inProgress;
-      case 'READY':
-        return ExportStatus.ready;
-      case 'FAILED':
-        return ExportStatus.failed;
-    }
-    throw Exception('$this is not known in enum ExportStatus');
-  }
+  const ExportStatus(this.value);
+
+  static ExportStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ExportStatus'));
 }
 
 enum ExportType {
-  alexaSkillsKit,
-  lex,
-}
+  alexaSkillsKit('ALEXA_SKILLS_KIT'),
+  lex('LEX'),
+  ;
 
-extension ExportTypeValueExtension on ExportType {
-  String toValue() {
-    switch (this) {
-      case ExportType.alexaSkillsKit:
-        return 'ALEXA_SKILLS_KIT';
-      case ExportType.lex:
-        return 'LEX';
-    }
-  }
-}
+  final String value;
 
-extension ExportTypeFromString on String {
-  ExportType toExportType() {
-    switch (this) {
-      case 'ALEXA_SKILLS_KIT':
-        return ExportType.alexaSkillsKit;
-      case 'LEX':
-        return ExportType.lex;
-    }
-    throw Exception('$this is not known in enum ExportType');
-  }
+  const ExportType(this.value);
+
+  static ExportType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ExportType'));
 }
 
 /// A prompt for additional activity after an intent is fulfilled. For example,
@@ -3570,7 +3467,7 @@ class FulfillmentActivity {
 
   factory FulfillmentActivity.fromJson(Map<String, dynamic> json) {
     return FulfillmentActivity(
-      type: (json['type'] as String).toFulfillmentActivityType(),
+      type: FulfillmentActivityType.fromString((json['type'] as String)),
       codeHook: json['codeHook'] != null
           ? CodeHook.fromJson(json['codeHook'] as Map<String, dynamic>)
           : null,
@@ -3581,38 +3478,25 @@ class FulfillmentActivity {
     final type = this.type;
     final codeHook = this.codeHook;
     return {
-      'type': type.toValue(),
+      'type': type.value,
       if (codeHook != null) 'codeHook': codeHook,
     };
   }
 }
 
 enum FulfillmentActivityType {
-  returnIntent,
-  codeHook,
-}
+  returnIntent('ReturnIntent'),
+  codeHook('CodeHook'),
+  ;
 
-extension FulfillmentActivityTypeValueExtension on FulfillmentActivityType {
-  String toValue() {
-    switch (this) {
-      case FulfillmentActivityType.returnIntent:
-        return 'ReturnIntent';
-      case FulfillmentActivityType.codeHook:
-        return 'CodeHook';
-    }
-  }
-}
+  final String value;
 
-extension FulfillmentActivityTypeFromString on String {
-  FulfillmentActivityType toFulfillmentActivityType() {
-    switch (this) {
-      case 'ReturnIntent':
-        return FulfillmentActivityType.returnIntent;
-      case 'CodeHook':
-        return FulfillmentActivityType.codeHook;
-    }
-    throw Exception('$this is not known in enum FulfillmentActivityType');
-  }
+  const FulfillmentActivityType(this.value);
+
+  static FulfillmentActivityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum FulfillmentActivityType'));
 }
 
 class GetBotAliasResponse {
@@ -3764,8 +3648,8 @@ class GetBotChannelAssociationResponse {
       description: json['description'] as String?,
       failureReason: json['failureReason'] as String?,
       name: json['name'] as String?,
-      status: (json['status'] as String?)?.toChannelStatus(),
-      type: (json['type'] as String?)?.toChannelType(),
+      status: (json['status'] as String?)?.let(ChannelStatus.fromString),
+      type: (json['type'] as String?)?.let(ChannelType.fromString),
     );
   }
 }
@@ -3954,11 +3838,11 @@ class GetBotResponse {
           .map((e) => Intent.fromJson(e as Map<String, dynamic>))
           .toList(),
       lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
-      locale: (json['locale'] as String?)?.toLocale(),
+      locale: (json['locale'] as String?)?.let(Locale.fromString),
       name: json['name'] as String?,
       nluIntentConfidenceThreshold:
           json['nluIntentConfidenceThreshold'] as double?,
-      status: (json['status'] as String?)?.toStatus(),
+      status: (json['status'] as String?)?.let(Status.fromString),
       version: json['version'] as String?,
       voiceId: json['voiceId'] as String?,
     );
@@ -4042,7 +3926,7 @@ class GetBuiltinIntentResponse {
           .toList(),
       supportedLocales: (json['supportedLocales'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toLocale())
+          .map((e) => Locale.fromString((e as String)))
           .toList(),
     );
   }
@@ -4151,11 +4035,13 @@ class GetExportResponse {
 
   factory GetExportResponse.fromJson(Map<String, dynamic> json) {
     return GetExportResponse(
-      exportStatus: (json['exportStatus'] as String?)?.toExportStatus(),
-      exportType: (json['exportType'] as String?)?.toExportType(),
+      exportStatus:
+          (json['exportStatus'] as String?)?.let(ExportStatus.fromString),
+      exportType: (json['exportType'] as String?)?.let(ExportType.fromString),
       failureReason: json['failureReason'] as String?,
       name: json['name'] as String?,
-      resourceType: (json['resourceType'] as String?)?.toResourceType(),
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
       url: json['url'] as String?,
       version: json['version'] as String?,
     );
@@ -4204,10 +4090,13 @@ class GetImportResponse {
           .map((e) => e as String)
           .toList(),
       importId: json['importId'] as String?,
-      importStatus: (json['importStatus'] as String?)?.toImportStatus(),
-      mergeStrategy: (json['mergeStrategy'] as String?)?.toMergeStrategy(),
+      importStatus:
+          (json['importStatus'] as String?)?.let(ImportStatus.fromString),
+      mergeStrategy:
+          (json['mergeStrategy'] as String?)?.let(MergeStrategy.fromString),
       name: json['name'] as String?,
-      resourceType: (json['resourceType'] as String?)?.toResourceType(),
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
     );
   }
 }
@@ -4484,11 +4373,11 @@ class GetMigrationResponse {
           .toList(),
       migrationId: json['migrationId'] as String?,
       migrationStatus:
-          (json['migrationStatus'] as String?)?.toMigrationStatus(),
-      migrationStrategy:
-          (json['migrationStrategy'] as String?)?.toMigrationStrategy(),
+          (json['migrationStatus'] as String?)?.let(MigrationStatus.fromString),
+      migrationStrategy: (json['migrationStrategy'] as String?)
+          ?.let(MigrationStrategy.fromString),
       migrationTimestamp: timeStampFromJson(json['migrationTimestamp']),
-      v1BotLocale: (json['v1BotLocale'] as String?)?.toLocale(),
+      v1BotLocale: (json['v1BotLocale'] as String?)?.let(Locale.fromString),
       v1BotName: json['v1BotName'] as String?,
       v1BotVersion: json['v1BotVersion'] as String?,
       v2BotId: json['v2BotId'] as String?,
@@ -4587,7 +4476,7 @@ class GetSlotTypeResponse {
           .map((e) => SlotTypeConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
       valueSelectionStrategy: (json['valueSelectionStrategy'] as String?)
-          ?.toSlotValueSelectionStrategy(),
+          ?.let(SlotValueSelectionStrategy.fromString),
       version: json['version'] as String?,
     );
   }
@@ -4673,36 +4562,19 @@ class GetUtterancesViewResponse {
 }
 
 enum ImportStatus {
-  inProgress,
-  complete,
-  failed,
-}
+  inProgress('IN_PROGRESS'),
+  complete('COMPLETE'),
+  failed('FAILED'),
+  ;
 
-extension ImportStatusValueExtension on ImportStatus {
-  String toValue() {
-    switch (this) {
-      case ImportStatus.inProgress:
-        return 'IN_PROGRESS';
-      case ImportStatus.complete:
-        return 'COMPLETE';
-      case ImportStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ImportStatusFromString on String {
-  ImportStatus toImportStatus() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return ImportStatus.inProgress;
-      case 'COMPLETE':
-        return ImportStatus.complete;
-      case 'FAILED':
-        return ImportStatus.failed;
-    }
-    throw Exception('$this is not known in enum ImportStatus');
-  }
+  const ImportStatus(this.value);
+
+  static ImportStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ImportStatus'));
 }
 
 /// The name of a context that must be active for an intent to be selected by
@@ -4870,86 +4742,28 @@ class ListTagsForResourceResponse {
 }
 
 enum Locale {
-  deDe,
-  enAu,
-  enGb,
-  enIn,
-  enUs,
-  es_419,
-  esEs,
-  esUs,
-  frFr,
-  frCa,
-  itIt,
-  jaJp,
-  koKr,
-}
+  deDe('de-DE'),
+  enAu('en-AU'),
+  enGb('en-GB'),
+  enIn('en-IN'),
+  enUs('en-US'),
+  es_419('es-419'),
+  esEs('es-ES'),
+  esUs('es-US'),
+  frFr('fr-FR'),
+  frCa('fr-CA'),
+  itIt('it-IT'),
+  jaJp('ja-JP'),
+  koKr('ko-KR'),
+  ;
 
-extension LocaleValueExtension on Locale {
-  String toValue() {
-    switch (this) {
-      case Locale.deDe:
-        return 'de-DE';
-      case Locale.enAu:
-        return 'en-AU';
-      case Locale.enGb:
-        return 'en-GB';
-      case Locale.enIn:
-        return 'en-IN';
-      case Locale.enUs:
-        return 'en-US';
-      case Locale.es_419:
-        return 'es-419';
-      case Locale.esEs:
-        return 'es-ES';
-      case Locale.esUs:
-        return 'es-US';
-      case Locale.frFr:
-        return 'fr-FR';
-      case Locale.frCa:
-        return 'fr-CA';
-      case Locale.itIt:
-        return 'it-IT';
-      case Locale.jaJp:
-        return 'ja-JP';
-      case Locale.koKr:
-        return 'ko-KR';
-    }
-  }
-}
+  final String value;
 
-extension LocaleFromString on String {
-  Locale toLocale() {
-    switch (this) {
-      case 'de-DE':
-        return Locale.deDe;
-      case 'en-AU':
-        return Locale.enAu;
-      case 'en-GB':
-        return Locale.enGb;
-      case 'en-IN':
-        return Locale.enIn;
-      case 'en-US':
-        return Locale.enUs;
-      case 'es-419':
-        return Locale.es_419;
-      case 'es-ES':
-        return Locale.esEs;
-      case 'es-US':
-        return Locale.esUs;
-      case 'fr-FR':
-        return Locale.frFr;
-      case 'fr-CA':
-        return Locale.frCa;
-      case 'it-IT':
-        return Locale.itIt;
-      case 'ja-JP':
-        return Locale.jaJp;
-      case 'ko-KR':
-        return Locale.koKr;
-    }
-    throw Exception('$this is not known in enum Locale');
-  }
+  const Locale(this.value);
+
+  static Locale fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Locale'));
 }
 
 /// Settings used to configure delivery mode and destination for conversation
@@ -4985,8 +4799,8 @@ class LogSettingsRequest {
     final resourceArn = this.resourceArn;
     final kmsKeyArn = this.kmsKeyArn;
     return {
-      'destination': destination.toValue(),
-      'logType': logType.toValue(),
+      'destination': destination.value,
+      'logType': logType.value,
       'resourceArn': resourceArn,
       if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
     };
@@ -5024,9 +4838,10 @@ class LogSettingsResponse {
 
   factory LogSettingsResponse.fromJson(Map<String, dynamic> json) {
     return LogSettingsResponse(
-      destination: (json['destination'] as String?)?.toDestination(),
+      destination:
+          (json['destination'] as String?)?.let(Destination.fromString),
       kmsKeyArn: json['kmsKeyArn'] as String?,
-      logType: (json['logType'] as String?)?.toLogType(),
+      logType: (json['logType'] as String?)?.let(LogType.fromString),
       resourceArn: json['resourceArn'] as String?,
       resourcePrefix: json['resourcePrefix'] as String?,
     );
@@ -5034,59 +4849,32 @@ class LogSettingsResponse {
 }
 
 enum LogType {
-  audio,
-  text,
-}
+  audio('AUDIO'),
+  text('TEXT'),
+  ;
 
-extension LogTypeValueExtension on LogType {
-  String toValue() {
-    switch (this) {
-      case LogType.audio:
-        return 'AUDIO';
-      case LogType.text:
-        return 'TEXT';
-    }
-  }
-}
+  final String value;
 
-extension LogTypeFromString on String {
-  LogType toLogType() {
-    switch (this) {
-      case 'AUDIO':
-        return LogType.audio;
-      case 'TEXT':
-        return LogType.text;
-    }
-    throw Exception('$this is not known in enum LogType');
-  }
+  const LogType(this.value);
+
+  static LogType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum LogType'));
 }
 
 enum MergeStrategy {
-  overwriteLatest,
-  failOnConflict,
-}
+  overwriteLatest('OVERWRITE_LATEST'),
+  failOnConflict('FAIL_ON_CONFLICT'),
+  ;
 
-extension MergeStrategyValueExtension on MergeStrategy {
-  String toValue() {
-    switch (this) {
-      case MergeStrategy.overwriteLatest:
-        return 'OVERWRITE_LATEST';
-      case MergeStrategy.failOnConflict:
-        return 'FAIL_ON_CONFLICT';
-    }
-  }
-}
+  final String value;
 
-extension MergeStrategyFromString on String {
-  MergeStrategy toMergeStrategy() {
-    switch (this) {
-      case 'OVERWRITE_LATEST':
-        return MergeStrategy.overwriteLatest;
-      case 'FAIL_ON_CONFLICT':
-        return MergeStrategy.failOnConflict;
-    }
-    throw Exception('$this is not known in enum MergeStrategy');
-  }
+  const MergeStrategy(this.value);
+
+  static MergeStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MergeStrategy'));
 }
 
 /// The message object that provides the message text and its type.
@@ -5111,7 +4899,7 @@ class Message {
   factory Message.fromJson(Map<String, dynamic> json) {
     return Message(
       content: json['content'] as String,
-      contentType: (json['contentType'] as String).toContentType(),
+      contentType: ContentType.fromString((json['contentType'] as String)),
       groupNumber: json['groupNumber'] as int?,
     );
   }
@@ -5122,7 +4910,7 @@ class Message {
     final groupNumber = this.groupNumber;
     return {
       'content': content,
-      'contentType': contentType.toValue(),
+      'contentType': contentType.value,
       if (groupNumber != null) 'groupNumber': groupNumber,
     };
   }
@@ -5173,126 +4961,70 @@ class MigrationAlert {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      type: (json['type'] as String?)?.toMigrationAlertType(),
+      type: (json['type'] as String?)?.let(MigrationAlertType.fromString),
     );
   }
 }
 
 enum MigrationAlertType {
-  error,
-  warn,
-}
+  error('ERROR'),
+  warn('WARN'),
+  ;
 
-extension MigrationAlertTypeValueExtension on MigrationAlertType {
-  String toValue() {
-    switch (this) {
-      case MigrationAlertType.error:
-        return 'ERROR';
-      case MigrationAlertType.warn:
-        return 'WARN';
-    }
-  }
-}
+  final String value;
 
-extension MigrationAlertTypeFromString on String {
-  MigrationAlertType toMigrationAlertType() {
-    switch (this) {
-      case 'ERROR':
-        return MigrationAlertType.error;
-      case 'WARN':
-        return MigrationAlertType.warn;
-    }
-    throw Exception('$this is not known in enum MigrationAlertType');
-  }
+  const MigrationAlertType(this.value);
+
+  static MigrationAlertType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum MigrationAlertType'));
 }
 
 enum MigrationSortAttribute {
-  v1BotName,
-  migrationDateTime,
-}
+  v1BotName('V1_BOT_NAME'),
+  migrationDateTime('MIGRATION_DATE_TIME'),
+  ;
 
-extension MigrationSortAttributeValueExtension on MigrationSortAttribute {
-  String toValue() {
-    switch (this) {
-      case MigrationSortAttribute.v1BotName:
-        return 'V1_BOT_NAME';
-      case MigrationSortAttribute.migrationDateTime:
-        return 'MIGRATION_DATE_TIME';
-    }
-  }
-}
+  final String value;
 
-extension MigrationSortAttributeFromString on String {
-  MigrationSortAttribute toMigrationSortAttribute() {
-    switch (this) {
-      case 'V1_BOT_NAME':
-        return MigrationSortAttribute.v1BotName;
-      case 'MIGRATION_DATE_TIME':
-        return MigrationSortAttribute.migrationDateTime;
-    }
-    throw Exception('$this is not known in enum MigrationSortAttribute');
-  }
+  const MigrationSortAttribute(this.value);
+
+  static MigrationSortAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MigrationSortAttribute'));
 }
 
 enum MigrationStatus {
-  inProgress,
-  completed,
-  failed,
-}
+  inProgress('IN_PROGRESS'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  ;
 
-extension MigrationStatusValueExtension on MigrationStatus {
-  String toValue() {
-    switch (this) {
-      case MigrationStatus.inProgress:
-        return 'IN_PROGRESS';
-      case MigrationStatus.completed:
-        return 'COMPLETED';
-      case MigrationStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension MigrationStatusFromString on String {
-  MigrationStatus toMigrationStatus() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return MigrationStatus.inProgress;
-      case 'COMPLETED':
-        return MigrationStatus.completed;
-      case 'FAILED':
-        return MigrationStatus.failed;
-    }
-    throw Exception('$this is not known in enum MigrationStatus');
-  }
+  const MigrationStatus(this.value);
+
+  static MigrationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MigrationStatus'));
 }
 
 enum MigrationStrategy {
-  createNew,
-  updateExisting,
-}
+  createNew('CREATE_NEW'),
+  updateExisting('UPDATE_EXISTING'),
+  ;
 
-extension MigrationStrategyValueExtension on MigrationStrategy {
-  String toValue() {
-    switch (this) {
-      case MigrationStrategy.createNew:
-        return 'CREATE_NEW';
-      case MigrationStrategy.updateExisting:
-        return 'UPDATE_EXISTING';
-    }
-  }
-}
+  final String value;
 
-extension MigrationStrategyFromString on String {
-  MigrationStrategy toMigrationStrategy() {
-    switch (this) {
-      case 'CREATE_NEW':
-        return MigrationStrategy.createNew;
-      case 'UPDATE_EXISTING':
-        return MigrationStrategy.updateExisting;
-    }
-    throw Exception('$this is not known in enum MigrationStrategy');
-  }
+  const MigrationStrategy(this.value);
+
+  static MigrationStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MigrationStrategy'));
 }
 
 /// Provides information about migrating a bot from Amazon Lex V1 to Amazon Lex
@@ -5344,11 +5076,11 @@ class MigrationSummary {
     return MigrationSummary(
       migrationId: json['migrationId'] as String?,
       migrationStatus:
-          (json['migrationStatus'] as String?)?.toMigrationStatus(),
-      migrationStrategy:
-          (json['migrationStrategy'] as String?)?.toMigrationStrategy(),
+          (json['migrationStatus'] as String?)?.let(MigrationStatus.fromString),
+      migrationStrategy: (json['migrationStrategy'] as String?)
+          ?.let(MigrationStrategy.fromString),
       migrationTimestamp: timeStampFromJson(json['migrationTimestamp']),
-      v1BotLocale: (json['v1BotLocale'] as String?)?.toLocale(),
+      v1BotLocale: (json['v1BotLocale'] as String?)?.let(Locale.fromString),
       v1BotName: json['v1BotName'] as String?,
       v1BotVersion: json['v1BotVersion'] as String?,
       v2BotId: json['v2BotId'] as String?,
@@ -5358,31 +5090,18 @@ class MigrationSummary {
 }
 
 enum ObfuscationSetting {
-  none,
-  defaultObfuscation,
-}
+  none('NONE'),
+  defaultObfuscation('DEFAULT_OBFUSCATION'),
+  ;
 
-extension ObfuscationSettingValueExtension on ObfuscationSetting {
-  String toValue() {
-    switch (this) {
-      case ObfuscationSetting.none:
-        return 'NONE';
-      case ObfuscationSetting.defaultObfuscation:
-        return 'DEFAULT_OBFUSCATION';
-    }
-  }
-}
+  final String value;
 
-extension ObfuscationSettingFromString on String {
-  ObfuscationSetting toObfuscationSetting() {
-    switch (this) {
-      case 'NONE':
-        return ObfuscationSetting.none;
-      case 'DEFAULT_OBFUSCATION':
-        return ObfuscationSetting.defaultObfuscation;
-    }
-    throw Exception('$this is not known in enum ObfuscationSetting');
-  }
+  const ObfuscationSetting(this.value);
+
+  static ObfuscationSetting fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ObfuscationSetting'));
 }
 
 /// The specification of an output context that is set when an intent is
@@ -5428,31 +5147,18 @@ class OutputContext {
 }
 
 enum ProcessBehavior {
-  save,
-  build,
-}
+  save('SAVE'),
+  build('BUILD'),
+  ;
 
-extension ProcessBehaviorValueExtension on ProcessBehavior {
-  String toValue() {
-    switch (this) {
-      case ProcessBehavior.save:
-        return 'SAVE';
-      case ProcessBehavior.build:
-        return 'BUILD';
-    }
-  }
-}
+  final String value;
 
-extension ProcessBehaviorFromString on String {
-  ProcessBehavior toProcessBehavior() {
-    switch (this) {
-      case 'SAVE':
-        return ProcessBehavior.save;
-      case 'BUILD':
-        return ProcessBehavior.build;
-    }
-    throw Exception('$this is not known in enum ProcessBehavior');
-  }
+  const ProcessBehavior(this.value);
+
+  static ProcessBehavior fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ProcessBehavior'));
 }
 
 /// Obtains information from the user. To define a prompt, provide one or more
@@ -5738,11 +5444,11 @@ class PutBotResponse {
           .map((e) => Intent.fromJson(e as Map<String, dynamic>))
           .toList(),
       lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
-      locale: (json['locale'] as String?)?.toLocale(),
+      locale: (json['locale'] as String?)?.let(Locale.fromString),
       name: json['name'] as String?,
       nluIntentConfidenceThreshold:
           json['nluIntentConfidenceThreshold'] as double?,
-      status: (json['status'] as String?)?.toStatus(),
+      status: (json['status'] as String?)?.let(Status.fromString),
       tags: (json['tags'] as List?)
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -5979,43 +5685,26 @@ class PutSlotTypeResponse {
           .map((e) => SlotTypeConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
       valueSelectionStrategy: (json['valueSelectionStrategy'] as String?)
-          ?.toSlotValueSelectionStrategy(),
+          ?.let(SlotValueSelectionStrategy.fromString),
       version: json['version'] as String?,
     );
   }
 }
 
 enum ResourceType {
-  bot,
-  intent,
-  slotType,
-}
+  bot('BOT'),
+  intent('INTENT'),
+  slotType('SLOT_TYPE'),
+  ;
 
-extension ResourceTypeValueExtension on ResourceType {
-  String toValue() {
-    switch (this) {
-      case ResourceType.bot:
-        return 'BOT';
-      case ResourceType.intent:
-        return 'INTENT';
-      case ResourceType.slotType:
-        return 'SLOT_TYPE';
-    }
-  }
-}
+  final String value;
 
-extension ResourceTypeFromString on String {
-  ResourceType toResourceType() {
-    switch (this) {
-      case 'BOT':
-        return ResourceType.bot;
-      case 'INTENT':
-        return ResourceType.intent;
-      case 'SLOT_TYPE':
-        return ResourceType.slotType;
-    }
-    throw Exception('$this is not known in enum ResourceType');
-  }
+  const ResourceType(this.value);
+
+  static ResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResourceType'));
 }
 
 /// Identifies the version of a specific slot.
@@ -6088,14 +5777,15 @@ class Slot {
   factory Slot.fromJson(Map<String, dynamic> json) {
     return Slot(
       name: json['name'] as String,
-      slotConstraint: (json['slotConstraint'] as String).toSlotConstraint(),
+      slotConstraint:
+          SlotConstraint.fromString((json['slotConstraint'] as String)),
       defaultValueSpec: json['defaultValueSpec'] != null
           ? SlotDefaultValueSpec.fromJson(
               json['defaultValueSpec'] as Map<String, dynamic>)
           : null,
       description: json['description'] as String?,
-      obfuscationSetting:
-          (json['obfuscationSetting'] as String?)?.toObfuscationSetting(),
+      obfuscationSetting: (json['obfuscationSetting'] as String?)
+          ?.let(ObfuscationSetting.fromString),
       priority: json['priority'] as int?,
       responseCard: json['responseCard'] as String?,
       sampleUtterances: (json['sampleUtterances'] as List?)
@@ -6125,11 +5815,11 @@ class Slot {
     final valueElicitationPrompt = this.valueElicitationPrompt;
     return {
       'name': name,
-      'slotConstraint': slotConstraint.toValue(),
+      'slotConstraint': slotConstraint.value,
       if (defaultValueSpec != null) 'defaultValueSpec': defaultValueSpec,
       if (description != null) 'description': description,
       if (obfuscationSetting != null)
-        'obfuscationSetting': obfuscationSetting.toValue(),
+        'obfuscationSetting': obfuscationSetting.value,
       if (priority != null) 'priority': priority,
       if (responseCard != null) 'responseCard': responseCard,
       if (sampleUtterances != null) 'sampleUtterances': sampleUtterances,
@@ -6142,31 +5832,18 @@ class Slot {
 }
 
 enum SlotConstraint {
-  required,
-  optional,
-}
+  required('Required'),
+  optional('Optional'),
+  ;
 
-extension SlotConstraintValueExtension on SlotConstraint {
-  String toValue() {
-    switch (this) {
-      case SlotConstraint.required:
-        return 'Required';
-      case SlotConstraint.optional:
-        return 'Optional';
-    }
-  }
-}
+  final String value;
 
-extension SlotConstraintFromString on String {
-  SlotConstraint toSlotConstraint() {
-    switch (this) {
-      case 'Required':
-        return SlotConstraint.required;
-      case 'Optional':
-        return SlotConstraint.optional;
-    }
-    throw Exception('$this is not known in enum SlotConstraint');
-  }
+  const SlotConstraint(this.value);
+
+  static SlotConstraint fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SlotConstraint'));
 }
 
 /// A default value for a slot.
@@ -6355,60 +6032,32 @@ class SlotTypeRegexConfiguration {
 }
 
 enum SlotValueSelectionStrategy {
-  originalValue,
-  topResolution,
-}
+  originalValue('ORIGINAL_VALUE'),
+  topResolution('TOP_RESOLUTION'),
+  ;
 
-extension SlotValueSelectionStrategyValueExtension
-    on SlotValueSelectionStrategy {
-  String toValue() {
-    switch (this) {
-      case SlotValueSelectionStrategy.originalValue:
-        return 'ORIGINAL_VALUE';
-      case SlotValueSelectionStrategy.topResolution:
-        return 'TOP_RESOLUTION';
-    }
-  }
-}
+  final String value;
 
-extension SlotValueSelectionStrategyFromString on String {
-  SlotValueSelectionStrategy toSlotValueSelectionStrategy() {
-    switch (this) {
-      case 'ORIGINAL_VALUE':
-        return SlotValueSelectionStrategy.originalValue;
-      case 'TOP_RESOLUTION':
-        return SlotValueSelectionStrategy.topResolution;
-    }
-    throw Exception('$this is not known in enum SlotValueSelectionStrategy');
-  }
+  const SlotValueSelectionStrategy(this.value);
+
+  static SlotValueSelectionStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SlotValueSelectionStrategy'));
 }
 
 enum SortOrder {
-  ascending,
-  descending,
-}
+  ascending('ASCENDING'),
+  descending('DESCENDING'),
+  ;
 
-extension SortOrderValueExtension on SortOrder {
-  String toValue() {
-    switch (this) {
-      case SortOrder.ascending:
-        return 'ASCENDING';
-      case SortOrder.descending:
-        return 'DESCENDING';
-    }
-  }
-}
+  final String value;
 
-extension SortOrderFromString on String {
-  SortOrder toSortOrder() {
-    switch (this) {
-      case 'ASCENDING':
-        return SortOrder.ascending;
-      case 'DESCENDING':
-        return SortOrder.descending;
-    }
-    throw Exception('$this is not known in enum SortOrder');
-  }
+  const SortOrder(this.value);
+
+  static SortOrder fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SortOrder'));
 }
 
 class StartImportResponse {
@@ -6448,10 +6097,13 @@ class StartImportResponse {
     return StartImportResponse(
       createdDate: timeStampFromJson(json['createdDate']),
       importId: json['importId'] as String?,
-      importStatus: (json['importStatus'] as String?)?.toImportStatus(),
-      mergeStrategy: (json['mergeStrategy'] as String?)?.toMergeStrategy(),
+      importStatus:
+          (json['importStatus'] as String?)?.let(ImportStatus.fromString),
+      mergeStrategy:
+          (json['mergeStrategy'] as String?)?.let(MergeStrategy.fromString),
       name: json['name'] as String?,
-      resourceType: (json['resourceType'] as String?)?.toResourceType(),
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
       tags: (json['tags'] as List?)
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -6499,10 +6151,10 @@ class StartMigrationResponse {
   factory StartMigrationResponse.fromJson(Map<String, dynamic> json) {
     return StartMigrationResponse(
       migrationId: json['migrationId'] as String?,
-      migrationStrategy:
-          (json['migrationStrategy'] as String?)?.toMigrationStrategy(),
+      migrationStrategy: (json['migrationStrategy'] as String?)
+          ?.let(MigrationStrategy.fromString),
       migrationTimestamp: timeStampFromJson(json['migrationTimestamp']),
-      v1BotLocale: (json['v1BotLocale'] as String?)?.toLocale(),
+      v1BotLocale: (json['v1BotLocale'] as String?)?.let(Locale.fromString),
       v1BotName: json['v1BotName'] as String?,
       v1BotVersion: json['v1BotVersion'] as String?,
       v2BotId: json['v2BotId'] as String?,
@@ -6550,74 +6202,34 @@ class Statement {
 }
 
 enum Status {
-  building,
-  ready,
-  readyBasicTesting,
-  failed,
-  notBuilt,
-}
+  building('BUILDING'),
+  ready('READY'),
+  readyBasicTesting('READY_BASIC_TESTING'),
+  failed('FAILED'),
+  notBuilt('NOT_BUILT'),
+  ;
 
-extension StatusValueExtension on Status {
-  String toValue() {
-    switch (this) {
-      case Status.building:
-        return 'BUILDING';
-      case Status.ready:
-        return 'READY';
-      case Status.readyBasicTesting:
-        return 'READY_BASIC_TESTING';
-      case Status.failed:
-        return 'FAILED';
-      case Status.notBuilt:
-        return 'NOT_BUILT';
-    }
-  }
-}
+  final String value;
 
-extension StatusFromString on String {
-  Status toStatus() {
-    switch (this) {
-      case 'BUILDING':
-        return Status.building;
-      case 'READY':
-        return Status.ready;
-      case 'READY_BASIC_TESTING':
-        return Status.readyBasicTesting;
-      case 'FAILED':
-        return Status.failed;
-      case 'NOT_BUILT':
-        return Status.notBuilt;
-    }
-    throw Exception('$this is not known in enum Status');
-  }
+  const Status(this.value);
+
+  static Status fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Status'));
 }
 
 enum StatusType {
-  detected,
-  missed,
-}
+  detected('Detected'),
+  missed('Missed'),
+  ;
 
-extension StatusTypeValueExtension on StatusType {
-  String toValue() {
-    switch (this) {
-      case StatusType.detected:
-        return 'Detected';
-      case StatusType.missed:
-        return 'Missed';
-    }
-  }
-}
+  final String value;
 
-extension StatusTypeFromString on String {
-  StatusType toStatusType() {
-    switch (this) {
-      case 'Detected':
-        return StatusType.detected;
-      case 'Missed':
-        return StatusType.missed;
-    }
-    throw Exception('$this is not known in enum StatusType');
-  }
+  const StatusType(this.value);
+
+  static StatusType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum StatusType'));
 }
 
 /// A list of key/value pairs that identify a bot, bot alias, or bot channel.

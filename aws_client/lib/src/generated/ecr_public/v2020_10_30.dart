@@ -1899,7 +1899,8 @@ class ImageFailure {
 
   factory ImageFailure.fromJson(Map<String, dynamic> json) {
     return ImageFailure(
-      failureCode: (json['failureCode'] as String?)?.toImageFailureCode(),
+      failureCode:
+          (json['failureCode'] as String?)?.let(ImageFailureCode.fromString),
       failureReason: json['failureReason'] as String?,
       imageId: json['imageId'] != null
           ? ImageIdentifier.fromJson(json['imageId'] as Map<String, dynamic>)
@@ -1912,7 +1913,7 @@ class ImageFailure {
     final failureReason = this.failureReason;
     final imageId = this.imageId;
     return {
-      if (failureCode != null) 'failureCode': failureCode.toValue(),
+      if (failureCode != null) 'failureCode': failureCode.value,
       if (failureReason != null) 'failureReason': failureReason,
       if (imageId != null) 'imageId': imageId,
     };
@@ -1920,56 +1921,23 @@ class ImageFailure {
 }
 
 enum ImageFailureCode {
-  invalidImageDigest,
-  invalidImageTag,
-  imageTagDoesNotMatchDigest,
-  imageNotFound,
-  missingDigestAndTag,
-  imageReferencedByManifestList,
-  kmsError,
-}
+  invalidImageDigest('InvalidImageDigest'),
+  invalidImageTag('InvalidImageTag'),
+  imageTagDoesNotMatchDigest('ImageTagDoesNotMatchDigest'),
+  imageNotFound('ImageNotFound'),
+  missingDigestAndTag('MissingDigestAndTag'),
+  imageReferencedByManifestList('ImageReferencedByManifestList'),
+  kmsError('KmsError'),
+  ;
 
-extension ImageFailureCodeValueExtension on ImageFailureCode {
-  String toValue() {
-    switch (this) {
-      case ImageFailureCode.invalidImageDigest:
-        return 'InvalidImageDigest';
-      case ImageFailureCode.invalidImageTag:
-        return 'InvalidImageTag';
-      case ImageFailureCode.imageTagDoesNotMatchDigest:
-        return 'ImageTagDoesNotMatchDigest';
-      case ImageFailureCode.imageNotFound:
-        return 'ImageNotFound';
-      case ImageFailureCode.missingDigestAndTag:
-        return 'MissingDigestAndTag';
-      case ImageFailureCode.imageReferencedByManifestList:
-        return 'ImageReferencedByManifestList';
-      case ImageFailureCode.kmsError:
-        return 'KmsError';
-    }
-  }
-}
+  final String value;
 
-extension ImageFailureCodeFromString on String {
-  ImageFailureCode toImageFailureCode() {
-    switch (this) {
-      case 'InvalidImageDigest':
-        return ImageFailureCode.invalidImageDigest;
-      case 'InvalidImageTag':
-        return ImageFailureCode.invalidImageTag;
-      case 'ImageTagDoesNotMatchDigest':
-        return ImageFailureCode.imageTagDoesNotMatchDigest;
-      case 'ImageNotFound':
-        return ImageFailureCode.imageNotFound;
-      case 'MissingDigestAndTag':
-        return ImageFailureCode.missingDigestAndTag;
-      case 'ImageReferencedByManifestList':
-        return ImageFailureCode.imageReferencedByManifestList;
-      case 'KmsError':
-        return ImageFailureCode.kmsError;
-    }
-    throw Exception('$this is not known in enum ImageFailureCode');
-  }
+  const ImageFailureCode(this.value);
+
+  static ImageFailureCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ImageFailureCode'));
 }
 
 /// An object with identifying information for an Amazon ECR image.
@@ -2097,8 +2065,8 @@ class Layer {
 
   factory Layer.fromJson(Map<String, dynamic> json) {
     return Layer(
-      layerAvailability:
-          (json['layerAvailability'] as String?)?.toLayerAvailability(),
+      layerAvailability: (json['layerAvailability'] as String?)
+          ?.let(LayerAvailability.fromString),
       layerDigest: json['layerDigest'] as String?,
       layerSize: json['layerSize'] as int?,
       mediaType: json['mediaType'] as String?,
@@ -2112,7 +2080,7 @@ class Layer {
     final mediaType = this.mediaType;
     return {
       if (layerAvailability != null)
-        'layerAvailability': layerAvailability.toValue(),
+        'layerAvailability': layerAvailability.value,
       if (layerDigest != null) 'layerDigest': layerDigest,
       if (layerSize != null) 'layerSize': layerSize,
       if (mediaType != null) 'mediaType': mediaType,
@@ -2121,31 +2089,18 @@ class Layer {
 }
 
 enum LayerAvailability {
-  available,
-  unavailable,
-}
+  available('AVAILABLE'),
+  unavailable('UNAVAILABLE'),
+  ;
 
-extension LayerAvailabilityValueExtension on LayerAvailability {
-  String toValue() {
-    switch (this) {
-      case LayerAvailability.available:
-        return 'AVAILABLE';
-      case LayerAvailability.unavailable:
-        return 'UNAVAILABLE';
-    }
-  }
-}
+  final String value;
 
-extension LayerAvailabilityFromString on String {
-  LayerAvailability toLayerAvailability() {
-    switch (this) {
-      case 'AVAILABLE':
-        return LayerAvailability.available;
-      case 'UNAVAILABLE':
-        return LayerAvailability.unavailable;
-    }
-    throw Exception('$this is not known in enum LayerAvailability');
-  }
+  const LayerAvailability(this.value);
+
+  static LayerAvailability fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LayerAvailability'));
 }
 
 /// An object that represents an Amazon ECR image layer failure.
@@ -2167,7 +2122,8 @@ class LayerFailure {
 
   factory LayerFailure.fromJson(Map<String, dynamic> json) {
     return LayerFailure(
-      failureCode: (json['failureCode'] as String?)?.toLayerFailureCode(),
+      failureCode:
+          (json['failureCode'] as String?)?.let(LayerFailureCode.fromString),
       failureReason: json['failureReason'] as String?,
       layerDigest: json['layerDigest'] as String?,
     );
@@ -2178,7 +2134,7 @@ class LayerFailure {
     final failureReason = this.failureReason;
     final layerDigest = this.layerDigest;
     return {
-      if (failureCode != null) 'failureCode': failureCode.toValue(),
+      if (failureCode != null) 'failureCode': failureCode.value,
       if (failureReason != null) 'failureReason': failureReason,
       if (layerDigest != null) 'layerDigest': layerDigest,
     };
@@ -2186,31 +2142,18 @@ class LayerFailure {
 }
 
 enum LayerFailureCode {
-  invalidLayerDigest,
-  missingLayerDigest,
-}
+  invalidLayerDigest('InvalidLayerDigest'),
+  missingLayerDigest('MissingLayerDigest'),
+  ;
 
-extension LayerFailureCodeValueExtension on LayerFailureCode {
-  String toValue() {
-    switch (this) {
-      case LayerFailureCode.invalidLayerDigest:
-        return 'InvalidLayerDigest';
-      case LayerFailureCode.missingLayerDigest:
-        return 'MissingLayerDigest';
-    }
-  }
-}
+  final String value;
 
-extension LayerFailureCodeFromString on String {
-  LayerFailureCode toLayerFailureCode() {
-    switch (this) {
-      case 'InvalidLayerDigest':
-        return LayerFailureCode.invalidLayerDigest;
-      case 'MissingLayerDigest':
-        return LayerFailureCode.missingLayerDigest;
-    }
-    throw Exception('$this is not known in enum LayerFailureCode');
-  }
+  const LayerFailureCode(this.value);
+
+  static LayerFailureCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LayerFailureCode'));
 }
 
 class ListTagsForResourceResponse {
@@ -2472,7 +2415,7 @@ class RegistryAlias {
       defaultRegistryAlias: json['defaultRegistryAlias'] as bool,
       name: json['name'] as String,
       primaryRegistryAlias: json['primaryRegistryAlias'] as bool,
-      status: (json['status'] as String).toRegistryAliasStatus(),
+      status: RegistryAliasStatus.fromString((json['status'] as String)),
     );
   }
 
@@ -2485,42 +2428,25 @@ class RegistryAlias {
       'defaultRegistryAlias': defaultRegistryAlias,
       'name': name,
       'primaryRegistryAlias': primaryRegistryAlias,
-      'status': status.toValue(),
+      'status': status.value,
     };
   }
 }
 
 enum RegistryAliasStatus {
-  active,
-  pending,
-  rejected,
-}
+  active('ACTIVE'),
+  pending('PENDING'),
+  rejected('REJECTED'),
+  ;
 
-extension RegistryAliasStatusValueExtension on RegistryAliasStatus {
-  String toValue() {
-    switch (this) {
-      case RegistryAliasStatus.active:
-        return 'ACTIVE';
-      case RegistryAliasStatus.pending:
-        return 'PENDING';
-      case RegistryAliasStatus.rejected:
-        return 'REJECTED';
-    }
-  }
-}
+  final String value;
 
-extension RegistryAliasStatusFromString on String {
-  RegistryAliasStatus toRegistryAliasStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return RegistryAliasStatus.active;
-      case 'PENDING':
-        return RegistryAliasStatus.pending;
-      case 'REJECTED':
-        return RegistryAliasStatus.rejected;
-    }
-    throw Exception('$this is not known in enum RegistryAliasStatus');
-  }
+  const RegistryAliasStatus(this.value);
+
+  static RegistryAliasStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RegistryAliasStatus'));
 }
 
 /// The metadata for a public registry.

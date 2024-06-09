@@ -311,7 +311,7 @@ class RedshiftServerless {
         if (iamRoles != null) 'iamRoles': iamRoles,
         if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
         if (logExports != null)
-          'logExports': logExports.map((e) => e.toValue()).toList(),
+          'logExports': logExports.map((e) => e.value).toList(),
         if (manageAdminPassword != null)
           'manageAdminPassword': manageAdminPassword,
         if (redshiftIdcApplicationArn != null)
@@ -579,9 +579,9 @@ class RedshiftServerless {
       payload: {
         'amount': amount,
         'resourceArn': resourceArn,
-        'usageType': usageType.toValue(),
-        if (breachAction != null) 'breachAction': breachAction.toValue(),
-        if (period != null) 'period': period.toValue(),
+        'usageType': usageType.value,
+        if (breachAction != null) 'breachAction': breachAction.value,
+        if (period != null) 'period': period.value,
       },
     );
 
@@ -1909,7 +1909,7 @@ class RedshiftServerless {
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
         if (resourceArn != null) 'resourceArn': resourceArn,
-        if (usageType != null) 'usageType': usageType.toValue(),
+        if (usageType != null) 'usageType': usageType.value,
       },
     );
 
@@ -2525,7 +2525,7 @@ class RedshiftServerless {
         if (iamRoles != null) 'iamRoles': iamRoles,
         if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
         if (logExports != null)
-          'logExports': logExports.map((e) => e.toValue()).toList(),
+          'logExports': logExports.map((e) => e.value).toList(),
         if (manageAdminPassword != null)
           'manageAdminPassword': manageAdminPassword,
       },
@@ -2734,7 +2734,7 @@ class RedshiftServerless {
       payload: {
         'usageLimitId': usageLimitId,
         if (amount != null) 'amount': amount,
-        if (breachAction != null) 'breachAction': breachAction.toValue(),
+        if (breachAction != null) 'breachAction': breachAction.value,
       },
     );
 
@@ -4243,36 +4243,18 @@ class ListWorkgroupsResponse {
 }
 
 enum LogExport {
-  useractivitylog,
-  userlog,
-  connectionlog,
-}
+  useractivitylog('useractivitylog'),
+  userlog('userlog'),
+  connectionlog('connectionlog'),
+  ;
 
-extension LogExportValueExtension on LogExport {
-  String toValue() {
-    switch (this) {
-      case LogExport.useractivitylog:
-        return 'useractivitylog';
-      case LogExport.userlog:
-        return 'userlog';
-      case LogExport.connectionlog:
-        return 'connectionlog';
-    }
-  }
-}
+  final String value;
 
-extension LogExportFromString on String {
-  LogExport toLogExport() {
-    switch (this) {
-      case 'useractivitylog':
-        return LogExport.useractivitylog;
-      case 'userlog':
-        return LogExport.userlog;
-      case 'connectionlog':
-        return LogExport.connectionlog;
-    }
-    throw Exception('$this is not known in enum LogExport');
-  }
+  const LogExport(this.value);
+
+  static LogExport fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum LogExport'));
 }
 
 /// A collection of database objects and users.
@@ -4358,12 +4340,12 @@ class Namespace {
       kmsKeyId: json['kmsKeyId'] as String?,
       logExports: (json['logExports'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toLogExport())
+          .map((e) => LogExport.fromString((e as String)))
           .toList(),
       namespaceArn: json['namespaceArn'] as String?,
       namespaceId: json['namespaceId'] as String?,
       namespaceName: json['namespaceName'] as String?,
-      status: (json['status'] as String?)?.toNamespaceStatus(),
+      status: (json['status'] as String?)?.let(NamespaceStatus.fromString),
     );
   }
 
@@ -4393,46 +4375,29 @@ class Namespace {
       if (iamRoles != null) 'iamRoles': iamRoles,
       if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
       if (logExports != null)
-        'logExports': logExports.map((e) => e.toValue()).toList(),
+        'logExports': logExports.map((e) => e.value).toList(),
       if (namespaceArn != null) 'namespaceArn': namespaceArn,
       if (namespaceId != null) 'namespaceId': namespaceId,
       if (namespaceName != null) 'namespaceName': namespaceName,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
 
 enum NamespaceStatus {
-  available,
-  modifying,
-  deleting,
-}
+  available('AVAILABLE'),
+  modifying('MODIFYING'),
+  deleting('DELETING'),
+  ;
 
-extension NamespaceStatusValueExtension on NamespaceStatus {
-  String toValue() {
-    switch (this) {
-      case NamespaceStatus.available:
-        return 'AVAILABLE';
-      case NamespaceStatus.modifying:
-        return 'MODIFYING';
-      case NamespaceStatus.deleting:
-        return 'DELETING';
-    }
-  }
-}
+  final String value;
 
-extension NamespaceStatusFromString on String {
-  NamespaceStatus toNamespaceStatus() {
-    switch (this) {
-      case 'AVAILABLE':
-        return NamespaceStatus.available;
-      case 'MODIFYING':
-        return NamespaceStatus.modifying;
-      case 'DELETING':
-        return NamespaceStatus.deleting;
-    }
-    throw Exception('$this is not known in enum NamespaceStatus');
-  }
+  const NamespaceStatus(this.value);
+
+  static NamespaceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum NamespaceStatus'));
 }
 
 /// Contains information about a network interface in an Amazon Redshift
@@ -4880,7 +4845,7 @@ class ScheduledActionResponse {
       scheduledActionName: json['scheduledActionName'] as String?,
       scheduledActionUuid: json['scheduledActionUuid'] as String?,
       startTime: timeStampFromJson(json['startTime']),
-      state: (json['state'] as String?)?.toState(),
+      state: (json['state'] as String?)?.let(State.fromString),
       targetAction: json['targetAction'] != null
           ? TargetAction.fromJson(json['targetAction'] as Map<String, dynamic>)
           : null,
@@ -4913,7 +4878,7 @@ class ScheduledActionResponse {
       if (scheduledActionUuid != null)
         'scheduledActionUuid': scheduledActionUuid,
       if (startTime != null) 'startTime': unixTimestampToJson(startTime),
-      if (state != null) 'state': state.toValue(),
+      if (state != null) 'state': state.value,
       if (targetAction != null) 'targetAction': targetAction,
     };
   }
@@ -5051,7 +5016,7 @@ class Snapshot {
       snapshotRetentionPeriod: json['snapshotRetentionPeriod'] as int?,
       snapshotRetentionStartTime:
           timeStampFromJson(json['snapshotRetentionStartTime']),
-      status: (json['status'] as String?)?.toSnapshotStatus(),
+      status: (json['status'] as String?)?.let(SnapshotStatus.fromString),
       totalBackupSizeInMegaBytes: json['totalBackupSizeInMegaBytes'] as double?,
     );
   }
@@ -5119,7 +5084,7 @@ class Snapshot {
         'snapshotRetentionPeriod': snapshotRetentionPeriod,
       if (snapshotRetentionStartTime != null)
         'snapshotRetentionStartTime': iso8601ToJson(snapshotRetentionStartTime),
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (totalBackupSizeInMegaBytes != null)
         'totalBackupSizeInMegaBytes': totalBackupSizeInMegaBytes,
     };
@@ -5195,79 +5160,36 @@ class SnapshotCopyConfiguration {
 }
 
 enum SnapshotStatus {
-  available,
-  creating,
-  deleted,
-  cancelled,
-  failed,
-  copying,
-}
+  available('AVAILABLE'),
+  creating('CREATING'),
+  deleted('DELETED'),
+  cancelled('CANCELLED'),
+  failed('FAILED'),
+  copying('COPYING'),
+  ;
 
-extension SnapshotStatusValueExtension on SnapshotStatus {
-  String toValue() {
-    switch (this) {
-      case SnapshotStatus.available:
-        return 'AVAILABLE';
-      case SnapshotStatus.creating:
-        return 'CREATING';
-      case SnapshotStatus.deleted:
-        return 'DELETED';
-      case SnapshotStatus.cancelled:
-        return 'CANCELLED';
-      case SnapshotStatus.failed:
-        return 'FAILED';
-      case SnapshotStatus.copying:
-        return 'COPYING';
-    }
-  }
-}
+  final String value;
 
-extension SnapshotStatusFromString on String {
-  SnapshotStatus toSnapshotStatus() {
-    switch (this) {
-      case 'AVAILABLE':
-        return SnapshotStatus.available;
-      case 'CREATING':
-        return SnapshotStatus.creating;
-      case 'DELETED':
-        return SnapshotStatus.deleted;
-      case 'CANCELLED':
-        return SnapshotStatus.cancelled;
-      case 'FAILED':
-        return SnapshotStatus.failed;
-      case 'COPYING':
-        return SnapshotStatus.copying;
-    }
-    throw Exception('$this is not known in enum SnapshotStatus');
-  }
+  const SnapshotStatus(this.value);
+
+  static SnapshotStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SnapshotStatus'));
 }
 
 enum State {
-  active,
-  disabled,
-}
+  active('ACTIVE'),
+  disabled('DISABLED'),
+  ;
 
-extension StateValueExtension on State {
-  String toValue() {
-    switch (this) {
-      case State.active:
-        return 'ACTIVE';
-      case State.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension StateFromString on String {
-  State toState() {
-    switch (this) {
-      case 'ACTIVE':
-        return State.active;
-      case 'DISABLED':
-        return State.disabled;
-    }
-    throw Exception('$this is not known in enum State');
-  }
+  const State(this.value);
+
+  static State fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum State'));
 }
 
 /// Contains information about a table restore request.
@@ -5745,13 +5667,14 @@ class UsageLimit {
   factory UsageLimit.fromJson(Map<String, dynamic> json) {
     return UsageLimit(
       amount: json['amount'] as int?,
-      breachAction:
-          (json['breachAction'] as String?)?.toUsageLimitBreachAction(),
-      period: (json['period'] as String?)?.toUsageLimitPeriod(),
+      breachAction: (json['breachAction'] as String?)
+          ?.let(UsageLimitBreachAction.fromString),
+      period: (json['period'] as String?)?.let(UsageLimitPeriod.fromString),
       resourceArn: json['resourceArn'] as String?,
       usageLimitArn: json['usageLimitArn'] as String?,
       usageLimitId: json['usageLimitId'] as String?,
-      usageType: (json['usageType'] as String?)?.toUsageLimitUsageType(),
+      usageType:
+          (json['usageType'] as String?)?.let(UsageLimitUsageType.fromString),
     );
   }
 
@@ -5765,108 +5688,61 @@ class UsageLimit {
     final usageType = this.usageType;
     return {
       if (amount != null) 'amount': amount,
-      if (breachAction != null) 'breachAction': breachAction.toValue(),
-      if (period != null) 'period': period.toValue(),
+      if (breachAction != null) 'breachAction': breachAction.value,
+      if (period != null) 'period': period.value,
       if (resourceArn != null) 'resourceArn': resourceArn,
       if (usageLimitArn != null) 'usageLimitArn': usageLimitArn,
       if (usageLimitId != null) 'usageLimitId': usageLimitId,
-      if (usageType != null) 'usageType': usageType.toValue(),
+      if (usageType != null) 'usageType': usageType.value,
     };
   }
 }
 
 enum UsageLimitBreachAction {
-  log,
-  emitMetric,
-  deactivate,
-}
+  log('log'),
+  emitMetric('emit-metric'),
+  deactivate('deactivate'),
+  ;
 
-extension UsageLimitBreachActionValueExtension on UsageLimitBreachAction {
-  String toValue() {
-    switch (this) {
-      case UsageLimitBreachAction.log:
-        return 'log';
-      case UsageLimitBreachAction.emitMetric:
-        return 'emit-metric';
-      case UsageLimitBreachAction.deactivate:
-        return 'deactivate';
-    }
-  }
-}
+  final String value;
 
-extension UsageLimitBreachActionFromString on String {
-  UsageLimitBreachAction toUsageLimitBreachAction() {
-    switch (this) {
-      case 'log':
-        return UsageLimitBreachAction.log;
-      case 'emit-metric':
-        return UsageLimitBreachAction.emitMetric;
-      case 'deactivate':
-        return UsageLimitBreachAction.deactivate;
-    }
-    throw Exception('$this is not known in enum UsageLimitBreachAction');
-  }
+  const UsageLimitBreachAction(this.value);
+
+  static UsageLimitBreachAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum UsageLimitBreachAction'));
 }
 
 enum UsageLimitPeriod {
-  daily,
-  weekly,
-  monthly,
-}
+  daily('daily'),
+  weekly('weekly'),
+  monthly('monthly'),
+  ;
 
-extension UsageLimitPeriodValueExtension on UsageLimitPeriod {
-  String toValue() {
-    switch (this) {
-      case UsageLimitPeriod.daily:
-        return 'daily';
-      case UsageLimitPeriod.weekly:
-        return 'weekly';
-      case UsageLimitPeriod.monthly:
-        return 'monthly';
-    }
-  }
-}
+  final String value;
 
-extension UsageLimitPeriodFromString on String {
-  UsageLimitPeriod toUsageLimitPeriod() {
-    switch (this) {
-      case 'daily':
-        return UsageLimitPeriod.daily;
-      case 'weekly':
-        return UsageLimitPeriod.weekly;
-      case 'monthly':
-        return UsageLimitPeriod.monthly;
-    }
-    throw Exception('$this is not known in enum UsageLimitPeriod');
-  }
+  const UsageLimitPeriod(this.value);
+
+  static UsageLimitPeriod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum UsageLimitPeriod'));
 }
 
 enum UsageLimitUsageType {
-  serverlessCompute,
-  crossRegionDatasharing,
-}
+  serverlessCompute('serverless-compute'),
+  crossRegionDatasharing('cross-region-datasharing'),
+  ;
 
-extension UsageLimitUsageTypeValueExtension on UsageLimitUsageType {
-  String toValue() {
-    switch (this) {
-      case UsageLimitUsageType.serverlessCompute:
-        return 'serverless-compute';
-      case UsageLimitUsageType.crossRegionDatasharing:
-        return 'cross-region-datasharing';
-    }
-  }
-}
+  final String value;
 
-extension UsageLimitUsageTypeFromString on String {
-  UsageLimitUsageType toUsageLimitUsageType() {
-    switch (this) {
-      case 'serverless-compute':
-        return UsageLimitUsageType.serverlessCompute;
-      case 'cross-region-datasharing':
-        return UsageLimitUsageType.crossRegionDatasharing;
-    }
-    throw Exception('$this is not known in enum UsageLimitUsageType');
-  }
+  const UsageLimitUsageType(this.value);
+
+  static UsageLimitUsageType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum UsageLimitUsageType'));
 }
 
 /// The connection endpoint for connecting to Amazon Redshift Serverless through
@@ -6082,7 +5958,7 @@ class Workgroup {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      status: (json['status'] as String?)?.toWorkgroupStatus(),
+      status: (json['status'] as String?)?.let(WorkgroupStatus.fromString),
       subnetIds: (json['subnetIds'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -6136,7 +6012,7 @@ class Workgroup {
       if (port != null) 'port': port,
       if (publiclyAccessible != null) 'publiclyAccessible': publiclyAccessible,
       if (securityGroupIds != null) 'securityGroupIds': securityGroupIds,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (subnetIds != null) 'subnetIds': subnetIds,
       if (workgroupArn != null) 'workgroupArn': workgroupArn,
       if (workgroupId != null) 'workgroupId': workgroupId,
@@ -6147,41 +6023,20 @@ class Workgroup {
 }
 
 enum WorkgroupStatus {
-  creating,
-  available,
-  modifying,
-  deleting,
-}
+  creating('CREATING'),
+  available('AVAILABLE'),
+  modifying('MODIFYING'),
+  deleting('DELETING'),
+  ;
 
-extension WorkgroupStatusValueExtension on WorkgroupStatus {
-  String toValue() {
-    switch (this) {
-      case WorkgroupStatus.creating:
-        return 'CREATING';
-      case WorkgroupStatus.available:
-        return 'AVAILABLE';
-      case WorkgroupStatus.modifying:
-        return 'MODIFYING';
-      case WorkgroupStatus.deleting:
-        return 'DELETING';
-    }
-  }
-}
+  final String value;
 
-extension WorkgroupStatusFromString on String {
-  WorkgroupStatus toWorkgroupStatus() {
-    switch (this) {
-      case 'CREATING':
-        return WorkgroupStatus.creating;
-      case 'AVAILABLE':
-        return WorkgroupStatus.available;
-      case 'MODIFYING':
-        return WorkgroupStatus.modifying;
-      case 'DELETING':
-        return WorkgroupStatus.deleting;
-    }
-    throw Exception('$this is not known in enum WorkgroupStatus');
-  }
+  const WorkgroupStatus(this.value);
+
+  static WorkgroupStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum WorkgroupStatus'));
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

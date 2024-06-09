@@ -329,7 +329,7 @@ class Ivschat {
       'userId': userId,
       if (attributes != null) 'attributes': attributes,
       if (capabilities != null)
-        'capabilities': capabilities.map((e) => e.toValue()).toList(),
+        'capabilities': capabilities.map((e) => e.value).toList(),
       if (sessionDurationInMinutes != null)
         'sessionDurationInMinutes': sessionDurationInMinutes,
     };
@@ -962,36 +962,19 @@ class Ivschat {
 }
 
 enum ChatTokenCapability {
-  sendMessage,
-  disconnectUser,
-  deleteMessage,
-}
+  sendMessage('SEND_MESSAGE'),
+  disconnectUser('DISCONNECT_USER'),
+  deleteMessage('DELETE_MESSAGE'),
+  ;
 
-extension ChatTokenCapabilityValueExtension on ChatTokenCapability {
-  String toValue() {
-    switch (this) {
-      case ChatTokenCapability.sendMessage:
-        return 'SEND_MESSAGE';
-      case ChatTokenCapability.disconnectUser:
-        return 'DISCONNECT_USER';
-      case ChatTokenCapability.deleteMessage:
-        return 'DELETE_MESSAGE';
-    }
-  }
-}
+  final String value;
 
-extension ChatTokenCapabilityFromString on String {
-  ChatTokenCapability toChatTokenCapability() {
-    switch (this) {
-      case 'SEND_MESSAGE':
-        return ChatTokenCapability.sendMessage;
-      case 'DISCONNECT_USER':
-        return ChatTokenCapability.disconnectUser;
-      case 'DELETE_MESSAGE':
-        return ChatTokenCapability.deleteMessage;
-    }
-    throw Exception('$this is not known in enum ChatTokenCapability');
-  }
+  const ChatTokenCapability(this.value);
+
+  static ChatTokenCapability fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ChatTokenCapability'));
 }
 
 /// Specifies a CloudWatch Logs location where chat logs will be stored.
@@ -1116,7 +1099,8 @@ class CreateLoggingConfigurationResponse {
           : null,
       id: json['id'] as String?,
       name: json['name'] as String?,
-      state: (json['state'] as String?)?.toCreateLoggingConfigurationState(),
+      state: (json['state'] as String?)
+          ?.let(CreateLoggingConfigurationState.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       updateTime: timeStampFromJson(json['updateTime']),
@@ -1139,7 +1123,7 @@ class CreateLoggingConfigurationResponse {
         'destinationConfiguration': destinationConfiguration,
       if (id != null) 'id': id,
       if (name != null) 'name': name,
-      if (state != null) 'state': state.toValue(),
+      if (state != null) 'state': state.value,
       if (tags != null) 'tags': tags,
       if (updateTime != null) 'updateTime': iso8601ToJson(updateTime),
     };
@@ -1147,28 +1131,17 @@ class CreateLoggingConfigurationResponse {
 }
 
 enum CreateLoggingConfigurationState {
-  active,
-}
+  active('ACTIVE'),
+  ;
 
-extension CreateLoggingConfigurationStateValueExtension
-    on CreateLoggingConfigurationState {
-  String toValue() {
-    switch (this) {
-      case CreateLoggingConfigurationState.active:
-        return 'ACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension CreateLoggingConfigurationStateFromString on String {
-  CreateLoggingConfigurationState toCreateLoggingConfigurationState() {
-    switch (this) {
-      case 'ACTIVE':
-        return CreateLoggingConfigurationState.active;
-    }
-    throw Exception(
-        '$this is not known in enum CreateLoggingConfigurationState');
-  }
+  const CreateLoggingConfigurationState(this.value);
+
+  static CreateLoggingConfigurationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CreateLoggingConfigurationState'));
 }
 
 class CreateRoomResponse {
@@ -1361,31 +1334,18 @@ class DisconnectUserResponse {
 }
 
 enum FallbackResult {
-  allow,
-  deny,
-}
+  allow('ALLOW'),
+  deny('DENY'),
+  ;
 
-extension FallbackResultValueExtension on FallbackResult {
-  String toValue() {
-    switch (this) {
-      case FallbackResult.allow:
-        return 'ALLOW';
-      case FallbackResult.deny:
-        return 'DENY';
-    }
-  }
-}
+  final String value;
 
-extension FallbackResultFromString on String {
-  FallbackResult toFallbackResult() {
-    switch (this) {
-      case 'ALLOW':
-        return FallbackResult.allow;
-      case 'DENY':
-        return FallbackResult.deny;
-    }
-    throw Exception('$this is not known in enum FallbackResult');
-  }
+  const FallbackResult(this.value);
+
+  static FallbackResult fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FallbackResult'));
 }
 
 /// Specifies a Kinesis Firehose location where chat logs will be stored.
@@ -1468,7 +1428,8 @@ class GetLoggingConfigurationResponse {
           : null,
       id: json['id'] as String?,
       name: json['name'] as String?,
-      state: (json['state'] as String?)?.toLoggingConfigurationState(),
+      state:
+          (json['state'] as String?)?.let(LoggingConfigurationState.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       updateTime: timeStampFromJson(json['updateTime']),
@@ -1491,7 +1452,7 @@ class GetLoggingConfigurationResponse {
         'destinationConfiguration': destinationConfiguration,
       if (id != null) 'id': id,
       if (name != null) 'name': name,
-      if (state != null) 'state': state.toValue(),
+      if (state != null) 'state': state.value,
       if (tags != null) 'tags': tags,
       if (updateTime != null) 'updateTime': iso8601ToJson(updateTime),
     };
@@ -1699,56 +1660,23 @@ class ListTagsForResourceResponse {
 }
 
 enum LoggingConfigurationState {
-  creating,
-  createFailed,
-  deleting,
-  deleteFailed,
-  updating,
-  updateFailed,
-  active,
-}
+  creating('CREATING'),
+  createFailed('CREATE_FAILED'),
+  deleting('DELETING'),
+  deleteFailed('DELETE_FAILED'),
+  updating('UPDATING'),
+  updateFailed('UPDATE_FAILED'),
+  active('ACTIVE'),
+  ;
 
-extension LoggingConfigurationStateValueExtension on LoggingConfigurationState {
-  String toValue() {
-    switch (this) {
-      case LoggingConfigurationState.creating:
-        return 'CREATING';
-      case LoggingConfigurationState.createFailed:
-        return 'CREATE_FAILED';
-      case LoggingConfigurationState.deleting:
-        return 'DELETING';
-      case LoggingConfigurationState.deleteFailed:
-        return 'DELETE_FAILED';
-      case LoggingConfigurationState.updating:
-        return 'UPDATING';
-      case LoggingConfigurationState.updateFailed:
-        return 'UPDATE_FAILED';
-      case LoggingConfigurationState.active:
-        return 'ACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension LoggingConfigurationStateFromString on String {
-  LoggingConfigurationState toLoggingConfigurationState() {
-    switch (this) {
-      case 'CREATING':
-        return LoggingConfigurationState.creating;
-      case 'CREATE_FAILED':
-        return LoggingConfigurationState.createFailed;
-      case 'DELETING':
-        return LoggingConfigurationState.deleting;
-      case 'DELETE_FAILED':
-        return LoggingConfigurationState.deleteFailed;
-      case 'UPDATING':
-        return LoggingConfigurationState.updating;
-      case 'UPDATE_FAILED':
-        return LoggingConfigurationState.updateFailed;
-      case 'ACTIVE':
-        return LoggingConfigurationState.active;
-    }
-    throw Exception('$this is not known in enum LoggingConfigurationState');
-  }
+  const LoggingConfigurationState(this.value);
+
+  static LoggingConfigurationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum LoggingConfigurationState'));
 }
 
 /// Summary information about a logging configuration.
@@ -1808,7 +1736,8 @@ class LoggingConfigurationSummary {
           : null,
       id: json['id'] as String?,
       name: json['name'] as String?,
-      state: (json['state'] as String?)?.toLoggingConfigurationState(),
+      state:
+          (json['state'] as String?)?.let(LoggingConfigurationState.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       updateTime: timeStampFromJson(json['updateTime']),
@@ -1831,7 +1760,7 @@ class LoggingConfigurationSummary {
         'destinationConfiguration': destinationConfiguration,
       if (id != null) 'id': id,
       if (name != null) 'name': name,
-      if (state != null) 'state': state.toValue(),
+      if (state != null) 'state': state.value,
       if (tags != null) 'tags': tags,
       if (updateTime != null) 'updateTime': iso8601ToJson(updateTime),
     };
@@ -1860,7 +1789,8 @@ class MessageReviewHandler {
 
   factory MessageReviewHandler.fromJson(Map<String, dynamic> json) {
     return MessageReviewHandler(
-      fallbackResult: (json['fallbackResult'] as String?)?.toFallbackResult(),
+      fallbackResult:
+          (json['fallbackResult'] as String?)?.let(FallbackResult.fromString),
       uri: json['uri'] as String?,
     );
   }
@@ -1869,7 +1799,7 @@ class MessageReviewHandler {
     final fallbackResult = this.fallbackResult;
     final uri = this.uri;
     return {
-      if (fallbackResult != null) 'fallbackResult': fallbackResult.toValue(),
+      if (fallbackResult != null) 'fallbackResult': fallbackResult.value,
       if (uri != null) 'uri': uri,
     };
   }
@@ -2092,7 +2022,8 @@ class UpdateLoggingConfigurationResponse {
           : null,
       id: json['id'] as String?,
       name: json['name'] as String?,
-      state: (json['state'] as String?)?.toUpdateLoggingConfigurationState(),
+      state: (json['state'] as String?)
+          ?.let(UpdateLoggingConfigurationState.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       updateTime: timeStampFromJson(json['updateTime']),
@@ -2115,7 +2046,7 @@ class UpdateLoggingConfigurationResponse {
         'destinationConfiguration': destinationConfiguration,
       if (id != null) 'id': id,
       if (name != null) 'name': name,
-      if (state != null) 'state': state.toValue(),
+      if (state != null) 'state': state.value,
       if (tags != null) 'tags': tags,
       if (updateTime != null) 'updateTime': iso8601ToJson(updateTime),
     };
@@ -2123,28 +2054,17 @@ class UpdateLoggingConfigurationResponse {
 }
 
 enum UpdateLoggingConfigurationState {
-  active,
-}
+  active('ACTIVE'),
+  ;
 
-extension UpdateLoggingConfigurationStateValueExtension
-    on UpdateLoggingConfigurationState {
-  String toValue() {
-    switch (this) {
-      case UpdateLoggingConfigurationState.active:
-        return 'ACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension UpdateLoggingConfigurationStateFromString on String {
-  UpdateLoggingConfigurationState toUpdateLoggingConfigurationState() {
-    switch (this) {
-      case 'ACTIVE':
-        return UpdateLoggingConfigurationState.active;
-    }
-    throw Exception(
-        '$this is not known in enum UpdateLoggingConfigurationState');
-  }
+  const UpdateLoggingConfigurationState(this.value);
+
+  static UpdateLoggingConfigurationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum UpdateLoggingConfigurationState'));
 }
 
 class UpdateRoomResponse {

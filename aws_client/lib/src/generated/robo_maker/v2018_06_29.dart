@@ -351,7 +351,7 @@ class RoboMaker {
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
-      'architecture': architecture.toValue(),
+      'architecture': architecture.value,
       'greengrassGroupId': greengrassGroupId,
       'name': name,
       if (tags != null) 'tags': tags,
@@ -651,7 +651,7 @@ class RoboMaker {
       'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (compute != null) 'compute': compute,
       if (dataSources != null) 'dataSources': dataSources,
-      if (failureBehavior != null) 'failureBehavior': failureBehavior.toValue(),
+      if (failureBehavior != null) 'failureBehavior': failureBehavior.value,
       if (loggingConfig != null) 'loggingConfig': loggingConfig,
       if (outputLocation != null) 'outputLocation': outputLocation,
       if (robotApplications != null) 'robotApplications': robotApplications,
@@ -2256,36 +2256,19 @@ class RoboMaker {
 }
 
 enum Architecture {
-  x86_64,
-  arm64,
-  armhf,
-}
+  x86_64('X86_64'),
+  arm64('ARM64'),
+  armhf('ARMHF'),
+  ;
 
-extension ArchitectureValueExtension on Architecture {
-  String toValue() {
-    switch (this) {
-      case Architecture.x86_64:
-        return 'X86_64';
-      case Architecture.arm64:
-        return 'ARM64';
-      case Architecture.armhf:
-        return 'ARMHF';
-    }
-  }
-}
+  final String value;
 
-extension ArchitectureFromString on String {
-  Architecture toArchitecture() {
-    switch (this) {
-      case 'X86_64':
-        return Architecture.x86_64;
-      case 'ARM64':
-        return Architecture.arm64;
-      case 'ARMHF':
-        return Architecture.armhf;
-    }
-    throw Exception('$this is not known in enum Architecture');
-  }
+  const Architecture(this.value);
+
+  static Architecture fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum Architecture'));
 }
 
 class BatchDeleteWorldsResponse {
@@ -2477,7 +2460,8 @@ class Compute {
 
   factory Compute.fromJson(Map<String, dynamic> json) {
     return Compute(
-      computeType: (json['computeType'] as String?)?.toComputeType(),
+      computeType:
+          (json['computeType'] as String?)?.let(ComputeType.fromString),
       gpuUnitLimit: json['gpuUnitLimit'] as int?,
       simulationUnitLimit: json['simulationUnitLimit'] as int?,
     );
@@ -2488,7 +2472,7 @@ class Compute {
     final gpuUnitLimit = this.gpuUnitLimit;
     final simulationUnitLimit = this.simulationUnitLimit;
     return {
-      if (computeType != null) 'computeType': computeType.toValue(),
+      if (computeType != null) 'computeType': computeType.value,
       if (gpuUnitLimit != null) 'gpuUnitLimit': gpuUnitLimit,
       if (simulationUnitLimit != null)
         'simulationUnitLimit': simulationUnitLimit,
@@ -2519,7 +2503,8 @@ class ComputeResponse {
 
   factory ComputeResponse.fromJson(Map<String, dynamic> json) {
     return ComputeResponse(
-      computeType: (json['computeType'] as String?)?.toComputeType(),
+      computeType:
+          (json['computeType'] as String?)?.let(ComputeType.fromString),
       gpuUnitLimit: json['gpuUnitLimit'] as int?,
       simulationUnitLimit: json['simulationUnitLimit'] as int?,
     );
@@ -2530,7 +2515,7 @@ class ComputeResponse {
     final gpuUnitLimit = this.gpuUnitLimit;
     final simulationUnitLimit = this.simulationUnitLimit;
     return {
-      if (computeType != null) 'computeType': computeType.toValue(),
+      if (computeType != null) 'computeType': computeType.value,
       if (gpuUnitLimit != null) 'gpuUnitLimit': gpuUnitLimit,
       if (simulationUnitLimit != null)
         'simulationUnitLimit': simulationUnitLimit,
@@ -2539,31 +2524,17 @@ class ComputeResponse {
 }
 
 enum ComputeType {
-  cpu,
-  gpuAndCpu,
-}
+  cpu('CPU'),
+  gpuAndCpu('GPU_AND_CPU'),
+  ;
 
-extension ComputeTypeValueExtension on ComputeType {
-  String toValue() {
-    switch (this) {
-      case ComputeType.cpu:
-        return 'CPU';
-      case ComputeType.gpuAndCpu:
-        return 'GPU_AND_CPU';
-    }
-  }
-}
+  final String value;
 
-extension ComputeTypeFromString on String {
-  ComputeType toComputeType() {
-    switch (this) {
-      case 'CPU':
-        return ComputeType.cpu;
-      case 'GPU_AND_CPU':
-        return ComputeType.gpuAndCpu;
-    }
-    throw Exception('$this is not known in enum ComputeType');
-  }
+  const ComputeType(this.value);
+
+  static ComputeType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ComputeType'));
 }
 
 @Deprecated(
@@ -2657,10 +2628,11 @@ class CreateDeploymentJobResponse {
           ? DeploymentConfig.fromJson(
               json['deploymentConfig'] as Map<String, dynamic>)
           : null,
-      failureCode: (json['failureCode'] as String?)?.toDeploymentJobErrorCode(),
+      failureCode: (json['failureCode'] as String?)
+          ?.let(DeploymentJobErrorCode.fromString),
       failureReason: json['failureReason'] as String?,
       fleet: json['fleet'] as String?,
-      status: (json['status'] as String?)?.toDeploymentStatus(),
+      status: (json['status'] as String?)?.let(DeploymentStatus.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -2682,10 +2654,10 @@ class CreateDeploymentJobResponse {
       if (deploymentApplicationConfigs != null)
         'deploymentApplicationConfigs': deploymentApplicationConfigs,
       if (deploymentConfig != null) 'deploymentConfig': deploymentConfig,
-      if (failureCode != null) 'failureCode': failureCode.toValue(),
+      if (failureCode != null) 'failureCode': failureCode.value,
       if (failureReason != null) 'failureReason': failureReason,
       if (fleet != null) 'fleet': fleet,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (tags != null) 'tags': tags,
     };
   }
@@ -2943,7 +2915,8 @@ class CreateRobotResponse {
 
   factory CreateRobotResponse.fromJson(Map<String, dynamic> json) {
     return CreateRobotResponse(
-      architecture: (json['architecture'] as String?)?.toArchitecture(),
+      architecture:
+          (json['architecture'] as String?)?.let(Architecture.fromString),
       arn: json['arn'] as String?,
       createdAt: timeStampFromJson(json['createdAt']),
       greengrassGroupId: json['greengrassGroupId'] as String?,
@@ -2961,7 +2934,7 @@ class CreateRobotResponse {
     final name = this.name;
     final tags = this.tags;
     return {
-      if (architecture != null) 'architecture': architecture.toValue(),
+      if (architecture != null) 'architecture': architecture.value,
       if (arn != null) 'arn': arn,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (greengrassGroupId != null) 'greengrassGroupId': greengrassGroupId,
@@ -3310,8 +3283,9 @@ class CreateSimulationJobResponse {
           .map((e) => DataSource.fromJson(e as Map<String, dynamic>))
           .toList(),
       failureBehavior:
-          (json['failureBehavior'] as String?)?.toFailureBehavior(),
-      failureCode: (json['failureCode'] as String?)?.toSimulationJobErrorCode(),
+          (json['failureBehavior'] as String?)?.let(FailureBehavior.fromString),
+      failureCode: (json['failureCode'] as String?)
+          ?.let(SimulationJobErrorCode.fromString),
       iamRole: json['iamRole'] as String?,
       lastStartedAt: timeStampFromJson(json['lastStartedAt']),
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
@@ -3335,7 +3309,7 @@ class CreateSimulationJobResponse {
               SimulationApplicationConfig.fromJson(e as Map<String, dynamic>))
           .toList(),
       simulationTimeMillis: json['simulationTimeMillis'] as int?,
-      status: (json['status'] as String?)?.toSimulationJobStatus(),
+      status: (json['status'] as String?)?.let(SimulationJobStatus.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       vpcConfig: json['vpcConfig'] != null
@@ -3369,8 +3343,8 @@ class CreateSimulationJobResponse {
       if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
       if (compute != null) 'compute': compute,
       if (dataSources != null) 'dataSources': dataSources,
-      if (failureBehavior != null) 'failureBehavior': failureBehavior.toValue(),
-      if (failureCode != null) 'failureCode': failureCode.toValue(),
+      if (failureBehavior != null) 'failureBehavior': failureBehavior.value,
+      if (failureCode != null) 'failureCode': failureCode.value,
       if (iamRole != null) 'iamRole': iamRole,
       if (lastStartedAt != null)
         'lastStartedAt': unixTimestampToJson(lastStartedAt),
@@ -3385,7 +3359,7 @@ class CreateSimulationJobResponse {
         'simulationApplications': simulationApplications,
       if (simulationTimeMillis != null)
         'simulationTimeMillis': simulationTimeMillis,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (tags != null) 'tags': tags,
       if (vpcConfig != null) 'vpcConfig': vpcConfig,
     };
@@ -3467,14 +3441,14 @@ class CreateWorldExportJobResponse {
       arn: json['arn'] as String?,
       clientRequestToken: json['clientRequestToken'] as String?,
       createdAt: timeStampFromJson(json['createdAt']),
-      failureCode:
-          (json['failureCode'] as String?)?.toWorldExportJobErrorCode(),
+      failureCode: (json['failureCode'] as String?)
+          ?.let(WorldExportJobErrorCode.fromString),
       iamRole: json['iamRole'] as String?,
       outputLocation: json['outputLocation'] != null
           ? OutputLocation.fromJson(
               json['outputLocation'] as Map<String, dynamic>)
           : null,
-      status: (json['status'] as String?)?.toWorldExportJobStatus(),
+      status: (json['status'] as String?)?.let(WorldExportJobStatus.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -3493,10 +3467,10 @@ class CreateWorldExportJobResponse {
       if (arn != null) 'arn': arn,
       if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
-      if (failureCode != null) 'failureCode': failureCode.toValue(),
+      if (failureCode != null) 'failureCode': failureCode.value,
       if (iamRole != null) 'iamRole': iamRole,
       if (outputLocation != null) 'outputLocation': outputLocation,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (tags != null) 'tags': tags,
     };
   }
@@ -3579,9 +3553,10 @@ class CreateWorldGenerationJobResponse {
       arn: json['arn'] as String?,
       clientRequestToken: json['clientRequestToken'] as String?,
       createdAt: timeStampFromJson(json['createdAt']),
-      failureCode:
-          (json['failureCode'] as String?)?.toWorldGenerationJobErrorCode(),
-      status: (json['status'] as String?)?.toWorldGenerationJobStatus(),
+      failureCode: (json['failureCode'] as String?)
+          ?.let(WorldGenerationJobErrorCode.fromString),
+      status:
+          (json['status'] as String?)?.let(WorldGenerationJobStatus.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       template: json['template'] as String?,
@@ -3607,8 +3582,8 @@ class CreateWorldGenerationJobResponse {
       if (arn != null) 'arn': arn,
       if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
-      if (failureCode != null) 'failureCode': failureCode.toValue(),
-      if (status != null) 'status': status.toValue(),
+      if (failureCode != null) 'failureCode': failureCode.value,
+      if (status != null) 'status': status.value,
       if (tags != null) 'tags': tags,
       if (template != null) 'template': template,
       if (worldCount != null) 'worldCount': worldCount,
@@ -3722,7 +3697,7 @@ class DataSource {
           ?.whereNotNull()
           .map((e) => S3KeyOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
-      type: (json['type'] as String?)?.toDataSourceType(),
+      type: (json['type'] as String?)?.let(DataSourceType.fromString),
     );
   }
 
@@ -3737,7 +3712,7 @@ class DataSource {
       if (name != null) 'name': name,
       if (s3Bucket != null) 's3Bucket': s3Bucket,
       if (s3Keys != null) 's3Keys': s3Keys,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -3793,7 +3768,7 @@ class DataSourceConfig {
           .map((e) => e as String)
           .toList(),
       destination: json['destination'] as String?,
-      type: (json['type'] as String?)?.toDataSourceType(),
+      type: (json['type'] as String?)?.let(DataSourceType.fromString),
     );
   }
 
@@ -3808,42 +3783,25 @@ class DataSourceConfig {
       's3Bucket': s3Bucket,
       's3Keys': s3Keys,
       if (destination != null) 'destination': destination,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
 
 enum DataSourceType {
-  prefix,
-  archive,
-  file,
-}
+  prefix('Prefix'),
+  archive('Archive'),
+  file('File'),
+  ;
 
-extension DataSourceTypeValueExtension on DataSourceType {
-  String toValue() {
-    switch (this) {
-      case DataSourceType.prefix:
-        return 'Prefix';
-      case DataSourceType.archive:
-        return 'Archive';
-      case DataSourceType.file:
-        return 'File';
-    }
-  }
-}
+  final String value;
 
-extension DataSourceTypeFromString on String {
-  DataSourceType toDataSourceType() {
-    switch (this) {
-      case 'Prefix':
-        return DataSourceType.prefix;
-      case 'Archive':
-        return DataSourceType.archive;
-      case 'File':
-        return DataSourceType.file;
-    }
-    throw Exception('$this is not known in enum DataSourceType');
-  }
+  const DataSourceType(this.value);
+
+  static DataSourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DataSourceType'));
 }
 
 @Deprecated(
@@ -4055,10 +4013,11 @@ class DeploymentJob {
           ? DeploymentConfig.fromJson(
               json['deploymentConfig'] as Map<String, dynamic>)
           : null,
-      failureCode: (json['failureCode'] as String?)?.toDeploymentJobErrorCode(),
+      failureCode: (json['failureCode'] as String?)
+          ?.let(DeploymentJobErrorCode.fromString),
       failureReason: json['failureReason'] as String?,
       fleet: json['fleet'] as String?,
-      status: (json['status'] as String?)?.toDeploymentStatus(),
+      status: (json['status'] as String?)?.let(DeploymentStatus.fromString),
     );
   }
 
@@ -4077,150 +4036,49 @@ class DeploymentJob {
       if (deploymentApplicationConfigs != null)
         'deploymentApplicationConfigs': deploymentApplicationConfigs,
       if (deploymentConfig != null) 'deploymentConfig': deploymentConfig,
-      if (failureCode != null) 'failureCode': failureCode.toValue(),
+      if (failureCode != null) 'failureCode': failureCode.value,
       if (failureReason != null) 'failureReason': failureReason,
       if (fleet != null) 'fleet': fleet,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
 
 enum DeploymentJobErrorCode {
-  resourceNotFound,
-  environmentSetupError,
-  etagMismatch,
-  failureThresholdBreached,
-  robotDeploymentAborted,
-  robotDeploymentNoResponse,
-  robotAgentConnectionTimeout,
-  greengrassDeploymentFailed,
-  invalidGreengrassGroup,
-  missingRobotArchitecture,
-  missingRobotApplicationArchitecture,
-  missingRobotDeploymentResource,
-  greengrassGroupVersionDoesNotExist,
-  lambdaDeleted,
-  extractingBundleFailure,
-  preLaunchFileFailure,
-  postLaunchFileFailure,
-  badPermissionError,
-  downloadConditionFailed,
-  badLambdaAssociated,
-  internalServerError,
-  robotApplicationDoesNotExist,
-  deploymentFleetDoesNotExist,
-  fleetDeploymentTimeout,
-}
+  resourceNotFound('ResourceNotFound'),
+  environmentSetupError('EnvironmentSetupError'),
+  etagMismatch('EtagMismatch'),
+  failureThresholdBreached('FailureThresholdBreached'),
+  robotDeploymentAborted('RobotDeploymentAborted'),
+  robotDeploymentNoResponse('RobotDeploymentNoResponse'),
+  robotAgentConnectionTimeout('RobotAgentConnectionTimeout'),
+  greengrassDeploymentFailed('GreengrassDeploymentFailed'),
+  invalidGreengrassGroup('InvalidGreengrassGroup'),
+  missingRobotArchitecture('MissingRobotArchitecture'),
+  missingRobotApplicationArchitecture('MissingRobotApplicationArchitecture'),
+  missingRobotDeploymentResource('MissingRobotDeploymentResource'),
+  greengrassGroupVersionDoesNotExist('GreengrassGroupVersionDoesNotExist'),
+  lambdaDeleted('LambdaDeleted'),
+  extractingBundleFailure('ExtractingBundleFailure'),
+  preLaunchFileFailure('PreLaunchFileFailure'),
+  postLaunchFileFailure('PostLaunchFileFailure'),
+  badPermissionError('BadPermissionError'),
+  downloadConditionFailed('DownloadConditionFailed'),
+  badLambdaAssociated('BadLambdaAssociated'),
+  internalServerError('InternalServerError'),
+  robotApplicationDoesNotExist('RobotApplicationDoesNotExist'),
+  deploymentFleetDoesNotExist('DeploymentFleetDoesNotExist'),
+  fleetDeploymentTimeout('FleetDeploymentTimeout'),
+  ;
 
-extension DeploymentJobErrorCodeValueExtension on DeploymentJobErrorCode {
-  String toValue() {
-    switch (this) {
-      case DeploymentJobErrorCode.resourceNotFound:
-        return 'ResourceNotFound';
-      case DeploymentJobErrorCode.environmentSetupError:
-        return 'EnvironmentSetupError';
-      case DeploymentJobErrorCode.etagMismatch:
-        return 'EtagMismatch';
-      case DeploymentJobErrorCode.failureThresholdBreached:
-        return 'FailureThresholdBreached';
-      case DeploymentJobErrorCode.robotDeploymentAborted:
-        return 'RobotDeploymentAborted';
-      case DeploymentJobErrorCode.robotDeploymentNoResponse:
-        return 'RobotDeploymentNoResponse';
-      case DeploymentJobErrorCode.robotAgentConnectionTimeout:
-        return 'RobotAgentConnectionTimeout';
-      case DeploymentJobErrorCode.greengrassDeploymentFailed:
-        return 'GreengrassDeploymentFailed';
-      case DeploymentJobErrorCode.invalidGreengrassGroup:
-        return 'InvalidGreengrassGroup';
-      case DeploymentJobErrorCode.missingRobotArchitecture:
-        return 'MissingRobotArchitecture';
-      case DeploymentJobErrorCode.missingRobotApplicationArchitecture:
-        return 'MissingRobotApplicationArchitecture';
-      case DeploymentJobErrorCode.missingRobotDeploymentResource:
-        return 'MissingRobotDeploymentResource';
-      case DeploymentJobErrorCode.greengrassGroupVersionDoesNotExist:
-        return 'GreengrassGroupVersionDoesNotExist';
-      case DeploymentJobErrorCode.lambdaDeleted:
-        return 'LambdaDeleted';
-      case DeploymentJobErrorCode.extractingBundleFailure:
-        return 'ExtractingBundleFailure';
-      case DeploymentJobErrorCode.preLaunchFileFailure:
-        return 'PreLaunchFileFailure';
-      case DeploymentJobErrorCode.postLaunchFileFailure:
-        return 'PostLaunchFileFailure';
-      case DeploymentJobErrorCode.badPermissionError:
-        return 'BadPermissionError';
-      case DeploymentJobErrorCode.downloadConditionFailed:
-        return 'DownloadConditionFailed';
-      case DeploymentJobErrorCode.badLambdaAssociated:
-        return 'BadLambdaAssociated';
-      case DeploymentJobErrorCode.internalServerError:
-        return 'InternalServerError';
-      case DeploymentJobErrorCode.robotApplicationDoesNotExist:
-        return 'RobotApplicationDoesNotExist';
-      case DeploymentJobErrorCode.deploymentFleetDoesNotExist:
-        return 'DeploymentFleetDoesNotExist';
-      case DeploymentJobErrorCode.fleetDeploymentTimeout:
-        return 'FleetDeploymentTimeout';
-    }
-  }
-}
+  final String value;
 
-extension DeploymentJobErrorCodeFromString on String {
-  DeploymentJobErrorCode toDeploymentJobErrorCode() {
-    switch (this) {
-      case 'ResourceNotFound':
-        return DeploymentJobErrorCode.resourceNotFound;
-      case 'EnvironmentSetupError':
-        return DeploymentJobErrorCode.environmentSetupError;
-      case 'EtagMismatch':
-        return DeploymentJobErrorCode.etagMismatch;
-      case 'FailureThresholdBreached':
-        return DeploymentJobErrorCode.failureThresholdBreached;
-      case 'RobotDeploymentAborted':
-        return DeploymentJobErrorCode.robotDeploymentAborted;
-      case 'RobotDeploymentNoResponse':
-        return DeploymentJobErrorCode.robotDeploymentNoResponse;
-      case 'RobotAgentConnectionTimeout':
-        return DeploymentJobErrorCode.robotAgentConnectionTimeout;
-      case 'GreengrassDeploymentFailed':
-        return DeploymentJobErrorCode.greengrassDeploymentFailed;
-      case 'InvalidGreengrassGroup':
-        return DeploymentJobErrorCode.invalidGreengrassGroup;
-      case 'MissingRobotArchitecture':
-        return DeploymentJobErrorCode.missingRobotArchitecture;
-      case 'MissingRobotApplicationArchitecture':
-        return DeploymentJobErrorCode.missingRobotApplicationArchitecture;
-      case 'MissingRobotDeploymentResource':
-        return DeploymentJobErrorCode.missingRobotDeploymentResource;
-      case 'GreengrassGroupVersionDoesNotExist':
-        return DeploymentJobErrorCode.greengrassGroupVersionDoesNotExist;
-      case 'LambdaDeleted':
-        return DeploymentJobErrorCode.lambdaDeleted;
-      case 'ExtractingBundleFailure':
-        return DeploymentJobErrorCode.extractingBundleFailure;
-      case 'PreLaunchFileFailure':
-        return DeploymentJobErrorCode.preLaunchFileFailure;
-      case 'PostLaunchFileFailure':
-        return DeploymentJobErrorCode.postLaunchFileFailure;
-      case 'BadPermissionError':
-        return DeploymentJobErrorCode.badPermissionError;
-      case 'DownloadConditionFailed':
-        return DeploymentJobErrorCode.downloadConditionFailed;
-      case 'BadLambdaAssociated':
-        return DeploymentJobErrorCode.badLambdaAssociated;
-      case 'InternalServerError':
-        return DeploymentJobErrorCode.internalServerError;
-      case 'RobotApplicationDoesNotExist':
-        return DeploymentJobErrorCode.robotApplicationDoesNotExist;
-      case 'DeploymentFleetDoesNotExist':
-        return DeploymentJobErrorCode.deploymentFleetDoesNotExist;
-      case 'FleetDeploymentTimeout':
-        return DeploymentJobErrorCode.fleetDeploymentTimeout;
-    }
-    throw Exception('$this is not known in enum DeploymentJobErrorCode');
-  }
+  const DeploymentJobErrorCode(this.value);
+
+  static DeploymentJobErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DeploymentJobErrorCode'));
 }
 
 /// Configuration information for a deployment launch.
@@ -4281,51 +4139,22 @@ class DeploymentLaunchConfig {
 }
 
 enum DeploymentStatus {
-  pending,
-  preparing,
-  inProgress,
-  failed,
-  succeeded,
-  canceled,
-}
+  pending('Pending'),
+  preparing('Preparing'),
+  inProgress('InProgress'),
+  failed('Failed'),
+  succeeded('Succeeded'),
+  canceled('Canceled'),
+  ;
 
-extension DeploymentStatusValueExtension on DeploymentStatus {
-  String toValue() {
-    switch (this) {
-      case DeploymentStatus.pending:
-        return 'Pending';
-      case DeploymentStatus.preparing:
-        return 'Preparing';
-      case DeploymentStatus.inProgress:
-        return 'InProgress';
-      case DeploymentStatus.failed:
-        return 'Failed';
-      case DeploymentStatus.succeeded:
-        return 'Succeeded';
-      case DeploymentStatus.canceled:
-        return 'Canceled';
-    }
-  }
-}
+  final String value;
 
-extension DeploymentStatusFromString on String {
-  DeploymentStatus toDeploymentStatus() {
-    switch (this) {
-      case 'Pending':
-        return DeploymentStatus.pending;
-      case 'Preparing':
-        return DeploymentStatus.preparing;
-      case 'InProgress':
-        return DeploymentStatus.inProgress;
-      case 'Failed':
-        return DeploymentStatus.failed;
-      case 'Succeeded':
-        return DeploymentStatus.succeeded;
-      case 'Canceled':
-        return DeploymentStatus.canceled;
-    }
-    throw Exception('$this is not known in enum DeploymentStatus');
-  }
+  const DeploymentStatus(this.value);
+
+  static DeploymentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DeploymentStatus'));
 }
 
 @Deprecated(
@@ -4420,14 +4249,15 @@ class DescribeDeploymentJobResponse {
           ? DeploymentConfig.fromJson(
               json['deploymentConfig'] as Map<String, dynamic>)
           : null,
-      failureCode: (json['failureCode'] as String?)?.toDeploymentJobErrorCode(),
+      failureCode: (json['failureCode'] as String?)
+          ?.let(DeploymentJobErrorCode.fromString),
       failureReason: json['failureReason'] as String?,
       fleet: json['fleet'] as String?,
       robotDeploymentSummary: (json['robotDeploymentSummary'] as List?)
           ?.whereNotNull()
           .map((e) => RobotDeployment.fromJson(e as Map<String, dynamic>))
           .toList(),
-      status: (json['status'] as String?)?.toDeploymentStatus(),
+      status: (json['status'] as String?)?.let(DeploymentStatus.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -4450,12 +4280,12 @@ class DescribeDeploymentJobResponse {
       if (deploymentApplicationConfigs != null)
         'deploymentApplicationConfigs': deploymentApplicationConfigs,
       if (deploymentConfig != null) 'deploymentConfig': deploymentConfig,
-      if (failureCode != null) 'failureCode': failureCode.toValue(),
+      if (failureCode != null) 'failureCode': failureCode.value,
       if (failureReason != null) 'failureReason': failureReason,
       if (fleet != null) 'fleet': fleet,
       if (robotDeploymentSummary != null)
         'robotDeploymentSummary': robotDeploymentSummary,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (tags != null) 'tags': tags,
     };
   }
@@ -4504,8 +4334,8 @@ class DescribeFleetResponse {
       arn: json['arn'] as String?,
       createdAt: timeStampFromJson(json['createdAt']),
       lastDeploymentJob: json['lastDeploymentJob'] as String?,
-      lastDeploymentStatus:
-          (json['lastDeploymentStatus'] as String?)?.toDeploymentStatus(),
+      lastDeploymentStatus: (json['lastDeploymentStatus'] as String?)
+          ?.let(DeploymentStatus.fromString),
       lastDeploymentTime: timeStampFromJson(json['lastDeploymentTime']),
       name: json['name'] as String?,
       robots: (json['robots'] as List?)
@@ -4531,7 +4361,7 @@ class DescribeFleetResponse {
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (lastDeploymentJob != null) 'lastDeploymentJob': lastDeploymentJob,
       if (lastDeploymentStatus != null)
-        'lastDeploymentStatus': lastDeploymentStatus.toValue(),
+        'lastDeploymentStatus': lastDeploymentStatus.value,
       if (lastDeploymentTime != null)
         'lastDeploymentTime': unixTimestampToJson(lastDeploymentTime),
       if (name != null) 'name': name,
@@ -4687,7 +4517,8 @@ class DescribeRobotResponse {
 
   factory DescribeRobotResponse.fromJson(Map<String, dynamic> json) {
     return DescribeRobotResponse(
-      architecture: (json['architecture'] as String?)?.toArchitecture(),
+      architecture:
+          (json['architecture'] as String?)?.let(Architecture.fromString),
       arn: json['arn'] as String?,
       createdAt: timeStampFromJson(json['createdAt']),
       fleetArn: json['fleetArn'] as String?,
@@ -4695,7 +4526,7 @@ class DescribeRobotResponse {
       lastDeploymentJob: json['lastDeploymentJob'] as String?,
       lastDeploymentTime: timeStampFromJson(json['lastDeploymentTime']),
       name: json['name'] as String?,
-      status: (json['status'] as String?)?.toRobotStatus(),
+      status: (json['status'] as String?)?.let(RobotStatus.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -4713,7 +4544,7 @@ class DescribeRobotResponse {
     final status = this.status;
     final tags = this.tags;
     return {
-      if (architecture != null) 'architecture': architecture.toValue(),
+      if (architecture != null) 'architecture': architecture.value,
       if (arn != null) 'arn': arn,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (fleetArn != null) 'fleetArn': fleetArn,
@@ -4722,7 +4553,7 @@ class DescribeRobotResponse {
       if (lastDeploymentTime != null)
         'lastDeploymentTime': unixTimestampToJson(lastDeploymentTime),
       if (name != null) 'name': name,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (tags != null) 'tags': tags,
     };
   }
@@ -4956,15 +4787,16 @@ class DescribeSimulationJobBatchResponse {
           .map((e) => FailedCreateSimulationJobRequest.fromJson(
               e as Map<String, dynamic>))
           .toList(),
-      failureCode:
-          (json['failureCode'] as String?)?.toSimulationJobBatchErrorCode(),
+      failureCode: (json['failureCode'] as String?)
+          ?.let(SimulationJobBatchErrorCode.fromString),
       failureReason: json['failureReason'] as String?,
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
       pendingRequests: (json['pendingRequests'] as List?)
           ?.whereNotNull()
           .map((e) => SimulationJobRequest.fromJson(e as Map<String, dynamic>))
           .toList(),
-      status: (json['status'] as String?)?.toSimulationJobBatchStatus(),
+      status:
+          (json['status'] as String?)?.let(SimulationJobBatchStatus.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -4990,12 +4822,12 @@ class DescribeSimulationJobBatchResponse {
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (createdRequests != null) 'createdRequests': createdRequests,
       if (failedRequests != null) 'failedRequests': failedRequests,
-      if (failureCode != null) 'failureCode': failureCode.toValue(),
+      if (failureCode != null) 'failureCode': failureCode.value,
       if (failureReason != null) 'failureReason': failureReason,
       if (lastUpdatedAt != null)
         'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
       if (pendingRequests != null) 'pendingRequests': pendingRequests,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (tags != null) 'tags': tags,
     };
   }
@@ -5139,8 +4971,9 @@ class DescribeSimulationJobResponse {
           .map((e) => DataSource.fromJson(e as Map<String, dynamic>))
           .toList(),
       failureBehavior:
-          (json['failureBehavior'] as String?)?.toFailureBehavior(),
-      failureCode: (json['failureCode'] as String?)?.toSimulationJobErrorCode(),
+          (json['failureBehavior'] as String?)?.let(FailureBehavior.fromString),
+      failureCode: (json['failureCode'] as String?)
+          ?.let(SimulationJobErrorCode.fromString),
       failureReason: json['failureReason'] as String?,
       iamRole: json['iamRole'] as String?,
       lastStartedAt: timeStampFromJson(json['lastStartedAt']),
@@ -5170,7 +5003,7 @@ class DescribeSimulationJobResponse {
               SimulationApplicationConfig.fromJson(e as Map<String, dynamic>))
           .toList(),
       simulationTimeMillis: json['simulationTimeMillis'] as int?,
-      status: (json['status'] as String?)?.toSimulationJobStatus(),
+      status: (json['status'] as String?)?.let(SimulationJobStatus.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       vpcConfig: json['vpcConfig'] != null
@@ -5207,8 +5040,8 @@ class DescribeSimulationJobResponse {
       if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
       if (compute != null) 'compute': compute,
       if (dataSources != null) 'dataSources': dataSources,
-      if (failureBehavior != null) 'failureBehavior': failureBehavior.toValue(),
-      if (failureCode != null) 'failureCode': failureCode.toValue(),
+      if (failureBehavior != null) 'failureBehavior': failureBehavior.value,
+      if (failureCode != null) 'failureCode': failureCode.value,
       if (failureReason != null) 'failureReason': failureReason,
       if (iamRole != null) 'iamRole': iamRole,
       if (lastStartedAt != null)
@@ -5226,7 +5059,7 @@ class DescribeSimulationJobResponse {
         'simulationApplications': simulationApplications,
       if (simulationTimeMillis != null)
         'simulationTimeMillis': simulationTimeMillis,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (tags != null) 'tags': tags,
       if (vpcConfig != null) 'vpcConfig': vpcConfig,
     };
@@ -5311,15 +5144,15 @@ class DescribeWorldExportJobResponse {
       arn: json['arn'] as String?,
       clientRequestToken: json['clientRequestToken'] as String?,
       createdAt: timeStampFromJson(json['createdAt']),
-      failureCode:
-          (json['failureCode'] as String?)?.toWorldExportJobErrorCode(),
+      failureCode: (json['failureCode'] as String?)
+          ?.let(WorldExportJobErrorCode.fromString),
       failureReason: json['failureReason'] as String?,
       iamRole: json['iamRole'] as String?,
       outputLocation: json['outputLocation'] != null
           ? OutputLocation.fromJson(
               json['outputLocation'] as Map<String, dynamic>)
           : null,
-      status: (json['status'] as String?)?.toWorldExportJobStatus(),
+      status: (json['status'] as String?)?.let(WorldExportJobStatus.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       worlds: (json['worlds'] as List?)
@@ -5344,11 +5177,11 @@ class DescribeWorldExportJobResponse {
       if (arn != null) 'arn': arn,
       if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
-      if (failureCode != null) 'failureCode': failureCode.toValue(),
+      if (failureCode != null) 'failureCode': failureCode.value,
       if (failureReason != null) 'failureReason': failureReason,
       if (iamRole != null) 'iamRole': iamRole,
       if (outputLocation != null) 'outputLocation': outputLocation,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (tags != null) 'tags': tags,
       if (worlds != null) 'worlds': worlds,
     };
@@ -5441,14 +5274,15 @@ class DescribeWorldGenerationJobResponse {
       arn: json['arn'] as String?,
       clientRequestToken: json['clientRequestToken'] as String?,
       createdAt: timeStampFromJson(json['createdAt']),
-      failureCode:
-          (json['failureCode'] as String?)?.toWorldGenerationJobErrorCode(),
+      failureCode: (json['failureCode'] as String?)
+          ?.let(WorldGenerationJobErrorCode.fromString),
       failureReason: json['failureReason'] as String?,
       finishedWorldsSummary: json['finishedWorldsSummary'] != null
           ? FinishedWorldsSummary.fromJson(
               json['finishedWorldsSummary'] as Map<String, dynamic>)
           : null,
-      status: (json['status'] as String?)?.toWorldGenerationJobStatus(),
+      status:
+          (json['status'] as String?)?.let(WorldGenerationJobStatus.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       template: json['template'] as String?,
@@ -5476,11 +5310,11 @@ class DescribeWorldGenerationJobResponse {
       if (arn != null) 'arn': arn,
       if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
-      if (failureCode != null) 'failureCode': failureCode.toValue(),
+      if (failureCode != null) 'failureCode': failureCode.value,
       if (failureReason != null) 'failureReason': failureReason,
       if (finishedWorldsSummary != null)
         'finishedWorldsSummary': finishedWorldsSummary,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (tags != null) 'tags': tags,
       if (template != null) 'template': template,
       if (worldCount != null) 'worldCount': worldCount,
@@ -5644,31 +5478,18 @@ class Environment {
 }
 
 enum ExitBehavior {
-  fail,
-  restart,
-}
+  fail('FAIL'),
+  restart('RESTART'),
+  ;
 
-extension ExitBehaviorValueExtension on ExitBehavior {
-  String toValue() {
-    switch (this) {
-      case ExitBehavior.fail:
-        return 'FAIL';
-      case ExitBehavior.restart:
-        return 'RESTART';
-    }
-  }
-}
+  final String value;
 
-extension ExitBehaviorFromString on String {
-  ExitBehavior toExitBehavior() {
-    switch (this) {
-      case 'FAIL':
-        return ExitBehavior.fail;
-      case 'RESTART':
-        return ExitBehavior.restart;
-    }
-    throw Exception('$this is not known in enum ExitBehavior');
-  }
+  const ExitBehavior(this.value);
+
+  static ExitBehavior fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ExitBehavior'));
 }
 
 /// Information about a failed create simulation job request.
@@ -5696,7 +5517,8 @@ class FailedCreateSimulationJobRequest {
   factory FailedCreateSimulationJobRequest.fromJson(Map<String, dynamic> json) {
     return FailedCreateSimulationJobRequest(
       failedAt: timeStampFromJson(json['failedAt']),
-      failureCode: (json['failureCode'] as String?)?.toSimulationJobErrorCode(),
+      failureCode: (json['failureCode'] as String?)
+          ?.let(SimulationJobErrorCode.fromString),
       failureReason: json['failureReason'] as String?,
       request: json['request'] != null
           ? SimulationJobRequest.fromJson(
@@ -5712,7 +5534,7 @@ class FailedCreateSimulationJobRequest {
     final request = this.request;
     return {
       if (failedAt != null) 'failedAt': unixTimestampToJson(failedAt),
-      if (failureCode != null) 'failureCode': failureCode.toValue(),
+      if (failureCode != null) 'failureCode': failureCode.value,
       if (failureReason != null) 'failureReason': failureReason,
       if (request != null) 'request': request,
     };
@@ -5720,31 +5542,18 @@ class FailedCreateSimulationJobRequest {
 }
 
 enum FailureBehavior {
-  fail,
-  $continue,
-}
+  fail('Fail'),
+  $continue('Continue'),
+  ;
 
-extension FailureBehaviorValueExtension on FailureBehavior {
-  String toValue() {
-    switch (this) {
-      case FailureBehavior.fail:
-        return 'Fail';
-      case FailureBehavior.$continue:
-        return 'Continue';
-    }
-  }
-}
+  final String value;
 
-extension FailureBehaviorFromString on String {
-  FailureBehavior toFailureBehavior() {
-    switch (this) {
-      case 'Fail':
-        return FailureBehavior.fail;
-      case 'Continue':
-        return FailureBehavior.$continue;
-    }
-    throw Exception('$this is not known in enum FailureBehavior');
-  }
+  const FailureBehavior(this.value);
+
+  static FailureBehavior fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FailureBehavior'));
 }
 
 /// Information about worlds that failed.
@@ -5880,8 +5689,8 @@ class Fleet {
       arn: json['arn'] as String?,
       createdAt: timeStampFromJson(json['createdAt']),
       lastDeploymentJob: json['lastDeploymentJob'] as String?,
-      lastDeploymentStatus:
-          (json['lastDeploymentStatus'] as String?)?.toDeploymentStatus(),
+      lastDeploymentStatus: (json['lastDeploymentStatus'] as String?)
+          ?.let(DeploymentStatus.fromString),
       lastDeploymentTime: timeStampFromJson(json['lastDeploymentTime']),
       name: json['name'] as String?,
     );
@@ -5899,7 +5708,7 @@ class Fleet {
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (lastDeploymentJob != null) 'lastDeploymentJob': lastDeploymentJob,
       if (lastDeploymentStatus != null)
-        'lastDeploymentStatus': lastDeploymentStatus.toValue(),
+        'lastDeploymentStatus': lastDeploymentStatus.value,
       if (lastDeploymentTime != null)
         'lastDeploymentTime': unixTimestampToJson(lastDeploymentTime),
       if (name != null) 'name': name,
@@ -6653,8 +6462,8 @@ class ProgressDetail {
 
   factory ProgressDetail.fromJson(Map<String, dynamic> json) {
     return ProgressDetail(
-      currentProgress:
-          (json['currentProgress'] as String?)?.toRobotDeploymentStep(),
+      currentProgress: (json['currentProgress'] as String?)
+          ?.let(RobotDeploymentStep.fromString),
       estimatedTimeRemainingSeconds:
           json['estimatedTimeRemainingSeconds'] as int?,
       percentDone: json['percentDone'] as double?,
@@ -6668,7 +6477,7 @@ class ProgressDetail {
     final percentDone = this.percentDone;
     final targetResource = this.targetResource;
     return {
-      if (currentProgress != null) 'currentProgress': currentProgress.toValue(),
+      if (currentProgress != null) 'currentProgress': currentProgress.value,
       if (estimatedTimeRemainingSeconds != null)
         'estimatedTimeRemainingSeconds': estimatedTimeRemainingSeconds,
       if (percentDone != null) 'percentDone': percentDone,
@@ -6723,7 +6532,7 @@ class RenderingEngine {
 
   factory RenderingEngine.fromJson(Map<String, dynamic> json) {
     return RenderingEngine(
-      name: (json['name'] as String?)?.toRenderingEngineType(),
+      name: (json['name'] as String?)?.let(RenderingEngineType.fromString),
       version: json['version'] as String?,
     );
   }
@@ -6732,33 +6541,24 @@ class RenderingEngine {
     final name = this.name;
     final version = this.version;
     return {
-      if (name != null) 'name': name.toValue(),
+      if (name != null) 'name': name.value,
       if (version != null) 'version': version,
     };
   }
 }
 
 enum RenderingEngineType {
-  ogre,
-}
+  ogre('OGRE'),
+  ;
 
-extension RenderingEngineTypeValueExtension on RenderingEngineType {
-  String toValue() {
-    switch (this) {
-      case RenderingEngineType.ogre:
-        return 'OGRE';
-    }
-  }
-}
+  final String value;
 
-extension RenderingEngineTypeFromString on String {
-  RenderingEngineType toRenderingEngineType() {
-    switch (this) {
-      case 'OGRE':
-        return RenderingEngineType.ogre;
-    }
-    throw Exception('$this is not known in enum RenderingEngineType');
-  }
+  const RenderingEngineType(this.value);
+
+  static RenderingEngineType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RenderingEngineType'));
 }
 
 class RestartSimulationJobResponse {
@@ -6816,7 +6616,8 @@ class Robot {
 
   factory Robot.fromJson(Map<String, dynamic> json) {
     return Robot(
-      architecture: (json['architecture'] as String?)?.toArchitecture(),
+      architecture:
+          (json['architecture'] as String?)?.let(Architecture.fromString),
       arn: json['arn'] as String?,
       createdAt: timeStampFromJson(json['createdAt']),
       fleetArn: json['fleetArn'] as String?,
@@ -6824,7 +6625,7 @@ class Robot {
       lastDeploymentJob: json['lastDeploymentJob'] as String?,
       lastDeploymentTime: timeStampFromJson(json['lastDeploymentTime']),
       name: json['name'] as String?,
-      status: (json['status'] as String?)?.toRobotStatus(),
+      status: (json['status'] as String?)?.let(RobotStatus.fromString),
     );
   }
 
@@ -6839,7 +6640,7 @@ class Robot {
     final name = this.name;
     final status = this.status;
     return {
-      if (architecture != null) 'architecture': architecture.toValue(),
+      if (architecture != null) 'architecture': architecture.value,
       if (arn != null) 'arn': arn,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (fleetArn != null) 'fleetArn': fleetArn,
@@ -6848,7 +6649,7 @@ class Robot {
       if (lastDeploymentTime != null)
         'lastDeploymentTime': unixTimestampToJson(lastDeploymentTime),
       if (name != null) 'name': name,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -7034,13 +6835,14 @@ class RobotDeployment {
       arn: json['arn'] as String?,
       deploymentFinishTime: timeStampFromJson(json['deploymentFinishTime']),
       deploymentStartTime: timeStampFromJson(json['deploymentStartTime']),
-      failureCode: (json['failureCode'] as String?)?.toDeploymentJobErrorCode(),
+      failureCode: (json['failureCode'] as String?)
+          ?.let(DeploymentJobErrorCode.fromString),
       failureReason: json['failureReason'] as String?,
       progressDetail: json['progressDetail'] != null
           ? ProgressDetail.fromJson(
               json['progressDetail'] as Map<String, dynamic>)
           : null,
-      status: (json['status'] as String?)?.toRobotStatus(),
+      status: (json['status'] as String?)?.let(RobotStatus.fromString),
     );
   }
 
@@ -7058,65 +6860,32 @@ class RobotDeployment {
         'deploymentFinishTime': unixTimestampToJson(deploymentFinishTime),
       if (deploymentStartTime != null)
         'deploymentStartTime': unixTimestampToJson(deploymentStartTime),
-      if (failureCode != null) 'failureCode': failureCode.toValue(),
+      if (failureCode != null) 'failureCode': failureCode.value,
       if (failureReason != null) 'failureReason': failureReason,
       if (progressDetail != null) 'progressDetail': progressDetail,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
 
 enum RobotDeploymentStep {
-  validating,
-  downloadingExtracting,
-  executingDownloadCondition,
-  executingPreLaunch,
-  launching,
-  executingPostLaunch,
-  finished,
-}
+  validating('Validating'),
+  downloadingExtracting('DownloadingExtracting'),
+  executingDownloadCondition('ExecutingDownloadCondition'),
+  executingPreLaunch('ExecutingPreLaunch'),
+  launching('Launching'),
+  executingPostLaunch('ExecutingPostLaunch'),
+  finished('Finished'),
+  ;
 
-extension RobotDeploymentStepValueExtension on RobotDeploymentStep {
-  String toValue() {
-    switch (this) {
-      case RobotDeploymentStep.validating:
-        return 'Validating';
-      case RobotDeploymentStep.downloadingExtracting:
-        return 'DownloadingExtracting';
-      case RobotDeploymentStep.executingDownloadCondition:
-        return 'ExecutingDownloadCondition';
-      case RobotDeploymentStep.executingPreLaunch:
-        return 'ExecutingPreLaunch';
-      case RobotDeploymentStep.launching:
-        return 'Launching';
-      case RobotDeploymentStep.executingPostLaunch:
-        return 'ExecutingPostLaunch';
-      case RobotDeploymentStep.finished:
-        return 'Finished';
-    }
-  }
-}
+  final String value;
 
-extension RobotDeploymentStepFromString on String {
-  RobotDeploymentStep toRobotDeploymentStep() {
-    switch (this) {
-      case 'Validating':
-        return RobotDeploymentStep.validating;
-      case 'DownloadingExtracting':
-        return RobotDeploymentStep.downloadingExtracting;
-      case 'ExecutingDownloadCondition':
-        return RobotDeploymentStep.executingDownloadCondition;
-      case 'ExecutingPreLaunch':
-        return RobotDeploymentStep.executingPreLaunch;
-      case 'Launching':
-        return RobotDeploymentStep.launching;
-      case 'ExecutingPostLaunch':
-        return RobotDeploymentStep.executingPostLaunch;
-      case 'Finished':
-        return RobotDeploymentStep.finished;
-    }
-    throw Exception('$this is not known in enum RobotDeploymentStep');
-  }
+  const RobotDeploymentStep(this.value);
+
+  static RobotDeploymentStep fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RobotDeploymentStep'));
 }
 
 /// Information about a robot software suite (ROS distribution).
@@ -7134,8 +6903,9 @@ class RobotSoftwareSuite {
 
   factory RobotSoftwareSuite.fromJson(Map<String, dynamic> json) {
     return RobotSoftwareSuite(
-      name: (json['name'] as String?)?.toRobotSoftwareSuiteType(),
-      version: (json['version'] as String?)?.toRobotSoftwareSuiteVersionType(),
+      name: (json['name'] as String?)?.let(RobotSoftwareSuiteType.fromString),
+      version: (json['version'] as String?)
+          ?.let(RobotSoftwareSuiteVersionType.fromString),
     );
   }
 
@@ -7143,135 +6913,62 @@ class RobotSoftwareSuite {
     final name = this.name;
     final version = this.version;
     return {
-      if (name != null) 'name': name.toValue(),
-      if (version != null) 'version': version.toValue(),
+      if (name != null) 'name': name.value,
+      if (version != null) 'version': version.value,
     };
   }
 }
 
 enum RobotSoftwareSuiteType {
-  ros,
-  ros2,
-  general,
-}
+  ros('ROS'),
+  ros2('ROS2'),
+  general('General'),
+  ;
 
-extension RobotSoftwareSuiteTypeValueExtension on RobotSoftwareSuiteType {
-  String toValue() {
-    switch (this) {
-      case RobotSoftwareSuiteType.ros:
-        return 'ROS';
-      case RobotSoftwareSuiteType.ros2:
-        return 'ROS2';
-      case RobotSoftwareSuiteType.general:
-        return 'General';
-    }
-  }
-}
+  final String value;
 
-extension RobotSoftwareSuiteTypeFromString on String {
-  RobotSoftwareSuiteType toRobotSoftwareSuiteType() {
-    switch (this) {
-      case 'ROS':
-        return RobotSoftwareSuiteType.ros;
-      case 'ROS2':
-        return RobotSoftwareSuiteType.ros2;
-      case 'General':
-        return RobotSoftwareSuiteType.general;
-    }
-    throw Exception('$this is not known in enum RobotSoftwareSuiteType');
-  }
+  const RobotSoftwareSuiteType(this.value);
+
+  static RobotSoftwareSuiteType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RobotSoftwareSuiteType'));
 }
 
 enum RobotSoftwareSuiteVersionType {
-  kinetic,
-  melodic,
-  dashing,
-  foxy,
-}
+  kinetic('Kinetic'),
+  melodic('Melodic'),
+  dashing('Dashing'),
+  foxy('Foxy'),
+  ;
 
-extension RobotSoftwareSuiteVersionTypeValueExtension
-    on RobotSoftwareSuiteVersionType {
-  String toValue() {
-    switch (this) {
-      case RobotSoftwareSuiteVersionType.kinetic:
-        return 'Kinetic';
-      case RobotSoftwareSuiteVersionType.melodic:
-        return 'Melodic';
-      case RobotSoftwareSuiteVersionType.dashing:
-        return 'Dashing';
-      case RobotSoftwareSuiteVersionType.foxy:
-        return 'Foxy';
-    }
-  }
-}
+  final String value;
 
-extension RobotSoftwareSuiteVersionTypeFromString on String {
-  RobotSoftwareSuiteVersionType toRobotSoftwareSuiteVersionType() {
-    switch (this) {
-      case 'Kinetic':
-        return RobotSoftwareSuiteVersionType.kinetic;
-      case 'Melodic':
-        return RobotSoftwareSuiteVersionType.melodic;
-      case 'Dashing':
-        return RobotSoftwareSuiteVersionType.dashing;
-      case 'Foxy':
-        return RobotSoftwareSuiteVersionType.foxy;
-    }
-    throw Exception('$this is not known in enum RobotSoftwareSuiteVersionType');
-  }
+  const RobotSoftwareSuiteVersionType(this.value);
+
+  static RobotSoftwareSuiteVersionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RobotSoftwareSuiteVersionType'));
 }
 
 enum RobotStatus {
-  available,
-  registered,
-  pendingNewDeployment,
-  deploying,
-  failed,
-  inSync,
-  noResponse,
-}
+  available('Available'),
+  registered('Registered'),
+  pendingNewDeployment('PendingNewDeployment'),
+  deploying('Deploying'),
+  failed('Failed'),
+  inSync('InSync'),
+  noResponse('NoResponse'),
+  ;
 
-extension RobotStatusValueExtension on RobotStatus {
-  String toValue() {
-    switch (this) {
-      case RobotStatus.available:
-        return 'Available';
-      case RobotStatus.registered:
-        return 'Registered';
-      case RobotStatus.pendingNewDeployment:
-        return 'PendingNewDeployment';
-      case RobotStatus.deploying:
-        return 'Deploying';
-      case RobotStatus.failed:
-        return 'Failed';
-      case RobotStatus.inSync:
-        return 'InSync';
-      case RobotStatus.noResponse:
-        return 'NoResponse';
-    }
-  }
-}
+  final String value;
 
-extension RobotStatusFromString on String {
-  RobotStatus toRobotStatus() {
-    switch (this) {
-      case 'Available':
-        return RobotStatus.available;
-      case 'Registered':
-        return RobotStatus.registered;
-      case 'PendingNewDeployment':
-        return RobotStatus.pendingNewDeployment;
-      case 'Deploying':
-        return RobotStatus.deploying;
-      case 'Failed':
-        return RobotStatus.failed;
-      case 'InSync':
-        return RobotStatus.inSync;
-      case 'NoResponse':
-        return RobotStatus.noResponse;
-    }
-    throw Exception('$this is not known in enum RobotStatus');
-  }
+  const RobotStatus(this.value);
+
+  static RobotStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum RobotStatus'));
 }
 
 /// Information about S3 keys.
@@ -7618,8 +7315,9 @@ class SimulationJob {
           .map((e) => DataSource.fromJson(e as Map<String, dynamic>))
           .toList(),
       failureBehavior:
-          (json['failureBehavior'] as String?)?.toFailureBehavior(),
-      failureCode: (json['failureCode'] as String?)?.toSimulationJobErrorCode(),
+          (json['failureBehavior'] as String?)?.let(FailureBehavior.fromString),
+      failureCode: (json['failureCode'] as String?)
+          ?.let(SimulationJobErrorCode.fromString),
       failureReason: json['failureReason'] as String?,
       iamRole: json['iamRole'] as String?,
       lastStartedAt: timeStampFromJson(json['lastStartedAt']),
@@ -7649,7 +7347,7 @@ class SimulationJob {
               SimulationApplicationConfig.fromJson(e as Map<String, dynamic>))
           .toList(),
       simulationTimeMillis: json['simulationTimeMillis'] as int?,
-      status: (json['status'] as String?)?.toSimulationJobStatus(),
+      status: (json['status'] as String?)?.let(SimulationJobStatus.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       vpcConfig: json['vpcConfig'] != null
@@ -7686,8 +7384,8 @@ class SimulationJob {
       if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
       if (compute != null) 'compute': compute,
       if (dataSources != null) 'dataSources': dataSources,
-      if (failureBehavior != null) 'failureBehavior': failureBehavior.toValue(),
-      if (failureCode != null) 'failureCode': failureCode.toValue(),
+      if (failureBehavior != null) 'failureBehavior': failureBehavior.value,
+      if (failureCode != null) 'failureCode': failureCode.value,
       if (failureReason != null) 'failureReason': failureReason,
       if (iamRole != null) 'iamRole': iamRole,
       if (lastStartedAt != null)
@@ -7705,7 +7403,7 @@ class SimulationJob {
         'simulationApplications': simulationApplications,
       if (simulationTimeMillis != null)
         'simulationTimeMillis': simulationTimeMillis,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (tags != null) 'tags': tags,
       if (vpcConfig != null) 'vpcConfig': vpcConfig,
     };
@@ -7713,90 +7411,39 @@ class SimulationJob {
 }
 
 enum SimulationJobBatchErrorCode {
-  internalServiceError,
-}
+  internalServiceError('InternalServiceError'),
+  ;
 
-extension SimulationJobBatchErrorCodeValueExtension
-    on SimulationJobBatchErrorCode {
-  String toValue() {
-    switch (this) {
-      case SimulationJobBatchErrorCode.internalServiceError:
-        return 'InternalServiceError';
-    }
-  }
-}
+  final String value;
 
-extension SimulationJobBatchErrorCodeFromString on String {
-  SimulationJobBatchErrorCode toSimulationJobBatchErrorCode() {
-    switch (this) {
-      case 'InternalServiceError':
-        return SimulationJobBatchErrorCode.internalServiceError;
-    }
-    throw Exception('$this is not known in enum SimulationJobBatchErrorCode');
-  }
+  const SimulationJobBatchErrorCode(this.value);
+
+  static SimulationJobBatchErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SimulationJobBatchErrorCode'));
 }
 
 enum SimulationJobBatchStatus {
-  pending,
-  inProgress,
-  failed,
-  completed,
-  canceled,
-  canceling,
-  completing,
-  timingOut,
-  timedOut,
-}
+  pending('Pending'),
+  inProgress('InProgress'),
+  failed('Failed'),
+  completed('Completed'),
+  canceled('Canceled'),
+  canceling('Canceling'),
+  completing('Completing'),
+  timingOut('TimingOut'),
+  timedOut('TimedOut'),
+  ;
 
-extension SimulationJobBatchStatusValueExtension on SimulationJobBatchStatus {
-  String toValue() {
-    switch (this) {
-      case SimulationJobBatchStatus.pending:
-        return 'Pending';
-      case SimulationJobBatchStatus.inProgress:
-        return 'InProgress';
-      case SimulationJobBatchStatus.failed:
-        return 'Failed';
-      case SimulationJobBatchStatus.completed:
-        return 'Completed';
-      case SimulationJobBatchStatus.canceled:
-        return 'Canceled';
-      case SimulationJobBatchStatus.canceling:
-        return 'Canceling';
-      case SimulationJobBatchStatus.completing:
-        return 'Completing';
-      case SimulationJobBatchStatus.timingOut:
-        return 'TimingOut';
-      case SimulationJobBatchStatus.timedOut:
-        return 'TimedOut';
-    }
-  }
-}
+  final String value;
 
-extension SimulationJobBatchStatusFromString on String {
-  SimulationJobBatchStatus toSimulationJobBatchStatus() {
-    switch (this) {
-      case 'Pending':
-        return SimulationJobBatchStatus.pending;
-      case 'InProgress':
-        return SimulationJobBatchStatus.inProgress;
-      case 'Failed':
-        return SimulationJobBatchStatus.failed;
-      case 'Completed':
-        return SimulationJobBatchStatus.completed;
-      case 'Canceled':
-        return SimulationJobBatchStatus.canceled;
-      case 'Canceling':
-        return SimulationJobBatchStatus.canceling;
-      case 'Completing':
-        return SimulationJobBatchStatus.completing;
-      case 'TimingOut':
-        return SimulationJobBatchStatus.timingOut;
-      case 'TimedOut':
-        return SimulationJobBatchStatus.timedOut;
-    }
-    throw Exception('$this is not known in enum SimulationJobBatchStatus');
-  }
+  const SimulationJobBatchStatus(this.value);
+
+  static SimulationJobBatchStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SimulationJobBatchStatus'));
 }
 
 /// Information about a simulation job batch.
@@ -7873,7 +7520,8 @@ class SimulationJobBatchSummary {
       failedRequestCount: json['failedRequestCount'] as int?,
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
       pendingRequestCount: json['pendingRequestCount'] as int?,
-      status: (json['status'] as String?)?.toSimulationJobBatchStatus(),
+      status:
+          (json['status'] as String?)?.let(SimulationJobBatchStatus.fromString),
     );
   }
 
@@ -7895,183 +7543,56 @@ class SimulationJobBatchSummary {
         'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
       if (pendingRequestCount != null)
         'pendingRequestCount': pendingRequestCount,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
 
 enum SimulationJobErrorCode {
-  internalServiceError,
-  robotApplicationCrash,
-  simulationApplicationCrash,
-  robotApplicationHealthCheckFailure,
-  simulationApplicationHealthCheckFailure,
-  badPermissionsRobotApplication,
-  badPermissionsSimulationApplication,
-  badPermissionsS3Object,
-  badPermissionsS3Output,
-  badPermissionsCloudwatchLogs,
-  subnetIpLimitExceeded,
-  eNILimitExceeded,
-  badPermissionsUserCredentials,
-  invalidBundleRobotApplication,
-  invalidBundleSimulationApplication,
-  invalidS3Resource,
-  throttlingError,
-  limitExceeded,
-  mismatchedEtag,
-  robotApplicationVersionMismatchedEtag,
-  simulationApplicationVersionMismatchedEtag,
-  resourceNotFound,
-  requestThrottled,
-  batchTimedOut,
-  batchCanceled,
-  invalidInput,
-  wrongRegionS3Bucket,
-  wrongRegionS3Output,
-  wrongRegionRobotApplication,
-  wrongRegionSimulationApplication,
-  uploadContentMismatchError,
-}
+  internalServiceError('InternalServiceError'),
+  robotApplicationCrash('RobotApplicationCrash'),
+  simulationApplicationCrash('SimulationApplicationCrash'),
+  robotApplicationHealthCheckFailure('RobotApplicationHealthCheckFailure'),
+  simulationApplicationHealthCheckFailure(
+      'SimulationApplicationHealthCheckFailure'),
+  badPermissionsRobotApplication('BadPermissionsRobotApplication'),
+  badPermissionsSimulationApplication('BadPermissionsSimulationApplication'),
+  badPermissionsS3Object('BadPermissionsS3Object'),
+  badPermissionsS3Output('BadPermissionsS3Output'),
+  badPermissionsCloudwatchLogs('BadPermissionsCloudwatchLogs'),
+  subnetIpLimitExceeded('SubnetIpLimitExceeded'),
+  eNILimitExceeded('ENILimitExceeded'),
+  badPermissionsUserCredentials('BadPermissionsUserCredentials'),
+  invalidBundleRobotApplication('InvalidBundleRobotApplication'),
+  invalidBundleSimulationApplication('InvalidBundleSimulationApplication'),
+  invalidS3Resource('InvalidS3Resource'),
+  throttlingError('ThrottlingError'),
+  limitExceeded('LimitExceeded'),
+  mismatchedEtag('MismatchedEtag'),
+  robotApplicationVersionMismatchedEtag(
+      'RobotApplicationVersionMismatchedEtag'),
+  simulationApplicationVersionMismatchedEtag(
+      'SimulationApplicationVersionMismatchedEtag'),
+  resourceNotFound('ResourceNotFound'),
+  requestThrottled('RequestThrottled'),
+  batchTimedOut('BatchTimedOut'),
+  batchCanceled('BatchCanceled'),
+  invalidInput('InvalidInput'),
+  wrongRegionS3Bucket('WrongRegionS3Bucket'),
+  wrongRegionS3Output('WrongRegionS3Output'),
+  wrongRegionRobotApplication('WrongRegionRobotApplication'),
+  wrongRegionSimulationApplication('WrongRegionSimulationApplication'),
+  uploadContentMismatchError('UploadContentMismatchError'),
+  ;
 
-extension SimulationJobErrorCodeValueExtension on SimulationJobErrorCode {
-  String toValue() {
-    switch (this) {
-      case SimulationJobErrorCode.internalServiceError:
-        return 'InternalServiceError';
-      case SimulationJobErrorCode.robotApplicationCrash:
-        return 'RobotApplicationCrash';
-      case SimulationJobErrorCode.simulationApplicationCrash:
-        return 'SimulationApplicationCrash';
-      case SimulationJobErrorCode.robotApplicationHealthCheckFailure:
-        return 'RobotApplicationHealthCheckFailure';
-      case SimulationJobErrorCode.simulationApplicationHealthCheckFailure:
-        return 'SimulationApplicationHealthCheckFailure';
-      case SimulationJobErrorCode.badPermissionsRobotApplication:
-        return 'BadPermissionsRobotApplication';
-      case SimulationJobErrorCode.badPermissionsSimulationApplication:
-        return 'BadPermissionsSimulationApplication';
-      case SimulationJobErrorCode.badPermissionsS3Object:
-        return 'BadPermissionsS3Object';
-      case SimulationJobErrorCode.badPermissionsS3Output:
-        return 'BadPermissionsS3Output';
-      case SimulationJobErrorCode.badPermissionsCloudwatchLogs:
-        return 'BadPermissionsCloudwatchLogs';
-      case SimulationJobErrorCode.subnetIpLimitExceeded:
-        return 'SubnetIpLimitExceeded';
-      case SimulationJobErrorCode.eNILimitExceeded:
-        return 'ENILimitExceeded';
-      case SimulationJobErrorCode.badPermissionsUserCredentials:
-        return 'BadPermissionsUserCredentials';
-      case SimulationJobErrorCode.invalidBundleRobotApplication:
-        return 'InvalidBundleRobotApplication';
-      case SimulationJobErrorCode.invalidBundleSimulationApplication:
-        return 'InvalidBundleSimulationApplication';
-      case SimulationJobErrorCode.invalidS3Resource:
-        return 'InvalidS3Resource';
-      case SimulationJobErrorCode.throttlingError:
-        return 'ThrottlingError';
-      case SimulationJobErrorCode.limitExceeded:
-        return 'LimitExceeded';
-      case SimulationJobErrorCode.mismatchedEtag:
-        return 'MismatchedEtag';
-      case SimulationJobErrorCode.robotApplicationVersionMismatchedEtag:
-        return 'RobotApplicationVersionMismatchedEtag';
-      case SimulationJobErrorCode.simulationApplicationVersionMismatchedEtag:
-        return 'SimulationApplicationVersionMismatchedEtag';
-      case SimulationJobErrorCode.resourceNotFound:
-        return 'ResourceNotFound';
-      case SimulationJobErrorCode.requestThrottled:
-        return 'RequestThrottled';
-      case SimulationJobErrorCode.batchTimedOut:
-        return 'BatchTimedOut';
-      case SimulationJobErrorCode.batchCanceled:
-        return 'BatchCanceled';
-      case SimulationJobErrorCode.invalidInput:
-        return 'InvalidInput';
-      case SimulationJobErrorCode.wrongRegionS3Bucket:
-        return 'WrongRegionS3Bucket';
-      case SimulationJobErrorCode.wrongRegionS3Output:
-        return 'WrongRegionS3Output';
-      case SimulationJobErrorCode.wrongRegionRobotApplication:
-        return 'WrongRegionRobotApplication';
-      case SimulationJobErrorCode.wrongRegionSimulationApplication:
-        return 'WrongRegionSimulationApplication';
-      case SimulationJobErrorCode.uploadContentMismatchError:
-        return 'UploadContentMismatchError';
-    }
-  }
-}
+  final String value;
 
-extension SimulationJobErrorCodeFromString on String {
-  SimulationJobErrorCode toSimulationJobErrorCode() {
-    switch (this) {
-      case 'InternalServiceError':
-        return SimulationJobErrorCode.internalServiceError;
-      case 'RobotApplicationCrash':
-        return SimulationJobErrorCode.robotApplicationCrash;
-      case 'SimulationApplicationCrash':
-        return SimulationJobErrorCode.simulationApplicationCrash;
-      case 'RobotApplicationHealthCheckFailure':
-        return SimulationJobErrorCode.robotApplicationHealthCheckFailure;
-      case 'SimulationApplicationHealthCheckFailure':
-        return SimulationJobErrorCode.simulationApplicationHealthCheckFailure;
-      case 'BadPermissionsRobotApplication':
-        return SimulationJobErrorCode.badPermissionsRobotApplication;
-      case 'BadPermissionsSimulationApplication':
-        return SimulationJobErrorCode.badPermissionsSimulationApplication;
-      case 'BadPermissionsS3Object':
-        return SimulationJobErrorCode.badPermissionsS3Object;
-      case 'BadPermissionsS3Output':
-        return SimulationJobErrorCode.badPermissionsS3Output;
-      case 'BadPermissionsCloudwatchLogs':
-        return SimulationJobErrorCode.badPermissionsCloudwatchLogs;
-      case 'SubnetIpLimitExceeded':
-        return SimulationJobErrorCode.subnetIpLimitExceeded;
-      case 'ENILimitExceeded':
-        return SimulationJobErrorCode.eNILimitExceeded;
-      case 'BadPermissionsUserCredentials':
-        return SimulationJobErrorCode.badPermissionsUserCredentials;
-      case 'InvalidBundleRobotApplication':
-        return SimulationJobErrorCode.invalidBundleRobotApplication;
-      case 'InvalidBundleSimulationApplication':
-        return SimulationJobErrorCode.invalidBundleSimulationApplication;
-      case 'InvalidS3Resource':
-        return SimulationJobErrorCode.invalidS3Resource;
-      case 'ThrottlingError':
-        return SimulationJobErrorCode.throttlingError;
-      case 'LimitExceeded':
-        return SimulationJobErrorCode.limitExceeded;
-      case 'MismatchedEtag':
-        return SimulationJobErrorCode.mismatchedEtag;
-      case 'RobotApplicationVersionMismatchedEtag':
-        return SimulationJobErrorCode.robotApplicationVersionMismatchedEtag;
-      case 'SimulationApplicationVersionMismatchedEtag':
-        return SimulationJobErrorCode
-            .simulationApplicationVersionMismatchedEtag;
-      case 'ResourceNotFound':
-        return SimulationJobErrorCode.resourceNotFound;
-      case 'RequestThrottled':
-        return SimulationJobErrorCode.requestThrottled;
-      case 'BatchTimedOut':
-        return SimulationJobErrorCode.batchTimedOut;
-      case 'BatchCanceled':
-        return SimulationJobErrorCode.batchCanceled;
-      case 'InvalidInput':
-        return SimulationJobErrorCode.invalidInput;
-      case 'WrongRegionS3Bucket':
-        return SimulationJobErrorCode.wrongRegionS3Bucket;
-      case 'WrongRegionS3Output':
-        return SimulationJobErrorCode.wrongRegionS3Output;
-      case 'WrongRegionRobotApplication':
-        return SimulationJobErrorCode.wrongRegionRobotApplication;
-      case 'WrongRegionSimulationApplication':
-        return SimulationJobErrorCode.wrongRegionSimulationApplication;
-      case 'UploadContentMismatchError':
-        return SimulationJobErrorCode.uploadContentMismatchError;
-    }
-    throw Exception('$this is not known in enum SimulationJobErrorCode');
-  }
+  const SimulationJobErrorCode(this.value);
+
+  static SimulationJobErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SimulationJobErrorCode'));
 }
 
 /// Information about a simulation job request.
@@ -8149,7 +7670,7 @@ class SimulationJobRequest {
           .map((e) => DataSourceConfig.fromJson(e as Map<String, dynamic>))
           .toList(),
       failureBehavior:
-          (json['failureBehavior'] as String?)?.toFailureBehavior(),
+          (json['failureBehavior'] as String?)?.let(FailureBehavior.fromString),
       iamRole: json['iamRole'] as String?,
       loggingConfig: json['loggingConfig'] != null
           ? LoggingConfig.fromJson(
@@ -8195,7 +7716,7 @@ class SimulationJobRequest {
       'maxJobDurationInSeconds': maxJobDurationInSeconds,
       if (compute != null) 'compute': compute,
       if (dataSources != null) 'dataSources': dataSources,
-      if (failureBehavior != null) 'failureBehavior': failureBehavior.toValue(),
+      if (failureBehavior != null) 'failureBehavior': failureBehavior.value,
       if (iamRole != null) 'iamRole': iamRole,
       if (loggingConfig != null) 'loggingConfig': loggingConfig,
       if (outputLocation != null) 'outputLocation': outputLocation,
@@ -8211,71 +7732,26 @@ class SimulationJobRequest {
 }
 
 enum SimulationJobStatus {
-  pending,
-  preparing,
-  running,
-  restarting,
-  completed,
-  failed,
-  runningFailed,
-  terminating,
-  terminated,
-  canceled,
-}
+  pending('Pending'),
+  preparing('Preparing'),
+  running('Running'),
+  restarting('Restarting'),
+  completed('Completed'),
+  failed('Failed'),
+  runningFailed('RunningFailed'),
+  terminating('Terminating'),
+  terminated('Terminated'),
+  canceled('Canceled'),
+  ;
 
-extension SimulationJobStatusValueExtension on SimulationJobStatus {
-  String toValue() {
-    switch (this) {
-      case SimulationJobStatus.pending:
-        return 'Pending';
-      case SimulationJobStatus.preparing:
-        return 'Preparing';
-      case SimulationJobStatus.running:
-        return 'Running';
-      case SimulationJobStatus.restarting:
-        return 'Restarting';
-      case SimulationJobStatus.completed:
-        return 'Completed';
-      case SimulationJobStatus.failed:
-        return 'Failed';
-      case SimulationJobStatus.runningFailed:
-        return 'RunningFailed';
-      case SimulationJobStatus.terminating:
-        return 'Terminating';
-      case SimulationJobStatus.terminated:
-        return 'Terminated';
-      case SimulationJobStatus.canceled:
-        return 'Canceled';
-    }
-  }
-}
+  final String value;
 
-extension SimulationJobStatusFromString on String {
-  SimulationJobStatus toSimulationJobStatus() {
-    switch (this) {
-      case 'Pending':
-        return SimulationJobStatus.pending;
-      case 'Preparing':
-        return SimulationJobStatus.preparing;
-      case 'Running':
-        return SimulationJobStatus.running;
-      case 'Restarting':
-        return SimulationJobStatus.restarting;
-      case 'Completed':
-        return SimulationJobStatus.completed;
-      case 'Failed':
-        return SimulationJobStatus.failed;
-      case 'RunningFailed':
-        return SimulationJobStatus.runningFailed;
-      case 'Terminating':
-        return SimulationJobStatus.terminating;
-      case 'Terminated':
-        return SimulationJobStatus.terminated;
-      case 'Canceled':
-        return SimulationJobStatus.canceled;
-    }
-    throw Exception('$this is not known in enum SimulationJobStatus');
-  }
+  const SimulationJobStatus(this.value);
+
+  static SimulationJobStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SimulationJobStatus'));
 }
 
 /// Summary information for a simulation job.
@@ -8319,7 +7795,8 @@ class SimulationJobSummary {
   factory SimulationJobSummary.fromJson(Map<String, dynamic> json) {
     return SimulationJobSummary(
       arn: json['arn'] as String?,
-      computeType: (json['computeType'] as String?)?.toComputeType(),
+      computeType:
+          (json['computeType'] as String?)?.let(ComputeType.fromString),
       dataSourceNames: (json['dataSourceNames'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -8334,7 +7811,7 @@ class SimulationJobSummary {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      status: (json['status'] as String?)?.toSimulationJobStatus(),
+      status: (json['status'] as String?)?.let(SimulationJobStatus.fromString),
     );
   }
 
@@ -8349,7 +7826,7 @@ class SimulationJobSummary {
     final status = this.status;
     return {
       if (arn != null) 'arn': arn,
-      if (computeType != null) 'computeType': computeType.toValue(),
+      if (computeType != null) 'computeType': computeType.value,
       if (dataSourceNames != null) 'dataSourceNames': dataSourceNames,
       if (lastUpdatedAt != null)
         'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
@@ -8358,7 +7835,7 @@ class SimulationJobSummary {
         'robotApplicationNames': robotApplicationNames,
       if (simulationApplicationNames != null)
         'simulationApplicationNames': simulationApplicationNames,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -8378,7 +7855,8 @@ class SimulationSoftwareSuite {
 
   factory SimulationSoftwareSuite.fromJson(Map<String, dynamic> json) {
     return SimulationSoftwareSuite(
-      name: (json['name'] as String?)?.toSimulationSoftwareSuiteType(),
+      name: (json['name'] as String?)
+          ?.let(SimulationSoftwareSuiteType.fromString),
       version: json['version'] as String?,
     );
   }
@@ -8387,44 +7865,26 @@ class SimulationSoftwareSuite {
     final name = this.name;
     final version = this.version;
     return {
-      if (name != null) 'name': name.toValue(),
+      if (name != null) 'name': name.value,
       if (version != null) 'version': version,
     };
   }
 }
 
 enum SimulationSoftwareSuiteType {
-  gazebo,
-  rosbagPlay,
-  simulationRuntime,
-}
+  gazebo('Gazebo'),
+  rosbagPlay('RosbagPlay'),
+  simulationRuntime('SimulationRuntime'),
+  ;
 
-extension SimulationSoftwareSuiteTypeValueExtension
-    on SimulationSoftwareSuiteType {
-  String toValue() {
-    switch (this) {
-      case SimulationSoftwareSuiteType.gazebo:
-        return 'Gazebo';
-      case SimulationSoftwareSuiteType.rosbagPlay:
-        return 'RosbagPlay';
-      case SimulationSoftwareSuiteType.simulationRuntime:
-        return 'SimulationRuntime';
-    }
-  }
-}
+  final String value;
 
-extension SimulationSoftwareSuiteTypeFromString on String {
-  SimulationSoftwareSuiteType toSimulationSoftwareSuiteType() {
-    switch (this) {
-      case 'Gazebo':
-        return SimulationSoftwareSuiteType.gazebo;
-      case 'RosbagPlay':
-        return SimulationSoftwareSuiteType.rosbagPlay;
-      case 'SimulationRuntime':
-        return SimulationSoftwareSuiteType.simulationRuntime;
-    }
-    throw Exception('$this is not known in enum SimulationSoftwareSuiteType');
-  }
+  const SimulationSoftwareSuiteType(this.value);
+
+  static SimulationSoftwareSuiteType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SimulationSoftwareSuiteType'));
 }
 
 /// Information about a source.
@@ -8451,7 +7911,8 @@ class Source {
 
   factory Source.fromJson(Map<String, dynamic> json) {
     return Source(
-      architecture: (json['architecture'] as String?)?.toArchitecture(),
+      architecture:
+          (json['architecture'] as String?)?.let(Architecture.fromString),
       etag: json['etag'] as String?,
       s3Bucket: json['s3Bucket'] as String?,
       s3Key: json['s3Key'] as String?,
@@ -8464,7 +7925,7 @@ class Source {
     final s3Bucket = this.s3Bucket;
     final s3Key = this.s3Key;
     return {
-      if (architecture != null) 'architecture': architecture.toValue(),
+      if (architecture != null) 'architecture': architecture.value,
       if (etag != null) 'etag': etag,
       if (s3Bucket != null) 's3Bucket': s3Bucket,
       if (s3Key != null) 's3Key': s3Key,
@@ -8494,7 +7955,7 @@ class SourceConfig {
     final s3Bucket = this.s3Bucket;
     final s3Key = this.s3Key;
     return {
-      if (architecture != null) 'architecture': architecture.toValue(),
+      if (architecture != null) 'architecture': architecture.value,
       if (s3Bucket != null) 's3Bucket': s3Bucket,
       if (s3Key != null) 's3Key': s3Key,
     };
@@ -8602,14 +8063,15 @@ class StartSimulationJobBatchResponse {
           .map((e) => FailedCreateSimulationJobRequest.fromJson(
               e as Map<String, dynamic>))
           .toList(),
-      failureCode:
-          (json['failureCode'] as String?)?.toSimulationJobBatchErrorCode(),
+      failureCode: (json['failureCode'] as String?)
+          ?.let(SimulationJobBatchErrorCode.fromString),
       failureReason: json['failureReason'] as String?,
       pendingRequests: (json['pendingRequests'] as List?)
           ?.whereNotNull()
           .map((e) => SimulationJobRequest.fromJson(e as Map<String, dynamic>))
           .toList(),
-      status: (json['status'] as String?)?.toSimulationJobBatchStatus(),
+      status:
+          (json['status'] as String?)?.let(SimulationJobBatchStatus.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -8634,10 +8096,10 @@ class StartSimulationJobBatchResponse {
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (createdRequests != null) 'createdRequests': createdRequests,
       if (failedRequests != null) 'failedRequests': failedRequests,
-      if (failureCode != null) 'failureCode': failureCode.toValue(),
+      if (failureCode != null) 'failureCode': failureCode.value,
       if (failureReason != null) 'failureReason': failureReason,
       if (pendingRequests != null) 'pendingRequests': pendingRequests,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (tags != null) 'tags': tags,
     };
   }
@@ -8726,10 +8188,11 @@ class SyncDeploymentJobResponse {
           ? DeploymentConfig.fromJson(
               json['deploymentConfig'] as Map<String, dynamic>)
           : null,
-      failureCode: (json['failureCode'] as String?)?.toDeploymentJobErrorCode(),
+      failureCode: (json['failureCode'] as String?)
+          ?.let(DeploymentJobErrorCode.fromString),
       failureReason: json['failureReason'] as String?,
       fleet: json['fleet'] as String?,
-      status: (json['status'] as String?)?.toDeploymentStatus(),
+      status: (json['status'] as String?)?.let(DeploymentStatus.fromString),
     );
   }
 
@@ -8748,10 +8211,10 @@ class SyncDeploymentJobResponse {
       if (deploymentApplicationConfigs != null)
         'deploymentApplicationConfigs': deploymentApplicationConfigs,
       if (deploymentConfig != null) 'deploymentConfig': deploymentConfig,
-      if (failureCode != null) 'failureCode': failureCode.toValue(),
+      if (failureCode != null) 'failureCode': failureCode.value,
       if (failureReason != null) 'failureReason': failureReason,
       if (fleet != null) 'fleet': fleet,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -8880,7 +8343,8 @@ class Tool {
     return Tool(
       command: json['command'] as String,
       name: json['name'] as String,
-      exitBehavior: (json['exitBehavior'] as String?)?.toExitBehavior(),
+      exitBehavior:
+          (json['exitBehavior'] as String?)?.let(ExitBehavior.fromString),
       streamOutputToCloudWatch: json['streamOutputToCloudWatch'] as bool?,
       streamUI: json['streamUI'] as bool?,
     );
@@ -8895,7 +8359,7 @@ class Tool {
     return {
       'command': command,
       'name': name,
-      if (exitBehavior != null) 'exitBehavior': exitBehavior.toValue(),
+      if (exitBehavior != null) 'exitBehavior': exitBehavior.value,
       if (streamOutputToCloudWatch != null)
         'streamOutputToCloudWatch': streamOutputToCloudWatch,
       if (streamUI != null) 'streamUI': streamUI,
@@ -9147,31 +8611,18 @@ class UpdateWorldTemplateResponse {
 }
 
 enum UploadBehavior {
-  uploadOnTerminate,
-  uploadRollingAutoRemove,
-}
+  uploadOnTerminate('UPLOAD_ON_TERMINATE'),
+  uploadRollingAutoRemove('UPLOAD_ROLLING_AUTO_REMOVE'),
+  ;
 
-extension UploadBehaviorValueExtension on UploadBehavior {
-  String toValue() {
-    switch (this) {
-      case UploadBehavior.uploadOnTerminate:
-        return 'UPLOAD_ON_TERMINATE';
-      case UploadBehavior.uploadRollingAutoRemove:
-        return 'UPLOAD_ROLLING_AUTO_REMOVE';
-    }
-  }
-}
+  final String value;
 
-extension UploadBehaviorFromString on String {
-  UploadBehavior toUploadBehavior() {
-    switch (this) {
-      case 'UPLOAD_ON_TERMINATE':
-        return UploadBehavior.uploadOnTerminate;
-      case 'UPLOAD_ROLLING_AUTO_REMOVE':
-        return UploadBehavior.uploadRollingAutoRemove;
-    }
-    throw Exception('$this is not known in enum UploadBehavior');
-  }
+  const UploadBehavior(this.value);
+
+  static UploadBehavior fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum UploadBehavior'));
 }
 
 /// Provides upload configuration information. Files are uploaded from the
@@ -9219,7 +8670,8 @@ class UploadConfiguration {
     return UploadConfiguration(
       name: json['name'] as String,
       path: json['path'] as String,
-      uploadBehavior: (json['uploadBehavior'] as String).toUploadBehavior(),
+      uploadBehavior:
+          UploadBehavior.fromString((json['uploadBehavior'] as String)),
     );
   }
 
@@ -9230,7 +8682,7 @@ class UploadConfiguration {
     return {
       'name': name,
       'path': path,
-      'uploadBehavior': uploadBehavior.toValue(),
+      'uploadBehavior': uploadBehavior.value,
     };
   }
 }
@@ -9395,99 +8847,41 @@ class WorldCount {
 }
 
 enum WorldExportJobErrorCode {
-  internalServiceError,
-  limitExceeded,
-  resourceNotFound,
-  requestThrottled,
-  invalidInput,
-  accessDenied,
-}
+  internalServiceError('InternalServiceError'),
+  limitExceeded('LimitExceeded'),
+  resourceNotFound('ResourceNotFound'),
+  requestThrottled('RequestThrottled'),
+  invalidInput('InvalidInput'),
+  accessDenied('AccessDenied'),
+  ;
 
-extension WorldExportJobErrorCodeValueExtension on WorldExportJobErrorCode {
-  String toValue() {
-    switch (this) {
-      case WorldExportJobErrorCode.internalServiceError:
-        return 'InternalServiceError';
-      case WorldExportJobErrorCode.limitExceeded:
-        return 'LimitExceeded';
-      case WorldExportJobErrorCode.resourceNotFound:
-        return 'ResourceNotFound';
-      case WorldExportJobErrorCode.requestThrottled:
-        return 'RequestThrottled';
-      case WorldExportJobErrorCode.invalidInput:
-        return 'InvalidInput';
-      case WorldExportJobErrorCode.accessDenied:
-        return 'AccessDenied';
-    }
-  }
-}
+  final String value;
 
-extension WorldExportJobErrorCodeFromString on String {
-  WorldExportJobErrorCode toWorldExportJobErrorCode() {
-    switch (this) {
-      case 'InternalServiceError':
-        return WorldExportJobErrorCode.internalServiceError;
-      case 'LimitExceeded':
-        return WorldExportJobErrorCode.limitExceeded;
-      case 'ResourceNotFound':
-        return WorldExportJobErrorCode.resourceNotFound;
-      case 'RequestThrottled':
-        return WorldExportJobErrorCode.requestThrottled;
-      case 'InvalidInput':
-        return WorldExportJobErrorCode.invalidInput;
-      case 'AccessDenied':
-        return WorldExportJobErrorCode.accessDenied;
-    }
-    throw Exception('$this is not known in enum WorldExportJobErrorCode');
-  }
+  const WorldExportJobErrorCode(this.value);
+
+  static WorldExportJobErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum WorldExportJobErrorCode'));
 }
 
 enum WorldExportJobStatus {
-  pending,
-  running,
-  completed,
-  failed,
-  canceling,
-  canceled,
-}
+  pending('Pending'),
+  running('Running'),
+  completed('Completed'),
+  failed('Failed'),
+  canceling('Canceling'),
+  canceled('Canceled'),
+  ;
 
-extension WorldExportJobStatusValueExtension on WorldExportJobStatus {
-  String toValue() {
-    switch (this) {
-      case WorldExportJobStatus.pending:
-        return 'Pending';
-      case WorldExportJobStatus.running:
-        return 'Running';
-      case WorldExportJobStatus.completed:
-        return 'Completed';
-      case WorldExportJobStatus.failed:
-        return 'Failed';
-      case WorldExportJobStatus.canceling:
-        return 'Canceling';
-      case WorldExportJobStatus.canceled:
-        return 'Canceled';
-    }
-  }
-}
+  final String value;
 
-extension WorldExportJobStatusFromString on String {
-  WorldExportJobStatus toWorldExportJobStatus() {
-    switch (this) {
-      case 'Pending':
-        return WorldExportJobStatus.pending;
-      case 'Running':
-        return WorldExportJobStatus.running;
-      case 'Completed':
-        return WorldExportJobStatus.completed;
-      case 'Failed':
-        return WorldExportJobStatus.failed;
-      case 'Canceling':
-        return WorldExportJobStatus.canceling;
-      case 'Canceled':
-        return WorldExportJobStatus.canceled;
-    }
-    throw Exception('$this is not known in enum WorldExportJobStatus');
-  }
+  const WorldExportJobStatus(this.value);
+
+  static WorldExportJobStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum WorldExportJobStatus'));
 }
 
 /// Information about a world export job.
@@ -9536,7 +8930,7 @@ class WorldExportJobSummary {
           ? OutputLocation.fromJson(
               json['outputLocation'] as Map<String, dynamic>)
           : null,
-      status: (json['status'] as String?)?.toWorldExportJobStatus(),
+      status: (json['status'] as String?)?.let(WorldExportJobStatus.fromString),
       worlds: (json['worlds'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -9554,7 +8948,7 @@ class WorldExportJobSummary {
       if (arn != null) 'arn': arn,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (outputLocation != null) 'outputLocation': outputLocation,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (worlds != null) 'worlds': worlds,
     };
   }
@@ -9592,8 +8986,8 @@ class WorldFailure {
 
   factory WorldFailure.fromJson(Map<String, dynamic> json) {
     return WorldFailure(
-      failureCode:
-          (json['failureCode'] as String?)?.toWorldGenerationJobErrorCode(),
+      failureCode: (json['failureCode'] as String?)
+          ?.let(WorldGenerationJobErrorCode.fromString),
       failureCount: json['failureCount'] as int?,
       sampleFailureReason: json['sampleFailureReason'] as String?,
     );
@@ -9604,7 +8998,7 @@ class WorldFailure {
     final failureCount = this.failureCount;
     final sampleFailureReason = this.sampleFailureReason;
     return {
-      if (failureCode != null) 'failureCode': failureCode.toValue(),
+      if (failureCode != null) 'failureCode': failureCode.value,
       if (failureCount != null) 'failureCount': failureCount,
       if (sampleFailureReason != null)
         'sampleFailureReason': sampleFailureReason,
@@ -9613,105 +9007,42 @@ class WorldFailure {
 }
 
 enum WorldGenerationJobErrorCode {
-  internalServiceError,
-  limitExceeded,
-  resourceNotFound,
-  requestThrottled,
-  invalidInput,
-  allWorldGenerationFailed,
-}
+  internalServiceError('InternalServiceError'),
+  limitExceeded('LimitExceeded'),
+  resourceNotFound('ResourceNotFound'),
+  requestThrottled('RequestThrottled'),
+  invalidInput('InvalidInput'),
+  allWorldGenerationFailed('AllWorldGenerationFailed'),
+  ;
 
-extension WorldGenerationJobErrorCodeValueExtension
-    on WorldGenerationJobErrorCode {
-  String toValue() {
-    switch (this) {
-      case WorldGenerationJobErrorCode.internalServiceError:
-        return 'InternalServiceError';
-      case WorldGenerationJobErrorCode.limitExceeded:
-        return 'LimitExceeded';
-      case WorldGenerationJobErrorCode.resourceNotFound:
-        return 'ResourceNotFound';
-      case WorldGenerationJobErrorCode.requestThrottled:
-        return 'RequestThrottled';
-      case WorldGenerationJobErrorCode.invalidInput:
-        return 'InvalidInput';
-      case WorldGenerationJobErrorCode.allWorldGenerationFailed:
-        return 'AllWorldGenerationFailed';
-    }
-  }
-}
+  final String value;
 
-extension WorldGenerationJobErrorCodeFromString on String {
-  WorldGenerationJobErrorCode toWorldGenerationJobErrorCode() {
-    switch (this) {
-      case 'InternalServiceError':
-        return WorldGenerationJobErrorCode.internalServiceError;
-      case 'LimitExceeded':
-        return WorldGenerationJobErrorCode.limitExceeded;
-      case 'ResourceNotFound':
-        return WorldGenerationJobErrorCode.resourceNotFound;
-      case 'RequestThrottled':
-        return WorldGenerationJobErrorCode.requestThrottled;
-      case 'InvalidInput':
-        return WorldGenerationJobErrorCode.invalidInput;
-      case 'AllWorldGenerationFailed':
-        return WorldGenerationJobErrorCode.allWorldGenerationFailed;
-    }
-    throw Exception('$this is not known in enum WorldGenerationJobErrorCode');
-  }
+  const WorldGenerationJobErrorCode(this.value);
+
+  static WorldGenerationJobErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum WorldGenerationJobErrorCode'));
 }
 
 enum WorldGenerationJobStatus {
-  pending,
-  running,
-  completed,
-  failed,
-  partialFailed,
-  canceling,
-  canceled,
-}
+  pending('Pending'),
+  running('Running'),
+  completed('Completed'),
+  failed('Failed'),
+  partialFailed('PartialFailed'),
+  canceling('Canceling'),
+  canceled('Canceled'),
+  ;
 
-extension WorldGenerationJobStatusValueExtension on WorldGenerationJobStatus {
-  String toValue() {
-    switch (this) {
-      case WorldGenerationJobStatus.pending:
-        return 'Pending';
-      case WorldGenerationJobStatus.running:
-        return 'Running';
-      case WorldGenerationJobStatus.completed:
-        return 'Completed';
-      case WorldGenerationJobStatus.failed:
-        return 'Failed';
-      case WorldGenerationJobStatus.partialFailed:
-        return 'PartialFailed';
-      case WorldGenerationJobStatus.canceling:
-        return 'Canceling';
-      case WorldGenerationJobStatus.canceled:
-        return 'Canceled';
-    }
-  }
-}
+  final String value;
 
-extension WorldGenerationJobStatusFromString on String {
-  WorldGenerationJobStatus toWorldGenerationJobStatus() {
-    switch (this) {
-      case 'Pending':
-        return WorldGenerationJobStatus.pending;
-      case 'Running':
-        return WorldGenerationJobStatus.running;
-      case 'Completed':
-        return WorldGenerationJobStatus.completed;
-      case 'Failed':
-        return WorldGenerationJobStatus.failed;
-      case 'PartialFailed':
-        return WorldGenerationJobStatus.partialFailed;
-      case 'Canceling':
-        return WorldGenerationJobStatus.canceling;
-      case 'Canceled':
-        return WorldGenerationJobStatus.canceled;
-    }
-    throw Exception('$this is not known in enum WorldGenerationJobStatus');
-  }
+  const WorldGenerationJobStatus(this.value);
+
+  static WorldGenerationJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum WorldGenerationJobStatus'));
 }
 
 /// Information about a world generator job.
@@ -9769,7 +9100,8 @@ class WorldGenerationJobSummary {
       arn: json['arn'] as String?,
       createdAt: timeStampFromJson(json['createdAt']),
       failedWorldCount: json['failedWorldCount'] as int?,
-      status: (json['status'] as String?)?.toWorldGenerationJobStatus(),
+      status:
+          (json['status'] as String?)?.let(WorldGenerationJobStatus.fromString),
       succeededWorldCount: json['succeededWorldCount'] as int?,
       template: json['template'] as String?,
       worldCount: json['worldCount'] != null
@@ -9790,7 +9122,7 @@ class WorldGenerationJobSummary {
       if (arn != null) 'arn': arn,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (failedWorldCount != null) 'failedWorldCount': failedWorldCount,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (succeededWorldCount != null)
         'succeededWorldCount': succeededWorldCount,
       if (template != null) 'template': template,

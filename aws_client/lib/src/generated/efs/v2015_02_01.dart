@@ -379,11 +379,11 @@ class Efs {
       'CreationToken': creationToken ?? _s.generateIdempotencyToken(),
       if (encrypted != null) 'Encrypted': encrypted,
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-      if (performanceMode != null) 'PerformanceMode': performanceMode.toValue(),
+      if (performanceMode != null) 'PerformanceMode': performanceMode.value,
       if (provisionedThroughputInMibps != null)
         'ProvisionedThroughputInMibps': provisionedThroughputInMibps,
       if (tags != null) 'Tags': tags,
-      if (throughputMode != null) 'ThroughputMode': throughputMode.toValue(),
+      if (throughputMode != null) 'ThroughputMode': throughputMode.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1596,7 +1596,7 @@ class Efs {
     required ResourceIdType resourceIdType,
   }) async {
     final $payload = <String, dynamic>{
-      'ResourceIdType': resourceIdType.toValue(),
+      'ResourceIdType': resourceIdType.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1945,7 +1945,7 @@ class Efs {
     final $payload = <String, dynamic>{
       if (provisionedThroughputInMibps != null)
         'ProvisionedThroughputInMibps': provisionedThroughputInMibps,
-      if (throughputMode != null) 'ThroughputMode': throughputMode.toValue(),
+      if (throughputMode != null) 'ThroughputMode': throughputMode.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2002,8 +2002,7 @@ class Efs {
   }) async {
     final $payload = <String, dynamic>{
       if (replicationOverwriteProtection != null)
-        'ReplicationOverwriteProtection':
-            replicationOverwriteProtection.toValue(),
+        'ReplicationOverwriteProtection': replicationOverwriteProtection.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2073,7 +2072,8 @@ class AccessPointDescription {
       accessPointId: json['AccessPointId'] as String?,
       clientToken: json['ClientToken'] as String?,
       fileSystemId: json['FileSystemId'] as String?,
-      lifeCycleState: (json['LifeCycleState'] as String?)?.toLifeCycleState(),
+      lifeCycleState:
+          (json['LifeCycleState'] as String?)?.let(LifeCycleState.fromString),
       name: json['Name'] as String?,
       ownerId: json['OwnerId'] as String?,
       posixUser: json['PosixUser'] != null
@@ -2106,7 +2106,7 @@ class AccessPointDescription {
       if (accessPointId != null) 'AccessPointId': accessPointId,
       if (clientToken != null) 'ClientToken': clientToken,
       if (fileSystemId != null) 'FileSystemId': fileSystemId,
-      if (lifeCycleState != null) 'LifeCycleState': lifeCycleState.toValue(),
+      if (lifeCycleState != null) 'LifeCycleState': lifeCycleState.value,
       if (name != null) 'Name': name,
       if (ownerId != null) 'OwnerId': ownerId,
       if (posixUser != null) 'PosixUser': posixUser,
@@ -2150,14 +2150,14 @@ class BackupPolicy {
 
   factory BackupPolicy.fromJson(Map<String, dynamic> json) {
     return BackupPolicy(
-      status: (json['Status'] as String).toStatus(),
+      status: Status.fromString((json['Status'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {
-      'Status': status.toValue(),
+      'Status': status.value,
     };
   }
 }
@@ -2560,7 +2560,7 @@ class Destination {
     return Destination(
       fileSystemId: json['FileSystemId'] as String,
       region: json['Region'] as String,
-      status: (json['Status'] as String).toReplicationStatus(),
+      status: ReplicationStatus.fromString((json['Status'] as String)),
       lastReplicatedTimestamp:
           timeStampFromJson(json['LastReplicatedTimestamp']),
     );
@@ -2574,7 +2574,7 @@ class Destination {
     return {
       'FileSystemId': fileSystemId,
       'Region': region,
-      'Status': status.toValue(),
+      'Status': status.value,
       if (lastReplicatedTimestamp != null)
         'LastReplicatedTimestamp': unixTimestampToJson(lastReplicatedTimestamp),
     };
@@ -2757,10 +2757,12 @@ class FileSystemDescription {
           nonNullableTimeStampFromJson(json['CreationTime'] as Object),
       creationToken: json['CreationToken'] as String,
       fileSystemId: json['FileSystemId'] as String,
-      lifeCycleState: (json['LifeCycleState'] as String).toLifeCycleState(),
+      lifeCycleState:
+          LifeCycleState.fromString((json['LifeCycleState'] as String)),
       numberOfMountTargets: json['NumberOfMountTargets'] as int,
       ownerId: json['OwnerId'] as String,
-      performanceMode: (json['PerformanceMode'] as String).toPerformanceMode(),
+      performanceMode:
+          PerformanceMode.fromString((json['PerformanceMode'] as String)),
       sizeInBytes:
           FileSystemSize.fromJson(json['SizeInBytes'] as Map<String, dynamic>),
       tags: (json['Tags'] as List)
@@ -2779,7 +2781,8 @@ class FileSystemDescription {
       name: json['Name'] as String?,
       provisionedThroughputInMibps:
           json['ProvisionedThroughputInMibps'] as double?,
-      throughputMode: (json['ThroughputMode'] as String?)?.toThroughputMode(),
+      throughputMode:
+          (json['ThroughputMode'] as String?)?.let(ThroughputMode.fromString),
     );
   }
 
@@ -2806,10 +2809,10 @@ class FileSystemDescription {
       'CreationTime': unixTimestampToJson(creationTime),
       'CreationToken': creationToken,
       'FileSystemId': fileSystemId,
-      'LifeCycleState': lifeCycleState.toValue(),
+      'LifeCycleState': lifeCycleState.value,
       'NumberOfMountTargets': numberOfMountTargets,
       'OwnerId': ownerId,
-      'PerformanceMode': performanceMode.toValue(),
+      'PerformanceMode': performanceMode.value,
       'SizeInBytes': sizeInBytes,
       'Tags': tags,
       if (availabilityZoneId != null) 'AvailabilityZoneId': availabilityZoneId,
@@ -2823,7 +2826,7 @@ class FileSystemDescription {
       if (name != null) 'Name': name,
       if (provisionedThroughputInMibps != null)
         'ProvisionedThroughputInMibps': provisionedThroughputInMibps,
-      if (throughputMode != null) 'ThroughputMode': throughputMode.toValue(),
+      if (throughputMode != null) 'ThroughputMode': throughputMode.value,
     };
   }
 }
@@ -2891,7 +2894,7 @@ class FileSystemProtectionDescription {
     return FileSystemProtectionDescription(
       replicationOverwriteProtection:
           (json['ReplicationOverwriteProtection'] as String?)
-              ?.toReplicationOverwriteProtection(),
+              ?.let(ReplicationOverwriteProtection.fromString),
     );
   }
 
@@ -2899,8 +2902,7 @@ class FileSystemProtectionDescription {
     final replicationOverwriteProtection = this.replicationOverwriteProtection;
     return {
       if (replicationOverwriteProtection != null)
-        'ReplicationOverwriteProtection':
-            replicationOverwriteProtection.toValue(),
+        'ReplicationOverwriteProtection': replicationOverwriteProtection.value,
     };
   }
 }
@@ -2969,51 +2971,22 @@ class FileSystemSize {
 }
 
 enum LifeCycleState {
-  creating,
-  available,
-  updating,
-  deleting,
-  deleted,
-  error,
-}
+  creating('creating'),
+  available('available'),
+  updating('updating'),
+  deleting('deleting'),
+  deleted('deleted'),
+  error('error'),
+  ;
 
-extension LifeCycleStateValueExtension on LifeCycleState {
-  String toValue() {
-    switch (this) {
-      case LifeCycleState.creating:
-        return 'creating';
-      case LifeCycleState.available:
-        return 'available';
-      case LifeCycleState.updating:
-        return 'updating';
-      case LifeCycleState.deleting:
-        return 'deleting';
-      case LifeCycleState.deleted:
-        return 'deleted';
-      case LifeCycleState.error:
-        return 'error';
-    }
-  }
-}
+  final String value;
 
-extension LifeCycleStateFromString on String {
-  LifeCycleState toLifeCycleState() {
-    switch (this) {
-      case 'creating':
-        return LifeCycleState.creating;
-      case 'available':
-        return LifeCycleState.available;
-      case 'updating':
-        return LifeCycleState.updating;
-      case 'deleting':
-        return LifeCycleState.deleting;
-      case 'deleted':
-        return LifeCycleState.deleted;
-      case 'error':
-        return LifeCycleState.error;
-    }
-    throw Exception('$this is not known in enum LifeCycleState');
-  }
+  const LifeCycleState(this.value);
+
+  static LifeCycleState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LifeCycleState'));
 }
 
 class LifecycleConfigurationDescription {
@@ -3084,12 +3057,12 @@ class LifecyclePolicy {
   factory LifecyclePolicy.fromJson(Map<String, dynamic> json) {
     return LifecyclePolicy(
       transitionToArchive: (json['TransitionToArchive'] as String?)
-          ?.toTransitionToArchiveRules(),
-      transitionToIA:
-          (json['TransitionToIA'] as String?)?.toTransitionToIARules(),
+          ?.let(TransitionToArchiveRules.fromString),
+      transitionToIA: (json['TransitionToIA'] as String?)
+          ?.let(TransitionToIARules.fromString),
       transitionToPrimaryStorageClass:
           (json['TransitionToPrimaryStorageClass'] as String?)
-              ?.toTransitionToPrimaryStorageClassRules(),
+              ?.let(TransitionToPrimaryStorageClassRules.fromString),
     );
   }
 
@@ -3100,11 +3073,11 @@ class LifecyclePolicy {
         this.transitionToPrimaryStorageClass;
     return {
       if (transitionToArchive != null)
-        'TransitionToArchive': transitionToArchive.toValue(),
-      if (transitionToIA != null) 'TransitionToIA': transitionToIA.toValue(),
+        'TransitionToArchive': transitionToArchive.value,
+      if (transitionToIA != null) 'TransitionToIA': transitionToIA.value,
       if (transitionToPrimaryStorageClass != null)
         'TransitionToPrimaryStorageClass':
-            transitionToPrimaryStorageClass.toValue(),
+            transitionToPrimaryStorageClass.value,
     };
   }
 }
@@ -3199,7 +3172,8 @@ class MountTargetDescription {
   factory MountTargetDescription.fromJson(Map<String, dynamic> json) {
     return MountTargetDescription(
       fileSystemId: json['FileSystemId'] as String,
-      lifeCycleState: (json['LifeCycleState'] as String).toLifeCycleState(),
+      lifeCycleState:
+          LifeCycleState.fromString((json['LifeCycleState'] as String)),
       mountTargetId: json['MountTargetId'] as String,
       subnetId: json['SubnetId'] as String,
       availabilityZoneId: json['AvailabilityZoneId'] as String?,
@@ -3224,7 +3198,7 @@ class MountTargetDescription {
     final vpcId = this.vpcId;
     return {
       'FileSystemId': fileSystemId,
-      'LifeCycleState': lifeCycleState.toValue(),
+      'LifeCycleState': lifeCycleState.value,
       'MountTargetId': mountTargetId,
       'SubnetId': subnetId,
       if (availabilityZoneId != null) 'AvailabilityZoneId': availabilityZoneId,
@@ -3239,31 +3213,18 @@ class MountTargetDescription {
 }
 
 enum PerformanceMode {
-  generalPurpose,
-  maxIO,
-}
+  generalPurpose('generalPurpose'),
+  maxIO('maxIO'),
+  ;
 
-extension PerformanceModeValueExtension on PerformanceMode {
-  String toValue() {
-    switch (this) {
-      case PerformanceMode.generalPurpose:
-        return 'generalPurpose';
-      case PerformanceMode.maxIO:
-        return 'maxIO';
-    }
-  }
-}
+  final String value;
 
-extension PerformanceModeFromString on String {
-  PerformanceMode toPerformanceMode() {
-    switch (this) {
-      case 'generalPurpose':
-        return PerformanceMode.generalPurpose;
-      case 'maxIO':
-        return PerformanceMode.maxIO;
-    }
-    throw Exception('$this is not known in enum PerformanceMode');
-  }
+  const PerformanceMode(this.value);
+
+  static PerformanceMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PerformanceMode'));
 }
 
 /// The full POSIX identity, including the user ID, group ID, and any secondary
@@ -3404,115 +3365,53 @@ class ReplicationConfigurationDescription {
 }
 
 enum ReplicationOverwriteProtection {
-  enabled,
-  disabled,
-  replicating,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  replicating('REPLICATING'),
+  ;
 
-extension ReplicationOverwriteProtectionValueExtension
-    on ReplicationOverwriteProtection {
-  String toValue() {
-    switch (this) {
-      case ReplicationOverwriteProtection.enabled:
-        return 'ENABLED';
-      case ReplicationOverwriteProtection.disabled:
-        return 'DISABLED';
-      case ReplicationOverwriteProtection.replicating:
-        return 'REPLICATING';
-    }
-  }
-}
+  final String value;
 
-extension ReplicationOverwriteProtectionFromString on String {
-  ReplicationOverwriteProtection toReplicationOverwriteProtection() {
-    switch (this) {
-      case 'ENABLED':
-        return ReplicationOverwriteProtection.enabled;
-      case 'DISABLED':
-        return ReplicationOverwriteProtection.disabled;
-      case 'REPLICATING':
-        return ReplicationOverwriteProtection.replicating;
-    }
-    throw Exception(
-        '$this is not known in enum ReplicationOverwriteProtection');
-  }
+  const ReplicationOverwriteProtection(this.value);
+
+  static ReplicationOverwriteProtection fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ReplicationOverwriteProtection'));
 }
 
 enum ReplicationStatus {
-  enabled,
-  enabling,
-  deleting,
-  error,
-  paused,
-  pausing,
-}
+  enabled('ENABLED'),
+  enabling('ENABLING'),
+  deleting('DELETING'),
+  error('ERROR'),
+  paused('PAUSED'),
+  pausing('PAUSING'),
+  ;
 
-extension ReplicationStatusValueExtension on ReplicationStatus {
-  String toValue() {
-    switch (this) {
-      case ReplicationStatus.enabled:
-        return 'ENABLED';
-      case ReplicationStatus.enabling:
-        return 'ENABLING';
-      case ReplicationStatus.deleting:
-        return 'DELETING';
-      case ReplicationStatus.error:
-        return 'ERROR';
-      case ReplicationStatus.paused:
-        return 'PAUSED';
-      case ReplicationStatus.pausing:
-        return 'PAUSING';
-    }
-  }
-}
+  final String value;
 
-extension ReplicationStatusFromString on String {
-  ReplicationStatus toReplicationStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return ReplicationStatus.enabled;
-      case 'ENABLING':
-        return ReplicationStatus.enabling;
-      case 'DELETING':
-        return ReplicationStatus.deleting;
-      case 'ERROR':
-        return ReplicationStatus.error;
-      case 'PAUSED':
-        return ReplicationStatus.paused;
-      case 'PAUSING':
-        return ReplicationStatus.pausing;
-    }
-    throw Exception('$this is not known in enum ReplicationStatus');
-  }
+  const ReplicationStatus(this.value);
+
+  static ReplicationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ReplicationStatus'));
 }
 
 /// An EFS resource, for example a file system or a mount target.
 enum Resource {
-  fileSystem,
-  mountTarget,
-}
+  fileSystem('FILE_SYSTEM'),
+  mountTarget('MOUNT_TARGET'),
+  ;
 
-extension ResourceValueExtension on Resource {
-  String toValue() {
-    switch (this) {
-      case Resource.fileSystem:
-        return 'FILE_SYSTEM';
-      case Resource.mountTarget:
-        return 'MOUNT_TARGET';
-    }
-  }
-}
+  final String value;
 
-extension ResourceFromString on String {
-  Resource toResource() {
-    switch (this) {
-      case 'FILE_SYSTEM':
-        return Resource.fileSystem;
-      case 'MOUNT_TARGET':
-        return Resource.mountTarget;
-    }
-    throw Exception('$this is not known in enum Resource');
-  }
+  const Resource(this.value);
+
+  static Resource fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Resource'));
 }
 
 /// Describes the resource type and its ID preference for the user's Amazon Web
@@ -3533,10 +3432,11 @@ class ResourceIdPreference {
 
   factory ResourceIdPreference.fromJson(Map<String, dynamic> json) {
     return ResourceIdPreference(
-      resourceIdType: (json['ResourceIdType'] as String?)?.toResourceIdType(),
+      resourceIdType:
+          (json['ResourceIdType'] as String?)?.let(ResourceIdType.fromString),
       resources: (json['Resources'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toResource())
+          .map((e) => Resource.fromString((e as String)))
           .toList(),
     );
   }
@@ -3545,9 +3445,9 @@ class ResourceIdPreference {
     final resourceIdType = this.resourceIdType;
     final resources = this.resources;
     return {
-      if (resourceIdType != null) 'ResourceIdType': resourceIdType.toValue(),
+      if (resourceIdType != null) 'ResourceIdType': resourceIdType.value,
       if (resources != null)
-        'Resources': resources.map((e) => e.toValue()).toList(),
+        'Resources': resources.map((e) => e.value).toList(),
     };
   }
 }
@@ -3555,31 +3455,18 @@ class ResourceIdPreference {
 /// A preference indicating a choice to use 63bit/32bit IDs for all applicable
 /// resources.
 enum ResourceIdType {
-  longId,
-  shortId,
-}
+  longId('LONG_ID'),
+  shortId('SHORT_ID'),
+  ;
 
-extension ResourceIdTypeValueExtension on ResourceIdType {
-  String toValue() {
-    switch (this) {
-      case ResourceIdType.longId:
-        return 'LONG_ID';
-      case ResourceIdType.shortId:
-        return 'SHORT_ID';
-    }
-  }
-}
+  final String value;
 
-extension ResourceIdTypeFromString on String {
-  ResourceIdType toResourceIdType() {
-    switch (this) {
-      case 'LONG_ID':
-        return ResourceIdType.longId;
-      case 'SHORT_ID':
-        return ResourceIdType.shortId;
-    }
-    throw Exception('$this is not known in enum ResourceIdType');
-  }
+  const ResourceIdType(this.value);
+
+  static ResourceIdType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResourceIdType'));
 }
 
 /// Specifies the directory on the Amazon EFS file system that the access point
@@ -3632,41 +3519,19 @@ class RootDirectory {
 }
 
 enum Status {
-  enabled,
-  enabling,
-  disabled,
-  disabling,
-}
+  enabled('ENABLED'),
+  enabling('ENABLING'),
+  disabled('DISABLED'),
+  disabling('DISABLING'),
+  ;
 
-extension StatusValueExtension on Status {
-  String toValue() {
-    switch (this) {
-      case Status.enabled:
-        return 'ENABLED';
-      case Status.enabling:
-        return 'ENABLING';
-      case Status.disabled:
-        return 'DISABLED';
-      case Status.disabling:
-        return 'DISABLING';
-    }
-  }
-}
+  final String value;
 
-extension StatusFromString on String {
-  Status toStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return Status.enabled;
-      case 'ENABLING':
-        return Status.enabling;
-      case 'DISABLED':
-        return Status.disabled;
-      case 'DISABLING':
-        return Status.disabling;
-    }
-    throw Exception('$this is not known in enum Status');
-  }
+  const Status(this.value);
+
+  static Status fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Status'));
 }
 
 /// A tag is a key-value pair. Allowed characters are letters, white space, and
@@ -3702,188 +3567,77 @@ class Tag {
 }
 
 enum ThroughputMode {
-  bursting,
-  provisioned,
-  elastic,
-}
+  bursting('bursting'),
+  provisioned('provisioned'),
+  elastic('elastic'),
+  ;
 
-extension ThroughputModeValueExtension on ThroughputMode {
-  String toValue() {
-    switch (this) {
-      case ThroughputMode.bursting:
-        return 'bursting';
-      case ThroughputMode.provisioned:
-        return 'provisioned';
-      case ThroughputMode.elastic:
-        return 'elastic';
-    }
-  }
-}
+  final String value;
 
-extension ThroughputModeFromString on String {
-  ThroughputMode toThroughputMode() {
-    switch (this) {
-      case 'bursting':
-        return ThroughputMode.bursting;
-      case 'provisioned':
-        return ThroughputMode.provisioned;
-      case 'elastic':
-        return ThroughputMode.elastic;
-    }
-    throw Exception('$this is not known in enum ThroughputMode');
-  }
+  const ThroughputMode(this.value);
+
+  static ThroughputMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ThroughputMode'));
 }
 
 enum TransitionToArchiveRules {
-  after_1Day,
-  after_7Days,
-  after_14Days,
-  after_30Days,
-  after_60Days,
-  after_90Days,
-  after_180Days,
-  after_270Days,
-  after_365Days,
-}
+  after_1Day('AFTER_1_DAY'),
+  after_7Days('AFTER_7_DAYS'),
+  after_14Days('AFTER_14_DAYS'),
+  after_30Days('AFTER_30_DAYS'),
+  after_60Days('AFTER_60_DAYS'),
+  after_90Days('AFTER_90_DAYS'),
+  after_180Days('AFTER_180_DAYS'),
+  after_270Days('AFTER_270_DAYS'),
+  after_365Days('AFTER_365_DAYS'),
+  ;
 
-extension TransitionToArchiveRulesValueExtension on TransitionToArchiveRules {
-  String toValue() {
-    switch (this) {
-      case TransitionToArchiveRules.after_1Day:
-        return 'AFTER_1_DAY';
-      case TransitionToArchiveRules.after_7Days:
-        return 'AFTER_7_DAYS';
-      case TransitionToArchiveRules.after_14Days:
-        return 'AFTER_14_DAYS';
-      case TransitionToArchiveRules.after_30Days:
-        return 'AFTER_30_DAYS';
-      case TransitionToArchiveRules.after_60Days:
-        return 'AFTER_60_DAYS';
-      case TransitionToArchiveRules.after_90Days:
-        return 'AFTER_90_DAYS';
-      case TransitionToArchiveRules.after_180Days:
-        return 'AFTER_180_DAYS';
-      case TransitionToArchiveRules.after_270Days:
-        return 'AFTER_270_DAYS';
-      case TransitionToArchiveRules.after_365Days:
-        return 'AFTER_365_DAYS';
-    }
-  }
-}
+  final String value;
 
-extension TransitionToArchiveRulesFromString on String {
-  TransitionToArchiveRules toTransitionToArchiveRules() {
-    switch (this) {
-      case 'AFTER_1_DAY':
-        return TransitionToArchiveRules.after_1Day;
-      case 'AFTER_7_DAYS':
-        return TransitionToArchiveRules.after_7Days;
-      case 'AFTER_14_DAYS':
-        return TransitionToArchiveRules.after_14Days;
-      case 'AFTER_30_DAYS':
-        return TransitionToArchiveRules.after_30Days;
-      case 'AFTER_60_DAYS':
-        return TransitionToArchiveRules.after_60Days;
-      case 'AFTER_90_DAYS':
-        return TransitionToArchiveRules.after_90Days;
-      case 'AFTER_180_DAYS':
-        return TransitionToArchiveRules.after_180Days;
-      case 'AFTER_270_DAYS':
-        return TransitionToArchiveRules.after_270Days;
-      case 'AFTER_365_DAYS':
-        return TransitionToArchiveRules.after_365Days;
-    }
-    throw Exception('$this is not known in enum TransitionToArchiveRules');
-  }
+  const TransitionToArchiveRules(this.value);
+
+  static TransitionToArchiveRules fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TransitionToArchiveRules'));
 }
 
 enum TransitionToIARules {
-  after_7Days,
-  after_14Days,
-  after_30Days,
-  after_60Days,
-  after_90Days,
-  after_1Day,
-  after_180Days,
-  after_270Days,
-  after_365Days,
-}
+  after_7Days('AFTER_7_DAYS'),
+  after_14Days('AFTER_14_DAYS'),
+  after_30Days('AFTER_30_DAYS'),
+  after_60Days('AFTER_60_DAYS'),
+  after_90Days('AFTER_90_DAYS'),
+  after_1Day('AFTER_1_DAY'),
+  after_180Days('AFTER_180_DAYS'),
+  after_270Days('AFTER_270_DAYS'),
+  after_365Days('AFTER_365_DAYS'),
+  ;
 
-extension TransitionToIARulesValueExtension on TransitionToIARules {
-  String toValue() {
-    switch (this) {
-      case TransitionToIARules.after_7Days:
-        return 'AFTER_7_DAYS';
-      case TransitionToIARules.after_14Days:
-        return 'AFTER_14_DAYS';
-      case TransitionToIARules.after_30Days:
-        return 'AFTER_30_DAYS';
-      case TransitionToIARules.after_60Days:
-        return 'AFTER_60_DAYS';
-      case TransitionToIARules.after_90Days:
-        return 'AFTER_90_DAYS';
-      case TransitionToIARules.after_1Day:
-        return 'AFTER_1_DAY';
-      case TransitionToIARules.after_180Days:
-        return 'AFTER_180_DAYS';
-      case TransitionToIARules.after_270Days:
-        return 'AFTER_270_DAYS';
-      case TransitionToIARules.after_365Days:
-        return 'AFTER_365_DAYS';
-    }
-  }
-}
+  final String value;
 
-extension TransitionToIARulesFromString on String {
-  TransitionToIARules toTransitionToIARules() {
-    switch (this) {
-      case 'AFTER_7_DAYS':
-        return TransitionToIARules.after_7Days;
-      case 'AFTER_14_DAYS':
-        return TransitionToIARules.after_14Days;
-      case 'AFTER_30_DAYS':
-        return TransitionToIARules.after_30Days;
-      case 'AFTER_60_DAYS':
-        return TransitionToIARules.after_60Days;
-      case 'AFTER_90_DAYS':
-        return TransitionToIARules.after_90Days;
-      case 'AFTER_1_DAY':
-        return TransitionToIARules.after_1Day;
-      case 'AFTER_180_DAYS':
-        return TransitionToIARules.after_180Days;
-      case 'AFTER_270_DAYS':
-        return TransitionToIARules.after_270Days;
-      case 'AFTER_365_DAYS':
-        return TransitionToIARules.after_365Days;
-    }
-    throw Exception('$this is not known in enum TransitionToIARules');
-  }
+  const TransitionToIARules(this.value);
+
+  static TransitionToIARules fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TransitionToIARules'));
 }
 
 enum TransitionToPrimaryStorageClassRules {
-  after_1Access,
-}
+  after_1Access('AFTER_1_ACCESS'),
+  ;
 
-extension TransitionToPrimaryStorageClassRulesValueExtension
-    on TransitionToPrimaryStorageClassRules {
-  String toValue() {
-    switch (this) {
-      case TransitionToPrimaryStorageClassRules.after_1Access:
-        return 'AFTER_1_ACCESS';
-    }
-  }
-}
+  final String value;
 
-extension TransitionToPrimaryStorageClassRulesFromString on String {
-  TransitionToPrimaryStorageClassRules
-      toTransitionToPrimaryStorageClassRules() {
-    switch (this) {
-      case 'AFTER_1_ACCESS':
-        return TransitionToPrimaryStorageClassRules.after_1Access;
-    }
-    throw Exception(
-        '$this is not known in enum TransitionToPrimaryStorageClassRules');
-  }
+  const TransitionToPrimaryStorageClassRules(this.value);
+
+  static TransitionToPrimaryStorageClassRules fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TransitionToPrimaryStorageClassRules'));
 }
 
 class AccessPointAlreadyExists extends _s.GenericAwsException {

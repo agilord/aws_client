@@ -107,7 +107,7 @@ class RePostPrivate {
     final $payload = <String, dynamic>{
       'name': name,
       'subdomain': subdomain,
-      'tier': tier.toValue(),
+      'tier': tier.value,
       if (description != null) 'description': description,
       if (roleArn != null) 'roleArn': roleArn,
       if (tags != null) 'tags': tags,
@@ -413,7 +413,7 @@ class RePostPrivate {
     final $payload = <String, dynamic>{
       if (description != null) 'description': description,
       if (roleArn != null) 'roleArn': roleArn,
-      if (tier != null) 'tier': tier.toValue(),
+      if (tier != null) 'tier': tier.value,
     };
     await _protocol.send(
       payload: $payload,
@@ -425,31 +425,18 @@ class RePostPrivate {
 }
 
 enum ConfigurationStatus {
-  configured,
-  unconfigured,
-}
+  configured('CONFIGURED'),
+  unconfigured('UNCONFIGURED'),
+  ;
 
-extension ConfigurationStatusValueExtension on ConfigurationStatus {
-  String toValue() {
-    switch (this) {
-      case ConfigurationStatus.configured:
-        return 'CONFIGURED';
-      case ConfigurationStatus.unconfigured:
-        return 'UNCONFIGURED';
-    }
-  }
-}
+  final String value;
 
-extension ConfigurationStatusFromString on String {
-  ConfigurationStatus toConfigurationStatus() {
-    switch (this) {
-      case 'CONFIGURED':
-        return ConfigurationStatus.configured;
-      case 'UNCONFIGURED':
-        return ConfigurationStatus.unconfigured;
-    }
-    throw Exception('$this is not known in enum ConfigurationStatus');
-  }
+  const ConfigurationStatus(this.value);
+
+  static ConfigurationStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ConfigurationStatus'));
 }
 
 class CreateSpaceOutput {
@@ -564,8 +551,8 @@ class GetSpaceOutput {
     return GetSpaceOutput(
       arn: json['arn'] as String,
       clientId: json['clientId'] as String,
-      configurationStatus:
-          (json['configurationStatus'] as String).toConfigurationStatus(),
+      configurationStatus: ConfigurationStatus.fromString(
+          (json['configurationStatus'] as String)),
       createDateTime:
           nonNullableTimeStampFromJson(json['createDateTime'] as Object),
       name: json['name'] as String,
@@ -573,10 +560,10 @@ class GetSpaceOutput {
       spaceId: json['spaceId'] as String,
       status: json['status'] as String,
       storageLimit: json['storageLimit'] as int,
-      tier: (json['tier'] as String).toTierLevel(),
+      tier: TierLevel.fromString((json['tier'] as String)),
       vanityDomain: json['vanityDomain'] as String,
       vanityDomainStatus:
-          (json['vanityDomainStatus'] as String).toVanityDomainStatus(),
+          VanityDomainStatus.fromString((json['vanityDomainStatus'] as String)),
       contentSize: json['contentSize'] as int?,
       customerRoleArn: json['customerRoleArn'] as String?,
       deleteDateTime: timeStampFromJson(json['deleteDateTime']),
@@ -618,16 +605,16 @@ class GetSpaceOutput {
     return {
       'arn': arn,
       'clientId': clientId,
-      'configurationStatus': configurationStatus.toValue(),
+      'configurationStatus': configurationStatus.value,
       'createDateTime': iso8601ToJson(createDateTime),
       'name': name,
       'randomDomain': randomDomain,
       'spaceId': spaceId,
       'status': status,
       'storageLimit': storageLimit,
-      'tier': tier.toValue(),
+      'tier': tier.value,
       'vanityDomain': vanityDomain,
-      'vanityDomainStatus': vanityDomainStatus.toValue(),
+      'vanityDomainStatus': vanityDomainStatus.value,
       if (contentSize != null) 'contentSize': contentSize,
       if (customerRoleArn != null) 'customerRoleArn': customerRoleArn,
       if (deleteDateTime != null)
@@ -772,8 +759,8 @@ class SpaceData {
   factory SpaceData.fromJson(Map<String, dynamic> json) {
     return SpaceData(
       arn: json['arn'] as String,
-      configurationStatus:
-          (json['configurationStatus'] as String).toConfigurationStatus(),
+      configurationStatus: ConfigurationStatus.fromString(
+          (json['configurationStatus'] as String)),
       createDateTime:
           nonNullableTimeStampFromJson(json['createDateTime'] as Object),
       name: json['name'] as String,
@@ -781,10 +768,10 @@ class SpaceData {
       spaceId: json['spaceId'] as String,
       status: json['status'] as String,
       storageLimit: json['storageLimit'] as int,
-      tier: (json['tier'] as String).toTierLevel(),
+      tier: TierLevel.fromString((json['tier'] as String)),
       vanityDomain: json['vanityDomain'] as String,
       vanityDomainStatus:
-          (json['vanityDomainStatus'] as String).toVanityDomainStatus(),
+          VanityDomainStatus.fromString((json['vanityDomainStatus'] as String)),
       contentSize: json['contentSize'] as int?,
       deleteDateTime: timeStampFromJson(json['deleteDateTime']),
       description: json['description'] as String?,
@@ -812,16 +799,16 @@ class SpaceData {
     final userKMSKey = this.userKMSKey;
     return {
       'arn': arn,
-      'configurationStatus': configurationStatus.toValue(),
+      'configurationStatus': configurationStatus.value,
       'createDateTime': iso8601ToJson(createDateTime),
       'name': name,
       'randomDomain': randomDomain,
       'spaceId': spaceId,
       'status': status,
       'storageLimit': storageLimit,
-      'tier': tier.toValue(),
+      'tier': tier.value,
       'vanityDomain': vanityDomain,
-      'vanityDomainStatus': vanityDomainStatus.toValue(),
+      'vanityDomainStatus': vanityDomainStatus.value,
       if (contentSize != null) 'contentSize': contentSize,
       if (deleteDateTime != null)
         'deleteDateTime': iso8601ToJson(deleteDateTime),
@@ -845,31 +832,17 @@ class TagResourceResponse {
 }
 
 enum TierLevel {
-  basic,
-  standard,
-}
+  basic('BASIC'),
+  standard('STANDARD'),
+  ;
 
-extension TierLevelValueExtension on TierLevel {
-  String toValue() {
-    switch (this) {
-      case TierLevel.basic:
-        return 'BASIC';
-      case TierLevel.standard:
-        return 'STANDARD';
-    }
-  }
-}
+  final String value;
 
-extension TierLevelFromString on String {
-  TierLevel toTierLevel() {
-    switch (this) {
-      case 'BASIC':
-        return TierLevel.basic;
-      case 'STANDARD':
-        return TierLevel.standard;
-    }
-    throw Exception('$this is not known in enum TierLevel');
-  }
+  const TierLevel(this.value);
+
+  static TierLevel fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TierLevel'));
 }
 
 class UntagResourceResponse {
@@ -885,36 +858,19 @@ class UntagResourceResponse {
 }
 
 enum VanityDomainStatus {
-  pending,
-  approved,
-  unapproved,
-}
+  pending('PENDING'),
+  approved('APPROVED'),
+  unapproved('UNAPPROVED'),
+  ;
 
-extension VanityDomainStatusValueExtension on VanityDomainStatus {
-  String toValue() {
-    switch (this) {
-      case VanityDomainStatus.pending:
-        return 'PENDING';
-      case VanityDomainStatus.approved:
-        return 'APPROVED';
-      case VanityDomainStatus.unapproved:
-        return 'UNAPPROVED';
-    }
-  }
-}
+  final String value;
 
-extension VanityDomainStatusFromString on String {
-  VanityDomainStatus toVanityDomainStatus() {
-    switch (this) {
-      case 'PENDING':
-        return VanityDomainStatus.pending;
-      case 'APPROVED':
-        return VanityDomainStatus.approved;
-      case 'UNAPPROVED':
-        return VanityDomainStatus.unapproved;
-    }
-    throw Exception('$this is not known in enum VanityDomainStatus');
-  }
+  const VanityDomainStatus(this.value);
+
+  static VanityDomainStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum VanityDomainStatus'));
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

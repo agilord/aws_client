@@ -1251,7 +1251,7 @@ class ElasticBeanstalk {
           'AttributeNames': ''
         else
           for (var i1 = 0; i1 < attributeNames.length; i1++)
-            'AttributeNames.member.${i1 + 1}': attributeNames[i1].toValue(),
+            'AttributeNames.member.${i1 + 1}': attributeNames[i1].value,
       if (environmentId != null) 'EnvironmentId': environmentId,
       if (environmentName != null) 'EnvironmentName': environmentName,
     };
@@ -1334,7 +1334,7 @@ class ElasticBeanstalk {
     final $request = <String, String>{
       if (environmentId != null) 'EnvironmentId': environmentId,
       if (environmentName != null) 'EnvironmentName': environmentName,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
     final $result = await _protocol.send(
       $request,
@@ -1561,7 +1561,7 @@ class ElasticBeanstalk {
       if (nextToken != null) 'NextToken': nextToken,
       if (platformArn != null) 'PlatformArn': platformArn,
       if (requestId != null) 'RequestId': requestId,
-      if (severity != null) 'Severity': severity.toValue(),
+      if (severity != null) 'Severity': severity.value,
       if (startTime != null) 'StartTime': _s.iso8601ToJson(startTime),
       if (templateName != null) 'TemplateName': templateName,
       if (versionLabel != null) 'VersionLabel': versionLabel,
@@ -1611,7 +1611,7 @@ class ElasticBeanstalk {
           'AttributeNames': ''
         else
           for (var i1 = 0; i1 < attributeNames.length; i1++)
-            'AttributeNames.member.${i1 + 1}': attributeNames[i1].toValue(),
+            'AttributeNames.member.${i1 + 1}': attributeNames[i1].value,
       if (environmentId != null) 'EnvironmentId': environmentId,
       if (environmentName != null) 'EnvironmentName': environmentName,
       if (nextToken != null) 'NextToken': nextToken,
@@ -2001,7 +2001,7 @@ class ElasticBeanstalk {
     String? environmentName,
   }) async {
     final $request = <String, String>{
-      'InfoType': infoType.toValue(),
+      'InfoType': infoType.value,
       if (environmentId != null) 'EnvironmentId': environmentId,
       if (environmentName != null) 'EnvironmentName': environmentName,
     };
@@ -2088,7 +2088,7 @@ class ElasticBeanstalk {
     String? environmentName,
   }) async {
     final $request = <String, String>{
-      'InfoType': infoType.toValue(),
+      'InfoType': infoType.value,
       if (environmentId != null) 'EnvironmentId': environmentId,
       if (environmentName != null) 'EnvironmentName': environmentName,
     };
@@ -2699,107 +2699,51 @@ class ElasticBeanstalk {
 }
 
 enum ActionHistoryStatus {
-  completed,
-  failed,
-  unknown,
-}
+  completed('Completed'),
+  failed('Failed'),
+  unknown('Unknown'),
+  ;
 
-extension ActionHistoryStatusValueExtension on ActionHistoryStatus {
-  String toValue() {
-    switch (this) {
-      case ActionHistoryStatus.completed:
-        return 'Completed';
-      case ActionHistoryStatus.failed:
-        return 'Failed';
-      case ActionHistoryStatus.unknown:
-        return 'Unknown';
-    }
-  }
-}
+  final String value;
 
-extension ActionHistoryStatusFromString on String {
-  ActionHistoryStatus toActionHistoryStatus() {
-    switch (this) {
-      case 'Completed':
-        return ActionHistoryStatus.completed;
-      case 'Failed':
-        return ActionHistoryStatus.failed;
-      case 'Unknown':
-        return ActionHistoryStatus.unknown;
-    }
-    throw Exception('$this is not known in enum ActionHistoryStatus');
-  }
+  const ActionHistoryStatus(this.value);
+
+  static ActionHistoryStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ActionHistoryStatus'));
 }
 
 enum ActionStatus {
-  scheduled,
-  pending,
-  running,
-  unknown,
-}
+  scheduled('Scheduled'),
+  pending('Pending'),
+  running('Running'),
+  unknown('Unknown'),
+  ;
 
-extension ActionStatusValueExtension on ActionStatus {
-  String toValue() {
-    switch (this) {
-      case ActionStatus.scheduled:
-        return 'Scheduled';
-      case ActionStatus.pending:
-        return 'Pending';
-      case ActionStatus.running:
-        return 'Running';
-      case ActionStatus.unknown:
-        return 'Unknown';
-    }
-  }
-}
+  final String value;
 
-extension ActionStatusFromString on String {
-  ActionStatus toActionStatus() {
-    switch (this) {
-      case 'Scheduled':
-        return ActionStatus.scheduled;
-      case 'Pending':
-        return ActionStatus.pending;
-      case 'Running':
-        return ActionStatus.running;
-      case 'Unknown':
-        return ActionStatus.unknown;
-    }
-    throw Exception('$this is not known in enum ActionStatus');
-  }
+  const ActionStatus(this.value);
+
+  static ActionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ActionStatus'));
 }
 
 enum ActionType {
-  instanceRefresh,
-  platformUpdate,
-  unknown,
-}
+  instanceRefresh('InstanceRefresh'),
+  platformUpdate('PlatformUpdate'),
+  unknown('Unknown'),
+  ;
 
-extension ActionTypeValueExtension on ActionType {
-  String toValue() {
-    switch (this) {
-      case ActionType.instanceRefresh:
-        return 'InstanceRefresh';
-      case ActionType.platformUpdate:
-        return 'PlatformUpdate';
-      case ActionType.unknown:
-        return 'Unknown';
-    }
-  }
-}
+  final String value;
 
-extension ActionTypeFromString on String {
-  ActionType toActionType() {
-    switch (this) {
-      case 'InstanceRefresh':
-        return ActionType.instanceRefresh;
-      case 'PlatformUpdate':
-        return ActionType.platformUpdate;
-      case 'Unknown':
-        return ActionType.unknown;
-    }
-    throw Exception('$this is not known in enum ActionType');
-  }
+  const ActionType(this.value);
+
+  static ActionType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ActionType'));
 }
 
 /// Describes the properties of an application.
@@ -3099,7 +3043,7 @@ class ApplicationVersionDescription {
           _s.extractXmlChild(elem, 'SourceBundle')?.let(S3Location.fromXml),
       status: _s
           .extractXmlStringValue(elem, 'Status')
-          ?.toApplicationVersionStatus(),
+          ?.let(ApplicationVersionStatus.fromString),
       versionLabel: _s.extractXmlStringValue(elem, 'VersionLabel'),
     );
   }
@@ -3201,46 +3145,21 @@ class ApplicationVersionLifecycleConfig {
 }
 
 enum ApplicationVersionStatus {
-  processed,
-  unprocessed,
-  failed,
-  processing,
-  building,
-}
+  processed('Processed'),
+  unprocessed('Unprocessed'),
+  failed('Failed'),
+  processing('Processing'),
+  building('Building'),
+  ;
 
-extension ApplicationVersionStatusValueExtension on ApplicationVersionStatus {
-  String toValue() {
-    switch (this) {
-      case ApplicationVersionStatus.processed:
-        return 'Processed';
-      case ApplicationVersionStatus.unprocessed:
-        return 'Unprocessed';
-      case ApplicationVersionStatus.failed:
-        return 'Failed';
-      case ApplicationVersionStatus.processing:
-        return 'Processing';
-      case ApplicationVersionStatus.building:
-        return 'Building';
-    }
-  }
-}
+  final String value;
 
-extension ApplicationVersionStatusFromString on String {
-  ApplicationVersionStatus toApplicationVersionStatus() {
-    switch (this) {
-      case 'Processed':
-        return ApplicationVersionStatus.processed;
-      case 'Unprocessed':
-        return ApplicationVersionStatus.unprocessed;
-      case 'Failed':
-        return ApplicationVersionStatus.failed;
-      case 'Processing':
-        return ApplicationVersionStatus.processing;
-      case 'Building':
-        return ApplicationVersionStatus.building;
-    }
-    throw Exception('$this is not known in enum ApplicationVersionStatus');
-  }
+  const ApplicationVersionStatus(this.value);
+
+  static ApplicationVersionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ApplicationVersionStatus'));
 }
 
 /// The result message containing information about the managed action.
@@ -3267,7 +3186,9 @@ class ApplyEnvironmentManagedActionResult {
     return ApplyEnvironmentManagedActionResult(
       actionDescription: _s.extractXmlStringValue(elem, 'ActionDescription'),
       actionId: _s.extractXmlStringValue(elem, 'ActionId'),
-      actionType: _s.extractXmlStringValue(elem, 'ActionType')?.toActionType(),
+      actionType: _s
+          .extractXmlStringValue(elem, 'ActionType')
+          ?.let(ActionType.fromString),
       status: _s.extractXmlStringValue(elem, 'Status'),
     );
   }
@@ -3347,7 +3268,7 @@ class BuildConfiguration {
       'CodeBuildServiceRole': codeBuildServiceRole,
       'Image': image,
       if (artifactName != null) 'ArtifactName': artifactName,
-      if (computeType != null) 'ComputeType': computeType.toValue(),
+      if (computeType != null) 'ComputeType': computeType.value,
       if (timeoutInMinutes != null) 'TimeoutInMinutes': timeoutInMinutes,
     };
   }
@@ -3362,7 +3283,7 @@ class BuildConfiguration {
       'CodeBuildServiceRole': codeBuildServiceRole,
       'Image': image,
       if (artifactName != null) 'ArtifactName': artifactName,
-      if (computeType != null) 'ComputeType': computeType.toValue(),
+      if (computeType != null) 'ComputeType': computeType.value,
       if (timeoutInMinutes != null)
         'TimeoutInMinutes': timeoutInMinutes.toString(),
     };
@@ -3486,70 +3407,34 @@ class CheckDNSAvailabilityResultMessage {
 }
 
 enum ComputeType {
-  buildGeneral1Small,
-  buildGeneral1Medium,
-  buildGeneral1Large,
-}
+  buildGeneral1Small('BUILD_GENERAL1_SMALL'),
+  buildGeneral1Medium('BUILD_GENERAL1_MEDIUM'),
+  buildGeneral1Large('BUILD_GENERAL1_LARGE'),
+  ;
 
-extension ComputeTypeValueExtension on ComputeType {
-  String toValue() {
-    switch (this) {
-      case ComputeType.buildGeneral1Small:
-        return 'BUILD_GENERAL1_SMALL';
-      case ComputeType.buildGeneral1Medium:
-        return 'BUILD_GENERAL1_MEDIUM';
-      case ComputeType.buildGeneral1Large:
-        return 'BUILD_GENERAL1_LARGE';
-    }
-  }
-}
+  final String value;
 
-extension ComputeTypeFromString on String {
-  ComputeType toComputeType() {
-    switch (this) {
-      case 'BUILD_GENERAL1_SMALL':
-        return ComputeType.buildGeneral1Small;
-      case 'BUILD_GENERAL1_MEDIUM':
-        return ComputeType.buildGeneral1Medium;
-      case 'BUILD_GENERAL1_LARGE':
-        return ComputeType.buildGeneral1Large;
-    }
-    throw Exception('$this is not known in enum ComputeType');
-  }
+  const ComputeType(this.value);
+
+  static ComputeType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ComputeType'));
 }
 
 enum ConfigurationDeploymentStatus {
-  deployed,
-  pending,
-  failed,
-}
+  deployed('deployed'),
+  pending('pending'),
+  failed('failed'),
+  ;
 
-extension ConfigurationDeploymentStatusValueExtension
-    on ConfigurationDeploymentStatus {
-  String toValue() {
-    switch (this) {
-      case ConfigurationDeploymentStatus.deployed:
-        return 'deployed';
-      case ConfigurationDeploymentStatus.pending:
-        return 'pending';
-      case ConfigurationDeploymentStatus.failed:
-        return 'failed';
-    }
-  }
-}
+  final String value;
 
-extension ConfigurationDeploymentStatusFromString on String {
-  ConfigurationDeploymentStatus toConfigurationDeploymentStatus() {
-    switch (this) {
-      case 'deployed':
-        return ConfigurationDeploymentStatus.deployed;
-      case 'pending':
-        return ConfigurationDeploymentStatus.pending;
-      case 'failed':
-        return ConfigurationDeploymentStatus.failed;
-    }
-    throw Exception('$this is not known in enum ConfigurationDeploymentStatus');
-  }
+  const ConfigurationDeploymentStatus(this.value);
+
+  static ConfigurationDeploymentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ConfigurationDeploymentStatus'));
 }
 
 /// Describes the possible values for a configuration option.
@@ -3677,7 +3562,7 @@ class ConfigurationOptionDescription {
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       valueType: _s
           .extractXmlStringValue(elem, 'ValueType')
-          ?.toConfigurationOptionValueType(),
+          ?.let(ConfigurationOptionValueType.fromString),
     );
   }
 }
@@ -3744,32 +3629,18 @@ class ConfigurationOptionSetting {
 }
 
 enum ConfigurationOptionValueType {
-  scalar,
-  list,
-}
+  scalar('Scalar'),
+  list('List'),
+  ;
 
-extension ConfigurationOptionValueTypeValueExtension
-    on ConfigurationOptionValueType {
-  String toValue() {
-    switch (this) {
-      case ConfigurationOptionValueType.scalar:
-        return 'Scalar';
-      case ConfigurationOptionValueType.list:
-        return 'List';
-    }
-  }
-}
+  final String value;
 
-extension ConfigurationOptionValueTypeFromString on String {
-  ConfigurationOptionValueType toConfigurationOptionValueType() {
-    switch (this) {
-      case 'Scalar':
-        return ConfigurationOptionValueType.scalar;
-      case 'List':
-        return ConfigurationOptionValueType.list;
-    }
-    throw Exception('$this is not known in enum ConfigurationOptionValueType');
-  }
+  const ConfigurationOptionValueType(this.value);
+
+  static ConfigurationOptionValueType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ConfigurationOptionValueType'));
 }
 
 /// Describes the settings for a specified configuration set.
@@ -3875,7 +3746,7 @@ class ConfigurationSettingsDescription {
       dateUpdated: _s.extractXmlDateTimeValue(elem, 'DateUpdated'),
       deploymentStatus: _s
           .extractXmlStringValue(elem, 'DeploymentStatus')
-          ?.toConfigurationDeploymentStatus(),
+          ?.let(ConfigurationDeploymentStatus.fromString),
       description: _s.extractXmlStringValue(elem, 'Description'),
       environmentName: _s.extractXmlStringValue(elem, 'EnvironmentName'),
       optionSettings: _s.extractXmlChild(elem, 'OptionSettings')?.let((elem) =>
@@ -4119,7 +3990,9 @@ class DescribeEnvironmentHealthResult {
           .extractXmlChild(elem, 'InstancesHealth')
           ?.let(InstanceHealthSummary.fromXml),
       refreshedAt: _s.extractXmlDateTimeValue(elem, 'RefreshedAt'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.toEnvironmentHealth(),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(EnvironmentHealth.fromString),
     );
   }
 }
@@ -4381,17 +4254,21 @@ class EnvironmentDescription {
               .map(EnvironmentLink.fromXml)
               .toList()),
       environmentName: _s.extractXmlStringValue(elem, 'EnvironmentName'),
-      health: _s.extractXmlStringValue(elem, 'Health')?.toEnvironmentHealth(),
+      health: _s
+          .extractXmlStringValue(elem, 'Health')
+          ?.let(EnvironmentHealth.fromString),
       healthStatus: _s
           .extractXmlStringValue(elem, 'HealthStatus')
-          ?.toEnvironmentHealthStatus(),
+          ?.let(EnvironmentHealthStatus.fromString),
       operationsRole: _s.extractXmlStringValue(elem, 'OperationsRole'),
       platformArn: _s.extractXmlStringValue(elem, 'PlatformArn'),
       resources: _s
           .extractXmlChild(elem, 'Resources')
           ?.let(EnvironmentResourcesDescription.fromXml),
       solutionStackName: _s.extractXmlStringValue(elem, 'SolutionStackName'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.toEnvironmentStatus(),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(EnvironmentStatus.fromString),
       templateName: _s.extractXmlStringValue(elem, 'TemplateName'),
       tier: _s.extractXmlChild(elem, 'Tier')?.let(EnvironmentTier.fromXml),
       versionLabel: _s.extractXmlStringValue(elem, 'VersionLabel'),
@@ -4424,163 +4301,63 @@ class EnvironmentDescriptionsMessage {
 }
 
 enum EnvironmentHealth {
-  green,
-  yellow,
-  red,
-  grey,
-}
+  green('Green'),
+  yellow('Yellow'),
+  red('Red'),
+  grey('Grey'),
+  ;
 
-extension EnvironmentHealthValueExtension on EnvironmentHealth {
-  String toValue() {
-    switch (this) {
-      case EnvironmentHealth.green:
-        return 'Green';
-      case EnvironmentHealth.yellow:
-        return 'Yellow';
-      case EnvironmentHealth.red:
-        return 'Red';
-      case EnvironmentHealth.grey:
-        return 'Grey';
-    }
-  }
-}
+  final String value;
 
-extension EnvironmentHealthFromString on String {
-  EnvironmentHealth toEnvironmentHealth() {
-    switch (this) {
-      case 'Green':
-        return EnvironmentHealth.green;
-      case 'Yellow':
-        return EnvironmentHealth.yellow;
-      case 'Red':
-        return EnvironmentHealth.red;
-      case 'Grey':
-        return EnvironmentHealth.grey;
-    }
-    throw Exception('$this is not known in enum EnvironmentHealth');
-  }
+  const EnvironmentHealth(this.value);
+
+  static EnvironmentHealth fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EnvironmentHealth'));
 }
 
 enum EnvironmentHealthAttribute {
-  status,
-  color,
-  causes,
-  applicationMetrics,
-  instancesHealth,
-  all,
-  healthStatus,
-  refreshedAt,
-}
+  status('Status'),
+  color('Color'),
+  causes('Causes'),
+  applicationMetrics('ApplicationMetrics'),
+  instancesHealth('InstancesHealth'),
+  all('All'),
+  healthStatus('HealthStatus'),
+  refreshedAt('RefreshedAt'),
+  ;
 
-extension EnvironmentHealthAttributeValueExtension
-    on EnvironmentHealthAttribute {
-  String toValue() {
-    switch (this) {
-      case EnvironmentHealthAttribute.status:
-        return 'Status';
-      case EnvironmentHealthAttribute.color:
-        return 'Color';
-      case EnvironmentHealthAttribute.causes:
-        return 'Causes';
-      case EnvironmentHealthAttribute.applicationMetrics:
-        return 'ApplicationMetrics';
-      case EnvironmentHealthAttribute.instancesHealth:
-        return 'InstancesHealth';
-      case EnvironmentHealthAttribute.all:
-        return 'All';
-      case EnvironmentHealthAttribute.healthStatus:
-        return 'HealthStatus';
-      case EnvironmentHealthAttribute.refreshedAt:
-        return 'RefreshedAt';
-    }
-  }
-}
+  final String value;
 
-extension EnvironmentHealthAttributeFromString on String {
-  EnvironmentHealthAttribute toEnvironmentHealthAttribute() {
-    switch (this) {
-      case 'Status':
-        return EnvironmentHealthAttribute.status;
-      case 'Color':
-        return EnvironmentHealthAttribute.color;
-      case 'Causes':
-        return EnvironmentHealthAttribute.causes;
-      case 'ApplicationMetrics':
-        return EnvironmentHealthAttribute.applicationMetrics;
-      case 'InstancesHealth':
-        return EnvironmentHealthAttribute.instancesHealth;
-      case 'All':
-        return EnvironmentHealthAttribute.all;
-      case 'HealthStatus':
-        return EnvironmentHealthAttribute.healthStatus;
-      case 'RefreshedAt':
-        return EnvironmentHealthAttribute.refreshedAt;
-    }
-    throw Exception('$this is not known in enum EnvironmentHealthAttribute');
-  }
+  const EnvironmentHealthAttribute(this.value);
+
+  static EnvironmentHealthAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum EnvironmentHealthAttribute'));
 }
 
 enum EnvironmentHealthStatus {
-  noData,
-  unknown,
-  pending,
-  ok,
-  info,
-  warning,
-  degraded,
-  severe,
-  suspended,
-}
+  noData('NoData'),
+  unknown('Unknown'),
+  pending('Pending'),
+  ok('Ok'),
+  info('Info'),
+  warning('Warning'),
+  degraded('Degraded'),
+  severe('Severe'),
+  suspended('Suspended'),
+  ;
 
-extension EnvironmentHealthStatusValueExtension on EnvironmentHealthStatus {
-  String toValue() {
-    switch (this) {
-      case EnvironmentHealthStatus.noData:
-        return 'NoData';
-      case EnvironmentHealthStatus.unknown:
-        return 'Unknown';
-      case EnvironmentHealthStatus.pending:
-        return 'Pending';
-      case EnvironmentHealthStatus.ok:
-        return 'Ok';
-      case EnvironmentHealthStatus.info:
-        return 'Info';
-      case EnvironmentHealthStatus.warning:
-        return 'Warning';
-      case EnvironmentHealthStatus.degraded:
-        return 'Degraded';
-      case EnvironmentHealthStatus.severe:
-        return 'Severe';
-      case EnvironmentHealthStatus.suspended:
-        return 'Suspended';
-    }
-  }
-}
+  final String value;
 
-extension EnvironmentHealthStatusFromString on String {
-  EnvironmentHealthStatus toEnvironmentHealthStatus() {
-    switch (this) {
-      case 'NoData':
-        return EnvironmentHealthStatus.noData;
-      case 'Unknown':
-        return EnvironmentHealthStatus.unknown;
-      case 'Pending':
-        return EnvironmentHealthStatus.pending;
-      case 'Ok':
-        return EnvironmentHealthStatus.ok;
-      case 'Info':
-        return EnvironmentHealthStatus.info;
-      case 'Warning':
-        return EnvironmentHealthStatus.warning;
-      case 'Degraded':
-        return EnvironmentHealthStatus.degraded;
-      case 'Severe':
-        return EnvironmentHealthStatus.severe;
-      case 'Suspended':
-        return EnvironmentHealthStatus.suspended;
-    }
-    throw Exception('$this is not known in enum EnvironmentHealthStatus');
-  }
+  const EnvironmentHealthStatus(this.value);
+
+  static EnvironmentHealthStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum EnvironmentHealthStatus'));
 }
 
 /// The information retrieved from the Amazon EC2 instances.
@@ -4610,8 +4387,9 @@ class EnvironmentInfoDescription {
   factory EnvironmentInfoDescription.fromXml(_s.XmlElement elem) {
     return EnvironmentInfoDescription(
       ec2InstanceId: _s.extractXmlStringValue(elem, 'Ec2InstanceId'),
-      infoType:
-          _s.extractXmlStringValue(elem, 'InfoType')?.toEnvironmentInfoType(),
+      infoType: _s
+          .extractXmlStringValue(elem, 'InfoType')
+          ?.let(EnvironmentInfoType.fromString),
       message: _s.extractXmlStringValue(elem, 'Message'),
       sampleTimestamp: _s.extractXmlDateTimeValue(elem, 'SampleTimestamp'),
     );
@@ -4619,31 +4397,18 @@ class EnvironmentInfoDescription {
 }
 
 enum EnvironmentInfoType {
-  tail,
-  bundle,
-}
+  tail('tail'),
+  bundle('bundle'),
+  ;
 
-extension EnvironmentInfoTypeValueExtension on EnvironmentInfoType {
-  String toValue() {
-    switch (this) {
-      case EnvironmentInfoType.tail:
-        return 'tail';
-      case EnvironmentInfoType.bundle:
-        return 'bundle';
-    }
-  }
-}
+  final String value;
 
-extension EnvironmentInfoTypeFromString on String {
-  EnvironmentInfoType toEnvironmentInfoType() {
-    switch (this) {
-      case 'tail':
-        return EnvironmentInfoType.tail;
-      case 'bundle':
-        return EnvironmentInfoType.bundle;
-    }
-    throw Exception('$this is not known in enum EnvironmentInfoType');
-  }
+  const EnvironmentInfoType(this.value);
+
+  static EnvironmentInfoType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum EnvironmentInfoType'));
 }
 
 /// A link to another environment, defined in the environment's manifest. Links
@@ -4771,61 +4536,24 @@ class EnvironmentResourcesDescription {
 }
 
 enum EnvironmentStatus {
-  aborting,
-  launching,
-  updating,
-  linkingFrom,
-  linkingTo,
-  ready,
-  terminating,
-  terminated,
-}
+  aborting('Aborting'),
+  launching('Launching'),
+  updating('Updating'),
+  linkingFrom('LinkingFrom'),
+  linkingTo('LinkingTo'),
+  ready('Ready'),
+  terminating('Terminating'),
+  terminated('Terminated'),
+  ;
 
-extension EnvironmentStatusValueExtension on EnvironmentStatus {
-  String toValue() {
-    switch (this) {
-      case EnvironmentStatus.aborting:
-        return 'Aborting';
-      case EnvironmentStatus.launching:
-        return 'Launching';
-      case EnvironmentStatus.updating:
-        return 'Updating';
-      case EnvironmentStatus.linkingFrom:
-        return 'LinkingFrom';
-      case EnvironmentStatus.linkingTo:
-        return 'LinkingTo';
-      case EnvironmentStatus.ready:
-        return 'Ready';
-      case EnvironmentStatus.terminating:
-        return 'Terminating';
-      case EnvironmentStatus.terminated:
-        return 'Terminated';
-    }
-  }
-}
+  final String value;
 
-extension EnvironmentStatusFromString on String {
-  EnvironmentStatus toEnvironmentStatus() {
-    switch (this) {
-      case 'Aborting':
-        return EnvironmentStatus.aborting;
-      case 'Launching':
-        return EnvironmentStatus.launching;
-      case 'Updating':
-        return EnvironmentStatus.updating;
-      case 'LinkingFrom':
-        return EnvironmentStatus.linkingFrom;
-      case 'LinkingTo':
-        return EnvironmentStatus.linkingTo;
-      case 'Ready':
-        return EnvironmentStatus.ready;
-      case 'Terminating':
-        return EnvironmentStatus.terminating;
-      case 'Terminated':
-        return EnvironmentStatus.terminated;
-    }
-    throw Exception('$this is not known in enum EnvironmentStatus');
-  }
+  const EnvironmentStatus(this.value);
+
+  static EnvironmentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EnvironmentStatus'));
 }
 
 /// Describes the properties of an environment tier
@@ -4950,7 +4678,9 @@ class EventDescription {
       message: _s.extractXmlStringValue(elem, 'Message'),
       platformArn: _s.extractXmlStringValue(elem, 'PlatformArn'),
       requestId: _s.extractXmlStringValue(elem, 'RequestId'),
-      severity: _s.extractXmlStringValue(elem, 'Severity')?.toEventSeverity(),
+      severity: _s
+          .extractXmlStringValue(elem, 'Severity')
+          ?.let(EventSeverity.fromString),
       templateName: _s.extractXmlStringValue(elem, 'TemplateName'),
       versionLabel: _s.extractXmlStringValue(elem, 'VersionLabel'),
     );
@@ -4981,104 +4711,41 @@ class EventDescriptionsMessage {
 }
 
 enum EventSeverity {
-  trace,
-  debug,
-  info,
-  warn,
-  error,
-  fatal,
-}
+  trace('TRACE'),
+  debug('DEBUG'),
+  info('INFO'),
+  warn('WARN'),
+  error('ERROR'),
+  fatal('FATAL'),
+  ;
 
-extension EventSeverityValueExtension on EventSeverity {
-  String toValue() {
-    switch (this) {
-      case EventSeverity.trace:
-        return 'TRACE';
-      case EventSeverity.debug:
-        return 'DEBUG';
-      case EventSeverity.info:
-        return 'INFO';
-      case EventSeverity.warn:
-        return 'WARN';
-      case EventSeverity.error:
-        return 'ERROR';
-      case EventSeverity.fatal:
-        return 'FATAL';
-    }
-  }
-}
+  final String value;
 
-extension EventSeverityFromString on String {
-  EventSeverity toEventSeverity() {
-    switch (this) {
-      case 'TRACE':
-        return EventSeverity.trace;
-      case 'DEBUG':
-        return EventSeverity.debug;
-      case 'INFO':
-        return EventSeverity.info;
-      case 'WARN':
-        return EventSeverity.warn;
-      case 'ERROR':
-        return EventSeverity.error;
-      case 'FATAL':
-        return EventSeverity.fatal;
-    }
-    throw Exception('$this is not known in enum EventSeverity');
-  }
+  const EventSeverity(this.value);
+
+  static EventSeverity fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EventSeverity'));
 }
 
 enum FailureType {
-  updateCancelled,
-  cancellationFailed,
-  rollbackFailed,
-  rollbackSuccessful,
-  internalFailure,
-  invalidEnvironmentState,
-  permissionsError,
-}
+  updateCancelled('UpdateCancelled'),
+  cancellationFailed('CancellationFailed'),
+  rollbackFailed('RollbackFailed'),
+  rollbackSuccessful('RollbackSuccessful'),
+  internalFailure('InternalFailure'),
+  invalidEnvironmentState('InvalidEnvironmentState'),
+  permissionsError('PermissionsError'),
+  ;
 
-extension FailureTypeValueExtension on FailureType {
-  String toValue() {
-    switch (this) {
-      case FailureType.updateCancelled:
-        return 'UpdateCancelled';
-      case FailureType.cancellationFailed:
-        return 'CancellationFailed';
-      case FailureType.rollbackFailed:
-        return 'RollbackFailed';
-      case FailureType.rollbackSuccessful:
-        return 'RollbackSuccessful';
-      case FailureType.internalFailure:
-        return 'InternalFailure';
-      case FailureType.invalidEnvironmentState:
-        return 'InvalidEnvironmentState';
-      case FailureType.permissionsError:
-        return 'PermissionsError';
-    }
-  }
-}
+  final String value;
 
-extension FailureTypeFromString on String {
-  FailureType toFailureType() {
-    switch (this) {
-      case 'UpdateCancelled':
-        return FailureType.updateCancelled;
-      case 'CancellationFailed':
-        return FailureType.cancellationFailed;
-      case 'RollbackFailed':
-        return FailureType.rollbackFailed;
-      case 'RollbackSuccessful':
-        return FailureType.rollbackSuccessful;
-      case 'InternalFailure':
-        return FailureType.internalFailure;
-      case 'InvalidEnvironmentState':
-        return FailureType.invalidEnvironmentState;
-      case 'PermissionsError':
-        return FailureType.permissionsError;
-    }
-    throw Exception('$this is not known in enum FailureType');
-  }
+  const FailureType(this.value);
+
+  static FailureType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum FailureType'));
 }
 
 /// The description of an Amazon EC2 instance.
@@ -5157,76 +4824,27 @@ class InstanceHealthSummary {
 }
 
 enum InstancesHealthAttribute {
-  healthStatus,
-  color,
-  causes,
-  applicationMetrics,
-  refreshedAt,
-  launchedAt,
-  system,
-  deployment,
-  availabilityZone,
-  instanceType,
-  all,
-}
+  healthStatus('HealthStatus'),
+  color('Color'),
+  causes('Causes'),
+  applicationMetrics('ApplicationMetrics'),
+  refreshedAt('RefreshedAt'),
+  launchedAt('LaunchedAt'),
+  system('System'),
+  deployment('Deployment'),
+  availabilityZone('AvailabilityZone'),
+  instanceType('InstanceType'),
+  all('All'),
+  ;
 
-extension InstancesHealthAttributeValueExtension on InstancesHealthAttribute {
-  String toValue() {
-    switch (this) {
-      case InstancesHealthAttribute.healthStatus:
-        return 'HealthStatus';
-      case InstancesHealthAttribute.color:
-        return 'Color';
-      case InstancesHealthAttribute.causes:
-        return 'Causes';
-      case InstancesHealthAttribute.applicationMetrics:
-        return 'ApplicationMetrics';
-      case InstancesHealthAttribute.refreshedAt:
-        return 'RefreshedAt';
-      case InstancesHealthAttribute.launchedAt:
-        return 'LaunchedAt';
-      case InstancesHealthAttribute.system:
-        return 'System';
-      case InstancesHealthAttribute.deployment:
-        return 'Deployment';
-      case InstancesHealthAttribute.availabilityZone:
-        return 'AvailabilityZone';
-      case InstancesHealthAttribute.instanceType:
-        return 'InstanceType';
-      case InstancesHealthAttribute.all:
-        return 'All';
-    }
-  }
-}
+  final String value;
 
-extension InstancesHealthAttributeFromString on String {
-  InstancesHealthAttribute toInstancesHealthAttribute() {
-    switch (this) {
-      case 'HealthStatus':
-        return InstancesHealthAttribute.healthStatus;
-      case 'Color':
-        return InstancesHealthAttribute.color;
-      case 'Causes':
-        return InstancesHealthAttribute.causes;
-      case 'ApplicationMetrics':
-        return InstancesHealthAttribute.applicationMetrics;
-      case 'RefreshedAt':
-        return InstancesHealthAttribute.refreshedAt;
-      case 'LaunchedAt':
-        return InstancesHealthAttribute.launchedAt;
-      case 'System':
-        return InstancesHealthAttribute.system;
-      case 'Deployment':
-        return InstancesHealthAttribute.deployment;
-      case 'AvailabilityZone':
-        return InstancesHealthAttribute.availabilityZone;
-      case 'InstanceType':
-        return InstancesHealthAttribute.instanceType;
-      case 'All':
-        return InstancesHealthAttribute.all;
-    }
-    throw Exception('$this is not known in enum InstancesHealthAttribute');
-  }
+  const InstancesHealthAttribute(this.value);
+
+  static InstancesHealthAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum InstancesHealthAttribute'));
 }
 
 /// Represents the average latency for the slowest X percent of requests over
@@ -5488,8 +5106,12 @@ class ManagedAction {
     return ManagedAction(
       actionDescription: _s.extractXmlStringValue(elem, 'ActionDescription'),
       actionId: _s.extractXmlStringValue(elem, 'ActionId'),
-      actionType: _s.extractXmlStringValue(elem, 'ActionType')?.toActionType(),
-      status: _s.extractXmlStringValue(elem, 'Status')?.toActionStatus(),
+      actionType: _s
+          .extractXmlStringValue(elem, 'ActionType')
+          ?.let(ActionType.fromString),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(ActionStatus.fromString),
       windowStartTime: _s.extractXmlDateTimeValue(elem, 'WindowStartTime'),
     );
   }
@@ -5535,13 +5157,18 @@ class ManagedActionHistoryItem {
     return ManagedActionHistoryItem(
       actionDescription: _s.extractXmlStringValue(elem, 'ActionDescription'),
       actionId: _s.extractXmlStringValue(elem, 'ActionId'),
-      actionType: _s.extractXmlStringValue(elem, 'ActionType')?.toActionType(),
+      actionType: _s
+          .extractXmlStringValue(elem, 'ActionType')
+          ?.let(ActionType.fromString),
       executedTime: _s.extractXmlDateTimeValue(elem, 'ExecutedTime'),
       failureDescription: _s.extractXmlStringValue(elem, 'FailureDescription'),
-      failureType:
-          _s.extractXmlStringValue(elem, 'FailureType')?.toFailureType(),
+      failureType: _s
+          .extractXmlStringValue(elem, 'FailureType')
+          ?.let(FailureType.fromString),
       finishedTime: _s.extractXmlDateTimeValue(elem, 'FinishedTime'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.toActionHistoryStatus(),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(ActionHistoryStatus.fromString),
     );
   }
 }
@@ -5879,8 +5506,9 @@ class PlatformDescription {
           _s.extractXmlStringValue(elem, 'PlatformLifecycleState'),
       platformName: _s.extractXmlStringValue(elem, 'PlatformName'),
       platformOwner: _s.extractXmlStringValue(elem, 'PlatformOwner'),
-      platformStatus:
-          _s.extractXmlStringValue(elem, 'PlatformStatus')?.toPlatformStatus(),
+      platformStatus: _s
+          .extractXmlStringValue(elem, 'PlatformStatus')
+          ?.let(PlatformStatus.fromString),
       platformVersion: _s.extractXmlStringValue(elem, 'PlatformVersion'),
       programmingLanguages: _s
           .extractXmlChild(elem, 'ProgrammingLanguages')
@@ -6019,46 +5647,21 @@ class PlatformProgrammingLanguage {
 }
 
 enum PlatformStatus {
-  creating,
-  failed,
-  ready,
-  deleting,
-  deleted,
-}
+  creating('Creating'),
+  failed('Failed'),
+  ready('Ready'),
+  deleting('Deleting'),
+  deleted('Deleted'),
+  ;
 
-extension PlatformStatusValueExtension on PlatformStatus {
-  String toValue() {
-    switch (this) {
-      case PlatformStatus.creating:
-        return 'Creating';
-      case PlatformStatus.failed:
-        return 'Failed';
-      case PlatformStatus.ready:
-        return 'Ready';
-      case PlatformStatus.deleting:
-        return 'Deleting';
-      case PlatformStatus.deleted:
-        return 'Deleted';
-    }
-  }
-}
+  final String value;
 
-extension PlatformStatusFromString on String {
-  PlatformStatus toPlatformStatus() {
-    switch (this) {
-      case 'Creating':
-        return PlatformStatus.creating;
-      case 'Failed':
-        return PlatformStatus.failed;
-      case 'Ready':
-        return PlatformStatus.ready;
-      case 'Deleting':
-        return PlatformStatus.deleting;
-      case 'Deleted':
-        return PlatformStatus.deleted;
-    }
-    throw Exception('$this is not known in enum PlatformStatus');
-  }
+  const PlatformStatus(this.value);
+
+  static PlatformStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PlatformStatus'));
 }
 
 /// Summary information about a platform version.
@@ -6136,8 +5739,9 @@ class PlatformSummary {
       platformLifecycleState:
           _s.extractXmlStringValue(elem, 'PlatformLifecycleState'),
       platformOwner: _s.extractXmlStringValue(elem, 'PlatformOwner'),
-      platformStatus:
-          _s.extractXmlStringValue(elem, 'PlatformStatus')?.toPlatformStatus(),
+      platformStatus: _s
+          .extractXmlStringValue(elem, 'PlatformStatus')
+          ?.let(PlatformStatus.fromString),
       platformVersion: _s.extractXmlStringValue(elem, 'PlatformVersion'),
       supportedAddonList: _s
           .extractXmlChild(elem, 'SupportedAddonList')
@@ -6519,8 +6123,10 @@ class SourceBuildInformation {
       sourceLocation: _s.extractXmlStringValue(elem, 'SourceLocation')!,
       sourceRepository: _s
           .extractXmlStringValue(elem, 'SourceRepository')!
-          .toSourceRepository(),
-      sourceType: _s.extractXmlStringValue(elem, 'SourceType')!.toSourceType(),
+          .let(SourceRepository.fromString),
+      sourceType: _s
+          .extractXmlStringValue(elem, 'SourceType')!
+          .let(SourceType.fromString),
     );
   }
 
@@ -6530,8 +6136,8 @@ class SourceBuildInformation {
     final sourceType = this.sourceType;
     return {
       'SourceLocation': sourceLocation,
-      'SourceRepository': sourceRepository.toValue(),
-      'SourceType': sourceType.toValue(),
+      'SourceRepository': sourceRepository.value,
+      'SourceType': sourceType.value,
     };
   }
 
@@ -6541,8 +6147,8 @@ class SourceBuildInformation {
     final sourceType = this.sourceType;
     return {
       'SourceLocation': sourceLocation,
-      'SourceRepository': sourceRepository.toValue(),
-      'SourceType': sourceType.toValue(),
+      'SourceRepository': sourceRepository.value,
+      'SourceType': sourceType.value,
     };
   }
 }
@@ -6580,59 +6186,32 @@ class SourceConfiguration {
 }
 
 enum SourceRepository {
-  codeCommit,
-  s3,
-}
+  codeCommit('CodeCommit'),
+  s3('S3'),
+  ;
 
-extension SourceRepositoryValueExtension on SourceRepository {
-  String toValue() {
-    switch (this) {
-      case SourceRepository.codeCommit:
-        return 'CodeCommit';
-      case SourceRepository.s3:
-        return 'S3';
-    }
-  }
-}
+  final String value;
 
-extension SourceRepositoryFromString on String {
-  SourceRepository toSourceRepository() {
-    switch (this) {
-      case 'CodeCommit':
-        return SourceRepository.codeCommit;
-      case 'S3':
-        return SourceRepository.s3;
-    }
-    throw Exception('$this is not known in enum SourceRepository');
-  }
+  const SourceRepository(this.value);
+
+  static SourceRepository fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SourceRepository'));
 }
 
 enum SourceType {
-  git,
-  zip,
-}
+  git('Git'),
+  zip('Zip'),
+  ;
 
-extension SourceTypeValueExtension on SourceType {
-  String toValue() {
-    switch (this) {
-      case SourceType.git:
-        return 'Git';
-      case SourceType.zip:
-        return 'Zip';
-    }
-  }
-}
+  final String value;
 
-extension SourceTypeFromString on String {
-  SourceType toSourceType() {
-    switch (this) {
-      case 'Git':
-        return SourceType.git;
-      case 'Zip':
-        return SourceType.zip;
-    }
-    throw Exception('$this is not known in enum SourceType');
-  }
+  const SourceType(this.value);
+
+  static SourceType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SourceType'));
 }
 
 /// Represents the percentage of requests over the last 10 seconds that resulted
@@ -6788,38 +6367,26 @@ class ValidationMessage {
       message: _s.extractXmlStringValue(elem, 'Message'),
       namespace: _s.extractXmlStringValue(elem, 'Namespace'),
       optionName: _s.extractXmlStringValue(elem, 'OptionName'),
-      severity:
-          _s.extractXmlStringValue(elem, 'Severity')?.toValidationSeverity(),
+      severity: _s
+          .extractXmlStringValue(elem, 'Severity')
+          ?.let(ValidationSeverity.fromString),
     );
   }
 }
 
 enum ValidationSeverity {
-  error,
-  warning,
-}
+  error('error'),
+  warning('warning'),
+  ;
 
-extension ValidationSeverityValueExtension on ValidationSeverity {
-  String toValue() {
-    switch (this) {
-      case ValidationSeverity.error:
-        return 'error';
-      case ValidationSeverity.warning:
-        return 'warning';
-    }
-  }
-}
+  final String value;
 
-extension ValidationSeverityFromString on String {
-  ValidationSeverity toValidationSeverity() {
-    switch (this) {
-      case 'error':
-        return ValidationSeverity.error;
-      case 'warning':
-        return ValidationSeverity.warning;
-    }
-    throw Exception('$this is not known in enum ValidationSeverity');
-  }
+  const ValidationSeverity(this.value);
+
+  static ValidationSeverity fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ValidationSeverity'));
 }
 
 class CodeBuildNotInServiceRegionException extends _s.GenericAwsException {

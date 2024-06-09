@@ -251,18 +251,18 @@ class MQ {
     final $payload = <String, dynamic>{
       'autoMinorVersionUpgrade': autoMinorVersionUpgrade,
       'brokerName': brokerName,
-      'deploymentMode': deploymentMode.toValue(),
-      'engineType': engineType.toValue(),
+      'deploymentMode': deploymentMode.value,
+      'engineType': engineType.value,
       'engineVersion': engineVersion,
       'hostInstanceType': hostInstanceType,
       'publiclyAccessible': publiclyAccessible,
       'users': users,
       if (authenticationStrategy != null)
-        'authenticationStrategy': authenticationStrategy.toValue(),
+        'authenticationStrategy': authenticationStrategy.value,
       if (configuration != null) 'configuration': configuration,
       'creatorRequestId': creatorRequestId ?? _s.generateIdempotencyToken(),
       if (dataReplicationMode != null)
-        'dataReplicationMode': dataReplicationMode.toValue(),
+        'dataReplicationMode': dataReplicationMode.value,
       if (dataReplicationPrimaryBrokerArn != null)
         'dataReplicationPrimaryBrokerArn': dataReplicationPrimaryBrokerArn,
       if (encryptionOptions != null) 'encryptionOptions': encryptionOptions,
@@ -271,7 +271,7 @@ class MQ {
       if (maintenanceWindowStartTime != null)
         'maintenanceWindowStartTime': maintenanceWindowStartTime,
       if (securityGroups != null) 'securityGroups': securityGroups,
-      if (storageType != null) 'storageType': storageType.toValue(),
+      if (storageType != null) 'storageType': storageType.value,
       if (subnetIds != null) 'subnetIds': subnetIds,
       if (tags != null) 'tags': tags,
     };
@@ -321,11 +321,11 @@ class MQ {
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
-      'engineType': engineType.toValue(),
+      'engineType': engineType.value,
       'engineVersion': engineVersion,
       'name': name,
       if (authenticationStrategy != null)
-        'authenticationStrategy': authenticationStrategy.toValue(),
+        'authenticationStrategy': authenticationStrategy.value,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -891,7 +891,7 @@ class MQ {
     required PromoteMode mode,
   }) async {
     final $payload = <String, dynamic>{
-      'mode': mode.toValue(),
+      'mode': mode.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -988,12 +988,12 @@ class MQ {
   }) async {
     final $payload = <String, dynamic>{
       if (authenticationStrategy != null)
-        'authenticationStrategy': authenticationStrategy.toValue(),
+        'authenticationStrategy': authenticationStrategy.value,
       if (autoMinorVersionUpgrade != null)
         'autoMinorVersionUpgrade': autoMinorVersionUpgrade,
       if (configuration != null) 'configuration': configuration,
       if (dataReplicationMode != null)
-        'dataReplicationMode': dataReplicationMode.toValue(),
+        'dataReplicationMode': dataReplicationMode.value,
       if (engineVersion != null) 'engineVersion': engineVersion,
       if (hostInstanceType != null) 'hostInstanceType': hostInstanceType,
       if (ldapServerMetadata != null) 'ldapServerMetadata': ldapServerMetadata,
@@ -1127,31 +1127,18 @@ class ActionRequired {
 /// Optional. The authentication strategy used to secure the broker. The default
 /// is SIMPLE.
 enum AuthenticationStrategy {
-  simple,
-  ldap,
-}
+  simple('SIMPLE'),
+  ldap('LDAP'),
+  ;
 
-extension AuthenticationStrategyValueExtension on AuthenticationStrategy {
-  String toValue() {
-    switch (this) {
-      case AuthenticationStrategy.simple:
-        return 'SIMPLE';
-      case AuthenticationStrategy.ldap:
-        return 'LDAP';
-    }
-  }
-}
+  final String value;
 
-extension AuthenticationStrategyFromString on String {
-  AuthenticationStrategy toAuthenticationStrategy() {
-    switch (this) {
-      case 'SIMPLE':
-        return AuthenticationStrategy.simple;
-      case 'LDAP':
-        return AuthenticationStrategy.ldap;
-    }
-    throw Exception('$this is not known in enum AuthenticationStrategy');
-  }
+  const AuthenticationStrategy(this.value);
+
+  static AuthenticationStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AuthenticationStrategy'));
 }
 
 /// Name of the availability zone.
@@ -1185,7 +1172,7 @@ class BrokerEngineType {
 
   factory BrokerEngineType.fromJson(Map<String, dynamic> json) {
     return BrokerEngineType(
-      engineType: (json['engineType'] as String?)?.toEngineType(),
+      engineType: (json['engineType'] as String?)?.let(EngineType.fromString),
       engineVersions: (json['engineVersions'] as List?)
           ?.whereNotNull()
           .map((e) => EngineVersion.fromJson(e as Map<String, dynamic>))
@@ -1259,12 +1246,13 @@ class BrokerInstanceOption {
           ?.whereNotNull()
           .map((e) => AvailabilityZone.fromJson(e as Map<String, dynamic>))
           .toList(),
-      engineType: (json['engineType'] as String?)?.toEngineType(),
+      engineType: (json['engineType'] as String?)?.let(EngineType.fromString),
       hostInstanceType: json['hostInstanceType'] as String?,
-      storageType: (json['storageType'] as String?)?.toBrokerStorageType(),
+      storageType:
+          (json['storageType'] as String?)?.let(BrokerStorageType.fromString),
       supportedDeploymentModes: (json['supportedDeploymentModes'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toDeploymentMode())
+          .map((e) => DeploymentMode.fromString((e as String)))
           .toList(),
       supportedEngineVersions: (json['supportedEngineVersions'] as List?)
           ?.whereNotNull()
@@ -1276,56 +1264,22 @@ class BrokerInstanceOption {
 
 /// The broker's status.
 enum BrokerState {
-  creationInProgress,
-  creationFailed,
-  deletionInProgress,
-  running,
-  rebootInProgress,
-  criticalActionRequired,
-  replica,
-}
+  creationInProgress('CREATION_IN_PROGRESS'),
+  creationFailed('CREATION_FAILED'),
+  deletionInProgress('DELETION_IN_PROGRESS'),
+  running('RUNNING'),
+  rebootInProgress('REBOOT_IN_PROGRESS'),
+  criticalActionRequired('CRITICAL_ACTION_REQUIRED'),
+  replica('REPLICA'),
+  ;
 
-extension BrokerStateValueExtension on BrokerState {
-  String toValue() {
-    switch (this) {
-      case BrokerState.creationInProgress:
-        return 'CREATION_IN_PROGRESS';
-      case BrokerState.creationFailed:
-        return 'CREATION_FAILED';
-      case BrokerState.deletionInProgress:
-        return 'DELETION_IN_PROGRESS';
-      case BrokerState.running:
-        return 'RUNNING';
-      case BrokerState.rebootInProgress:
-        return 'REBOOT_IN_PROGRESS';
-      case BrokerState.criticalActionRequired:
-        return 'CRITICAL_ACTION_REQUIRED';
-      case BrokerState.replica:
-        return 'REPLICA';
-    }
-  }
-}
+  final String value;
 
-extension BrokerStateFromString on String {
-  BrokerState toBrokerState() {
-    switch (this) {
-      case 'CREATION_IN_PROGRESS':
-        return BrokerState.creationInProgress;
-      case 'CREATION_FAILED':
-        return BrokerState.creationFailed;
-      case 'DELETION_IN_PROGRESS':
-        return BrokerState.deletionInProgress;
-      case 'RUNNING':
-        return BrokerState.running;
-      case 'REBOOT_IN_PROGRESS':
-        return BrokerState.rebootInProgress;
-      case 'CRITICAL_ACTION_REQUIRED':
-        return BrokerState.criticalActionRequired;
-      case 'REPLICA':
-        return BrokerState.replica;
-    }
-    throw Exception('$this is not known in enum BrokerState');
-  }
+  const BrokerState(this.value);
+
+  static BrokerState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum BrokerState'));
 }
 
 /// The broker's storage type.
@@ -1333,31 +1287,18 @@ extension BrokerStateFromString on String {
 /// EFS is not supported for RabbitMQ engine type.
 /// </important>
 enum BrokerStorageType {
-  ebs,
-  efs,
-}
+  ebs('EBS'),
+  efs('EFS'),
+  ;
 
-extension BrokerStorageTypeValueExtension on BrokerStorageType {
-  String toValue() {
-    switch (this) {
-      case BrokerStorageType.ebs:
-        return 'EBS';
-      case BrokerStorageType.efs:
-        return 'EFS';
-    }
-  }
-}
+  final String value;
 
-extension BrokerStorageTypeFromString on String {
-  BrokerStorageType toBrokerStorageType() {
-    switch (this) {
-      case 'EBS':
-        return BrokerStorageType.ebs;
-      case 'EFS':
-        return BrokerStorageType.efs;
-    }
-    throw Exception('$this is not known in enum BrokerStorageType');
-  }
+  const BrokerStorageType(this.value);
+
+  static BrokerStorageType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum BrokerStorageType'));
 }
 
 /// Returns information about all brokers.
@@ -1402,12 +1343,14 @@ class BrokerSummary {
 
   factory BrokerSummary.fromJson(Map<String, dynamic> json) {
     return BrokerSummary(
-      deploymentMode: (json['deploymentMode'] as String).toDeploymentMode(),
-      engineType: (json['engineType'] as String).toEngineType(),
+      deploymentMode:
+          DeploymentMode.fromString((json['deploymentMode'] as String)),
+      engineType: EngineType.fromString((json['engineType'] as String)),
       brokerArn: json['brokerArn'] as String?,
       brokerId: json['brokerId'] as String?,
       brokerName: json['brokerName'] as String?,
-      brokerState: (json['brokerState'] as String?)?.toBrokerState(),
+      brokerState:
+          (json['brokerState'] as String?)?.let(BrokerState.fromString),
       created: timeStampFromJson(json['created']),
       hostInstanceType: json['hostInstanceType'] as String?,
     );
@@ -1416,36 +1359,18 @@ class BrokerSummary {
 
 /// The type of change pending for the ActiveMQ user.
 enum ChangeType {
-  create,
-  update,
-  delete,
-}
+  create('CREATE'),
+  update('UPDATE'),
+  delete('DELETE'),
+  ;
 
-extension ChangeTypeValueExtension on ChangeType {
-  String toValue() {
-    switch (this) {
-      case ChangeType.create:
-        return 'CREATE';
-      case ChangeType.update:
-        return 'UPDATE';
-      case ChangeType.delete:
-        return 'DELETE';
-    }
-  }
-}
+  final String value;
 
-extension ChangeTypeFromString on String {
-  ChangeType toChangeType() {
-    switch (this) {
-      case 'CREATE':
-        return ChangeType.create;
-      case 'UPDATE':
-        return ChangeType.update;
-      case 'DELETE':
-        return ChangeType.delete;
-    }
-    throw Exception('$this is not known in enum ChangeType');
-  }
+  const ChangeType(this.value);
+
+  static ChangeType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ChangeType'));
 }
 
 /// Returns information about all configurations.
@@ -1503,11 +1428,11 @@ class Configuration {
   factory Configuration.fromJson(Map<String, dynamic> json) {
     return Configuration(
       arn: json['arn'] as String,
-      authenticationStrategy:
-          (json['authenticationStrategy'] as String).toAuthenticationStrategy(),
+      authenticationStrategy: AuthenticationStrategy.fromString(
+          (json['authenticationStrategy'] as String)),
       created: nonNullableTimeStampFromJson(json['created'] as Object),
       description: json['description'] as String,
-      engineType: (json['engineType'] as String).toEngineType(),
+      engineType: EngineType.fromString((json['engineType'] as String)),
       engineVersion: json['engineVersion'] as String,
       id: json['id'] as String,
       latestRevision: ConfigurationRevision.fromJson(
@@ -1663,7 +1588,7 @@ class CreateConfigurationResponse {
     return CreateConfigurationResponse(
       arn: json['arn'] as String?,
       authenticationStrategy: (json['authenticationStrategy'] as String?)
-          ?.toAuthenticationStrategy(),
+          ?.let(AuthenticationStrategy.fromString),
       created: timeStampFromJson(json['created']),
       id: json['id'] as String?,
       latestRevision: json['latestRevision'] != null
@@ -1735,84 +1660,37 @@ class DataReplicationMetadataOutput {
 
 /// Specifies whether a broker is a part of a data replication pair.
 enum DataReplicationMode {
-  none,
-  crdr,
-}
+  none('NONE'),
+  crdr('CRDR'),
+  ;
 
-extension DataReplicationModeValueExtension on DataReplicationMode {
-  String toValue() {
-    switch (this) {
-      case DataReplicationMode.none:
-        return 'NONE';
-      case DataReplicationMode.crdr:
-        return 'CRDR';
-    }
-  }
-}
+  final String value;
 
-extension DataReplicationModeFromString on String {
-  DataReplicationMode toDataReplicationMode() {
-    switch (this) {
-      case 'NONE':
-        return DataReplicationMode.none;
-      case 'CRDR':
-        return DataReplicationMode.crdr;
-    }
-    throw Exception('$this is not known in enum DataReplicationMode');
-  }
+  const DataReplicationMode(this.value);
+
+  static DataReplicationMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DataReplicationMode'));
 }
 
 enum DayOfWeek {
-  monday,
-  tuesday,
-  wednesday,
-  thursday,
-  friday,
-  saturday,
-  sunday,
-}
+  monday('MONDAY'),
+  tuesday('TUESDAY'),
+  wednesday('WEDNESDAY'),
+  thursday('THURSDAY'),
+  friday('FRIDAY'),
+  saturday('SATURDAY'),
+  sunday('SUNDAY'),
+  ;
 
-extension DayOfWeekValueExtension on DayOfWeek {
-  String toValue() {
-    switch (this) {
-      case DayOfWeek.monday:
-        return 'MONDAY';
-      case DayOfWeek.tuesday:
-        return 'TUESDAY';
-      case DayOfWeek.wednesday:
-        return 'WEDNESDAY';
-      case DayOfWeek.thursday:
-        return 'THURSDAY';
-      case DayOfWeek.friday:
-        return 'FRIDAY';
-      case DayOfWeek.saturday:
-        return 'SATURDAY';
-      case DayOfWeek.sunday:
-        return 'SUNDAY';
-    }
-  }
-}
+  final String value;
 
-extension DayOfWeekFromString on String {
-  DayOfWeek toDayOfWeek() {
-    switch (this) {
-      case 'MONDAY':
-        return DayOfWeek.monday;
-      case 'TUESDAY':
-        return DayOfWeek.tuesday;
-      case 'WEDNESDAY':
-        return DayOfWeek.wednesday;
-      case 'THURSDAY':
-        return DayOfWeek.thursday;
-      case 'FRIDAY':
-        return DayOfWeek.friday;
-      case 'SATURDAY':
-        return DayOfWeek.saturday;
-      case 'SUNDAY':
-        return DayOfWeek.sunday;
-    }
-    throw Exception('$this is not known in enum DayOfWeek');
-  }
+  const DayOfWeek(this.value);
+
+  static DayOfWeek fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum DayOfWeek'));
 }
 
 class DeleteBrokerResponse {
@@ -1840,36 +1718,19 @@ class DeleteUserResponse {
 
 /// The broker's deployment mode.
 enum DeploymentMode {
-  singleInstance,
-  activeStandbyMultiAz,
-  clusterMultiAz,
-}
+  singleInstance('SINGLE_INSTANCE'),
+  activeStandbyMultiAz('ACTIVE_STANDBY_MULTI_AZ'),
+  clusterMultiAz('CLUSTER_MULTI_AZ'),
+  ;
 
-extension DeploymentModeValueExtension on DeploymentMode {
-  String toValue() {
-    switch (this) {
-      case DeploymentMode.singleInstance:
-        return 'SINGLE_INSTANCE';
-      case DeploymentMode.activeStandbyMultiAz:
-        return 'ACTIVE_STANDBY_MULTI_AZ';
-      case DeploymentMode.clusterMultiAz:
-        return 'CLUSTER_MULTI_AZ';
-    }
-  }
-}
+  final String value;
 
-extension DeploymentModeFromString on String {
-  DeploymentMode toDeploymentMode() {
-    switch (this) {
-      case 'SINGLE_INSTANCE':
-        return DeploymentMode.singleInstance;
-      case 'ACTIVE_STANDBY_MULTI_AZ':
-        return DeploymentMode.activeStandbyMultiAz;
-      case 'CLUSTER_MULTI_AZ':
-        return DeploymentMode.clusterMultiAz;
-    }
-    throw Exception('$this is not known in enum DeploymentMode');
-  }
+  const DeploymentMode(this.value);
+
+  static DeploymentMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DeploymentMode'));
 }
 
 class DescribeBrokerEngineTypesResponse {
@@ -2103,7 +1964,7 @@ class DescribeBrokerResponse {
           .map((e) => ActionRequired.fromJson(e as Map<String, dynamic>))
           .toList(),
       authenticationStrategy: (json['authenticationStrategy'] as String?)
-          ?.toAuthenticationStrategy(),
+          ?.let(AuthenticationStrategy.fromString),
       autoMinorVersionUpgrade: json['autoMinorVersionUpgrade'] as bool?,
       brokerArn: json['brokerArn'] as String?,
       brokerId: json['brokerId'] as String?,
@@ -2112,7 +1973,8 @@ class DescribeBrokerResponse {
           .map((e) => BrokerInstance.fromJson(e as Map<String, dynamic>))
           .toList(),
       brokerName: json['brokerName'] as String?,
-      brokerState: (json['brokerState'] as String?)?.toBrokerState(),
+      brokerState:
+          (json['brokerState'] as String?)?.let(BrokerState.fromString),
       configurations: json['configurations'] != null
           ? Configurations.fromJson(
               json['configurations'] as Map<String, dynamic>)
@@ -2122,14 +1984,15 @@ class DescribeBrokerResponse {
           ? DataReplicationMetadataOutput.fromJson(
               json['dataReplicationMetadata'] as Map<String, dynamic>)
           : null,
-      dataReplicationMode:
-          (json['dataReplicationMode'] as String?)?.toDataReplicationMode(),
-      deploymentMode: (json['deploymentMode'] as String?)?.toDeploymentMode(),
+      dataReplicationMode: (json['dataReplicationMode'] as String?)
+          ?.let(DataReplicationMode.fromString),
+      deploymentMode:
+          (json['deploymentMode'] as String?)?.let(DeploymentMode.fromString),
       encryptionOptions: json['encryptionOptions'] != null
           ? EncryptionOptions.fromJson(
               json['encryptionOptions'] as Map<String, dynamic>)
           : null,
-      engineType: (json['engineType'] as String?)?.toEngineType(),
+      engineType: (json['engineType'] as String?)?.let(EngineType.fromString),
       engineVersion: json['engineVersion'] as String?,
       hostInstanceType: json['hostInstanceType'] as String?,
       ldapServerMetadata: json['ldapServerMetadata'] != null
@@ -2145,7 +2008,7 @@ class DescribeBrokerResponse {
           : null,
       pendingAuthenticationStrategy:
           (json['pendingAuthenticationStrategy'] as String?)
-              ?.toAuthenticationStrategy(),
+              ?.let(AuthenticationStrategy.fromString),
       pendingDataReplicationMetadata: json['pendingDataReplicationMetadata'] !=
               null
           ? DataReplicationMetadataOutput.fromJson(
@@ -2153,7 +2016,7 @@ class DescribeBrokerResponse {
           : null,
       pendingDataReplicationMode:
           (json['pendingDataReplicationMode'] as String?)
-              ?.toDataReplicationMode(),
+              ?.let(DataReplicationMode.fromString),
       pendingEngineVersion: json['pendingEngineVersion'] as String?,
       pendingHostInstanceType: json['pendingHostInstanceType'] as String?,
       pendingLdapServerMetadata: json['pendingLdapServerMetadata'] != null
@@ -2169,7 +2032,8 @@ class DescribeBrokerResponse {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      storageType: (json['storageType'] as String?)?.toBrokerStorageType(),
+      storageType:
+          (json['storageType'] as String?)?.let(BrokerStorageType.fromString),
       subnetIds: (json['subnetIds'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -2239,10 +2103,10 @@ class DescribeConfigurationResponse {
     return DescribeConfigurationResponse(
       arn: json['arn'] as String?,
       authenticationStrategy: (json['authenticationStrategy'] as String?)
-          ?.toAuthenticationStrategy(),
+          ?.let(AuthenticationStrategy.fromString),
       created: timeStampFromJson(json['created']),
       description: json['description'] as String?,
-      engineType: (json['engineType'] as String?)?.toEngineType(),
+      engineType: (json['engineType'] as String?)?.let(EngineType.fromString),
       engineVersion: json['engineVersion'] as String?,
       id: json['id'] as String?,
       latestRevision: json['latestRevision'] != null
@@ -2372,31 +2236,17 @@ class EncryptionOptions {
 
 /// The type of broker engine. Amazon MQ supports ActiveMQ and RabbitMQ.
 enum EngineType {
-  activemq,
-  rabbitmq,
-}
+  activemq('ACTIVEMQ'),
+  rabbitmq('RABBITMQ'),
+  ;
 
-extension EngineTypeValueExtension on EngineType {
-  String toValue() {
-    switch (this) {
-      case EngineType.activemq:
-        return 'ACTIVEMQ';
-      case EngineType.rabbitmq:
-        return 'RABBITMQ';
-    }
-  }
-}
+  final String value;
 
-extension EngineTypeFromString on String {
-  EngineType toEngineType() {
-    switch (this) {
-      case 'ACTIVEMQ':
-        return EngineType.activemq;
-      case 'RABBITMQ':
-        return EngineType.rabbitmq;
-    }
-    throw Exception('$this is not known in enum EngineType');
-  }
+  const EngineType(this.value);
+
+  static EngineType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum EngineType'));
 }
 
 /// Id of the engine version.
@@ -2856,31 +2706,17 @@ class PendingLogs {
 
 /// The Promote mode requested.
 enum PromoteMode {
-  switchover,
-  failover,
-}
+  switchover('SWITCHOVER'),
+  failover('FAILOVER'),
+  ;
 
-extension PromoteModeValueExtension on PromoteMode {
-  String toValue() {
-    switch (this) {
-      case PromoteMode.switchover:
-        return 'SWITCHOVER';
-      case PromoteMode.failover:
-        return 'FAILOVER';
-    }
-  }
-}
+  final String value;
 
-extension PromoteModeFromString on String {
-  PromoteMode toPromoteMode() {
-    switch (this) {
-      case 'SWITCHOVER':
-        return PromoteMode.switchover;
-      case 'FAILOVER':
-        return PromoteMode.failover;
-    }
-    throw Exception('$this is not known in enum PromoteMode');
-  }
+  const PromoteMode(this.value);
+
+  static PromoteMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum PromoteMode'));
 }
 
 class PromoteResponse {
@@ -2927,7 +2763,7 @@ class SanitizationWarning {
 
   factory SanitizationWarning.fromJson(Map<String, dynamic> json) {
     return SanitizationWarning(
-      reason: (json['reason'] as String).toSanitizationWarningReason(),
+      reason: SanitizationWarningReason.fromString((json['reason'] as String)),
       attributeName: json['attributeName'] as String?,
       elementName: json['elementName'] as String?,
     );
@@ -2937,36 +2773,19 @@ class SanitizationWarning {
 /// The reason for which the configuration elements or attributes were
 /// sanitized.
 enum SanitizationWarningReason {
-  disallowedElementRemoved,
-  disallowedAttributeRemoved,
-  invalidAttributeValueRemoved,
-}
+  disallowedElementRemoved('DISALLOWED_ELEMENT_REMOVED'),
+  disallowedAttributeRemoved('DISALLOWED_ATTRIBUTE_REMOVED'),
+  invalidAttributeValueRemoved('INVALID_ATTRIBUTE_VALUE_REMOVED'),
+  ;
 
-extension SanitizationWarningReasonValueExtension on SanitizationWarningReason {
-  String toValue() {
-    switch (this) {
-      case SanitizationWarningReason.disallowedElementRemoved:
-        return 'DISALLOWED_ELEMENT_REMOVED';
-      case SanitizationWarningReason.disallowedAttributeRemoved:
-        return 'DISALLOWED_ATTRIBUTE_REMOVED';
-      case SanitizationWarningReason.invalidAttributeValueRemoved:
-        return 'INVALID_ATTRIBUTE_VALUE_REMOVED';
-    }
-  }
-}
+  final String value;
 
-extension SanitizationWarningReasonFromString on String {
-  SanitizationWarningReason toSanitizationWarningReason() {
-    switch (this) {
-      case 'DISALLOWED_ELEMENT_REMOVED':
-        return SanitizationWarningReason.disallowedElementRemoved;
-      case 'DISALLOWED_ATTRIBUTE_REMOVED':
-        return SanitizationWarningReason.disallowedAttributeRemoved;
-      case 'INVALID_ATTRIBUTE_VALUE_REMOVED':
-        return SanitizationWarningReason.invalidAttributeValueRemoved;
-    }
-    throw Exception('$this is not known in enum SanitizationWarningReason');
-  }
+  const SanitizationWarningReason(this.value);
+
+  static SanitizationWarningReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SanitizationWarningReason'));
 }
 
 class UpdateBrokerResponse {
@@ -3046,7 +2865,7 @@ class UpdateBrokerResponse {
   factory UpdateBrokerResponse.fromJson(Map<String, dynamic> json) {
     return UpdateBrokerResponse(
       authenticationStrategy: (json['authenticationStrategy'] as String?)
-          ?.toAuthenticationStrategy(),
+          ?.let(AuthenticationStrategy.fromString),
       autoMinorVersionUpgrade: json['autoMinorVersionUpgrade'] as bool?,
       brokerId: json['brokerId'] as String?,
       configuration: json['configuration'] != null
@@ -3057,8 +2876,8 @@ class UpdateBrokerResponse {
           ? DataReplicationMetadataOutput.fromJson(
               json['dataReplicationMetadata'] as Map<String, dynamic>)
           : null,
-      dataReplicationMode:
-          (json['dataReplicationMode'] as String?)?.toDataReplicationMode(),
+      dataReplicationMode: (json['dataReplicationMode'] as String?)
+          ?.let(DataReplicationMode.fromString),
       engineVersion: json['engineVersion'] as String?,
       hostInstanceType: json['hostInstanceType'] as String?,
       ldapServerMetadata: json['ldapServerMetadata'] != null
@@ -3079,7 +2898,7 @@ class UpdateBrokerResponse {
           : null,
       pendingDataReplicationMode:
           (json['pendingDataReplicationMode'] as String?)
-              ?.toDataReplicationMode(),
+              ?.let(DataReplicationMode.fromString),
       securityGroups: (json['securityGroups'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -3237,7 +3056,7 @@ class UserPendingChanges {
 
   factory UserPendingChanges.fromJson(Map<String, dynamic> json) {
     return UserPendingChanges(
-      pendingChange: (json['pendingChange'] as String).toChangeType(),
+      pendingChange: ChangeType.fromString((json['pendingChange'] as String)),
       consoleAccess: json['consoleAccess'] as bool?,
       groups: (json['groups'] as List?)
           ?.whereNotNull()
@@ -3265,7 +3084,8 @@ class UserSummary {
   factory UserSummary.fromJson(Map<String, dynamic> json) {
     return UserSummary(
       username: json['username'] as String,
-      pendingChange: (json['pendingChange'] as String?)?.toChangeType(),
+      pendingChange:
+          (json['pendingChange'] as String?)?.let(ChangeType.fromString),
     );
   }
 }
@@ -3291,7 +3111,7 @@ class WeeklyStartTime {
 
   factory WeeklyStartTime.fromJson(Map<String, dynamic> json) {
     return WeeklyStartTime(
-      dayOfWeek: (json['dayOfWeek'] as String).toDayOfWeek(),
+      dayOfWeek: DayOfWeek.fromString((json['dayOfWeek'] as String)),
       timeOfDay: json['timeOfDay'] as String,
       timeZone: json['timeZone'] as String?,
     );
@@ -3302,7 +3122,7 @@ class WeeklyStartTime {
     final timeOfDay = this.timeOfDay;
     final timeZone = this.timeZone;
     return {
-      'dayOfWeek': dayOfWeek.toValue(),
+      'dayOfWeek': dayOfWeek.value,
       'timeOfDay': timeOfDay,
       if (timeZone != null) 'timeZone': timeZone,
     };

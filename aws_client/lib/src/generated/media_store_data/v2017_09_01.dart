@@ -315,9 +315,9 @@ class MediaStoreData {
     final headers = <String, String>{
       if (cacheControl != null) 'Cache-Control': cacheControl.toString(),
       if (contentType != null) 'Content-Type': contentType.toString(),
-      if (storageClass != null) 'x-amz-storage-class': storageClass.toValue(),
+      if (storageClass != null) 'x-amz-storage-class': storageClass.value,
       if (uploadAvailability != null)
-        'x-amz-upload-availability': uploadAvailability.toValue(),
+        'x-amz-upload-availability': uploadAvailability.value,
     };
     final response = await _protocol.send(
       payload: body,
@@ -475,7 +475,7 @@ class Item {
       eTag: json['ETag'] as String?,
       lastModified: timeStampFromJson(json['LastModified']),
       name: json['Name'] as String?,
-      type: (json['Type'] as String?)?.toItemType(),
+      type: (json['Type'] as String?)?.let(ItemType.fromString),
     );
   }
 
@@ -493,37 +493,23 @@ class Item {
       if (lastModified != null)
         'LastModified': unixTimestampToJson(lastModified),
       if (name != null) 'Name': name,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum ItemType {
-  object,
-  folder,
-}
+  object('OBJECT'),
+  folder('FOLDER'),
+  ;
 
-extension ItemTypeValueExtension on ItemType {
-  String toValue() {
-    switch (this) {
-      case ItemType.object:
-        return 'OBJECT';
-      case ItemType.folder:
-        return 'FOLDER';
-    }
-  }
-}
+  final String value;
 
-extension ItemTypeFromString on String {
-  ItemType toItemType() {
-    switch (this) {
-      case 'OBJECT':
-        return ItemType.object;
-      case 'FOLDER':
-        return ItemType.folder;
-    }
-    throw Exception('$this is not known in enum ItemType');
-  }
+  const ItemType(this.value);
+
+  static ItemType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ItemType'));
 }
 
 class ListItemsResponse {
@@ -583,7 +569,8 @@ class PutObjectResponse {
     return PutObjectResponse(
       contentSHA256: json['ContentSHA256'] as String?,
       eTag: json['ETag'] as String?,
-      storageClass: (json['StorageClass'] as String?)?.toStorageClass(),
+      storageClass:
+          (json['StorageClass'] as String?)?.let(StorageClass.fromString),
     );
   }
 
@@ -594,60 +581,38 @@ class PutObjectResponse {
     return {
       if (contentSHA256 != null) 'ContentSHA256': contentSHA256,
       if (eTag != null) 'ETag': eTag,
-      if (storageClass != null) 'StorageClass': storageClass.toValue(),
+      if (storageClass != null) 'StorageClass': storageClass.value,
     };
   }
 }
 
 enum StorageClass {
-  temporal,
-}
+  temporal('TEMPORAL'),
+  ;
 
-extension StorageClassValueExtension on StorageClass {
-  String toValue() {
-    switch (this) {
-      case StorageClass.temporal:
-        return 'TEMPORAL';
-    }
-  }
-}
+  final String value;
 
-extension StorageClassFromString on String {
-  StorageClass toStorageClass() {
-    switch (this) {
-      case 'TEMPORAL':
-        return StorageClass.temporal;
-    }
-    throw Exception('$this is not known in enum StorageClass');
-  }
+  const StorageClass(this.value);
+
+  static StorageClass fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum StorageClass'));
 }
 
 enum UploadAvailability {
-  standard,
-  streaming,
-}
+  standard('STANDARD'),
+  streaming('STREAMING'),
+  ;
 
-extension UploadAvailabilityValueExtension on UploadAvailability {
-  String toValue() {
-    switch (this) {
-      case UploadAvailability.standard:
-        return 'STANDARD';
-      case UploadAvailability.streaming:
-        return 'STREAMING';
-    }
-  }
-}
+  final String value;
 
-extension UploadAvailabilityFromString on String {
-  UploadAvailability toUploadAvailability() {
-    switch (this) {
-      case 'STANDARD':
-        return UploadAvailability.standard;
-      case 'STREAMING':
-        return UploadAvailability.streaming;
-    }
-    throw Exception('$this is not known in enum UploadAvailability');
-  }
+  const UploadAvailability(this.value);
+
+  static UploadAvailability fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum UploadAvailability'));
 }
 
 class ContainerNotFoundException extends _s.GenericAwsException {

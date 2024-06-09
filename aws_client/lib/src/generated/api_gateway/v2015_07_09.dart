@@ -223,7 +223,7 @@ class ApiGateway {
   }) async {
     final $payload = <String, dynamic>{
       'name': name,
-      'type': type.toValue(),
+      'type': type.value,
       if (authType != null) 'authType': authType,
       if (authorizerCredentials != null)
         'authorizerCredentials': authorizerCredentials,
@@ -349,8 +349,7 @@ class ApiGateway {
     final $payload = <String, dynamic>{
       if (cacheClusterEnabled != null)
         'cacheClusterEnabled': cacheClusterEnabled,
-      if (cacheClusterSize != null)
-        'cacheClusterSize': cacheClusterSize.toValue(),
+      if (cacheClusterSize != null) 'cacheClusterSize': cacheClusterSize.value,
       if (canarySettings != null) 'canarySettings': canarySettings,
       if (description != null) 'description': description,
       if (stageDescription != null) 'stageDescription': stageDescription,
@@ -546,7 +545,7 @@ class ApiGateway {
         'regionalCertificateArn': regionalCertificateArn,
       if (regionalCertificateName != null)
         'regionalCertificateName': regionalCertificateName,
-      if (securityPolicy != null) 'securityPolicy': securityPolicy.toValue(),
+      if (securityPolicy != null) 'securityPolicy': securityPolicy.value,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -760,7 +759,7 @@ class ApiGateway {
   }) async {
     final $payload = <String, dynamic>{
       'name': name,
-      if (apiKeySource != null) 'apiKeySource': apiKeySource.toValue(),
+      if (apiKeySource != null) 'apiKeySource': apiKeySource.value,
       if (binaryMediaTypes != null) 'binaryMediaTypes': binaryMediaTypes,
       if (cloneFrom != null) 'cloneFrom': cloneFrom,
       if (description != null) 'description': description,
@@ -851,8 +850,7 @@ class ApiGateway {
       'stageName': stageName,
       if (cacheClusterEnabled != null)
         'cacheClusterEnabled': cacheClusterEnabled,
-      if (cacheClusterSize != null)
-        'cacheClusterSize': cacheClusterSize.toValue(),
+      if (cacheClusterSize != null) 'cacheClusterSize': cacheClusterSize.value,
       if (canarySettings != null) 'canarySettings': canarySettings,
       if (description != null) 'description': description,
       if (documentationVersion != null)
@@ -1228,7 +1226,7 @@ class ApiGateway {
       payload: null,
       method: 'DELETE',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId)}/gatewayresponses/${Uri.encodeComponent(responseType.toValue())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/gatewayresponses/${Uri.encodeComponent(responseType.value)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2065,11 +2063,11 @@ class ApiGateway {
   }) async {
     final $query = <String, List<String>>{
       if (limit != null) 'limit': [limit.toString()],
-      if (locationStatus != null) 'locationStatus': [locationStatus.toValue()],
+      if (locationStatus != null) 'locationStatus': [locationStatus.value],
       if (nameQuery != null) 'name': [nameQuery],
       if (path != null) 'path': [path],
       if (position != null) 'position': [position],
-      if (type != null) 'type': [type.toValue()],
+      if (type != null) 'type': [type.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -2286,7 +2284,7 @@ class ApiGateway {
       payload: null,
       method: 'GET',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId)}/gatewayresponses/${Uri.encodeComponent(responseType.toValue())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/gatewayresponses/${Uri.encodeComponent(responseType.value)}',
       exceptionFnMap: _exceptionFns,
     );
     return GatewayResponse.fromJson(response);
@@ -3220,7 +3218,7 @@ class ApiGateway {
     bool? failOnWarnings,
   }) async {
     final $query = <String, List<String>>{
-      'format': [format.toValue()],
+      'format': [format.value],
       if (failOnWarnings != null) 'failonwarnings': [failOnWarnings.toString()],
     };
     final response = await _protocol.send(
@@ -3267,7 +3265,7 @@ class ApiGateway {
   }) async {
     final $query = <String, List<String>>{
       if (failOnWarnings != null) 'failonwarnings': [failOnWarnings.toString()],
-      if (mode != null) 'mode': [mode.toValue()],
+      if (mode != null) 'mode': [mode.value],
     };
     final response = await _protocol.send(
       payload: body,
@@ -3379,7 +3377,7 @@ class ApiGateway {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId)}/gatewayresponses/${Uri.encodeComponent(responseType.toValue())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/gatewayresponses/${Uri.encodeComponent(responseType.value)}',
       exceptionFnMap: _exceptionFns,
     );
     return GatewayResponse.fromJson(response);
@@ -3518,12 +3516,12 @@ class ApiGateway {
     String? uri,
   }) async {
     final $payload = <String, dynamic>{
-      'type': type.toValue(),
+      'type': type.value,
       if (cacheKeyParameters != null) 'cacheKeyParameters': cacheKeyParameters,
       if (cacheNamespace != null) 'cacheNamespace': cacheNamespace,
       if (connectionId != null) 'connectionId': connectionId,
-      if (connectionType != null) 'connectionType': connectionType.toValue(),
-      if (contentHandling != null) 'contentHandling': contentHandling.toValue(),
+      if (connectionType != null) 'connectionType': connectionType.value,
+      if (contentHandling != null) 'contentHandling': contentHandling.value,
       if (credentials != null) 'credentials': credentials,
       if (integrationHttpMethod != null) 'httpMethod': integrationHttpMethod,
       if (passthroughBehavior != null)
@@ -3606,7 +3604,7 @@ class ApiGateway {
     String? selectionPattern,
   }) async {
     final $payload = <String, dynamic>{
-      if (contentHandling != null) 'contentHandling': contentHandling.toValue(),
+      if (contentHandling != null) 'contentHandling': contentHandling.value,
       if (responseParameters != null) 'responseParameters': responseParameters,
       if (responseTemplates != null) 'responseTemplates': responseTemplates,
       if (selectionPattern != null) 'selectionPattern': selectionPattern,
@@ -3831,7 +3829,7 @@ class ApiGateway {
   }) async {
     final $query = <String, List<String>>{
       if (failOnWarnings != null) 'failonwarnings': [failOnWarnings.toString()],
-      if (mode != null) 'mode': [mode.toValue()],
+      if (mode != null) 'mode': [mode.value],
       if (parameters != null)
         for (var e in parameters.entries) e.key: [e.value],
     };
@@ -4389,7 +4387,7 @@ class ApiGateway {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId)}/gatewayresponses/${Uri.encodeComponent(responseType.toValue())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/gatewayresponses/${Uri.encodeComponent(responseType.value)}',
       exceptionFnMap: _exceptionFns,
     );
     return GatewayResponse.fromJson(response);
@@ -5071,31 +5069,18 @@ class ApiKeyIds {
 }
 
 enum ApiKeySourceType {
-  header,
-  authorizer,
-}
+  header('HEADER'),
+  authorizer('AUTHORIZER'),
+  ;
 
-extension ApiKeySourceTypeValueExtension on ApiKeySourceType {
-  String toValue() {
-    switch (this) {
-      case ApiKeySourceType.header:
-        return 'HEADER';
-      case ApiKeySourceType.authorizer:
-        return 'AUTHORIZER';
-    }
-  }
-}
+  final String value;
 
-extension ApiKeySourceTypeFromString on String {
-  ApiKeySourceType toApiKeySourceType() {
-    switch (this) {
-      case 'HEADER':
-        return ApiKeySourceType.header;
-      case 'AUTHORIZER':
-        return ApiKeySourceType.authorizer;
-    }
-    throw Exception('$this is not known in enum ApiKeySourceType');
-  }
+  const ApiKeySourceType(this.value);
+
+  static ApiKeySourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ApiKeySourceType'));
 }
 
 /// Represents a collection of API keys as represented by an ApiKeys resource.
@@ -5141,26 +5126,17 @@ class ApiKeys {
 }
 
 enum ApiKeysFormat {
-  csv,
-}
+  csv('csv'),
+  ;
 
-extension ApiKeysFormatValueExtension on ApiKeysFormat {
-  String toValue() {
-    switch (this) {
-      case ApiKeysFormat.csv:
-        return 'csv';
-    }
-  }
-}
+  final String value;
 
-extension ApiKeysFormatFromString on String {
-  ApiKeysFormat toApiKeysFormat() {
-    switch (this) {
-      case 'csv':
-        return ApiKeysFormat.csv;
-    }
-    throw Exception('$this is not known in enum ApiKeysFormat');
-  }
+  const ApiKeysFormat(this.value);
+
+  static ApiKeysFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ApiKeysFormat'));
 }
 
 /// API stage name of the associated API stage in a usage plan.
@@ -5315,7 +5291,7 @@ class Authorizer {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      type: (json['type'] as String?)?.toAuthorizerType(),
+      type: (json['type'] as String?)?.let(AuthorizerType.fromString),
     );
   }
 
@@ -5343,7 +5319,7 @@ class Authorizer {
         'identityValidationExpression': identityValidationExpression,
       if (name != null) 'name': name,
       if (providerARNs != null) 'providerARNs': providerARNs,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -5354,36 +5330,19 @@ class Authorizer {
 /// parameters, and <code>COGNITO_USER_POOLS</code> for using an Amazon Cognito
 /// user pool.
 enum AuthorizerType {
-  token,
-  request,
-  cognitoUserPools,
-}
+  token('TOKEN'),
+  request('REQUEST'),
+  cognitoUserPools('COGNITO_USER_POOLS'),
+  ;
 
-extension AuthorizerTypeValueExtension on AuthorizerType {
-  String toValue() {
-    switch (this) {
-      case AuthorizerType.token:
-        return 'TOKEN';
-      case AuthorizerType.request:
-        return 'REQUEST';
-      case AuthorizerType.cognitoUserPools:
-        return 'COGNITO_USER_POOLS';
-    }
-  }
-}
+  final String value;
 
-extension AuthorizerTypeFromString on String {
-  AuthorizerType toAuthorizerType() {
-    switch (this) {
-      case 'TOKEN':
-        return AuthorizerType.token;
-      case 'REQUEST':
-        return AuthorizerType.request;
-      case 'COGNITO_USER_POOLS':
-        return AuthorizerType.cognitoUserPools;
-    }
-    throw Exception('$this is not known in enum AuthorizerType');
-  }
+  const AuthorizerType(this.value);
+
+  static AuthorizerType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AuthorizerType'));
 }
 
 /// Represents a collection of Authorizer resources.
@@ -5489,105 +5448,43 @@ class BasePathMappings {
 
 /// Returns the size of the CacheCluster.
 enum CacheClusterSize {
-  $0_5,
-  $1_6,
-  $6_1,
-  $13_5,
-  $28_4,
-  $58_2,
-  $118,
-  $237,
-}
+  $0_5('0.5'),
+  $1_6('1.6'),
+  $6_1('6.1'),
+  $13_5('13.5'),
+  $28_4('28.4'),
+  $58_2('58.2'),
+  $118('118'),
+  $237('237'),
+  ;
 
-extension CacheClusterSizeValueExtension on CacheClusterSize {
-  String toValue() {
-    switch (this) {
-      case CacheClusterSize.$0_5:
-        return '0.5';
-      case CacheClusterSize.$1_6:
-        return '1.6';
-      case CacheClusterSize.$6_1:
-        return '6.1';
-      case CacheClusterSize.$13_5:
-        return '13.5';
-      case CacheClusterSize.$28_4:
-        return '28.4';
-      case CacheClusterSize.$58_2:
-        return '58.2';
-      case CacheClusterSize.$118:
-        return '118';
-      case CacheClusterSize.$237:
-        return '237';
-    }
-  }
-}
+  final String value;
 
-extension CacheClusterSizeFromString on String {
-  CacheClusterSize toCacheClusterSize() {
-    switch (this) {
-      case '0.5':
-        return CacheClusterSize.$0_5;
-      case '1.6':
-        return CacheClusterSize.$1_6;
-      case '6.1':
-        return CacheClusterSize.$6_1;
-      case '13.5':
-        return CacheClusterSize.$13_5;
-      case '28.4':
-        return CacheClusterSize.$28_4;
-      case '58.2':
-        return CacheClusterSize.$58_2;
-      case '118':
-        return CacheClusterSize.$118;
-      case '237':
-        return CacheClusterSize.$237;
-    }
-    throw Exception('$this is not known in enum CacheClusterSize');
-  }
+  const CacheClusterSize(this.value);
+
+  static CacheClusterSize fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CacheClusterSize'));
 }
 
 /// Returns the status of the CacheCluster.
 enum CacheClusterStatus {
-  createInProgress,
-  available,
-  deleteInProgress,
-  notAvailable,
-  flushInProgress,
-}
+  createInProgress('CREATE_IN_PROGRESS'),
+  available('AVAILABLE'),
+  deleteInProgress('DELETE_IN_PROGRESS'),
+  notAvailable('NOT_AVAILABLE'),
+  flushInProgress('FLUSH_IN_PROGRESS'),
+  ;
 
-extension CacheClusterStatusValueExtension on CacheClusterStatus {
-  String toValue() {
-    switch (this) {
-      case CacheClusterStatus.createInProgress:
-        return 'CREATE_IN_PROGRESS';
-      case CacheClusterStatus.available:
-        return 'AVAILABLE';
-      case CacheClusterStatus.deleteInProgress:
-        return 'DELETE_IN_PROGRESS';
-      case CacheClusterStatus.notAvailable:
-        return 'NOT_AVAILABLE';
-      case CacheClusterStatus.flushInProgress:
-        return 'FLUSH_IN_PROGRESS';
-    }
-  }
-}
+  final String value;
 
-extension CacheClusterStatusFromString on String {
-  CacheClusterStatus toCacheClusterStatus() {
-    switch (this) {
-      case 'CREATE_IN_PROGRESS':
-        return CacheClusterStatus.createInProgress;
-      case 'AVAILABLE':
-        return CacheClusterStatus.available;
-      case 'DELETE_IN_PROGRESS':
-        return CacheClusterStatus.deleteInProgress;
-      case 'NOT_AVAILABLE':
-        return CacheClusterStatus.notAvailable;
-      case 'FLUSH_IN_PROGRESS':
-        return CacheClusterStatus.flushInProgress;
-    }
-    throw Exception('$this is not known in enum CacheClusterStatus');
-  }
+  const CacheClusterStatus(this.value);
+
+  static CacheClusterStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum CacheClusterStatus'));
 }
 
 /// Configuration settings of a canary deployment.
@@ -5738,59 +5635,33 @@ class ClientCertificates {
 }
 
 enum ConnectionType {
-  internet,
-  vpcLink,
-}
+  internet('INTERNET'),
+  vpcLink('VPC_LINK'),
+  ;
 
-extension ConnectionTypeValueExtension on ConnectionType {
-  String toValue() {
-    switch (this) {
-      case ConnectionType.internet:
-        return 'INTERNET';
-      case ConnectionType.vpcLink:
-        return 'VPC_LINK';
-    }
-  }
-}
+  final String value;
 
-extension ConnectionTypeFromString on String {
-  ConnectionType toConnectionType() {
-    switch (this) {
-      case 'INTERNET':
-        return ConnectionType.internet;
-      case 'VPC_LINK':
-        return ConnectionType.vpcLink;
-    }
-    throw Exception('$this is not known in enum ConnectionType');
-  }
+  const ConnectionType(this.value);
+
+  static ConnectionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ConnectionType'));
 }
 
 enum ContentHandlingStrategy {
-  convertToBinary,
-  convertToText,
-}
+  convertToBinary('CONVERT_TO_BINARY'),
+  convertToText('CONVERT_TO_TEXT'),
+  ;
 
-extension ContentHandlingStrategyValueExtension on ContentHandlingStrategy {
-  String toValue() {
-    switch (this) {
-      case ContentHandlingStrategy.convertToBinary:
-        return 'CONVERT_TO_BINARY';
-      case ContentHandlingStrategy.convertToText:
-        return 'CONVERT_TO_TEXT';
-    }
-  }
-}
+  final String value;
 
-extension ContentHandlingStrategyFromString on String {
-  ContentHandlingStrategy toContentHandlingStrategy() {
-    switch (this) {
-      case 'CONVERT_TO_BINARY':
-        return ContentHandlingStrategy.convertToBinary;
-      case 'CONVERT_TO_TEXT':
-        return ContentHandlingStrategy.convertToText;
-    }
-    throw Exception('$this is not known in enum ContentHandlingStrategy');
-  }
+  const ContentHandlingStrategy(this.value);
+
+  static ContentHandlingStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ContentHandlingStrategy'));
 }
 
 /// An immutable representation of a RestApi resource that can be called by
@@ -6063,7 +5934,7 @@ class DocumentationPartLocation {
 
   factory DocumentationPartLocation.fromJson(Map<String, dynamic> json) {
     return DocumentationPartLocation(
-      type: (json['type'] as String).toDocumentationPartType(),
+      type: DocumentationPartType.fromString((json['type'] as String)),
       method: json['method'] as String?,
       name: json['name'] as String?,
       path: json['path'] as String?,
@@ -6078,7 +5949,7 @@ class DocumentationPartLocation {
     final path = this.path;
     final statusCode = this.statusCode;
     return {
-      'type': type.toValue(),
+      'type': type.value,
       if (method != null) 'method': method,
       if (name != null) 'name': name,
       if (path != null) 'path': path,
@@ -6088,81 +5959,28 @@ class DocumentationPartLocation {
 }
 
 enum DocumentationPartType {
-  api,
-  authorizer,
-  model,
-  resource,
-  method,
-  pathParameter,
-  queryParameter,
-  requestHeader,
-  requestBody,
-  response,
-  responseHeader,
-  responseBody,
-}
+  api('API'),
+  authorizer('AUTHORIZER'),
+  model('MODEL'),
+  resource('RESOURCE'),
+  method('METHOD'),
+  pathParameter('PATH_PARAMETER'),
+  queryParameter('QUERY_PARAMETER'),
+  requestHeader('REQUEST_HEADER'),
+  requestBody('REQUEST_BODY'),
+  response('RESPONSE'),
+  responseHeader('RESPONSE_HEADER'),
+  responseBody('RESPONSE_BODY'),
+  ;
 
-extension DocumentationPartTypeValueExtension on DocumentationPartType {
-  String toValue() {
-    switch (this) {
-      case DocumentationPartType.api:
-        return 'API';
-      case DocumentationPartType.authorizer:
-        return 'AUTHORIZER';
-      case DocumentationPartType.model:
-        return 'MODEL';
-      case DocumentationPartType.resource:
-        return 'RESOURCE';
-      case DocumentationPartType.method:
-        return 'METHOD';
-      case DocumentationPartType.pathParameter:
-        return 'PATH_PARAMETER';
-      case DocumentationPartType.queryParameter:
-        return 'QUERY_PARAMETER';
-      case DocumentationPartType.requestHeader:
-        return 'REQUEST_HEADER';
-      case DocumentationPartType.requestBody:
-        return 'REQUEST_BODY';
-      case DocumentationPartType.response:
-        return 'RESPONSE';
-      case DocumentationPartType.responseHeader:
-        return 'RESPONSE_HEADER';
-      case DocumentationPartType.responseBody:
-        return 'RESPONSE_BODY';
-    }
-  }
-}
+  final String value;
 
-extension DocumentationPartTypeFromString on String {
-  DocumentationPartType toDocumentationPartType() {
-    switch (this) {
-      case 'API':
-        return DocumentationPartType.api;
-      case 'AUTHORIZER':
-        return DocumentationPartType.authorizer;
-      case 'MODEL':
-        return DocumentationPartType.model;
-      case 'RESOURCE':
-        return DocumentationPartType.resource;
-      case 'METHOD':
-        return DocumentationPartType.method;
-      case 'PATH_PARAMETER':
-        return DocumentationPartType.pathParameter;
-      case 'QUERY_PARAMETER':
-        return DocumentationPartType.queryParameter;
-      case 'REQUEST_HEADER':
-        return DocumentationPartType.requestHeader;
-      case 'REQUEST_BODY':
-        return DocumentationPartType.requestBody;
-      case 'RESPONSE':
-        return DocumentationPartType.response;
-      case 'RESPONSE_HEADER':
-        return DocumentationPartType.responseHeader;
-      case 'RESPONSE_BODY':
-        return DocumentationPartType.responseBody;
-    }
-    throw Exception('$this is not known in enum DocumentationPartType');
-  }
+  const DocumentationPartType(this.value);
+
+  static DocumentationPartType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DocumentationPartType'));
 }
 
 /// The collection of documentation parts of an API.
@@ -6380,8 +6198,8 @@ class DomainName {
       distributionDomainName: json['distributionDomainName'] as String?,
       distributionHostedZoneId: json['distributionHostedZoneId'] as String?,
       domainName: json['domainName'] as String?,
-      domainNameStatus:
-          (json['domainNameStatus'] as String?)?.toDomainNameStatus(),
+      domainNameStatus: (json['domainNameStatus'] as String?)
+          ?.let(DomainNameStatus.fromString),
       domainNameStatusMessage: json['domainNameStatusMessage'] as String?,
       endpointConfiguration: json['endpointConfiguration'] != null
           ? EndpointConfiguration.fromJson(
@@ -6397,7 +6215,8 @@ class DomainName {
       regionalCertificateName: json['regionalCertificateName'] as String?,
       regionalDomainName: json['regionalDomainName'] as String?,
       regionalHostedZoneId: json['regionalHostedZoneId'] as String?,
-      securityPolicy: (json['securityPolicy'] as String?)?.toSecurityPolicy(),
+      securityPolicy:
+          (json['securityPolicy'] as String?)?.let(SecurityPolicy.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -6432,8 +6251,7 @@ class DomainName {
       if (distributionHostedZoneId != null)
         'distributionHostedZoneId': distributionHostedZoneId,
       if (domainName != null) 'domainName': domainName,
-      if (domainNameStatus != null)
-        'domainNameStatus': domainNameStatus.toValue(),
+      if (domainNameStatus != null) 'domainNameStatus': domainNameStatus.value,
       if (domainNameStatusMessage != null)
         'domainNameStatusMessage': domainNameStatusMessage,
       if (endpointConfiguration != null)
@@ -6450,53 +6268,28 @@ class DomainName {
       if (regionalDomainName != null) 'regionalDomainName': regionalDomainName,
       if (regionalHostedZoneId != null)
         'regionalHostedZoneId': regionalHostedZoneId,
-      if (securityPolicy != null) 'securityPolicy': securityPolicy.toValue(),
+      if (securityPolicy != null) 'securityPolicy': securityPolicy.value,
       if (tags != null) 'tags': tags,
     };
   }
 }
 
 enum DomainNameStatus {
-  available,
-  updating,
-  pending,
-  pendingCertificateReimport,
-  pendingOwnershipVerification,
-}
+  available('AVAILABLE'),
+  updating('UPDATING'),
+  pending('PENDING'),
+  pendingCertificateReimport('PENDING_CERTIFICATE_REIMPORT'),
+  pendingOwnershipVerification('PENDING_OWNERSHIP_VERIFICATION'),
+  ;
 
-extension DomainNameStatusValueExtension on DomainNameStatus {
-  String toValue() {
-    switch (this) {
-      case DomainNameStatus.available:
-        return 'AVAILABLE';
-      case DomainNameStatus.updating:
-        return 'UPDATING';
-      case DomainNameStatus.pending:
-        return 'PENDING';
-      case DomainNameStatus.pendingCertificateReimport:
-        return 'PENDING_CERTIFICATE_REIMPORT';
-      case DomainNameStatus.pendingOwnershipVerification:
-        return 'PENDING_OWNERSHIP_VERIFICATION';
-    }
-  }
-}
+  final String value;
 
-extension DomainNameStatusFromString on String {
-  DomainNameStatus toDomainNameStatus() {
-    switch (this) {
-      case 'AVAILABLE':
-        return DomainNameStatus.available;
-      case 'UPDATING':
-        return DomainNameStatus.updating;
-      case 'PENDING':
-        return DomainNameStatus.pending;
-      case 'PENDING_CERTIFICATE_REIMPORT':
-        return DomainNameStatus.pendingCertificateReimport;
-      case 'PENDING_OWNERSHIP_VERIFICATION':
-        return DomainNameStatus.pendingOwnershipVerification;
-    }
-    throw Exception('$this is not known in enum DomainNameStatus');
-  }
+  const DomainNameStatus(this.value);
+
+  static DomainNameStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DomainNameStatus'));
 }
 
 /// Represents a collection of DomainName resources.
@@ -6553,7 +6346,7 @@ class EndpointConfiguration {
     return EndpointConfiguration(
       types: (json['types'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toEndpointType())
+          .map((e) => EndpointType.fromString((e as String)))
           .toList(),
       vpcEndpointIds: (json['vpcEndpointIds'] as List?)
           ?.whereNotNull()
@@ -6566,7 +6359,7 @@ class EndpointConfiguration {
     final types = this.types;
     final vpcEndpointIds = this.vpcEndpointIds;
     return {
-      if (types != null) 'types': types.map((e) => e.toValue()).toList(),
+      if (types != null) 'types': types.map((e) => e.value).toList(),
       if (vpcEndpointIds != null) 'vpcEndpointIds': vpcEndpointIds,
     };
   }
@@ -6577,36 +6370,19 @@ class EndpointConfiguration {
 /// regional API endpoint setup, most suitable for calling from AWS Region; and
 /// <code>PRIVATE</code> for private APIs.
 enum EndpointType {
-  regional,
-  edge,
-  private,
-}
+  regional('REGIONAL'),
+  edge('EDGE'),
+  private('PRIVATE'),
+  ;
 
-extension EndpointTypeValueExtension on EndpointType {
-  String toValue() {
-    switch (this) {
-      case EndpointType.regional:
-        return 'REGIONAL';
-      case EndpointType.edge:
-        return 'EDGE';
-      case EndpointType.private:
-        return 'PRIVATE';
-    }
-  }
-}
+  final String value;
 
-extension EndpointTypeFromString on String {
-  EndpointType toEndpointType() {
-    switch (this) {
-      case 'REGIONAL':
-        return EndpointType.regional;
-      case 'EDGE':
-        return EndpointType.edge;
-      case 'PRIVATE':
-        return EndpointType.private;
-    }
-    throw Exception('$this is not known in enum EndpointType');
-  }
+  const EndpointType(this.value);
+
+  static EndpointType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EndpointType'));
 }
 
 /// The binary blob response to GetExport, which contains the generated SDK.
@@ -6675,7 +6451,8 @@ class GatewayResponse {
           ?.map((k, e) => MapEntry(k, e as String)),
       responseTemplates: (json['responseTemplates'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
-      responseType: (json['responseType'] as String?)?.toGatewayResponseType(),
+      responseType: (json['responseType'] as String?)
+          ?.let(GatewayResponseType.fromString),
       statusCode: json['statusCode'] as String?,
     );
   }
@@ -6690,133 +6467,44 @@ class GatewayResponse {
       if (defaultResponse != null) 'defaultResponse': defaultResponse,
       if (responseParameters != null) 'responseParameters': responseParameters,
       if (responseTemplates != null) 'responseTemplates': responseTemplates,
-      if (responseType != null) 'responseType': responseType.toValue(),
+      if (responseType != null) 'responseType': responseType.value,
       if (statusCode != null) 'statusCode': statusCode,
     };
   }
 }
 
 enum GatewayResponseType {
-  default_4xx,
-  default_5xx,
-  resourceNotFound,
-  unauthorized,
-  invalidApiKey,
-  accessDenied,
-  authorizerFailure,
-  authorizerConfigurationError,
-  invalidSignature,
-  expiredToken,
-  missingAuthenticationToken,
-  integrationFailure,
-  integrationTimeout,
-  apiConfigurationError,
-  unsupportedMediaType,
-  badRequestParameters,
-  badRequestBody,
-  requestTooLarge,
-  throttled,
-  quotaExceeded,
-  wafFiltered,
-}
+  default_4xx('DEFAULT_4XX'),
+  default_5xx('DEFAULT_5XX'),
+  resourceNotFound('RESOURCE_NOT_FOUND'),
+  unauthorized('UNAUTHORIZED'),
+  invalidApiKey('INVALID_API_KEY'),
+  accessDenied('ACCESS_DENIED'),
+  authorizerFailure('AUTHORIZER_FAILURE'),
+  authorizerConfigurationError('AUTHORIZER_CONFIGURATION_ERROR'),
+  invalidSignature('INVALID_SIGNATURE'),
+  expiredToken('EXPIRED_TOKEN'),
+  missingAuthenticationToken('MISSING_AUTHENTICATION_TOKEN'),
+  integrationFailure('INTEGRATION_FAILURE'),
+  integrationTimeout('INTEGRATION_TIMEOUT'),
+  apiConfigurationError('API_CONFIGURATION_ERROR'),
+  unsupportedMediaType('UNSUPPORTED_MEDIA_TYPE'),
+  badRequestParameters('BAD_REQUEST_PARAMETERS'),
+  badRequestBody('BAD_REQUEST_BODY'),
+  requestTooLarge('REQUEST_TOO_LARGE'),
+  throttled('THROTTLED'),
+  quotaExceeded('QUOTA_EXCEEDED'),
+  wafFiltered('WAF_FILTERED'),
+  ;
 
-extension GatewayResponseTypeValueExtension on GatewayResponseType {
-  String toValue() {
-    switch (this) {
-      case GatewayResponseType.default_4xx:
-        return 'DEFAULT_4XX';
-      case GatewayResponseType.default_5xx:
-        return 'DEFAULT_5XX';
-      case GatewayResponseType.resourceNotFound:
-        return 'RESOURCE_NOT_FOUND';
-      case GatewayResponseType.unauthorized:
-        return 'UNAUTHORIZED';
-      case GatewayResponseType.invalidApiKey:
-        return 'INVALID_API_KEY';
-      case GatewayResponseType.accessDenied:
-        return 'ACCESS_DENIED';
-      case GatewayResponseType.authorizerFailure:
-        return 'AUTHORIZER_FAILURE';
-      case GatewayResponseType.authorizerConfigurationError:
-        return 'AUTHORIZER_CONFIGURATION_ERROR';
-      case GatewayResponseType.invalidSignature:
-        return 'INVALID_SIGNATURE';
-      case GatewayResponseType.expiredToken:
-        return 'EXPIRED_TOKEN';
-      case GatewayResponseType.missingAuthenticationToken:
-        return 'MISSING_AUTHENTICATION_TOKEN';
-      case GatewayResponseType.integrationFailure:
-        return 'INTEGRATION_FAILURE';
-      case GatewayResponseType.integrationTimeout:
-        return 'INTEGRATION_TIMEOUT';
-      case GatewayResponseType.apiConfigurationError:
-        return 'API_CONFIGURATION_ERROR';
-      case GatewayResponseType.unsupportedMediaType:
-        return 'UNSUPPORTED_MEDIA_TYPE';
-      case GatewayResponseType.badRequestParameters:
-        return 'BAD_REQUEST_PARAMETERS';
-      case GatewayResponseType.badRequestBody:
-        return 'BAD_REQUEST_BODY';
-      case GatewayResponseType.requestTooLarge:
-        return 'REQUEST_TOO_LARGE';
-      case GatewayResponseType.throttled:
-        return 'THROTTLED';
-      case GatewayResponseType.quotaExceeded:
-        return 'QUOTA_EXCEEDED';
-      case GatewayResponseType.wafFiltered:
-        return 'WAF_FILTERED';
-    }
-  }
-}
+  final String value;
 
-extension GatewayResponseTypeFromString on String {
-  GatewayResponseType toGatewayResponseType() {
-    switch (this) {
-      case 'DEFAULT_4XX':
-        return GatewayResponseType.default_4xx;
-      case 'DEFAULT_5XX':
-        return GatewayResponseType.default_5xx;
-      case 'RESOURCE_NOT_FOUND':
-        return GatewayResponseType.resourceNotFound;
-      case 'UNAUTHORIZED':
-        return GatewayResponseType.unauthorized;
-      case 'INVALID_API_KEY':
-        return GatewayResponseType.invalidApiKey;
-      case 'ACCESS_DENIED':
-        return GatewayResponseType.accessDenied;
-      case 'AUTHORIZER_FAILURE':
-        return GatewayResponseType.authorizerFailure;
-      case 'AUTHORIZER_CONFIGURATION_ERROR':
-        return GatewayResponseType.authorizerConfigurationError;
-      case 'INVALID_SIGNATURE':
-        return GatewayResponseType.invalidSignature;
-      case 'EXPIRED_TOKEN':
-        return GatewayResponseType.expiredToken;
-      case 'MISSING_AUTHENTICATION_TOKEN':
-        return GatewayResponseType.missingAuthenticationToken;
-      case 'INTEGRATION_FAILURE':
-        return GatewayResponseType.integrationFailure;
-      case 'INTEGRATION_TIMEOUT':
-        return GatewayResponseType.integrationTimeout;
-      case 'API_CONFIGURATION_ERROR':
-        return GatewayResponseType.apiConfigurationError;
-      case 'UNSUPPORTED_MEDIA_TYPE':
-        return GatewayResponseType.unsupportedMediaType;
-      case 'BAD_REQUEST_PARAMETERS':
-        return GatewayResponseType.badRequestParameters;
-      case 'BAD_REQUEST_BODY':
-        return GatewayResponseType.badRequestBody;
-      case 'REQUEST_TOO_LARGE':
-        return GatewayResponseType.requestTooLarge;
-      case 'THROTTLED':
-        return GatewayResponseType.throttled;
-      case 'QUOTA_EXCEEDED':
-        return GatewayResponseType.quotaExceeded;
-      case 'WAF_FILTERED':
-        return GatewayResponseType.wafFiltered;
-    }
-    throw Exception('$this is not known in enum GatewayResponseType');
-  }
+  const GatewayResponseType(this.value);
+
+  static GatewayResponseType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum GatewayResponseType'));
 }
 
 /// The collection of the GatewayResponse instances of a RestApi as a
@@ -7011,9 +6699,10 @@ class Integration {
           .toList(),
       cacheNamespace: json['cacheNamespace'] as String?,
       connectionId: json['connectionId'] as String?,
-      connectionType: (json['connectionType'] as String?)?.toConnectionType(),
-      contentHandling:
-          (json['contentHandling'] as String?)?.toContentHandlingStrategy(),
+      connectionType:
+          (json['connectionType'] as String?)?.let(ConnectionType.fromString),
+      contentHandling: (json['contentHandling'] as String?)
+          ?.let(ContentHandlingStrategy.fromString),
       credentials: json['credentials'] as String?,
       httpMethod: json['httpMethod'] as String?,
       integrationResponses:
@@ -7029,7 +6718,7 @@ class Integration {
       tlsConfig: json['tlsConfig'] != null
           ? TlsConfig.fromJson(json['tlsConfig'] as Map<String, dynamic>)
           : null,
-      type: (json['type'] as String?)?.toIntegrationType(),
+      type: (json['type'] as String?)?.let(IntegrationType.fromString),
       uri: json['uri'] as String?,
     );
   }
@@ -7054,8 +6743,8 @@ class Integration {
       if (cacheKeyParameters != null) 'cacheKeyParameters': cacheKeyParameters,
       if (cacheNamespace != null) 'cacheNamespace': cacheNamespace,
       if (connectionId != null) 'connectionId': connectionId,
-      if (connectionType != null) 'connectionType': connectionType.toValue(),
-      if (contentHandling != null) 'contentHandling': contentHandling.toValue(),
+      if (connectionType != null) 'connectionType': connectionType.value,
+      if (contentHandling != null) 'contentHandling': contentHandling.value,
       if (credentials != null) 'credentials': credentials,
       if (httpMethod != null) 'httpMethod': httpMethod,
       if (integrationResponses != null)
@@ -7066,7 +6755,7 @@ class Integration {
       if (requestTemplates != null) 'requestTemplates': requestTemplates,
       if (timeoutInMillis != null) 'timeoutInMillis': timeoutInMillis,
       if (tlsConfig != null) 'tlsConfig': tlsConfig,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
       if (uri != null) 'uri': uri,
     };
   }
@@ -7127,8 +6816,8 @@ class IntegrationResponse {
 
   factory IntegrationResponse.fromJson(Map<String, dynamic> json) {
     return IntegrationResponse(
-      contentHandling:
-          (json['contentHandling'] as String?)?.toContentHandlingStrategy(),
+      contentHandling: (json['contentHandling'] as String?)
+          ?.let(ContentHandlingStrategy.fromString),
       responseParameters: (json['responseParameters'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       responseTemplates: (json['responseTemplates'] as Map<String, dynamic>?)
@@ -7145,7 +6834,7 @@ class IntegrationResponse {
     final selectionPattern = this.selectionPattern;
     final statusCode = this.statusCode;
     return {
-      if (contentHandling != null) 'contentHandling': contentHandling.toValue(),
+      if (contentHandling != null) 'contentHandling': contentHandling.value,
       if (responseParameters != null) 'responseParameters': responseParameters,
       if (responseTemplates != null) 'responseTemplates': responseTemplates,
       if (selectionPattern != null) 'selectionPattern': selectionPattern,
@@ -7161,74 +6850,36 @@ class IntegrationResponse {
 /// proxy integration; <code>AWS_PROXY</code> for integrating with the Lambda
 /// proxy integration.
 enum IntegrationType {
-  http,
-  aws,
-  mock,
-  httpProxy,
-  awsProxy,
-}
+  http('HTTP'),
+  aws('AWS'),
+  mock('MOCK'),
+  httpProxy('HTTP_PROXY'),
+  awsProxy('AWS_PROXY'),
+  ;
 
-extension IntegrationTypeValueExtension on IntegrationType {
-  String toValue() {
-    switch (this) {
-      case IntegrationType.http:
-        return 'HTTP';
-      case IntegrationType.aws:
-        return 'AWS';
-      case IntegrationType.mock:
-        return 'MOCK';
-      case IntegrationType.httpProxy:
-        return 'HTTP_PROXY';
-      case IntegrationType.awsProxy:
-        return 'AWS_PROXY';
-    }
-  }
-}
+  final String value;
 
-extension IntegrationTypeFromString on String {
-  IntegrationType toIntegrationType() {
-    switch (this) {
-      case 'HTTP':
-        return IntegrationType.http;
-      case 'AWS':
-        return IntegrationType.aws;
-      case 'MOCK':
-        return IntegrationType.mock;
-      case 'HTTP_PROXY':
-        return IntegrationType.httpProxy;
-      case 'AWS_PROXY':
-        return IntegrationType.awsProxy;
-    }
-    throw Exception('$this is not known in enum IntegrationType');
-  }
+  const IntegrationType(this.value);
+
+  static IntegrationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum IntegrationType'));
 }
 
 enum LocationStatusType {
-  documented,
-  undocumented,
-}
+  documented('DOCUMENTED'),
+  undocumented('UNDOCUMENTED'),
+  ;
 
-extension LocationStatusTypeValueExtension on LocationStatusType {
-  String toValue() {
-    switch (this) {
-      case LocationStatusType.documented:
-        return 'DOCUMENTED';
-      case LocationStatusType.undocumented:
-        return 'UNDOCUMENTED';
-    }
-  }
-}
+  final String value;
 
-extension LocationStatusTypeFromString on String {
-  LocationStatusType toLocationStatusType() {
-    switch (this) {
-      case 'DOCUMENTED':
-        return LocationStatusType.documented;
-      case 'UNDOCUMENTED':
-        return LocationStatusType.undocumented;
-    }
-    throw Exception('$this is not known in enum LocationStatusType');
-  }
+  const LocationStatusType(this.value);
+
+  static LocationStatusType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum LocationStatusType'));
 }
 
 /// Represents a client-facing interface by which the client calls the API to
@@ -7501,7 +7152,7 @@ class MethodSetting {
       throttlingRateLimit: json['throttlingRateLimit'] as double?,
       unauthorizedCacheControlHeaderStrategy:
           (json['unauthorizedCacheControlHeaderStrategy'] as String?)
-              ?.toUnauthorizedCacheControlHeaderStrategy(),
+              ?.let(UnauthorizedCacheControlHeaderStrategy.fromString),
     );
   }
 
@@ -7534,7 +7185,7 @@ class MethodSetting {
         'throttlingRateLimit': throttlingRateLimit,
       if (unauthorizedCacheControlHeaderStrategy != null)
         'unauthorizedCacheControlHeaderStrategy':
-            unauthorizedCacheControlHeaderStrategy.toValue(),
+            unauthorizedCacheControlHeaderStrategy.value,
     };
   }
 }
@@ -7745,51 +7396,21 @@ class MutualTlsAuthenticationInput {
 }
 
 enum Op {
-  add,
-  remove,
-  replace,
-  move,
-  copy,
-  test,
-}
+  add('add'),
+  remove('remove'),
+  replace('replace'),
+  move('move'),
+  copy('copy'),
+  test('test'),
+  ;
 
-extension OpValueExtension on Op {
-  String toValue() {
-    switch (this) {
-      case Op.add:
-        return 'add';
-      case Op.remove:
-        return 'remove';
-      case Op.replace:
-        return 'replace';
-      case Op.move:
-        return 'move';
-      case Op.copy:
-        return 'copy';
-      case Op.test:
-        return 'test';
-    }
-  }
-}
+  final String value;
 
-extension OpFromString on String {
-  Op toOp() {
-    switch (this) {
-      case 'add':
-        return Op.add;
-      case 'remove':
-        return Op.remove;
-      case 'replace':
-        return Op.replace;
-      case 'move':
-        return Op.move;
-      case 'copy':
-        return Op.copy;
-      case 'test':
-        return Op.test;
-    }
-    throw Exception('$this is not known in enum Op');
-  }
+  const Op(this.value);
+
+  static Op fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Op'));
 }
 
 /// For more information about supported patch operations, see <a
@@ -7841,7 +7462,7 @@ class PatchOperation {
     final value = this.value;
     return {
       if (from != null) 'from': from,
-      if (op != null) 'op': op.toValue(),
+      if (op != null) 'op': op.value,
       if (path != null) 'path': path,
       if (value != null) 'value': value,
     };
@@ -7849,64 +7470,33 @@ class PatchOperation {
 }
 
 enum PutMode {
-  merge,
-  overwrite,
-}
+  merge('merge'),
+  overwrite('overwrite'),
+  ;
 
-extension PutModeValueExtension on PutMode {
-  String toValue() {
-    switch (this) {
-      case PutMode.merge:
-        return 'merge';
-      case PutMode.overwrite:
-        return 'overwrite';
-    }
-  }
-}
+  final String value;
 
-extension PutModeFromString on String {
-  PutMode toPutMode() {
-    switch (this) {
-      case 'merge':
-        return PutMode.merge;
-      case 'overwrite':
-        return PutMode.overwrite;
-    }
-    throw Exception('$this is not known in enum PutMode');
-  }
+  const PutMode(this.value);
+
+  static PutMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum PutMode'));
 }
 
 enum QuotaPeriodType {
-  day,
-  week,
-  month,
-}
+  day('DAY'),
+  week('WEEK'),
+  month('MONTH'),
+  ;
 
-extension QuotaPeriodTypeValueExtension on QuotaPeriodType {
-  String toValue() {
-    switch (this) {
-      case QuotaPeriodType.day:
-        return 'DAY';
-      case QuotaPeriodType.week:
-        return 'WEEK';
-      case QuotaPeriodType.month:
-        return 'MONTH';
-    }
-  }
-}
+  final String value;
 
-extension QuotaPeriodTypeFromString on String {
-  QuotaPeriodType toQuotaPeriodType() {
-    switch (this) {
-      case 'DAY':
-        return QuotaPeriodType.day;
-      case 'WEEK':
-        return QuotaPeriodType.week;
-      case 'MONTH':
-        return QuotaPeriodType.month;
-    }
-    throw Exception('$this is not known in enum QuotaPeriodType');
-  }
+  const QuotaPeriodType(this.value);
+
+  static QuotaPeriodType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum QuotaPeriodType'));
 }
 
 /// Quotas configured for a usage plan.
@@ -7933,7 +7523,7 @@ class QuotaSettings {
     return QuotaSettings(
       limit: json['limit'] as int?,
       offset: json['offset'] as int?,
-      period: (json['period'] as String?)?.toQuotaPeriodType(),
+      period: (json['period'] as String?)?.let(QuotaPeriodType.fromString),
     );
   }
 
@@ -7944,7 +7534,7 @@ class QuotaSettings {
     return {
       if (limit != null) 'limit': limit,
       if (offset != null) 'offset': offset,
-      if (period != null) 'period': period.toValue(),
+      if (period != null) 'period': period.value,
     };
   }
 }
@@ -8193,7 +7783,8 @@ class RestApi {
 
   factory RestApi.fromJson(Map<String, dynamic> json) {
     return RestApi(
-      apiKeySource: (json['apiKeySource'] as String?)?.toApiKeySourceType(),
+      apiKeySource:
+          (json['apiKeySource'] as String?)?.let(ApiKeySourceType.fromString),
       binaryMediaTypes: (json['binaryMediaTypes'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -8236,7 +7827,7 @@ class RestApi {
     final version = this.version;
     final warnings = this.warnings;
     return {
-      if (apiKeySource != null) 'apiKeySource': apiKeySource.toValue(),
+      if (apiKeySource != null) 'apiKeySource': apiKeySource.value,
       if (binaryMediaTypes != null) 'binaryMediaTypes': binaryMediaTypes,
       if (createdDate != null) 'createdDate': unixTimestampToJson(createdDate),
       if (description != null) 'description': description,
@@ -8450,31 +8041,18 @@ class SdkTypes {
 }
 
 enum SecurityPolicy {
-  tls_1_0,
-  tls_1_2,
-}
+  tls_1_0('TLS_1_0'),
+  tls_1_2('TLS_1_2'),
+  ;
 
-extension SecurityPolicyValueExtension on SecurityPolicy {
-  String toValue() {
-    switch (this) {
-      case SecurityPolicy.tls_1_0:
-        return 'TLS_1_0';
-      case SecurityPolicy.tls_1_2:
-        return 'TLS_1_2';
-    }
-  }
-}
+  final String value;
 
-extension SecurityPolicyFromString on String {
-  SecurityPolicy toSecurityPolicy() {
-    switch (this) {
-      case 'TLS_1_0':
-        return SecurityPolicy.tls_1_0;
-      case 'TLS_1_2':
-        return SecurityPolicy.tls_1_2;
-    }
-    throw Exception('$this is not known in enum SecurityPolicy');
-  }
+  const SecurityPolicy(this.value);
+
+  static SecurityPolicy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SecurityPolicy'));
 }
 
 /// Represents a unique identifier for a version of a deployed RestApi that is
@@ -8573,10 +8151,10 @@ class Stage {
               json['accessLogSettings'] as Map<String, dynamic>)
           : null,
       cacheClusterEnabled: json['cacheClusterEnabled'] as bool?,
-      cacheClusterSize:
-          (json['cacheClusterSize'] as String?)?.toCacheClusterSize(),
-      cacheClusterStatus:
-          (json['cacheClusterStatus'] as String?)?.toCacheClusterStatus(),
+      cacheClusterSize: (json['cacheClusterSize'] as String?)
+          ?.let(CacheClusterSize.fromString),
+      cacheClusterStatus: (json['cacheClusterStatus'] as String?)
+          ?.let(CacheClusterStatus.fromString),
       canarySettings: json['canarySettings'] != null
           ? CanarySettings.fromJson(
               json['canarySettings'] as Map<String, dynamic>)
@@ -8622,10 +8200,9 @@ class Stage {
       if (accessLogSettings != null) 'accessLogSettings': accessLogSettings,
       if (cacheClusterEnabled != null)
         'cacheClusterEnabled': cacheClusterEnabled,
-      if (cacheClusterSize != null)
-        'cacheClusterSize': cacheClusterSize.toValue(),
+      if (cacheClusterSize != null) 'cacheClusterSize': cacheClusterSize.value,
       if (cacheClusterStatus != null)
-        'cacheClusterStatus': cacheClusterStatus.toValue(),
+        'cacheClusterStatus': cacheClusterStatus.value,
       if (canarySettings != null) 'canarySettings': canarySettings,
       if (clientCertificateId != null)
         'clientCertificateId': clientCertificateId,
@@ -8946,40 +8523,19 @@ class TlsConfig {
 }
 
 enum UnauthorizedCacheControlHeaderStrategy {
-  failWith_403,
-  succeedWithResponseHeader,
-  succeedWithoutResponseHeader,
-}
+  failWith_403('FAIL_WITH_403'),
+  succeedWithResponseHeader('SUCCEED_WITH_RESPONSE_HEADER'),
+  succeedWithoutResponseHeader('SUCCEED_WITHOUT_RESPONSE_HEADER'),
+  ;
 
-extension UnauthorizedCacheControlHeaderStrategyValueExtension
-    on UnauthorizedCacheControlHeaderStrategy {
-  String toValue() {
-    switch (this) {
-      case UnauthorizedCacheControlHeaderStrategy.failWith_403:
-        return 'FAIL_WITH_403';
-      case UnauthorizedCacheControlHeaderStrategy.succeedWithResponseHeader:
-        return 'SUCCEED_WITH_RESPONSE_HEADER';
-      case UnauthorizedCacheControlHeaderStrategy.succeedWithoutResponseHeader:
-        return 'SUCCEED_WITHOUT_RESPONSE_HEADER';
-    }
-  }
-}
+  final String value;
 
-extension UnauthorizedCacheControlHeaderStrategyFromString on String {
-  UnauthorizedCacheControlHeaderStrategy
-      toUnauthorizedCacheControlHeaderStrategy() {
-    switch (this) {
-      case 'FAIL_WITH_403':
-        return UnauthorizedCacheControlHeaderStrategy.failWith_403;
-      case 'SUCCEED_WITH_RESPONSE_HEADER':
-        return UnauthorizedCacheControlHeaderStrategy.succeedWithResponseHeader;
-      case 'SUCCEED_WITHOUT_RESPONSE_HEADER':
-        return UnauthorizedCacheControlHeaderStrategy
-            .succeedWithoutResponseHeader;
-    }
-    throw Exception(
-        '$this is not known in enum UnauthorizedCacheControlHeaderStrategy');
-  }
+  const UnauthorizedCacheControlHeaderStrategy(this.value);
+
+  static UnauthorizedCacheControlHeaderStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum UnauthorizedCacheControlHeaderStrategy'));
 }
 
 /// Represents the usage data of a usage plan.
@@ -9287,7 +8843,7 @@ class VpcLink {
       description: json['description'] as String?,
       id: json['id'] as String?,
       name: json['name'] as String?,
-      status: (json['status'] as String?)?.toVpcLinkStatus(),
+      status: (json['status'] as String?)?.let(VpcLinkStatus.fromString),
       statusMessage: json['statusMessage'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -9310,7 +8866,7 @@ class VpcLink {
       if (description != null) 'description': description,
       if (id != null) 'id': id,
       if (name != null) 'name': name,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (statusMessage != null) 'statusMessage': statusMessage,
       if (tags != null) 'tags': tags,
       if (targetArns != null) 'targetArns': targetArns,
@@ -9319,41 +8875,20 @@ class VpcLink {
 }
 
 enum VpcLinkStatus {
-  available,
-  pending,
-  deleting,
-  failed,
-}
+  available('AVAILABLE'),
+  pending('PENDING'),
+  deleting('DELETING'),
+  failed('FAILED'),
+  ;
 
-extension VpcLinkStatusValueExtension on VpcLinkStatus {
-  String toValue() {
-    switch (this) {
-      case VpcLinkStatus.available:
-        return 'AVAILABLE';
-      case VpcLinkStatus.pending:
-        return 'PENDING';
-      case VpcLinkStatus.deleting:
-        return 'DELETING';
-      case VpcLinkStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension VpcLinkStatusFromString on String {
-  VpcLinkStatus toVpcLinkStatus() {
-    switch (this) {
-      case 'AVAILABLE':
-        return VpcLinkStatus.available;
-      case 'PENDING':
-        return VpcLinkStatus.pending;
-      case 'DELETING':
-        return VpcLinkStatus.deleting;
-      case 'FAILED':
-        return VpcLinkStatus.failed;
-    }
-    throw Exception('$this is not known in enum VpcLinkStatus');
-  }
+  const VpcLinkStatus(this.value);
+
+  static VpcLinkStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum VpcLinkStatus'));
 }
 
 /// The collection of VPC links under the caller's account in a region.

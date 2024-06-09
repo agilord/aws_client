@@ -344,7 +344,7 @@ class IoTWireless {
   }) async {
     final $payload = <String, dynamic>{
       'Expression': expression,
-      'ExpressionType': expressionType.toValue(),
+      'ExpressionType': expressionType.value,
       'Name': name,
       'RoleArn': roleArn,
       'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
@@ -682,12 +682,12 @@ class IoTWireless {
   }) async {
     final $payload = <String, dynamic>{
       'DestinationName': destinationName,
-      'Type': type.toValue(),
+      'Type': type.value,
       'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (description != null) 'Description': description,
       if (loRaWAN != null) 'LoRaWAN': loRaWAN,
       if (name != null) 'Name': name,
-      if (positioning != null) 'Positioning': positioning.toValue(),
+      if (positioning != null) 'Positioning': positioning.value,
       if (sidewalk != null) 'Sidewalk': sidewalk,
       if (tags != null) 'Tags': tags,
     };
@@ -989,7 +989,7 @@ class IoTWireless {
     final $query = <String, List<String>>{
       'messageId': [messageId],
       if (wirelessDeviceType != null)
-        'WirelessDeviceType': [wirelessDeviceType.toValue()],
+        'WirelessDeviceType': [wirelessDeviceType.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1165,7 +1165,7 @@ class IoTWireless {
   }) async {
     final $query = <String, List<String>>{
       if (wirelessDeviceType != null)
-        'WirelessDeviceType': [wirelessDeviceType.toValue()],
+        'WirelessDeviceType': [wirelessDeviceType.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1197,7 +1197,7 @@ class IoTWireless {
     required PartnerType partnerType,
   }) async {
     final $query = <String, List<String>>{
-      'partnerType': [partnerType.toValue()],
+      'partnerType': [partnerType.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1557,7 +1557,7 @@ class IoTWireless {
     required PartnerType partnerType,
   }) async {
     final $query = <String, List<String>>{
-      'partnerType': [partnerType.toValue()],
+      'partnerType': [partnerType.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1594,7 +1594,7 @@ class IoTWireless {
     required PositionResourceType resourceType,
   }) async {
     final $query = <String, List<String>>{
-      'resourceType': [resourceType.toValue()],
+      'resourceType': [resourceType.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1632,7 +1632,7 @@ class IoTWireless {
     required PositionResourceType resourceType,
   }) async {
     final $query = <String, List<String>>{
-      'resourceType': [resourceType.toValue()],
+      'resourceType': [resourceType.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1727,8 +1727,8 @@ class IoTWireless {
     EventNotificationPartnerType? partnerType,
   }) async {
     final $query = <String, List<String>>{
-      'identifierType': [identifierType.toValue()],
-      if (partnerType != null) 'partnerType': [partnerType.toValue()],
+      'identifierType': [identifierType.value],
+      if (partnerType != null) 'partnerType': [partnerType.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1793,7 +1793,7 @@ class IoTWireless {
     required PositionResourceType resourceType,
   }) async {
     final $query = <String, List<String>>{
-      'resourceType': [resourceType.toValue()],
+      'resourceType': [resourceType.value],
     };
     final response = await _protocol.sendRaw(
       payload: null,
@@ -1825,7 +1825,7 @@ class IoTWireless {
     WirelessGatewayServiceType? serviceType,
   }) async {
     final $query = <String, List<String>>{
-      if (serviceType != null) 'serviceType': [serviceType.toValue()],
+      if (serviceType != null) 'serviceType': [serviceType.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1877,7 +1877,7 @@ class IoTWireless {
     required WirelessDeviceIdType identifierType,
   }) async {
     final $query = <String, List<String>>{
-      'identifierType': [identifierType.toValue()],
+      'identifierType': [identifierType.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1954,7 +1954,7 @@ class IoTWireless {
     required WirelessGatewayIdType identifierType,
   }) async {
     final $query = <String, List<String>>{
-      'identifierType': [identifierType.toValue()],
+      'identifierType': [identifierType.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -2151,7 +2151,7 @@ class IoTWireless {
     );
     final $query = <String, List<String>>{
       if (deviceProfileType != null)
-        'deviceProfileType': [deviceProfileType.toValue()],
+        'deviceProfileType': [deviceProfileType.value],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -2201,7 +2201,7 @@ class IoTWireless {
       'id': [id],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (status != null) 'status': [status.toValue()],
+      if (status != null) 'status': [status.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -2239,7 +2239,7 @@ class IoTWireless {
       250,
     );
     final $query = <String, List<String>>{
-      'resourceType': [resourceType.toValue()],
+      'resourceType': [resourceType.value],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -2471,7 +2471,7 @@ class IoTWireless {
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (resourceType != null) 'resourceType': [resourceType.toValue()],
+      if (resourceType != null) 'resourceType': [resourceType.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -2521,7 +2521,7 @@ class IoTWireless {
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
       if (wirelessDeviceType != null)
-        'WirelessDeviceType': [wirelessDeviceType.toValue()],
+        'WirelessDeviceType': [wirelessDeviceType.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -2686,7 +2686,7 @@ class IoTWireless {
       if (nextToken != null) 'nextToken': [nextToken],
       if (serviceProfileId != null) 'serviceProfileId': [serviceProfileId],
       if (wirelessDeviceType != null)
-        'wirelessDeviceType': [wirelessDeviceType.toValue()],
+        'wirelessDeviceType': [wirelessDeviceType.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -2733,7 +2733,7 @@ class IoTWireless {
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
       if (taskDefinitionType != null)
-        'taskDefinitionType': [taskDefinitionType.toValue()],
+        'taskDefinitionType': [taskDefinitionType.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -2819,7 +2819,7 @@ class IoTWireless {
     PositionSolverConfigurations? solvers,
   }) async {
     final $query = <String, List<String>>{
-      'resourceType': [resourceType.toValue()],
+      'resourceType': [resourceType.value],
     };
     final $payload = <String, dynamic>{
       if (destination != null) 'Destination': destination,
@@ -2857,7 +2857,7 @@ class IoTWireless {
       'resourceType': [resourceType],
     };
     final $payload = <String, dynamic>{
-      'LogLevel': logLevel.toValue(),
+      'LogLevel': logLevel.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -3279,7 +3279,7 @@ class IoTWireless {
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
       if (expression != null) 'Expression': expression,
-      if (expressionType != null) 'ExpressionType': expressionType.toValue(),
+      if (expressionType != null) 'ExpressionType': expressionType.value,
       if (roleArn != null) 'RoleArn': roleArn,
     };
     final response = await _protocol.send(
@@ -3413,7 +3413,7 @@ class IoTWireless {
     List<WirelessGatewayLogOption>? wirelessGatewayLogOptions,
   }) async {
     final $payload = <String, dynamic>{
-      if (defaultLogLevel != null) 'DefaultLogLevel': defaultLogLevel.toValue(),
+      if (defaultLogLevel != null) 'DefaultLogLevel': defaultLogLevel.value,
       if (wirelessDeviceLogOptions != null)
         'WirelessDeviceLogOptions': wirelessDeviceLogOptions,
       if (wirelessGatewayLogOptions != null)
@@ -3573,7 +3573,7 @@ class IoTWireless {
     required SidewalkUpdateAccount sidewalk,
   }) async {
     final $query = <String, List<String>>{
-      'partnerType': [partnerType.toValue()],
+      'partnerType': [partnerType.value],
     };
     final $payload = <String, dynamic>{
       'Sidewalk': sidewalk,
@@ -3616,7 +3616,7 @@ class IoTWireless {
     required PositionResourceType resourceType,
   }) async {
     final $query = <String, List<String>>{
-      'resourceType': [resourceType.toValue()],
+      'resourceType': [resourceType.value],
     };
     final $payload = <String, dynamic>{
       'Position': position,
@@ -3675,8 +3675,8 @@ class IoTWireless {
     ProximityEventConfiguration? proximity,
   }) async {
     final $query = <String, List<String>>{
-      'identifierType': [identifierType.toValue()],
-      if (partnerType != null) 'partnerType': [partnerType.toValue()],
+      'identifierType': [identifierType.value],
+      if (partnerType != null) 'partnerType': [partnerType.value],
     };
     final $payload = <String, dynamic>{
       if (connectionStatus != null) 'ConnectionStatus': connectionStatus,
@@ -3727,7 +3727,7 @@ class IoTWireless {
     Uint8List? geoJsonPayload,
   }) async {
     final $query = <String, List<String>>{
-      'resourceType': [resourceType.toValue()],
+      'resourceType': [resourceType.value],
     };
     final response = await _protocol.send(
       payload: geoJsonPayload,
@@ -3778,7 +3778,7 @@ class IoTWireless {
       if (destinationName != null) 'DestinationName': destinationName,
       if (loRaWAN != null) 'LoRaWAN': loRaWAN,
       if (name != null) 'Name': name,
-      if (positioning != null) 'Positioning': positioning.toValue(),
+      if (positioning != null) 'Positioning': positioning.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -3984,36 +3984,19 @@ class Accuracy {
 }
 
 enum AggregationPeriod {
-  oneHour,
-  oneDay,
-  oneWeek,
-}
+  oneHour('OneHour'),
+  oneDay('OneDay'),
+  oneWeek('OneWeek'),
+  ;
 
-extension AggregationPeriodValueExtension on AggregationPeriod {
-  String toValue() {
-    switch (this) {
-      case AggregationPeriod.oneHour:
-        return 'OneHour';
-      case AggregationPeriod.oneDay:
-        return 'OneDay';
-      case AggregationPeriod.oneWeek:
-        return 'OneWeek';
-    }
-  }
-}
+  final String value;
 
-extension AggregationPeriodFromString on String {
-  AggregationPeriod toAggregationPeriod() {
-    switch (this) {
-      case 'OneHour':
-        return AggregationPeriod.oneHour;
-      case 'OneDay':
-        return AggregationPeriod.oneDay;
-      case 'OneWeek':
-        return AggregationPeriod.oneWeek;
-    }
-    throw Exception('$this is not known in enum AggregationPeriod');
-  }
+  const AggregationPeriod(this.value);
+
+  static AggregationPeriod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AggregationPeriod'));
 }
 
 /// LoRaWAN application configuration, which can be used to perform geolocation.
@@ -4038,7 +4021,7 @@ class ApplicationConfig {
     return ApplicationConfig(
       destinationName: json['DestinationName'] as String?,
       fPort: json['FPort'] as int?,
-      type: (json['Type'] as String?)?.toApplicationConfigType(),
+      type: (json['Type'] as String?)?.let(ApplicationConfigType.fromString),
     );
   }
 
@@ -4049,32 +4032,23 @@ class ApplicationConfig {
     return {
       if (destinationName != null) 'DestinationName': destinationName,
       if (fPort != null) 'FPort': fPort,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum ApplicationConfigType {
-  semtechGeolocation,
-}
+  semtechGeolocation('SemtechGeolocation'),
+  ;
 
-extension ApplicationConfigTypeValueExtension on ApplicationConfigType {
-  String toValue() {
-    switch (this) {
-      case ApplicationConfigType.semtechGeolocation:
-        return 'SemtechGeolocation';
-    }
-  }
-}
+  final String value;
 
-extension ApplicationConfigTypeFromString on String {
-  ApplicationConfigType toApplicationConfigType() {
-    switch (this) {
-      case 'SemtechGeolocation':
-        return ApplicationConfigType.semtechGeolocation;
-    }
-    throw Exception('$this is not known in enum ApplicationConfigType');
-  }
+  const ApplicationConfigType(this.value);
+
+  static ApplicationConfigType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ApplicationConfigType'));
 }
 
 class AssociateAwsAccountWithPartnerAccountResponse {
@@ -4200,36 +4174,19 @@ class AssociateWirelessGatewayWithThingResponse {
 
 /// Sidewalk device battery level.
 enum BatteryLevel {
-  normal,
-  low,
-  critical,
-}
+  normal('normal'),
+  low('low'),
+  critical('critical'),
+  ;
 
-extension BatteryLevelValueExtension on BatteryLevel {
-  String toValue() {
-    switch (this) {
-      case BatteryLevel.normal:
-        return 'normal';
-      case BatteryLevel.low:
-        return 'low';
-      case BatteryLevel.critical:
-        return 'critical';
-    }
-  }
-}
+  final String value;
 
-extension BatteryLevelFromString on String {
-  BatteryLevel toBatteryLevel() {
-    switch (this) {
-      case 'normal':
-        return BatteryLevel.normal;
-      case 'low':
-        return BatteryLevel.low;
-      case 'critical':
-        return BatteryLevel.critical;
-    }
-    throw Exception('$this is not known in enum BatteryLevel');
-  }
+  const BatteryLevel(this.value);
+
+  static BatteryLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum BatteryLevel'));
 }
 
 /// Beaconing parameters for configuring the wireless gateways.
@@ -4461,7 +4418,7 @@ class CertificateList {
 
   factory CertificateList.fromJson(Map<String, dynamic> json) {
     return CertificateList(
-      signingAlg: (json['SigningAlg'] as String).toSigningAlg(),
+      signingAlg: SigningAlg.fromString((json['SigningAlg'] as String)),
       value: json['Value'] as String,
     );
   }
@@ -4470,38 +4427,25 @@ class CertificateList {
     final signingAlg = this.signingAlg;
     final value = this.value;
     return {
-      'SigningAlg': signingAlg.toValue(),
+      'SigningAlg': signingAlg.value,
       'Value': value,
     };
   }
 }
 
 enum ConnectionStatus {
-  connected,
-  disconnected,
-}
+  connected('Connected'),
+  disconnected('Disconnected'),
+  ;
 
-extension ConnectionStatusValueExtension on ConnectionStatus {
-  String toValue() {
-    switch (this) {
-      case ConnectionStatus.connected:
-        return 'Connected';
-      case ConnectionStatus.disconnected:
-        return 'Disconnected';
-    }
-  }
-}
+  final String value;
 
-extension ConnectionStatusFromString on String {
-  ConnectionStatus toConnectionStatus() {
-    switch (this) {
-      case 'Connected':
-        return ConnectionStatus.connected;
-      case 'Disconnected':
-        return ConnectionStatus.disconnected;
-    }
-    throw Exception('$this is not known in enum ConnectionStatus');
-  }
+  const ConnectionStatus(this.value);
+
+  static ConnectionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ConnectionStatus'));
 }
 
 /// Connection status event configuration object for enabling or disabling
@@ -4529,7 +4473,7 @@ class ConnectionStatusEventConfiguration {
           : null,
       wirelessGatewayIdEventTopic:
           (json['WirelessGatewayIdEventTopic'] as String?)
-              ?.toEventNotificationTopicStatus(),
+              ?.let(EventNotificationTopicStatus.fromString),
     );
   }
 
@@ -4539,7 +4483,7 @@ class ConnectionStatusEventConfiguration {
     return {
       if (loRaWAN != null) 'LoRaWAN': loRaWAN,
       if (wirelessGatewayIdEventTopic != null)
-        'WirelessGatewayIdEventTopic': wirelessGatewayIdEventTopic.toValue(),
+        'WirelessGatewayIdEventTopic': wirelessGatewayIdEventTopic.value,
     };
   }
 }
@@ -4843,7 +4787,8 @@ class CreateWirelessGatewayTaskResponse {
   factory CreateWirelessGatewayTaskResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateWirelessGatewayTaskResponse(
-      status: (json['Status'] as String?)?.toWirelessGatewayTaskStatus(),
+      status: (json['Status'] as String?)
+          ?.let(WirelessGatewayTaskStatus.fromString),
       wirelessGatewayTaskDefinitionId:
           json['WirelessGatewayTaskDefinitionId'] as String?,
     );
@@ -4854,7 +4799,7 @@ class CreateWirelessGatewayTaskResponse {
     final wirelessGatewayTaskDefinitionId =
         this.wirelessGatewayTaskDefinitionId;
     return {
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (wirelessGatewayTaskDefinitionId != null)
         'WirelessGatewayTaskDefinitionId': wirelessGatewayTaskDefinitionId,
     };
@@ -5108,7 +5053,8 @@ class Destinations {
       arn: json['Arn'] as String?,
       description: json['Description'] as String?,
       expression: json['Expression'] as String?,
-      expressionType: (json['ExpressionType'] as String?)?.toExpressionType(),
+      expressionType:
+          (json['ExpressionType'] as String?)?.let(ExpressionType.fromString),
       name: json['Name'] as String?,
       roleArn: json['RoleArn'] as String?,
     );
@@ -5125,7 +5071,7 @@ class Destinations {
       if (arn != null) 'Arn': arn,
       if (description != null) 'Description': description,
       if (expression != null) 'Expression': expression,
-      if (expressionType != null) 'ExpressionType': expressionType.toValue(),
+      if (expressionType != null) 'ExpressionType': expressionType.value,
       if (name != null) 'Name': name,
       if (roleArn != null) 'RoleArn': roleArn,
     };
@@ -5170,31 +5116,18 @@ class DeviceProfile {
 }
 
 enum DeviceProfileType {
-  sidewalk,
-  loRaWAN,
-}
+  sidewalk('Sidewalk'),
+  loRaWAN('LoRaWAN'),
+  ;
 
-extension DeviceProfileTypeValueExtension on DeviceProfileType {
-  String toValue() {
-    switch (this) {
-      case DeviceProfileType.sidewalk:
-        return 'Sidewalk';
-      case DeviceProfileType.loRaWAN:
-        return 'LoRaWAN';
-    }
-  }
-}
+  final String value;
 
-extension DeviceProfileTypeFromString on String {
-  DeviceProfileType toDeviceProfileType() {
-    switch (this) {
-      case 'Sidewalk':
-        return DeviceProfileType.sidewalk;
-      case 'LoRaWAN':
-        return DeviceProfileType.loRaWAN;
-    }
-    throw Exception('$this is not known in enum DeviceProfileType');
-  }
+  const DeviceProfileType(this.value);
+
+  static DeviceProfileType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DeviceProfileType'));
 }
 
 /// Device registration state event configuration object for enabling and
@@ -5222,7 +5155,7 @@ class DeviceRegistrationStateEventConfiguration {
           : null,
       wirelessDeviceIdEventTopic:
           (json['WirelessDeviceIdEventTopic'] as String?)
-              ?.toEventNotificationTopicStatus(),
+              ?.let(EventNotificationTopicStatus.fromString),
     );
   }
 
@@ -5232,7 +5165,7 @@ class DeviceRegistrationStateEventConfiguration {
     return {
       if (sidewalk != null) 'Sidewalk': sidewalk,
       if (wirelessDeviceIdEventTopic != null)
-        'WirelessDeviceIdEventTopic': wirelessDeviceIdEventTopic.toValue(),
+        'WirelessDeviceIdEventTopic': wirelessDeviceIdEventTopic.value,
     };
   }
 }
@@ -5268,41 +5201,19 @@ class DeviceRegistrationStateResourceTypeEventConfiguration {
 
 /// Device state defines the device status of sidewalk device.
 enum DeviceState {
-  provisioned,
-  registeredNotSeen,
-  registeredReachable,
-  registeredUnreachable,
-}
+  provisioned('Provisioned'),
+  registeredNotSeen('RegisteredNotSeen'),
+  registeredReachable('RegisteredReachable'),
+  registeredUnreachable('RegisteredUnreachable'),
+  ;
 
-extension DeviceStateValueExtension on DeviceState {
-  String toValue() {
-    switch (this) {
-      case DeviceState.provisioned:
-        return 'Provisioned';
-      case DeviceState.registeredNotSeen:
-        return 'RegisteredNotSeen';
-      case DeviceState.registeredReachable:
-        return 'RegisteredReachable';
-      case DeviceState.registeredUnreachable:
-        return 'RegisteredUnreachable';
-    }
-  }
-}
+  final String value;
 
-extension DeviceStateFromString on String {
-  DeviceState toDeviceState() {
-    switch (this) {
-      case 'Provisioned':
-        return DeviceState.provisioned;
-      case 'RegisteredNotSeen':
-        return DeviceState.registeredNotSeen;
-      case 'RegisteredReachable':
-        return DeviceState.registeredReachable;
-      case 'RegisteredUnreachable':
-        return DeviceState.registeredUnreachable;
-    }
-    throw Exception('$this is not known in enum DeviceState');
-  }
+  const DeviceState(this.value);
+
+  static DeviceState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum DeviceState'));
 }
 
 /// The required list of dimensions for the metric.
@@ -5320,7 +5231,7 @@ class Dimension {
 
   factory Dimension.fromJson(Map<String, dynamic> json) {
     return Dimension(
-      name: (json['name'] as String?)?.toDimensionName(),
+      name: (json['name'] as String?)?.let(DimensionName.fromString),
       value: json['value'] as String?,
     );
   }
@@ -5329,38 +5240,25 @@ class Dimension {
     final name = this.name;
     final value = this.value;
     return {
-      if (name != null) 'name': name.toValue(),
+      if (name != null) 'name': name.value,
       if (value != null) 'value': value,
     };
   }
 }
 
 enum DimensionName {
-  deviceId,
-  gatewayId,
-}
+  deviceId('DeviceId'),
+  gatewayId('GatewayId'),
+  ;
 
-extension DimensionNameValueExtension on DimensionName {
-  String toValue() {
-    switch (this) {
-      case DimensionName.deviceId:
-        return 'DeviceId';
-      case DimensionName.gatewayId:
-        return 'GatewayId';
-    }
-  }
-}
+  final String value;
 
-extension DimensionNameFromString on String {
-  DimensionName toDimensionName() {
-    switch (this) {
-      case 'DeviceId':
-        return DimensionName.deviceId;
-      case 'GatewayId':
-        return DimensionName.gatewayId;
-    }
-    throw Exception('$this is not known in enum DimensionName');
-  }
+  const DimensionName(this.value);
+
+  static DimensionName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DimensionName'));
 }
 
 class DisassociateAwsAccountFromPartnerAccountResponse {
@@ -5456,64 +5354,33 @@ class DisassociateWirelessGatewayFromThingResponse {
 
 /// DlClass for LoRaWAM, valid values are ClassB and ClassC.
 enum DlClass {
-  classB,
-  classC,
-}
+  classB('ClassB'),
+  classC('ClassC'),
+  ;
 
-extension DlClassValueExtension on DlClass {
-  String toValue() {
-    switch (this) {
-      case DlClass.classB:
-        return 'ClassB';
-      case DlClass.classC:
-        return 'ClassC';
-    }
-  }
-}
+  final String value;
 
-extension DlClassFromString on String {
-  DlClass toDlClass() {
-    switch (this) {
-      case 'ClassB':
-        return DlClass.classB;
-      case 'ClassC':
-        return DlClass.classC;
-    }
-    throw Exception('$this is not known in enum DlClass');
-  }
+  const DlClass(this.value);
+
+  static DlClass fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum DlClass'));
 }
 
 enum DownlinkMode {
-  sequential,
-  concurrent,
-  usingUplinkGateway,
-}
+  sequential('SEQUENTIAL'),
+  concurrent('CONCURRENT'),
+  usingUplinkGateway('USING_UPLINK_GATEWAY'),
+  ;
 
-extension DownlinkModeValueExtension on DownlinkMode {
-  String toValue() {
-    switch (this) {
-      case DownlinkMode.sequential:
-        return 'SEQUENTIAL';
-      case DownlinkMode.concurrent:
-        return 'CONCURRENT';
-      case DownlinkMode.usingUplinkGateway:
-        return 'USING_UPLINK_GATEWAY';
-    }
-  }
-}
+  final String value;
 
-extension DownlinkModeFromString on String {
-  DownlinkMode toDownlinkMode() {
-    switch (this) {
-      case 'SEQUENTIAL':
-        return DownlinkMode.sequential;
-      case 'CONCURRENT':
-        return DownlinkMode.concurrent;
-      case 'USING_UPLINK_GATEWAY':
-        return DownlinkMode.usingUplinkGateway;
-    }
-    throw Exception('$this is not known in enum DownlinkMode');
-  }
+  const DownlinkMode(this.value);
+
+  static DownlinkMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DownlinkMode'));
 }
 
 /// The message in the downlink queue.
@@ -5567,46 +5434,20 @@ class DownlinkQueueMessage {
 
 /// Sidewalk device status notification.
 enum Event {
-  discovered,
-  lost,
-  ack,
-  nack,
-  passthrough,
-}
+  discovered('discovered'),
+  lost('lost'),
+  ack('ack'),
+  nack('nack'),
+  passthrough('passthrough'),
+  ;
 
-extension EventValueExtension on Event {
-  String toValue() {
-    switch (this) {
-      case Event.discovered:
-        return 'discovered';
-      case Event.lost:
-        return 'lost';
-      case Event.ack:
-        return 'ack';
-      case Event.nack:
-        return 'nack';
-      case Event.passthrough:
-        return 'passthrough';
-    }
-  }
-}
+  final String value;
 
-extension EventFromString on String {
-  Event toEvent() {
-    switch (this) {
-      case 'discovered':
-        return Event.discovered;
-      case 'lost':
-        return Event.lost;
-      case 'ack':
-        return Event.ack;
-      case 'nack':
-        return Event.nack;
-      case 'passthrough':
-        return Event.passthrough;
-    }
-    throw Exception('$this is not known in enum Event');
-  }
+  const Event(this.value);
+
+  static Event fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Event'));
 }
 
 /// Event configuration object for a single resource.
@@ -5637,9 +5478,10 @@ class EventConfigurationItem {
               json['Events'] as Map<String, dynamic>)
           : null,
       identifier: json['Identifier'] as String?,
-      identifierType: (json['IdentifierType'] as String?)?.toIdentifierType(),
-      partnerType:
-          (json['PartnerType'] as String?)?.toEventNotificationPartnerType(),
+      identifierType:
+          (json['IdentifierType'] as String?)?.let(IdentifierType.fromString),
+      partnerType: (json['PartnerType'] as String?)
+          ?.let(EventNotificationPartnerType.fromString),
     );
   }
 
@@ -5651,8 +5493,8 @@ class EventConfigurationItem {
     return {
       if (events != null) 'Events': events,
       if (identifier != null) 'Identifier': identifier,
-      if (identifierType != null) 'IdentifierType': identifierType.toValue(),
-      if (partnerType != null) 'PartnerType': partnerType.toValue(),
+      if (identifierType != null) 'IdentifierType': identifierType.value,
+      if (partnerType != null) 'PartnerType': partnerType.value,
     };
   }
 }
@@ -5728,118 +5570,63 @@ class EventNotificationItemConfigurations {
 }
 
 enum EventNotificationPartnerType {
-  sidewalk,
-}
+  sidewalk('Sidewalk'),
+  ;
 
-extension EventNotificationPartnerTypeValueExtension
-    on EventNotificationPartnerType {
-  String toValue() {
-    switch (this) {
-      case EventNotificationPartnerType.sidewalk:
-        return 'Sidewalk';
-    }
-  }
-}
+  final String value;
 
-extension EventNotificationPartnerTypeFromString on String {
-  EventNotificationPartnerType toEventNotificationPartnerType() {
-    switch (this) {
-      case 'Sidewalk':
-        return EventNotificationPartnerType.sidewalk;
-    }
-    throw Exception('$this is not known in enum EventNotificationPartnerType');
-  }
+  const EventNotificationPartnerType(this.value);
+
+  static EventNotificationPartnerType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum EventNotificationPartnerType'));
 }
 
 enum EventNotificationResourceType {
-  sidewalkAccount,
-  wirelessDevice,
-  wirelessGateway,
-}
+  sidewalkAccount('SidewalkAccount'),
+  wirelessDevice('WirelessDevice'),
+  wirelessGateway('WirelessGateway'),
+  ;
 
-extension EventNotificationResourceTypeValueExtension
-    on EventNotificationResourceType {
-  String toValue() {
-    switch (this) {
-      case EventNotificationResourceType.sidewalkAccount:
-        return 'SidewalkAccount';
-      case EventNotificationResourceType.wirelessDevice:
-        return 'WirelessDevice';
-      case EventNotificationResourceType.wirelessGateway:
-        return 'WirelessGateway';
-    }
-  }
-}
+  final String value;
 
-extension EventNotificationResourceTypeFromString on String {
-  EventNotificationResourceType toEventNotificationResourceType() {
-    switch (this) {
-      case 'SidewalkAccount':
-        return EventNotificationResourceType.sidewalkAccount;
-      case 'WirelessDevice':
-        return EventNotificationResourceType.wirelessDevice;
-      case 'WirelessGateway':
-        return EventNotificationResourceType.wirelessGateway;
-    }
-    throw Exception('$this is not known in enum EventNotificationResourceType');
-  }
+  const EventNotificationResourceType(this.value);
+
+  static EventNotificationResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum EventNotificationResourceType'));
 }
 
 enum EventNotificationTopicStatus {
-  enabled,
-  disabled,
-}
+  enabled('Enabled'),
+  disabled('Disabled'),
+  ;
 
-extension EventNotificationTopicStatusValueExtension
-    on EventNotificationTopicStatus {
-  String toValue() {
-    switch (this) {
-      case EventNotificationTopicStatus.enabled:
-        return 'Enabled';
-      case EventNotificationTopicStatus.disabled:
-        return 'Disabled';
-    }
-  }
-}
+  final String value;
 
-extension EventNotificationTopicStatusFromString on String {
-  EventNotificationTopicStatus toEventNotificationTopicStatus() {
-    switch (this) {
-      case 'Enabled':
-        return EventNotificationTopicStatus.enabled;
-      case 'Disabled':
-        return EventNotificationTopicStatus.disabled;
-    }
-    throw Exception('$this is not known in enum EventNotificationTopicStatus');
-  }
+  const EventNotificationTopicStatus(this.value);
+
+  static EventNotificationTopicStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum EventNotificationTopicStatus'));
 }
 
 enum ExpressionType {
-  ruleName,
-  mqttTopic,
-}
+  ruleName('RuleName'),
+  mqttTopic('MqttTopic'),
+  ;
 
-extension ExpressionTypeValueExtension on ExpressionType {
-  String toValue() {
-    switch (this) {
-      case ExpressionType.ruleName:
-        return 'RuleName';
-      case ExpressionType.mqttTopic:
-        return 'MqttTopic';
-    }
-  }
-}
+  final String value;
 
-extension ExpressionTypeFromString on String {
-  ExpressionType toExpressionType() {
-    switch (this) {
-      case 'RuleName':
-        return ExpressionType.ruleName;
-      case 'MqttTopic':
-        return ExpressionType.mqttTopic;
-    }
-    throw Exception('$this is not known in enum ExpressionType');
-  }
+  const ExpressionType(this.value);
+
+  static ExpressionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ExpressionType'));
 }
 
 /// List of FPort assigned for different LoRaWAN application packages to use
@@ -5895,76 +5682,27 @@ class FPorts {
 
 /// The status of a wireless device in a FUOTA task.
 enum FuotaDeviceStatus {
-  initial,
-  packageNotSupported,
-  fragAlgoUnsupported,
-  notEnoughMemory,
-  fragIndexUnsupported,
-  wrongDescriptor,
-  sessionCntReplay,
-  missingFrag,
-  memoryError,
-  mICError,
-  successful,
-}
+  initial('Initial'),
+  packageNotSupported('Package_Not_Supported'),
+  fragAlgoUnsupported('FragAlgo_unsupported'),
+  notEnoughMemory('Not_enough_memory'),
+  fragIndexUnsupported('FragIndex_unsupported'),
+  wrongDescriptor('Wrong_descriptor'),
+  sessionCntReplay('SessionCnt_replay'),
+  missingFrag('MissingFrag'),
+  memoryError('MemoryError'),
+  mICError('MICError'),
+  successful('Successful'),
+  ;
 
-extension FuotaDeviceStatusValueExtension on FuotaDeviceStatus {
-  String toValue() {
-    switch (this) {
-      case FuotaDeviceStatus.initial:
-        return 'Initial';
-      case FuotaDeviceStatus.packageNotSupported:
-        return 'Package_Not_Supported';
-      case FuotaDeviceStatus.fragAlgoUnsupported:
-        return 'FragAlgo_unsupported';
-      case FuotaDeviceStatus.notEnoughMemory:
-        return 'Not_enough_memory';
-      case FuotaDeviceStatus.fragIndexUnsupported:
-        return 'FragIndex_unsupported';
-      case FuotaDeviceStatus.wrongDescriptor:
-        return 'Wrong_descriptor';
-      case FuotaDeviceStatus.sessionCntReplay:
-        return 'SessionCnt_replay';
-      case FuotaDeviceStatus.missingFrag:
-        return 'MissingFrag';
-      case FuotaDeviceStatus.memoryError:
-        return 'MemoryError';
-      case FuotaDeviceStatus.mICError:
-        return 'MICError';
-      case FuotaDeviceStatus.successful:
-        return 'Successful';
-    }
-  }
-}
+  final String value;
 
-extension FuotaDeviceStatusFromString on String {
-  FuotaDeviceStatus toFuotaDeviceStatus() {
-    switch (this) {
-      case 'Initial':
-        return FuotaDeviceStatus.initial;
-      case 'Package_Not_Supported':
-        return FuotaDeviceStatus.packageNotSupported;
-      case 'FragAlgo_unsupported':
-        return FuotaDeviceStatus.fragAlgoUnsupported;
-      case 'Not_enough_memory':
-        return FuotaDeviceStatus.notEnoughMemory;
-      case 'FragIndex_unsupported':
-        return FuotaDeviceStatus.fragIndexUnsupported;
-      case 'Wrong_descriptor':
-        return FuotaDeviceStatus.wrongDescriptor;
-      case 'SessionCnt_replay':
-        return FuotaDeviceStatus.sessionCntReplay;
-      case 'MissingFrag':
-        return FuotaDeviceStatus.missingFrag;
-      case 'MemoryError':
-        return FuotaDeviceStatus.memoryError;
-      case 'MICError':
-        return FuotaDeviceStatus.mICError;
-      case 'Successful':
-        return FuotaDeviceStatus.successful;
-    }
-    throw Exception('$this is not known in enum FuotaDeviceStatus');
-  }
+  const FuotaDeviceStatus(this.value);
+
+  static FuotaDeviceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FuotaDeviceStatus'));
 }
 
 /// A FUOTA task.
@@ -6001,46 +5739,21 @@ class FuotaTask {
 
 /// The status of a FUOTA task.
 enum FuotaTaskStatus {
-  pending,
-  fuotaSessionWaiting,
-  inFuotaSession,
-  fuotaDone,
-  deleteWaiting,
-}
+  pending('Pending'),
+  fuotaSessionWaiting('FuotaSession_Waiting'),
+  inFuotaSession('In_FuotaSession'),
+  fuotaDone('FuotaDone'),
+  deleteWaiting('Delete_Waiting'),
+  ;
 
-extension FuotaTaskStatusValueExtension on FuotaTaskStatus {
-  String toValue() {
-    switch (this) {
-      case FuotaTaskStatus.pending:
-        return 'Pending';
-      case FuotaTaskStatus.fuotaSessionWaiting:
-        return 'FuotaSession_Waiting';
-      case FuotaTaskStatus.inFuotaSession:
-        return 'In_FuotaSession';
-      case FuotaTaskStatus.fuotaDone:
-        return 'FuotaDone';
-      case FuotaTaskStatus.deleteWaiting:
-        return 'Delete_Waiting';
-    }
-  }
-}
+  final String value;
 
-extension FuotaTaskStatusFromString on String {
-  FuotaTaskStatus toFuotaTaskStatus() {
-    switch (this) {
-      case 'Pending':
-        return FuotaTaskStatus.pending;
-      case 'FuotaSession_Waiting':
-        return FuotaTaskStatus.fuotaSessionWaiting;
-      case 'In_FuotaSession':
-        return FuotaTaskStatus.inFuotaSession;
-      case 'FuotaDone':
-        return FuotaTaskStatus.fuotaDone;
-      case 'Delete_Waiting':
-        return FuotaTaskStatus.deleteWaiting;
-    }
-    throw Exception('$this is not known in enum FuotaTaskStatus');
-  }
+  const FuotaTaskStatus(this.value);
+
+  static FuotaTaskStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FuotaTaskStatus'));
 }
 
 /// Gateway list item object that specifies the frequency and list of gateways
@@ -6109,7 +5822,8 @@ class GetDestinationResponse {
       arn: json['Arn'] as String?,
       description: json['Description'] as String?,
       expression: json['Expression'] as String?,
-      expressionType: (json['ExpressionType'] as String?)?.toExpressionType(),
+      expressionType:
+          (json['ExpressionType'] as String?)?.let(ExpressionType.fromString),
       name: json['Name'] as String?,
       roleArn: json['RoleArn'] as String?,
     );
@@ -6126,7 +5840,7 @@ class GetDestinationResponse {
       if (arn != null) 'Arn': arn,
       if (description != null) 'Description': description,
       if (expression != null) 'Expression': expression,
-      if (expressionType != null) 'ExpressionType': expressionType.toValue(),
+      if (expressionType != null) 'ExpressionType': expressionType.value,
       if (name != null) 'Name': name,
       if (roleArn != null) 'RoleArn': roleArn,
     };
@@ -6305,7 +6019,7 @@ class GetFuotaTaskResponse {
           : null,
       name: json['Name'] as String?,
       redundancyPercent: json['RedundancyPercent'] as int?,
-      status: (json['Status'] as String?)?.toFuotaTaskStatus(),
+      status: (json['Status'] as String?)?.let(FuotaTaskStatus.fromString),
     );
   }
 
@@ -6335,7 +6049,7 @@ class GetFuotaTaskResponse {
       if (loRaWAN != null) 'LoRaWAN': loRaWAN,
       if (name != null) 'Name': name,
       if (redundancyPercent != null) 'RedundancyPercent': redundancyPercent,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -6354,7 +6068,8 @@ class GetLogLevelsByResourceTypesResponse {
   factory GetLogLevelsByResourceTypesResponse.fromJson(
       Map<String, dynamic> json) {
     return GetLogLevelsByResourceTypesResponse(
-      defaultLogLevel: (json['DefaultLogLevel'] as String?)?.toLogLevel(),
+      defaultLogLevel:
+          (json['DefaultLogLevel'] as String?)?.let(LogLevel.fromString),
       wirelessDeviceLogOptions: (json['WirelessDeviceLogOptions'] as List?)
           ?.whereNotNull()
           .map((e) =>
@@ -6373,7 +6088,7 @@ class GetLogLevelsByResourceTypesResponse {
     final wirelessDeviceLogOptions = this.wirelessDeviceLogOptions;
     final wirelessGatewayLogOptions = this.wirelessGatewayLogOptions;
     return {
-      if (defaultLogLevel != null) 'DefaultLogLevel': defaultLogLevel.toValue(),
+      if (defaultLogLevel != null) 'DefaultLogLevel': defaultLogLevel.value,
       if (wirelessDeviceLogOptions != null)
         'WirelessDeviceLogOptions': wirelessDeviceLogOptions,
       if (wirelessGatewayLogOptions != null)
@@ -6716,9 +6431,10 @@ class GetPositionResponse {
           ?.whereNotNull()
           .map((e) => e as double)
           .toList(),
-      solverProvider:
-          (json['SolverProvider'] as String?)?.toPositionSolverProvider(),
-      solverType: (json['SolverType'] as String?)?.toPositionSolverType(),
+      solverProvider: (json['SolverProvider'] as String?)
+          ?.let(PositionSolverProvider.fromString),
+      solverType:
+          (json['SolverType'] as String?)?.let(PositionSolverType.fromString),
       solverVersion: json['SolverVersion'] as String?,
       timestamp: json['Timestamp'] as String?,
     );
@@ -6734,8 +6450,8 @@ class GetPositionResponse {
     return {
       if (accuracy != null) 'Accuracy': accuracy,
       if (position != null) 'Position': position,
-      if (solverProvider != null) 'SolverProvider': solverProvider.toValue(),
-      if (solverType != null) 'SolverType': solverType.toValue(),
+      if (solverProvider != null) 'SolverProvider': solverProvider.value,
+      if (solverType != null) 'SolverType': solverType.value,
       if (solverVersion != null) 'SolverVersion': solverVersion,
       if (timestamp != null) 'Timestamp': timestamp,
     };
@@ -6819,14 +6535,14 @@ class GetResourceLogLevelResponse {
 
   factory GetResourceLogLevelResponse.fromJson(Map<String, dynamic> json) {
     return GetResourceLogLevelResponse(
-      logLevel: (json['LogLevel'] as String?)?.toLogLevel(),
+      logLevel: (json['LogLevel'] as String?)?.let(LogLevel.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final logLevel = this.logLevel;
     return {
-      if (logLevel != null) 'LogLevel': logLevel.toValue(),
+      if (logLevel != null) 'LogLevel': logLevel.value,
     };
   }
 }
@@ -6871,8 +6587,8 @@ class GetServiceEndpointResponse {
     return GetServiceEndpointResponse(
       serverTrust: json['ServerTrust'] as String?,
       serviceEndpoint: json['ServiceEndpoint'] as String?,
-      serviceType:
-          (json['ServiceType'] as String?)?.toWirelessGatewayServiceType(),
+      serviceType: (json['ServiceType'] as String?)
+          ?.let(WirelessGatewayServiceType.fromString),
     );
   }
 
@@ -6883,7 +6599,7 @@ class GetServiceEndpointResponse {
     return {
       if (serverTrust != null) 'ServerTrust': serverTrust,
       if (serviceEndpoint != null) 'ServiceEndpoint': serviceEndpoint,
-      if (serviceType != null) 'ServiceType': serviceType.toValue(),
+      if (serviceType != null) 'ServiceType': serviceType.value,
     };
   }
 }
@@ -7005,7 +6721,7 @@ class GetWirelessDeviceImportTaskResponse {
           ? SidewalkGetStartImportInfo.fromJson(
               json['Sidewalk'] as Map<String, dynamic>)
           : null,
-      status: (json['Status'] as String?)?.toImportTaskStatus(),
+      status: (json['Status'] as String?)?.let(ImportTaskStatus.fromString),
       statusReason: json['StatusReason'] as String?,
     );
   }
@@ -7036,7 +6752,7 @@ class GetWirelessDeviceImportTaskResponse {
       if (pendingImportedDeviceCount != null)
         'PendingImportedDeviceCount': pendingImportedDeviceCount,
       if (sidewalk != null) 'Sidewalk': sidewalk,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusReason != null) 'StatusReason': statusReason,
     };
   }
@@ -7102,14 +6818,14 @@ class GetWirelessDeviceResponse {
           ? LoRaWANDevice.fromJson(json['LoRaWAN'] as Map<String, dynamic>)
           : null,
       name: json['Name'] as String?,
-      positioning:
-          (json['Positioning'] as String?)?.toPositioningConfigStatus(),
+      positioning: (json['Positioning'] as String?)
+          ?.let(PositioningConfigStatus.fromString),
       sidewalk: json['Sidewalk'] != null
           ? SidewalkDevice.fromJson(json['Sidewalk'] as Map<String, dynamic>)
           : null,
       thingArn: json['ThingArn'] as String?,
       thingName: json['ThingName'] as String?,
-      type: (json['Type'] as String?)?.toWirelessDeviceType(),
+      type: (json['Type'] as String?)?.let(WirelessDeviceType.fromString),
     );
   }
 
@@ -7132,11 +6848,11 @@ class GetWirelessDeviceResponse {
       if (id != null) 'Id': id,
       if (loRaWAN != null) 'LoRaWAN': loRaWAN,
       if (name != null) 'Name': name,
-      if (positioning != null) 'Positioning': positioning.toValue(),
+      if (positioning != null) 'Positioning': positioning.value,
       if (sidewalk != null) 'Sidewalk': sidewalk,
       if (thingArn != null) 'ThingArn': thingArn,
       if (thingName != null) 'ThingName': thingName,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -7344,8 +7060,8 @@ class GetWirelessGatewayStatisticsResponse {
   factory GetWirelessGatewayStatisticsResponse.fromJson(
       Map<String, dynamic> json) {
     return GetWirelessGatewayStatisticsResponse(
-      connectionStatus:
-          (json['ConnectionStatus'] as String?)?.toConnectionStatus(),
+      connectionStatus: (json['ConnectionStatus'] as String?)
+          ?.let(ConnectionStatus.fromString),
       lastUplinkReceivedAt: json['LastUplinkReceivedAt'] as String?,
       wirelessGatewayId: json['WirelessGatewayId'] as String?,
     );
@@ -7356,8 +7072,7 @@ class GetWirelessGatewayStatisticsResponse {
     final lastUplinkReceivedAt = this.lastUplinkReceivedAt;
     final wirelessGatewayId = this.wirelessGatewayId;
     return {
-      if (connectionStatus != null)
-        'ConnectionStatus': connectionStatus.toValue(),
+      if (connectionStatus != null) 'ConnectionStatus': connectionStatus.value,
       if (lastUplinkReceivedAt != null)
         'LastUplinkReceivedAt': lastUplinkReceivedAt,
       if (wirelessGatewayId != null) 'WirelessGatewayId': wirelessGatewayId,
@@ -7444,7 +7159,8 @@ class GetWirelessGatewayTaskResponse {
   factory GetWirelessGatewayTaskResponse.fromJson(Map<String, dynamic> json) {
     return GetWirelessGatewayTaskResponse(
       lastUplinkReceivedAt: json['LastUplinkReceivedAt'] as String?,
-      status: (json['Status'] as String?)?.toWirelessGatewayTaskStatus(),
+      status: (json['Status'] as String?)
+          ?.let(WirelessGatewayTaskStatus.fromString),
       taskCreatedAt: json['TaskCreatedAt'] as String?,
       wirelessGatewayId: json['WirelessGatewayId'] as String?,
       wirelessGatewayTaskDefinitionId:
@@ -7462,7 +7178,7 @@ class GetWirelessGatewayTaskResponse {
     return {
       if (lastUplinkReceivedAt != null)
         'LastUplinkReceivedAt': lastUplinkReceivedAt,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (taskCreatedAt != null) 'TaskCreatedAt': taskCreatedAt,
       if (wirelessGatewayId != null) 'WirelessGatewayId': wirelessGatewayId,
       if (wirelessGatewayTaskDefinitionId != null)
@@ -7673,94 +7389,40 @@ class GsmObj {
 }
 
 enum IdentifierType {
-  partnerAccountId,
-  devEui,
-  gatewayEui,
-  wirelessDeviceId,
-  wirelessGatewayId,
-}
+  partnerAccountId('PartnerAccountId'),
+  devEui('DevEui'),
+  gatewayEui('GatewayEui'),
+  wirelessDeviceId('WirelessDeviceId'),
+  wirelessGatewayId('WirelessGatewayId'),
+  ;
 
-extension IdentifierTypeValueExtension on IdentifierType {
-  String toValue() {
-    switch (this) {
-      case IdentifierType.partnerAccountId:
-        return 'PartnerAccountId';
-      case IdentifierType.devEui:
-        return 'DevEui';
-      case IdentifierType.gatewayEui:
-        return 'GatewayEui';
-      case IdentifierType.wirelessDeviceId:
-        return 'WirelessDeviceId';
-      case IdentifierType.wirelessGatewayId:
-        return 'WirelessGatewayId';
-    }
-  }
-}
+  final String value;
 
-extension IdentifierTypeFromString on String {
-  IdentifierType toIdentifierType() {
-    switch (this) {
-      case 'PartnerAccountId':
-        return IdentifierType.partnerAccountId;
-      case 'DevEui':
-        return IdentifierType.devEui;
-      case 'GatewayEui':
-        return IdentifierType.gatewayEui;
-      case 'WirelessDeviceId':
-        return IdentifierType.wirelessDeviceId;
-      case 'WirelessGatewayId':
-        return IdentifierType.wirelessGatewayId;
-    }
-    throw Exception('$this is not known in enum IdentifierType');
-  }
+  const IdentifierType(this.value);
+
+  static IdentifierType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum IdentifierType'));
 }
 
 enum ImportTaskStatus {
-  initializing,
-  initialized,
-  pending,
-  complete,
-  failed,
-  deleting,
-}
+  initializing('INITIALIZING'),
+  initialized('INITIALIZED'),
+  pending('PENDING'),
+  complete('COMPLETE'),
+  failed('FAILED'),
+  deleting('DELETING'),
+  ;
 
-extension ImportTaskStatusValueExtension on ImportTaskStatus {
-  String toValue() {
-    switch (this) {
-      case ImportTaskStatus.initializing:
-        return 'INITIALIZING';
-      case ImportTaskStatus.initialized:
-        return 'INITIALIZED';
-      case ImportTaskStatus.pending:
-        return 'PENDING';
-      case ImportTaskStatus.complete:
-        return 'COMPLETE';
-      case ImportTaskStatus.failed:
-        return 'FAILED';
-      case ImportTaskStatus.deleting:
-        return 'DELETING';
-    }
-  }
-}
+  final String value;
 
-extension ImportTaskStatusFromString on String {
-  ImportTaskStatus toImportTaskStatus() {
-    switch (this) {
-      case 'INITIALIZING':
-        return ImportTaskStatus.initializing;
-      case 'INITIALIZED':
-        return ImportTaskStatus.initialized;
-      case 'PENDING':
-        return ImportTaskStatus.pending;
-      case 'COMPLETE':
-        return ImportTaskStatus.complete;
-      case 'FAILED':
-        return ImportTaskStatus.failed;
-      case 'DELETING':
-        return ImportTaskStatus.deleting;
-    }
-    throw Exception('$this is not known in enum ImportTaskStatus');
-  }
+  const ImportTaskStatus(this.value);
+
+  static ImportTaskStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ImportTaskStatus'));
 }
 
 /// Information about a Sidewalk device that has been added to an import task.
@@ -7788,7 +7450,7 @@ class ImportedSidewalkDevice {
     return ImportedSidewalkDevice(
       lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
       onboardingStatus:
-          (json['OnboardingStatus'] as String?)?.toOnboardStatus(),
+          (json['OnboardingStatus'] as String?)?.let(OnboardStatus.fromString),
       onboardingStatusReason: json['OnboardingStatusReason'] as String?,
       sidewalkManufacturingSn: json['SidewalkManufacturingSn'] as String?,
     );
@@ -7802,8 +7464,7 @@ class ImportedSidewalkDevice {
     return {
       if (lastUpdateTime != null)
         'LastUpdateTime': iso8601ToJson(lastUpdateTime),
-      if (onboardingStatus != null)
-        'OnboardingStatus': onboardingStatus.toValue(),
+      if (onboardingStatus != null) 'OnboardingStatus': onboardingStatus.value,
       if (onboardingStatusReason != null)
         'OnboardingStatusReason': onboardingStatusReason,
       if (sidewalkManufacturingSn != null)
@@ -7879,7 +7540,7 @@ class JoinEventConfiguration {
           : null,
       wirelessDeviceIdEventTopic:
           (json['WirelessDeviceIdEventTopic'] as String?)
-              ?.toEventNotificationTopicStatus(),
+              ?.let(EventNotificationTopicStatus.fromString),
     );
   }
 
@@ -7889,7 +7550,7 @@ class JoinEventConfiguration {
     return {
       if (loRaWAN != null) 'LoRaWAN': loRaWAN,
       if (wirelessDeviceIdEventTopic != null)
-        'WirelessDeviceIdEventTopic': wirelessDeviceIdEventTopic.toValue(),
+        'WirelessDeviceIdEventTopic': wirelessDeviceIdEventTopic.value,
     };
   }
 }
@@ -8530,7 +8191,7 @@ class LoRaWANConnectionStatusEventNotificationConfigurations {
       Map<String, dynamic> json) {
     return LoRaWANConnectionStatusEventNotificationConfigurations(
       gatewayEuiEventTopic: (json['GatewayEuiEventTopic'] as String?)
-          ?.toEventNotificationTopicStatus(),
+          ?.let(EventNotificationTopicStatus.fromString),
     );
   }
 
@@ -8538,7 +8199,7 @@ class LoRaWANConnectionStatusEventNotificationConfigurations {
     final gatewayEuiEventTopic = this.gatewayEuiEventTopic;
     return {
       if (gatewayEuiEventTopic != null)
-        'GatewayEuiEventTopic': gatewayEuiEventTopic.toValue(),
+        'GatewayEuiEventTopic': gatewayEuiEventTopic.value,
     };
   }
 }
@@ -8557,7 +8218,7 @@ class LoRaWANConnectionStatusResourceTypeEventConfiguration {
       Map<String, dynamic> json) {
     return LoRaWANConnectionStatusResourceTypeEventConfiguration(
       wirelessGatewayEventTopic: (json['WirelessGatewayEventTopic'] as String?)
-          ?.toEventNotificationTopicStatus(),
+          ?.let(EventNotificationTopicStatus.fromString),
     );
   }
 
@@ -8565,7 +8226,7 @@ class LoRaWANConnectionStatusResourceTypeEventConfiguration {
     final wirelessGatewayEventTopic = this.wirelessGatewayEventTopic;
     return {
       if (wirelessGatewayEventTopic != null)
-        'WirelessGatewayEventTopic': wirelessGatewayEventTopic.toValue(),
+        'WirelessGatewayEventTopic': wirelessGatewayEventTopic.value,
     };
   }
 }
@@ -8888,7 +8549,7 @@ class LoRaWANFuotaTask {
   Map<String, dynamic> toJson() {
     final rfRegion = this.rfRegion;
     return {
-      if (rfRegion != null) 'RfRegion': rfRegion.toValue(),
+      if (rfRegion != null) 'RfRegion': rfRegion.value,
     };
   }
 }
@@ -9256,15 +8917,14 @@ class LoRaWANJoinEventNotificationConfigurations {
       Map<String, dynamic> json) {
     return LoRaWANJoinEventNotificationConfigurations(
       devEuiEventTopic: (json['DevEuiEventTopic'] as String?)
-          ?.toEventNotificationTopicStatus(),
+          ?.let(EventNotificationTopicStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final devEuiEventTopic = this.devEuiEventTopic;
     return {
-      if (devEuiEventTopic != null)
-        'DevEuiEventTopic': devEuiEventTopic.toValue(),
+      if (devEuiEventTopic != null) 'DevEuiEventTopic': devEuiEventTopic.value,
     };
   }
 }
@@ -9282,7 +8942,7 @@ class LoRaWANJoinResourceTypeEventConfiguration {
       Map<String, dynamic> json) {
     return LoRaWANJoinResourceTypeEventConfiguration(
       wirelessDeviceEventTopic: (json['WirelessDeviceEventTopic'] as String?)
-          ?.toEventNotificationTopicStatus(),
+          ?.let(EventNotificationTopicStatus.fromString),
     );
   }
 
@@ -9290,7 +8950,7 @@ class LoRaWANJoinResourceTypeEventConfiguration {
     final wirelessDeviceEventTopic = this.wirelessDeviceEventTopic;
     return {
       if (wirelessDeviceEventTopic != null)
-        'WirelessDeviceEventTopic': wirelessDeviceEventTopic.toValue(),
+        'WirelessDeviceEventTopic': wirelessDeviceEventTopic.value,
     };
   }
 }
@@ -9332,8 +8992,8 @@ class LoRaWANMulticast {
     final dlClass = this.dlClass;
     final rfRegion = this.rfRegion;
     return {
-      if (dlClass != null) 'DlClass': dlClass.toValue(),
-      if (rfRegion != null) 'RfRegion': rfRegion.toValue(),
+      if (dlClass != null) 'DlClass': dlClass.value,
+      if (rfRegion != null) 'RfRegion': rfRegion.value,
     };
   }
 }
@@ -9355,10 +9015,11 @@ class LoRaWANMulticastGet {
 
   factory LoRaWANMulticastGet.fromJson(Map<String, dynamic> json) {
     return LoRaWANMulticastGet(
-      dlClass: (json['DlClass'] as String?)?.toDlClass(),
+      dlClass: (json['DlClass'] as String?)?.let(DlClass.fromString),
       numberOfDevicesInGroup: json['NumberOfDevicesInGroup'] as int?,
       numberOfDevicesRequested: json['NumberOfDevicesRequested'] as int?,
-      rfRegion: (json['RfRegion'] as String?)?.toSupportedRfRegion(),
+      rfRegion:
+          (json['RfRegion'] as String?)?.let(SupportedRfRegion.fromString),
     );
   }
 
@@ -9368,12 +9029,12 @@ class LoRaWANMulticastGet {
     final numberOfDevicesRequested = this.numberOfDevicesRequested;
     final rfRegion = this.rfRegion;
     return {
-      if (dlClass != null) 'DlClass': dlClass.toValue(),
+      if (dlClass != null) 'DlClass': dlClass.value,
       if (numberOfDevicesInGroup != null)
         'NumberOfDevicesInGroup': numberOfDevicesInGroup,
       if (numberOfDevicesRequested != null)
         'NumberOfDevicesRequested': numberOfDevicesRequested,
-      if (rfRegion != null) 'RfRegion': rfRegion.toValue(),
+      if (rfRegion != null) 'RfRegion': rfRegion.value,
     };
   }
 }
@@ -9717,36 +9378,18 @@ class LoRaWANUpdateGatewayTaskEntry {
 /// <code>ERROR</code> to display less verbose logs containing only error
 /// information, or to <code>INFO</code> for more detailed logs.
 enum LogLevel {
-  info,
-  error,
-  disabled,
-}
+  info('INFO'),
+  error('ERROR'),
+  disabled('DISABLED'),
+  ;
 
-extension LogLevelValueExtension on LogLevel {
-  String toValue() {
-    switch (this) {
-      case LogLevel.info:
-        return 'INFO';
-      case LogLevel.error:
-        return 'ERROR';
-      case LogLevel.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension LogLevelFromString on String {
-  LogLevel toLogLevel() {
-    switch (this) {
-      case 'INFO':
-        return LogLevel.info;
-      case 'ERROR':
-        return LogLevel.error;
-      case 'DISABLED':
-        return LogLevel.disabled;
-    }
-    throw Exception('$this is not known in enum LogLevel');
-  }
+  const LogLevel(this.value);
+
+  static LogLevel fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum LogLevel'));
 }
 
 /// LTE local identification (local ID) information.
@@ -9914,7 +9557,7 @@ class MessageDeliveryStatusEventConfiguration {
           : null,
       wirelessDeviceIdEventTopic:
           (json['WirelessDeviceIdEventTopic'] as String?)
-              ?.toEventNotificationTopicStatus(),
+              ?.let(EventNotificationTopicStatus.fromString),
     );
   }
 
@@ -9924,7 +9567,7 @@ class MessageDeliveryStatusEventConfiguration {
     return {
       if (sidewalk != null) 'Sidewalk': sidewalk,
       if (wirelessDeviceIdEventTopic != null)
-        'WirelessDeviceIdEventTopic': wirelessDeviceIdEventTopic.toValue(),
+        'WirelessDeviceIdEventTopic': wirelessDeviceIdEventTopic.value,
     };
   }
 }
@@ -9959,237 +9602,76 @@ class MessageDeliveryStatusResourceTypeEventConfiguration {
 /// Sidewalk device message type. Default value is
 /// <code>CUSTOM_COMMAND_ID_NOTIFY</code>.
 enum MessageType {
-  customCommandIdNotify,
-  customCommandIdGet,
-  customCommandIdSet,
-  customCommandIdResp,
-}
+  customCommandIdNotify('CUSTOM_COMMAND_ID_NOTIFY'),
+  customCommandIdGet('CUSTOM_COMMAND_ID_GET'),
+  customCommandIdSet('CUSTOM_COMMAND_ID_SET'),
+  customCommandIdResp('CUSTOM_COMMAND_ID_RESP'),
+  ;
 
-extension MessageTypeValueExtension on MessageType {
-  String toValue() {
-    switch (this) {
-      case MessageType.customCommandIdNotify:
-        return 'CUSTOM_COMMAND_ID_NOTIFY';
-      case MessageType.customCommandIdGet:
-        return 'CUSTOM_COMMAND_ID_GET';
-      case MessageType.customCommandIdSet:
-        return 'CUSTOM_COMMAND_ID_SET';
-      case MessageType.customCommandIdResp:
-        return 'CUSTOM_COMMAND_ID_RESP';
-    }
-  }
-}
+  final String value;
 
-extension MessageTypeFromString on String {
-  MessageType toMessageType() {
-    switch (this) {
-      case 'CUSTOM_COMMAND_ID_NOTIFY':
-        return MessageType.customCommandIdNotify;
-      case 'CUSTOM_COMMAND_ID_GET':
-        return MessageType.customCommandIdGet;
-      case 'CUSTOM_COMMAND_ID_SET':
-        return MessageType.customCommandIdSet;
-      case 'CUSTOM_COMMAND_ID_RESP':
-        return MessageType.customCommandIdResp;
-    }
-    throw Exception('$this is not known in enum MessageType');
-  }
+  const MessageType(this.value);
+
+  static MessageType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum MessageType'));
 }
 
 enum MetricName {
-  deviceRSSI,
-  deviceSNR,
-  deviceUplinkCount,
-  deviceDownlinkCount,
-  deviceUplinkLostCount,
-  deviceUplinkLostRate,
-  deviceJoinRequestCount,
-  deviceJoinAcceptCount,
-  deviceRoamingUplinkCount,
-  deviceRoamingDownlinkCount,
-  gatewayUpTime,
-  gatewayDownTime,
-  gatewayRSSI,
-  gatewaySNR,
-  gatewayUplinkCount,
-  gatewayDownlinkCount,
-  gatewayJoinRequestCount,
-  gatewayJoinAcceptCount,
-  awsAccountUplinkCount,
-  awsAccountDownlinkCount,
-  awsAccountUplinkLostCount,
-  awsAccountUplinkLostRate,
-  awsAccountJoinRequestCount,
-  awsAccountJoinAcceptCount,
-  awsAccountRoamingUplinkCount,
-  awsAccountRoamingDownlinkCount,
-  awsAccountDeviceCount,
-  awsAccountGatewayCount,
-  awsAccountActiveDeviceCount,
-  awsAccountActiveGatewayCount,
-}
+  deviceRSSI('DeviceRSSI'),
+  deviceSNR('DeviceSNR'),
+  deviceUplinkCount('DeviceUplinkCount'),
+  deviceDownlinkCount('DeviceDownlinkCount'),
+  deviceUplinkLostCount('DeviceUplinkLostCount'),
+  deviceUplinkLostRate('DeviceUplinkLostRate'),
+  deviceJoinRequestCount('DeviceJoinRequestCount'),
+  deviceJoinAcceptCount('DeviceJoinAcceptCount'),
+  deviceRoamingUplinkCount('DeviceRoamingUplinkCount'),
+  deviceRoamingDownlinkCount('DeviceRoamingDownlinkCount'),
+  gatewayUpTime('GatewayUpTime'),
+  gatewayDownTime('GatewayDownTime'),
+  gatewayRSSI('GatewayRSSI'),
+  gatewaySNR('GatewaySNR'),
+  gatewayUplinkCount('GatewayUplinkCount'),
+  gatewayDownlinkCount('GatewayDownlinkCount'),
+  gatewayJoinRequestCount('GatewayJoinRequestCount'),
+  gatewayJoinAcceptCount('GatewayJoinAcceptCount'),
+  awsAccountUplinkCount('AwsAccountUplinkCount'),
+  awsAccountDownlinkCount('AwsAccountDownlinkCount'),
+  awsAccountUplinkLostCount('AwsAccountUplinkLostCount'),
+  awsAccountUplinkLostRate('AwsAccountUplinkLostRate'),
+  awsAccountJoinRequestCount('AwsAccountJoinRequestCount'),
+  awsAccountJoinAcceptCount('AwsAccountJoinAcceptCount'),
+  awsAccountRoamingUplinkCount('AwsAccountRoamingUplinkCount'),
+  awsAccountRoamingDownlinkCount('AwsAccountRoamingDownlinkCount'),
+  awsAccountDeviceCount('AwsAccountDeviceCount'),
+  awsAccountGatewayCount('AwsAccountGatewayCount'),
+  awsAccountActiveDeviceCount('AwsAccountActiveDeviceCount'),
+  awsAccountActiveGatewayCount('AwsAccountActiveGatewayCount'),
+  ;
 
-extension MetricNameValueExtension on MetricName {
-  String toValue() {
-    switch (this) {
-      case MetricName.deviceRSSI:
-        return 'DeviceRSSI';
-      case MetricName.deviceSNR:
-        return 'DeviceSNR';
-      case MetricName.deviceUplinkCount:
-        return 'DeviceUplinkCount';
-      case MetricName.deviceDownlinkCount:
-        return 'DeviceDownlinkCount';
-      case MetricName.deviceUplinkLostCount:
-        return 'DeviceUplinkLostCount';
-      case MetricName.deviceUplinkLostRate:
-        return 'DeviceUplinkLostRate';
-      case MetricName.deviceJoinRequestCount:
-        return 'DeviceJoinRequestCount';
-      case MetricName.deviceJoinAcceptCount:
-        return 'DeviceJoinAcceptCount';
-      case MetricName.deviceRoamingUplinkCount:
-        return 'DeviceRoamingUplinkCount';
-      case MetricName.deviceRoamingDownlinkCount:
-        return 'DeviceRoamingDownlinkCount';
-      case MetricName.gatewayUpTime:
-        return 'GatewayUpTime';
-      case MetricName.gatewayDownTime:
-        return 'GatewayDownTime';
-      case MetricName.gatewayRSSI:
-        return 'GatewayRSSI';
-      case MetricName.gatewaySNR:
-        return 'GatewaySNR';
-      case MetricName.gatewayUplinkCount:
-        return 'GatewayUplinkCount';
-      case MetricName.gatewayDownlinkCount:
-        return 'GatewayDownlinkCount';
-      case MetricName.gatewayJoinRequestCount:
-        return 'GatewayJoinRequestCount';
-      case MetricName.gatewayJoinAcceptCount:
-        return 'GatewayJoinAcceptCount';
-      case MetricName.awsAccountUplinkCount:
-        return 'AwsAccountUplinkCount';
-      case MetricName.awsAccountDownlinkCount:
-        return 'AwsAccountDownlinkCount';
-      case MetricName.awsAccountUplinkLostCount:
-        return 'AwsAccountUplinkLostCount';
-      case MetricName.awsAccountUplinkLostRate:
-        return 'AwsAccountUplinkLostRate';
-      case MetricName.awsAccountJoinRequestCount:
-        return 'AwsAccountJoinRequestCount';
-      case MetricName.awsAccountJoinAcceptCount:
-        return 'AwsAccountJoinAcceptCount';
-      case MetricName.awsAccountRoamingUplinkCount:
-        return 'AwsAccountRoamingUplinkCount';
-      case MetricName.awsAccountRoamingDownlinkCount:
-        return 'AwsAccountRoamingDownlinkCount';
-      case MetricName.awsAccountDeviceCount:
-        return 'AwsAccountDeviceCount';
-      case MetricName.awsAccountGatewayCount:
-        return 'AwsAccountGatewayCount';
-      case MetricName.awsAccountActiveDeviceCount:
-        return 'AwsAccountActiveDeviceCount';
-      case MetricName.awsAccountActiveGatewayCount:
-        return 'AwsAccountActiveGatewayCount';
-    }
-  }
-}
+  final String value;
 
-extension MetricNameFromString on String {
-  MetricName toMetricName() {
-    switch (this) {
-      case 'DeviceRSSI':
-        return MetricName.deviceRSSI;
-      case 'DeviceSNR':
-        return MetricName.deviceSNR;
-      case 'DeviceUplinkCount':
-        return MetricName.deviceUplinkCount;
-      case 'DeviceDownlinkCount':
-        return MetricName.deviceDownlinkCount;
-      case 'DeviceUplinkLostCount':
-        return MetricName.deviceUplinkLostCount;
-      case 'DeviceUplinkLostRate':
-        return MetricName.deviceUplinkLostRate;
-      case 'DeviceJoinRequestCount':
-        return MetricName.deviceJoinRequestCount;
-      case 'DeviceJoinAcceptCount':
-        return MetricName.deviceJoinAcceptCount;
-      case 'DeviceRoamingUplinkCount':
-        return MetricName.deviceRoamingUplinkCount;
-      case 'DeviceRoamingDownlinkCount':
-        return MetricName.deviceRoamingDownlinkCount;
-      case 'GatewayUpTime':
-        return MetricName.gatewayUpTime;
-      case 'GatewayDownTime':
-        return MetricName.gatewayDownTime;
-      case 'GatewayRSSI':
-        return MetricName.gatewayRSSI;
-      case 'GatewaySNR':
-        return MetricName.gatewaySNR;
-      case 'GatewayUplinkCount':
-        return MetricName.gatewayUplinkCount;
-      case 'GatewayDownlinkCount':
-        return MetricName.gatewayDownlinkCount;
-      case 'GatewayJoinRequestCount':
-        return MetricName.gatewayJoinRequestCount;
-      case 'GatewayJoinAcceptCount':
-        return MetricName.gatewayJoinAcceptCount;
-      case 'AwsAccountUplinkCount':
-        return MetricName.awsAccountUplinkCount;
-      case 'AwsAccountDownlinkCount':
-        return MetricName.awsAccountDownlinkCount;
-      case 'AwsAccountUplinkLostCount':
-        return MetricName.awsAccountUplinkLostCount;
-      case 'AwsAccountUplinkLostRate':
-        return MetricName.awsAccountUplinkLostRate;
-      case 'AwsAccountJoinRequestCount':
-        return MetricName.awsAccountJoinRequestCount;
-      case 'AwsAccountJoinAcceptCount':
-        return MetricName.awsAccountJoinAcceptCount;
-      case 'AwsAccountRoamingUplinkCount':
-        return MetricName.awsAccountRoamingUplinkCount;
-      case 'AwsAccountRoamingDownlinkCount':
-        return MetricName.awsAccountRoamingDownlinkCount;
-      case 'AwsAccountDeviceCount':
-        return MetricName.awsAccountDeviceCount;
-      case 'AwsAccountGatewayCount':
-        return MetricName.awsAccountGatewayCount;
-      case 'AwsAccountActiveDeviceCount':
-        return MetricName.awsAccountActiveDeviceCount;
-      case 'AwsAccountActiveGatewayCount':
-        return MetricName.awsAccountActiveGatewayCount;
-    }
-    throw Exception('$this is not known in enum MetricName');
-  }
+  const MetricName(this.value);
+
+  static MetricName fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum MetricName'));
 }
 
 enum MetricQueryStatus {
-  succeeded,
-  failed,
-}
+  succeeded('Succeeded'),
+  failed('Failed'),
+  ;
 
-extension MetricQueryStatusValueExtension on MetricQueryStatus {
-  String toValue() {
-    switch (this) {
-      case MetricQueryStatus.succeeded:
-        return 'Succeeded';
-      case MetricQueryStatus.failed:
-        return 'Failed';
-    }
-  }
-}
+  final String value;
 
-extension MetricQueryStatusFromString on String {
-  MetricQueryStatus toMetricQueryStatus() {
-    switch (this) {
-      case 'Succeeded':
-        return MetricQueryStatus.succeeded;
-      case 'Failed':
-        return MetricQueryStatus.failed;
-    }
-    throw Exception('$this is not known in enum MetricQueryStatus');
-  }
+  const MetricQueryStatus(this.value);
+
+  static MetricQueryStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MetricQueryStatus'));
 }
 
 /// The aggregated values of the metric.
@@ -10260,31 +9742,18 @@ class MetricQueryValue {
 /// content. Use FrameInfo to debug the multicast communication between your
 /// multicast groups and the network server.
 enum MulticastFrameInfo {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension MulticastFrameInfoValueExtension on MulticastFrameInfo {
-  String toValue() {
-    switch (this) {
-      case MulticastFrameInfo.enabled:
-        return 'ENABLED';
-      case MulticastFrameInfo.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension MulticastFrameInfoFromString on String {
-  MulticastFrameInfo toMulticastFrameInfo() {
-    switch (this) {
-      case 'ENABLED':
-        return MulticastFrameInfo.enabled;
-      case 'DISABLED':
-        return MulticastFrameInfo.disabled;
-    }
-    throw Exception('$this is not known in enum MulticastFrameInfo');
-  }
+  const MulticastFrameInfo(this.value);
+
+  static MulticastFrameInfo fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum MulticastFrameInfo'));
 }
 
 /// A multicast group.
@@ -10386,41 +9855,20 @@ class NetworkAnalyzerConfigurations {
 }
 
 enum OnboardStatus {
-  initialized,
-  pending,
-  onboarded,
-  failed,
-}
+  initialized('INITIALIZED'),
+  pending('PENDING'),
+  onboarded('ONBOARDED'),
+  failed('FAILED'),
+  ;
 
-extension OnboardStatusValueExtension on OnboardStatus {
-  String toValue() {
-    switch (this) {
-      case OnboardStatus.initialized:
-        return 'INITIALIZED';
-      case OnboardStatus.pending:
-        return 'PENDING';
-      case OnboardStatus.onboarded:
-        return 'ONBOARDED';
-      case OnboardStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension OnboardStatusFromString on String {
-  OnboardStatus toOnboardStatus() {
-    switch (this) {
-      case 'INITIALIZED':
-        return OnboardStatus.initialized;
-      case 'PENDING':
-        return OnboardStatus.pending;
-      case 'ONBOARDED':
-        return OnboardStatus.onboarded;
-      case 'FAILED':
-        return OnboardStatus.failed;
-    }
-    throw Exception('$this is not known in enum OnboardStatus');
-  }
+  const OnboardStatus(this.value);
+
+  static OnboardStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OnboardStatus'));
 }
 
 /// OTAA device object for v1.0.x
@@ -10532,7 +9980,7 @@ class ParticipatingGateways {
 
   factory ParticipatingGateways.fromJson(Map<String, dynamic> json) {
     return ParticipatingGateways(
-      downlinkMode: (json['DownlinkMode'] as String).toDownlinkMode(),
+      downlinkMode: DownlinkMode.fromString((json['DownlinkMode'] as String)),
       gatewayList: (json['GatewayList'] as List)
           .whereNotNull()
           .map((e) => GatewayListItem.fromJson(e as Map<String, dynamic>))
@@ -10546,7 +9994,7 @@ class ParticipatingGateways {
     final gatewayList = this.gatewayList;
     final transmissionInterval = this.transmissionInterval;
     return {
-      'DownlinkMode': downlinkMode.toValue(),
+      'DownlinkMode': downlinkMode.value,
       'GatewayList': gatewayList,
       'TransmissionInterval': transmissionInterval,
     };
@@ -10554,54 +10002,31 @@ class ParticipatingGateways {
 }
 
 enum PartnerType {
-  sidewalk,
-}
+  sidewalk('Sidewalk'),
+  ;
 
-extension PartnerTypeValueExtension on PartnerType {
-  String toValue() {
-    switch (this) {
-      case PartnerType.sidewalk:
-        return 'Sidewalk';
-    }
-  }
-}
+  final String value;
 
-extension PartnerTypeFromString on String {
-  PartnerType toPartnerType() {
-    switch (this) {
-      case 'Sidewalk':
-        return PartnerType.sidewalk;
-    }
-    throw Exception('$this is not known in enum PartnerType');
-  }
+  const PartnerType(this.value);
+
+  static PartnerType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum PartnerType'));
 }
 
 enum PositionConfigurationFec {
-  rose,
-  none,
-}
+  rose('ROSE'),
+  none('NONE'),
+  ;
 
-extension PositionConfigurationFecValueExtension on PositionConfigurationFec {
-  String toValue() {
-    switch (this) {
-      case PositionConfigurationFec.rose:
-        return 'ROSE';
-      case PositionConfigurationFec.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension PositionConfigurationFecFromString on String {
-  PositionConfigurationFec toPositionConfigurationFec() {
-    switch (this) {
-      case 'ROSE':
-        return PositionConfigurationFec.rose;
-      case 'NONE':
-        return PositionConfigurationFec.none;
-    }
-    throw Exception('$this is not known in enum PositionConfigurationFec');
-  }
+  const PositionConfigurationFec(this.value);
+
+  static PositionConfigurationFec fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PositionConfigurationFec'));
 }
 
 /// The wrapper for a position configuration.
@@ -10630,7 +10055,8 @@ class PositionConfigurationItem {
     return PositionConfigurationItem(
       destination: json['Destination'] as String?,
       resourceIdentifier: json['ResourceIdentifier'] as String?,
-      resourceType: (json['ResourceType'] as String?)?.toPositionResourceType(),
+      resourceType: (json['ResourceType'] as String?)
+          ?.let(PositionResourceType.fromString),
       solvers: json['Solvers'] != null
           ? PositionSolverDetails.fromJson(
               json['Solvers'] as Map<String, dynamic>)
@@ -10646,67 +10072,40 @@ class PositionConfigurationItem {
     return {
       if (destination != null) 'Destination': destination,
       if (resourceIdentifier != null) 'ResourceIdentifier': resourceIdentifier,
-      if (resourceType != null) 'ResourceType': resourceType.toValue(),
+      if (resourceType != null) 'ResourceType': resourceType.value,
       if (solvers != null) 'Solvers': solvers,
     };
   }
 }
 
 enum PositionConfigurationStatus {
-  enabled,
-  disabled,
-}
+  enabled('Enabled'),
+  disabled('Disabled'),
+  ;
 
-extension PositionConfigurationStatusValueExtension
-    on PositionConfigurationStatus {
-  String toValue() {
-    switch (this) {
-      case PositionConfigurationStatus.enabled:
-        return 'Enabled';
-      case PositionConfigurationStatus.disabled:
-        return 'Disabled';
-    }
-  }
-}
+  final String value;
 
-extension PositionConfigurationStatusFromString on String {
-  PositionConfigurationStatus toPositionConfigurationStatus() {
-    switch (this) {
-      case 'Enabled':
-        return PositionConfigurationStatus.enabled;
-      case 'Disabled':
-        return PositionConfigurationStatus.disabled;
-    }
-    throw Exception('$this is not known in enum PositionConfigurationStatus');
-  }
+  const PositionConfigurationStatus(this.value);
+
+  static PositionConfigurationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PositionConfigurationStatus'));
 }
 
 enum PositionResourceType {
-  wirelessDevice,
-  wirelessGateway,
-}
+  wirelessDevice('WirelessDevice'),
+  wirelessGateway('WirelessGateway'),
+  ;
 
-extension PositionResourceTypeValueExtension on PositionResourceType {
-  String toValue() {
-    switch (this) {
-      case PositionResourceType.wirelessDevice:
-        return 'WirelessDevice';
-      case PositionResourceType.wirelessGateway:
-        return 'WirelessGateway';
-    }
-  }
-}
+  final String value;
 
-extension PositionResourceTypeFromString on String {
-  PositionResourceType toPositionResourceType() {
-    switch (this) {
-      case 'WirelessDevice':
-        return PositionResourceType.wirelessDevice;
-      case 'WirelessGateway':
-        return PositionResourceType.wirelessGateway;
-    }
-    throw Exception('$this is not known in enum PositionResourceType');
-  }
+  const PositionResourceType(this.value);
+
+  static PositionResourceType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum PositionResourceType'));
 }
 
 /// The wrapper for position solver configurations.
@@ -10753,49 +10152,31 @@ class PositionSolverDetails {
 }
 
 enum PositionSolverProvider {
-  semtech,
-}
+  semtech('Semtech'),
+  ;
 
-extension PositionSolverProviderValueExtension on PositionSolverProvider {
-  String toValue() {
-    switch (this) {
-      case PositionSolverProvider.semtech:
-        return 'Semtech';
-    }
-  }
-}
+  final String value;
 
-extension PositionSolverProviderFromString on String {
-  PositionSolverProvider toPositionSolverProvider() {
-    switch (this) {
-      case 'Semtech':
-        return PositionSolverProvider.semtech;
-    }
-    throw Exception('$this is not known in enum PositionSolverProvider');
-  }
+  const PositionSolverProvider(this.value);
+
+  static PositionSolverProvider fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PositionSolverProvider'));
 }
 
 enum PositionSolverType {
-  gnss,
-}
+  gnss('GNSS'),
+  ;
 
-extension PositionSolverTypeValueExtension on PositionSolverType {
-  String toValue() {
-    switch (this) {
-      case PositionSolverType.gnss:
-        return 'GNSS';
-    }
-  }
-}
+  final String value;
 
-extension PositionSolverTypeFromString on String {
-  PositionSolverType toPositionSolverType() {
-    switch (this) {
-      case 'GNSS':
-        return PositionSolverType.gnss;
-    }
-    throw Exception('$this is not known in enum PositionSolverType');
-  }
+  const PositionSolverType(this.value);
+
+  static PositionSolverType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum PositionSolverType'));
 }
 
 /// The FPorts for the position information.
@@ -10831,31 +10212,18 @@ class Positioning {
 }
 
 enum PositioningConfigStatus {
-  enabled,
-  disabled,
-}
+  enabled('Enabled'),
+  disabled('Disabled'),
+  ;
 
-extension PositioningConfigStatusValueExtension on PositioningConfigStatus {
-  String toValue() {
-    switch (this) {
-      case PositioningConfigStatus.enabled:
-        return 'Enabled';
-      case PositioningConfigStatus.disabled:
-        return 'Disabled';
-    }
-  }
-}
+  final String value;
 
-extension PositioningConfigStatusFromString on String {
-  PositioningConfigStatus toPositioningConfigStatus() {
-    switch (this) {
-      case 'Enabled':
-        return PositioningConfigStatus.enabled;
-      case 'Disabled':
-        return PositioningConfigStatus.disabled;
-    }
-    throw Exception('$this is not known in enum PositioningConfigStatus');
-  }
+  const PositioningConfigStatus(this.value);
+
+  static PositioningConfigStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PositioningConfigStatus'));
 }
 
 /// Proximity event configuration object for enabling and disabling relevant
@@ -10882,7 +10250,7 @@ class ProximityEventConfiguration {
           : null,
       wirelessDeviceIdEventTopic:
           (json['WirelessDeviceIdEventTopic'] as String?)
-              ?.toEventNotificationTopicStatus(),
+              ?.let(EventNotificationTopicStatus.fromString),
     );
   }
 
@@ -10892,7 +10260,7 @@ class ProximityEventConfiguration {
     return {
       if (sidewalk != null) 'Sidewalk': sidewalk,
       if (wirelessDeviceIdEventTopic != null)
-        'WirelessDeviceIdEventTopic': wirelessDeviceIdEventTopic.toValue(),
+        'WirelessDeviceIdEventTopic': wirelessDeviceIdEventTopic.value,
     };
   }
 }
@@ -10992,8 +10360,8 @@ class SemtechGnssConfiguration {
     final fec = this.fec;
     final status = this.status;
     return {
-      'Fec': fec.toValue(),
-      'Status': status.toValue(),
+      'Fec': fec.value,
+      'Status': status.value,
     };
   }
 }
@@ -11021,10 +10389,12 @@ class SemtechGnssDetail {
 
   factory SemtechGnssDetail.fromJson(Map<String, dynamic> json) {
     return SemtechGnssDetail(
-      fec: (json['Fec'] as String?)?.toPositionConfigurationFec(),
-      provider: (json['Provider'] as String?)?.toPositionSolverProvider(),
-      status: (json['Status'] as String?)?.toPositionConfigurationStatus(),
-      type: (json['Type'] as String?)?.toPositionSolverType(),
+      fec: (json['Fec'] as String?)?.let(PositionConfigurationFec.fromString),
+      provider:
+          (json['Provider'] as String?)?.let(PositionSolverProvider.fromString),
+      status: (json['Status'] as String?)
+          ?.let(PositionConfigurationStatus.fromString),
+      type: (json['Type'] as String?)?.let(PositionSolverType.fromString),
     );
   }
 
@@ -11034,10 +10404,10 @@ class SemtechGnssDetail {
     final status = this.status;
     final type = this.type;
     return {
-      if (fec != null) 'Fec': fec.toValue(),
-      if (provider != null) 'Provider': provider.toValue(),
-      if (status != null) 'Status': status.toValue(),
-      if (type != null) 'Type': type.toValue(),
+      if (fec != null) 'Fec': fec.value,
+      if (provider != null) 'Provider': provider.value,
+      if (status != null) 'Status': status.value,
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -11345,7 +10715,8 @@ class SidewalkDevice {
           .toList(),
       sidewalkId: json['SidewalkId'] as String?,
       sidewalkManufacturingSn: json['SidewalkManufacturingSn'] as String?,
-      status: (json['Status'] as String?)?.toWirelessDeviceSidewalkStatus(),
+      status: (json['Status'] as String?)
+          ?.let(WirelessDeviceSidewalkStatus.fromString),
     );
   }
 
@@ -11367,7 +10738,7 @@ class SidewalkDevice {
       if (sidewalkId != null) 'SidewalkId': sidewalkId,
       if (sidewalkManufacturingSn != null)
         'SidewalkManufacturingSn': sidewalkManufacturingSn,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -11395,9 +10766,11 @@ class SidewalkDeviceMetadata {
 
   factory SidewalkDeviceMetadata.fromJson(Map<String, dynamic> json) {
     return SidewalkDeviceMetadata(
-      batteryLevel: (json['BatteryLevel'] as String?)?.toBatteryLevel(),
-      deviceState: (json['DeviceState'] as String?)?.toDeviceState(),
-      event: (json['Event'] as String?)?.toEvent(),
+      batteryLevel:
+          (json['BatteryLevel'] as String?)?.let(BatteryLevel.fromString),
+      deviceState:
+          (json['DeviceState'] as String?)?.let(DeviceState.fromString),
+      event: (json['Event'] as String?)?.let(Event.fromString),
       rssi: json['Rssi'] as int?,
     );
   }
@@ -11408,9 +10781,9 @@ class SidewalkDeviceMetadata {
     final event = this.event;
     final rssi = this.rssi;
     return {
-      if (batteryLevel != null) 'BatteryLevel': batteryLevel.toValue(),
-      if (deviceState != null) 'DeviceState': deviceState.toValue(),
-      if (event != null) 'Event': event.toValue(),
+      if (batteryLevel != null) 'BatteryLevel': batteryLevel.value,
+      if (deviceState != null) 'DeviceState': deviceState.value,
+      if (event != null) 'Event': event.value,
       if (rssi != null) 'Rssi': rssi,
     };
   }
@@ -11430,7 +10803,7 @@ class SidewalkEventNotificationConfigurations {
       Map<String, dynamic> json) {
     return SidewalkEventNotificationConfigurations(
       amazonIdEventTopic: (json['AmazonIdEventTopic'] as String?)
-          ?.toEventNotificationTopicStatus(),
+          ?.let(EventNotificationTopicStatus.fromString),
     );
   }
 
@@ -11438,7 +10811,7 @@ class SidewalkEventNotificationConfigurations {
     final amazonIdEventTopic = this.amazonIdEventTopic;
     return {
       if (amazonIdEventTopic != null)
-        'AmazonIdEventTopic': amazonIdEventTopic.toValue(),
+        'AmazonIdEventTopic': amazonIdEventTopic.value,
     };
   }
 }
@@ -11563,7 +10936,8 @@ class SidewalkListDevice {
       deviceProfileId: json['DeviceProfileId'] as String?,
       sidewalkId: json['SidewalkId'] as String?,
       sidewalkManufacturingSn: json['SidewalkManufacturingSn'] as String?,
-      status: (json['Status'] as String?)?.toWirelessDeviceSidewalkStatus(),
+      status: (json['Status'] as String?)
+          ?.let(WirelessDeviceSidewalkStatus.fromString),
     );
   }
 
@@ -11581,7 +10955,7 @@ class SidewalkListDevice {
       if (sidewalkId != null) 'SidewalkId': sidewalkId,
       if (sidewalkManufacturingSn != null)
         'SidewalkManufacturingSn': sidewalkManufacturingSn,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -11600,7 +10974,7 @@ class SidewalkResourceTypeEventConfiguration {
       Map<String, dynamic> json) {
     return SidewalkResourceTypeEventConfiguration(
       wirelessDeviceEventTopic: (json['WirelessDeviceEventTopic'] as String?)
-          ?.toEventNotificationTopicStatus(),
+          ?.let(EventNotificationTopicStatus.fromString),
     );
   }
 
@@ -11608,7 +10982,7 @@ class SidewalkResourceTypeEventConfiguration {
     final wirelessDeviceEventTopic = this.wirelessDeviceEventTopic;
     return {
       if (wirelessDeviceEventTopic != null)
-        'WirelessDeviceEventTopic': wirelessDeviceEventTopic.toValue(),
+        'WirelessDeviceEventTopic': wirelessDeviceEventTopic.value,
     };
   }
 }
@@ -11635,7 +11009,7 @@ class SidewalkSendDataToDevice {
     return {
       if (ackModeRetryDurationSecs != null)
         'AckModeRetryDurationSecs': ackModeRetryDurationSecs,
-      if (messageType != null) 'MessageType': messageType.toValue(),
+      if (messageType != null) 'MessageType': messageType.value,
       if (seq != null) 'Seq': seq,
     };
   }
@@ -11723,31 +11097,17 @@ class SidewalkUpdateImportInfo {
 
 /// The certificate chain algorithm provided by sidewalk.
 enum SigningAlg {
-  ed25519,
-  p256r1,
-}
+  ed25519('Ed25519'),
+  p256r1('P256r1'),
+  ;
 
-extension SigningAlgValueExtension on SigningAlg {
-  String toValue() {
-    switch (this) {
-      case SigningAlg.ed25519:
-        return 'Ed25519';
-      case SigningAlg.p256r1:
-        return 'P256r1';
-    }
-  }
-}
+  final String value;
 
-extension SigningAlgFromString on String {
-  SigningAlg toSigningAlg() {
-    switch (this) {
-      case 'Ed25519':
-        return SigningAlg.ed25519;
-      case 'P256r1':
-        return SigningAlg.p256r1;
-    }
-    throw Exception('$this is not known in enum SigningAlg');
-  }
+  const SigningAlg(this.value);
+
+  static SigningAlg fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SigningAlg'));
 }
 
 class StartBulkAssociateWirelessDeviceWithMulticastGroupResponse {
@@ -11871,46 +11231,32 @@ class SummaryMetricConfiguration {
 
   factory SummaryMetricConfiguration.fromJson(Map<String, dynamic> json) {
     return SummaryMetricConfiguration(
-      status: (json['Status'] as String?)?.toSummaryMetricConfigurationStatus(),
+      status: (json['Status'] as String?)
+          ?.let(SummaryMetricConfigurationStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
 
 enum SummaryMetricConfigurationStatus {
-  enabled,
-  disabled,
-}
+  enabled('Enabled'),
+  disabled('Disabled'),
+  ;
 
-extension SummaryMetricConfigurationStatusValueExtension
-    on SummaryMetricConfigurationStatus {
-  String toValue() {
-    switch (this) {
-      case SummaryMetricConfigurationStatus.enabled:
-        return 'Enabled';
-      case SummaryMetricConfigurationStatus.disabled:
-        return 'Disabled';
-    }
-  }
-}
+  final String value;
 
-extension SummaryMetricConfigurationStatusFromString on String {
-  SummaryMetricConfigurationStatus toSummaryMetricConfigurationStatus() {
-    switch (this) {
-      case 'Enabled':
-        return SummaryMetricConfigurationStatus.enabled;
-      case 'Disabled':
-        return SummaryMetricConfigurationStatus.disabled;
-    }
-    throw Exception(
-        '$this is not known in enum SummaryMetricConfigurationStatus');
-  }
+  const SummaryMetricConfigurationStatus(this.value);
+
+  static SummaryMetricConfigurationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SummaryMetricConfigurationStatus'));
 }
 
 /// The summary metric query object.
@@ -11951,11 +11297,11 @@ class SummaryMetricQuery {
     final startTimestamp = this.startTimestamp;
     return {
       if (aggregationPeriod != null)
-        'AggregationPeriod': aggregationPeriod.toValue(),
+        'AggregationPeriod': aggregationPeriod.value,
       if (dimensions != null) 'Dimensions': dimensions,
       if (endTimestamp != null)
         'EndTimestamp': unixTimestampToJson(endTimestamp),
-      if (metricName != null) 'MetricName': metricName.toValue(),
+      if (metricName != null) 'MetricName': metricName.value,
       if (queryId != null) 'QueryId': queryId,
       if (startTimestamp != null)
         'StartTimestamp': unixTimestampToJson(startTimestamp),
@@ -12014,17 +11360,18 @@ class SummaryMetricQueryResult {
 
   factory SummaryMetricQueryResult.fromJson(Map<String, dynamic> json) {
     return SummaryMetricQueryResult(
-      aggregationPeriod:
-          (json['AggregationPeriod'] as String?)?.toAggregationPeriod(),
+      aggregationPeriod: (json['AggregationPeriod'] as String?)
+          ?.let(AggregationPeriod.fromString),
       dimensions: (json['Dimensions'] as List?)
           ?.whereNotNull()
           .map((e) => Dimension.fromJson(e as Map<String, dynamic>))
           .toList(),
       endTimestamp: timeStampFromJson(json['EndTimestamp']),
       error: json['Error'] as String?,
-      metricName: (json['MetricName'] as String?)?.toMetricName(),
+      metricName: (json['MetricName'] as String?)?.let(MetricName.fromString),
       queryId: json['QueryId'] as String?,
-      queryStatus: (json['QueryStatus'] as String?)?.toMetricQueryStatus(),
+      queryStatus:
+          (json['QueryStatus'] as String?)?.let(MetricQueryStatus.fromString),
       startTimestamp: timeStampFromJson(json['StartTimestamp']),
       timestamps: (json['Timestamps'] as List?)
           ?.whereNotNull()
@@ -12052,14 +11399,14 @@ class SummaryMetricQueryResult {
     final values = this.values;
     return {
       if (aggregationPeriod != null)
-        'AggregationPeriod': aggregationPeriod.toValue(),
+        'AggregationPeriod': aggregationPeriod.value,
       if (dimensions != null) 'Dimensions': dimensions,
       if (endTimestamp != null)
         'EndTimestamp': unixTimestampToJson(endTimestamp),
       if (error != null) 'Error': error,
-      if (metricName != null) 'MetricName': metricName.toValue(),
+      if (metricName != null) 'MetricName': metricName.value,
       if (queryId != null) 'QueryId': queryId,
-      if (queryStatus != null) 'QueryStatus': queryStatus.toValue(),
+      if (queryStatus != null) 'QueryStatus': queryStatus.value,
       if (startTimestamp != null)
         'StartTimestamp': unixTimestampToJson(startTimestamp),
       if (timestamps != null)
@@ -12072,86 +11419,29 @@ class SummaryMetricQueryResult {
 
 /// Supported RfRegions
 enum SupportedRfRegion {
-  eu868,
-  us915,
-  au915,
-  as923_1,
-  as923_2,
-  as923_3,
-  as923_4,
-  eu433,
-  cn470,
-  cn779,
-  ru864,
-  kr920,
-  in865,
-}
+  eu868('EU868'),
+  us915('US915'),
+  au915('AU915'),
+  as923_1('AS923-1'),
+  as923_2('AS923-2'),
+  as923_3('AS923-3'),
+  as923_4('AS923-4'),
+  eu433('EU433'),
+  cn470('CN470'),
+  cn779('CN779'),
+  ru864('RU864'),
+  kr920('KR920'),
+  in865('IN865'),
+  ;
 
-extension SupportedRfRegionValueExtension on SupportedRfRegion {
-  String toValue() {
-    switch (this) {
-      case SupportedRfRegion.eu868:
-        return 'EU868';
-      case SupportedRfRegion.us915:
-        return 'US915';
-      case SupportedRfRegion.au915:
-        return 'AU915';
-      case SupportedRfRegion.as923_1:
-        return 'AS923-1';
-      case SupportedRfRegion.as923_2:
-        return 'AS923-2';
-      case SupportedRfRegion.as923_3:
-        return 'AS923-3';
-      case SupportedRfRegion.as923_4:
-        return 'AS923-4';
-      case SupportedRfRegion.eu433:
-        return 'EU433';
-      case SupportedRfRegion.cn470:
-        return 'CN470';
-      case SupportedRfRegion.cn779:
-        return 'CN779';
-      case SupportedRfRegion.ru864:
-        return 'RU864';
-      case SupportedRfRegion.kr920:
-        return 'KR920';
-      case SupportedRfRegion.in865:
-        return 'IN865';
-    }
-  }
-}
+  final String value;
 
-extension SupportedRfRegionFromString on String {
-  SupportedRfRegion toSupportedRfRegion() {
-    switch (this) {
-      case 'EU868':
-        return SupportedRfRegion.eu868;
-      case 'US915':
-        return SupportedRfRegion.us915;
-      case 'AU915':
-        return SupportedRfRegion.au915;
-      case 'AS923-1':
-        return SupportedRfRegion.as923_1;
-      case 'AS923-2':
-        return SupportedRfRegion.as923_2;
-      case 'AS923-3':
-        return SupportedRfRegion.as923_3;
-      case 'AS923-4':
-        return SupportedRfRegion.as923_4;
-      case 'EU433':
-        return SupportedRfRegion.eu433;
-      case 'CN470':
-        return SupportedRfRegion.cn470;
-      case 'CN779':
-        return SupportedRfRegion.cn779;
-      case 'RU864':
-        return SupportedRfRegion.ru864;
-      case 'KR920':
-        return SupportedRfRegion.kr920;
-      case 'IN865':
-        return SupportedRfRegion.in865;
-    }
-    throw Exception('$this is not known in enum SupportedRfRegion');
-  }
+  const SupportedRfRegion(this.value);
+
+  static SupportedRfRegion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SupportedRfRegion'));
 }
 
 /// A simple label consisting of a customer-defined key-value pair
@@ -12367,11 +11657,11 @@ class TraceContent {
 
   factory TraceContent.fromJson(Map<String, dynamic> json) {
     return TraceContent(
-      logLevel: (json['LogLevel'] as String?)?.toLogLevel(),
-      multicastFrameInfo:
-          (json['MulticastFrameInfo'] as String?)?.toMulticastFrameInfo(),
+      logLevel: (json['LogLevel'] as String?)?.let(LogLevel.fromString),
+      multicastFrameInfo: (json['MulticastFrameInfo'] as String?)
+          ?.let(MulticastFrameInfo.fromString),
       wirelessDeviceFrameInfo: (json['WirelessDeviceFrameInfo'] as String?)
-          ?.toWirelessDeviceFrameInfo(),
+          ?.let(WirelessDeviceFrameInfo.fromString),
     );
   }
 
@@ -12380,11 +11670,11 @@ class TraceContent {
     final multicastFrameInfo = this.multicastFrameInfo;
     final wirelessDeviceFrameInfo = this.wirelessDeviceFrameInfo;
     return {
-      if (logLevel != null) 'LogLevel': logLevel.toValue(),
+      if (logLevel != null) 'LogLevel': logLevel.value,
       if (multicastFrameInfo != null)
-        'MulticastFrameInfo': multicastFrameInfo.toValue(),
+        'MulticastFrameInfo': multicastFrameInfo.value,
       if (wirelessDeviceFrameInfo != null)
-        'WirelessDeviceFrameInfo': wirelessDeviceFrameInfo.toValue(),
+        'WirelessDeviceFrameInfo': wirelessDeviceFrameInfo.value,
     };
   }
 }
@@ -12866,46 +12156,21 @@ class WiFiAccessPoint {
 /// The event for a log message, if the log message is tied to a wireless
 /// device.
 enum WirelessDeviceEvent {
-  join,
-  rejoin,
-  uplinkData,
-  downlinkData,
-  registration,
-}
+  join('Join'),
+  rejoin('Rejoin'),
+  uplinkData('Uplink_Data'),
+  downlinkData('Downlink_Data'),
+  registration('Registration'),
+  ;
 
-extension WirelessDeviceEventValueExtension on WirelessDeviceEvent {
-  String toValue() {
-    switch (this) {
-      case WirelessDeviceEvent.join:
-        return 'Join';
-      case WirelessDeviceEvent.rejoin:
-        return 'Rejoin';
-      case WirelessDeviceEvent.uplinkData:
-        return 'Uplink_Data';
-      case WirelessDeviceEvent.downlinkData:
-        return 'Downlink_Data';
-      case WirelessDeviceEvent.registration:
-        return 'Registration';
-    }
-  }
-}
+  final String value;
 
-extension WirelessDeviceEventFromString on String {
-  WirelessDeviceEvent toWirelessDeviceEvent() {
-    switch (this) {
-      case 'Join':
-        return WirelessDeviceEvent.join;
-      case 'Rejoin':
-        return WirelessDeviceEvent.rejoin;
-      case 'Uplink_Data':
-        return WirelessDeviceEvent.uplinkData;
-      case 'Downlink_Data':
-        return WirelessDeviceEvent.downlinkData;
-      case 'Registration':
-        return WirelessDeviceEvent.registration;
-    }
-    throw Exception('$this is not known in enum WirelessDeviceEvent');
-  }
+  const WirelessDeviceEvent(this.value);
+
+  static WirelessDeviceEvent fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum WirelessDeviceEvent'));
 }
 
 /// The log options for a wireless device event and can be used to set log
@@ -12927,8 +12192,8 @@ class WirelessDeviceEventLogOption {
 
   factory WirelessDeviceEventLogOption.fromJson(Map<String, dynamic> json) {
     return WirelessDeviceEventLogOption(
-      event: (json['Event'] as String).toWirelessDeviceEvent(),
-      logLevel: (json['LogLevel'] as String).toLogLevel(),
+      event: WirelessDeviceEvent.fromString((json['Event'] as String)),
+      logLevel: LogLevel.fromString((json['LogLevel'] as String)),
     );
   }
 
@@ -12936,8 +12201,8 @@ class WirelessDeviceEventLogOption {
     final event = this.event;
     final logLevel = this.logLevel;
     return {
-      'Event': event.toValue(),
-      'LogLevel': logLevel.toValue(),
+      'Event': event.value,
+      'LogLevel': logLevel.value,
     };
   }
 }
@@ -12946,69 +12211,35 @@ class WirelessDeviceEventLogOption {
 /// content. Use FrameInfo to debug the communication between your LoRaWAN end
 /// devices and the network server.
 enum WirelessDeviceFrameInfo {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension WirelessDeviceFrameInfoValueExtension on WirelessDeviceFrameInfo {
-  String toValue() {
-    switch (this) {
-      case WirelessDeviceFrameInfo.enabled:
-        return 'ENABLED';
-      case WirelessDeviceFrameInfo.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension WirelessDeviceFrameInfoFromString on String {
-  WirelessDeviceFrameInfo toWirelessDeviceFrameInfo() {
-    switch (this) {
-      case 'ENABLED':
-        return WirelessDeviceFrameInfo.enabled;
-      case 'DISABLED':
-        return WirelessDeviceFrameInfo.disabled;
-    }
-    throw Exception('$this is not known in enum WirelessDeviceFrameInfo');
-  }
+  const WirelessDeviceFrameInfo(this.value);
+
+  static WirelessDeviceFrameInfo fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum WirelessDeviceFrameInfo'));
 }
 
 enum WirelessDeviceIdType {
-  wirelessDeviceId,
-  devEui,
-  thingName,
-  sidewalkManufacturingSn,
-}
+  wirelessDeviceId('WirelessDeviceId'),
+  devEui('DevEui'),
+  thingName('ThingName'),
+  sidewalkManufacturingSn('SidewalkManufacturingSn'),
+  ;
 
-extension WirelessDeviceIdTypeValueExtension on WirelessDeviceIdType {
-  String toValue() {
-    switch (this) {
-      case WirelessDeviceIdType.wirelessDeviceId:
-        return 'WirelessDeviceId';
-      case WirelessDeviceIdType.devEui:
-        return 'DevEui';
-      case WirelessDeviceIdType.thingName:
-        return 'ThingName';
-      case WirelessDeviceIdType.sidewalkManufacturingSn:
-        return 'SidewalkManufacturingSn';
-    }
-  }
-}
+  final String value;
 
-extension WirelessDeviceIdTypeFromString on String {
-  WirelessDeviceIdType toWirelessDeviceIdType() {
-    switch (this) {
-      case 'WirelessDeviceId':
-        return WirelessDeviceIdType.wirelessDeviceId;
-      case 'DevEui':
-        return WirelessDeviceIdType.devEui;
-      case 'ThingName':
-        return WirelessDeviceIdType.thingName;
-      case 'SidewalkManufacturingSn':
-        return WirelessDeviceIdType.sidewalkManufacturingSn;
-    }
-    throw Exception('$this is not known in enum WirelessDeviceIdType');
-  }
+  const WirelessDeviceIdType(this.value);
+
+  static WirelessDeviceIdType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum WirelessDeviceIdType'));
 }
 
 /// Information about an import task for wireless devices.
@@ -13083,7 +12314,7 @@ class WirelessDeviceImportTask {
           ? SidewalkGetStartImportInfo.fromJson(
               json['Sidewalk'] as Map<String, dynamic>)
           : null,
-      status: (json['Status'] as String?)?.toImportTaskStatus(),
+      status: (json['Status'] as String?)?.let(ImportTaskStatus.fromString),
       statusReason: json['StatusReason'] as String?,
     );
   }
@@ -13114,7 +12345,7 @@ class WirelessDeviceImportTask {
       if (pendingImportedDeviceCount != null)
         'PendingImportedDeviceCount': pendingImportedDeviceCount,
       if (sidewalk != null) 'Sidewalk': sidewalk,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusReason != null) 'StatusReason': statusReason,
     };
   }
@@ -13137,8 +12368,8 @@ class WirelessDeviceLogOption {
 
   factory WirelessDeviceLogOption.fromJson(Map<String, dynamic> json) {
     return WirelessDeviceLogOption(
-      logLevel: (json['LogLevel'] as String).toLogLevel(),
-      type: (json['Type'] as String).toWirelessDeviceType(),
+      logLevel: LogLevel.fromString((json['LogLevel'] as String)),
+      type: WirelessDeviceType.fromString((json['Type'] as String)),
       events: (json['Events'] as List?)
           ?.whereNotNull()
           .map((e) =>
@@ -13152,50 +12383,28 @@ class WirelessDeviceLogOption {
     final type = this.type;
     final events = this.events;
     return {
-      'LogLevel': logLevel.toValue(),
-      'Type': type.toValue(),
+      'LogLevel': logLevel.value,
+      'Type': type.value,
       if (events != null) 'Events': events,
     };
   }
 }
 
 enum WirelessDeviceSidewalkStatus {
-  provisioned,
-  registered,
-  activated,
-  unknown,
-}
+  provisioned('PROVISIONED'),
+  registered('REGISTERED'),
+  activated('ACTIVATED'),
+  unknown('UNKNOWN'),
+  ;
 
-extension WirelessDeviceSidewalkStatusValueExtension
-    on WirelessDeviceSidewalkStatus {
-  String toValue() {
-    switch (this) {
-      case WirelessDeviceSidewalkStatus.provisioned:
-        return 'PROVISIONED';
-      case WirelessDeviceSidewalkStatus.registered:
-        return 'REGISTERED';
-      case WirelessDeviceSidewalkStatus.activated:
-        return 'ACTIVATED';
-      case WirelessDeviceSidewalkStatus.unknown:
-        return 'UNKNOWN';
-    }
-  }
-}
+  final String value;
 
-extension WirelessDeviceSidewalkStatusFromString on String {
-  WirelessDeviceSidewalkStatus toWirelessDeviceSidewalkStatus() {
-    switch (this) {
-      case 'PROVISIONED':
-        return WirelessDeviceSidewalkStatus.provisioned;
-      case 'REGISTERED':
-        return WirelessDeviceSidewalkStatus.registered;
-      case 'ACTIVATED':
-        return WirelessDeviceSidewalkStatus.activated;
-      case 'UNKNOWN':
-        return WirelessDeviceSidewalkStatus.unknown;
-    }
-    throw Exception('$this is not known in enum WirelessDeviceSidewalkStatus');
-  }
+  const WirelessDeviceSidewalkStatus(this.value);
+
+  static WirelessDeviceSidewalkStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum WirelessDeviceSidewalkStatus'));
 }
 
 /// Information about a wireless device's operation.
@@ -13250,8 +12459,8 @@ class WirelessDeviceStatistics {
     return WirelessDeviceStatistics(
       arn: json['Arn'] as String?,
       destinationName: json['DestinationName'] as String?,
-      fuotaDeviceStatus:
-          (json['FuotaDeviceStatus'] as String?)?.toFuotaDeviceStatus(),
+      fuotaDeviceStatus: (json['FuotaDeviceStatus'] as String?)
+          ?.let(FuotaDeviceStatus.fromString),
       id: json['Id'] as String?,
       lastUplinkReceivedAt: json['LastUplinkReceivedAt'] as String?,
       loRaWAN: json['LoRaWAN'] != null
@@ -13264,7 +12473,7 @@ class WirelessDeviceStatistics {
           ? SidewalkListDevice.fromJson(
               json['Sidewalk'] as Map<String, dynamic>)
           : null,
-      type: (json['Type'] as String?)?.toWirelessDeviceType(),
+      type: (json['Type'] as String?)?.let(WirelessDeviceType.fromString),
     );
   }
 
@@ -13284,7 +12493,7 @@ class WirelessDeviceStatistics {
       if (arn != null) 'Arn': arn,
       if (destinationName != null) 'DestinationName': destinationName,
       if (fuotaDeviceStatus != null)
-        'FuotaDeviceStatus': fuotaDeviceStatus.toValue(),
+        'FuotaDeviceStatus': fuotaDeviceStatus.value,
       if (id != null) 'Id': id,
       if (lastUplinkReceivedAt != null)
         'LastUplinkReceivedAt': lastUplinkReceivedAt,
@@ -13294,67 +12503,41 @@ class WirelessDeviceStatistics {
         'MulticastDeviceStatus': multicastDeviceStatus,
       if (name != null) 'Name': name,
       if (sidewalk != null) 'Sidewalk': sidewalk,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum WirelessDeviceType {
-  sidewalk,
-  loRaWAN,
-}
+  sidewalk('Sidewalk'),
+  loRaWAN('LoRaWAN'),
+  ;
 
-extension WirelessDeviceTypeValueExtension on WirelessDeviceType {
-  String toValue() {
-    switch (this) {
-      case WirelessDeviceType.sidewalk:
-        return 'Sidewalk';
-      case WirelessDeviceType.loRaWAN:
-        return 'LoRaWAN';
-    }
-  }
-}
+  final String value;
 
-extension WirelessDeviceTypeFromString on String {
-  WirelessDeviceType toWirelessDeviceType() {
-    switch (this) {
-      case 'Sidewalk':
-        return WirelessDeviceType.sidewalk;
-      case 'LoRaWAN':
-        return WirelessDeviceType.loRaWAN;
-    }
-    throw Exception('$this is not known in enum WirelessDeviceType');
-  }
+  const WirelessDeviceType(this.value);
+
+  static WirelessDeviceType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum WirelessDeviceType'));
 }
 
 /// The event for a log message, if the log message is tied to a wireless
 /// gateway.
 enum WirelessGatewayEvent {
-  cupsRequest,
-  certificate,
-}
+  cupsRequest('CUPS_Request'),
+  certificate('Certificate'),
+  ;
 
-extension WirelessGatewayEventValueExtension on WirelessGatewayEvent {
-  String toValue() {
-    switch (this) {
-      case WirelessGatewayEvent.cupsRequest:
-        return 'CUPS_Request';
-      case WirelessGatewayEvent.certificate:
-        return 'Certificate';
-    }
-  }
-}
+  final String value;
 
-extension WirelessGatewayEventFromString on String {
-  WirelessGatewayEvent toWirelessGatewayEvent() {
-    switch (this) {
-      case 'CUPS_Request':
-        return WirelessGatewayEvent.cupsRequest;
-      case 'Certificate':
-        return WirelessGatewayEvent.certificate;
-    }
-    throw Exception('$this is not known in enum WirelessGatewayEvent');
-  }
+  const WirelessGatewayEvent(this.value);
+
+  static WirelessGatewayEvent fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum WirelessGatewayEvent'));
 }
 
 /// The log options for a wireless gateway event and can be used to set log
@@ -13373,8 +12556,8 @@ class WirelessGatewayEventLogOption {
 
   factory WirelessGatewayEventLogOption.fromJson(Map<String, dynamic> json) {
     return WirelessGatewayEventLogOption(
-      event: (json['Event'] as String).toWirelessGatewayEvent(),
-      logLevel: (json['LogLevel'] as String).toLogLevel(),
+      event: WirelessGatewayEvent.fromString((json['Event'] as String)),
+      logLevel: LogLevel.fromString((json['LogLevel'] as String)),
     );
   }
 
@@ -13382,43 +12565,26 @@ class WirelessGatewayEventLogOption {
     final event = this.event;
     final logLevel = this.logLevel;
     return {
-      'Event': event.toValue(),
-      'LogLevel': logLevel.toValue(),
+      'Event': event.value,
+      'LogLevel': logLevel.value,
     };
   }
 }
 
 enum WirelessGatewayIdType {
-  gatewayEui,
-  wirelessGatewayId,
-  thingName,
-}
+  gatewayEui('GatewayEui'),
+  wirelessGatewayId('WirelessGatewayId'),
+  thingName('ThingName'),
+  ;
 
-extension WirelessGatewayIdTypeValueExtension on WirelessGatewayIdType {
-  String toValue() {
-    switch (this) {
-      case WirelessGatewayIdType.gatewayEui:
-        return 'GatewayEui';
-      case WirelessGatewayIdType.wirelessGatewayId:
-        return 'WirelessGatewayId';
-      case WirelessGatewayIdType.thingName:
-        return 'ThingName';
-    }
-  }
-}
+  final String value;
 
-extension WirelessGatewayIdTypeFromString on String {
-  WirelessGatewayIdType toWirelessGatewayIdType() {
-    switch (this) {
-      case 'GatewayEui':
-        return WirelessGatewayIdType.gatewayEui;
-      case 'WirelessGatewayId':
-        return WirelessGatewayIdType.wirelessGatewayId;
-      case 'ThingName':
-        return WirelessGatewayIdType.thingName;
-    }
-    throw Exception('$this is not known in enum WirelessGatewayIdType');
-  }
+  const WirelessGatewayIdType(this.value);
+
+  static WirelessGatewayIdType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum WirelessGatewayIdType'));
 }
 
 /// The log options for wireless gateways and can be used to set log levels for
@@ -13436,8 +12602,8 @@ class WirelessGatewayLogOption {
 
   factory WirelessGatewayLogOption.fromJson(Map<String, dynamic> json) {
     return WirelessGatewayLogOption(
-      logLevel: (json['LogLevel'] as String).toLogLevel(),
-      type: (json['Type'] as String).toWirelessGatewayType(),
+      logLevel: LogLevel.fromString((json['LogLevel'] as String)),
+      type: WirelessGatewayType.fromString((json['Type'] as String)),
       events: (json['Events'] as List?)
           ?.whereNotNull()
           .map((e) =>
@@ -13451,40 +12617,26 @@ class WirelessGatewayLogOption {
     final type = this.type;
     final events = this.events;
     return {
-      'LogLevel': logLevel.toValue(),
-      'Type': type.toValue(),
+      'LogLevel': logLevel.value,
+      'Type': type.value,
       if (events != null) 'Events': events,
     };
   }
 }
 
 enum WirelessGatewayServiceType {
-  cups,
-  lns,
-}
+  cups('CUPS'),
+  lns('LNS'),
+  ;
 
-extension WirelessGatewayServiceTypeValueExtension
-    on WirelessGatewayServiceType {
-  String toValue() {
-    switch (this) {
-      case WirelessGatewayServiceType.cups:
-        return 'CUPS';
-      case WirelessGatewayServiceType.lns:
-        return 'LNS';
-    }
-  }
-}
+  final String value;
 
-extension WirelessGatewayServiceTypeFromString on String {
-  WirelessGatewayServiceType toWirelessGatewayServiceType() {
-    switch (this) {
-      case 'CUPS':
-        return WirelessGatewayServiceType.cups;
-      case 'LNS':
-        return WirelessGatewayServiceType.lns;
-    }
-    throw Exception('$this is not known in enum WirelessGatewayServiceType');
-  }
+  const WirelessGatewayServiceType(this.value);
+
+  static WirelessGatewayServiceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum WirelessGatewayServiceType'));
 }
 
 /// Information about a wireless gateway's operation.
@@ -13552,100 +12704,51 @@ class WirelessGatewayStatistics {
 }
 
 enum WirelessGatewayTaskDefinitionType {
-  update,
-}
+  update('UPDATE'),
+  ;
 
-extension WirelessGatewayTaskDefinitionTypeValueExtension
-    on WirelessGatewayTaskDefinitionType {
-  String toValue() {
-    switch (this) {
-      case WirelessGatewayTaskDefinitionType.update:
-        return 'UPDATE';
-    }
-  }
-}
+  final String value;
 
-extension WirelessGatewayTaskDefinitionTypeFromString on String {
-  WirelessGatewayTaskDefinitionType toWirelessGatewayTaskDefinitionType() {
-    switch (this) {
-      case 'UPDATE':
-        return WirelessGatewayTaskDefinitionType.update;
-    }
-    throw Exception(
-        '$this is not known in enum WirelessGatewayTaskDefinitionType');
-  }
+  const WirelessGatewayTaskDefinitionType(this.value);
+
+  static WirelessGatewayTaskDefinitionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum WirelessGatewayTaskDefinitionType'));
 }
 
 enum WirelessGatewayTaskStatus {
-  pending,
-  inProgress,
-  firstRetry,
-  secondRetry,
-  completed,
-  failed,
-}
+  pending('PENDING'),
+  inProgress('IN_PROGRESS'),
+  firstRetry('FIRST_RETRY'),
+  secondRetry('SECOND_RETRY'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  ;
 
-extension WirelessGatewayTaskStatusValueExtension on WirelessGatewayTaskStatus {
-  String toValue() {
-    switch (this) {
-      case WirelessGatewayTaskStatus.pending:
-        return 'PENDING';
-      case WirelessGatewayTaskStatus.inProgress:
-        return 'IN_PROGRESS';
-      case WirelessGatewayTaskStatus.firstRetry:
-        return 'FIRST_RETRY';
-      case WirelessGatewayTaskStatus.secondRetry:
-        return 'SECOND_RETRY';
-      case WirelessGatewayTaskStatus.completed:
-        return 'COMPLETED';
-      case WirelessGatewayTaskStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension WirelessGatewayTaskStatusFromString on String {
-  WirelessGatewayTaskStatus toWirelessGatewayTaskStatus() {
-    switch (this) {
-      case 'PENDING':
-        return WirelessGatewayTaskStatus.pending;
-      case 'IN_PROGRESS':
-        return WirelessGatewayTaskStatus.inProgress;
-      case 'FIRST_RETRY':
-        return WirelessGatewayTaskStatus.firstRetry;
-      case 'SECOND_RETRY':
-        return WirelessGatewayTaskStatus.secondRetry;
-      case 'COMPLETED':
-        return WirelessGatewayTaskStatus.completed;
-      case 'FAILED':
-        return WirelessGatewayTaskStatus.failed;
-    }
-    throw Exception('$this is not known in enum WirelessGatewayTaskStatus');
-  }
+  const WirelessGatewayTaskStatus(this.value);
+
+  static WirelessGatewayTaskStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum WirelessGatewayTaskStatus'));
 }
 
 /// The wireless gateway type.
 enum WirelessGatewayType {
-  loRaWAN,
-}
+  loRaWAN('LoRaWAN'),
+  ;
 
-extension WirelessGatewayTypeValueExtension on WirelessGatewayType {
-  String toValue() {
-    switch (this) {
-      case WirelessGatewayType.loRaWAN:
-        return 'LoRaWAN';
-    }
-  }
-}
+  final String value;
 
-extension WirelessGatewayTypeFromString on String {
-  WirelessGatewayType toWirelessGatewayType() {
-    switch (this) {
-      case 'LoRaWAN':
-        return WirelessGatewayType.loRaWAN;
-    }
-    throw Exception('$this is not known in enum WirelessGatewayType');
-  }
+  const WirelessGatewayType(this.value);
+
+  static WirelessGatewayType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum WirelessGatewayType'));
 }
 
 /// WirelessMetadata object.

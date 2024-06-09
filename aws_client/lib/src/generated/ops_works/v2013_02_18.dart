@@ -592,7 +592,7 @@ class OpsWorks {
         'SourceStackId': sourceStackId,
         if (agentVersion != null) 'AgentVersion': agentVersion,
         if (attributes != null)
-          'Attributes': attributes.map((k, e) => MapEntry(k.toValue(), e)),
+          'Attributes': attributes.map((k, e) => MapEntry(k.value, e)),
         if (chefConfiguration != null) 'ChefConfiguration': chefConfiguration,
         if (cloneAppIds != null) 'CloneAppIds': cloneAppIds,
         if (clonePermissions != null) 'ClonePermissions': clonePermissions,
@@ -607,7 +607,7 @@ class OpsWorks {
           'DefaultInstanceProfileArn': defaultInstanceProfileArn,
         if (defaultOs != null) 'DefaultOs': defaultOs,
         if (defaultRootDeviceType != null)
-          'DefaultRootDeviceType': defaultRootDeviceType.toValue(),
+          'DefaultRootDeviceType': defaultRootDeviceType.value,
         if (defaultSshKeyName != null) 'DefaultSshKeyName': defaultSshKeyName,
         if (defaultSubnetId != null) 'DefaultSubnetId': defaultSubnetId,
         if (hostnameTheme != null) 'HostnameTheme': hostnameTheme,
@@ -722,10 +722,10 @@ class OpsWorks {
       payload: {
         'Name': name,
         'StackId': stackId,
-        'Type': type.toValue(),
+        'Type': type.value,
         if (appSource != null) 'AppSource': appSource,
         if (attributes != null)
-          'Attributes': attributes.map((k, e) => MapEntry(k.toValue(), e)),
+          'Attributes': attributes.map((k, e) => MapEntry(k.value, e)),
         if (dataSources != null) 'DataSources': dataSources,
         if (description != null) 'Description': description,
         if (domains != null) 'Domains': domains,
@@ -1049,9 +1049,8 @@ class OpsWorks {
         'StackId': stackId,
         if (agentVersion != null) 'AgentVersion': agentVersion,
         if (amiId != null) 'AmiId': amiId,
-        if (architecture != null) 'Architecture': architecture.toValue(),
-        if (autoScalingType != null)
-          'AutoScalingType': autoScalingType.toValue(),
+        if (architecture != null) 'Architecture': architecture.value,
+        if (autoScalingType != null) 'AutoScalingType': autoScalingType.value,
         if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
         if (blockDeviceMappings != null)
           'BlockDeviceMappings': blockDeviceMappings,
@@ -1060,7 +1059,7 @@ class OpsWorks {
         if (installUpdatesOnBoot != null)
           'InstallUpdatesOnBoot': installUpdatesOnBoot,
         if (os != null) 'Os': os,
-        if (rootDeviceType != null) 'RootDeviceType': rootDeviceType.toValue(),
+        if (rootDeviceType != null) 'RootDeviceType': rootDeviceType.value,
         if (sshKeyName != null) 'SshKeyName': sshKeyName,
         if (subnetId != null) 'SubnetId': subnetId,
         if (tenancy != null) 'Tenancy': tenancy,
@@ -1227,9 +1226,9 @@ class OpsWorks {
         'Name': name,
         'Shortname': shortname,
         'StackId': stackId,
-        'Type': type.toValue(),
+        'Type': type.value,
         if (attributes != null)
-          'Attributes': attributes.map((k, e) => MapEntry(k.toValue(), e)),
+          'Attributes': attributes.map((k, e) => MapEntry(k.value, e)),
         if (autoAssignElasticIps != null)
           'AutoAssignElasticIps': autoAssignElasticIps,
         if (autoAssignPublicIps != null)
@@ -1613,7 +1612,7 @@ class OpsWorks {
         'ServiceRoleArn': serviceRoleArn,
         if (agentVersion != null) 'AgentVersion': agentVersion,
         if (attributes != null)
-          'Attributes': attributes.map((k, e) => MapEntry(k.toValue(), e)),
+          'Attributes': attributes.map((k, e) => MapEntry(k.value, e)),
         if (chefConfiguration != null) 'ChefConfiguration': chefConfiguration,
         if (configurationManager != null)
           'ConfigurationManager': configurationManager,
@@ -1624,7 +1623,7 @@ class OpsWorks {
           'DefaultAvailabilityZone': defaultAvailabilityZone,
         if (defaultOs != null) 'DefaultOs': defaultOs,
         if (defaultRootDeviceType != null)
-          'DefaultRootDeviceType': defaultRootDeviceType.toValue(),
+          'DefaultRootDeviceType': defaultRootDeviceType.value,
         if (defaultSshKeyName != null) 'DefaultSshKeyName': defaultSshKeyName,
         if (defaultSubnetId != null) 'DefaultSubnetId': defaultSubnetId,
         if (hostnameTheme != null) 'HostnameTheme': hostnameTheme,
@@ -4108,7 +4107,7 @@ class OpsWorks {
         'AppId': appId,
         if (appSource != null) 'AppSource': appSource,
         if (attributes != null)
-          'Attributes': attributes.map((k, e) => MapEntry(k.toValue(), e)),
+          'Attributes': attributes.map((k, e) => MapEntry(k.value, e)),
         if (dataSources != null) 'DataSources': dataSources,
         if (description != null) 'Description': description,
         if (domains != null) 'Domains': domains,
@@ -4116,7 +4115,7 @@ class OpsWorks {
         if (environment != null) 'Environment': environment,
         if (name != null) 'Name': name,
         if (sslConfiguration != null) 'SslConfiguration': sslConfiguration,
-        if (type != null) 'Type': type.toValue(),
+        if (type != null) 'Type': type.value,
       },
     );
   }
@@ -4334,9 +4333,8 @@ class OpsWorks {
         'InstanceId': instanceId,
         if (agentVersion != null) 'AgentVersion': agentVersion,
         if (amiId != null) 'AmiId': amiId,
-        if (architecture != null) 'Architecture': architecture.toValue(),
-        if (autoScalingType != null)
-          'AutoScalingType': autoScalingType.toValue(),
+        if (architecture != null) 'Architecture': architecture.value,
+        if (autoScalingType != null) 'AutoScalingType': autoScalingType.value,
         if (ebsOptimized != null) 'EbsOptimized': ebsOptimized,
         if (hostname != null) 'Hostname': hostname,
         if (installUpdatesOnBoot != null)
@@ -4482,7 +4480,7 @@ class OpsWorks {
       payload: {
         'LayerId': layerId,
         if (attributes != null)
-          'Attributes': attributes.map((k, e) => MapEntry(k.toValue(), e)),
+          'Attributes': attributes.map((k, e) => MapEntry(k.value, e)),
         if (autoAssignElasticIps != null)
           'AutoAssignElasticIps': autoAssignElasticIps,
         if (autoAssignPublicIps != null)
@@ -4864,7 +4862,7 @@ class OpsWorks {
         'StackId': stackId,
         if (agentVersion != null) 'AgentVersion': agentVersion,
         if (attributes != null)
-          'Attributes': attributes.map((k, e) => MapEntry(k.toValue(), e)),
+          'Attributes': attributes.map((k, e) => MapEntry(k.value, e)),
         if (chefConfiguration != null) 'ChefConfiguration': chefConfiguration,
         if (configurationManager != null)
           'ConfigurationManager': configurationManager,
@@ -4877,7 +4875,7 @@ class OpsWorks {
           'DefaultInstanceProfileArn': defaultInstanceProfileArn,
         if (defaultOs != null) 'DefaultOs': defaultOs,
         if (defaultRootDeviceType != null)
-          'DefaultRootDeviceType': defaultRootDeviceType.toValue(),
+          'DefaultRootDeviceType': defaultRootDeviceType.value,
         if (defaultSshKeyName != null) 'DefaultSshKeyName': defaultSshKeyName,
         if (defaultSubnetId != null) 'DefaultSubnetId': defaultSubnetId,
         if (hostnameTheme != null) 'HostnameTheme': hostnameTheme,
@@ -5108,8 +5106,8 @@ class App {
       appSource: json['AppSource'] != null
           ? Source.fromJson(json['AppSource'] as Map<String, dynamic>)
           : null,
-      attributes: (json['Attributes'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k.toAppAttributesKeys(), e as String)),
+      attributes: (json['Attributes'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(AppAttributesKeys.fromString(k), e as String)),
       createdAt: json['CreatedAt'] as String?,
       dataSources: (json['DataSources'] as List?)
           ?.whereNotNull()
@@ -5132,7 +5130,7 @@ class App {
               json['SslConfiguration'] as Map<String, dynamic>)
           : null,
       stackId: json['StackId'] as String?,
-      type: (json['Type'] as String?)?.toAppType(),
+      type: (json['Type'] as String?)?.let(AppType.fromString),
     );
   }
 
@@ -5155,7 +5153,7 @@ class App {
       if (appId != null) 'AppId': appId,
       if (appSource != null) 'AppSource': appSource,
       if (attributes != null)
-        'Attributes': attributes.map((k, e) => MapEntry(k.toValue(), e)),
+        'Attributes': attributes.map((k, e) => MapEntry(k.value, e)),
       if (createdAt != null) 'CreatedAt': createdAt,
       if (dataSources != null) 'DataSources': dataSources,
       if (description != null) 'Description': description,
@@ -5166,128 +5164,60 @@ class App {
       if (shortname != null) 'Shortname': shortname,
       if (sslConfiguration != null) 'SslConfiguration': sslConfiguration,
       if (stackId != null) 'StackId': stackId,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum AppAttributesKeys {
-  documentRoot,
-  railsEnv,
-  autoBundleOnDeploy,
-  awsFlowRubySettings,
-}
+  documentRoot('DocumentRoot'),
+  railsEnv('RailsEnv'),
+  autoBundleOnDeploy('AutoBundleOnDeploy'),
+  awsFlowRubySettings('AwsFlowRubySettings'),
+  ;
 
-extension AppAttributesKeysValueExtension on AppAttributesKeys {
-  String toValue() {
-    switch (this) {
-      case AppAttributesKeys.documentRoot:
-        return 'DocumentRoot';
-      case AppAttributesKeys.railsEnv:
-        return 'RailsEnv';
-      case AppAttributesKeys.autoBundleOnDeploy:
-        return 'AutoBundleOnDeploy';
-      case AppAttributesKeys.awsFlowRubySettings:
-        return 'AwsFlowRubySettings';
-    }
-  }
-}
+  final String value;
 
-extension AppAttributesKeysFromString on String {
-  AppAttributesKeys toAppAttributesKeys() {
-    switch (this) {
-      case 'DocumentRoot':
-        return AppAttributesKeys.documentRoot;
-      case 'RailsEnv':
-        return AppAttributesKeys.railsEnv;
-      case 'AutoBundleOnDeploy':
-        return AppAttributesKeys.autoBundleOnDeploy;
-      case 'AwsFlowRubySettings':
-        return AppAttributesKeys.awsFlowRubySettings;
-    }
-    throw Exception('$this is not known in enum AppAttributesKeys');
-  }
+  const AppAttributesKeys(this.value);
+
+  static AppAttributesKeys fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AppAttributesKeys'));
 }
 
 enum AppType {
-  awsFlowRuby,
-  java,
-  rails,
-  php,
-  nodejs,
-  static,
-  other,
-}
+  awsFlowRuby('aws-flow-ruby'),
+  java('java'),
+  rails('rails'),
+  php('php'),
+  nodejs('nodejs'),
+  static('static'),
+  other('other'),
+  ;
 
-extension AppTypeValueExtension on AppType {
-  String toValue() {
-    switch (this) {
-      case AppType.awsFlowRuby:
-        return 'aws-flow-ruby';
-      case AppType.java:
-        return 'java';
-      case AppType.rails:
-        return 'rails';
-      case AppType.php:
-        return 'php';
-      case AppType.nodejs:
-        return 'nodejs';
-      case AppType.static:
-        return 'static';
-      case AppType.other:
-        return 'other';
-    }
-  }
-}
+  final String value;
 
-extension AppTypeFromString on String {
-  AppType toAppType() {
-    switch (this) {
-      case 'aws-flow-ruby':
-        return AppType.awsFlowRuby;
-      case 'java':
-        return AppType.java;
-      case 'rails':
-        return AppType.rails;
-      case 'php':
-        return AppType.php;
-      case 'nodejs':
-        return AppType.nodejs;
-      case 'static':
-        return AppType.static;
-      case 'other':
-        return AppType.other;
-    }
-    throw Exception('$this is not known in enum AppType');
-  }
+  const AppType(this.value);
+
+  static AppType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum AppType'));
 }
 
 enum Architecture {
-  x86_64,
-  i386,
-}
+  x86_64('x86_64'),
+  i386('i386'),
+  ;
 
-extension ArchitectureValueExtension on Architecture {
-  String toValue() {
-    switch (this) {
-      case Architecture.x86_64:
-        return 'x86_64';
-      case Architecture.i386:
-        return 'i386';
-    }
-  }
-}
+  final String value;
 
-extension ArchitectureFromString on String {
-  Architecture toArchitecture() {
-    switch (this) {
-      case 'x86_64':
-        return Architecture.x86_64;
-      case 'i386':
-        return Architecture.i386;
-    }
-    throw Exception('$this is not known in enum Architecture');
-  }
+  const Architecture(this.value);
+
+  static Architecture fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum Architecture'));
 }
 
 /// Describes a load-based auto scaling upscaling or downscaling threshold
@@ -5384,31 +5314,18 @@ class AutoScalingThresholds {
 }
 
 enum AutoScalingType {
-  load,
-  timer,
-}
+  load('load'),
+  timer('timer'),
+  ;
 
-extension AutoScalingTypeValueExtension on AutoScalingType {
-  String toValue() {
-    switch (this) {
-      case AutoScalingType.load:
-        return 'load';
-      case AutoScalingType.timer:
-        return 'timer';
-    }
-  }
-}
+  final String value;
 
-extension AutoScalingTypeFromString on String {
-  AutoScalingType toAutoScalingType() {
-    switch (this) {
-      case 'load':
-        return AutoScalingType.load;
-      case 'timer':
-        return AutoScalingType.timer;
-    }
-    throw Exception('$this is not known in enum AutoScalingType');
-  }
+  const AutoScalingType(this.value);
+
+  static AutoScalingType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AutoScalingType'));
 }
 
 /// Describes a block device mapping. This data type maps directly to the Amazon
@@ -5556,513 +5473,126 @@ class CloudWatchLogsConfiguration {
 /// correctly. The default is <code>utf_8</code>. Encodings supported by Python
 /// <code>codecs.decode()</code> can be used here.
 enum CloudWatchLogsEncoding {
-  ascii,
-  big5,
-  big5hkscs,
-  cp037,
-  cp424,
-  cp437,
-  cp500,
-  cp720,
-  cp737,
-  cp775,
-  cp850,
-  cp852,
-  cp855,
-  cp856,
-  cp857,
-  cp858,
-  cp860,
-  cp861,
-  cp862,
-  cp863,
-  cp864,
-  cp865,
-  cp866,
-  cp869,
-  cp874,
-  cp875,
-  cp932,
-  cp949,
-  cp950,
-  cp1006,
-  cp1026,
-  cp1140,
-  cp1250,
-  cp1251,
-  cp1252,
-  cp1253,
-  cp1254,
-  cp1255,
-  cp1256,
-  cp1257,
-  cp1258,
-  eucJp,
-  eucJis_2004,
-  eucJisx0213,
-  eucKr,
-  gb2312,
-  gbk,
-  gb18030,
-  hz,
-  iso2022Jp,
-  iso2022Jp_1,
-  iso2022Jp_2,
-  iso2022Jp_2004,
-  iso2022Jp_3,
-  iso2022JpExt,
-  iso2022Kr,
-  latin_1,
-  iso8859_2,
-  iso8859_3,
-  iso8859_4,
-  iso8859_5,
-  iso8859_6,
-  iso8859_7,
-  iso8859_8,
-  iso8859_9,
-  iso8859_10,
-  iso8859_13,
-  iso8859_14,
-  iso8859_15,
-  iso8859_16,
-  johab,
-  koi8R,
-  koi8U,
-  macCyrillic,
-  macGreek,
-  macIceland,
-  macLatin2,
-  macRoman,
-  macTurkish,
-  ptcp154,
-  shiftJis,
-  shiftJis_2004,
-  shiftJisx0213,
-  utf_32,
-  utf_32Be,
-  utf_32Le,
-  utf_16,
-  utf_16Be,
-  utf_16Le,
-  utf_7,
-  utf_8,
-  utf_8Sig,
-}
+  ascii('ascii'),
+  big5('big5'),
+  big5hkscs('big5hkscs'),
+  cp037('cp037'),
+  cp424('cp424'),
+  cp437('cp437'),
+  cp500('cp500'),
+  cp720('cp720'),
+  cp737('cp737'),
+  cp775('cp775'),
+  cp850('cp850'),
+  cp852('cp852'),
+  cp855('cp855'),
+  cp856('cp856'),
+  cp857('cp857'),
+  cp858('cp858'),
+  cp860('cp860'),
+  cp861('cp861'),
+  cp862('cp862'),
+  cp863('cp863'),
+  cp864('cp864'),
+  cp865('cp865'),
+  cp866('cp866'),
+  cp869('cp869'),
+  cp874('cp874'),
+  cp875('cp875'),
+  cp932('cp932'),
+  cp949('cp949'),
+  cp950('cp950'),
+  cp1006('cp1006'),
+  cp1026('cp1026'),
+  cp1140('cp1140'),
+  cp1250('cp1250'),
+  cp1251('cp1251'),
+  cp1252('cp1252'),
+  cp1253('cp1253'),
+  cp1254('cp1254'),
+  cp1255('cp1255'),
+  cp1256('cp1256'),
+  cp1257('cp1257'),
+  cp1258('cp1258'),
+  eucJp('euc_jp'),
+  eucJis_2004('euc_jis_2004'),
+  eucJisx0213('euc_jisx0213'),
+  eucKr('euc_kr'),
+  gb2312('gb2312'),
+  gbk('gbk'),
+  gb18030('gb18030'),
+  hz('hz'),
+  iso2022Jp('iso2022_jp'),
+  iso2022Jp_1('iso2022_jp_1'),
+  iso2022Jp_2('iso2022_jp_2'),
+  iso2022Jp_2004('iso2022_jp_2004'),
+  iso2022Jp_3('iso2022_jp_3'),
+  iso2022JpExt('iso2022_jp_ext'),
+  iso2022Kr('iso2022_kr'),
+  latin_1('latin_1'),
+  iso8859_2('iso8859_2'),
+  iso8859_3('iso8859_3'),
+  iso8859_4('iso8859_4'),
+  iso8859_5('iso8859_5'),
+  iso8859_6('iso8859_6'),
+  iso8859_7('iso8859_7'),
+  iso8859_8('iso8859_8'),
+  iso8859_9('iso8859_9'),
+  iso8859_10('iso8859_10'),
+  iso8859_13('iso8859_13'),
+  iso8859_14('iso8859_14'),
+  iso8859_15('iso8859_15'),
+  iso8859_16('iso8859_16'),
+  johab('johab'),
+  koi8R('koi8_r'),
+  koi8U('koi8_u'),
+  macCyrillic('mac_cyrillic'),
+  macGreek('mac_greek'),
+  macIceland('mac_iceland'),
+  macLatin2('mac_latin2'),
+  macRoman('mac_roman'),
+  macTurkish('mac_turkish'),
+  ptcp154('ptcp154'),
+  shiftJis('shift_jis'),
+  shiftJis_2004('shift_jis_2004'),
+  shiftJisx0213('shift_jisx0213'),
+  utf_32('utf_32'),
+  utf_32Be('utf_32_be'),
+  utf_32Le('utf_32_le'),
+  utf_16('utf_16'),
+  utf_16Be('utf_16_be'),
+  utf_16Le('utf_16_le'),
+  utf_7('utf_7'),
+  utf_8('utf_8'),
+  utf_8Sig('utf_8_sig'),
+  ;
 
-extension CloudWatchLogsEncodingValueExtension on CloudWatchLogsEncoding {
-  String toValue() {
-    switch (this) {
-      case CloudWatchLogsEncoding.ascii:
-        return 'ascii';
-      case CloudWatchLogsEncoding.big5:
-        return 'big5';
-      case CloudWatchLogsEncoding.big5hkscs:
-        return 'big5hkscs';
-      case CloudWatchLogsEncoding.cp037:
-        return 'cp037';
-      case CloudWatchLogsEncoding.cp424:
-        return 'cp424';
-      case CloudWatchLogsEncoding.cp437:
-        return 'cp437';
-      case CloudWatchLogsEncoding.cp500:
-        return 'cp500';
-      case CloudWatchLogsEncoding.cp720:
-        return 'cp720';
-      case CloudWatchLogsEncoding.cp737:
-        return 'cp737';
-      case CloudWatchLogsEncoding.cp775:
-        return 'cp775';
-      case CloudWatchLogsEncoding.cp850:
-        return 'cp850';
-      case CloudWatchLogsEncoding.cp852:
-        return 'cp852';
-      case CloudWatchLogsEncoding.cp855:
-        return 'cp855';
-      case CloudWatchLogsEncoding.cp856:
-        return 'cp856';
-      case CloudWatchLogsEncoding.cp857:
-        return 'cp857';
-      case CloudWatchLogsEncoding.cp858:
-        return 'cp858';
-      case CloudWatchLogsEncoding.cp860:
-        return 'cp860';
-      case CloudWatchLogsEncoding.cp861:
-        return 'cp861';
-      case CloudWatchLogsEncoding.cp862:
-        return 'cp862';
-      case CloudWatchLogsEncoding.cp863:
-        return 'cp863';
-      case CloudWatchLogsEncoding.cp864:
-        return 'cp864';
-      case CloudWatchLogsEncoding.cp865:
-        return 'cp865';
-      case CloudWatchLogsEncoding.cp866:
-        return 'cp866';
-      case CloudWatchLogsEncoding.cp869:
-        return 'cp869';
-      case CloudWatchLogsEncoding.cp874:
-        return 'cp874';
-      case CloudWatchLogsEncoding.cp875:
-        return 'cp875';
-      case CloudWatchLogsEncoding.cp932:
-        return 'cp932';
-      case CloudWatchLogsEncoding.cp949:
-        return 'cp949';
-      case CloudWatchLogsEncoding.cp950:
-        return 'cp950';
-      case CloudWatchLogsEncoding.cp1006:
-        return 'cp1006';
-      case CloudWatchLogsEncoding.cp1026:
-        return 'cp1026';
-      case CloudWatchLogsEncoding.cp1140:
-        return 'cp1140';
-      case CloudWatchLogsEncoding.cp1250:
-        return 'cp1250';
-      case CloudWatchLogsEncoding.cp1251:
-        return 'cp1251';
-      case CloudWatchLogsEncoding.cp1252:
-        return 'cp1252';
-      case CloudWatchLogsEncoding.cp1253:
-        return 'cp1253';
-      case CloudWatchLogsEncoding.cp1254:
-        return 'cp1254';
-      case CloudWatchLogsEncoding.cp1255:
-        return 'cp1255';
-      case CloudWatchLogsEncoding.cp1256:
-        return 'cp1256';
-      case CloudWatchLogsEncoding.cp1257:
-        return 'cp1257';
-      case CloudWatchLogsEncoding.cp1258:
-        return 'cp1258';
-      case CloudWatchLogsEncoding.eucJp:
-        return 'euc_jp';
-      case CloudWatchLogsEncoding.eucJis_2004:
-        return 'euc_jis_2004';
-      case CloudWatchLogsEncoding.eucJisx0213:
-        return 'euc_jisx0213';
-      case CloudWatchLogsEncoding.eucKr:
-        return 'euc_kr';
-      case CloudWatchLogsEncoding.gb2312:
-        return 'gb2312';
-      case CloudWatchLogsEncoding.gbk:
-        return 'gbk';
-      case CloudWatchLogsEncoding.gb18030:
-        return 'gb18030';
-      case CloudWatchLogsEncoding.hz:
-        return 'hz';
-      case CloudWatchLogsEncoding.iso2022Jp:
-        return 'iso2022_jp';
-      case CloudWatchLogsEncoding.iso2022Jp_1:
-        return 'iso2022_jp_1';
-      case CloudWatchLogsEncoding.iso2022Jp_2:
-        return 'iso2022_jp_2';
-      case CloudWatchLogsEncoding.iso2022Jp_2004:
-        return 'iso2022_jp_2004';
-      case CloudWatchLogsEncoding.iso2022Jp_3:
-        return 'iso2022_jp_3';
-      case CloudWatchLogsEncoding.iso2022JpExt:
-        return 'iso2022_jp_ext';
-      case CloudWatchLogsEncoding.iso2022Kr:
-        return 'iso2022_kr';
-      case CloudWatchLogsEncoding.latin_1:
-        return 'latin_1';
-      case CloudWatchLogsEncoding.iso8859_2:
-        return 'iso8859_2';
-      case CloudWatchLogsEncoding.iso8859_3:
-        return 'iso8859_3';
-      case CloudWatchLogsEncoding.iso8859_4:
-        return 'iso8859_4';
-      case CloudWatchLogsEncoding.iso8859_5:
-        return 'iso8859_5';
-      case CloudWatchLogsEncoding.iso8859_6:
-        return 'iso8859_6';
-      case CloudWatchLogsEncoding.iso8859_7:
-        return 'iso8859_7';
-      case CloudWatchLogsEncoding.iso8859_8:
-        return 'iso8859_8';
-      case CloudWatchLogsEncoding.iso8859_9:
-        return 'iso8859_9';
-      case CloudWatchLogsEncoding.iso8859_10:
-        return 'iso8859_10';
-      case CloudWatchLogsEncoding.iso8859_13:
-        return 'iso8859_13';
-      case CloudWatchLogsEncoding.iso8859_14:
-        return 'iso8859_14';
-      case CloudWatchLogsEncoding.iso8859_15:
-        return 'iso8859_15';
-      case CloudWatchLogsEncoding.iso8859_16:
-        return 'iso8859_16';
-      case CloudWatchLogsEncoding.johab:
-        return 'johab';
-      case CloudWatchLogsEncoding.koi8R:
-        return 'koi8_r';
-      case CloudWatchLogsEncoding.koi8U:
-        return 'koi8_u';
-      case CloudWatchLogsEncoding.macCyrillic:
-        return 'mac_cyrillic';
-      case CloudWatchLogsEncoding.macGreek:
-        return 'mac_greek';
-      case CloudWatchLogsEncoding.macIceland:
-        return 'mac_iceland';
-      case CloudWatchLogsEncoding.macLatin2:
-        return 'mac_latin2';
-      case CloudWatchLogsEncoding.macRoman:
-        return 'mac_roman';
-      case CloudWatchLogsEncoding.macTurkish:
-        return 'mac_turkish';
-      case CloudWatchLogsEncoding.ptcp154:
-        return 'ptcp154';
-      case CloudWatchLogsEncoding.shiftJis:
-        return 'shift_jis';
-      case CloudWatchLogsEncoding.shiftJis_2004:
-        return 'shift_jis_2004';
-      case CloudWatchLogsEncoding.shiftJisx0213:
-        return 'shift_jisx0213';
-      case CloudWatchLogsEncoding.utf_32:
-        return 'utf_32';
-      case CloudWatchLogsEncoding.utf_32Be:
-        return 'utf_32_be';
-      case CloudWatchLogsEncoding.utf_32Le:
-        return 'utf_32_le';
-      case CloudWatchLogsEncoding.utf_16:
-        return 'utf_16';
-      case CloudWatchLogsEncoding.utf_16Be:
-        return 'utf_16_be';
-      case CloudWatchLogsEncoding.utf_16Le:
-        return 'utf_16_le';
-      case CloudWatchLogsEncoding.utf_7:
-        return 'utf_7';
-      case CloudWatchLogsEncoding.utf_8:
-        return 'utf_8';
-      case CloudWatchLogsEncoding.utf_8Sig:
-        return 'utf_8_sig';
-    }
-  }
-}
+  final String value;
 
-extension CloudWatchLogsEncodingFromString on String {
-  CloudWatchLogsEncoding toCloudWatchLogsEncoding() {
-    switch (this) {
-      case 'ascii':
-        return CloudWatchLogsEncoding.ascii;
-      case 'big5':
-        return CloudWatchLogsEncoding.big5;
-      case 'big5hkscs':
-        return CloudWatchLogsEncoding.big5hkscs;
-      case 'cp037':
-        return CloudWatchLogsEncoding.cp037;
-      case 'cp424':
-        return CloudWatchLogsEncoding.cp424;
-      case 'cp437':
-        return CloudWatchLogsEncoding.cp437;
-      case 'cp500':
-        return CloudWatchLogsEncoding.cp500;
-      case 'cp720':
-        return CloudWatchLogsEncoding.cp720;
-      case 'cp737':
-        return CloudWatchLogsEncoding.cp737;
-      case 'cp775':
-        return CloudWatchLogsEncoding.cp775;
-      case 'cp850':
-        return CloudWatchLogsEncoding.cp850;
-      case 'cp852':
-        return CloudWatchLogsEncoding.cp852;
-      case 'cp855':
-        return CloudWatchLogsEncoding.cp855;
-      case 'cp856':
-        return CloudWatchLogsEncoding.cp856;
-      case 'cp857':
-        return CloudWatchLogsEncoding.cp857;
-      case 'cp858':
-        return CloudWatchLogsEncoding.cp858;
-      case 'cp860':
-        return CloudWatchLogsEncoding.cp860;
-      case 'cp861':
-        return CloudWatchLogsEncoding.cp861;
-      case 'cp862':
-        return CloudWatchLogsEncoding.cp862;
-      case 'cp863':
-        return CloudWatchLogsEncoding.cp863;
-      case 'cp864':
-        return CloudWatchLogsEncoding.cp864;
-      case 'cp865':
-        return CloudWatchLogsEncoding.cp865;
-      case 'cp866':
-        return CloudWatchLogsEncoding.cp866;
-      case 'cp869':
-        return CloudWatchLogsEncoding.cp869;
-      case 'cp874':
-        return CloudWatchLogsEncoding.cp874;
-      case 'cp875':
-        return CloudWatchLogsEncoding.cp875;
-      case 'cp932':
-        return CloudWatchLogsEncoding.cp932;
-      case 'cp949':
-        return CloudWatchLogsEncoding.cp949;
-      case 'cp950':
-        return CloudWatchLogsEncoding.cp950;
-      case 'cp1006':
-        return CloudWatchLogsEncoding.cp1006;
-      case 'cp1026':
-        return CloudWatchLogsEncoding.cp1026;
-      case 'cp1140':
-        return CloudWatchLogsEncoding.cp1140;
-      case 'cp1250':
-        return CloudWatchLogsEncoding.cp1250;
-      case 'cp1251':
-        return CloudWatchLogsEncoding.cp1251;
-      case 'cp1252':
-        return CloudWatchLogsEncoding.cp1252;
-      case 'cp1253':
-        return CloudWatchLogsEncoding.cp1253;
-      case 'cp1254':
-        return CloudWatchLogsEncoding.cp1254;
-      case 'cp1255':
-        return CloudWatchLogsEncoding.cp1255;
-      case 'cp1256':
-        return CloudWatchLogsEncoding.cp1256;
-      case 'cp1257':
-        return CloudWatchLogsEncoding.cp1257;
-      case 'cp1258':
-        return CloudWatchLogsEncoding.cp1258;
-      case 'euc_jp':
-        return CloudWatchLogsEncoding.eucJp;
-      case 'euc_jis_2004':
-        return CloudWatchLogsEncoding.eucJis_2004;
-      case 'euc_jisx0213':
-        return CloudWatchLogsEncoding.eucJisx0213;
-      case 'euc_kr':
-        return CloudWatchLogsEncoding.eucKr;
-      case 'gb2312':
-        return CloudWatchLogsEncoding.gb2312;
-      case 'gbk':
-        return CloudWatchLogsEncoding.gbk;
-      case 'gb18030':
-        return CloudWatchLogsEncoding.gb18030;
-      case 'hz':
-        return CloudWatchLogsEncoding.hz;
-      case 'iso2022_jp':
-        return CloudWatchLogsEncoding.iso2022Jp;
-      case 'iso2022_jp_1':
-        return CloudWatchLogsEncoding.iso2022Jp_1;
-      case 'iso2022_jp_2':
-        return CloudWatchLogsEncoding.iso2022Jp_2;
-      case 'iso2022_jp_2004':
-        return CloudWatchLogsEncoding.iso2022Jp_2004;
-      case 'iso2022_jp_3':
-        return CloudWatchLogsEncoding.iso2022Jp_3;
-      case 'iso2022_jp_ext':
-        return CloudWatchLogsEncoding.iso2022JpExt;
-      case 'iso2022_kr':
-        return CloudWatchLogsEncoding.iso2022Kr;
-      case 'latin_1':
-        return CloudWatchLogsEncoding.latin_1;
-      case 'iso8859_2':
-        return CloudWatchLogsEncoding.iso8859_2;
-      case 'iso8859_3':
-        return CloudWatchLogsEncoding.iso8859_3;
-      case 'iso8859_4':
-        return CloudWatchLogsEncoding.iso8859_4;
-      case 'iso8859_5':
-        return CloudWatchLogsEncoding.iso8859_5;
-      case 'iso8859_6':
-        return CloudWatchLogsEncoding.iso8859_6;
-      case 'iso8859_7':
-        return CloudWatchLogsEncoding.iso8859_7;
-      case 'iso8859_8':
-        return CloudWatchLogsEncoding.iso8859_8;
-      case 'iso8859_9':
-        return CloudWatchLogsEncoding.iso8859_9;
-      case 'iso8859_10':
-        return CloudWatchLogsEncoding.iso8859_10;
-      case 'iso8859_13':
-        return CloudWatchLogsEncoding.iso8859_13;
-      case 'iso8859_14':
-        return CloudWatchLogsEncoding.iso8859_14;
-      case 'iso8859_15':
-        return CloudWatchLogsEncoding.iso8859_15;
-      case 'iso8859_16':
-        return CloudWatchLogsEncoding.iso8859_16;
-      case 'johab':
-        return CloudWatchLogsEncoding.johab;
-      case 'koi8_r':
-        return CloudWatchLogsEncoding.koi8R;
-      case 'koi8_u':
-        return CloudWatchLogsEncoding.koi8U;
-      case 'mac_cyrillic':
-        return CloudWatchLogsEncoding.macCyrillic;
-      case 'mac_greek':
-        return CloudWatchLogsEncoding.macGreek;
-      case 'mac_iceland':
-        return CloudWatchLogsEncoding.macIceland;
-      case 'mac_latin2':
-        return CloudWatchLogsEncoding.macLatin2;
-      case 'mac_roman':
-        return CloudWatchLogsEncoding.macRoman;
-      case 'mac_turkish':
-        return CloudWatchLogsEncoding.macTurkish;
-      case 'ptcp154':
-        return CloudWatchLogsEncoding.ptcp154;
-      case 'shift_jis':
-        return CloudWatchLogsEncoding.shiftJis;
-      case 'shift_jis_2004':
-        return CloudWatchLogsEncoding.shiftJis_2004;
-      case 'shift_jisx0213':
-        return CloudWatchLogsEncoding.shiftJisx0213;
-      case 'utf_32':
-        return CloudWatchLogsEncoding.utf_32;
-      case 'utf_32_be':
-        return CloudWatchLogsEncoding.utf_32Be;
-      case 'utf_32_le':
-        return CloudWatchLogsEncoding.utf_32Le;
-      case 'utf_16':
-        return CloudWatchLogsEncoding.utf_16;
-      case 'utf_16_be':
-        return CloudWatchLogsEncoding.utf_16Be;
-      case 'utf_16_le':
-        return CloudWatchLogsEncoding.utf_16Le;
-      case 'utf_7':
-        return CloudWatchLogsEncoding.utf_7;
-      case 'utf_8':
-        return CloudWatchLogsEncoding.utf_8;
-      case 'utf_8_sig':
-        return CloudWatchLogsEncoding.utf_8Sig;
-    }
-    throw Exception('$this is not known in enum CloudWatchLogsEncoding');
-  }
+  const CloudWatchLogsEncoding(this.value);
+
+  static CloudWatchLogsEncoding fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CloudWatchLogsEncoding'));
 }
 
 /// Specifies where to start to read data (start_of_file or end_of_file). The
 /// default is start_of_file. It's only used if there is no state persisted for
 /// that log stream.
 enum CloudWatchLogsInitialPosition {
-  startOfFile,
-  endOfFile,
-}
+  startOfFile('start_of_file'),
+  endOfFile('end_of_file'),
+  ;
 
-extension CloudWatchLogsInitialPositionValueExtension
-    on CloudWatchLogsInitialPosition {
-  String toValue() {
-    switch (this) {
-      case CloudWatchLogsInitialPosition.startOfFile:
-        return 'start_of_file';
-      case CloudWatchLogsInitialPosition.endOfFile:
-        return 'end_of_file';
-    }
-  }
-}
+  final String value;
 
-extension CloudWatchLogsInitialPositionFromString on String {
-  CloudWatchLogsInitialPosition toCloudWatchLogsInitialPosition() {
-    switch (this) {
-      case 'start_of_file':
-        return CloudWatchLogsInitialPosition.startOfFile;
-      case 'end_of_file':
-        return CloudWatchLogsInitialPosition.endOfFile;
-    }
-    throw Exception('$this is not known in enum CloudWatchLogsInitialPosition');
-  }
+  const CloudWatchLogsInitialPosition(this.value);
+
+  static CloudWatchLogsInitialPosition fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CloudWatchLogsInitialPosition'));
 }
 
 /// Describes the CloudWatch Logs configuration for a layer. For detailed
@@ -6155,14 +5685,16 @@ class CloudWatchLogsLogStream {
       batchSize: json['BatchSize'] as int?,
       bufferDuration: json['BufferDuration'] as int?,
       datetimeFormat: json['DatetimeFormat'] as String?,
-      encoding: (json['Encoding'] as String?)?.toCloudWatchLogsEncoding(),
+      encoding:
+          (json['Encoding'] as String?)?.let(CloudWatchLogsEncoding.fromString),
       file: json['File'] as String?,
       fileFingerprintLines: json['FileFingerprintLines'] as String?,
       initialPosition: (json['InitialPosition'] as String?)
-          ?.toCloudWatchLogsInitialPosition(),
+          ?.let(CloudWatchLogsInitialPosition.fromString),
       logGroupName: json['LogGroupName'] as String?,
       multiLineStartPattern: json['MultiLineStartPattern'] as String?,
-      timeZone: (json['TimeZone'] as String?)?.toCloudWatchLogsTimeZone(),
+      timeZone:
+          (json['TimeZone'] as String?)?.let(CloudWatchLogsTimeZone.fromString),
     );
   }
 
@@ -6183,15 +5715,15 @@ class CloudWatchLogsLogStream {
       if (batchSize != null) 'BatchSize': batchSize,
       if (bufferDuration != null) 'BufferDuration': bufferDuration,
       if (datetimeFormat != null) 'DatetimeFormat': datetimeFormat,
-      if (encoding != null) 'Encoding': encoding.toValue(),
+      if (encoding != null) 'Encoding': encoding.value,
       if (file != null) 'File': file,
       if (fileFingerprintLines != null)
         'FileFingerprintLines': fileFingerprintLines,
-      if (initialPosition != null) 'InitialPosition': initialPosition.toValue(),
+      if (initialPosition != null) 'InitialPosition': initialPosition.value,
       if (logGroupName != null) 'LogGroupName': logGroupName,
       if (multiLineStartPattern != null)
         'MultiLineStartPattern': multiLineStartPattern,
-      if (timeZone != null) 'TimeZone': timeZone.toValue(),
+      if (timeZone != null) 'TimeZone': timeZone.value,
     };
   }
 }
@@ -6199,31 +5731,18 @@ class CloudWatchLogsLogStream {
 /// The preferred time zone for logs streamed to CloudWatch Logs. Valid values
 /// are <code>LOCAL</code> and <code>UTC</code>, for Coordinated Universal Time.
 enum CloudWatchLogsTimeZone {
-  local,
-  utc,
-}
+  local('LOCAL'),
+  utc('UTC'),
+  ;
 
-extension CloudWatchLogsTimeZoneValueExtension on CloudWatchLogsTimeZone {
-  String toValue() {
-    switch (this) {
-      case CloudWatchLogsTimeZone.local:
-        return 'LOCAL';
-      case CloudWatchLogsTimeZone.utc:
-        return 'UTC';
-    }
-  }
-}
+  final String value;
 
-extension CloudWatchLogsTimeZoneFromString on String {
-  CloudWatchLogsTimeZone toCloudWatchLogsTimeZone() {
-    switch (this) {
-      case 'LOCAL':
-        return CloudWatchLogsTimeZone.local;
-      case 'UTC':
-        return CloudWatchLogsTimeZone.utc;
-    }
-    throw Exception('$this is not known in enum CloudWatchLogsTimeZone');
-  }
+  const CloudWatchLogsTimeZone(this.value);
+
+  static CloudWatchLogsTimeZone fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CloudWatchLogsTimeZone'));
 }
 
 /// Describes a command.
@@ -6763,7 +6282,7 @@ class DeploymentCommand {
 
   factory DeploymentCommand.fromJson(Map<String, dynamic> json) {
     return DeploymentCommand(
-      name: (json['Name'] as String).toDeploymentCommandName(),
+      name: DeploymentCommandName.fromString((json['Name'] as String)),
       args: (json['Args'] as Map<String, dynamic>?)?.map((k, e) => MapEntry(
           k, (e as List).whereNotNull().map((e) => e as String).toList())),
     );
@@ -6773,88 +6292,35 @@ class DeploymentCommand {
     final name = this.name;
     final args = this.args;
     return {
-      'Name': name.toValue(),
+      'Name': name.value,
       if (args != null) 'Args': args,
     };
   }
 }
 
 enum DeploymentCommandName {
-  installDependencies,
-  updateDependencies,
-  updateCustomCookbooks,
-  executeRecipes,
-  configure,
-  setup,
-  deploy,
-  rollback,
-  start,
-  stop,
-  restart,
-  undeploy,
-}
+  installDependencies('install_dependencies'),
+  updateDependencies('update_dependencies'),
+  updateCustomCookbooks('update_custom_cookbooks'),
+  executeRecipes('execute_recipes'),
+  configure('configure'),
+  setup('setup'),
+  deploy('deploy'),
+  rollback('rollback'),
+  start('start'),
+  stop('stop'),
+  restart('restart'),
+  undeploy('undeploy'),
+  ;
 
-extension DeploymentCommandNameValueExtension on DeploymentCommandName {
-  String toValue() {
-    switch (this) {
-      case DeploymentCommandName.installDependencies:
-        return 'install_dependencies';
-      case DeploymentCommandName.updateDependencies:
-        return 'update_dependencies';
-      case DeploymentCommandName.updateCustomCookbooks:
-        return 'update_custom_cookbooks';
-      case DeploymentCommandName.executeRecipes:
-        return 'execute_recipes';
-      case DeploymentCommandName.configure:
-        return 'configure';
-      case DeploymentCommandName.setup:
-        return 'setup';
-      case DeploymentCommandName.deploy:
-        return 'deploy';
-      case DeploymentCommandName.rollback:
-        return 'rollback';
-      case DeploymentCommandName.start:
-        return 'start';
-      case DeploymentCommandName.stop:
-        return 'stop';
-      case DeploymentCommandName.restart:
-        return 'restart';
-      case DeploymentCommandName.undeploy:
-        return 'undeploy';
-    }
-  }
-}
+  final String value;
 
-extension DeploymentCommandNameFromString on String {
-  DeploymentCommandName toDeploymentCommandName() {
-    switch (this) {
-      case 'install_dependencies':
-        return DeploymentCommandName.installDependencies;
-      case 'update_dependencies':
-        return DeploymentCommandName.updateDependencies;
-      case 'update_custom_cookbooks':
-        return DeploymentCommandName.updateCustomCookbooks;
-      case 'execute_recipes':
-        return DeploymentCommandName.executeRecipes;
-      case 'configure':
-        return DeploymentCommandName.configure;
-      case 'setup':
-        return DeploymentCommandName.setup;
-      case 'deploy':
-        return DeploymentCommandName.deploy;
-      case 'rollback':
-        return DeploymentCommandName.rollback;
-      case 'start':
-        return DeploymentCommandName.start;
-      case 'stop':
-        return DeploymentCommandName.stop;
-      case 'restart':
-        return DeploymentCommandName.restart;
-      case 'undeploy':
-        return DeploymentCommandName.undeploy;
-    }
-    throw Exception('$this is not known in enum DeploymentCommandName');
-  }
+  const DeploymentCommandName(this.value);
+
+  static DeploymentCommandName fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DeploymentCommandName'));
 }
 
 /// Contains the response to a <code>DescribeAgentVersions</code> request.
@@ -7541,7 +7007,7 @@ class EbsBlockDevice {
       iops: json['Iops'] as int?,
       snapshotId: json['SnapshotId'] as String?,
       volumeSize: json['VolumeSize'] as int?,
-      volumeType: (json['VolumeType'] as String?)?.toVolumeType(),
+      volumeType: (json['VolumeType'] as String?)?.let(VolumeType.fromString),
     );
   }
 
@@ -7557,7 +7023,7 @@ class EbsBlockDevice {
       if (iops != null) 'Iops': iops,
       if (snapshotId != null) 'SnapshotId': snapshotId,
       if (volumeSize != null) 'VolumeSize': volumeSize,
-      if (volumeType != null) 'VolumeType': volumeType.toValue(),
+      if (volumeType != null) 'VolumeType': volumeType.value,
     };
   }
 }
@@ -8112,10 +7578,11 @@ class Instance {
     return Instance(
       agentVersion: json['AgentVersion'] as String?,
       amiId: json['AmiId'] as String?,
-      architecture: (json['Architecture'] as String?)?.toArchitecture(),
+      architecture:
+          (json['Architecture'] as String?)?.let(Architecture.fromString),
       arn: json['Arn'] as String?,
       autoScalingType:
-          (json['AutoScalingType'] as String?)?.toAutoScalingType(),
+          (json['AutoScalingType'] as String?)?.let(AutoScalingType.fromString),
       availabilityZone: json['AvailabilityZone'] as String?,
       blockDeviceMappings: (json['BlockDeviceMappings'] as List?)
           ?.whereNotNull()
@@ -8149,7 +7616,8 @@ class Instance {
       reportedOs: json['ReportedOs'] != null
           ? ReportedOs.fromJson(json['ReportedOs'] as Map<String, dynamic>)
           : null,
-      rootDeviceType: (json['RootDeviceType'] as String?)?.toRootDeviceType(),
+      rootDeviceType:
+          (json['RootDeviceType'] as String?)?.let(RootDeviceType.fromString),
       rootDeviceVolumeId: json['RootDeviceVolumeId'] as String?,
       securityGroupIds: (json['SecurityGroupIds'] as List?)
           ?.whereNotNull()
@@ -8162,8 +7630,8 @@ class Instance {
       status: json['Status'] as String?,
       subnetId: json['SubnetId'] as String?,
       tenancy: json['Tenancy'] as String?,
-      virtualizationType:
-          (json['VirtualizationType'] as String?)?.toVirtualizationType(),
+      virtualizationType: (json['VirtualizationType'] as String?)
+          ?.let(VirtualizationType.fromString),
     );
   }
 
@@ -8212,9 +7680,9 @@ class Instance {
     return {
       if (agentVersion != null) 'AgentVersion': agentVersion,
       if (amiId != null) 'AmiId': amiId,
-      if (architecture != null) 'Architecture': architecture.toValue(),
+      if (architecture != null) 'Architecture': architecture.value,
       if (arn != null) 'Arn': arn,
-      if (autoScalingType != null) 'AutoScalingType': autoScalingType.toValue(),
+      if (autoScalingType != null) 'AutoScalingType': autoScalingType.value,
       if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
       if (blockDeviceMappings != null)
         'BlockDeviceMappings': blockDeviceMappings,
@@ -8245,7 +7713,7 @@ class Instance {
       if (reportedAgentVersion != null)
         'ReportedAgentVersion': reportedAgentVersion,
       if (reportedOs != null) 'ReportedOs': reportedOs,
-      if (rootDeviceType != null) 'RootDeviceType': rootDeviceType.toValue(),
+      if (rootDeviceType != null) 'RootDeviceType': rootDeviceType.value,
       if (rootDeviceVolumeId != null) 'RootDeviceVolumeId': rootDeviceVolumeId,
       if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
       if (sshHostDsaKeyFingerprint != null)
@@ -8258,7 +7726,7 @@ class Instance {
       if (subnetId != null) 'SubnetId': subnetId,
       if (tenancy != null) 'Tenancy': tenancy,
       if (virtualizationType != null)
-        'VirtualizationType': virtualizationType.toValue(),
+        'VirtualizationType': virtualizationType.value,
     };
   }
 }
@@ -8588,8 +8056,8 @@ class Layer {
   factory Layer.fromJson(Map<String, dynamic> json) {
     return Layer(
       arn: json['Arn'] as String?,
-      attributes: (json['Attributes'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k.toLayerAttributesKeys(), e as String)),
+      attributes: (json['Attributes'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(LayerAttributesKeys.fromString(k), e as String)),
       autoAssignElasticIps: json['AutoAssignElasticIps'] as bool?,
       autoAssignPublicIps: json['AutoAssignPublicIps'] as bool?,
       cloudWatchLogsConfiguration: json['CloudWatchLogsConfiguration'] != null
@@ -8627,7 +8095,7 @@ class Layer {
           .toList(),
       shortname: json['Shortname'] as String?,
       stackId: json['StackId'] as String?,
-      type: (json['Type'] as String?)?.toLayerType(),
+      type: (json['Type'] as String?)?.let(LayerType.fromString),
       useEbsOptimizedInstances: json['UseEbsOptimizedInstances'] as bool?,
       volumeConfigurations: (json['VolumeConfigurations'] as List?)
           ?.whereNotNull()
@@ -8663,7 +8131,7 @@ class Layer {
     return {
       if (arn != null) 'Arn': arn,
       if (attributes != null)
-        'Attributes': attributes.map((k, e) => MapEntry(k.toValue(), e)),
+        'Attributes': attributes.map((k, e) => MapEntry(k.value, e)),
       if (autoAssignElasticIps != null)
         'AutoAssignElasticIps': autoAssignElasticIps,
       if (autoAssignPublicIps != null)
@@ -8690,7 +8158,7 @@ class Layer {
       if (packages != null) 'Packages': packages,
       if (shortname != null) 'Shortname': shortname,
       if (stackId != null) 'StackId': stackId,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
       if (useEbsOptimizedInstances != null)
         'UseEbsOptimizedInstances': useEbsOptimizedInstances,
       if (volumeConfigurations != null)
@@ -8700,224 +8168,65 @@ class Layer {
 }
 
 enum LayerAttributesKeys {
-  ecsClusterArn,
-  enableHaproxyStats,
-  haproxyStatsUrl,
-  haproxyStatsUser,
-  haproxyStatsPassword,
-  haproxyHealthCheckUrl,
-  haproxyHealthCheckMethod,
-  mysqlRootPassword,
-  mysqlRootPasswordUbiquitous,
-  gangliaUrl,
-  gangliaUser,
-  gangliaPassword,
-  memcachedMemory,
-  nodejsVersion,
-  rubyVersion,
-  rubygemsVersion,
-  manageBundler,
-  bundlerVersion,
-  railsStack,
-  passengerVersion,
-  jvm,
-  jvmVersion,
-  jvmOptions,
-  javaAppServer,
-  javaAppServerVersion,
-}
+  ecsClusterArn('EcsClusterArn'),
+  enableHaproxyStats('EnableHaproxyStats'),
+  haproxyStatsUrl('HaproxyStatsUrl'),
+  haproxyStatsUser('HaproxyStatsUser'),
+  haproxyStatsPassword('HaproxyStatsPassword'),
+  haproxyHealthCheckUrl('HaproxyHealthCheckUrl'),
+  haproxyHealthCheckMethod('HaproxyHealthCheckMethod'),
+  mysqlRootPassword('MysqlRootPassword'),
+  mysqlRootPasswordUbiquitous('MysqlRootPasswordUbiquitous'),
+  gangliaUrl('GangliaUrl'),
+  gangliaUser('GangliaUser'),
+  gangliaPassword('GangliaPassword'),
+  memcachedMemory('MemcachedMemory'),
+  nodejsVersion('NodejsVersion'),
+  rubyVersion('RubyVersion'),
+  rubygemsVersion('RubygemsVersion'),
+  manageBundler('ManageBundler'),
+  bundlerVersion('BundlerVersion'),
+  railsStack('RailsStack'),
+  passengerVersion('PassengerVersion'),
+  jvm('Jvm'),
+  jvmVersion('JvmVersion'),
+  jvmOptions('JvmOptions'),
+  javaAppServer('JavaAppServer'),
+  javaAppServerVersion('JavaAppServerVersion'),
+  ;
 
-extension LayerAttributesKeysValueExtension on LayerAttributesKeys {
-  String toValue() {
-    switch (this) {
-      case LayerAttributesKeys.ecsClusterArn:
-        return 'EcsClusterArn';
-      case LayerAttributesKeys.enableHaproxyStats:
-        return 'EnableHaproxyStats';
-      case LayerAttributesKeys.haproxyStatsUrl:
-        return 'HaproxyStatsUrl';
-      case LayerAttributesKeys.haproxyStatsUser:
-        return 'HaproxyStatsUser';
-      case LayerAttributesKeys.haproxyStatsPassword:
-        return 'HaproxyStatsPassword';
-      case LayerAttributesKeys.haproxyHealthCheckUrl:
-        return 'HaproxyHealthCheckUrl';
-      case LayerAttributesKeys.haproxyHealthCheckMethod:
-        return 'HaproxyHealthCheckMethod';
-      case LayerAttributesKeys.mysqlRootPassword:
-        return 'MysqlRootPassword';
-      case LayerAttributesKeys.mysqlRootPasswordUbiquitous:
-        return 'MysqlRootPasswordUbiquitous';
-      case LayerAttributesKeys.gangliaUrl:
-        return 'GangliaUrl';
-      case LayerAttributesKeys.gangliaUser:
-        return 'GangliaUser';
-      case LayerAttributesKeys.gangliaPassword:
-        return 'GangliaPassword';
-      case LayerAttributesKeys.memcachedMemory:
-        return 'MemcachedMemory';
-      case LayerAttributesKeys.nodejsVersion:
-        return 'NodejsVersion';
-      case LayerAttributesKeys.rubyVersion:
-        return 'RubyVersion';
-      case LayerAttributesKeys.rubygemsVersion:
-        return 'RubygemsVersion';
-      case LayerAttributesKeys.manageBundler:
-        return 'ManageBundler';
-      case LayerAttributesKeys.bundlerVersion:
-        return 'BundlerVersion';
-      case LayerAttributesKeys.railsStack:
-        return 'RailsStack';
-      case LayerAttributesKeys.passengerVersion:
-        return 'PassengerVersion';
-      case LayerAttributesKeys.jvm:
-        return 'Jvm';
-      case LayerAttributesKeys.jvmVersion:
-        return 'JvmVersion';
-      case LayerAttributesKeys.jvmOptions:
-        return 'JvmOptions';
-      case LayerAttributesKeys.javaAppServer:
-        return 'JavaAppServer';
-      case LayerAttributesKeys.javaAppServerVersion:
-        return 'JavaAppServerVersion';
-    }
-  }
-}
+  final String value;
 
-extension LayerAttributesKeysFromString on String {
-  LayerAttributesKeys toLayerAttributesKeys() {
-    switch (this) {
-      case 'EcsClusterArn':
-        return LayerAttributesKeys.ecsClusterArn;
-      case 'EnableHaproxyStats':
-        return LayerAttributesKeys.enableHaproxyStats;
-      case 'HaproxyStatsUrl':
-        return LayerAttributesKeys.haproxyStatsUrl;
-      case 'HaproxyStatsUser':
-        return LayerAttributesKeys.haproxyStatsUser;
-      case 'HaproxyStatsPassword':
-        return LayerAttributesKeys.haproxyStatsPassword;
-      case 'HaproxyHealthCheckUrl':
-        return LayerAttributesKeys.haproxyHealthCheckUrl;
-      case 'HaproxyHealthCheckMethod':
-        return LayerAttributesKeys.haproxyHealthCheckMethod;
-      case 'MysqlRootPassword':
-        return LayerAttributesKeys.mysqlRootPassword;
-      case 'MysqlRootPasswordUbiquitous':
-        return LayerAttributesKeys.mysqlRootPasswordUbiquitous;
-      case 'GangliaUrl':
-        return LayerAttributesKeys.gangliaUrl;
-      case 'GangliaUser':
-        return LayerAttributesKeys.gangliaUser;
-      case 'GangliaPassword':
-        return LayerAttributesKeys.gangliaPassword;
-      case 'MemcachedMemory':
-        return LayerAttributesKeys.memcachedMemory;
-      case 'NodejsVersion':
-        return LayerAttributesKeys.nodejsVersion;
-      case 'RubyVersion':
-        return LayerAttributesKeys.rubyVersion;
-      case 'RubygemsVersion':
-        return LayerAttributesKeys.rubygemsVersion;
-      case 'ManageBundler':
-        return LayerAttributesKeys.manageBundler;
-      case 'BundlerVersion':
-        return LayerAttributesKeys.bundlerVersion;
-      case 'RailsStack':
-        return LayerAttributesKeys.railsStack;
-      case 'PassengerVersion':
-        return LayerAttributesKeys.passengerVersion;
-      case 'Jvm':
-        return LayerAttributesKeys.jvm;
-      case 'JvmVersion':
-        return LayerAttributesKeys.jvmVersion;
-      case 'JvmOptions':
-        return LayerAttributesKeys.jvmOptions;
-      case 'JavaAppServer':
-        return LayerAttributesKeys.javaAppServer;
-      case 'JavaAppServerVersion':
-        return LayerAttributesKeys.javaAppServerVersion;
-    }
-    throw Exception('$this is not known in enum LayerAttributesKeys');
-  }
+  const LayerAttributesKeys(this.value);
+
+  static LayerAttributesKeys fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum LayerAttributesKeys'));
 }
 
 enum LayerType {
-  awsFlowRuby,
-  ecsCluster,
-  javaApp,
-  lb,
-  web,
-  phpApp,
-  railsApp,
-  nodejsApp,
-  memcached,
-  dbMaster,
-  monitoringMaster,
-  custom,
-}
+  awsFlowRuby('aws-flow-ruby'),
+  ecsCluster('ecs-cluster'),
+  javaApp('java-app'),
+  lb('lb'),
+  web('web'),
+  phpApp('php-app'),
+  railsApp('rails-app'),
+  nodejsApp('nodejs-app'),
+  memcached('memcached'),
+  dbMaster('db-master'),
+  monitoringMaster('monitoring-master'),
+  custom('custom'),
+  ;
 
-extension LayerTypeValueExtension on LayerType {
-  String toValue() {
-    switch (this) {
-      case LayerType.awsFlowRuby:
-        return 'aws-flow-ruby';
-      case LayerType.ecsCluster:
-        return 'ecs-cluster';
-      case LayerType.javaApp:
-        return 'java-app';
-      case LayerType.lb:
-        return 'lb';
-      case LayerType.web:
-        return 'web';
-      case LayerType.phpApp:
-        return 'php-app';
-      case LayerType.railsApp:
-        return 'rails-app';
-      case LayerType.nodejsApp:
-        return 'nodejs-app';
-      case LayerType.memcached:
-        return 'memcached';
-      case LayerType.dbMaster:
-        return 'db-master';
-      case LayerType.monitoringMaster:
-        return 'monitoring-master';
-      case LayerType.custom:
-        return 'custom';
-    }
-  }
-}
+  final String value;
 
-extension LayerTypeFromString on String {
-  LayerType toLayerType() {
-    switch (this) {
-      case 'aws-flow-ruby':
-        return LayerType.awsFlowRuby;
-      case 'ecs-cluster':
-        return LayerType.ecsCluster;
-      case 'java-app':
-        return LayerType.javaApp;
-      case 'lb':
-        return LayerType.lb;
-      case 'web':
-        return LayerType.web;
-      case 'php-app':
-        return LayerType.phpApp;
-      case 'rails-app':
-        return LayerType.railsApp;
-      case 'nodejs-app':
-        return LayerType.nodejsApp;
-      case 'memcached':
-        return LayerType.memcached;
-      case 'db-master':
-        return LayerType.dbMaster;
-      case 'monitoring-master':
-        return LayerType.monitoringMaster;
-      case 'custom':
-        return LayerType.custom;
-    }
-    throw Exception('$this is not known in enum LayerType');
-  }
+  const LayerType(this.value);
+
+  static LayerType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum LayerType'));
 }
 
 /// Specifies the lifecycle event configuration
@@ -9626,31 +8935,18 @@ class ReportedOs {
 }
 
 enum RootDeviceType {
-  ebs,
-  instanceStore,
-}
+  ebs('ebs'),
+  instanceStore('instance-store'),
+  ;
 
-extension RootDeviceTypeValueExtension on RootDeviceType {
-  String toValue() {
-    switch (this) {
-      case RootDeviceType.ebs:
-        return 'ebs';
-      case RootDeviceType.instanceStore:
-        return 'instance-store';
-    }
-  }
-}
+  final String value;
 
-extension RootDeviceTypeFromString on String {
-  RootDeviceType toRootDeviceType() {
-    switch (this) {
-      case 'ebs':
-        return RootDeviceType.ebs;
-      case 'instance-store':
-        return RootDeviceType.instanceStore;
-    }
-    throw Exception('$this is not known in enum RootDeviceType');
-  }
+  const RootDeviceType(this.value);
+
+  static RootDeviceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RootDeviceType'));
 }
 
 /// Describes a user's SSH information.
@@ -9865,7 +9161,7 @@ class Source {
       password: json['Password'] as String?,
       revision: json['Revision'] as String?,
       sshKey: json['SshKey'] as String?,
-      type: (json['Type'] as String?)?.toSourceType(),
+      type: (json['Type'] as String?)?.let(SourceType.fromString),
       url: json['Url'] as String?,
       username: json['Username'] as String?,
     );
@@ -9882,7 +9178,7 @@ class Source {
       if (password != null) 'Password': password,
       if (revision != null) 'Revision': revision,
       if (sshKey != null) 'SshKey': sshKey,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
       if (url != null) 'Url': url,
       if (username != null) 'Username': username,
     };
@@ -9890,41 +9186,19 @@ class Source {
 }
 
 enum SourceType {
-  git,
-  svn,
-  archive,
-  s3,
-}
+  git('git'),
+  svn('svn'),
+  archive('archive'),
+  s3('s3'),
+  ;
 
-extension SourceTypeValueExtension on SourceType {
-  String toValue() {
-    switch (this) {
-      case SourceType.git:
-        return 'git';
-      case SourceType.svn:
-        return 'svn';
-      case SourceType.archive:
-        return 'archive';
-      case SourceType.s3:
-        return 's3';
-    }
-  }
-}
+  final String value;
 
-extension SourceTypeFromString on String {
-  SourceType toSourceType() {
-    switch (this) {
-      case 'git':
-        return SourceType.git;
-      case 'svn':
-        return SourceType.svn;
-      case 'archive':
-        return SourceType.archive;
-      case 's3':
-        return SourceType.s3;
-    }
-    throw Exception('$this is not known in enum SourceType');
-  }
+  const SourceType(this.value);
+
+  static SourceType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SourceType'));
 }
 
 /// Describes an app's SSL configuration.
@@ -10094,8 +9368,8 @@ class Stack {
     return Stack(
       agentVersion: json['AgentVersion'] as String?,
       arn: json['Arn'] as String?,
-      attributes: (json['Attributes'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k.toStackAttributesKeys(), e as String)),
+      attributes: (json['Attributes'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(StackAttributesKeys.fromString(k), e as String)),
       chefConfiguration: json['ChefConfiguration'] != null
           ? ChefConfiguration.fromJson(
               json['ChefConfiguration'] as Map<String, dynamic>)
@@ -10113,8 +9387,8 @@ class Stack {
       defaultAvailabilityZone: json['DefaultAvailabilityZone'] as String?,
       defaultInstanceProfileArn: json['DefaultInstanceProfileArn'] as String?,
       defaultOs: json['DefaultOs'] as String?,
-      defaultRootDeviceType:
-          (json['DefaultRootDeviceType'] as String?)?.toRootDeviceType(),
+      defaultRootDeviceType: (json['DefaultRootDeviceType'] as String?)
+          ?.let(RootDeviceType.fromString),
       defaultSshKeyName: json['DefaultSshKeyName'] as String?,
       defaultSubnetId: json['DefaultSubnetId'] as String?,
       hostnameTheme: json['HostnameTheme'] as String?,
@@ -10155,7 +9429,7 @@ class Stack {
       if (agentVersion != null) 'AgentVersion': agentVersion,
       if (arn != null) 'Arn': arn,
       if (attributes != null)
-        'Attributes': attributes.map((k, e) => MapEntry(k.toValue(), e)),
+        'Attributes': attributes.map((k, e) => MapEntry(k.value, e)),
       if (chefConfiguration != null) 'ChefConfiguration': chefConfiguration,
       if (configurationManager != null)
         'ConfigurationManager': configurationManager,
@@ -10169,7 +9443,7 @@ class Stack {
         'DefaultInstanceProfileArn': defaultInstanceProfileArn,
       if (defaultOs != null) 'DefaultOs': defaultOs,
       if (defaultRootDeviceType != null)
-        'DefaultRootDeviceType': defaultRootDeviceType.toValue(),
+        'DefaultRootDeviceType': defaultRootDeviceType.value,
       if (defaultSshKeyName != null) 'DefaultSshKeyName': defaultSshKeyName,
       if (defaultSubnetId != null) 'DefaultSubnetId': defaultSubnetId,
       if (hostnameTheme != null) 'HostnameTheme': hostnameTheme,
@@ -10186,26 +9460,17 @@ class Stack {
 }
 
 enum StackAttributesKeys {
-  color,
-}
+  color('Color'),
+  ;
 
-extension StackAttributesKeysValueExtension on StackAttributesKeys {
-  String toValue() {
-    switch (this) {
-      case StackAttributesKeys.color:
-        return 'Color';
-    }
-  }
-}
+  final String value;
 
-extension StackAttributesKeysFromString on String {
-  StackAttributesKeys toStackAttributesKeys() {
-    switch (this) {
-      case 'Color':
-        return StackAttributesKeys.color;
-    }
-    throw Exception('$this is not known in enum StackAttributesKeys');
-  }
+  const StackAttributesKeys(this.value);
+
+  static StackAttributesKeys fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum StackAttributesKeys'));
 }
 
 /// Describes the configuration manager.
@@ -10441,31 +9706,18 @@ class UserProfile {
 }
 
 enum VirtualizationType {
-  paravirtual,
-  hvm,
-}
+  paravirtual('paravirtual'),
+  hvm('hvm'),
+  ;
 
-extension VirtualizationTypeValueExtension on VirtualizationType {
-  String toValue() {
-    switch (this) {
-      case VirtualizationType.paravirtual:
-        return 'paravirtual';
-      case VirtualizationType.hvm:
-        return 'hvm';
-    }
-  }
-}
+  final String value;
 
-extension VirtualizationTypeFromString on String {
-  VirtualizationType toVirtualizationType() {
-    switch (this) {
-      case 'paravirtual':
-        return VirtualizationType.paravirtual;
-      case 'hvm':
-        return VirtualizationType.hvm;
-    }
-    throw Exception('$this is not known in enum VirtualizationType');
-  }
+  const VirtualizationType(this.value);
+
+  static VirtualizationType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum VirtualizationType'));
 }
 
 /// Describes an instance's Amazon EBS volume.
@@ -10713,36 +9965,18 @@ class VolumeConfiguration {
 }
 
 enum VolumeType {
-  gp2,
-  io1,
-  standard,
-}
+  gp2('gp2'),
+  io1('io1'),
+  standard('standard'),
+  ;
 
-extension VolumeTypeValueExtension on VolumeType {
-  String toValue() {
-    switch (this) {
-      case VolumeType.gp2:
-        return 'gp2';
-      case VolumeType.io1:
-        return 'io1';
-      case VolumeType.standard:
-        return 'standard';
-    }
-  }
-}
+  final String value;
 
-extension VolumeTypeFromString on String {
-  VolumeType toVolumeType() {
-    switch (this) {
-      case 'gp2':
-        return VolumeType.gp2;
-      case 'io1':
-        return VolumeType.io1;
-      case 'standard':
-        return VolumeType.standard;
-    }
-    throw Exception('$this is not known in enum VolumeType');
-  }
+  const VolumeType(this.value);
+
+  static VolumeType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum VolumeType'));
 }
 
 /// Describes a time-based instance's auto scaling schedule. The schedule

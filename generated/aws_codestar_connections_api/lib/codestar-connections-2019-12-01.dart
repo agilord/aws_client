@@ -94,7 +94,7 @@ class CodeStarconnections {
       payload: {
         'ConnectionName': connectionName,
         if (hostArn != null) 'HostArn': hostArn,
-        if (providerType != null) 'ProviderType': providerType.toValue(),
+        if (providerType != null) 'ProviderType': providerType.value,
         if (tags != null) 'Tags': tags,
       },
     );
@@ -154,7 +154,7 @@ class CodeStarconnections {
       payload: {
         'Name': name,
         'ProviderEndpoint': providerEndpoint,
-        'ProviderType': providerType.toValue(),
+        'ProviderType': providerType.value,
         if (tags != null) 'Tags': tags,
         if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
       },
@@ -294,11 +294,11 @@ class CodeStarconnections {
         'RepositoryLinkId': repositoryLinkId,
         'ResourceName': resourceName,
         'RoleArn': roleArn,
-        'SyncType': syncType.toValue(),
+        'SyncType': syncType.value,
         if (publishDeploymentStatus != null)
-          'PublishDeploymentStatus': publishDeploymentStatus.toValue(),
+          'PublishDeploymentStatus': publishDeploymentStatus.value,
         if (triggerResourceUpdateOn != null)
-          'TriggerResourceUpdateOn': triggerResourceUpdateOn.toValue(),
+          'TriggerResourceUpdateOn': triggerResourceUpdateOn.value,
       },
     );
 
@@ -432,7 +432,7 @@ class CodeStarconnections {
       headers: headers,
       payload: {
         'ResourceName': resourceName,
-        'SyncType': syncType.toValue(),
+        'SyncType': syncType.value,
       },
     );
   }
@@ -568,7 +568,7 @@ class CodeStarconnections {
       payload: {
         'Branch': branch,
         'RepositoryLinkId': repositoryLinkId,
-        'SyncType': syncType.toValue(),
+        'SyncType': syncType.value,
       },
     );
 
@@ -607,7 +607,7 @@ class CodeStarconnections {
       headers: headers,
       payload: {
         'ResourceName': resourceName,
-        'SyncType': syncType.toValue(),
+        'SyncType': syncType.value,
       },
     );
 
@@ -645,7 +645,7 @@ class CodeStarconnections {
       headers: headers,
       payload: {
         'ResourceName': resourceName,
-        'SyncType': syncType.toValue(),
+        'SyncType': syncType.value,
       },
     );
 
@@ -687,7 +687,7 @@ class CodeStarconnections {
       headers: headers,
       payload: {
         'ResourceName': resourceName,
-        'SyncType': syncType.toValue(),
+        'SyncType': syncType.value,
       },
     );
 
@@ -741,7 +741,7 @@ class CodeStarconnections {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (providerTypeFilter != null)
-          'ProviderTypeFilter': providerTypeFilter.toValue(),
+          'ProviderTypeFilter': providerTypeFilter.value,
       },
     );
 
@@ -867,7 +867,7 @@ class CodeStarconnections {
       headers: headers,
       payload: {
         'RepositoryLinkId': repositoryLinkId,
-        'SyncType': syncType.toValue(),
+        'SyncType': syncType.value,
       },
     );
 
@@ -921,7 +921,7 @@ class CodeStarconnections {
       headers: headers,
       payload: {
         'RepositoryLinkId': repositoryLinkId,
-        'SyncType': syncType.toValue(),
+        'SyncType': syncType.value,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -1158,7 +1158,7 @@ class CodeStarconnections {
         'Id': id,
         'ResolvedReason': resolvedReason,
         'ResourceName': resourceName,
-        'SyncType': syncType.toValue(),
+        'SyncType': syncType.value,
       },
     );
 
@@ -1224,15 +1224,15 @@ class CodeStarconnections {
       headers: headers,
       payload: {
         'ResourceName': resourceName,
-        'SyncType': syncType.toValue(),
+        'SyncType': syncType.value,
         if (branch != null) 'Branch': branch,
         if (configFile != null) 'ConfigFile': configFile,
         if (publishDeploymentStatus != null)
-          'PublishDeploymentStatus': publishDeploymentStatus.toValue(),
+          'PublishDeploymentStatus': publishDeploymentStatus.value,
         if (repositoryLinkId != null) 'RepositoryLinkId': repositoryLinkId,
         if (roleArn != null) 'RoleArn': roleArn,
         if (triggerResourceUpdateOn != null)
-          'TriggerResourceUpdateOn': triggerResourceUpdateOn.toValue(),
+          'TriggerResourceUpdateOn': triggerResourceUpdateOn.value,
       },
     );
 
@@ -1241,54 +1241,31 @@ class CodeStarconnections {
 }
 
 enum BlockerStatus {
-  active,
-  resolved,
-}
+  active('ACTIVE'),
+  resolved('RESOLVED'),
+  ;
 
-extension BlockerStatusValueExtension on BlockerStatus {
-  String toValue() {
-    switch (this) {
-      case BlockerStatus.active:
-        return 'ACTIVE';
-      case BlockerStatus.resolved:
-        return 'RESOLVED';
-    }
-  }
-}
+  final String value;
 
-extension BlockerStatusFromString on String {
-  BlockerStatus toBlockerStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return BlockerStatus.active;
-      case 'RESOLVED':
-        return BlockerStatus.resolved;
-    }
-    throw Exception('$this is not known in enum BlockerStatus');
-  }
+  const BlockerStatus(this.value);
+
+  static BlockerStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum BlockerStatus'));
 }
 
 enum BlockerType {
-  automated,
-}
+  automated('AUTOMATED'),
+  ;
 
-extension BlockerTypeValueExtension on BlockerType {
-  String toValue() {
-    switch (this) {
-      case BlockerType.automated:
-        return 'AUTOMATED';
-    }
-  }
-}
+  final String value;
 
-extension BlockerTypeFromString on String {
-  BlockerType toBlockerType() {
-    switch (this) {
-      case 'AUTOMATED':
-        return BlockerType.automated;
-    }
-    throw Exception('$this is not known in enum BlockerType');
-  }
+  const BlockerType(this.value);
+
+  static BlockerType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum BlockerType'));
 }
 
 /// A resource that is used to connect third-party source providers with
@@ -1338,46 +1315,30 @@ class Connection {
     return Connection(
       connectionArn: json['ConnectionArn'] as String?,
       connectionName: json['ConnectionName'] as String?,
-      connectionStatus:
-          (json['ConnectionStatus'] as String?)?.toConnectionStatus(),
+      connectionStatus: (json['ConnectionStatus'] as String?)
+          ?.let(ConnectionStatus.fromString),
       hostArn: json['HostArn'] as String?,
       ownerAccountId: json['OwnerAccountId'] as String?,
-      providerType: (json['ProviderType'] as String?)?.toProviderType(),
+      providerType:
+          (json['ProviderType'] as String?)?.let(ProviderType.fromString),
     );
   }
 }
 
 enum ConnectionStatus {
-  pending,
-  available,
-  error,
-}
+  pending('PENDING'),
+  available('AVAILABLE'),
+  error('ERROR'),
+  ;
 
-extension ConnectionStatusValueExtension on ConnectionStatus {
-  String toValue() {
-    switch (this) {
-      case ConnectionStatus.pending:
-        return 'PENDING';
-      case ConnectionStatus.available:
-        return 'AVAILABLE';
-      case ConnectionStatus.error:
-        return 'ERROR';
-    }
-  }
-}
+  final String value;
 
-extension ConnectionStatusFromString on String {
-  ConnectionStatus toConnectionStatus() {
-    switch (this) {
-      case 'PENDING':
-        return ConnectionStatus.pending;
-      case 'AVAILABLE':
-        return ConnectionStatus.available;
-      case 'ERROR':
-        return ConnectionStatus.error;
-    }
-    throw Exception('$this is not known in enum ConnectionStatus');
-  }
+  const ConnectionStatus(this.value);
+
+  static ConnectionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ConnectionStatus'));
 }
 
 class CreateConnectionOutput {
@@ -1542,7 +1503,8 @@ class GetHostOutput {
     return GetHostOutput(
       name: json['Name'] as String?,
       providerEndpoint: json['ProviderEndpoint'] as String?,
-      providerType: (json['ProviderType'] as String?)?.toProviderType(),
+      providerType:
+          (json['ProviderType'] as String?)?.let(ProviderType.fromString),
       status: json['Status'] as String?,
       vpcConfiguration: json['VpcConfiguration'] != null
           ? VpcConfiguration.fromJson(
@@ -1699,7 +1661,8 @@ class Host {
       hostArn: json['HostArn'] as String?,
       name: json['Name'] as String?,
       providerEndpoint: json['ProviderEndpoint'] as String?,
-      providerType: (json['ProviderType'] as String?)?.toProviderType(),
+      providerType:
+          (json['ProviderType'] as String?)?.let(ProviderType.fromString),
       status: json['Status'] as String?,
       statusMessage: json['StatusMessage'] as String?,
       vpcConfiguration: json['VpcConfiguration'] != null
@@ -1858,74 +1821,36 @@ class ListTagsForResourceOutput {
 }
 
 enum ProviderType {
-  bitbucket,
-  gitHub,
-  gitHubEnterpriseServer,
-  gitLab,
-  gitLabSelfManaged,
-}
+  bitbucket('Bitbucket'),
+  gitHub('GitHub'),
+  gitHubEnterpriseServer('GitHubEnterpriseServer'),
+  gitLab('GitLab'),
+  gitLabSelfManaged('GitLabSelfManaged'),
+  ;
 
-extension ProviderTypeValueExtension on ProviderType {
-  String toValue() {
-    switch (this) {
-      case ProviderType.bitbucket:
-        return 'Bitbucket';
-      case ProviderType.gitHub:
-        return 'GitHub';
-      case ProviderType.gitHubEnterpriseServer:
-        return 'GitHubEnterpriseServer';
-      case ProviderType.gitLab:
-        return 'GitLab';
-      case ProviderType.gitLabSelfManaged:
-        return 'GitLabSelfManaged';
-    }
-  }
-}
+  final String value;
 
-extension ProviderTypeFromString on String {
-  ProviderType toProviderType() {
-    switch (this) {
-      case 'Bitbucket':
-        return ProviderType.bitbucket;
-      case 'GitHub':
-        return ProviderType.gitHub;
-      case 'GitHubEnterpriseServer':
-        return ProviderType.gitHubEnterpriseServer;
-      case 'GitLab':
-        return ProviderType.gitLab;
-      case 'GitLabSelfManaged':
-        return ProviderType.gitLabSelfManaged;
-    }
-    throw Exception('$this is not known in enum ProviderType');
-  }
+  const ProviderType(this.value);
+
+  static ProviderType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ProviderType'));
 }
 
 enum PublishDeploymentStatus {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension PublishDeploymentStatusValueExtension on PublishDeploymentStatus {
-  String toValue() {
-    switch (this) {
-      case PublishDeploymentStatus.enabled:
-        return 'ENABLED';
-      case PublishDeploymentStatus.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension PublishDeploymentStatusFromString on String {
-  PublishDeploymentStatus toPublishDeploymentStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return PublishDeploymentStatus.enabled;
-      case 'DISABLED':
-        return PublishDeploymentStatus.disabled;
-    }
-    throw Exception('$this is not known in enum PublishDeploymentStatus');
-  }
+  const PublishDeploymentStatus(this.value);
+
+  static PublishDeploymentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PublishDeploymentStatus'));
 }
 
 /// Information about the repository link resource, such as the repository link
@@ -1970,7 +1895,7 @@ class RepositoryLinkInfo {
     return RepositoryLinkInfo(
       connectionArn: json['ConnectionArn'] as String,
       ownerId: json['OwnerId'] as String,
-      providerType: (json['ProviderType'] as String).toProviderType(),
+      providerType: ProviderType.fromString((json['ProviderType'] as String)),
       repositoryLinkArn: json['RepositoryLinkArn'] as String,
       repositoryLinkId: json['RepositoryLinkId'] as String,
       repositoryName: json['RepositoryName'] as String,
@@ -2023,7 +1948,7 @@ class RepositorySyncAttempt {
           .map((e) => RepositorySyncEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
       startedAt: nonNullableTimeStampFromJson(json['StartedAt'] as Object),
-      status: (json['Status'] as String).toRepositorySyncStatus(),
+      status: RepositorySyncStatus.fromString((json['Status'] as String)),
     );
   }
 }
@@ -2094,46 +2019,21 @@ class RepositorySyncEvent {
 }
 
 enum RepositorySyncStatus {
-  failed,
-  initiated,
-  inProgress,
-  succeeded,
-  queued,
-}
+  failed('FAILED'),
+  initiated('INITIATED'),
+  inProgress('IN_PROGRESS'),
+  succeeded('SUCCEEDED'),
+  queued('QUEUED'),
+  ;
 
-extension RepositorySyncStatusValueExtension on RepositorySyncStatus {
-  String toValue() {
-    switch (this) {
-      case RepositorySyncStatus.failed:
-        return 'FAILED';
-      case RepositorySyncStatus.initiated:
-        return 'INITIATED';
-      case RepositorySyncStatus.inProgress:
-        return 'IN_PROGRESS';
-      case RepositorySyncStatus.succeeded:
-        return 'SUCCEEDED';
-      case RepositorySyncStatus.queued:
-        return 'QUEUED';
-    }
-  }
-}
+  final String value;
 
-extension RepositorySyncStatusFromString on String {
-  RepositorySyncStatus toRepositorySyncStatus() {
-    switch (this) {
-      case 'FAILED':
-        return RepositorySyncStatus.failed;
-      case 'INITIATED':
-        return RepositorySyncStatus.initiated;
-      case 'IN_PROGRESS':
-        return RepositorySyncStatus.inProgress;
-      case 'SUCCEEDED':
-        return RepositorySyncStatus.succeeded;
-      case 'QUEUED':
-        return RepositorySyncStatus.queued;
-    }
-    throw Exception('$this is not known in enum RepositorySyncStatus');
-  }
+  const RepositorySyncStatus(this.value);
+
+  static RepositorySyncStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RepositorySyncStatus'));
 }
 
 /// Information about a resource sync attempt.
@@ -2194,7 +2094,7 @@ class ResourceSyncAttempt {
       initialRevision:
           Revision.fromJson(json['InitialRevision'] as Map<String, dynamic>),
       startedAt: nonNullableTimeStampFromJson(json['StartedAt'] as Object),
-      status: (json['Status'] as String).toResourceSyncStatus(),
+      status: ResourceSyncStatus.fromString((json['Status'] as String)),
       target: json['Target'] as String,
       targetRevision:
           Revision.fromJson(json['TargetRevision'] as Map<String, dynamic>),
@@ -2235,41 +2135,20 @@ class ResourceSyncEvent {
 }
 
 enum ResourceSyncStatus {
-  failed,
-  initiated,
-  inProgress,
-  succeeded,
-}
+  failed('FAILED'),
+  initiated('INITIATED'),
+  inProgress('IN_PROGRESS'),
+  succeeded('SUCCEEDED'),
+  ;
 
-extension ResourceSyncStatusValueExtension on ResourceSyncStatus {
-  String toValue() {
-    switch (this) {
-      case ResourceSyncStatus.failed:
-        return 'FAILED';
-      case ResourceSyncStatus.initiated:
-        return 'INITIATED';
-      case ResourceSyncStatus.inProgress:
-        return 'IN_PROGRESS';
-      case ResourceSyncStatus.succeeded:
-        return 'SUCCEEDED';
-    }
-  }
-}
+  final String value;
 
-extension ResourceSyncStatusFromString on String {
-  ResourceSyncStatus toResourceSyncStatus() {
-    switch (this) {
-      case 'FAILED':
-        return ResourceSyncStatus.failed;
-      case 'INITIATED':
-        return ResourceSyncStatus.initiated;
-      case 'IN_PROGRESS':
-        return ResourceSyncStatus.inProgress;
-      case 'SUCCEEDED':
-        return ResourceSyncStatus.succeeded;
-    }
-    throw Exception('$this is not known in enum ResourceSyncStatus');
-  }
+  const ResourceSyncStatus(this.value);
+
+  static ResourceSyncStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ResourceSyncStatus'));
 }
 
 /// Information about the revision for a specific sync event, such as the
@@ -2308,7 +2187,7 @@ class Revision {
       branch: json['Branch'] as String,
       directory: json['Directory'] as String,
       ownerId: json['OwnerId'] as String,
-      providerType: (json['ProviderType'] as String).toProviderType(),
+      providerType: ProviderType.fromString((json['ProviderType'] as String)),
       repositoryName: json['RepositoryName'] as String,
       sha: json['Sha'] as String,
     );
@@ -2357,8 +2236,8 @@ class SyncBlocker {
       createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
       createdReason: json['CreatedReason'] as String,
       id: json['Id'] as String,
-      status: (json['Status'] as String).toBlockerStatus(),
-      type: (json['Type'] as String).toBlockerType(),
+      status: BlockerStatus.fromString((json['Status'] as String)),
+      type: BlockerType.fromString((json['Type'] as String)),
       contexts: (json['Contexts'] as List?)
           ?.whereNotNull()
           .map((e) => SyncBlockerContext.fromJson(e as Map<String, dynamic>))
@@ -2480,42 +2359,33 @@ class SyncConfiguration {
     return SyncConfiguration(
       branch: json['Branch'] as String,
       ownerId: json['OwnerId'] as String,
-      providerType: (json['ProviderType'] as String).toProviderType(),
+      providerType: ProviderType.fromString((json['ProviderType'] as String)),
       repositoryLinkId: json['RepositoryLinkId'] as String,
       repositoryName: json['RepositoryName'] as String,
       resourceName: json['ResourceName'] as String,
       roleArn: json['RoleArn'] as String,
-      syncType: (json['SyncType'] as String).toSyncConfigurationType(),
+      syncType: SyncConfigurationType.fromString((json['SyncType'] as String)),
       configFile: json['ConfigFile'] as String?,
       publishDeploymentStatus: (json['PublishDeploymentStatus'] as String?)
-          ?.toPublishDeploymentStatus(),
+          ?.let(PublishDeploymentStatus.fromString),
       triggerResourceUpdateOn: (json['TriggerResourceUpdateOn'] as String?)
-          ?.toTriggerResourceUpdateOn(),
+          ?.let(TriggerResourceUpdateOn.fromString),
     );
   }
 }
 
 enum SyncConfigurationType {
-  cfnStackSync,
-}
+  cfnStackSync('CFN_STACK_SYNC'),
+  ;
 
-extension SyncConfigurationTypeValueExtension on SyncConfigurationType {
-  String toValue() {
-    switch (this) {
-      case SyncConfigurationType.cfnStackSync:
-        return 'CFN_STACK_SYNC';
-    }
-  }
-}
+  final String value;
 
-extension SyncConfigurationTypeFromString on String {
-  SyncConfigurationType toSyncConfigurationType() {
-    switch (this) {
-      case 'CFN_STACK_SYNC':
-        return SyncConfigurationType.cfnStackSync;
-    }
-    throw Exception('$this is not known in enum SyncConfigurationType');
-  }
+  const SyncConfigurationType(this.value);
+
+  static SyncConfigurationType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SyncConfigurationType'));
 }
 
 /// A tag is a key-value pair that is used to manage the resource.
@@ -2560,31 +2430,18 @@ class TagResourceOutput {
 }
 
 enum TriggerResourceUpdateOn {
-  anyChange,
-  fileChange,
-}
+  anyChange('ANY_CHANGE'),
+  fileChange('FILE_CHANGE'),
+  ;
 
-extension TriggerResourceUpdateOnValueExtension on TriggerResourceUpdateOn {
-  String toValue() {
-    switch (this) {
-      case TriggerResourceUpdateOn.anyChange:
-        return 'ANY_CHANGE';
-      case TriggerResourceUpdateOn.fileChange:
-        return 'FILE_CHANGE';
-    }
-  }
-}
+  final String value;
 
-extension TriggerResourceUpdateOnFromString on String {
-  TriggerResourceUpdateOn toTriggerResourceUpdateOn() {
-    switch (this) {
-      case 'ANY_CHANGE':
-        return TriggerResourceUpdateOn.anyChange;
-      case 'FILE_CHANGE':
-        return TriggerResourceUpdateOn.fileChange;
-    }
-    throw Exception('$this is not known in enum TriggerResourceUpdateOn');
-  }
+  const TriggerResourceUpdateOn(this.value);
+
+  static TriggerResourceUpdateOn fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TriggerResourceUpdateOn'));
 }
 
 class UntagResourceOutput {

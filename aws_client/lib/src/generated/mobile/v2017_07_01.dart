@@ -203,7 +203,7 @@ class Mobile {
     String? projectId,
   }) async {
     final $query = <String, List<String>>{
-      if (platform != null) 'platform': [platform.toValue()],
+      if (platform != null) 'platform': [platform.value],
       if (projectId != null) 'projectId': [projectId],
     };
     final response = await _protocol.send(
@@ -411,7 +411,7 @@ class BundleDetails {
     return BundleDetails(
       availablePlatforms: (json['availablePlatforms'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toPlatform())
+          .map((e) => Platform.fromString((e as String)))
           .toList(),
       bundleId: json['bundleId'] as String?,
       description: json['description'] as String?,
@@ -430,8 +430,7 @@ class BundleDetails {
     final version = this.version;
     return {
       if (availablePlatforms != null)
-        'availablePlatforms':
-            availablePlatforms.map((e) => e.toValue()).toList(),
+        'availablePlatforms': availablePlatforms.map((e) => e.value).toList(),
       if (bundleId != null) 'bundleId': bundleId,
       if (description != null) 'description': description,
       if (iconUrl != null) 'iconUrl': iconUrl,
@@ -762,56 +761,22 @@ class NotFoundException implements _s.AwsException {
 
 /// Developer desktop or target mobile app or website platform.
 enum Platform {
-  osx,
-  windows,
-  linux,
-  objc,
-  swift,
-  android,
-  javascript,
-}
+  osx('OSX'),
+  windows('WINDOWS'),
+  linux('LINUX'),
+  objc('OBJC'),
+  swift('SWIFT'),
+  android('ANDROID'),
+  javascript('JAVASCRIPT'),
+  ;
 
-extension PlatformValueExtension on Platform {
-  String toValue() {
-    switch (this) {
-      case Platform.osx:
-        return 'OSX';
-      case Platform.windows:
-        return 'WINDOWS';
-      case Platform.linux:
-        return 'LINUX';
-      case Platform.objc:
-        return 'OBJC';
-      case Platform.swift:
-        return 'SWIFT';
-      case Platform.android:
-        return 'ANDROID';
-      case Platform.javascript:
-        return 'JAVASCRIPT';
-    }
-  }
-}
+  final String value;
 
-extension PlatformFromString on String {
-  Platform toPlatform() {
-    switch (this) {
-      case 'OSX':
-        return Platform.osx;
-      case 'WINDOWS':
-        return Platform.windows;
-      case 'LINUX':
-        return Platform.linux;
-      case 'OBJC':
-        return Platform.objc;
-      case 'SWIFT':
-        return Platform.swift;
-      case 'ANDROID':
-        return Platform.android;
-      case 'JAVASCRIPT':
-        return Platform.javascript;
-    }
-    throw Exception('$this is not known in enum Platform');
-  }
+  const Platform(this.value);
+
+  static Platform fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Platform'));
 }
 
 /// Detailed information about an AWS Mobile Hub project.
@@ -853,7 +818,7 @@ class ProjectDetails {
           ?.whereNotNull()
           .map((e) => Resource.fromJson(e as Map<String, dynamic>))
           .toList(),
-      state: (json['state'] as String?)?.toProjectState(),
+      state: (json['state'] as String?)?.let(ProjectState.fromString),
     );
   }
 
@@ -875,43 +840,26 @@ class ProjectDetails {
       if (projectId != null) 'projectId': projectId,
       if (region != null) 'region': region,
       if (resources != null) 'resources': resources,
-      if (state != null) 'state': state.toValue(),
+      if (state != null) 'state': state.value,
     };
   }
 }
 
 /// Synchronization state for a project.
 enum ProjectState {
-  normal,
-  syncing,
-  importing,
-}
+  normal('NORMAL'),
+  syncing('SYNCING'),
+  importing('IMPORTING'),
+  ;
 
-extension ProjectStateValueExtension on ProjectState {
-  String toValue() {
-    switch (this) {
-      case ProjectState.normal:
-        return 'NORMAL';
-      case ProjectState.syncing:
-        return 'SYNCING';
-      case ProjectState.importing:
-        return 'IMPORTING';
-    }
-  }
-}
+  final String value;
 
-extension ProjectStateFromString on String {
-  ProjectState toProjectState() {
-    switch (this) {
-      case 'NORMAL':
-        return ProjectState.normal;
-      case 'SYNCING':
-        return ProjectState.syncing;
-      case 'IMPORTING':
-        return ProjectState.importing;
-    }
-    throw Exception('$this is not known in enum ProjectState');
-  }
+  const ProjectState(this.value);
+
+  static ProjectState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ProjectState'));
 }
 
 /// Summary information about an AWS Mobile Hub project.

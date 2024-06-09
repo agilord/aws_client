@@ -285,7 +285,7 @@ class WorkDocs {
         'NotifyCollaborators': notifyCollaborators,
       if (parentId != null) 'ParentId': parentId,
       if (threadId != null) 'ThreadId': threadId,
-      if (visibility != null) 'Visibility': visibility.toValue(),
+      if (visibility != null) 'Visibility': visibility.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -469,8 +469,8 @@ class WorkDocs {
   }) async {
     final $payload = <String, dynamic>{
       'Endpoint': endpoint,
-      'Protocol': protocol.toValue(),
-      'SubscriptionType': subscriptionType.toValue(),
+      'Protocol': protocol.value,
+      'SubscriptionType': subscriptionType.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1223,9 +1223,9 @@ class WorkDocs {
       if (include != null) 'include': [include],
       if (limit != null) 'limit': [limit.toString()],
       if (marker != null) 'marker': [marker],
-      if (order != null) 'order': [order.toValue()],
-      if (sort != null) 'sort': [sort.toValue()],
-      if (type != null) 'type': [type.toValue()],
+      if (order != null) 'order': [order.value],
+      if (sort != null) 'sort': [sort.value],
+      if (type != null) 'type': [type.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1550,13 +1550,13 @@ class WorkDocs {
     };
     final $query = <String, List<String>>{
       if (fields != null) 'fields': [fields],
-      if (include != null) 'include': [include.toValue()],
+      if (include != null) 'include': [include.value],
       if (limit != null) 'limit': [limit.toString()],
       if (marker != null) 'marker': [marker],
-      if (order != null) 'order': [order.toValue()],
+      if (order != null) 'order': [order.value],
       if (organizationId != null) 'organizationId': [organizationId],
       if (query != null) 'query': [query],
-      if (sort != null) 'sort': [sort.toValue()],
+      if (sort != null) 'sort': [sort.value],
       if (userIds != null) 'userIds': [userIds],
     };
     final response = await _protocol.send(
@@ -1915,7 +1915,7 @@ class WorkDocs {
         'Authentication': authenticationToken.toString(),
     };
     final $query = <String, List<String>>{
-      if (collectionType != null) 'collectionType': [collectionType.toValue()],
+      if (collectionType != null) 'collectionType': [collectionType.value],
       if (limit != null) 'limit': [limit.toString()],
       if (marker != null) 'marker': [marker],
       if (userId != null) 'userId': [userId],
@@ -2079,7 +2079,7 @@ class WorkDocs {
         'Authentication': authenticationToken.toString(),
     };
     final $query = <String, List<String>>{
-      if (principalType != null) 'type': [principalType.toValue()],
+      if (principalType != null) 'type': [principalType.value],
     };
     await _protocol.send(
       payload: null,
@@ -2192,14 +2192,14 @@ class WorkDocs {
     final $payload = <String, dynamic>{
       if (additionalResponseFields != null)
         'AdditionalResponseFields':
-            additionalResponseFields.map((e) => e.toValue()).toList(),
+            additionalResponseFields.map((e) => e.value).toList(),
       if (filters != null) 'Filters': filters,
       if (limit != null) 'Limit': limit,
       if (marker != null) 'Marker': marker,
       if (orderBy != null) 'OrderBy': orderBy,
       if (organizationId != null) 'OrganizationId': organizationId,
       if (queryScopes != null)
-        'QueryScopes': queryScopes.map((e) => e.toValue()).toList(),
+        'QueryScopes': queryScopes.map((e) => e.value).toList(),
       if (queryText != null) 'QueryText': queryText,
     };
     final response = await _protocol.send(
@@ -2256,7 +2256,7 @@ class WorkDocs {
     final $payload = <String, dynamic>{
       if (name != null) 'Name': name,
       if (parentFolderId != null) 'ParentFolderId': parentFolderId,
-      if (resourceState != null) 'ResourceState': resourceState.toValue(),
+      if (resourceState != null) 'ResourceState': resourceState.value,
     };
     await _protocol.send(
       payload: $payload,
@@ -2305,7 +2305,7 @@ class WorkDocs {
         'Authentication': authenticationToken.toString(),
     };
     final $payload = <String, dynamic>{
-      if (versionStatus != null) 'VersionStatus': versionStatus.toValue(),
+      if (versionStatus != null) 'VersionStatus': versionStatus.value,
     };
     await _protocol.send(
       payload: $payload,
@@ -2361,7 +2361,7 @@ class WorkDocs {
     final $payload = <String, dynamic>{
       if (name != null) 'Name': name,
       if (parentFolderId != null) 'ParentFolderId': parentFolderId,
-      if (resourceState != null) 'ResourceState': resourceState.toValue(),
+      if (resourceState != null) 'ResourceState': resourceState.value,
     };
     await _protocol.send(
       payload: $payload,
@@ -2431,12 +2431,12 @@ class WorkDocs {
     final $payload = <String, dynamic>{
       if (givenName != null) 'GivenName': givenName,
       if (grantPoweruserPrivileges != null)
-        'GrantPoweruserPrivileges': grantPoweruserPrivileges.toValue(),
-      if (locale != null) 'Locale': locale.toValue(),
+        'GrantPoweruserPrivileges': grantPoweruserPrivileges.value,
+      if (locale != null) 'Locale': locale.value,
       if (storageRule != null) 'StorageRule': storageRule,
       if (surname != null) 'Surname': surname,
       if (timeZoneId != null) 'TimeZoneId': timeZoneId,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2544,7 +2544,7 @@ class Activity {
               json['ResourceMetadata'] as Map<String, dynamic>)
           : null,
       timeStamp: timeStampFromJson(json['TimeStamp']),
-      type: (json['Type'] as String?)?.toActivityType(),
+      type: (json['Type'] as String?)?.let(ActivityType.fromString),
     );
   }
 
@@ -2567,192 +2567,57 @@ class Activity {
       if (participants != null) 'Participants': participants,
       if (resourceMetadata != null) 'ResourceMetadata': resourceMetadata,
       if (timeStamp != null) 'TimeStamp': unixTimestampToJson(timeStamp),
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum ActivityType {
-  documentCheckedIn,
-  documentCheckedOut,
-  documentRenamed,
-  documentVersionUploaded,
-  documentVersionDeleted,
-  documentVersionViewed,
-  documentVersionDownloaded,
-  documentRecycled,
-  documentRestored,
-  documentReverted,
-  documentShared,
-  documentUnshared,
-  documentSharePermissionChanged,
-  documentShareableLinkCreated,
-  documentShareableLinkRemoved,
-  documentShareableLinkPermissionChanged,
-  documentMoved,
-  documentCommentAdded,
-  documentCommentDeleted,
-  documentAnnotationAdded,
-  documentAnnotationDeleted,
-  folderCreated,
-  folderDeleted,
-  folderRenamed,
-  folderRecycled,
-  folderRestored,
-  folderShared,
-  folderUnshared,
-  folderSharePermissionChanged,
-  folderShareableLinkCreated,
-  folderShareableLinkRemoved,
-  folderShareableLinkPermissionChanged,
-  folderMoved,
-}
+  documentCheckedIn('DOCUMENT_CHECKED_IN'),
+  documentCheckedOut('DOCUMENT_CHECKED_OUT'),
+  documentRenamed('DOCUMENT_RENAMED'),
+  documentVersionUploaded('DOCUMENT_VERSION_UPLOADED'),
+  documentVersionDeleted('DOCUMENT_VERSION_DELETED'),
+  documentVersionViewed('DOCUMENT_VERSION_VIEWED'),
+  documentVersionDownloaded('DOCUMENT_VERSION_DOWNLOADED'),
+  documentRecycled('DOCUMENT_RECYCLED'),
+  documentRestored('DOCUMENT_RESTORED'),
+  documentReverted('DOCUMENT_REVERTED'),
+  documentShared('DOCUMENT_SHARED'),
+  documentUnshared('DOCUMENT_UNSHARED'),
+  documentSharePermissionChanged('DOCUMENT_SHARE_PERMISSION_CHANGED'),
+  documentShareableLinkCreated('DOCUMENT_SHAREABLE_LINK_CREATED'),
+  documentShareableLinkRemoved('DOCUMENT_SHAREABLE_LINK_REMOVED'),
+  documentShareableLinkPermissionChanged(
+      'DOCUMENT_SHAREABLE_LINK_PERMISSION_CHANGED'),
+  documentMoved('DOCUMENT_MOVED'),
+  documentCommentAdded('DOCUMENT_COMMENT_ADDED'),
+  documentCommentDeleted('DOCUMENT_COMMENT_DELETED'),
+  documentAnnotationAdded('DOCUMENT_ANNOTATION_ADDED'),
+  documentAnnotationDeleted('DOCUMENT_ANNOTATION_DELETED'),
+  folderCreated('FOLDER_CREATED'),
+  folderDeleted('FOLDER_DELETED'),
+  folderRenamed('FOLDER_RENAMED'),
+  folderRecycled('FOLDER_RECYCLED'),
+  folderRestored('FOLDER_RESTORED'),
+  folderShared('FOLDER_SHARED'),
+  folderUnshared('FOLDER_UNSHARED'),
+  folderSharePermissionChanged('FOLDER_SHARE_PERMISSION_CHANGED'),
+  folderShareableLinkCreated('FOLDER_SHAREABLE_LINK_CREATED'),
+  folderShareableLinkRemoved('FOLDER_SHAREABLE_LINK_REMOVED'),
+  folderShareableLinkPermissionChanged(
+      'FOLDER_SHAREABLE_LINK_PERMISSION_CHANGED'),
+  folderMoved('FOLDER_MOVED'),
+  ;
 
-extension ActivityTypeValueExtension on ActivityType {
-  String toValue() {
-    switch (this) {
-      case ActivityType.documentCheckedIn:
-        return 'DOCUMENT_CHECKED_IN';
-      case ActivityType.documentCheckedOut:
-        return 'DOCUMENT_CHECKED_OUT';
-      case ActivityType.documentRenamed:
-        return 'DOCUMENT_RENAMED';
-      case ActivityType.documentVersionUploaded:
-        return 'DOCUMENT_VERSION_UPLOADED';
-      case ActivityType.documentVersionDeleted:
-        return 'DOCUMENT_VERSION_DELETED';
-      case ActivityType.documentVersionViewed:
-        return 'DOCUMENT_VERSION_VIEWED';
-      case ActivityType.documentVersionDownloaded:
-        return 'DOCUMENT_VERSION_DOWNLOADED';
-      case ActivityType.documentRecycled:
-        return 'DOCUMENT_RECYCLED';
-      case ActivityType.documentRestored:
-        return 'DOCUMENT_RESTORED';
-      case ActivityType.documentReverted:
-        return 'DOCUMENT_REVERTED';
-      case ActivityType.documentShared:
-        return 'DOCUMENT_SHARED';
-      case ActivityType.documentUnshared:
-        return 'DOCUMENT_UNSHARED';
-      case ActivityType.documentSharePermissionChanged:
-        return 'DOCUMENT_SHARE_PERMISSION_CHANGED';
-      case ActivityType.documentShareableLinkCreated:
-        return 'DOCUMENT_SHAREABLE_LINK_CREATED';
-      case ActivityType.documentShareableLinkRemoved:
-        return 'DOCUMENT_SHAREABLE_LINK_REMOVED';
-      case ActivityType.documentShareableLinkPermissionChanged:
-        return 'DOCUMENT_SHAREABLE_LINK_PERMISSION_CHANGED';
-      case ActivityType.documentMoved:
-        return 'DOCUMENT_MOVED';
-      case ActivityType.documentCommentAdded:
-        return 'DOCUMENT_COMMENT_ADDED';
-      case ActivityType.documentCommentDeleted:
-        return 'DOCUMENT_COMMENT_DELETED';
-      case ActivityType.documentAnnotationAdded:
-        return 'DOCUMENT_ANNOTATION_ADDED';
-      case ActivityType.documentAnnotationDeleted:
-        return 'DOCUMENT_ANNOTATION_DELETED';
-      case ActivityType.folderCreated:
-        return 'FOLDER_CREATED';
-      case ActivityType.folderDeleted:
-        return 'FOLDER_DELETED';
-      case ActivityType.folderRenamed:
-        return 'FOLDER_RENAMED';
-      case ActivityType.folderRecycled:
-        return 'FOLDER_RECYCLED';
-      case ActivityType.folderRestored:
-        return 'FOLDER_RESTORED';
-      case ActivityType.folderShared:
-        return 'FOLDER_SHARED';
-      case ActivityType.folderUnshared:
-        return 'FOLDER_UNSHARED';
-      case ActivityType.folderSharePermissionChanged:
-        return 'FOLDER_SHARE_PERMISSION_CHANGED';
-      case ActivityType.folderShareableLinkCreated:
-        return 'FOLDER_SHAREABLE_LINK_CREATED';
-      case ActivityType.folderShareableLinkRemoved:
-        return 'FOLDER_SHAREABLE_LINK_REMOVED';
-      case ActivityType.folderShareableLinkPermissionChanged:
-        return 'FOLDER_SHAREABLE_LINK_PERMISSION_CHANGED';
-      case ActivityType.folderMoved:
-        return 'FOLDER_MOVED';
-    }
-  }
-}
+  final String value;
 
-extension ActivityTypeFromString on String {
-  ActivityType toActivityType() {
-    switch (this) {
-      case 'DOCUMENT_CHECKED_IN':
-        return ActivityType.documentCheckedIn;
-      case 'DOCUMENT_CHECKED_OUT':
-        return ActivityType.documentCheckedOut;
-      case 'DOCUMENT_RENAMED':
-        return ActivityType.documentRenamed;
-      case 'DOCUMENT_VERSION_UPLOADED':
-        return ActivityType.documentVersionUploaded;
-      case 'DOCUMENT_VERSION_DELETED':
-        return ActivityType.documentVersionDeleted;
-      case 'DOCUMENT_VERSION_VIEWED':
-        return ActivityType.documentVersionViewed;
-      case 'DOCUMENT_VERSION_DOWNLOADED':
-        return ActivityType.documentVersionDownloaded;
-      case 'DOCUMENT_RECYCLED':
-        return ActivityType.documentRecycled;
-      case 'DOCUMENT_RESTORED':
-        return ActivityType.documentRestored;
-      case 'DOCUMENT_REVERTED':
-        return ActivityType.documentReverted;
-      case 'DOCUMENT_SHARED':
-        return ActivityType.documentShared;
-      case 'DOCUMENT_UNSHARED':
-        return ActivityType.documentUnshared;
-      case 'DOCUMENT_SHARE_PERMISSION_CHANGED':
-        return ActivityType.documentSharePermissionChanged;
-      case 'DOCUMENT_SHAREABLE_LINK_CREATED':
-        return ActivityType.documentShareableLinkCreated;
-      case 'DOCUMENT_SHAREABLE_LINK_REMOVED':
-        return ActivityType.documentShareableLinkRemoved;
-      case 'DOCUMENT_SHAREABLE_LINK_PERMISSION_CHANGED':
-        return ActivityType.documentShareableLinkPermissionChanged;
-      case 'DOCUMENT_MOVED':
-        return ActivityType.documentMoved;
-      case 'DOCUMENT_COMMENT_ADDED':
-        return ActivityType.documentCommentAdded;
-      case 'DOCUMENT_COMMENT_DELETED':
-        return ActivityType.documentCommentDeleted;
-      case 'DOCUMENT_ANNOTATION_ADDED':
-        return ActivityType.documentAnnotationAdded;
-      case 'DOCUMENT_ANNOTATION_DELETED':
-        return ActivityType.documentAnnotationDeleted;
-      case 'FOLDER_CREATED':
-        return ActivityType.folderCreated;
-      case 'FOLDER_DELETED':
-        return ActivityType.folderDeleted;
-      case 'FOLDER_RENAMED':
-        return ActivityType.folderRenamed;
-      case 'FOLDER_RECYCLED':
-        return ActivityType.folderRecycled;
-      case 'FOLDER_RESTORED':
-        return ActivityType.folderRestored;
-      case 'FOLDER_SHARED':
-        return ActivityType.folderShared;
-      case 'FOLDER_UNSHARED':
-        return ActivityType.folderUnshared;
-      case 'FOLDER_SHARE_PERMISSION_CHANGED':
-        return ActivityType.folderSharePermissionChanged;
-      case 'FOLDER_SHAREABLE_LINK_CREATED':
-        return ActivityType.folderShareableLinkCreated;
-      case 'FOLDER_SHAREABLE_LINK_REMOVED':
-        return ActivityType.folderShareableLinkRemoved;
-      case 'FOLDER_SHAREABLE_LINK_PERMISSION_CHANGED':
-        return ActivityType.folderShareableLinkPermissionChanged;
-      case 'FOLDER_MOVED':
-        return ActivityType.folderMoved;
-    }
-    throw Exception('$this is not known in enum ActivityType');
-  }
+  const ActivityType(this.value);
+
+  static ActivityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ActivityType'));
 }
 
 class AddResourcePermissionsResponse {
@@ -2781,55 +2646,32 @@ class AddResourcePermissionsResponse {
 }
 
 enum AdditionalResponseFieldType {
-  weburl,
-}
+  weburl('WEBURL'),
+  ;
 
-extension AdditionalResponseFieldTypeValueExtension
-    on AdditionalResponseFieldType {
-  String toValue() {
-    switch (this) {
-      case AdditionalResponseFieldType.weburl:
-        return 'WEBURL';
-    }
-  }
-}
+  final String value;
 
-extension AdditionalResponseFieldTypeFromString on String {
-  AdditionalResponseFieldType toAdditionalResponseFieldType() {
-    switch (this) {
-      case 'WEBURL':
-        return AdditionalResponseFieldType.weburl;
-    }
-    throw Exception('$this is not known in enum AdditionalResponseFieldType');
-  }
+  const AdditionalResponseFieldType(this.value);
+
+  static AdditionalResponseFieldType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AdditionalResponseFieldType'));
 }
 
 enum BooleanEnumType {
-  $true,
-  $false,
-}
+  $true('TRUE'),
+  $false('FALSE'),
+  ;
 
-extension BooleanEnumTypeValueExtension on BooleanEnumType {
-  String toValue() {
-    switch (this) {
-      case BooleanEnumType.$true:
-        return 'TRUE';
-      case BooleanEnumType.$false:
-        return 'FALSE';
-    }
-  }
-}
+  final String value;
 
-extension BooleanEnumTypeFromString on String {
-  BooleanEnumType toBooleanEnumType() {
-    switch (this) {
-      case 'TRUE':
-        return BooleanEnumType.$true;
-      case 'FALSE':
-        return BooleanEnumType.$false;
-    }
-    throw Exception('$this is not known in enum BooleanEnumType');
-  }
+  const BooleanEnumType(this.value);
+
+  static BooleanEnumType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum BooleanEnumType'));
 }
 
 /// Describes a comment.
@@ -2886,10 +2728,11 @@ class Comment {
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
       parentId: json['ParentId'] as String?,
       recipientId: json['RecipientId'] as String?,
-      status: (json['Status'] as String?)?.toCommentStatusType(),
+      status: (json['Status'] as String?)?.let(CommentStatusType.fromString),
       text: json['Text'] as String?,
       threadId: json['ThreadId'] as String?,
-      visibility: (json['Visibility'] as String?)?.toCommentVisibilityType(),
+      visibility: (json['Visibility'] as String?)
+          ?.let(CommentVisibilityType.fromString),
     );
   }
 
@@ -2910,10 +2753,10 @@ class Comment {
         'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
       if (parentId != null) 'ParentId': parentId,
       if (recipientId != null) 'RecipientId': recipientId,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (text != null) 'Text': text,
       if (threadId != null) 'ThreadId': threadId,
-      if (visibility != null) 'Visibility': visibility.toValue(),
+      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
@@ -2950,7 +2793,8 @@ class CommentMetadata {
   factory CommentMetadata.fromJson(Map<String, dynamic> json) {
     return CommentMetadata(
       commentId: json['CommentId'] as String?,
-      commentStatus: (json['CommentStatus'] as String?)?.toCommentStatusType(),
+      commentStatus:
+          (json['CommentStatus'] as String?)?.let(CommentStatusType.fromString),
       contributor: json['Contributor'] != null
           ? User.fromJson(json['Contributor'] as Map<String, dynamic>)
           : null,
@@ -2969,7 +2813,7 @@ class CommentMetadata {
     final recipientId = this.recipientId;
     return {
       if (commentId != null) 'CommentId': commentId,
-      if (commentStatus != null) 'CommentStatus': commentStatus.toValue(),
+      if (commentStatus != null) 'CommentStatus': commentStatus.value,
       if (contributor != null) 'Contributor': contributor,
       if (contributorId != null) 'ContributorId': contributorId,
       if (createdTimestamp != null)
@@ -2980,127 +2824,56 @@ class CommentMetadata {
 }
 
 enum CommentStatusType {
-  draft,
-  published,
-  deleted,
-}
+  draft('DRAFT'),
+  published('PUBLISHED'),
+  deleted('DELETED'),
+  ;
 
-extension CommentStatusTypeValueExtension on CommentStatusType {
-  String toValue() {
-    switch (this) {
-      case CommentStatusType.draft:
-        return 'DRAFT';
-      case CommentStatusType.published:
-        return 'PUBLISHED';
-      case CommentStatusType.deleted:
-        return 'DELETED';
-    }
-  }
-}
+  final String value;
 
-extension CommentStatusTypeFromString on String {
-  CommentStatusType toCommentStatusType() {
-    switch (this) {
-      case 'DRAFT':
-        return CommentStatusType.draft;
-      case 'PUBLISHED':
-        return CommentStatusType.published;
-      case 'DELETED':
-        return CommentStatusType.deleted;
-    }
-    throw Exception('$this is not known in enum CommentStatusType');
-  }
+  const CommentStatusType(this.value);
+
+  static CommentStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CommentStatusType'));
 }
 
 enum CommentVisibilityType {
-  public,
-  private,
-}
+  public('PUBLIC'),
+  private('PRIVATE'),
+  ;
 
-extension CommentVisibilityTypeValueExtension on CommentVisibilityType {
-  String toValue() {
-    switch (this) {
-      case CommentVisibilityType.public:
-        return 'PUBLIC';
-      case CommentVisibilityType.private:
-        return 'PRIVATE';
-    }
-  }
-}
+  final String value;
 
-extension CommentVisibilityTypeFromString on String {
-  CommentVisibilityType toCommentVisibilityType() {
-    switch (this) {
-      case 'PUBLIC':
-        return CommentVisibilityType.public;
-      case 'PRIVATE':
-        return CommentVisibilityType.private;
-    }
-    throw Exception('$this is not known in enum CommentVisibilityType');
-  }
+  const CommentVisibilityType(this.value);
+
+  static CommentVisibilityType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum CommentVisibilityType'));
 }
 
 enum ContentCategoryType {
-  image,
-  document,
-  pdf,
-  spreadsheet,
-  presentation,
-  audio,
-  video,
-  sourceCode,
-  other,
-}
+  image('IMAGE'),
+  document('DOCUMENT'),
+  pdf('PDF'),
+  spreadsheet('SPREADSHEET'),
+  presentation('PRESENTATION'),
+  audio('AUDIO'),
+  video('VIDEO'),
+  sourceCode('SOURCE_CODE'),
+  other('OTHER'),
+  ;
 
-extension ContentCategoryTypeValueExtension on ContentCategoryType {
-  String toValue() {
-    switch (this) {
-      case ContentCategoryType.image:
-        return 'IMAGE';
-      case ContentCategoryType.document:
-        return 'DOCUMENT';
-      case ContentCategoryType.pdf:
-        return 'PDF';
-      case ContentCategoryType.spreadsheet:
-        return 'SPREADSHEET';
-      case ContentCategoryType.presentation:
-        return 'PRESENTATION';
-      case ContentCategoryType.audio:
-        return 'AUDIO';
-      case ContentCategoryType.video:
-        return 'VIDEO';
-      case ContentCategoryType.sourceCode:
-        return 'SOURCE_CODE';
-      case ContentCategoryType.other:
-        return 'OTHER';
-    }
-  }
-}
+  final String value;
 
-extension ContentCategoryTypeFromString on String {
-  ContentCategoryType toContentCategoryType() {
-    switch (this) {
-      case 'IMAGE':
-        return ContentCategoryType.image;
-      case 'DOCUMENT':
-        return ContentCategoryType.document;
-      case 'PDF':
-        return ContentCategoryType.pdf;
-      case 'SPREADSHEET':
-        return ContentCategoryType.spreadsheet;
-      case 'PRESENTATION':
-        return ContentCategoryType.presentation;
-      case 'AUDIO':
-        return ContentCategoryType.audio;
-      case 'VIDEO':
-        return ContentCategoryType.video;
-      case 'SOURCE_CODE':
-        return ContentCategoryType.sourceCode;
-      case 'OTHER':
-        return ContentCategoryType.other;
-    }
-    throw Exception('$this is not known in enum ContentCategoryType');
-  }
+  const ContentCategoryType(this.value);
+
+  static ContentCategoryType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ContentCategoryType'));
 }
 
 class CreateCommentResponse {
@@ -3638,7 +3411,8 @@ class DocumentMetadata {
           : null,
       modifiedTimestamp: timeStampFromJson(json['ModifiedTimestamp']),
       parentFolderId: json['ParentFolderId'] as String?,
-      resourceState: (json['ResourceState'] as String?)?.toResourceStateType(),
+      resourceState:
+          (json['ResourceState'] as String?)?.let(ResourceStateType.fromString),
     );
   }
 
@@ -3662,98 +3436,55 @@ class DocumentMetadata {
       if (modifiedTimestamp != null)
         'ModifiedTimestamp': unixTimestampToJson(modifiedTimestamp),
       if (parentFolderId != null) 'ParentFolderId': parentFolderId,
-      if (resourceState != null) 'ResourceState': resourceState.toValue(),
+      if (resourceState != null) 'ResourceState': resourceState.value,
     };
   }
 }
 
 enum DocumentSourceType {
-  original,
-  withComments,
-}
+  original('ORIGINAL'),
+  withComments('WITH_COMMENTS'),
+  ;
 
-extension DocumentSourceTypeValueExtension on DocumentSourceType {
-  String toValue() {
-    switch (this) {
-      case DocumentSourceType.original:
-        return 'ORIGINAL';
-      case DocumentSourceType.withComments:
-        return 'WITH_COMMENTS';
-    }
-  }
-}
+  final String value;
 
-extension DocumentSourceTypeFromString on String {
-  DocumentSourceType toDocumentSourceType() {
-    switch (this) {
-      case 'ORIGINAL':
-        return DocumentSourceType.original;
-      case 'WITH_COMMENTS':
-        return DocumentSourceType.withComments;
-    }
-    throw Exception('$this is not known in enum DocumentSourceType');
-  }
+  const DocumentSourceType(this.value);
+
+  static DocumentSourceType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DocumentSourceType'));
 }
 
 enum DocumentStatusType {
-  initialized,
-  active,
-}
+  initialized('INITIALIZED'),
+  active('ACTIVE'),
+  ;
 
-extension DocumentStatusTypeValueExtension on DocumentStatusType {
-  String toValue() {
-    switch (this) {
-      case DocumentStatusType.initialized:
-        return 'INITIALIZED';
-      case DocumentStatusType.active:
-        return 'ACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension DocumentStatusTypeFromString on String {
-  DocumentStatusType toDocumentStatusType() {
-    switch (this) {
-      case 'INITIALIZED':
-        return DocumentStatusType.initialized;
-      case 'ACTIVE':
-        return DocumentStatusType.active;
-    }
-    throw Exception('$this is not known in enum DocumentStatusType');
-  }
+  const DocumentStatusType(this.value);
+
+  static DocumentStatusType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DocumentStatusType'));
 }
 
 enum DocumentThumbnailType {
-  small,
-  smallHq,
-  large,
-}
+  small('SMALL'),
+  smallHq('SMALL_HQ'),
+  large('LARGE'),
+  ;
 
-extension DocumentThumbnailTypeValueExtension on DocumentThumbnailType {
-  String toValue() {
-    switch (this) {
-      case DocumentThumbnailType.small:
-        return 'SMALL';
-      case DocumentThumbnailType.smallHq:
-        return 'SMALL_HQ';
-      case DocumentThumbnailType.large:
-        return 'LARGE';
-    }
-  }
-}
+  final String value;
 
-extension DocumentThumbnailTypeFromString on String {
-  DocumentThumbnailType toDocumentThumbnailType() {
-    switch (this) {
-      case 'SMALL':
-        return DocumentThumbnailType.small;
-      case 'SMALL_HQ':
-        return DocumentThumbnailType.smallHq;
-      case 'LARGE':
-        return DocumentThumbnailType.large;
-    }
-    throw Exception('$this is not known in enum DocumentThumbnailType');
-  }
+  const DocumentThumbnailType(this.value);
+
+  static DocumentThumbnailType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DocumentThumbnailType'));
 }
 
 /// Describes a version of a document.
@@ -3827,11 +3558,11 @@ class DocumentVersionMetadata {
       name: json['Name'] as String?,
       signature: json['Signature'] as String?,
       size: json['Size'] as int?,
-      source: (json['Source'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k.toDocumentSourceType(), e as String)),
-      status: (json['Status'] as String?)?.toDocumentStatusType(),
-      thumbnail: (json['Thumbnail'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k.toDocumentThumbnailType(), e as String)),
+      source: (json['Source'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(DocumentSourceType.fromString(k), e as String)),
+      status: (json['Status'] as String?)?.let(DocumentStatusType.fromString),
+      thumbnail: (json['Thumbnail'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(DocumentThumbnailType.fromString(k), e as String)),
     );
   }
 
@@ -3865,36 +3596,26 @@ class DocumentVersionMetadata {
       if (name != null) 'Name': name,
       if (signature != null) 'Signature': signature,
       if (size != null) 'Size': size,
-      if (source != null)
-        'Source': source.map((k, e) => MapEntry(k.toValue(), e)),
-      if (status != null) 'Status': status.toValue(),
+      if (source != null) 'Source': source.map((k, e) => MapEntry(k.value, e)),
+      if (status != null) 'Status': status.value,
       if (thumbnail != null)
-        'Thumbnail': thumbnail.map((k, e) => MapEntry(k.toValue(), e)),
+        'Thumbnail': thumbnail.map((k, e) => MapEntry(k.value, e)),
     };
   }
 }
 
 enum DocumentVersionStatus {
-  active,
-}
+  active('ACTIVE'),
+  ;
 
-extension DocumentVersionStatusValueExtension on DocumentVersionStatus {
-  String toValue() {
-    switch (this) {
-      case DocumentVersionStatus.active:
-        return 'ACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension DocumentVersionStatusFromString on String {
-  DocumentVersionStatus toDocumentVersionStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return DocumentVersionStatus.active;
-    }
-    throw Exception('$this is not known in enum DocumentVersionStatus');
-  }
+  const DocumentVersionStatus(this.value);
+
+  static DocumentVersionStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DocumentVersionStatus'));
 }
 
 /// Filters results based on entity metadata.
@@ -3956,54 +3677,37 @@ class Filters {
     return {
       if (ancestorIds != null) 'AncestorIds': ancestorIds,
       if (contentCategories != null)
-        'ContentCategories': contentCategories.map((e) => e.toValue()).toList(),
+        'ContentCategories': contentCategories.map((e) => e.value).toList(),
       if (createdRange != null) 'CreatedRange': createdRange,
       if (labels != null) 'Labels': labels,
       if (modifiedRange != null) 'ModifiedRange': modifiedRange,
       if (principals != null) 'Principals': principals,
       if (resourceTypes != null)
-        'ResourceTypes': resourceTypes.map((e) => e.toValue()).toList(),
+        'ResourceTypes': resourceTypes.map((e) => e.value).toList(),
       if (searchCollectionTypes != null)
         'SearchCollectionTypes':
-            searchCollectionTypes.map((e) => e.toValue()).toList(),
+            searchCollectionTypes.map((e) => e.value).toList(),
       if (sizeRange != null) 'SizeRange': sizeRange,
       if (textLocales != null)
-        'TextLocales': textLocales.map((e) => e.toValue()).toList(),
+        'TextLocales': textLocales.map((e) => e.value).toList(),
     };
   }
 }
 
 enum FolderContentType {
-  all,
-  document,
-  folder,
-}
+  all('ALL'),
+  document('DOCUMENT'),
+  folder('FOLDER'),
+  ;
 
-extension FolderContentTypeValueExtension on FolderContentType {
-  String toValue() {
-    switch (this) {
-      case FolderContentType.all:
-        return 'ALL';
-      case FolderContentType.document:
-        return 'DOCUMENT';
-      case FolderContentType.folder:
-        return 'FOLDER';
-    }
-  }
-}
+  final String value;
 
-extension FolderContentTypeFromString on String {
-  FolderContentType toFolderContentType() {
-    switch (this) {
-      case 'ALL':
-        return FolderContentType.all;
-      case 'DOCUMENT':
-        return FolderContentType.document;
-      case 'FOLDER':
-        return FolderContentType.folder;
-    }
-    throw Exception('$this is not known in enum FolderContentType');
-  }
+  const FolderContentType(this.value);
+
+  static FolderContentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FolderContentType'));
 }
 
 /// Describes a folder.
@@ -4069,7 +3773,8 @@ class FolderMetadata {
       modifiedTimestamp: timeStampFromJson(json['ModifiedTimestamp']),
       name: json['Name'] as String?,
       parentFolderId: json['ParentFolderId'] as String?,
-      resourceState: (json['ResourceState'] as String?)?.toResourceStateType(),
+      resourceState:
+          (json['ResourceState'] as String?)?.let(ResourceStateType.fromString),
       signature: json['Signature'] as String?,
       size: json['Size'] as int?,
     );
@@ -4098,7 +3803,7 @@ class FolderMetadata {
         'ModifiedTimestamp': unixTimestampToJson(modifiedTimestamp),
       if (name != null) 'Name': name,
       if (parentFolderId != null) 'ParentFolderId': parentFolderId,
-      if (resourceState != null) 'ResourceState': resourceState.toValue(),
+      if (resourceState != null) 'ResourceState': resourceState.value,
       if (signature != null) 'Signature': signature,
       if (size != null) 'Size': size,
     };
@@ -4383,249 +4088,70 @@ class InitiateDocumentVersionUploadResponse {
 }
 
 enum LanguageCodeType {
-  ar,
-  bg,
-  bn,
-  da,
-  de,
-  cs,
-  el,
-  en,
-  es,
-  fa,
-  fi,
-  fr,
-  hi,
-  hu,
-  id,
-  it,
-  ja,
-  ko,
-  lt,
-  lv,
-  nl,
-  no,
-  pt,
-  ro,
-  ru,
-  sv,
-  sw,
-  th,
-  tr,
-  zh,
-  $default,
-}
+  ar('AR'),
+  bg('BG'),
+  bn('BN'),
+  da('DA'),
+  de('DE'),
+  cs('CS'),
+  el('EL'),
+  en('EN'),
+  es('ES'),
+  fa('FA'),
+  fi('FI'),
+  fr('FR'),
+  hi('HI'),
+  hu('HU'),
+  id('ID'),
+  it('IT'),
+  ja('JA'),
+  ko('KO'),
+  lt('LT'),
+  lv('LV'),
+  nl('NL'),
+  no('NO'),
+  pt('PT'),
+  ro('RO'),
+  ru('RU'),
+  sv('SV'),
+  sw('SW'),
+  th('TH'),
+  tr('TR'),
+  zh('ZH'),
+  $default('DEFAULT'),
+  ;
 
-extension LanguageCodeTypeValueExtension on LanguageCodeType {
-  String toValue() {
-    switch (this) {
-      case LanguageCodeType.ar:
-        return 'AR';
-      case LanguageCodeType.bg:
-        return 'BG';
-      case LanguageCodeType.bn:
-        return 'BN';
-      case LanguageCodeType.da:
-        return 'DA';
-      case LanguageCodeType.de:
-        return 'DE';
-      case LanguageCodeType.cs:
-        return 'CS';
-      case LanguageCodeType.el:
-        return 'EL';
-      case LanguageCodeType.en:
-        return 'EN';
-      case LanguageCodeType.es:
-        return 'ES';
-      case LanguageCodeType.fa:
-        return 'FA';
-      case LanguageCodeType.fi:
-        return 'FI';
-      case LanguageCodeType.fr:
-        return 'FR';
-      case LanguageCodeType.hi:
-        return 'HI';
-      case LanguageCodeType.hu:
-        return 'HU';
-      case LanguageCodeType.id:
-        return 'ID';
-      case LanguageCodeType.it:
-        return 'IT';
-      case LanguageCodeType.ja:
-        return 'JA';
-      case LanguageCodeType.ko:
-        return 'KO';
-      case LanguageCodeType.lt:
-        return 'LT';
-      case LanguageCodeType.lv:
-        return 'LV';
-      case LanguageCodeType.nl:
-        return 'NL';
-      case LanguageCodeType.no:
-        return 'NO';
-      case LanguageCodeType.pt:
-        return 'PT';
-      case LanguageCodeType.ro:
-        return 'RO';
-      case LanguageCodeType.ru:
-        return 'RU';
-      case LanguageCodeType.sv:
-        return 'SV';
-      case LanguageCodeType.sw:
-        return 'SW';
-      case LanguageCodeType.th:
-        return 'TH';
-      case LanguageCodeType.tr:
-        return 'TR';
-      case LanguageCodeType.zh:
-        return 'ZH';
-      case LanguageCodeType.$default:
-        return 'DEFAULT';
-    }
-  }
-}
+  final String value;
 
-extension LanguageCodeTypeFromString on String {
-  LanguageCodeType toLanguageCodeType() {
-    switch (this) {
-      case 'AR':
-        return LanguageCodeType.ar;
-      case 'BG':
-        return LanguageCodeType.bg;
-      case 'BN':
-        return LanguageCodeType.bn;
-      case 'DA':
-        return LanguageCodeType.da;
-      case 'DE':
-        return LanguageCodeType.de;
-      case 'CS':
-        return LanguageCodeType.cs;
-      case 'EL':
-        return LanguageCodeType.el;
-      case 'EN':
-        return LanguageCodeType.en;
-      case 'ES':
-        return LanguageCodeType.es;
-      case 'FA':
-        return LanguageCodeType.fa;
-      case 'FI':
-        return LanguageCodeType.fi;
-      case 'FR':
-        return LanguageCodeType.fr;
-      case 'HI':
-        return LanguageCodeType.hi;
-      case 'HU':
-        return LanguageCodeType.hu;
-      case 'ID':
-        return LanguageCodeType.id;
-      case 'IT':
-        return LanguageCodeType.it;
-      case 'JA':
-        return LanguageCodeType.ja;
-      case 'KO':
-        return LanguageCodeType.ko;
-      case 'LT':
-        return LanguageCodeType.lt;
-      case 'LV':
-        return LanguageCodeType.lv;
-      case 'NL':
-        return LanguageCodeType.nl;
-      case 'NO':
-        return LanguageCodeType.no;
-      case 'PT':
-        return LanguageCodeType.pt;
-      case 'RO':
-        return LanguageCodeType.ro;
-      case 'RU':
-        return LanguageCodeType.ru;
-      case 'SV':
-        return LanguageCodeType.sv;
-      case 'SW':
-        return LanguageCodeType.sw;
-      case 'TH':
-        return LanguageCodeType.th;
-      case 'TR':
-        return LanguageCodeType.tr;
-      case 'ZH':
-        return LanguageCodeType.zh;
-      case 'DEFAULT':
-        return LanguageCodeType.$default;
-    }
-    throw Exception('$this is not known in enum LanguageCodeType');
-  }
+  const LanguageCodeType(this.value);
+
+  static LanguageCodeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LanguageCodeType'));
 }
 
 enum LocaleType {
-  en,
-  fr,
-  ko,
-  de,
-  es,
-  ja,
-  ru,
-  zhCn,
-  zhTw,
-  ptBr,
-  $default,
-}
+  en('en'),
+  fr('fr'),
+  ko('ko'),
+  de('de'),
+  es('es'),
+  ja('ja'),
+  ru('ru'),
+  zhCn('zh_CN'),
+  zhTw('zh_TW'),
+  ptBr('pt_BR'),
+  $default('default'),
+  ;
 
-extension LocaleTypeValueExtension on LocaleType {
-  String toValue() {
-    switch (this) {
-      case LocaleType.en:
-        return 'en';
-      case LocaleType.fr:
-        return 'fr';
-      case LocaleType.ko:
-        return 'ko';
-      case LocaleType.de:
-        return 'de';
-      case LocaleType.es:
-        return 'es';
-      case LocaleType.ja:
-        return 'ja';
-      case LocaleType.ru:
-        return 'ru';
-      case LocaleType.zhCn:
-        return 'zh_CN';
-      case LocaleType.zhTw:
-        return 'zh_TW';
-      case LocaleType.ptBr:
-        return 'pt_BR';
-      case LocaleType.$default:
-        return 'default';
-    }
-  }
-}
+  final String value;
 
-extension LocaleTypeFromString on String {
-  LocaleType toLocaleType() {
-    switch (this) {
-      case 'en':
-        return LocaleType.en;
-      case 'fr':
-        return LocaleType.fr;
-      case 'ko':
-        return LocaleType.ko;
-      case 'de':
-        return LocaleType.de;
-      case 'es':
-        return LocaleType.es;
-      case 'ja':
-        return LocaleType.ja;
-      case 'ru':
-        return LocaleType.ru;
-      case 'zh_CN':
-        return LocaleType.zhCn;
-      case 'zh_TW':
-        return LocaleType.zhTw;
-      case 'pt_BR':
-        return LocaleType.ptBr;
-      case 'default':
-        return LocaleType.$default;
-    }
-    throw Exception('$this is not known in enum LocaleType');
-  }
+  const LocaleType(this.value);
+
+  static LocaleType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum LocaleType'));
 }
 
 /// Filter based on size (in bytes).
@@ -4676,74 +4202,35 @@ class NotificationOptions {
 }
 
 enum OrderByFieldType {
-  relevance,
-  name,
-  size,
-  createdTimestamp,
-  modifiedTimestamp,
-}
+  relevance('RELEVANCE'),
+  name('NAME'),
+  size('SIZE'),
+  createdTimestamp('CREATED_TIMESTAMP'),
+  modifiedTimestamp('MODIFIED_TIMESTAMP'),
+  ;
 
-extension OrderByFieldTypeValueExtension on OrderByFieldType {
-  String toValue() {
-    switch (this) {
-      case OrderByFieldType.relevance:
-        return 'RELEVANCE';
-      case OrderByFieldType.name:
-        return 'NAME';
-      case OrderByFieldType.size:
-        return 'SIZE';
-      case OrderByFieldType.createdTimestamp:
-        return 'CREATED_TIMESTAMP';
-      case OrderByFieldType.modifiedTimestamp:
-        return 'MODIFIED_TIMESTAMP';
-    }
-  }
-}
+  final String value;
 
-extension OrderByFieldTypeFromString on String {
-  OrderByFieldType toOrderByFieldType() {
-    switch (this) {
-      case 'RELEVANCE':
-        return OrderByFieldType.relevance;
-      case 'NAME':
-        return OrderByFieldType.name;
-      case 'SIZE':
-        return OrderByFieldType.size;
-      case 'CREATED_TIMESTAMP':
-        return OrderByFieldType.createdTimestamp;
-      case 'MODIFIED_TIMESTAMP':
-        return OrderByFieldType.modifiedTimestamp;
-    }
-    throw Exception('$this is not known in enum OrderByFieldType');
-  }
+  const OrderByFieldType(this.value);
+
+  static OrderByFieldType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OrderByFieldType'));
 }
 
 enum OrderType {
-  ascending,
-  descending,
-}
+  ascending('ASCENDING'),
+  descending('DESCENDING'),
+  ;
 
-extension OrderTypeValueExtension on OrderType {
-  String toValue() {
-    switch (this) {
-      case OrderType.ascending:
-        return 'ASCENDING';
-      case OrderType.descending:
-        return 'DESCENDING';
-    }
-  }
-}
+  final String value;
 
-extension OrderTypeFromString on String {
-  OrderType toOrderType() {
-    switch (this) {
-      case 'ASCENDING':
-        return OrderType.ascending;
-      case 'DESCENDING':
-        return OrderType.descending;
-    }
-    throw Exception('$this is not known in enum OrderType');
-  }
+  const OrderType(this.value);
+
+  static OrderType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum OrderType'));
 }
 
 /// Describes the users or user groups.
@@ -4797,8 +4284,8 @@ class PermissionInfo {
 
   factory PermissionInfo.fromJson(Map<String, dynamic> json) {
     return PermissionInfo(
-      role: (json['Role'] as String?)?.toRoleType(),
-      type: (json['Type'] as String?)?.toRolePermissionType(),
+      role: (json['Role'] as String?)?.let(RoleType.fromString),
+      type: (json['Type'] as String?)?.let(RolePermissionType.fromString),
     );
   }
 
@@ -4806,8 +4293,8 @@ class PermissionInfo {
     final role = this.role;
     final type = this.type;
     return {
-      if (role != null) 'Role': role.toValue(),
-      if (type != null) 'Type': type.toValue(),
+      if (role != null) 'Role': role.value,
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -4836,7 +4323,7 @@ class Principal {
           ?.whereNotNull()
           .map((e) => PermissionInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
-      type: (json['Type'] as String?)?.toPrincipalType(),
+      type: (json['Type'] as String?)?.let(PrincipalType.fromString),
     );
   }
 
@@ -4847,113 +4334,58 @@ class Principal {
     return {
       if (id != null) 'Id': id,
       if (roles != null) 'Roles': roles,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum PrincipalRoleType {
-  viewer,
-  contributor,
-  owner,
-  coowner,
-}
+  viewer('VIEWER'),
+  contributor('CONTRIBUTOR'),
+  owner('OWNER'),
+  coowner('COOWNER'),
+  ;
 
-extension PrincipalRoleTypeValueExtension on PrincipalRoleType {
-  String toValue() {
-    switch (this) {
-      case PrincipalRoleType.viewer:
-        return 'VIEWER';
-      case PrincipalRoleType.contributor:
-        return 'CONTRIBUTOR';
-      case PrincipalRoleType.owner:
-        return 'OWNER';
-      case PrincipalRoleType.coowner:
-        return 'COOWNER';
-    }
-  }
-}
+  final String value;
 
-extension PrincipalRoleTypeFromString on String {
-  PrincipalRoleType toPrincipalRoleType() {
-    switch (this) {
-      case 'VIEWER':
-        return PrincipalRoleType.viewer;
-      case 'CONTRIBUTOR':
-        return PrincipalRoleType.contributor;
-      case 'OWNER':
-        return PrincipalRoleType.owner;
-      case 'COOWNER':
-        return PrincipalRoleType.coowner;
-    }
-    throw Exception('$this is not known in enum PrincipalRoleType');
-  }
+  const PrincipalRoleType(this.value);
+
+  static PrincipalRoleType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PrincipalRoleType'));
 }
 
 enum PrincipalType {
-  user,
-  group,
-  invite,
-  anonymous,
-  organization,
-}
+  user('USER'),
+  group('GROUP'),
+  invite('INVITE'),
+  anonymous('ANONYMOUS'),
+  organization('ORGANIZATION'),
+  ;
 
-extension PrincipalTypeValueExtension on PrincipalType {
-  String toValue() {
-    switch (this) {
-      case PrincipalType.user:
-        return 'USER';
-      case PrincipalType.group:
-        return 'GROUP';
-      case PrincipalType.invite:
-        return 'INVITE';
-      case PrincipalType.anonymous:
-        return 'ANONYMOUS';
-      case PrincipalType.organization:
-        return 'ORGANIZATION';
-    }
-  }
-}
+  final String value;
 
-extension PrincipalTypeFromString on String {
-  PrincipalType toPrincipalType() {
-    switch (this) {
-      case 'USER':
-        return PrincipalType.user;
-      case 'GROUP':
-        return PrincipalType.group;
-      case 'INVITE':
-        return PrincipalType.invite;
-      case 'ANONYMOUS':
-        return PrincipalType.anonymous;
-      case 'ORGANIZATION':
-        return PrincipalType.organization;
-    }
-    throw Exception('$this is not known in enum PrincipalType');
-  }
+  const PrincipalType(this.value);
+
+  static PrincipalType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PrincipalType'));
 }
 
 enum ResourceCollectionType {
-  sharedWithMe,
-}
+  sharedWithMe('SHARED_WITH_ME'),
+  ;
 
-extension ResourceCollectionTypeValueExtension on ResourceCollectionType {
-  String toValue() {
-    switch (this) {
-      case ResourceCollectionType.sharedWithMe:
-        return 'SHARED_WITH_ME';
-    }
-  }
-}
+  final String value;
 
-extension ResourceCollectionTypeFromString on String {
-  ResourceCollectionType toResourceCollectionType() {
-    switch (this) {
-      case 'SHARED_WITH_ME':
-        return ResourceCollectionType.sharedWithMe;
-    }
-    throw Exception('$this is not known in enum ResourceCollectionType');
-  }
+  const ResourceCollectionType(this.value);
+
+  static ResourceCollectionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ResourceCollectionType'));
 }
 
 /// Describes the metadata of a resource.
@@ -4999,7 +4431,7 @@ class ResourceMetadata {
           ? UserMetadata.fromJson(json['Owner'] as Map<String, dynamic>)
           : null,
       parentId: json['ParentId'] as String?,
-      type: (json['Type'] as String?)?.toResourceType(),
+      type: (json['Type'] as String?)?.let(ResourceType.fromString),
       versionId: json['VersionId'] as String?,
     );
   }
@@ -5018,7 +4450,7 @@ class ResourceMetadata {
       if (originalName != null) 'OriginalName': originalName,
       if (owner != null) 'Owner': owner,
       if (parentId != null) 'ParentId': parentId,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
       if (versionId != null) 'VersionId': versionId,
     };
   }
@@ -5081,97 +4513,50 @@ class ResourcePathComponent {
 }
 
 enum ResourceSortType {
-  date,
-  name,
-}
+  date('DATE'),
+  name('NAME'),
+  ;
 
-extension ResourceSortTypeValueExtension on ResourceSortType {
-  String toValue() {
-    switch (this) {
-      case ResourceSortType.date:
-        return 'DATE';
-      case ResourceSortType.name:
-        return 'NAME';
-    }
-  }
-}
+  final String value;
 
-extension ResourceSortTypeFromString on String {
-  ResourceSortType toResourceSortType() {
-    switch (this) {
-      case 'DATE':
-        return ResourceSortType.date;
-      case 'NAME':
-        return ResourceSortType.name;
-    }
-    throw Exception('$this is not known in enum ResourceSortType');
-  }
+  const ResourceSortType(this.value);
+
+  static ResourceSortType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResourceSortType'));
 }
 
 enum ResourceStateType {
-  active,
-  restoring,
-  recycling,
-  recycled,
-}
+  active('ACTIVE'),
+  restoring('RESTORING'),
+  recycling('RECYCLING'),
+  recycled('RECYCLED'),
+  ;
 
-extension ResourceStateTypeValueExtension on ResourceStateType {
-  String toValue() {
-    switch (this) {
-      case ResourceStateType.active:
-        return 'ACTIVE';
-      case ResourceStateType.restoring:
-        return 'RESTORING';
-      case ResourceStateType.recycling:
-        return 'RECYCLING';
-      case ResourceStateType.recycled:
-        return 'RECYCLED';
-    }
-  }
-}
+  final String value;
 
-extension ResourceStateTypeFromString on String {
-  ResourceStateType toResourceStateType() {
-    switch (this) {
-      case 'ACTIVE':
-        return ResourceStateType.active;
-      case 'RESTORING':
-        return ResourceStateType.restoring;
-      case 'RECYCLING':
-        return ResourceStateType.recycling;
-      case 'RECYCLED':
-        return ResourceStateType.recycled;
-    }
-    throw Exception('$this is not known in enum ResourceStateType');
-  }
+  const ResourceStateType(this.value);
+
+  static ResourceStateType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResourceStateType'));
 }
 
 enum ResourceType {
-  folder,
-  document,
-}
+  folder('FOLDER'),
+  document('DOCUMENT'),
+  ;
 
-extension ResourceTypeValueExtension on ResourceType {
-  String toValue() {
-    switch (this) {
-      case ResourceType.folder:
-        return 'FOLDER';
-      case ResourceType.document:
-        return 'DOCUMENT';
-    }
-  }
-}
+  final String value;
 
-extension ResourceTypeFromString on String {
-  ResourceType toResourceType() {
-    switch (this) {
-      case 'FOLDER':
-        return ResourceType.folder;
-      case 'DOCUMENT':
-        return ResourceType.document;
-    }
-    throw Exception('$this is not known in enum ResourceType');
-  }
+  const ResourceType(this.value);
+
+  static ResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResourceType'));
 }
 
 /// List of Documents, Folders, Comments, and Document Versions matching the
@@ -5222,7 +4607,8 @@ class ResponseItem {
           ? FolderMetadata.fromJson(
               json['FolderMetadata'] as Map<String, dynamic>)
           : null,
-      resourceType: (json['ResourceType'] as String?)?.toResponseItemType(),
+      resourceType:
+          (json['ResourceType'] as String?)?.let(ResponseItemType.fromString),
       webUrl: json['WebUrl'] as String?,
     );
   }
@@ -5240,142 +4626,73 @@ class ResponseItem {
       if (documentVersionMetadata != null)
         'DocumentVersionMetadata': documentVersionMetadata,
       if (folderMetadata != null) 'FolderMetadata': folderMetadata,
-      if (resourceType != null) 'ResourceType': resourceType.toValue(),
+      if (resourceType != null) 'ResourceType': resourceType.value,
       if (webUrl != null) 'WebUrl': webUrl,
     };
   }
 }
 
 enum ResponseItemType {
-  document,
-  folder,
-  comment,
-  documentVersion,
-}
+  document('DOCUMENT'),
+  folder('FOLDER'),
+  comment('COMMENT'),
+  documentVersion('DOCUMENT_VERSION'),
+  ;
 
-extension ResponseItemTypeValueExtension on ResponseItemType {
-  String toValue() {
-    switch (this) {
-      case ResponseItemType.document:
-        return 'DOCUMENT';
-      case ResponseItemType.folder:
-        return 'FOLDER';
-      case ResponseItemType.comment:
-        return 'COMMENT';
-      case ResponseItemType.documentVersion:
-        return 'DOCUMENT_VERSION';
-    }
-  }
-}
+  final String value;
 
-extension ResponseItemTypeFromString on String {
-  ResponseItemType toResponseItemType() {
-    switch (this) {
-      case 'DOCUMENT':
-        return ResponseItemType.document;
-      case 'FOLDER':
-        return ResponseItemType.folder;
-      case 'COMMENT':
-        return ResponseItemType.comment;
-      case 'DOCUMENT_VERSION':
-        return ResponseItemType.documentVersion;
-    }
-    throw Exception('$this is not known in enum ResponseItemType');
-  }
+  const ResponseItemType(this.value);
+
+  static ResponseItemType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResponseItemType'));
 }
 
 enum RolePermissionType {
-  direct,
-  inherited,
-}
+  direct('DIRECT'),
+  inherited('INHERITED'),
+  ;
 
-extension RolePermissionTypeValueExtension on RolePermissionType {
-  String toValue() {
-    switch (this) {
-      case RolePermissionType.direct:
-        return 'DIRECT';
-      case RolePermissionType.inherited:
-        return 'INHERITED';
-    }
-  }
-}
+  final String value;
 
-extension RolePermissionTypeFromString on String {
-  RolePermissionType toRolePermissionType() {
-    switch (this) {
-      case 'DIRECT':
-        return RolePermissionType.direct;
-      case 'INHERITED':
-        return RolePermissionType.inherited;
-    }
-    throw Exception('$this is not known in enum RolePermissionType');
-  }
+  const RolePermissionType(this.value);
+
+  static RolePermissionType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RolePermissionType'));
 }
 
 enum RoleType {
-  viewer,
-  contributor,
-  owner,
-  coowner,
-}
+  viewer('VIEWER'),
+  contributor('CONTRIBUTOR'),
+  owner('OWNER'),
+  coowner('COOWNER'),
+  ;
 
-extension RoleTypeValueExtension on RoleType {
-  String toValue() {
-    switch (this) {
-      case RoleType.viewer:
-        return 'VIEWER';
-      case RoleType.contributor:
-        return 'CONTRIBUTOR';
-      case RoleType.owner:
-        return 'OWNER';
-      case RoleType.coowner:
-        return 'COOWNER';
-    }
-  }
-}
+  final String value;
 
-extension RoleTypeFromString on String {
-  RoleType toRoleType() {
-    switch (this) {
-      case 'VIEWER':
-        return RoleType.viewer;
-      case 'CONTRIBUTOR':
-        return RoleType.contributor;
-      case 'OWNER':
-        return RoleType.owner;
-      case 'COOWNER':
-        return RoleType.coowner;
-    }
-    throw Exception('$this is not known in enum RoleType');
-  }
+  const RoleType(this.value);
+
+  static RoleType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum RoleType'));
 }
 
 enum SearchCollectionType {
-  owned,
-  sharedWithMe,
-}
+  owned('OWNED'),
+  sharedWithMe('SHARED_WITH_ME'),
+  ;
 
-extension SearchCollectionTypeValueExtension on SearchCollectionType {
-  String toValue() {
-    switch (this) {
-      case SearchCollectionType.owned:
-        return 'OWNED';
-      case SearchCollectionType.sharedWithMe:
-        return 'SHARED_WITH_ME';
-    }
-  }
-}
+  final String value;
 
-extension SearchCollectionTypeFromString on String {
-  SearchCollectionType toSearchCollectionType() {
-    switch (this) {
-      case 'OWNED':
-        return SearchCollectionType.owned;
-      case 'SHARED_WITH_ME':
-        return SearchCollectionType.sharedWithMe;
-    }
-    throw Exception('$this is not known in enum SearchCollectionType');
-  }
+  const SearchCollectionType(this.value);
+
+  static SearchCollectionType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SearchCollectionType'));
 }
 
 /// Filter based on UserIds or GroupIds.
@@ -5396,75 +4713,41 @@ class SearchPrincipalType {
     final roles = this.roles;
     return {
       'Id': id,
-      if (roles != null) 'Roles': roles.map((e) => e.toValue()).toList(),
+      if (roles != null) 'Roles': roles.map((e) => e.value).toList(),
     };
   }
 }
 
 enum SearchQueryScopeType {
-  name,
-  content,
-}
+  name('NAME'),
+  content('CONTENT'),
+  ;
 
-extension SearchQueryScopeTypeValueExtension on SearchQueryScopeType {
-  String toValue() {
-    switch (this) {
-      case SearchQueryScopeType.name:
-        return 'NAME';
-      case SearchQueryScopeType.content:
-        return 'CONTENT';
-    }
-  }
-}
+  final String value;
 
-extension SearchQueryScopeTypeFromString on String {
-  SearchQueryScopeType toSearchQueryScopeType() {
-    switch (this) {
-      case 'NAME':
-        return SearchQueryScopeType.name;
-      case 'CONTENT':
-        return SearchQueryScopeType.content;
-    }
-    throw Exception('$this is not known in enum SearchQueryScopeType');
-  }
+  const SearchQueryScopeType(this.value);
+
+  static SearchQueryScopeType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SearchQueryScopeType'));
 }
 
 enum SearchResourceType {
-  folder,
-  document,
-  comment,
-  documentVersion,
-}
+  folder('FOLDER'),
+  document('DOCUMENT'),
+  comment('COMMENT'),
+  documentVersion('DOCUMENT_VERSION'),
+  ;
 
-extension SearchResourceTypeValueExtension on SearchResourceType {
-  String toValue() {
-    switch (this) {
-      case SearchResourceType.folder:
-        return 'FOLDER';
-      case SearchResourceType.document:
-        return 'DOCUMENT';
-      case SearchResourceType.comment:
-        return 'COMMENT';
-      case SearchResourceType.documentVersion:
-        return 'DOCUMENT_VERSION';
-    }
-  }
-}
+  final String value;
 
-extension SearchResourceTypeFromString on String {
-  SearchResourceType toSearchResourceType() {
-    switch (this) {
-      case 'FOLDER':
-        return SearchResourceType.folder;
-      case 'DOCUMENT':
-        return SearchResourceType.document;
-      case 'COMMENT':
-        return SearchResourceType.comment;
-      case 'DOCUMENT_VERSION':
-        return SearchResourceType.documentVersion;
-    }
-    throw Exception('$this is not known in enum SearchResourceType');
-  }
+  const SearchResourceType(this.value);
+
+  static SearchResourceType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SearchResourceType'));
 }
 
 class SearchResourcesResponse {
@@ -5518,8 +4801,8 @@ class SearchSortResult {
     final field = this.field;
     final order = this.order;
     return {
-      if (field != null) 'Field': field.toValue(),
-      if (order != null) 'Order': order.toValue(),
+      if (field != null) 'Field': field.value,
+      if (order != null) 'Order': order.value,
     };
   }
 }
@@ -5547,8 +4830,8 @@ class SharePrincipal {
     final type = this.type;
     return {
       'Id': id,
-      'Role': role.toValue(),
-      'Type': type.toValue(),
+      'Role': role.value,
+      'Type': type.value,
     };
   }
 }
@@ -5586,9 +4869,9 @@ class ShareResult {
     return ShareResult(
       inviteePrincipalId: json['InviteePrincipalId'] as String?,
       principalId: json['PrincipalId'] as String?,
-      role: (json['Role'] as String?)?.toRoleType(),
+      role: (json['Role'] as String?)?.let(RoleType.fromString),
       shareId: json['ShareId'] as String?,
-      status: (json['Status'] as String?)?.toShareStatusType(),
+      status: (json['Status'] as String?)?.let(ShareStatusType.fromString),
       statusMessage: json['StatusMessage'] as String?,
     );
   }
@@ -5603,68 +4886,41 @@ class ShareResult {
     return {
       if (inviteePrincipalId != null) 'InviteePrincipalId': inviteePrincipalId,
       if (principalId != null) 'PrincipalId': principalId,
-      if (role != null) 'Role': role.toValue(),
+      if (role != null) 'Role': role.value,
       if (shareId != null) 'ShareId': shareId,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusMessage != null) 'StatusMessage': statusMessage,
     };
   }
 }
 
 enum ShareStatusType {
-  success,
-  failure,
-}
+  success('SUCCESS'),
+  failure('FAILURE'),
+  ;
 
-extension ShareStatusTypeValueExtension on ShareStatusType {
-  String toValue() {
-    switch (this) {
-      case ShareStatusType.success:
-        return 'SUCCESS';
-      case ShareStatusType.failure:
-        return 'FAILURE';
-    }
-  }
-}
+  final String value;
 
-extension ShareStatusTypeFromString on String {
-  ShareStatusType toShareStatusType() {
-    switch (this) {
-      case 'SUCCESS':
-        return ShareStatusType.success;
-      case 'FAILURE':
-        return ShareStatusType.failure;
-    }
-    throw Exception('$this is not known in enum ShareStatusType');
-  }
+  const ShareStatusType(this.value);
+
+  static ShareStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ShareStatusType'));
 }
 
 enum SortOrder {
-  asc,
-  desc,
-}
+  asc('ASC'),
+  desc('DESC'),
+  ;
 
-extension SortOrderValueExtension on SortOrder {
-  String toValue() {
-    switch (this) {
-      case SortOrder.asc:
-        return 'ASC';
-      case SortOrder.desc:
-        return 'DESC';
-    }
-  }
-}
+  final String value;
 
-extension SortOrderFromString on String {
-  SortOrder toSortOrder() {
-    switch (this) {
-      case 'ASC':
-        return SortOrder.asc;
-      case 'DESC':
-        return SortOrder.desc;
-    }
-    throw Exception('$this is not known in enum SortOrder');
-  }
+  const SortOrder(this.value);
+
+  static SortOrder fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SortOrder'));
 }
 
 /// Describes the storage for a user.
@@ -5683,7 +4939,8 @@ class StorageRuleType {
   factory StorageRuleType.fromJson(Map<String, dynamic> json) {
     return StorageRuleType(
       storageAllocatedInBytes: json['StorageAllocatedInBytes'] as int?,
-      storageType: (json['StorageType'] as String?)?.toStorageType(),
+      storageType:
+          (json['StorageType'] as String?)?.let(StorageType.fromString),
     );
   }
 
@@ -5693,37 +4950,23 @@ class StorageRuleType {
     return {
       if (storageAllocatedInBytes != null)
         'StorageAllocatedInBytes': storageAllocatedInBytes,
-      if (storageType != null) 'StorageType': storageType.toValue(),
+      if (storageType != null) 'StorageType': storageType.value,
     };
   }
 }
 
 enum StorageType {
-  unlimited,
-  quota,
-}
+  unlimited('UNLIMITED'),
+  quota('QUOTA'),
+  ;
 
-extension StorageTypeValueExtension on StorageType {
-  String toValue() {
-    switch (this) {
-      case StorageType.unlimited:
-        return 'UNLIMITED';
-      case StorageType.quota:
-        return 'QUOTA';
-    }
-  }
-}
+  final String value;
 
-extension StorageTypeFromString on String {
-  StorageType toStorageType() {
-    switch (this) {
-      case 'UNLIMITED':
-        return StorageType.unlimited;
-      case 'QUOTA':
-        return StorageType.quota;
-    }
-    throw Exception('$this is not known in enum StorageType');
-  }
+  const StorageType(this.value);
+
+  static StorageType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum StorageType'));
 }
 
 /// Describes a subscription.
@@ -5746,7 +4989,8 @@ class Subscription {
   factory Subscription.fromJson(Map<String, dynamic> json) {
     return Subscription(
       endPoint: json['EndPoint'] as String?,
-      protocol: (json['Protocol'] as String?)?.toSubscriptionProtocolType(),
+      protocol: (json['Protocol'] as String?)
+          ?.let(SubscriptionProtocolType.fromString),
       subscriptionId: json['SubscriptionId'] as String?,
     );
   }
@@ -5757,61 +5001,39 @@ class Subscription {
     final subscriptionId = this.subscriptionId;
     return {
       if (endPoint != null) 'EndPoint': endPoint,
-      if (protocol != null) 'Protocol': protocol.toValue(),
+      if (protocol != null) 'Protocol': protocol.value,
       if (subscriptionId != null) 'SubscriptionId': subscriptionId,
     };
   }
 }
 
 enum SubscriptionProtocolType {
-  https,
-  sqs,
-}
+  https('HTTPS'),
+  sqs('SQS'),
+  ;
 
-extension SubscriptionProtocolTypeValueExtension on SubscriptionProtocolType {
-  String toValue() {
-    switch (this) {
-      case SubscriptionProtocolType.https:
-        return 'HTTPS';
-      case SubscriptionProtocolType.sqs:
-        return 'SQS';
-    }
-  }
-}
+  final String value;
 
-extension SubscriptionProtocolTypeFromString on String {
-  SubscriptionProtocolType toSubscriptionProtocolType() {
-    switch (this) {
-      case 'HTTPS':
-        return SubscriptionProtocolType.https;
-      case 'SQS':
-        return SubscriptionProtocolType.sqs;
-    }
-    throw Exception('$this is not known in enum SubscriptionProtocolType');
-  }
+  const SubscriptionProtocolType(this.value);
+
+  static SubscriptionProtocolType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SubscriptionProtocolType'));
 }
 
 enum SubscriptionType {
-  all,
-}
+  all('ALL'),
+  ;
 
-extension SubscriptionTypeValueExtension on SubscriptionType {
-  String toValue() {
-    switch (this) {
-      case SubscriptionType.all:
-        return 'ALL';
-    }
-  }
-}
+  final String value;
 
-extension SubscriptionTypeFromString on String {
-  SubscriptionType toSubscriptionType() {
-    switch (this) {
-      case 'ALL':
-        return SubscriptionType.all;
-    }
-    throw Exception('$this is not known in enum SubscriptionType');
-  }
+  const SubscriptionType(this.value);
+
+  static SubscriptionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SubscriptionType'));
 }
 
 class UpdateUserResponse {
@@ -5940,19 +5162,19 @@ class User {
       emailAddress: json['EmailAddress'] as String?,
       givenName: json['GivenName'] as String?,
       id: json['Id'] as String?,
-      locale: (json['Locale'] as String?)?.toLocaleType(),
+      locale: (json['Locale'] as String?)?.let(LocaleType.fromString),
       modifiedTimestamp: timeStampFromJson(json['ModifiedTimestamp']),
       organizationId: json['OrganizationId'] as String?,
       recycleBinFolderId: json['RecycleBinFolderId'] as String?,
       rootFolderId: json['RootFolderId'] as String?,
-      status: (json['Status'] as String?)?.toUserStatusType(),
+      status: (json['Status'] as String?)?.let(UserStatusType.fromString),
       storage: json['Storage'] != null
           ? UserStorageMetadata.fromJson(
               json['Storage'] as Map<String, dynamic>)
           : null,
       surname: json['Surname'] as String?,
       timeZoneId: json['TimeZoneId'] as String?,
-      type: (json['Type'] as String?)?.toUserType(),
+      type: (json['Type'] as String?)?.let(UserType.fromString),
       username: json['Username'] as String?,
     );
   }
@@ -5979,48 +5201,35 @@ class User {
       if (emailAddress != null) 'EmailAddress': emailAddress,
       if (givenName != null) 'GivenName': givenName,
       if (id != null) 'Id': id,
-      if (locale != null) 'Locale': locale.toValue(),
+      if (locale != null) 'Locale': locale.value,
       if (modifiedTimestamp != null)
         'ModifiedTimestamp': unixTimestampToJson(modifiedTimestamp),
       if (organizationId != null) 'OrganizationId': organizationId,
       if (recycleBinFolderId != null) 'RecycleBinFolderId': recycleBinFolderId,
       if (rootFolderId != null) 'RootFolderId': rootFolderId,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (storage != null) 'Storage': storage,
       if (surname != null) 'Surname': surname,
       if (timeZoneId != null) 'TimeZoneId': timeZoneId,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
       if (username != null) 'Username': username,
     };
   }
 }
 
 enum UserFilterType {
-  all,
-  activePending,
-}
+  all('ALL'),
+  activePending('ACTIVE_PENDING'),
+  ;
 
-extension UserFilterTypeValueExtension on UserFilterType {
-  String toValue() {
-    switch (this) {
-      case UserFilterType.all:
-        return 'ALL';
-      case UserFilterType.activePending:
-        return 'ACTIVE_PENDING';
-    }
-  }
-}
+  final String value;
 
-extension UserFilterTypeFromString on String {
-  UserFilterType toUserFilterType() {
-    switch (this) {
-      case 'ALL':
-        return UserFilterType.all;
-      case 'ACTIVE_PENDING':
-        return UserFilterType.activePending;
-    }
-    throw Exception('$this is not known in enum UserFilterType');
-  }
+  const UserFilterType(this.value);
+
+  static UserFilterType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum UserFilterType'));
 }
 
 /// Describes the metadata of the user.
@@ -6075,79 +5284,37 @@ class UserMetadata {
 }
 
 enum UserSortType {
-  userName,
-  fullName,
-  storageLimit,
-  userStatus,
-  storageUsed,
-}
+  userName('USER_NAME'),
+  fullName('FULL_NAME'),
+  storageLimit('STORAGE_LIMIT'),
+  userStatus('USER_STATUS'),
+  storageUsed('STORAGE_USED'),
+  ;
 
-extension UserSortTypeValueExtension on UserSortType {
-  String toValue() {
-    switch (this) {
-      case UserSortType.userName:
-        return 'USER_NAME';
-      case UserSortType.fullName:
-        return 'FULL_NAME';
-      case UserSortType.storageLimit:
-        return 'STORAGE_LIMIT';
-      case UserSortType.userStatus:
-        return 'USER_STATUS';
-      case UserSortType.storageUsed:
-        return 'STORAGE_USED';
-    }
-  }
-}
+  final String value;
 
-extension UserSortTypeFromString on String {
-  UserSortType toUserSortType() {
-    switch (this) {
-      case 'USER_NAME':
-        return UserSortType.userName;
-      case 'FULL_NAME':
-        return UserSortType.fullName;
-      case 'STORAGE_LIMIT':
-        return UserSortType.storageLimit;
-      case 'USER_STATUS':
-        return UserSortType.userStatus;
-      case 'STORAGE_USED':
-        return UserSortType.storageUsed;
-    }
-    throw Exception('$this is not known in enum UserSortType');
-  }
+  const UserSortType(this.value);
+
+  static UserSortType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum UserSortType'));
 }
 
 enum UserStatusType {
-  active,
-  inactive,
-  pending,
-}
+  active('ACTIVE'),
+  inactive('INACTIVE'),
+  pending('PENDING'),
+  ;
 
-extension UserStatusTypeValueExtension on UserStatusType {
-  String toValue() {
-    switch (this) {
-      case UserStatusType.active:
-        return 'ACTIVE';
-      case UserStatusType.inactive:
-        return 'INACTIVE';
-      case UserStatusType.pending:
-        return 'PENDING';
-    }
-  }
-}
+  final String value;
 
-extension UserStatusTypeFromString on String {
-  UserStatusType toUserStatusType() {
-    switch (this) {
-      case 'ACTIVE':
-        return UserStatusType.active;
-      case 'INACTIVE':
-        return UserStatusType.inactive;
-      case 'PENDING':
-        return UserStatusType.pending;
-    }
-    throw Exception('$this is not known in enum UserStatusType');
-  }
+  const UserStatusType(this.value);
+
+  static UserStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum UserStatusType'));
 }
 
 /// Describes the storage for a user.
@@ -6185,46 +5352,20 @@ class UserStorageMetadata {
 }
 
 enum UserType {
-  user,
-  admin,
-  poweruser,
-  minimaluser,
-  workspacesuser,
-}
+  user('USER'),
+  admin('ADMIN'),
+  poweruser('POWERUSER'),
+  minimaluser('MINIMALUSER'),
+  workspacesuser('WORKSPACESUSER'),
+  ;
 
-extension UserTypeValueExtension on UserType {
-  String toValue() {
-    switch (this) {
-      case UserType.user:
-        return 'USER';
-      case UserType.admin:
-        return 'ADMIN';
-      case UserType.poweruser:
-        return 'POWERUSER';
-      case UserType.minimaluser:
-        return 'MINIMALUSER';
-      case UserType.workspacesuser:
-        return 'WORKSPACESUSER';
-    }
-  }
-}
+  final String value;
 
-extension UserTypeFromString on String {
-  UserType toUserType() {
-    switch (this) {
-      case 'USER':
-        return UserType.user;
-      case 'ADMIN':
-        return UserType.admin;
-      case 'POWERUSER':
-        return UserType.poweruser;
-      case 'MINIMALUSER':
-        return UserType.minimaluser;
-      case 'WORKSPACESUSER':
-        return UserType.workspacesuser;
-    }
-    throw Exception('$this is not known in enum UserType');
-  }
+  const UserType(this.value);
+
+  static UserType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum UserType'));
 }
 
 class ConcurrentModificationException extends _s.GenericAwsException {

@@ -299,7 +299,7 @@ class LookoutMetrics {
       if (metricSetDescription != null)
         'MetricSetDescription': metricSetDescription,
       if (metricSetFrequency != null)
-        'MetricSetFrequency': metricSetFrequency.toValue(),
+        'MetricSetFrequency': metricSetFrequency.value,
       if (offset != null) 'Offset': offset,
       if (tags != null) 'Tags': tags,
       if (timestampColumn != null) 'TimestampColumn': timestampColumn,
@@ -823,7 +823,7 @@ class LookoutMetrics {
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
       if (relationshipTypeFilter != null)
-        'RelationshipTypeFilter': relationshipTypeFilter.toValue(),
+        'RelationshipTypeFilter': relationshipTypeFilter.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1257,7 +1257,7 @@ class LookoutMetrics {
       if (metricSetDescription != null)
         'MetricSetDescription': metricSetDescription,
       if (metricSetFrequency != null)
-        'MetricSetFrequency': metricSetFrequency.toValue(),
+        'MetricSetFrequency': metricSetFrequency.value,
       if (metricSource != null) 'MetricSource': metricSource,
       if (offset != null) 'Offset': offset,
       if (timestampColumn != null) 'TimestampColumn': timestampColumn,
@@ -1323,31 +1323,18 @@ class ActivateAnomalyDetectorResponse {
 }
 
 enum AggregationFunction {
-  avg,
-  sum,
-}
+  avg('AVG'),
+  sum('SUM'),
+  ;
 
-extension AggregationFunctionValueExtension on AggregationFunction {
-  String toValue() {
-    switch (this) {
-      case AggregationFunction.avg:
-        return 'AVG';
-      case AggregationFunction.sum:
-        return 'SUM';
-    }
-  }
-}
+  final String value;
 
-extension AggregationFunctionFromString on String {
-  AggregationFunction toAggregationFunction() {
-    switch (this) {
-      case 'AVG':
-        return AggregationFunction.avg;
-      case 'SUM':
-        return AggregationFunction.sum;
-    }
-    throw Exception('$this is not known in enum AggregationFunction');
-  }
+  const AggregationFunction(this.value);
+
+  static AggregationFunction fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AggregationFunction'));
 }
 
 /// A configuration for Amazon SNS-integrated notifications.
@@ -1412,8 +1399,9 @@ class Alert {
           : null,
       alertName: json['AlertName'] as String?,
       alertSensitivityThreshold: json['AlertSensitivityThreshold'] as int?,
-      alertStatus: (json['AlertStatus'] as String?)?.toAlertStatus(),
-      alertType: (json['AlertType'] as String?)?.toAlertType(),
+      alertStatus:
+          (json['AlertStatus'] as String?)?.let(AlertStatus.fromString),
+      alertType: (json['AlertType'] as String?)?.let(AlertType.fromString),
       anomalyDetectorArn: json['AnomalyDetectorArn'] as String?,
       creationTime: timeStampFromJson(json['CreationTime']),
       lastModificationTime: timeStampFromJson(json['LastModificationTime']),
@@ -1440,8 +1428,8 @@ class Alert {
       if (alertName != null) 'AlertName': alertName,
       if (alertSensitivityThreshold != null)
         'AlertSensitivityThreshold': alertSensitivityThreshold,
-      if (alertStatus != null) 'AlertStatus': alertStatus.toValue(),
-      if (alertType != null) 'AlertType': alertType.toValue(),
+      if (alertStatus != null) 'AlertStatus': alertStatus.value,
+      if (alertType != null) 'AlertType': alertType.value,
       if (anomalyDetectorArn != null) 'AnomalyDetectorArn': anomalyDetectorArn,
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
@@ -1490,31 +1478,17 @@ class AlertFilters {
 }
 
 enum AlertStatus {
-  active,
-  inactive,
-}
+  active('ACTIVE'),
+  inactive('INACTIVE'),
+  ;
 
-extension AlertStatusValueExtension on AlertStatus {
-  String toValue() {
-    switch (this) {
-      case AlertStatus.active:
-        return 'ACTIVE';
-      case AlertStatus.inactive:
-        return 'INACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension AlertStatusFromString on String {
-  AlertStatus toAlertStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return AlertStatus.active;
-      case 'INACTIVE':
-        return AlertStatus.inactive;
-    }
-    throw Exception('$this is not known in enum AlertStatus');
-  }
+  const AlertStatus(this.value);
+
+  static AlertStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AlertStatus'));
 }
 
 /// Provides a summary of an alert's configuration.
@@ -1564,8 +1538,9 @@ class AlertSummary {
       alertArn: json['AlertArn'] as String?,
       alertName: json['AlertName'] as String?,
       alertSensitivityThreshold: json['AlertSensitivityThreshold'] as int?,
-      alertStatus: (json['AlertStatus'] as String?)?.toAlertStatus(),
-      alertType: (json['AlertType'] as String?)?.toAlertType(),
+      alertStatus:
+          (json['AlertStatus'] as String?)?.let(AlertStatus.fromString),
+      alertType: (json['AlertType'] as String?)?.let(AlertType.fromString),
       anomalyDetectorArn: json['AnomalyDetectorArn'] as String?,
       creationTime: timeStampFromJson(json['CreationTime']),
       lastModificationTime: timeStampFromJson(json['LastModificationTime']),
@@ -1589,8 +1564,8 @@ class AlertSummary {
       if (alertName != null) 'AlertName': alertName,
       if (alertSensitivityThreshold != null)
         'AlertSensitivityThreshold': alertSensitivityThreshold,
-      if (alertStatus != null) 'AlertStatus': alertStatus.toValue(),
-      if (alertType != null) 'AlertType': alertType.toValue(),
+      if (alertStatus != null) 'AlertStatus': alertStatus.value,
+      if (alertType != null) 'AlertType': alertType.value,
       if (anomalyDetectorArn != null) 'AnomalyDetectorArn': anomalyDetectorArn,
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
@@ -1602,75 +1577,35 @@ class AlertSummary {
 }
 
 enum AlertType {
-  sns,
-  lambda,
-}
+  sns('SNS'),
+  lambda('LAMBDA'),
+  ;
 
-extension AlertTypeValueExtension on AlertType {
-  String toValue() {
-    switch (this) {
-      case AlertType.sns:
-        return 'SNS';
-      case AlertType.lambda:
-        return 'LAMBDA';
-    }
-  }
-}
+  final String value;
 
-extension AlertTypeFromString on String {
-  AlertType toAlertType() {
-    switch (this) {
-      case 'SNS':
-        return AlertType.sns;
-      case 'LAMBDA':
-        return AlertType.lambda;
-    }
-    throw Exception('$this is not known in enum AlertType');
-  }
+  const AlertType(this.value);
+
+  static AlertType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AlertType'));
 }
 
 enum AnomalyDetectionTaskStatus {
-  pending,
-  inProgress,
-  completed,
-  failed,
-  failedToSchedule,
-}
+  pending('PENDING'),
+  inProgress('IN_PROGRESS'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  failedToSchedule('FAILED_TO_SCHEDULE'),
+  ;
 
-extension AnomalyDetectionTaskStatusValueExtension
-    on AnomalyDetectionTaskStatus {
-  String toValue() {
-    switch (this) {
-      case AnomalyDetectionTaskStatus.pending:
-        return 'PENDING';
-      case AnomalyDetectionTaskStatus.inProgress:
-        return 'IN_PROGRESS';
-      case AnomalyDetectionTaskStatus.completed:
-        return 'COMPLETED';
-      case AnomalyDetectionTaskStatus.failed:
-        return 'FAILED';
-      case AnomalyDetectionTaskStatus.failedToSchedule:
-        return 'FAILED_TO_SCHEDULE';
-    }
-  }
-}
+  final String value;
 
-extension AnomalyDetectionTaskStatusFromString on String {
-  AnomalyDetectionTaskStatus toAnomalyDetectionTaskStatus() {
-    switch (this) {
-      case 'PENDING':
-        return AnomalyDetectionTaskStatus.pending;
-      case 'IN_PROGRESS':
-        return AnomalyDetectionTaskStatus.inProgress;
-      case 'COMPLETED':
-        return AnomalyDetectionTaskStatus.completed;
-      case 'FAILED':
-        return AnomalyDetectionTaskStatus.failed;
-      case 'FAILED_TO_SCHEDULE':
-        return AnomalyDetectionTaskStatus.failedToSchedule;
-    }
-    throw Exception('$this is not known in enum AnomalyDetectionTaskStatus');
-  }
+  const AnomalyDetectionTaskStatus(this.value);
+
+  static AnomalyDetectionTaskStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AnomalyDetectionTaskStatus'));
 }
 
 /// Contains information about a detector's configuration.
@@ -1686,7 +1621,7 @@ class AnomalyDetectorConfig {
     final anomalyDetectorFrequency = this.anomalyDetectorFrequency;
     return {
       if (anomalyDetectorFrequency != null)
-        'AnomalyDetectorFrequency': anomalyDetectorFrequency.toValue(),
+        'AnomalyDetectorFrequency': anomalyDetectorFrequency.value,
     };
   }
 }
@@ -1702,8 +1637,8 @@ class AnomalyDetectorConfigSummary {
 
   factory AnomalyDetectorConfigSummary.fromJson(Map<String, dynamic> json) {
     return AnomalyDetectorConfigSummary(
-      anomalyDetectorFrequency:
-          (json['AnomalyDetectorFrequency'] as String?)?.toFrequency(),
+      anomalyDetectorFrequency: (json['AnomalyDetectorFrequency'] as String?)
+          ?.let(Frequency.fromString),
     );
   }
 
@@ -1711,7 +1646,7 @@ class AnomalyDetectorConfigSummary {
     final anomalyDetectorFrequency = this.anomalyDetectorFrequency;
     return {
       if (anomalyDetectorFrequency != null)
-        'AnomalyDetectorFrequency': anomalyDetectorFrequency.toValue(),
+        'AnomalyDetectorFrequency': anomalyDetectorFrequency.value,
     };
   }
 }
@@ -1757,115 +1692,44 @@ class AnomalyDetectorDataQualityMetric {
 }
 
 enum AnomalyDetectorFailureType {
-  activationFailure,
-  backTestActivationFailure,
-  deletionFailure,
-  deactivationFailure,
-}
+  activationFailure('ACTIVATION_FAILURE'),
+  backTestActivationFailure('BACK_TEST_ACTIVATION_FAILURE'),
+  deletionFailure('DELETION_FAILURE'),
+  deactivationFailure('DEACTIVATION_FAILURE'),
+  ;
 
-extension AnomalyDetectorFailureTypeValueExtension
-    on AnomalyDetectorFailureType {
-  String toValue() {
-    switch (this) {
-      case AnomalyDetectorFailureType.activationFailure:
-        return 'ACTIVATION_FAILURE';
-      case AnomalyDetectorFailureType.backTestActivationFailure:
-        return 'BACK_TEST_ACTIVATION_FAILURE';
-      case AnomalyDetectorFailureType.deletionFailure:
-        return 'DELETION_FAILURE';
-      case AnomalyDetectorFailureType.deactivationFailure:
-        return 'DEACTIVATION_FAILURE';
-    }
-  }
-}
+  final String value;
 
-extension AnomalyDetectorFailureTypeFromString on String {
-  AnomalyDetectorFailureType toAnomalyDetectorFailureType() {
-    switch (this) {
-      case 'ACTIVATION_FAILURE':
-        return AnomalyDetectorFailureType.activationFailure;
-      case 'BACK_TEST_ACTIVATION_FAILURE':
-        return AnomalyDetectorFailureType.backTestActivationFailure;
-      case 'DELETION_FAILURE':
-        return AnomalyDetectorFailureType.deletionFailure;
-      case 'DEACTIVATION_FAILURE':
-        return AnomalyDetectorFailureType.deactivationFailure;
-    }
-    throw Exception('$this is not known in enum AnomalyDetectorFailureType');
-  }
+  const AnomalyDetectorFailureType(this.value);
+
+  static AnomalyDetectorFailureType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AnomalyDetectorFailureType'));
 }
 
 enum AnomalyDetectorStatus {
-  active,
-  activating,
-  deleting,
-  failed,
-  inactive,
-  learning,
-  backTestActivating,
-  backTestActive,
-  backTestComplete,
-  deactivated,
-  deactivating,
-}
+  active('ACTIVE'),
+  activating('ACTIVATING'),
+  deleting('DELETING'),
+  failed('FAILED'),
+  inactive('INACTIVE'),
+  learning('LEARNING'),
+  backTestActivating('BACK_TEST_ACTIVATING'),
+  backTestActive('BACK_TEST_ACTIVE'),
+  backTestComplete('BACK_TEST_COMPLETE'),
+  deactivated('DEACTIVATED'),
+  deactivating('DEACTIVATING'),
+  ;
 
-extension AnomalyDetectorStatusValueExtension on AnomalyDetectorStatus {
-  String toValue() {
-    switch (this) {
-      case AnomalyDetectorStatus.active:
-        return 'ACTIVE';
-      case AnomalyDetectorStatus.activating:
-        return 'ACTIVATING';
-      case AnomalyDetectorStatus.deleting:
-        return 'DELETING';
-      case AnomalyDetectorStatus.failed:
-        return 'FAILED';
-      case AnomalyDetectorStatus.inactive:
-        return 'INACTIVE';
-      case AnomalyDetectorStatus.learning:
-        return 'LEARNING';
-      case AnomalyDetectorStatus.backTestActivating:
-        return 'BACK_TEST_ACTIVATING';
-      case AnomalyDetectorStatus.backTestActive:
-        return 'BACK_TEST_ACTIVE';
-      case AnomalyDetectorStatus.backTestComplete:
-        return 'BACK_TEST_COMPLETE';
-      case AnomalyDetectorStatus.deactivated:
-        return 'DEACTIVATED';
-      case AnomalyDetectorStatus.deactivating:
-        return 'DEACTIVATING';
-    }
-  }
-}
+  final String value;
 
-extension AnomalyDetectorStatusFromString on String {
-  AnomalyDetectorStatus toAnomalyDetectorStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return AnomalyDetectorStatus.active;
-      case 'ACTIVATING':
-        return AnomalyDetectorStatus.activating;
-      case 'DELETING':
-        return AnomalyDetectorStatus.deleting;
-      case 'FAILED':
-        return AnomalyDetectorStatus.failed;
-      case 'INACTIVE':
-        return AnomalyDetectorStatus.inactive;
-      case 'LEARNING':
-        return AnomalyDetectorStatus.learning;
-      case 'BACK_TEST_ACTIVATING':
-        return AnomalyDetectorStatus.backTestActivating;
-      case 'BACK_TEST_ACTIVE':
-        return AnomalyDetectorStatus.backTestActive;
-      case 'BACK_TEST_COMPLETE':
-        return AnomalyDetectorStatus.backTestComplete;
-      case 'DEACTIVATED':
-        return AnomalyDetectorStatus.deactivated;
-      case 'DEACTIVATING':
-        return AnomalyDetectorStatus.deactivating;
-    }
-    throw Exception('$this is not known in enum AnomalyDetectorStatus');
-  }
+  const AnomalyDetectorStatus(this.value);
+
+  static AnomalyDetectorStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AnomalyDetectorStatus'));
 }
 
 /// Contains information about an an anomaly detector.
@@ -1909,7 +1773,8 @@ class AnomalyDetectorSummary {
       anomalyDetectorName: json['AnomalyDetectorName'] as String?,
       creationTime: timeStampFromJson(json['CreationTime']),
       lastModificationTime: timeStampFromJson(json['LastModificationTime']),
-      status: (json['Status'] as String?)?.toAnomalyDetectorStatus(),
+      status:
+          (json['Status'] as String?)?.let(AnomalyDetectorStatus.fromString),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -1933,7 +1798,7 @@ class AnomalyDetectorSummary {
         'CreationTime': unixTimestampToJson(creationTime),
       if (lastModificationTime != null)
         'LastModificationTime': unixTimestampToJson(lastModificationTime),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (tags != null) 'Tags': tags,
     };
   }
@@ -2391,31 +2256,18 @@ class BackTestConfiguration {
 }
 
 enum CSVFileCompression {
-  none,
-  gzip,
-}
+  none('NONE'),
+  gzip('GZIP'),
+  ;
 
-extension CSVFileCompressionValueExtension on CSVFileCompression {
-  String toValue() {
-    switch (this) {
-      case CSVFileCompression.none:
-        return 'NONE';
-      case CSVFileCompression.gzip:
-        return 'GZIP';
-    }
-  }
-}
+  final String value;
 
-extension CSVFileCompressionFromString on String {
-  CSVFileCompression toCSVFileCompression() {
-    switch (this) {
-      case 'NONE':
-        return CSVFileCompression.none;
-      case 'GZIP':
-        return CSVFileCompression.gzip;
-    }
-    throw Exception('$this is not known in enum CSVFileCompression');
-  }
+  const CSVFileCompression(this.value);
+
+  static CSVFileCompression fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum CSVFileCompression'));
 }
 
 /// Details about an Amazon CloudWatch datasource.
@@ -2454,36 +2306,18 @@ class CloudWatchConfig {
 }
 
 enum Confidence {
-  high,
-  low,
-  none,
-}
+  high('HIGH'),
+  low('LOW'),
+  none('NONE'),
+  ;
 
-extension ConfidenceValueExtension on Confidence {
-  String toValue() {
-    switch (this) {
-      case Confidence.high:
-        return 'HIGH';
-      case Confidence.low:
-        return 'LOW';
-      case Confidence.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension ConfidenceFromString on String {
-  Confidence toConfidence() {
-    switch (this) {
-      case 'HIGH':
-        return Confidence.high;
-      case 'LOW':
-        return Confidence.low;
-      case 'NONE':
-        return Confidence.none;
-    }
-    throw Exception('$this is not known in enum Confidence');
-  }
+  const Confidence(this.value);
+
+  static Confidence fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Confidence'));
 }
 
 /// Details about dimensions that contributed to an anomaly.
@@ -2613,8 +2447,8 @@ class CsvFormatDescriptor {
       charset: json['Charset'] as String?,
       containsHeader: json['ContainsHeader'] as bool?,
       delimiter: json['Delimiter'] as String?,
-      fileCompression:
-          (json['FileCompression'] as String?)?.toCSVFileCompression(),
+      fileCompression: (json['FileCompression'] as String?)
+          ?.let(CSVFileCompression.fromString),
       headerList: (json['HeaderList'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -2634,7 +2468,7 @@ class CsvFormatDescriptor {
       if (charset != null) 'Charset': charset,
       if (containsHeader != null) 'ContainsHeader': containsHeader,
       if (delimiter != null) 'Delimiter': delimiter,
-      if (fileCompression != null) 'FileCompression': fileCompression.toValue(),
+      if (fileCompression != null) 'FileCompression': fileCompression.value,
       if (headerList != null) 'HeaderList': headerList,
       if (quoteSymbol != null) 'QuoteSymbol': quoteSymbol,
     };
@@ -2667,7 +2501,8 @@ class DataQualityMetric {
   factory DataQualityMetric.fromJson(Map<String, dynamic> json) {
     return DataQualityMetric(
       metricDescription: json['MetricDescription'] as String?,
-      metricType: (json['MetricType'] as String?)?.toDataQualityMetricType(),
+      metricType: (json['MetricType'] as String?)
+          ?.let(DataQualityMetricType.fromString),
       metricValue: json['MetricValue'] as double?,
       relatedColumnName: json['RelatedColumnName'] as String?,
     );
@@ -2680,7 +2515,7 @@ class DataQualityMetric {
     final relatedColumnName = this.relatedColumnName;
     return {
       if (metricDescription != null) 'MetricDescription': metricDescription,
-      if (metricType != null) 'MetricType': metricType.toValue(),
+      if (metricType != null) 'MetricType': metricType.value,
       if (metricValue != null) 'MetricValue': metricValue,
       if (relatedColumnName != null) 'RelatedColumnName': relatedColumnName,
     };
@@ -2688,71 +2523,27 @@ class DataQualityMetric {
 }
 
 enum DataQualityMetricType {
-  columnCompleteness,
-  dimensionUniqueness,
-  timeSeriesCount,
-  rowsProcessed,
-  rowsPartialCompliance,
-  invalidRowsCompliance,
-  backtestTrainingDataStartTimeStamp,
-  backtestTrainingDataEndTimeStamp,
-  backtestInferenceDataStartTimeStamp,
-  backtestInferenceDataEndTimeStamp,
-}
+  columnCompleteness('COLUMN_COMPLETENESS'),
+  dimensionUniqueness('DIMENSION_UNIQUENESS'),
+  timeSeriesCount('TIME_SERIES_COUNT'),
+  rowsProcessed('ROWS_PROCESSED'),
+  rowsPartialCompliance('ROWS_PARTIAL_COMPLIANCE'),
+  invalidRowsCompliance('INVALID_ROWS_COMPLIANCE'),
+  backtestTrainingDataStartTimeStamp('BACKTEST_TRAINING_DATA_START_TIME_STAMP'),
+  backtestTrainingDataEndTimeStamp('BACKTEST_TRAINING_DATA_END_TIME_STAMP'),
+  backtestInferenceDataStartTimeStamp(
+      'BACKTEST_INFERENCE_DATA_START_TIME_STAMP'),
+  backtestInferenceDataEndTimeStamp('BACKTEST_INFERENCE_DATA_END_TIME_STAMP'),
+  ;
 
-extension DataQualityMetricTypeValueExtension on DataQualityMetricType {
-  String toValue() {
-    switch (this) {
-      case DataQualityMetricType.columnCompleteness:
-        return 'COLUMN_COMPLETENESS';
-      case DataQualityMetricType.dimensionUniqueness:
-        return 'DIMENSION_UNIQUENESS';
-      case DataQualityMetricType.timeSeriesCount:
-        return 'TIME_SERIES_COUNT';
-      case DataQualityMetricType.rowsProcessed:
-        return 'ROWS_PROCESSED';
-      case DataQualityMetricType.rowsPartialCompliance:
-        return 'ROWS_PARTIAL_COMPLIANCE';
-      case DataQualityMetricType.invalidRowsCompliance:
-        return 'INVALID_ROWS_COMPLIANCE';
-      case DataQualityMetricType.backtestTrainingDataStartTimeStamp:
-        return 'BACKTEST_TRAINING_DATA_START_TIME_STAMP';
-      case DataQualityMetricType.backtestTrainingDataEndTimeStamp:
-        return 'BACKTEST_TRAINING_DATA_END_TIME_STAMP';
-      case DataQualityMetricType.backtestInferenceDataStartTimeStamp:
-        return 'BACKTEST_INFERENCE_DATA_START_TIME_STAMP';
-      case DataQualityMetricType.backtestInferenceDataEndTimeStamp:
-        return 'BACKTEST_INFERENCE_DATA_END_TIME_STAMP';
-    }
-  }
-}
+  final String value;
 
-extension DataQualityMetricTypeFromString on String {
-  DataQualityMetricType toDataQualityMetricType() {
-    switch (this) {
-      case 'COLUMN_COMPLETENESS':
-        return DataQualityMetricType.columnCompleteness;
-      case 'DIMENSION_UNIQUENESS':
-        return DataQualityMetricType.dimensionUniqueness;
-      case 'TIME_SERIES_COUNT':
-        return DataQualityMetricType.timeSeriesCount;
-      case 'ROWS_PROCESSED':
-        return DataQualityMetricType.rowsProcessed;
-      case 'ROWS_PARTIAL_COMPLIANCE':
-        return DataQualityMetricType.rowsPartialCompliance;
-      case 'INVALID_ROWS_COMPLIANCE':
-        return DataQualityMetricType.invalidRowsCompliance;
-      case 'BACKTEST_TRAINING_DATA_START_TIME_STAMP':
-        return DataQualityMetricType.backtestTrainingDataStartTimeStamp;
-      case 'BACKTEST_TRAINING_DATA_END_TIME_STAMP':
-        return DataQualityMetricType.backtestTrainingDataEndTimeStamp;
-      case 'BACKTEST_INFERENCE_DATA_START_TIME_STAMP':
-        return DataQualityMetricType.backtestInferenceDataStartTimeStamp;
-      case 'BACKTEST_INFERENCE_DATA_END_TIME_STAMP':
-        return DataQualityMetricType.backtestInferenceDataEndTimeStamp;
-    }
-    throw Exception('$this is not known in enum DataQualityMetricType');
-  }
+  const DataQualityMetricType(this.value);
+
+  static DataQualityMetricType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DataQualityMetricType'));
 }
 
 class DeactivateAnomalyDetectorResponse {
@@ -2903,11 +2694,12 @@ class DescribeAnomalyDetectorResponse {
       anomalyDetectorName: json['AnomalyDetectorName'] as String?,
       creationTime: timeStampFromJson(json['CreationTime']),
       failureReason: json['FailureReason'] as String?,
-      failureType:
-          (json['FailureType'] as String?)?.toAnomalyDetectorFailureType(),
+      failureType: (json['FailureType'] as String?)
+          ?.let(AnomalyDetectorFailureType.fromString),
       kmsKeyArn: json['KmsKeyArn'] as String?,
       lastModificationTime: timeStampFromJson(json['LastModificationTime']),
-      status: (json['Status'] as String?)?.toAnomalyDetectorStatus(),
+      status:
+          (json['Status'] as String?)?.let(AnomalyDetectorStatus.fromString),
     );
   }
 
@@ -2933,11 +2725,11 @@ class DescribeAnomalyDetectorResponse {
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
       if (failureReason != null) 'FailureReason': failureReason,
-      if (failureType != null) 'FailureType': failureType.toValue(),
+      if (failureType != null) 'FailureType': failureType.value,
       if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
       if (lastModificationTime != null)
         'LastModificationTime': unixTimestampToJson(lastModificationTime),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -3026,7 +2818,7 @@ class DescribeMetricSetResponse {
       metricSetArn: json['MetricSetArn'] as String?,
       metricSetDescription: json['MetricSetDescription'] as String?,
       metricSetFrequency:
-          (json['MetricSetFrequency'] as String?)?.toFrequency(),
+          (json['MetricSetFrequency'] as String?)?.let(Frequency.fromString),
       metricSetName: json['MetricSetName'] as String?,
       metricSource: json['MetricSource'] != null
           ? MetricSource.fromJson(json['MetricSource'] as Map<String, dynamic>)
@@ -3069,7 +2861,7 @@ class DescribeMetricSetResponse {
       if (metricSetDescription != null)
         'MetricSetDescription': metricSetDescription,
       if (metricSetFrequency != null)
-        'MetricSetFrequency': metricSetFrequency.toValue(),
+        'MetricSetFrequency': metricSetFrequency.value,
       if (metricSetName != null) 'MetricSetName': metricSetName,
       if (metricSource != null) 'MetricSource': metricSource,
       if (offset != null) 'Offset': offset,
@@ -3196,7 +2988,7 @@ class DetectedField {
 
   factory DetectedField.fromJson(Map<String, dynamic> json) {
     return DetectedField(
-      confidence: (json['Confidence'] as String?)?.toConfidence(),
+      confidence: (json['Confidence'] as String?)?.let(Confidence.fromString),
       message: json['Message'] as String?,
       value: json['Value'] != null
           ? AttributeValue.fromJson(json['Value'] as Map<String, dynamic>)
@@ -3209,7 +3001,7 @@ class DetectedField {
     final message = this.message;
     final value = this.value;
     return {
-      if (confidence != null) 'Confidence': confidence.toValue(),
+      if (confidence != null) 'Confidence': confidence.value,
       if (message != null) 'Message': message,
       if (value != null) 'Value': value,
     };
@@ -3537,7 +3329,8 @@ class ExecutionStatus {
   factory ExecutionStatus.fromJson(Map<String, dynamic> json) {
     return ExecutionStatus(
       failureReason: json['FailureReason'] as String?,
-      status: (json['Status'] as String?)?.toAnomalyDetectionTaskStatus(),
+      status: (json['Status'] as String?)
+          ?.let(AnomalyDetectionTaskStatus.fromString),
       timestamp: json['Timestamp'] as String?,
     );
   }
@@ -3548,7 +3341,7 @@ class ExecutionStatus {
     final timestamp = this.timestamp;
     return {
       if (failureReason != null) 'FailureReason': failureReason,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (timestamp != null) 'Timestamp': timestamp,
     };
   }
@@ -3612,7 +3405,7 @@ class Filter {
     return Filter(
       dimensionValue: json['DimensionValue'] as String?,
       filterOperation:
-          (json['FilterOperation'] as String?)?.toFilterOperation(),
+          (json['FilterOperation'] as String?)?.let(FilterOperation.fromString),
     );
   }
 
@@ -3621,70 +3414,39 @@ class Filter {
     final filterOperation = this.filterOperation;
     return {
       if (dimensionValue != null) 'DimensionValue': dimensionValue,
-      if (filterOperation != null) 'FilterOperation': filterOperation.toValue(),
+      if (filterOperation != null) 'FilterOperation': filterOperation.value,
     };
   }
 }
 
 enum FilterOperation {
-  equals,
-}
+  equals('EQUALS'),
+  ;
 
-extension FilterOperationValueExtension on FilterOperation {
-  String toValue() {
-    switch (this) {
-      case FilterOperation.equals:
-        return 'EQUALS';
-    }
-  }
-}
+  final String value;
 
-extension FilterOperationFromString on String {
-  FilterOperation toFilterOperation() {
-    switch (this) {
-      case 'EQUALS':
-        return FilterOperation.equals;
-    }
-    throw Exception('$this is not known in enum FilterOperation');
-  }
+  const FilterOperation(this.value);
+
+  static FilterOperation fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FilterOperation'));
 }
 
 enum Frequency {
-  p1d,
-  pt1h,
-  pt10m,
-  pt5m,
-}
+  p1d('P1D'),
+  pt1h('PT1H'),
+  pt10m('PT10M'),
+  pt5m('PT5M'),
+  ;
 
-extension FrequencyValueExtension on Frequency {
-  String toValue() {
-    switch (this) {
-      case Frequency.p1d:
-        return 'P1D';
-      case Frequency.pt1h:
-        return 'PT1H';
-      case Frequency.pt10m:
-        return 'PT10M';
-      case Frequency.pt5m:
-        return 'PT5M';
-    }
-  }
-}
+  final String value;
 
-extension FrequencyFromString on String {
-  Frequency toFrequency() {
-    switch (this) {
-      case 'P1D':
-        return Frequency.p1d;
-      case 'PT1H':
-        return Frequency.pt1h;
-      case 'PT10M':
-        return Frequency.pt10m;
-      case 'PT5M':
-        return Frequency.pt5m;
-    }
-    throw Exception('$this is not known in enum Frequency');
-  }
+  const Frequency(this.value);
+
+  static Frequency fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Frequency'));
 }
 
 class GetAnomalyGroupResponse {
@@ -3844,8 +3606,8 @@ class InterMetricImpactDetails {
       anomalyGroupId: json['AnomalyGroupId'] as String?,
       contributionPercentage: json['ContributionPercentage'] as double?,
       metricName: json['MetricName'] as String?,
-      relationshipType:
-          (json['RelationshipType'] as String?)?.toRelationshipType(),
+      relationshipType: (json['RelationshipType'] as String?)
+          ?.let(RelationshipType.fromString),
     );
   }
 
@@ -3859,8 +3621,7 @@ class InterMetricImpactDetails {
       if (contributionPercentage != null)
         'ContributionPercentage': contributionPercentage,
       if (metricName != null) 'MetricName': metricName,
-      if (relationshipType != null)
-        'RelationshipType': relationshipType.toValue(),
+      if (relationshipType != null) 'RelationshipType': relationshipType.value,
     };
   }
 }
@@ -3896,31 +3657,18 @@ class ItemizedMetricStats {
 }
 
 enum JsonFileCompression {
-  none,
-  gzip,
-}
+  none('NONE'),
+  gzip('GZIP'),
+  ;
 
-extension JsonFileCompressionValueExtension on JsonFileCompression {
-  String toValue() {
-    switch (this) {
-      case JsonFileCompression.none:
-        return 'NONE';
-      case JsonFileCompression.gzip:
-        return 'GZIP';
-    }
-  }
-}
+  final String value;
 
-extension JsonFileCompressionFromString on String {
-  JsonFileCompression toJsonFileCompression() {
-    switch (this) {
-      case 'NONE':
-        return JsonFileCompression.none;
-      case 'GZIP':
-        return JsonFileCompression.gzip;
-    }
-    throw Exception('$this is not known in enum JsonFileCompression');
-  }
+  const JsonFileCompression(this.value);
+
+  static JsonFileCompression fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum JsonFileCompression'));
 }
 
 /// Contains information about how a source JSON data file should be analyzed.
@@ -3939,8 +3687,8 @@ class JsonFormatDescriptor {
   factory JsonFormatDescriptor.fromJson(Map<String, dynamic> json) {
     return JsonFormatDescriptor(
       charset: json['Charset'] as String?,
-      fileCompression:
-          (json['FileCompression'] as String?)?.toJsonFileCompression(),
+      fileCompression: (json['FileCompression'] as String?)
+          ?.let(JsonFileCompression.fromString),
     );
   }
 
@@ -3949,7 +3697,7 @@ class JsonFormatDescriptor {
     final fileCompression = this.fileCompression;
     return {
       if (charset != null) 'Charset': charset,
-      if (fileCompression != null) 'FileCompression': fileCompression.toValue(),
+      if (fileCompression != null) 'FileCompression': fileCompression.value,
     };
   }
 }
@@ -4268,8 +4016,8 @@ class Metric {
 
   factory Metric.fromJson(Map<String, dynamic> json) {
     return Metric(
-      aggregationFunction:
-          (json['AggregationFunction'] as String).toAggregationFunction(),
+      aggregationFunction: AggregationFunction.fromString(
+          (json['AggregationFunction'] as String)),
       metricName: json['MetricName'] as String,
       namespace: json['Namespace'] as String?,
     );
@@ -4280,7 +4028,7 @@ class Metric {
     final metricName = this.metricName;
     final namespace = this.namespace;
     return {
-      'AggregationFunction': aggregationFunction.toValue(),
+      'AggregationFunction': aggregationFunction.value,
       'MetricName': metricName,
       if (namespace != null) 'Namespace': namespace,
     };
@@ -4711,31 +4459,18 @@ class RedshiftSourceConfig {
 }
 
 enum RelationshipType {
-  causeOfInputAnomalyGroup,
-  effectOfInputAnomalyGroup,
-}
+  causeOfInputAnomalyGroup('CAUSE_OF_INPUT_ANOMALY_GROUP'),
+  effectOfInputAnomalyGroup('EFFECT_OF_INPUT_ANOMALY_GROUP'),
+  ;
 
-extension RelationshipTypeValueExtension on RelationshipType {
-  String toValue() {
-    switch (this) {
-      case RelationshipType.causeOfInputAnomalyGroup:
-        return 'CAUSE_OF_INPUT_ANOMALY_GROUP';
-      case RelationshipType.effectOfInputAnomalyGroup:
-        return 'EFFECT_OF_INPUT_ANOMALY_GROUP';
-    }
-  }
-}
+  final String value;
 
-extension RelationshipTypeFromString on String {
-  RelationshipType toRelationshipType() {
-    switch (this) {
-      case 'CAUSE_OF_INPUT_ANOMALY_GROUP':
-        return RelationshipType.causeOfInputAnomalyGroup;
-      case 'EFFECT_OF_INPUT_ANOMALY_GROUP':
-        return RelationshipType.effectOfInputAnomalyGroup;
-    }
-    throw Exception('$this is not known in enum RelationshipType');
-  }
+  const RelationshipType(this.value);
+
+  static RelationshipType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RelationshipType'));
 }
 
 /// Contains information about the configuration of the S3 bucket that contains
@@ -4833,7 +4568,7 @@ class SNSConfiguration {
     return SNSConfiguration(
       roleArn: json['RoleArn'] as String,
       snsTopicArn: json['SnsTopicArn'] as String,
-      snsFormat: (json['SnsFormat'] as String?)?.toSnsFormat(),
+      snsFormat: (json['SnsFormat'] as String?)?.let(SnsFormat.fromString),
     );
   }
 
@@ -4844,7 +4579,7 @@ class SNSConfiguration {
     return {
       'RoleArn': roleArn,
       'SnsTopicArn': snsTopicArn,
-      if (snsFormat != null) 'SnsFormat': snsFormat.toValue(),
+      if (snsFormat != null) 'SnsFormat': snsFormat.value,
     };
   }
 }
@@ -4885,36 +4620,18 @@ class SampleDataS3SourceConfig {
 }
 
 enum SnsFormat {
-  longText,
-  shortText,
-  json,
-}
+  longText('LONG_TEXT'),
+  shortText('SHORT_TEXT'),
+  json('JSON'),
+  ;
 
-extension SnsFormatValueExtension on SnsFormat {
-  String toValue() {
-    switch (this) {
-      case SnsFormat.longText:
-        return 'LONG_TEXT';
-      case SnsFormat.shortText:
-        return 'SHORT_TEXT';
-      case SnsFormat.json:
-        return 'JSON';
-    }
-  }
-}
+  final String value;
 
-extension SnsFormatFromString on String {
-  SnsFormat toSnsFormat() {
-    switch (this) {
-      case 'LONG_TEXT':
-        return SnsFormat.longText;
-      case 'SHORT_TEXT':
-        return SnsFormat.shortText;
-      case 'JSON':
-        return SnsFormat.json;
-    }
-    throw Exception('$this is not known in enum SnsFormat');
-  }
+  const SnsFormat(this.value);
+
+  static SnsFormat fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SnsFormat'));
 }
 
 class TagResourceResponse {

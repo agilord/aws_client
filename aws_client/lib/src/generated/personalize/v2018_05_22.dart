@@ -165,7 +165,7 @@ class Personalize {
         if (batchInferenceJobConfig != null)
           'batchInferenceJobConfig': batchInferenceJobConfig,
         if (batchInferenceJobMode != null)
-          'batchInferenceJobMode': batchInferenceJobMode.toValue(),
+          'batchInferenceJobMode': batchInferenceJobMode.value,
         if (filterArn != null) 'filterArn': filterArn,
         if (numResults != null) 'numResults': numResults,
         if (tags != null) 'tags': tags,
@@ -746,7 +746,7 @@ class Personalize {
         'jobName': jobName,
         'jobOutput': jobOutput,
         'roleArn': roleArn,
-        if (ingestionMode != null) 'ingestionMode': ingestionMode.toValue(),
+        if (ingestionMode != null) 'ingestionMode': ingestionMode.value,
         if (tags != null) 'tags': tags,
       },
     );
@@ -885,7 +885,7 @@ class Personalize {
       headers: headers,
       payload: {
         'name': name,
-        if (domain != null) 'domain': domain.toValue(),
+        if (domain != null) 'domain': domain.value,
         if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
         if (roleArn != null) 'roleArn': roleArn,
         if (tags != null) 'tags': tags,
@@ -1015,7 +1015,7 @@ class Personalize {
         'datasetArn': datasetArn,
         'jobName': jobName,
         'roleArn': roleArn,
-        if (importMode != null) 'importMode': importMode.toValue(),
+        if (importMode != null) 'importMode': importMode.value,
         if (publishAttributionMetricsToS3 != null)
           'publishAttributionMetricsToS3': publishAttributionMetricsToS3,
         if (tags != null) 'tags': tags,
@@ -1423,7 +1423,7 @@ class Personalize {
       payload: {
         'name': name,
         'schema': schema,
-        if (domain != null) 'domain': domain.toValue(),
+        if (domain != null) 'domain': domain.value,
       },
     );
 
@@ -1786,7 +1786,7 @@ class Personalize {
         'solutionArn': solutionArn,
         if (name != null) 'name': name,
         if (tags != null) 'tags': tags,
-        if (trainingMode != null) 'trainingMode': trainingMode.toValue(),
+        if (trainingMode != null) 'trainingMode': trainingMode.value,
       },
     );
 
@@ -3320,10 +3320,10 @@ class Personalize {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (domain != null) 'domain': domain.toValue(),
+        if (domain != null) 'domain': domain.value,
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
-        if (recipeProvider != null) 'recipeProvider': recipeProvider.toValue(),
+        if (recipeProvider != null) 'recipeProvider': recipeProvider.value,
       },
     );
 
@@ -4287,8 +4287,8 @@ class BatchInferenceJob {
           ? BatchInferenceJobConfig.fromJson(
               json['batchInferenceJobConfig'] as Map<String, dynamic>)
           : null,
-      batchInferenceJobMode:
-          (json['batchInferenceJobMode'] as String?)?.toBatchInferenceJobMode(),
+      batchInferenceJobMode: (json['batchInferenceJobMode'] as String?)
+          ?.let(BatchInferenceJobMode.fromString),
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       failureReason: json['failureReason'] as String?,
       filterArn: json['filterArn'] as String?,
@@ -4335,7 +4335,7 @@ class BatchInferenceJob {
       if (batchInferenceJobConfig != null)
         'batchInferenceJobConfig': batchInferenceJobConfig,
       if (batchInferenceJobMode != null)
-        'batchInferenceJobMode': batchInferenceJobMode.toValue(),
+        'batchInferenceJobMode': batchInferenceJobMode.value,
       if (creationDateTime != null)
         'creationDateTime': unixTimestampToJson(creationDateTime),
       if (failureReason != null) 'failureReason': failureReason,
@@ -4412,31 +4412,18 @@ class BatchInferenceJobInput {
 }
 
 enum BatchInferenceJobMode {
-  batchInference,
-  themeGeneration,
-}
+  batchInference('BATCH_INFERENCE'),
+  themeGeneration('THEME_GENERATION'),
+  ;
 
-extension BatchInferenceJobModeValueExtension on BatchInferenceJobMode {
-  String toValue() {
-    switch (this) {
-      case BatchInferenceJobMode.batchInference:
-        return 'BATCH_INFERENCE';
-      case BatchInferenceJobMode.themeGeneration:
-        return 'THEME_GENERATION';
-    }
-  }
-}
+  final String value;
 
-extension BatchInferenceJobModeFromString on String {
-  BatchInferenceJobMode toBatchInferenceJobMode() {
-    switch (this) {
-      case 'BATCH_INFERENCE':
-        return BatchInferenceJobMode.batchInference;
-      case 'THEME_GENERATION':
-        return BatchInferenceJobMode.themeGeneration;
-    }
-    throw Exception('$this is not known in enum BatchInferenceJobMode');
-  }
+  const BatchInferenceJobMode(this.value);
+
+  static BatchInferenceJobMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum BatchInferenceJobMode'));
 }
 
 /// The output configuration parameters of a batch inference job.
@@ -4524,8 +4511,8 @@ class BatchInferenceJobSummary {
   factory BatchInferenceJobSummary.fromJson(Map<String, dynamic> json) {
     return BatchInferenceJobSummary(
       batchInferenceJobArn: json['batchInferenceJobArn'] as String?,
-      batchInferenceJobMode:
-          (json['batchInferenceJobMode'] as String?)?.toBatchInferenceJobMode(),
+      batchInferenceJobMode: (json['batchInferenceJobMode'] as String?)
+          ?.let(BatchInferenceJobMode.fromString),
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       failureReason: json['failureReason'] as String?,
       jobName: json['jobName'] as String?,
@@ -4548,7 +4535,7 @@ class BatchInferenceJobSummary {
       if (batchInferenceJobArn != null)
         'batchInferenceJobArn': batchInferenceJobArn,
       if (batchInferenceJobMode != null)
-        'batchInferenceJobMode': batchInferenceJobMode.toValue(),
+        'batchInferenceJobMode': batchInferenceJobMode.value,
       if (creationDateTime != null)
         'creationDateTime': unixTimestampToJson(creationDateTime),
       if (failureReason != null) 'failureReason': failureReason,
@@ -5361,7 +5348,7 @@ class CreateDatasetGroupResponse {
   factory CreateDatasetGroupResponse.fromJson(Map<String, dynamic> json) {
     return CreateDatasetGroupResponse(
       datasetGroupArn: json['datasetGroupArn'] as String?,
-      domain: (json['domain'] as String?)?.toDomain(),
+      domain: (json['domain'] as String?)?.let(Domain.fromString),
     );
   }
 
@@ -5370,7 +5357,7 @@ class CreateDatasetGroupResponse {
     final domain = this.domain;
     return {
       if (datasetGroupArn != null) 'datasetGroupArn': datasetGroupArn,
-      if (domain != null) 'domain': domain.toValue(),
+      if (domain != null) 'domain': domain.value,
     };
   }
 }
@@ -6005,7 +5992,8 @@ class DatasetExportJob {
       datasetArn: json['datasetArn'] as String?,
       datasetExportJobArn: json['datasetExportJobArn'] as String?,
       failureReason: json['failureReason'] as String?,
-      ingestionMode: (json['ingestionMode'] as String?)?.toIngestionMode(),
+      ingestionMode:
+          (json['ingestionMode'] as String?)?.let(IngestionMode.fromString),
       jobName: json['jobName'] as String?,
       jobOutput: json['jobOutput'] != null
           ? DatasetExportJobOutput.fromJson(
@@ -6035,7 +6023,7 @@ class DatasetExportJob {
       if (datasetExportJobArn != null)
         'datasetExportJobArn': datasetExportJobArn,
       if (failureReason != null) 'failureReason': failureReason,
-      if (ingestionMode != null) 'ingestionMode': ingestionMode.toValue(),
+      if (ingestionMode != null) 'ingestionMode': ingestionMode.value,
       if (jobName != null) 'jobName': jobName,
       if (jobOutput != null) 'jobOutput': jobOutput,
       if (lastUpdatedDateTime != null)
@@ -6212,7 +6200,7 @@ class DatasetGroup {
     return DatasetGroup(
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       datasetGroupArn: json['datasetGroupArn'] as String?,
-      domain: (json['domain'] as String?)?.toDomain(),
+      domain: (json['domain'] as String?)?.let(Domain.fromString),
       failureReason: json['failureReason'] as String?,
       kmsKeyArn: json['kmsKeyArn'] as String?,
       lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
@@ -6236,7 +6224,7 @@ class DatasetGroup {
       if (creationDateTime != null)
         'creationDateTime': unixTimestampToJson(creationDateTime),
       if (datasetGroupArn != null) 'datasetGroupArn': datasetGroupArn,
-      if (domain != null) 'domain': domain.toValue(),
+      if (domain != null) 'domain': domain.value,
       if (failureReason != null) 'failureReason': failureReason,
       if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
       if (lastUpdatedDateTime != null)
@@ -6299,7 +6287,7 @@ class DatasetGroupSummary {
     return DatasetGroupSummary(
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       datasetGroupArn: json['datasetGroupArn'] as String?,
-      domain: (json['domain'] as String?)?.toDomain(),
+      domain: (json['domain'] as String?)?.let(Domain.fromString),
       failureReason: json['failureReason'] as String?,
       lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
       name: json['name'] as String?,
@@ -6319,7 +6307,7 @@ class DatasetGroupSummary {
       if (creationDateTime != null)
         'creationDateTime': unixTimestampToJson(creationDateTime),
       if (datasetGroupArn != null) 'datasetGroupArn': datasetGroupArn,
-      if (domain != null) 'domain': domain.toValue(),
+      if (domain != null) 'domain': domain.value,
       if (failureReason != null) 'failureReason': failureReason,
       if (lastUpdatedDateTime != null)
         'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
@@ -6407,7 +6395,7 @@ class DatasetImportJob {
       datasetArn: json['datasetArn'] as String?,
       datasetImportJobArn: json['datasetImportJobArn'] as String?,
       failureReason: json['failureReason'] as String?,
-      importMode: (json['importMode'] as String?)?.toImportMode(),
+      importMode: (json['importMode'] as String?)?.let(ImportMode.fromString),
       jobName: json['jobName'] as String?,
       lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
       publishAttributionMetricsToS3:
@@ -6437,7 +6425,7 @@ class DatasetImportJob {
       if (datasetImportJobArn != null)
         'datasetImportJobArn': datasetImportJobArn,
       if (failureReason != null) 'failureReason': failureReason,
-      if (importMode != null) 'importMode': importMode.toValue(),
+      if (importMode != null) 'importMode': importMode.value,
       if (jobName != null) 'jobName': jobName,
       if (lastUpdatedDateTime != null)
         'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
@@ -6502,7 +6490,7 @@ class DatasetImportJobSummary {
       creationDateTime: timeStampFromJson(json['creationDateTime']),
       datasetImportJobArn: json['datasetImportJobArn'] as String?,
       failureReason: json['failureReason'] as String?,
-      importMode: (json['importMode'] as String?)?.toImportMode(),
+      importMode: (json['importMode'] as String?)?.let(ImportMode.fromString),
       jobName: json['jobName'] as String?,
       lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
       status: json['status'] as String?,
@@ -6523,7 +6511,7 @@ class DatasetImportJobSummary {
       if (datasetImportJobArn != null)
         'datasetImportJobArn': datasetImportJobArn,
       if (failureReason != null) 'failureReason': failureReason,
-      if (importMode != null) 'importMode': importMode.toValue(),
+      if (importMode != null) 'importMode': importMode.value,
       if (jobName != null) 'jobName': jobName,
       if (lastUpdatedDateTime != null)
         'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
@@ -6566,7 +6554,7 @@ class DatasetSchema {
   factory DatasetSchema.fromJson(Map<String, dynamic> json) {
     return DatasetSchema(
       creationDateTime: timeStampFromJson(json['creationDateTime']),
-      domain: (json['domain'] as String?)?.toDomain(),
+      domain: (json['domain'] as String?)?.let(Domain.fromString),
       lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
       name: json['name'] as String?,
       schema: json['schema'] as String?,
@@ -6584,7 +6572,7 @@ class DatasetSchema {
     return {
       if (creationDateTime != null)
         'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (domain != null) 'domain': domain.toValue(),
+      if (domain != null) 'domain': domain.value,
       if (lastUpdatedDateTime != null)
         'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
       if (name != null) 'name': name,
@@ -6626,7 +6614,7 @@ class DatasetSchemaSummary {
   factory DatasetSchemaSummary.fromJson(Map<String, dynamic> json) {
     return DatasetSchemaSummary(
       creationDateTime: timeStampFromJson(json['creationDateTime']),
-      domain: (json['domain'] as String?)?.toDomain(),
+      domain: (json['domain'] as String?)?.let(Domain.fromString),
       lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
       name: json['name'] as String?,
       schemaArn: json['schemaArn'] as String?,
@@ -6642,7 +6630,7 @@ class DatasetSchemaSummary {
     return {
       if (creationDateTime != null)
         'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (domain != null) 'domain': domain.toValue(),
+      if (domain != null) 'domain': domain.value,
       if (lastUpdatedDateTime != null)
         'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
       if (name != null) 'name': name,
@@ -7486,31 +7474,17 @@ class DescribeSolutionVersionResponse {
 }
 
 enum Domain {
-  ecommerce,
-  videoOnDemand,
-}
+  ecommerce('ECOMMERCE'),
+  videoOnDemand('VIDEO_ON_DEMAND'),
+  ;
 
-extension DomainValueExtension on Domain {
-  String toValue() {
-    switch (this) {
-      case Domain.ecommerce:
-        return 'ECOMMERCE';
-      case Domain.videoOnDemand:
-        return 'VIDEO_ON_DEMAND';
-    }
-  }
-}
+  final String value;
 
-extension DomainFromString on String {
-  Domain toDomain() {
-    switch (this) {
-      case 'ECOMMERCE':
-        return Domain.ecommerce;
-      case 'VIDEO_ON_DEMAND':
-        return Domain.videoOnDemand;
-    }
-    throw Exception('$this is not known in enum Domain');
-  }
+  const Domain(this.value);
+
+  static Domain fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Domain'));
 }
 
 /// Provides information about an event tracker.
@@ -8128,64 +8102,33 @@ class HyperParameterRanges {
 }
 
 enum ImportMode {
-  full,
-  incremental,
-}
+  full('FULL'),
+  incremental('INCREMENTAL'),
+  ;
 
-extension ImportModeValueExtension on ImportMode {
-  String toValue() {
-    switch (this) {
-      case ImportMode.full:
-        return 'FULL';
-      case ImportMode.incremental:
-        return 'INCREMENTAL';
-    }
-  }
-}
+  final String value;
 
-extension ImportModeFromString on String {
-  ImportMode toImportMode() {
-    switch (this) {
-      case 'FULL':
-        return ImportMode.full;
-      case 'INCREMENTAL':
-        return ImportMode.incremental;
-    }
-    throw Exception('$this is not known in enum ImportMode');
-  }
+  const ImportMode(this.value);
+
+  static ImportMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ImportMode'));
 }
 
 enum IngestionMode {
-  bulk,
-  put,
-  all,
-}
+  bulk('BULK'),
+  put('PUT'),
+  all('ALL'),
+  ;
 
-extension IngestionModeValueExtension on IngestionMode {
-  String toValue() {
-    switch (this) {
-      case IngestionMode.bulk:
-        return 'BULK';
-      case IngestionMode.put:
-        return 'PUT';
-      case IngestionMode.all:
-        return 'ALL';
-    }
-  }
-}
+  final String value;
 
-extension IngestionModeFromString on String {
-  IngestionMode toIngestionMode() {
-    switch (this) {
-      case 'BULK':
-        return IngestionMode.bulk;
-      case 'PUT':
-        return IngestionMode.put;
-      case 'ALL':
-        return IngestionMode.all;
-    }
-    throw Exception('$this is not known in enum IngestionMode');
-  }
+  const IngestionMode(this.value);
+
+  static IngestionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum IngestionMode'));
 }
 
 /// Provides the name and range of an integer-valued hyperparameter.
@@ -9035,41 +8978,20 @@ class MetricAttributionSummary {
 }
 
 enum ObjectiveSensitivity {
-  low,
-  medium,
-  high,
-  off,
-}
+  low('LOW'),
+  medium('MEDIUM'),
+  high('HIGH'),
+  off('OFF'),
+  ;
 
-extension ObjectiveSensitivityValueExtension on ObjectiveSensitivity {
-  String toValue() {
-    switch (this) {
-      case ObjectiveSensitivity.low:
-        return 'LOW';
-      case ObjectiveSensitivity.medium:
-        return 'MEDIUM';
-      case ObjectiveSensitivity.high:
-        return 'HIGH';
-      case ObjectiveSensitivity.off:
-        return 'OFF';
-    }
-  }
-}
+  final String value;
 
-extension ObjectiveSensitivityFromString on String {
-  ObjectiveSensitivity toObjectiveSensitivity() {
-    switch (this) {
-      case 'LOW':
-        return ObjectiveSensitivity.low;
-      case 'MEDIUM':
-        return ObjectiveSensitivity.medium;
-      case 'HIGH':
-        return ObjectiveSensitivity.high;
-      case 'OFF':
-        return ObjectiveSensitivity.off;
-    }
-    throw Exception('$this is not known in enum ObjectiveSensitivity');
-  }
+  const ObjectiveSensitivity(this.value);
+
+  static ObjectiveSensitivity fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ObjectiveSensitivity'));
 }
 
 /// Describes the additional objective for the solution, such as maximizing
@@ -9094,8 +9016,8 @@ class OptimizationObjective {
   factory OptimizationObjective.fromJson(Map<String, dynamic> json) {
     return OptimizationObjective(
       itemAttribute: json['itemAttribute'] as String?,
-      objectiveSensitivity:
-          (json['objectiveSensitivity'] as String?)?.toObjectiveSensitivity(),
+      objectiveSensitivity: (json['objectiveSensitivity'] as String?)
+          ?.let(ObjectiveSensitivity.fromString),
     );
   }
 
@@ -9105,7 +9027,7 @@ class OptimizationObjective {
     return {
       if (itemAttribute != null) 'itemAttribute': itemAttribute,
       if (objectiveSensitivity != null)
-        'objectiveSensitivity': objectiveSensitivity.toValue(),
+        'objectiveSensitivity': objectiveSensitivity.value,
     };
   }
 }
@@ -9209,26 +9131,17 @@ class Recipe {
 }
 
 enum RecipeProvider {
-  service,
-}
+  service('SERVICE'),
+  ;
 
-extension RecipeProviderValueExtension on RecipeProvider {
-  String toValue() {
-    switch (this) {
-      case RecipeProvider.service:
-        return 'SERVICE';
-    }
-  }
-}
+  final String value;
 
-extension RecipeProviderFromString on String {
-  RecipeProvider toRecipeProvider() {
-    switch (this) {
-      case 'SERVICE':
-        return RecipeProvider.service;
-    }
-    throw Exception('$this is not known in enum RecipeProvider');
-  }
+  const RecipeProvider(this.value);
+
+  static RecipeProvider fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RecipeProvider'));
 }
 
 /// Provides a summary of the properties of a recipe. For a complete listing,
@@ -9266,7 +9179,7 @@ class RecipeSummary {
   factory RecipeSummary.fromJson(Map<String, dynamic> json) {
     return RecipeSummary(
       creationDateTime: timeStampFromJson(json['creationDateTime']),
-      domain: (json['domain'] as String?)?.toDomain(),
+      domain: (json['domain'] as String?)?.let(Domain.fromString),
       lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
       name: json['name'] as String?,
       recipeArn: json['recipeArn'] as String?,
@@ -9284,7 +9197,7 @@ class RecipeSummary {
     return {
       if (creationDateTime != null)
         'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (domain != null) 'domain': domain.toValue(),
+      if (domain != null) 'domain': domain.value,
       if (lastUpdatedDateTime != null)
         'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
       if (name != null) 'name': name,
@@ -10181,8 +10094,10 @@ class SolutionVersion {
       solutionVersionArn: json['solutionVersionArn'] as String?,
       status: json['status'] as String?,
       trainingHours: json['trainingHours'] as double?,
-      trainingMode: (json['trainingMode'] as String?)?.toTrainingMode(),
-      trainingType: (json['trainingType'] as String?)?.toTrainingType(),
+      trainingMode:
+          (json['trainingMode'] as String?)?.let(TrainingMode.fromString),
+      trainingType:
+          (json['trainingType'] as String?)?.let(TrainingType.fromString),
       tunedHPOParams: json['tunedHPOParams'] != null
           ? TunedHPOParams.fromJson(
               json['tunedHPOParams'] as Map<String, dynamic>)
@@ -10225,8 +10140,8 @@ class SolutionVersion {
       if (solutionVersionArn != null) 'solutionVersionArn': solutionVersionArn,
       if (status != null) 'status': status,
       if (trainingHours != null) 'trainingHours': trainingHours,
-      if (trainingMode != null) 'trainingMode': trainingMode.toValue(),
-      if (trainingType != null) 'trainingType': trainingType.toValue(),
+      if (trainingMode != null) 'trainingMode': trainingMode.value,
+      if (trainingType != null) 'trainingType': trainingType.value,
       if (tunedHPOParams != null) 'tunedHPOParams': tunedHPOParams,
     };
   }
@@ -10288,8 +10203,10 @@ class SolutionVersionSummary {
       lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
       solutionVersionArn: json['solutionVersionArn'] as String?,
       status: json['status'] as String?,
-      trainingMode: (json['trainingMode'] as String?)?.toTrainingMode(),
-      trainingType: (json['trainingType'] as String?)?.toTrainingType(),
+      trainingMode:
+          (json['trainingMode'] as String?)?.let(TrainingMode.fromString),
+      trainingType:
+          (json['trainingType'] as String?)?.let(TrainingType.fromString),
     );
   }
 
@@ -10309,8 +10226,8 @@ class SolutionVersionSummary {
         'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
       if (solutionVersionArn != null) 'solutionVersionArn': solutionVersionArn,
       if (status != null) 'status': status,
-      if (trainingMode != null) 'trainingMode': trainingMode.toValue(),
-      if (trainingType != null) 'trainingType': trainingType.toValue(),
+      if (trainingMode != null) 'trainingMode': trainingMode.value,
+      if (trainingType != null) 'trainingType': trainingType.value,
     };
   }
 }
@@ -10466,64 +10383,34 @@ class TrainingDataConfig {
 }
 
 enum TrainingMode {
-  full,
-  update,
-  autotrain,
-}
+  full('FULL'),
+  update('UPDATE'),
+  autotrain('AUTOTRAIN'),
+  ;
 
-extension TrainingModeValueExtension on TrainingMode {
-  String toValue() {
-    switch (this) {
-      case TrainingMode.full:
-        return 'FULL';
-      case TrainingMode.update:
-        return 'UPDATE';
-      case TrainingMode.autotrain:
-        return 'AUTOTRAIN';
-    }
-  }
-}
+  final String value;
 
-extension TrainingModeFromString on String {
-  TrainingMode toTrainingMode() {
-    switch (this) {
-      case 'FULL':
-        return TrainingMode.full;
-      case 'UPDATE':
-        return TrainingMode.update;
-      case 'AUTOTRAIN':
-        return TrainingMode.autotrain;
-    }
-    throw Exception('$this is not known in enum TrainingMode');
-  }
+  const TrainingMode(this.value);
+
+  static TrainingMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TrainingMode'));
 }
 
 enum TrainingType {
-  automatic,
-  manual,
-}
+  automatic('AUTOMATIC'),
+  manual('MANUAL'),
+  ;
 
-extension TrainingTypeValueExtension on TrainingType {
-  String toValue() {
-    switch (this) {
-      case TrainingType.automatic:
-        return 'AUTOMATIC';
-      case TrainingType.manual:
-        return 'MANUAL';
-    }
-  }
-}
+  final String value;
 
-extension TrainingTypeFromString on String {
-  TrainingType toTrainingType() {
-    switch (this) {
-      case 'AUTOMATIC':
-        return TrainingType.automatic;
-      case 'MANUAL':
-        return TrainingType.manual;
-    }
-    throw Exception('$this is not known in enum TrainingType');
-  }
+  const TrainingType(this.value);
+
+  static TrainingType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TrainingType'));
 }
 
 /// If hyperparameter optimization (HPO) was performed, contains the

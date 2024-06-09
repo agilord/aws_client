@@ -491,13 +491,13 @@ class KinesisVideoArchivedMedia {
       if (dASHFragmentSelector != null)
         'DASHFragmentSelector': dASHFragmentSelector,
       if (displayFragmentNumber != null)
-        'DisplayFragmentNumber': displayFragmentNumber.toValue(),
+        'DisplayFragmentNumber': displayFragmentNumber.value,
       if (displayFragmentTimestamp != null)
-        'DisplayFragmentTimestamp': displayFragmentTimestamp.toValue(),
+        'DisplayFragmentTimestamp': displayFragmentTimestamp.value,
       if (expires != null) 'Expires': expires,
       if (maxManifestFragmentResults != null)
         'MaxManifestFragmentResults': maxManifestFragmentResults,
-      if (playbackMode != null) 'PlaybackMode': playbackMode.toValue(),
+      if (playbackMode != null) 'PlaybackMode': playbackMode.value,
       if (streamARN != null) 'StreamARN': streamARN,
       if (streamName != null) 'StreamName': streamName,
     };
@@ -930,17 +930,17 @@ class KinesisVideoArchivedMedia {
       5000,
     );
     final $payload = <String, dynamic>{
-      if (containerFormat != null) 'ContainerFormat': containerFormat.toValue(),
+      if (containerFormat != null) 'ContainerFormat': containerFormat.value,
       if (discontinuityMode != null)
-        'DiscontinuityMode': discontinuityMode.toValue(),
+        'DiscontinuityMode': discontinuityMode.value,
       if (displayFragmentTimestamp != null)
-        'DisplayFragmentTimestamp': displayFragmentTimestamp.toValue(),
+        'DisplayFragmentTimestamp': displayFragmentTimestamp.value,
       if (expires != null) 'Expires': expires,
       if (hLSFragmentSelector != null)
         'HLSFragmentSelector': hLSFragmentSelector,
       if (maxMediaPlaylistFragmentResults != null)
         'MaxMediaPlaylistFragmentResults': maxMediaPlaylistFragmentResults,
-      if (playbackMode != null) 'PlaybackMode': playbackMode.toValue(),
+      if (playbackMode != null) 'PlaybackMode': playbackMode.value,
       if (streamARN != null) 'StreamARN': streamARN,
       if (streamName != null) 'StreamName': streamName,
     };
@@ -1072,11 +1072,11 @@ class KinesisVideoArchivedMedia {
     );
     final $payload = <String, dynamic>{
       'EndTimestamp': unixTimestampToJson(endTimestamp),
-      'Format': format.toValue(),
-      'ImageSelectorType': imageSelectorType.toValue(),
+      'Format': format.value,
+      'ImageSelectorType': imageSelectorType.value,
       'StartTimestamp': unixTimestampToJson(startTimestamp),
       if (formatConfig != null)
-        'FormatConfig': formatConfig.map((k, e) => MapEntry(k.toValue(), e)),
+        'FormatConfig': formatConfig.map((k, e) => MapEntry(k.value, e)),
       if (heightPixels != null) 'HeightPixels': heightPixels,
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
@@ -1300,38 +1300,25 @@ class ClipFragmentSelector {
     final fragmentSelectorType = this.fragmentSelectorType;
     final timestampRange = this.timestampRange;
     return {
-      'FragmentSelectorType': fragmentSelectorType.toValue(),
+      'FragmentSelectorType': fragmentSelectorType.value,
       'TimestampRange': timestampRange,
     };
   }
 }
 
 enum ClipFragmentSelectorType {
-  producerTimestamp,
-  serverTimestamp,
-}
+  producerTimestamp('PRODUCER_TIMESTAMP'),
+  serverTimestamp('SERVER_TIMESTAMP'),
+  ;
 
-extension ClipFragmentSelectorTypeValueExtension on ClipFragmentSelectorType {
-  String toValue() {
-    switch (this) {
-      case ClipFragmentSelectorType.producerTimestamp:
-        return 'PRODUCER_TIMESTAMP';
-      case ClipFragmentSelectorType.serverTimestamp:
-        return 'SERVER_TIMESTAMP';
-    }
-  }
-}
+  final String value;
 
-extension ClipFragmentSelectorTypeFromString on String {
-  ClipFragmentSelectorType toClipFragmentSelectorType() {
-    switch (this) {
-      case 'PRODUCER_TIMESTAMP':
-        return ClipFragmentSelectorType.producerTimestamp;
-      case 'SERVER_TIMESTAMP':
-        return ClipFragmentSelectorType.serverTimestamp;
-    }
-    throw Exception('$this is not known in enum ClipFragmentSelectorType');
-  }
+  const ClipFragmentSelectorType(this.value);
+
+  static ClipFragmentSelectorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ClipFragmentSelectorType'));
 }
 
 /// The range of timestamps for which to return fragments.
@@ -1377,88 +1364,48 @@ class ClipTimestampRange {
 }
 
 enum ContainerFormat {
-  fragmentedMp4,
-  mpegTs,
-}
+  fragmentedMp4('FRAGMENTED_MP4'),
+  mpegTs('MPEG_TS'),
+  ;
 
-extension ContainerFormatValueExtension on ContainerFormat {
-  String toValue() {
-    switch (this) {
-      case ContainerFormat.fragmentedMp4:
-        return 'FRAGMENTED_MP4';
-      case ContainerFormat.mpegTs:
-        return 'MPEG_TS';
-    }
-  }
-}
+  final String value;
 
-extension ContainerFormatFromString on String {
-  ContainerFormat toContainerFormat() {
-    switch (this) {
-      case 'FRAGMENTED_MP4':
-        return ContainerFormat.fragmentedMp4;
-      case 'MPEG_TS':
-        return ContainerFormat.mpegTs;
-    }
-    throw Exception('$this is not known in enum ContainerFormat');
-  }
+  const ContainerFormat(this.value);
+
+  static ContainerFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ContainerFormat'));
 }
 
 enum DASHDisplayFragmentNumber {
-  always,
-  never,
-}
+  always('ALWAYS'),
+  never('NEVER'),
+  ;
 
-extension DASHDisplayFragmentNumberValueExtension on DASHDisplayFragmentNumber {
-  String toValue() {
-    switch (this) {
-      case DASHDisplayFragmentNumber.always:
-        return 'ALWAYS';
-      case DASHDisplayFragmentNumber.never:
-        return 'NEVER';
-    }
-  }
-}
+  final String value;
 
-extension DASHDisplayFragmentNumberFromString on String {
-  DASHDisplayFragmentNumber toDASHDisplayFragmentNumber() {
-    switch (this) {
-      case 'ALWAYS':
-        return DASHDisplayFragmentNumber.always;
-      case 'NEVER':
-        return DASHDisplayFragmentNumber.never;
-    }
-    throw Exception('$this is not known in enum DASHDisplayFragmentNumber');
-  }
+  const DASHDisplayFragmentNumber(this.value);
+
+  static DASHDisplayFragmentNumber fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DASHDisplayFragmentNumber'));
 }
 
 enum DASHDisplayFragmentTimestamp {
-  always,
-  never,
-}
+  always('ALWAYS'),
+  never('NEVER'),
+  ;
 
-extension DASHDisplayFragmentTimestampValueExtension
-    on DASHDisplayFragmentTimestamp {
-  String toValue() {
-    switch (this) {
-      case DASHDisplayFragmentTimestamp.always:
-        return 'ALWAYS';
-      case DASHDisplayFragmentTimestamp.never:
-        return 'NEVER';
-    }
-  }
-}
+  final String value;
 
-extension DASHDisplayFragmentTimestampFromString on String {
-  DASHDisplayFragmentTimestamp toDASHDisplayFragmentTimestamp() {
-    switch (this) {
-      case 'ALWAYS':
-        return DASHDisplayFragmentTimestamp.always;
-      case 'NEVER':
-        return DASHDisplayFragmentTimestamp.never;
-    }
-    throw Exception('$this is not known in enum DASHDisplayFragmentTimestamp');
-  }
+  const DASHDisplayFragmentTimestamp(this.value);
+
+  static DASHDisplayFragmentTimestamp fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DASHDisplayFragmentTimestamp'));
 }
 
 /// Contains the range of timestamps for the requested media, and the source of
@@ -1514,71 +1461,41 @@ class DASHFragmentSelector {
     final timestampRange = this.timestampRange;
     return {
       if (fragmentSelectorType != null)
-        'FragmentSelectorType': fragmentSelectorType.toValue(),
+        'FragmentSelectorType': fragmentSelectorType.value,
       if (timestampRange != null) 'TimestampRange': timestampRange,
     };
   }
 }
 
 enum DASHFragmentSelectorType {
-  producerTimestamp,
-  serverTimestamp,
-}
+  producerTimestamp('PRODUCER_TIMESTAMP'),
+  serverTimestamp('SERVER_TIMESTAMP'),
+  ;
 
-extension DASHFragmentSelectorTypeValueExtension on DASHFragmentSelectorType {
-  String toValue() {
-    switch (this) {
-      case DASHFragmentSelectorType.producerTimestamp:
-        return 'PRODUCER_TIMESTAMP';
-      case DASHFragmentSelectorType.serverTimestamp:
-        return 'SERVER_TIMESTAMP';
-    }
-  }
-}
+  final String value;
 
-extension DASHFragmentSelectorTypeFromString on String {
-  DASHFragmentSelectorType toDASHFragmentSelectorType() {
-    switch (this) {
-      case 'PRODUCER_TIMESTAMP':
-        return DASHFragmentSelectorType.producerTimestamp;
-      case 'SERVER_TIMESTAMP':
-        return DASHFragmentSelectorType.serverTimestamp;
-    }
-    throw Exception('$this is not known in enum DASHFragmentSelectorType');
-  }
+  const DASHFragmentSelectorType(this.value);
+
+  static DASHFragmentSelectorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DASHFragmentSelectorType'));
 }
 
 enum DASHPlaybackMode {
-  live,
-  liveReplay,
-  onDemand,
-}
+  live('LIVE'),
+  liveReplay('LIVE_REPLAY'),
+  onDemand('ON_DEMAND'),
+  ;
 
-extension DASHPlaybackModeValueExtension on DASHPlaybackMode {
-  String toValue() {
-    switch (this) {
-      case DASHPlaybackMode.live:
-        return 'LIVE';
-      case DASHPlaybackMode.liveReplay:
-        return 'LIVE_REPLAY';
-      case DASHPlaybackMode.onDemand:
-        return 'ON_DEMAND';
-    }
-  }
-}
+  final String value;
 
-extension DASHPlaybackModeFromString on String {
-  DASHPlaybackMode toDASHPlaybackMode() {
-    switch (this) {
-      case 'LIVE':
-        return DASHPlaybackMode.live;
-      case 'LIVE_REPLAY':
-        return DASHPlaybackMode.liveReplay;
-      case 'ON_DEMAND':
-        return DASHPlaybackMode.onDemand;
-    }
-    throw Exception('$this is not known in enum DASHPlaybackMode');
-  }
+  const DASHPlaybackMode(this.value);
+
+  static DASHPlaybackMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DASHPlaybackMode'));
 }
 
 /// The start and end of the timestamp range for the requested media.
@@ -1642,54 +1559,31 @@ class DASHTimestampRange {
 }
 
 enum Format {
-  jpeg,
-  png,
-}
+  jpeg('JPEG'),
+  png('PNG'),
+  ;
 
-extension FormatValueExtension on Format {
-  String toValue() {
-    switch (this) {
-      case Format.jpeg:
-        return 'JPEG';
-      case Format.png:
-        return 'PNG';
-    }
-  }
-}
+  final String value;
 
-extension FormatFromString on String {
-  Format toFormat() {
-    switch (this) {
-      case 'JPEG':
-        return Format.jpeg;
-      case 'PNG':
-        return Format.png;
-    }
-    throw Exception('$this is not known in enum Format');
-  }
+  const Format(this.value);
+
+  static Format fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Format'));
 }
 
 enum FormatConfigKey {
-  jPEGQuality,
-}
+  jPEGQuality('JPEGQuality'),
+  ;
 
-extension FormatConfigKeyValueExtension on FormatConfigKey {
-  String toValue() {
-    switch (this) {
-      case FormatConfigKey.jPEGQuality:
-        return 'JPEGQuality';
-    }
-  }
-}
+  final String value;
 
-extension FormatConfigKeyFromString on String {
-  FormatConfigKey toFormatConfigKey() {
-    switch (this) {
-      case 'JPEGQuality':
-        return FormatConfigKey.jPEGQuality;
-    }
-    throw Exception('$this is not known in enum FormatConfigKey');
-  }
+  const FormatConfigKey(this.value);
+
+  static FormatConfigKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FormatConfigKey'));
 }
 
 /// Represents a segment of video or other time-delimited data.
@@ -1771,38 +1665,25 @@ class FragmentSelector {
     final fragmentSelectorType = this.fragmentSelectorType;
     final timestampRange = this.timestampRange;
     return {
-      'FragmentSelectorType': fragmentSelectorType.toValue(),
+      'FragmentSelectorType': fragmentSelectorType.value,
       'TimestampRange': timestampRange,
     };
   }
 }
 
 enum FragmentSelectorType {
-  producerTimestamp,
-  serverTimestamp,
-}
+  producerTimestamp('PRODUCER_TIMESTAMP'),
+  serverTimestamp('SERVER_TIMESTAMP'),
+  ;
 
-extension FragmentSelectorTypeValueExtension on FragmentSelectorType {
-  String toValue() {
-    switch (this) {
-      case FragmentSelectorType.producerTimestamp:
-        return 'PRODUCER_TIMESTAMP';
-      case FragmentSelectorType.serverTimestamp:
-        return 'SERVER_TIMESTAMP';
-    }
-  }
-}
+  final String value;
 
-extension FragmentSelectorTypeFromString on String {
-  FragmentSelectorType toFragmentSelectorType() {
-    switch (this) {
-      case 'PRODUCER_TIMESTAMP':
-        return FragmentSelectorType.producerTimestamp;
-      case 'SERVER_TIMESTAMP':
-        return FragmentSelectorType.serverTimestamp;
-    }
-    throw Exception('$this is not known in enum FragmentSelectorType');
-  }
+  const FragmentSelectorType(this.value);
+
+  static FragmentSelectorType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum FragmentSelectorType'));
 }
 
 class GetClipOutput {
@@ -1928,65 +1809,34 @@ class GetMediaForFragmentListOutput {
 }
 
 enum HLSDiscontinuityMode {
-  always,
-  never,
-  onDiscontinuity,
-}
+  always('ALWAYS'),
+  never('NEVER'),
+  onDiscontinuity('ON_DISCONTINUITY'),
+  ;
 
-extension HLSDiscontinuityModeValueExtension on HLSDiscontinuityMode {
-  String toValue() {
-    switch (this) {
-      case HLSDiscontinuityMode.always:
-        return 'ALWAYS';
-      case HLSDiscontinuityMode.never:
-        return 'NEVER';
-      case HLSDiscontinuityMode.onDiscontinuity:
-        return 'ON_DISCONTINUITY';
-    }
-  }
-}
+  final String value;
 
-extension HLSDiscontinuityModeFromString on String {
-  HLSDiscontinuityMode toHLSDiscontinuityMode() {
-    switch (this) {
-      case 'ALWAYS':
-        return HLSDiscontinuityMode.always;
-      case 'NEVER':
-        return HLSDiscontinuityMode.never;
-      case 'ON_DISCONTINUITY':
-        return HLSDiscontinuityMode.onDiscontinuity;
-    }
-    throw Exception('$this is not known in enum HLSDiscontinuityMode');
-  }
+  const HLSDiscontinuityMode(this.value);
+
+  static HLSDiscontinuityMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum HLSDiscontinuityMode'));
 }
 
 enum HLSDisplayFragmentTimestamp {
-  always,
-  never,
-}
+  always('ALWAYS'),
+  never('NEVER'),
+  ;
 
-extension HLSDisplayFragmentTimestampValueExtension
-    on HLSDisplayFragmentTimestamp {
-  String toValue() {
-    switch (this) {
-      case HLSDisplayFragmentTimestamp.always:
-        return 'ALWAYS';
-      case HLSDisplayFragmentTimestamp.never:
-        return 'NEVER';
-    }
-  }
-}
+  final String value;
 
-extension HLSDisplayFragmentTimestampFromString on String {
-  HLSDisplayFragmentTimestamp toHLSDisplayFragmentTimestamp() {
-    switch (this) {
-      case 'ALWAYS':
-        return HLSDisplayFragmentTimestamp.always;
-      case 'NEVER':
-        return HLSDisplayFragmentTimestamp.never;
-    }
-    throw Exception('$this is not known in enum HLSDisplayFragmentTimestamp');
-  }
+  const HLSDisplayFragmentTimestamp(this.value);
+
+  static HLSDisplayFragmentTimestamp fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum HLSDisplayFragmentTimestamp'));
 }
 
 /// Contains the range of timestamps for the requested media, and the source of
@@ -2041,71 +1891,41 @@ class HLSFragmentSelector {
     final timestampRange = this.timestampRange;
     return {
       if (fragmentSelectorType != null)
-        'FragmentSelectorType': fragmentSelectorType.toValue(),
+        'FragmentSelectorType': fragmentSelectorType.value,
       if (timestampRange != null) 'TimestampRange': timestampRange,
     };
   }
 }
 
 enum HLSFragmentSelectorType {
-  producerTimestamp,
-  serverTimestamp,
-}
+  producerTimestamp('PRODUCER_TIMESTAMP'),
+  serverTimestamp('SERVER_TIMESTAMP'),
+  ;
 
-extension HLSFragmentSelectorTypeValueExtension on HLSFragmentSelectorType {
-  String toValue() {
-    switch (this) {
-      case HLSFragmentSelectorType.producerTimestamp:
-        return 'PRODUCER_TIMESTAMP';
-      case HLSFragmentSelectorType.serverTimestamp:
-        return 'SERVER_TIMESTAMP';
-    }
-  }
-}
+  final String value;
 
-extension HLSFragmentSelectorTypeFromString on String {
-  HLSFragmentSelectorType toHLSFragmentSelectorType() {
-    switch (this) {
-      case 'PRODUCER_TIMESTAMP':
-        return HLSFragmentSelectorType.producerTimestamp;
-      case 'SERVER_TIMESTAMP':
-        return HLSFragmentSelectorType.serverTimestamp;
-    }
-    throw Exception('$this is not known in enum HLSFragmentSelectorType');
-  }
+  const HLSFragmentSelectorType(this.value);
+
+  static HLSFragmentSelectorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum HLSFragmentSelectorType'));
 }
 
 enum HLSPlaybackMode {
-  live,
-  liveReplay,
-  onDemand,
-}
+  live('LIVE'),
+  liveReplay('LIVE_REPLAY'),
+  onDemand('ON_DEMAND'),
+  ;
 
-extension HLSPlaybackModeValueExtension on HLSPlaybackMode {
-  String toValue() {
-    switch (this) {
-      case HLSPlaybackMode.live:
-        return 'LIVE';
-      case HLSPlaybackMode.liveReplay:
-        return 'LIVE_REPLAY';
-      case HLSPlaybackMode.onDemand:
-        return 'ON_DEMAND';
-    }
-  }
-}
+  final String value;
 
-extension HLSPlaybackModeFromString on String {
-  HLSPlaybackMode toHLSPlaybackMode() {
-    switch (this) {
-      case 'LIVE':
-        return HLSPlaybackMode.live;
-      case 'LIVE_REPLAY':
-        return HLSPlaybackMode.liveReplay;
-      case 'ON_DEMAND':
-        return HLSPlaybackMode.onDemand;
-    }
-    throw Exception('$this is not known in enum HLSPlaybackMode');
-  }
+  const HLSPlaybackMode(this.value);
+
+  static HLSPlaybackMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum HLSPlaybackMode'));
 }
 
 /// The start and end of the timestamp range for the requested media.
@@ -2198,7 +2018,7 @@ class Image {
 
   factory Image.fromJson(Map<String, dynamic> json) {
     return Image(
-      error: (json['Error'] as String?)?.toImageError(),
+      error: (json['Error'] as String?)?.let(ImageError.fromString),
       imageContent: json['ImageContent'] as String?,
       timeStamp: timeStampFromJson(json['TimeStamp']),
     );
@@ -2206,59 +2026,32 @@ class Image {
 }
 
 enum ImageError {
-  noMedia,
-  mediaError,
-}
+  noMedia('NO_MEDIA'),
+  mediaError('MEDIA_ERROR'),
+  ;
 
-extension ImageErrorValueExtension on ImageError {
-  String toValue() {
-    switch (this) {
-      case ImageError.noMedia:
-        return 'NO_MEDIA';
-      case ImageError.mediaError:
-        return 'MEDIA_ERROR';
-    }
-  }
-}
+  final String value;
 
-extension ImageErrorFromString on String {
-  ImageError toImageError() {
-    switch (this) {
-      case 'NO_MEDIA':
-        return ImageError.noMedia;
-      case 'MEDIA_ERROR':
-        return ImageError.mediaError;
-    }
-    throw Exception('$this is not known in enum ImageError');
-  }
+  const ImageError(this.value);
+
+  static ImageError fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ImageError'));
 }
 
 enum ImageSelectorType {
-  producerTimestamp,
-  serverTimestamp,
-}
+  producerTimestamp('PRODUCER_TIMESTAMP'),
+  serverTimestamp('SERVER_TIMESTAMP'),
+  ;
 
-extension ImageSelectorTypeValueExtension on ImageSelectorType {
-  String toValue() {
-    switch (this) {
-      case ImageSelectorType.producerTimestamp:
-        return 'PRODUCER_TIMESTAMP';
-      case ImageSelectorType.serverTimestamp:
-        return 'SERVER_TIMESTAMP';
-    }
-  }
-}
+  final String value;
 
-extension ImageSelectorTypeFromString on String {
-  ImageSelectorType toImageSelectorType() {
-    switch (this) {
-      case 'PRODUCER_TIMESTAMP':
-        return ImageSelectorType.producerTimestamp;
-      case 'SERVER_TIMESTAMP':
-        return ImageSelectorType.serverTimestamp;
-    }
-    throw Exception('$this is not known in enum ImageSelectorType');
-  }
+  const ImageSelectorType(this.value);
+
+  static ImageSelectorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ImageSelectorType'));
 }
 
 class ListFragmentsOutput {

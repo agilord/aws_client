@@ -285,7 +285,7 @@ class ForecastService {
         if (forecastTypes != null) 'ForecastTypes': forecastTypes,
         if (monitorConfig != null) 'MonitorConfig': monitorConfig,
         if (optimizationMetric != null)
-          'OptimizationMetric': optimizationMetric.toValue(),
+          'OptimizationMetric': optimizationMetric.value,
         if (referencePredictorArn != null)
           'ReferencePredictorArn': referencePredictorArn,
         if (tags != null) 'Tags': tags,
@@ -474,8 +474,8 @@ class ForecastService {
       headers: headers,
       payload: {
         'DatasetName': datasetName,
-        'DatasetType': datasetType.toValue(),
-        'Domain': domain.toValue(),
+        'DatasetType': datasetType.value,
+        'Domain': domain.value,
         'Schema': schema,
         if (dataFrequency != null) 'DataFrequency': dataFrequency,
         if (encryptionConfig != null) 'EncryptionConfig': encryptionConfig,
@@ -596,7 +596,7 @@ class ForecastService {
       headers: headers,
       payload: {
         'DatasetGroupName': datasetGroupName,
-        'Domain': domain.toValue(),
+        'Domain': domain.value,
         if (datasetArns != null) 'DatasetArns': datasetArns,
         if (tags != null) 'Tags': tags,
       },
@@ -793,7 +793,7 @@ class ForecastService {
         'DatasetImportJobName': datasetImportJobName,
         if (format != null) 'Format': format,
         if (geolocationFormat != null) 'GeolocationFormat': geolocationFormat,
-        if (importMode != null) 'ImportMode': importMode.toValue(),
+        if (importMode != null) 'ImportMode': importMode.value,
         if (tags != null) 'Tags': tags,
         if (timeZone != null) 'TimeZone': timeZone,
         if (timestampFormat != null) 'TimestampFormat': timestampFormat,
@@ -1715,14 +1715,14 @@ class ForecastService {
         'PredictorName': predictorName,
         if (algorithmArn != null) 'AlgorithmArn': algorithmArn,
         if (autoMLOverrideStrategy != null)
-          'AutoMLOverrideStrategy': autoMLOverrideStrategy.toValue(),
+          'AutoMLOverrideStrategy': autoMLOverrideStrategy.value,
         if (encryptionConfig != null) 'EncryptionConfig': encryptionConfig,
         if (evaluationParameters != null)
           'EvaluationParameters': evaluationParameters,
         if (forecastTypes != null) 'ForecastTypes': forecastTypes,
         if (hPOConfig != null) 'HPOConfig': hPOConfig,
         if (optimizationMetric != null)
-          'OptimizationMetric': optimizationMetric.toValue(),
+          'OptimizationMetric': optimizationMetric.value,
         if (performAutoML != null) 'PerformAutoML': performAutoML,
         if (performHPO != null) 'PerformHPO': performHPO,
         if (tags != null) 'Tags': tags,
@@ -4603,7 +4603,7 @@ class Action {
   factory Action.fromJson(Map<String, dynamic> json) {
     return Action(
       attributeName: json['AttributeName'] as String,
-      operation: (json['Operation'] as String).toOperation(),
+      operation: Operation.fromString((json['Operation'] as String)),
       value: json['Value'] as double,
     );
   }
@@ -4614,7 +4614,7 @@ class Action {
     final value = this.value;
     return {
       'AttributeName': attributeName,
-      'Operation': operation.toValue(),
+      'Operation': operation.value,
       'Value': value,
     };
   }
@@ -4978,74 +4978,36 @@ class AttributeConfig {
 }
 
 enum AttributeType {
-  string,
-  integer,
-  float,
-  timestamp,
-  geolocation,
-}
+  string('string'),
+  integer('integer'),
+  float('float'),
+  timestamp('timestamp'),
+  geolocation('geolocation'),
+  ;
 
-extension AttributeTypeValueExtension on AttributeType {
-  String toValue() {
-    switch (this) {
-      case AttributeType.string:
-        return 'string';
-      case AttributeType.integer:
-        return 'integer';
-      case AttributeType.float:
-        return 'float';
-      case AttributeType.timestamp:
-        return 'timestamp';
-      case AttributeType.geolocation:
-        return 'geolocation';
-    }
-  }
-}
+  final String value;
 
-extension AttributeTypeFromString on String {
-  AttributeType toAttributeType() {
-    switch (this) {
-      case 'string':
-        return AttributeType.string;
-      case 'integer':
-        return AttributeType.integer;
-      case 'float':
-        return AttributeType.float;
-      case 'timestamp':
-        return AttributeType.timestamp;
-      case 'geolocation':
-        return AttributeType.geolocation;
-    }
-    throw Exception('$this is not known in enum AttributeType');
-  }
+  const AttributeType(this.value);
+
+  static AttributeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AttributeType'));
 }
 
 enum AutoMLOverrideStrategy {
-  latencyOptimized,
-  accuracyOptimized,
-}
+  latencyOptimized('LatencyOptimized'),
+  accuracyOptimized('AccuracyOptimized'),
+  ;
 
-extension AutoMLOverrideStrategyValueExtension on AutoMLOverrideStrategy {
-  String toValue() {
-    switch (this) {
-      case AutoMLOverrideStrategy.latencyOptimized:
-        return 'LatencyOptimized';
-      case AutoMLOverrideStrategy.accuracyOptimized:
-        return 'AccuracyOptimized';
-    }
-  }
-}
+  final String value;
 
-extension AutoMLOverrideStrategyFromString on String {
-  AutoMLOverrideStrategy toAutoMLOverrideStrategy() {
-    switch (this) {
-      case 'LatencyOptimized':
-        return AutoMLOverrideStrategy.latencyOptimized;
-      case 'AccuracyOptimized':
-        return AutoMLOverrideStrategy.accuracyOptimized;
-    }
-    throw Exception('$this is not known in enum AutoMLOverrideStrategy');
-  }
+  const AutoMLOverrideStrategy(this.value);
+
+  static AutoMLOverrideStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AutoMLOverrideStrategy'));
 }
 
 /// Metrics you can use as a baseline for comparison purposes. Use these metrics
@@ -5129,41 +5091,19 @@ class CategoricalParameterRange {
 }
 
 enum Condition {
-  equals,
-  notEquals,
-  lessThan,
-  greaterThan,
-}
+  equals('EQUALS'),
+  notEquals('NOT_EQUALS'),
+  lessThan('LESS_THAN'),
+  greaterThan('GREATER_THAN'),
+  ;
 
-extension ConditionValueExtension on Condition {
-  String toValue() {
-    switch (this) {
-      case Condition.equals:
-        return 'EQUALS';
-      case Condition.notEquals:
-        return 'NOT_EQUALS';
-      case Condition.lessThan:
-        return 'LESS_THAN';
-      case Condition.greaterThan:
-        return 'GREATER_THAN';
-    }
-  }
-}
+  final String value;
 
-extension ConditionFromString on String {
-  Condition toCondition() {
-    switch (this) {
-      case 'EQUALS':
-        return Condition.equals;
-      case 'NOT_EQUALS':
-        return Condition.notEquals;
-      case 'LESS_THAN':
-        return Condition.lessThan;
-      case 'GREATER_THAN':
-        return Condition.greaterThan;
-    }
-    throw Exception('$this is not known in enum Condition');
-  }
+  const Condition(this.value);
+
+  static Condition fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Condition'));
 }
 
 /// Specifies a continuous hyperparameter and it's range of tunable values. This
@@ -5215,7 +5155,8 @@ class ContinuousParameterRange {
       maxValue: json['MaxValue'] as double,
       minValue: json['MinValue'] as double,
       name: json['Name'] as String,
-      scalingType: (json['ScalingType'] as String?)?.toScalingType(),
+      scalingType:
+          (json['ScalingType'] as String?)?.let(ScalingType.fromString),
     );
   }
 
@@ -5228,7 +5169,7 @@ class ContinuousParameterRange {
       'MaxValue': maxValue,
       'MinValue': minValue,
       'Name': name,
-      if (scalingType != null) 'ScalingType': scalingType.toValue(),
+      if (scalingType != null) 'ScalingType': scalingType.value,
     };
   }
 }
@@ -5673,7 +5614,7 @@ class DatasetImportJobSummary {
           : null,
       datasetImportJobArn: json['DatasetImportJobArn'] as String?,
       datasetImportJobName: json['DatasetImportJobName'] as String?,
-      importMode: (json['ImportMode'] as String?)?.toImportMode(),
+      importMode: (json['ImportMode'] as String?)?.let(ImportMode.fromString),
       lastModificationTime: timeStampFromJson(json['LastModificationTime']),
       message: json['Message'] as String?,
       status: json['Status'] as String?,
@@ -5725,97 +5666,46 @@ class DatasetSummary {
       creationTime: timeStampFromJson(json['CreationTime']),
       datasetArn: json['DatasetArn'] as String?,
       datasetName: json['DatasetName'] as String?,
-      datasetType: (json['DatasetType'] as String?)?.toDatasetType(),
-      domain: (json['Domain'] as String?)?.toDomain(),
+      datasetType:
+          (json['DatasetType'] as String?)?.let(DatasetType.fromString),
+      domain: (json['Domain'] as String?)?.let(Domain.fromString),
       lastModificationTime: timeStampFromJson(json['LastModificationTime']),
     );
   }
 }
 
 enum DatasetType {
-  targetTimeSeries,
-  relatedTimeSeries,
-  itemMetadata,
-}
+  targetTimeSeries('TARGET_TIME_SERIES'),
+  relatedTimeSeries('RELATED_TIME_SERIES'),
+  itemMetadata('ITEM_METADATA'),
+  ;
 
-extension DatasetTypeValueExtension on DatasetType {
-  String toValue() {
-    switch (this) {
-      case DatasetType.targetTimeSeries:
-        return 'TARGET_TIME_SERIES';
-      case DatasetType.relatedTimeSeries:
-        return 'RELATED_TIME_SERIES';
-      case DatasetType.itemMetadata:
-        return 'ITEM_METADATA';
-    }
-  }
-}
+  final String value;
 
-extension DatasetTypeFromString on String {
-  DatasetType toDatasetType() {
-    switch (this) {
-      case 'TARGET_TIME_SERIES':
-        return DatasetType.targetTimeSeries;
-      case 'RELATED_TIME_SERIES':
-        return DatasetType.relatedTimeSeries;
-      case 'ITEM_METADATA':
-        return DatasetType.itemMetadata;
-    }
-    throw Exception('$this is not known in enum DatasetType');
-  }
+  const DatasetType(this.value);
+
+  static DatasetType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum DatasetType'));
 }
 
 enum DayOfWeek {
-  monday,
-  tuesday,
-  wednesday,
-  thursday,
-  friday,
-  saturday,
-  sunday,
-}
+  monday('MONDAY'),
+  tuesday('TUESDAY'),
+  wednesday('WEDNESDAY'),
+  thursday('THURSDAY'),
+  friday('FRIDAY'),
+  saturday('SATURDAY'),
+  sunday('SUNDAY'),
+  ;
 
-extension DayOfWeekValueExtension on DayOfWeek {
-  String toValue() {
-    switch (this) {
-      case DayOfWeek.monday:
-        return 'MONDAY';
-      case DayOfWeek.tuesday:
-        return 'TUESDAY';
-      case DayOfWeek.wednesday:
-        return 'WEDNESDAY';
-      case DayOfWeek.thursday:
-        return 'THURSDAY';
-      case DayOfWeek.friday:
-        return 'FRIDAY';
-      case DayOfWeek.saturday:
-        return 'SATURDAY';
-      case DayOfWeek.sunday:
-        return 'SUNDAY';
-    }
-  }
-}
+  final String value;
 
-extension DayOfWeekFromString on String {
-  DayOfWeek toDayOfWeek() {
-    switch (this) {
-      case 'MONDAY':
-        return DayOfWeek.monday;
-      case 'TUESDAY':
-        return DayOfWeek.tuesday;
-      case 'WEDNESDAY':
-        return DayOfWeek.wednesday;
-      case 'THURSDAY':
-        return DayOfWeek.thursday;
-      case 'FRIDAY':
-        return DayOfWeek.friday;
-      case 'SATURDAY':
-        return DayOfWeek.saturday;
-      case 'SUNDAY':
-        return DayOfWeek.sunday;
-    }
-    throw Exception('$this is not known in enum DayOfWeek');
-  }
+  const DayOfWeek(this.value);
+
+  static DayOfWeek fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum DayOfWeek'));
 }
 
 class DescribeAutoPredictorResponse {
@@ -5980,8 +5870,8 @@ class DescribeAutoPredictorResponse {
       monitorInfo: json['MonitorInfo'] != null
           ? MonitorInfo.fromJson(json['MonitorInfo'] as Map<String, dynamic>)
           : null,
-      optimizationMetric:
-          (json['OptimizationMetric'] as String?)?.toOptimizationMetric(),
+      optimizationMetric: (json['OptimizationMetric'] as String?)
+          ?.let(OptimizationMetric.fromString),
       predictorArn: json['PredictorArn'] as String?,
       predictorName: json['PredictorName'] as String?,
       referencePredictorSummary: json['ReferencePredictorSummary'] != null
@@ -6068,7 +5958,7 @@ class DescribeDatasetGroupResponse {
           .toList(),
       datasetGroupArn: json['DatasetGroupArn'] as String?,
       datasetGroupName: json['DatasetGroupName'] as String?,
-      domain: (json['Domain'] as String?)?.toDomain(),
+      domain: (json['Domain'] as String?)?.let(Domain.fromString),
       lastModificationTime: timeStampFromJson(json['LastModificationTime']),
       status: json['Status'] as String?,
     );
@@ -6225,7 +6115,7 @@ class DescribeDatasetImportJobResponse {
               MapEntry(k, Statistics.fromJson(e as Map<String, dynamic>))),
       format: json['Format'] as String?,
       geolocationFormat: json['GeolocationFormat'] as String?,
-      importMode: (json['ImportMode'] as String?)?.toImportMode(),
+      importMode: (json['ImportMode'] as String?)?.let(ImportMode.fromString),
       lastModificationTime: timeStampFromJson(json['LastModificationTime']),
       message: json['Message'] as String?,
       status: json['Status'] as String?,
@@ -6328,8 +6218,9 @@ class DescribeDatasetResponse {
       dataFrequency: json['DataFrequency'] as String?,
       datasetArn: json['DatasetArn'] as String?,
       datasetName: json['DatasetName'] as String?,
-      datasetType: (json['DatasetType'] as String?)?.toDatasetType(),
-      domain: (json['Domain'] as String?)?.toDomain(),
+      datasetType:
+          (json['DatasetType'] as String?)?.let(DatasetType.fromString),
+      domain: (json['Domain'] as String?)?.let(Domain.fromString),
       encryptionConfig: json['EncryptionConfig'] != null
           ? EncryptionConfig.fromJson(
               json['EncryptionConfig'] as Map<String, dynamic>)
@@ -7115,7 +7006,7 @@ class DescribePredictorResponse {
           .map((e) => e as String)
           .toList(),
       autoMLOverrideStrategy: (json['AutoMLOverrideStrategy'] as String?)
-          ?.toAutoMLOverrideStrategy(),
+          ?.let(AutoMLOverrideStrategy.fromString),
       creationTime: timeStampFromJson(json['CreationTime']),
       datasetImportJobArns: (json['DatasetImportJobArns'] as List?)
           ?.whereNotNull()
@@ -7151,8 +7042,8 @@ class DescribePredictorResponse {
       isAutoPredictor: json['IsAutoPredictor'] as bool?,
       lastModificationTime: timeStampFromJson(json['LastModificationTime']),
       message: json['Message'] as String?,
-      optimizationMetric:
-          (json['OptimizationMetric'] as String?)?.toOptimizationMetric(),
+      optimizationMetric: (json['OptimizationMetric'] as String?)
+          ?.let(OptimizationMetric.fromString),
       performAutoML: json['PerformAutoML'] as bool?,
       performHPO: json['PerformHPO'] as bool?,
       predictorArn: json['PredictorArn'] as String?,
@@ -7499,56 +7390,22 @@ class DescribeWhatIfForecastResponse {
 }
 
 enum Domain {
-  retail,
-  custom,
-  inventoryPlanning,
-  ec2Capacity,
-  workForce,
-  webTraffic,
-  metrics,
-}
+  retail('RETAIL'),
+  custom('CUSTOM'),
+  inventoryPlanning('INVENTORY_PLANNING'),
+  ec2Capacity('EC2_CAPACITY'),
+  workForce('WORK_FORCE'),
+  webTraffic('WEB_TRAFFIC'),
+  metrics('METRICS'),
+  ;
 
-extension DomainValueExtension on Domain {
-  String toValue() {
-    switch (this) {
-      case Domain.retail:
-        return 'RETAIL';
-      case Domain.custom:
-        return 'CUSTOM';
-      case Domain.inventoryPlanning:
-        return 'INVENTORY_PLANNING';
-      case Domain.ec2Capacity:
-        return 'EC2_CAPACITY';
-      case Domain.workForce:
-        return 'WORK_FORCE';
-      case Domain.webTraffic:
-        return 'WEB_TRAFFIC';
-      case Domain.metrics:
-        return 'METRICS';
-    }
-  }
-}
+  final String value;
 
-extension DomainFromString on String {
-  Domain toDomain() {
-    switch (this) {
-      case 'RETAIL':
-        return Domain.retail;
-      case 'CUSTOM':
-        return Domain.custom;
-      case 'INVENTORY_PLANNING':
-        return Domain.inventoryPlanning;
-      case 'EC2_CAPACITY':
-        return Domain.ec2Capacity;
-      case 'WORK_FORCE':
-        return Domain.workForce;
-      case 'WEB_TRAFFIC':
-        return Domain.webTraffic;
-      case 'METRICS':
-        return Domain.metrics;
-    }
-    throw Exception('$this is not known in enum Domain');
-  }
+  const Domain(this.value);
+
+  static Domain fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Domain'));
 }
 
 /// An Key Management Service (KMS) key and an Identity and Access Management
@@ -7699,31 +7556,18 @@ class EvaluationResult {
 }
 
 enum EvaluationType {
-  summary,
-  computed,
-}
+  summary('SUMMARY'),
+  computed('COMPUTED'),
+  ;
 
-extension EvaluationTypeValueExtension on EvaluationType {
-  String toValue() {
-    switch (this) {
-      case EvaluationType.summary:
-        return 'SUMMARY';
-      case EvaluationType.computed:
-        return 'COMPUTED';
-    }
-  }
-}
+  final String value;
 
-extension EvaluationTypeFromString on String {
-  EvaluationType toEvaluationType() {
-    switch (this) {
-      case 'SUMMARY':
-        return EvaluationType.summary;
-      case 'COMPUTED':
-        return EvaluationType.computed;
-    }
-    throw Exception('$this is not known in enum EvaluationType');
-  }
+  const EvaluationType(this.value);
+
+  static EvaluationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EvaluationType'));
 }
 
 /// The ExplainabilityConfig data type defines the number of time series and
@@ -7762,10 +7606,10 @@ class ExplainabilityConfig {
 
   factory ExplainabilityConfig.fromJson(Map<String, dynamic> json) {
     return ExplainabilityConfig(
-      timePointGranularity:
-          (json['TimePointGranularity'] as String).toTimePointGranularity(),
-      timeSeriesGranularity:
-          (json['TimeSeriesGranularity'] as String).toTimeSeriesGranularity(),
+      timePointGranularity: TimePointGranularity.fromString(
+          (json['TimePointGranularity'] as String)),
+      timeSeriesGranularity: TimeSeriesGranularity.fromString(
+          (json['TimeSeriesGranularity'] as String)),
     );
   }
 
@@ -7773,8 +7617,8 @@ class ExplainabilityConfig {
     final timePointGranularity = this.timePointGranularity;
     final timeSeriesGranularity = this.timeSeriesGranularity;
     return {
-      'TimePointGranularity': timePointGranularity.toValue(),
-      'TimeSeriesGranularity': timeSeriesGranularity.toValue(),
+      'TimePointGranularity': timePointGranularity.value,
+      'TimeSeriesGranularity': timeSeriesGranularity.value,
     };
   }
 }
@@ -8251,8 +8095,8 @@ class FeaturizationMethod {
 
   factory FeaturizationMethod.fromJson(Map<String, dynamic> json) {
     return FeaturizationMethod(
-      featurizationMethodName: (json['FeaturizationMethodName'] as String)
-          .toFeaturizationMethodName(),
+      featurizationMethodName: FeaturizationMethodName.fromString(
+          (json['FeaturizationMethodName'] as String)),
       featurizationMethodParameters:
           (json['FeaturizationMethodParameters'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
@@ -8263,7 +8107,7 @@ class FeaturizationMethod {
     final featurizationMethodName = this.featurizationMethodName;
     final featurizationMethodParameters = this.featurizationMethodParameters;
     return {
-      'FeaturizationMethodName': featurizationMethodName.toValue(),
+      'FeaturizationMethodName': featurizationMethodName.value,
       if (featurizationMethodParameters != null)
         'FeaturizationMethodParameters': featurizationMethodParameters,
     };
@@ -8271,26 +8115,17 @@ class FeaturizationMethod {
 }
 
 enum FeaturizationMethodName {
-  filling,
-}
+  filling('filling'),
+  ;
 
-extension FeaturizationMethodNameValueExtension on FeaturizationMethodName {
-  String toValue() {
-    switch (this) {
-      case FeaturizationMethodName.filling:
-        return 'filling';
-    }
-  }
-}
+  final String value;
 
-extension FeaturizationMethodNameFromString on String {
-  FeaturizationMethodName toFeaturizationMethodName() {
-    switch (this) {
-      case 'filling':
-        return FeaturizationMethodName.filling;
-    }
-    throw Exception('$this is not known in enum FeaturizationMethodName');
-  }
+  const FeaturizationMethodName(this.value);
+
+  static FeaturizationMethodName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum FeaturizationMethodName'));
 }
 
 /// Describes a filter for choosing a subset of objects. Each filter consists of
@@ -8321,7 +8156,7 @@ class Filter {
     final key = this.key;
     final value = this.value;
     return {
-      'Condition': condition.toValue(),
+      'Condition': condition.value,
       'Key': key,
       'Value': value,
     };
@@ -8329,31 +8164,18 @@ class Filter {
 }
 
 enum FilterConditionString {
-  $is,
-  isNot,
-}
+  $is('IS'),
+  isNot('IS_NOT'),
+  ;
 
-extension FilterConditionStringValueExtension on FilterConditionString {
-  String toValue() {
-    switch (this) {
-      case FilterConditionString.$is:
-        return 'IS';
-      case FilterConditionString.isNot:
-        return 'IS_NOT';
-    }
-  }
-}
+  final String value;
 
-extension FilterConditionStringFromString on String {
-  FilterConditionString toFilterConditionString() {
-    switch (this) {
-      case 'IS':
-        return FilterConditionString.$is;
-      case 'IS_NOT':
-        return FilterConditionString.isNot;
-    }
-    throw Exception('$this is not known in enum FilterConditionString');
-  }
+  const FilterConditionString(this.value);
+
+  static FilterConditionString fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum FilterConditionString'));
 }
 
 /// Provides a summary of the forecast export job properties used in the
@@ -8581,10 +8403,10 @@ class GetAccuracyMetricsResponse {
   factory GetAccuracyMetricsResponse.fromJson(Map<String, dynamic> json) {
     return GetAccuracyMetricsResponse(
       autoMLOverrideStrategy: (json['AutoMLOverrideStrategy'] as String?)
-          ?.toAutoMLOverrideStrategy(),
+          ?.let(AutoMLOverrideStrategy.fromString),
       isAutoPredictor: json['IsAutoPredictor'] as bool?,
-      optimizationMetric:
-          (json['OptimizationMetric'] as String?)?.toOptimizationMetric(),
+      optimizationMetric: (json['OptimizationMetric'] as String?)
+          ?.let(OptimizationMetric.fromString),
       predictorEvaluationResults: (json['PredictorEvaluationResults'] as List?)
           ?.whereNotNull()
           .map((e) => EvaluationResult.fromJson(e as Map<String, dynamic>))
@@ -8632,31 +8454,17 @@ class HyperParameterTuningJobConfig {
 }
 
 enum ImportMode {
-  full,
-  incremental,
-}
+  full('FULL'),
+  incremental('INCREMENTAL'),
+  ;
 
-extension ImportModeValueExtension on ImportMode {
-  String toValue() {
-    switch (this) {
-      case ImportMode.full:
-        return 'FULL';
-      case ImportMode.incremental:
-        return 'INCREMENTAL';
-    }
-  }
-}
+  final String value;
 
-extension ImportModeFromString on String {
-  ImportMode toImportMode() {
-    switch (this) {
-      case 'FULL':
-        return ImportMode.full;
-      case 'INCREMENTAL':
-        return ImportMode.incremental;
-    }
-    throw Exception('$this is not known in enum ImportMode');
-  }
+  const ImportMode(this.value);
+
+  static ImportMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ImportMode'));
 }
 
 /// <note>
@@ -8748,7 +8556,8 @@ class IntegerParameterRange {
       maxValue: json['MaxValue'] as int,
       minValue: json['MinValue'] as int,
       name: json['Name'] as String,
-      scalingType: (json['ScalingType'] as String?)?.toScalingType(),
+      scalingType:
+          (json['ScalingType'] as String?)?.let(ScalingType.fromString),
     );
   }
 
@@ -8761,7 +8570,7 @@ class IntegerParameterRange {
       'MaxValue': maxValue,
       'MinValue': minValue,
       'Name': name,
-      if (scalingType != null) 'ScalingType': scalingType.toValue(),
+      if (scalingType != null) 'ScalingType': scalingType.value,
     };
   }
 }
@@ -9385,162 +9194,61 @@ class MonitorSummary {
 }
 
 enum Month {
-  january,
-  february,
-  march,
-  april,
-  may,
-  june,
-  july,
-  august,
-  september,
-  october,
-  november,
-  december,
-}
+  january('JANUARY'),
+  february('FEBRUARY'),
+  march('MARCH'),
+  april('APRIL'),
+  may('MAY'),
+  june('JUNE'),
+  july('JULY'),
+  august('AUGUST'),
+  september('SEPTEMBER'),
+  october('OCTOBER'),
+  november('NOVEMBER'),
+  december('DECEMBER'),
+  ;
 
-extension MonthValueExtension on Month {
-  String toValue() {
-    switch (this) {
-      case Month.january:
-        return 'JANUARY';
-      case Month.february:
-        return 'FEBRUARY';
-      case Month.march:
-        return 'MARCH';
-      case Month.april:
-        return 'APRIL';
-      case Month.may:
-        return 'MAY';
-      case Month.june:
-        return 'JUNE';
-      case Month.july:
-        return 'JULY';
-      case Month.august:
-        return 'AUGUST';
-      case Month.september:
-        return 'SEPTEMBER';
-      case Month.october:
-        return 'OCTOBER';
-      case Month.november:
-        return 'NOVEMBER';
-      case Month.december:
-        return 'DECEMBER';
-    }
-  }
-}
+  final String value;
 
-extension MonthFromString on String {
-  Month toMonth() {
-    switch (this) {
-      case 'JANUARY':
-        return Month.january;
-      case 'FEBRUARY':
-        return Month.february;
-      case 'MARCH':
-        return Month.march;
-      case 'APRIL':
-        return Month.april;
-      case 'MAY':
-        return Month.may;
-      case 'JUNE':
-        return Month.june;
-      case 'JULY':
-        return Month.july;
-      case 'AUGUST':
-        return Month.august;
-      case 'SEPTEMBER':
-        return Month.september;
-      case 'OCTOBER':
-        return Month.october;
-      case 'NOVEMBER':
-        return Month.november;
-      case 'DECEMBER':
-        return Month.december;
-    }
-    throw Exception('$this is not known in enum Month');
-  }
+  const Month(this.value);
+
+  static Month fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Month'));
 }
 
 enum Operation {
-  add,
-  subtract,
-  multiply,
-  divide,
-}
+  add('ADD'),
+  subtract('SUBTRACT'),
+  multiply('MULTIPLY'),
+  divide('DIVIDE'),
+  ;
 
-extension OperationValueExtension on Operation {
-  String toValue() {
-    switch (this) {
-      case Operation.add:
-        return 'ADD';
-      case Operation.subtract:
-        return 'SUBTRACT';
-      case Operation.multiply:
-        return 'MULTIPLY';
-      case Operation.divide:
-        return 'DIVIDE';
-    }
-  }
-}
+  final String value;
 
-extension OperationFromString on String {
-  Operation toOperation() {
-    switch (this) {
-      case 'ADD':
-        return Operation.add;
-      case 'SUBTRACT':
-        return Operation.subtract;
-      case 'MULTIPLY':
-        return Operation.multiply;
-      case 'DIVIDE':
-        return Operation.divide;
-    }
-    throw Exception('$this is not known in enum Operation');
-  }
+  const Operation(this.value);
+
+  static Operation fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Operation'));
 }
 
 enum OptimizationMetric {
-  wape,
-  rmse,
-  averageWeightedQuantileLoss,
-  mase,
-  mape,
-}
+  wape('WAPE'),
+  rmse('RMSE'),
+  averageWeightedQuantileLoss('AverageWeightedQuantileLoss'),
+  mase('MASE'),
+  mape('MAPE'),
+  ;
 
-extension OptimizationMetricValueExtension on OptimizationMetric {
-  String toValue() {
-    switch (this) {
-      case OptimizationMetric.wape:
-        return 'WAPE';
-      case OptimizationMetric.rmse:
-        return 'RMSE';
-      case OptimizationMetric.averageWeightedQuantileLoss:
-        return 'AverageWeightedQuantileLoss';
-      case OptimizationMetric.mase:
-        return 'MASE';
-      case OptimizationMetric.mape:
-        return 'MAPE';
-    }
-  }
-}
+  final String value;
 
-extension OptimizationMetricFromString on String {
-  OptimizationMetric toOptimizationMetric() {
-    switch (this) {
-      case 'WAPE':
-        return OptimizationMetric.wape;
-      case 'RMSE':
-        return OptimizationMetric.rmse;
-      case 'AverageWeightedQuantileLoss':
-        return OptimizationMetric.averageWeightedQuantileLoss;
-      case 'MASE':
-        return OptimizationMetric.mase;
-      case 'MAPE':
-        return OptimizationMetric.mape;
-    }
-    throw Exception('$this is not known in enum OptimizationMetric');
-  }
+  const OptimizationMetric(this.value);
+
+  static OptimizationMetric fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum OptimizationMetric'));
 }
 
 /// Specifies the categorical, continuous, and integer hyperparameters, and
@@ -9990,7 +9698,7 @@ class ReferencePredictorSummary {
   factory ReferencePredictorSummary.fromJson(Map<String, dynamic> json) {
     return ReferencePredictorSummary(
       arn: json['Arn'] as String?,
-      state: (json['State'] as String?)?.toState(),
+      state: (json['State'] as String?)?.let(State.fromString),
     );
   }
 }
@@ -10046,41 +9754,19 @@ class S3Config {
 }
 
 enum ScalingType {
-  auto,
-  linear,
-  logarithmic,
-  reverseLogarithmic,
-}
+  auto('Auto'),
+  linear('Linear'),
+  logarithmic('Logarithmic'),
+  reverseLogarithmic('ReverseLogarithmic'),
+  ;
 
-extension ScalingTypeValueExtension on ScalingType {
-  String toValue() {
-    switch (this) {
-      case ScalingType.auto:
-        return 'Auto';
-      case ScalingType.linear:
-        return 'Linear';
-      case ScalingType.logarithmic:
-        return 'Logarithmic';
-      case ScalingType.reverseLogarithmic:
-        return 'ReverseLogarithmic';
-    }
-  }
-}
+  final String value;
 
-extension ScalingTypeFromString on String {
-  ScalingType toScalingType() {
-    switch (this) {
-      case 'Auto':
-        return ScalingType.auto;
-      case 'Linear':
-        return ScalingType.linear;
-      case 'Logarithmic':
-        return ScalingType.logarithmic;
-      case 'ReverseLogarithmic':
-        return ScalingType.reverseLogarithmic;
-    }
-    throw Exception('$this is not known in enum ScalingType');
-  }
+  const ScalingType(this.value);
+
+  static ScalingType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ScalingType'));
 }
 
 /// Defines the fields of a dataset.
@@ -10133,7 +9819,8 @@ class SchemaAttribute {
   factory SchemaAttribute.fromJson(Map<String, dynamic> json) {
     return SchemaAttribute(
       attributeName: json['AttributeName'] as String?,
-      attributeType: (json['AttributeType'] as String?)?.toAttributeType(),
+      attributeType:
+          (json['AttributeType'] as String?)?.let(AttributeType.fromString),
     );
   }
 
@@ -10142,37 +9829,23 @@ class SchemaAttribute {
     final attributeType = this.attributeType;
     return {
       if (attributeName != null) 'AttributeName': attributeName,
-      if (attributeType != null) 'AttributeType': attributeType.toValue(),
+      if (attributeType != null) 'AttributeType': attributeType.value,
     };
   }
 }
 
 enum State {
-  active,
-  deleted,
-}
+  active('Active'),
+  deleted('Deleted'),
+  ;
 
-extension StateValueExtension on State {
-  String toValue() {
-    switch (this) {
-      case State.active:
-        return 'Active';
-      case State.deleted:
-        return 'Deleted';
-    }
-  }
-}
+  final String value;
 
-extension StateFromString on String {
-  State toState() {
-    switch (this) {
-      case 'Active':
-        return State.active;
-      case 'Deleted':
-        return State.deleted;
-    }
-    throw Exception('$this is not known in enum State');
-  }
+  const State(this.value);
+
+  static State fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum State'));
 }
 
 /// Provides statistics for each data field imported into to an Amazon Forecast
@@ -10687,9 +10360,9 @@ class TimeAlignmentBoundary {
   factory TimeAlignmentBoundary.fromJson(Map<String, dynamic> json) {
     return TimeAlignmentBoundary(
       dayOfMonth: json['DayOfMonth'] as int?,
-      dayOfWeek: (json['DayOfWeek'] as String?)?.toDayOfWeek(),
+      dayOfWeek: (json['DayOfWeek'] as String?)?.let(DayOfWeek.fromString),
       hour: json['Hour'] as int?,
-      month: (json['Month'] as String?)?.toMonth(),
+      month: (json['Month'] as String?)?.let(Month.fromString),
     );
   }
 
@@ -10700,39 +10373,26 @@ class TimeAlignmentBoundary {
     final month = this.month;
     return {
       if (dayOfMonth != null) 'DayOfMonth': dayOfMonth,
-      if (dayOfWeek != null) 'DayOfWeek': dayOfWeek.toValue(),
+      if (dayOfWeek != null) 'DayOfWeek': dayOfWeek.value,
       if (hour != null) 'Hour': hour,
-      if (month != null) 'Month': month.toValue(),
+      if (month != null) 'Month': month.value,
     };
   }
 }
 
 enum TimePointGranularity {
-  all,
-  specific,
-}
+  all('ALL'),
+  specific('SPECIFIC'),
+  ;
 
-extension TimePointGranularityValueExtension on TimePointGranularity {
-  String toValue() {
-    switch (this) {
-      case TimePointGranularity.all:
-        return 'ALL';
-      case TimePointGranularity.specific:
-        return 'SPECIFIC';
-    }
-  }
-}
+  final String value;
 
-extension TimePointGranularityFromString on String {
-  TimePointGranularity toTimePointGranularity() {
-    switch (this) {
-      case 'ALL':
-        return TimePointGranularity.all;
-      case 'SPECIFIC':
-        return TimePointGranularity.specific;
-    }
-    throw Exception('$this is not known in enum TimePointGranularity');
-  }
+  const TimePointGranularity(this.value);
+
+  static TimePointGranularity fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TimePointGranularity'));
 }
 
 /// Creates a subset of items within an attribute that are modified. For
@@ -10764,7 +10424,7 @@ class TimeSeriesCondition {
     return TimeSeriesCondition(
       attributeName: json['AttributeName'] as String,
       attributeValue: json['AttributeValue'] as String,
-      condition: (json['Condition'] as String).toCondition(),
+      condition: Condition.fromString((json['Condition'] as String)),
     );
   }
 
@@ -10775,37 +10435,24 @@ class TimeSeriesCondition {
     return {
       'AttributeName': attributeName,
       'AttributeValue': attributeValue,
-      'Condition': condition.toValue(),
+      'Condition': condition.value,
     };
   }
 }
 
 enum TimeSeriesGranularity {
-  all,
-  specific,
-}
+  all('ALL'),
+  specific('SPECIFIC'),
+  ;
 
-extension TimeSeriesGranularityValueExtension on TimeSeriesGranularity {
-  String toValue() {
-    switch (this) {
-      case TimeSeriesGranularity.all:
-        return 'ALL';
-      case TimeSeriesGranularity.specific:
-        return 'SPECIFIC';
-    }
-  }
-}
+  final String value;
 
-extension TimeSeriesGranularityFromString on String {
-  TimeSeriesGranularity toTimeSeriesGranularity() {
-    switch (this) {
-      case 'ALL':
-        return TimeSeriesGranularity.all;
-      case 'SPECIFIC':
-        return TimeSeriesGranularity.specific;
-    }
-    throw Exception('$this is not known in enum TimeSeriesGranularity');
-  }
+  const TimeSeriesGranularity(this.value);
+
+  static TimeSeriesGranularity fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TimeSeriesGranularity'));
 }
 
 /// Details about the import file that contains the time series for which you
@@ -11347,7 +10994,8 @@ class WindowSummary {
 
   factory WindowSummary.fromJson(Map<String, dynamic> json) {
     return WindowSummary(
-      evaluationType: (json['EvaluationType'] as String?)?.toEvaluationType(),
+      evaluationType:
+          (json['EvaluationType'] as String?)?.let(EvaluationType.fromString),
       itemCount: json['ItemCount'] as int?,
       metrics: json['Metrics'] != null
           ? Metrics.fromJson(json['Metrics'] as Map<String, dynamic>)

@@ -168,7 +168,7 @@ class Checksum {
   factory Checksum.fromJson(Map<String, dynamic> json) {
     return Checksum(
       sum: json['Sum'] as String?,
-      type: (json['Type'] as String?)?.toChecksumType(),
+      type: (json['Type'] as String?)?.let(ChecksumType.fromString),
     );
   }
 
@@ -177,32 +177,23 @@ class Checksum {
     final type = this.type;
     return {
       if (sum != null) 'Sum': sum,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum ChecksumType {
-  sha1,
-}
+  sha1('SHA1'),
+  ;
 
-extension ChecksumTypeValueExtension on ChecksumType {
-  String toValue() {
-    switch (this) {
-      case ChecksumType.sha1:
-        return 'SHA1';
-    }
-  }
-}
+  final String value;
 
-extension ChecksumTypeFromString on String {
-  ChecksumType toChecksumType() {
-    switch (this) {
-      case 'SHA1':
-        return ChecksumType.sha1;
-    }
-    throw Exception('$this is not known in enum ChecksumType');
-  }
+  const ChecksumType(this.value);
+
+  static ChecksumType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ChecksumType'));
 }
 
 /// <p/>
@@ -233,7 +224,7 @@ class Definition {
           : null,
       modelHandle: json['ModelHandle'] as String?,
       s3Url: json['S3Url'] as String?,
-      state: (json['State'] as String?)?.toModelState(),
+      state: (json['State'] as String?)?.let(ModelState.fromString),
     );
   }
 
@@ -246,7 +237,7 @@ class Definition {
       if (checksum != null) 'Checksum': checksum,
       if (modelHandle != null) 'ModelHandle': modelHandle,
       if (s3Url != null) 'S3Url': s3Url,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
     };
   }
 }
@@ -298,14 +289,14 @@ class DeploymentModel {
     final status = this.status;
     final statusReason = this.statusReason;
     return {
-      if (desiredState != null) 'DesiredState': desiredState.toValue(),
+      if (desiredState != null) 'DesiredState': desiredState.value,
       if (modelHandle != null) 'ModelHandle': modelHandle,
       if (modelName != null) 'ModelName': modelName,
       if (modelVersion != null) 'ModelVersion': modelVersion,
       if (rollbackFailureReason != null)
         'RollbackFailureReason': rollbackFailureReason,
-      if (state != null) 'State': state.toValue(),
-      if (status != null) 'Status': status.toValue(),
+      if (state != null) 'State': state.value,
+      if (status != null) 'Status': status.value,
       if (statusReason != null) 'StatusReason': statusReason,
     };
   }
@@ -364,54 +355,32 @@ class DeploymentResult {
 }
 
 enum DeploymentStatus {
-  success,
-  fail,
-}
+  success('SUCCESS'),
+  fail('FAIL'),
+  ;
 
-extension DeploymentStatusValueExtension on DeploymentStatus {
-  String toValue() {
-    switch (this) {
-      case DeploymentStatus.success:
-        return 'SUCCESS';
-      case DeploymentStatus.fail:
-        return 'FAIL';
-    }
-  }
-}
+  final String value;
 
-extension DeploymentStatusFromString on String {
-  DeploymentStatus toDeploymentStatus() {
-    switch (this) {
-      case 'SUCCESS':
-        return DeploymentStatus.success;
-      case 'FAIL':
-        return DeploymentStatus.fail;
-    }
-    throw Exception('$this is not known in enum DeploymentStatus');
-  }
+  const DeploymentStatus(this.value);
+
+  static DeploymentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DeploymentStatus'));
 }
 
 enum DeploymentType {
-  model,
-}
+  model('Model'),
+  ;
 
-extension DeploymentTypeValueExtension on DeploymentType {
-  String toValue() {
-    switch (this) {
-      case DeploymentType.model:
-        return 'Model';
-    }
-  }
-}
+  final String value;
 
-extension DeploymentTypeFromString on String {
-  DeploymentType toDeploymentType() {
-    switch (this) {
-      case 'Model':
-        return DeploymentType.model;
-    }
-    throw Exception('$this is not known in enum DeploymentType');
-  }
+  const DeploymentType(this.value);
+
+  static DeploymentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DeploymentType'));
 }
 
 /// Information about a deployment on an edge device that is registered with
@@ -444,9 +413,9 @@ class EdgeDeployment {
           .map((e) => Definition.fromJson(e as Map<String, dynamic>))
           .toList(),
       deploymentName: json['DeploymentName'] as String?,
-      failureHandlingPolicy:
-          (json['FailureHandlingPolicy'] as String?)?.toFailureHandlingPolicy(),
-      type: (json['Type'] as String?)?.toDeploymentType(),
+      failureHandlingPolicy: (json['FailureHandlingPolicy'] as String?)
+          ?.let(FailureHandlingPolicy.fromString),
+      type: (json['Type'] as String?)?.let(DeploymentType.fromString),
     );
   }
 
@@ -459,8 +428,8 @@ class EdgeDeployment {
       if (definitions != null) 'Definitions': definitions,
       if (deploymentName != null) 'DeploymentName': deploymentName,
       if (failureHandlingPolicy != null)
-        'FailureHandlingPolicy': failureHandlingPolicy.toValue(),
-      if (type != null) 'Type': type.toValue(),
+        'FailureHandlingPolicy': failureHandlingPolicy.value,
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -501,31 +470,18 @@ class EdgeMetric {
 }
 
 enum FailureHandlingPolicy {
-  rollbackOnFailure,
-  doNothing,
-}
+  rollbackOnFailure('ROLLBACK_ON_FAILURE'),
+  doNothing('DO_NOTHING'),
+  ;
 
-extension FailureHandlingPolicyValueExtension on FailureHandlingPolicy {
-  String toValue() {
-    switch (this) {
-      case FailureHandlingPolicy.rollbackOnFailure:
-        return 'ROLLBACK_ON_FAILURE';
-      case FailureHandlingPolicy.doNothing:
-        return 'DO_NOTHING';
-    }
-  }
-}
+  final String value;
 
-extension FailureHandlingPolicyFromString on String {
-  FailureHandlingPolicy toFailureHandlingPolicy() {
-    switch (this) {
-      case 'ROLLBACK_ON_FAILURE':
-        return FailureHandlingPolicy.rollbackOnFailure;
-      case 'DO_NOTHING':
-        return FailureHandlingPolicy.doNothing;
-    }
-    throw Exception('$this is not known in enum FailureHandlingPolicy');
-  }
+  const FailureHandlingPolicy(this.value);
+
+  static FailureHandlingPolicy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum FailureHandlingPolicy'));
 }
 
 class GetDeploymentsResult {
@@ -629,31 +585,17 @@ class Model {
 }
 
 enum ModelState {
-  deploy,
-  undeploy,
-}
+  deploy('DEPLOY'),
+  undeploy('UNDEPLOY'),
+  ;
 
-extension ModelStateValueExtension on ModelState {
-  String toValue() {
-    switch (this) {
-      case ModelState.deploy:
-        return 'DEPLOY';
-      case ModelState.undeploy:
-        return 'UNDEPLOY';
-    }
-  }
-}
+  final String value;
 
-extension ModelStateFromString on String {
-  ModelState toModelState() {
-    switch (this) {
-      case 'DEPLOY':
-        return ModelState.deploy;
-      case 'UNDEPLOY':
-        return ModelState.undeploy;
-    }
-    throw Exception('$this is not known in enum ModelState');
-  }
+  const ModelState(this.value);
+
+  static ModelState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ModelState'));
 }
 
 class InternalServiceException extends _s.GenericAwsException {

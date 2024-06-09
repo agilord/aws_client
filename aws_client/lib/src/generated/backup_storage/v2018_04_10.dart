@@ -110,7 +110,7 @@ class BackupStorage {
       checksumAlgorithm: (_s
           .extractHeaderStringValue(
               response.headers, 'x-amz-checksum-algorithm')
-          ?.toDataChecksumAlgorithm())!,
+          ?.let(DataChecksumAlgorithm.fromString))!,
       length: _s.extractHeaderIntValue(response.headers, 'x-amz-data-length')!,
     );
   }
@@ -149,7 +149,7 @@ class BackupStorage {
       metadataBlobChecksumAlgorithm: _s
           .extractHeaderStringValue(
               response.headers, 'x-amz-checksum-algorithm')
-          ?.toDataChecksumAlgorithm(),
+          ?.let(DataChecksumAlgorithm.fromString),
       metadataBlobLength:
           _s.extractHeaderIntValue(response.headers, 'x-amz-data-length'),
       metadataString: _s.extractHeaderStringValue(
@@ -326,13 +326,11 @@ class BackupStorage {
   }) async {
     final $query = <String, List<String>>{
       'checksum': [objectChecksum],
-      'checksum-algorithm': [objectChecksumAlgorithm.toValue()],
+      'checksum-algorithm': [objectChecksumAlgorithm.value],
       if (metadataBlobChecksum != null)
         'metadata-checksum': [metadataBlobChecksum],
       if (metadataBlobChecksumAlgorithm != null)
-        'metadata-checksum-algorithm': [
-          metadataBlobChecksumAlgorithm.toValue()
-        ],
+        'metadata-checksum-algorithm': [metadataBlobChecksumAlgorithm.value],
       if (metadataBlobLength != null)
         'metadata-blob-length': [metadataBlobLength.toString()],
       if (metadataString != null) 'metadata-string': [metadataString],
@@ -390,7 +388,7 @@ class BackupStorage {
   }) async {
     final $query = <String, List<String>>{
       'checksum': [checksum],
-      'checksum-algorithm': [checksumAlgorithm.toValue()],
+      'checksum-algorithm': [checksumAlgorithm.value],
       'length': [length.toString()],
     };
     final response = await _protocol.send(
@@ -466,7 +464,7 @@ class BackupStorage {
       if (metadataString != null) 'metadata-string': [metadataString],
       if (objectChecksum != null) 'object-checksum': [objectChecksum],
       if (objectChecksumAlgorithm != null)
-        'object-checksum-algorithm': [objectChecksumAlgorithm.toValue()],
+        'object-checksum-algorithm': [objectChecksumAlgorithm.value],
       if (throwOnDuplicate != null)
         'throwOnDuplicate': [throwOnDuplicate.toString()],
     };
@@ -552,8 +550,8 @@ class BackupObject {
     return BackupObject(
       name: json['Name'] as String,
       objectChecksum: json['ObjectChecksum'] as String,
-      objectChecksumAlgorithm: (json['ObjectChecksumAlgorithm'] as String)
-          .toSummaryChecksumAlgorithm(),
+      objectChecksumAlgorithm: SummaryChecksumAlgorithm.fromString(
+          (json['ObjectChecksumAlgorithm'] as String)),
       objectToken: json['ObjectToken'] as String,
       chunksCount: json['ChunksCount'] as int?,
       metadataString: json['MetadataString'] as String?,
@@ -570,7 +568,7 @@ class BackupObject {
     return {
       'Name': name,
       'ObjectChecksum': objectChecksum,
-      'ObjectChecksumAlgorithm': objectChecksumAlgorithm.toValue(),
+      'ObjectChecksumAlgorithm': objectChecksumAlgorithm.value,
       'ObjectToken': objectToken,
       if (chunksCount != null) 'ChunksCount': chunksCount,
       if (metadataString != null) 'MetadataString': metadataString,
@@ -606,8 +604,8 @@ class Chunk {
   factory Chunk.fromJson(Map<String, dynamic> json) {
     return Chunk(
       checksum: json['Checksum'] as String,
-      checksumAlgorithm:
-          (json['ChecksumAlgorithm'] as String).toDataChecksumAlgorithm(),
+      checksumAlgorithm: DataChecksumAlgorithm.fromString(
+          (json['ChecksumAlgorithm'] as String)),
       chunkToken: json['ChunkToken'] as String,
       index: json['Index'] as int,
       length: json['Length'] as int,
@@ -622,7 +620,7 @@ class Chunk {
     final length = this.length;
     return {
       'Checksum': checksum,
-      'ChecksumAlgorithm': checksumAlgorithm.toValue(),
+      'ChecksumAlgorithm': checksumAlgorithm.value,
       'ChunkToken': chunkToken,
       'Index': index,
       'Length': length,
@@ -631,26 +629,17 @@ class Chunk {
 }
 
 enum DataChecksumAlgorithm {
-  sha256,
-}
+  sha256('SHA256'),
+  ;
 
-extension DataChecksumAlgorithmValueExtension on DataChecksumAlgorithm {
-  String toValue() {
-    switch (this) {
-      case DataChecksumAlgorithm.sha256:
-        return 'SHA256';
-    }
-  }
-}
+  final String value;
 
-extension DataChecksumAlgorithmFromString on String {
-  DataChecksumAlgorithm toDataChecksumAlgorithm() {
-    switch (this) {
-      case 'SHA256':
-        return DataChecksumAlgorithm.sha256;
-    }
-    throw Exception('$this is not known in enum DataChecksumAlgorithm');
-  }
+  const DataChecksumAlgorithm(this.value);
+
+  static DataChecksumAlgorithm fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DataChecksumAlgorithm'));
 }
 
 class GetChunkOutput {
@@ -799,8 +788,8 @@ class NotifyObjectCompleteOutput {
   factory NotifyObjectCompleteOutput.fromJson(Map<String, dynamic> json) {
     return NotifyObjectCompleteOutput(
       objectChecksum: json['ObjectChecksum'] as String,
-      objectChecksumAlgorithm: (json['ObjectChecksumAlgorithm'] as String)
-          .toSummaryChecksumAlgorithm(),
+      objectChecksumAlgorithm: SummaryChecksumAlgorithm.fromString(
+          (json['ObjectChecksumAlgorithm'] as String)),
     );
   }
 
@@ -809,7 +798,7 @@ class NotifyObjectCompleteOutput {
     final objectChecksumAlgorithm = this.objectChecksumAlgorithm;
     return {
       'ObjectChecksum': objectChecksum,
-      'ObjectChecksumAlgorithm': objectChecksumAlgorithm.toValue(),
+      'ObjectChecksumAlgorithm': objectChecksumAlgorithm.value,
     };
   }
 }
@@ -829,8 +818,8 @@ class PutChunkOutput {
   factory PutChunkOutput.fromJson(Map<String, dynamic> json) {
     return PutChunkOutput(
       chunkChecksum: json['ChunkChecksum'] as String,
-      chunkChecksumAlgorithm:
-          (json['ChunkChecksumAlgorithm'] as String).toDataChecksumAlgorithm(),
+      chunkChecksumAlgorithm: DataChecksumAlgorithm.fromString(
+          (json['ChunkChecksumAlgorithm'] as String)),
     );
   }
 
@@ -839,7 +828,7 @@ class PutChunkOutput {
     final chunkChecksumAlgorithm = this.chunkChecksumAlgorithm;
     return {
       'ChunkChecksum': chunkChecksum,
-      'ChunkChecksumAlgorithm': chunkChecksumAlgorithm.toValue(),
+      'ChunkChecksumAlgorithm': chunkChecksumAlgorithm.value,
     };
   }
 }
@@ -867,12 +856,11 @@ class PutObjectOutput {
   factory PutObjectOutput.fromJson(Map<String, dynamic> json) {
     return PutObjectOutput(
       inlineChunkChecksum: json['InlineChunkChecksum'] as String,
-      inlineChunkChecksumAlgorithm:
-          (json['InlineChunkChecksumAlgorithm'] as String)
-              .toDataChecksumAlgorithm(),
+      inlineChunkChecksumAlgorithm: DataChecksumAlgorithm.fromString(
+          (json['InlineChunkChecksumAlgorithm'] as String)),
       objectChecksum: json['ObjectChecksum'] as String,
-      objectChecksumAlgorithm: (json['ObjectChecksumAlgorithm'] as String)
-          .toSummaryChecksumAlgorithm(),
+      objectChecksumAlgorithm: SummaryChecksumAlgorithm.fromString(
+          (json['ObjectChecksumAlgorithm'] as String)),
     );
   }
 
@@ -883,9 +871,9 @@ class PutObjectOutput {
     final objectChecksumAlgorithm = this.objectChecksumAlgorithm;
     return {
       'InlineChunkChecksum': inlineChunkChecksum,
-      'InlineChunkChecksumAlgorithm': inlineChunkChecksumAlgorithm.toValue(),
+      'InlineChunkChecksumAlgorithm': inlineChunkChecksumAlgorithm.value,
       'ObjectChecksum': objectChecksum,
-      'ObjectChecksumAlgorithm': objectChecksumAlgorithm.toValue(),
+      'ObjectChecksumAlgorithm': objectChecksumAlgorithm.value,
     };
   }
 }
@@ -913,26 +901,17 @@ class StartObjectOutput {
 }
 
 enum SummaryChecksumAlgorithm {
-  summary,
-}
+  summary('SUMMARY'),
+  ;
 
-extension SummaryChecksumAlgorithmValueExtension on SummaryChecksumAlgorithm {
-  String toValue() {
-    switch (this) {
-      case SummaryChecksumAlgorithm.summary:
-        return 'SUMMARY';
-    }
-  }
-}
+  final String value;
 
-extension SummaryChecksumAlgorithmFromString on String {
-  SummaryChecksumAlgorithm toSummaryChecksumAlgorithm() {
-    switch (this) {
-      case 'SUMMARY':
-        return SummaryChecksumAlgorithm.summary;
-    }
-    throw Exception('$this is not known in enum SummaryChecksumAlgorithm');
-  }
+  const SummaryChecksumAlgorithm(this.value);
+
+  static SummaryChecksumAlgorithm fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SummaryChecksumAlgorithm'));
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

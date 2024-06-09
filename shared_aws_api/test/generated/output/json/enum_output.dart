@@ -76,41 +76,28 @@ class OutputShape {
 
   factory OutputShape.fromJson(Map<String, dynamic> json) {
     return OutputShape(
-      fooEnum: (json['FooEnum'] as String?)?.toJSONEnumType(),
+      fooEnum: (json['FooEnum'] as String?)?.let(JSONEnumType.fromString),
       listEnums: (json['ListEnums'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toJSONEnumType())
+          .map((e) => JSONEnumType.fromString((e as String)))
           .toList(),
     );
   }
 }
 
 enum JSONEnumType {
-  foo,
-  bar,
-}
+  foo('foo'),
+  bar('bar'),
+  ;
 
-extension JSONEnumTypeValueExtension on JSONEnumType {
-  String toValue() {
-    switch (this) {
-      case JSONEnumType.foo:
-        return 'foo';
-      case JSONEnumType.bar:
-        return 'bar';
-    }
-  }
-}
+  final String value;
 
-extension JSONEnumTypeFromString on String {
-  JSONEnumType toJSONEnumType() {
-    switch (this) {
-      case 'foo':
-        return JSONEnumType.foo;
-      case 'bar':
-        return JSONEnumType.bar;
-    }
-    throw Exception('$this is not known in enum JSONEnumType');
-  }
+  const JSONEnumType(this.value);
+
+  static JSONEnumType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum JSONEnumType'));
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

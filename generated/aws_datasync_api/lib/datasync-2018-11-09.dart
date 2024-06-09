@@ -119,7 +119,7 @@ class DataSync {
         'AgentArns': agentArns,
         'Credentials': credentials,
         'ServerConfiguration': serverConfiguration,
-        'SystemType': systemType.toValue(),
+        'SystemType': systemType.value,
         'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (cloudWatchLogGroupArn != null)
           'CloudWatchLogGroupArn': cloudWatchLogGroupArn,
@@ -343,10 +343,10 @@ class DataSync {
       headers: headers,
       payload: {
         'AgentArns': agentArns,
-        'AuthenticationType': authenticationType.toValue(),
+        'AuthenticationType': authenticationType.value,
         'ContainerUrl': containerUrl,
-        if (accessTier != null) 'AccessTier': accessTier.toValue(),
-        if (blobType != null) 'BlobType': blobType.toValue(),
+        if (accessTier != null) 'AccessTier': accessTier.value,
+        if (blobType != null) 'BlobType': blobType.value,
         if (sasConfiguration != null) 'SasConfiguration': sasConfiguration,
         if (subdirectory != null) 'Subdirectory': subdirectory,
         if (tags != null) 'Tags': tags,
@@ -430,7 +430,7 @@ class DataSync {
         if (fileSystemAccessRoleArn != null)
           'FileSystemAccessRoleArn': fileSystemAccessRoleArn,
         if (inTransitEncryption != null)
-          'InTransitEncryption': inTransitEncryption.toValue(),
+          'InTransitEncryption': inTransitEncryption.value,
         if (subdirectory != null) 'Subdirectory': subdirectory,
         if (tags != null) 'Tags': tags,
       },
@@ -866,7 +866,7 @@ class DataSync {
       headers: headers,
       payload: {
         'AgentArns': agentArns,
-        'AuthenticationType': authenticationType.toValue(),
+        'AuthenticationType': authenticationType.value,
         'NameNodes': nameNodes,
         if (blockSize != null) 'BlockSize': blockSize,
         if (kerberosKeytab != null)
@@ -1077,7 +1077,7 @@ class DataSync {
         if (serverCertificate != null)
           'ServerCertificate': base64Encode(serverCertificate),
         if (serverPort != null) 'ServerPort': serverPort,
-        if (serverProtocol != null) 'ServerProtocol': serverProtocol.toValue(),
+        if (serverProtocol != null) 'ServerProtocol': serverProtocol.value,
         if (subdirectory != null) 'Subdirectory': subdirectory,
         if (tags != null) 'Tags': tags,
       },
@@ -1190,7 +1190,7 @@ class DataSync {
         'S3BucketArn': s3BucketArn,
         'S3Config': s3Config,
         if (agentArns != null) 'AgentArns': agentArns,
-        if (s3StorageClass != null) 'S3StorageClass': s3StorageClass.toValue(),
+        if (s3StorageClass != null) 'S3StorageClass': s3StorageClass.value,
         if (subdirectory != null) 'Subdirectory': subdirectory,
         if (tags != null) 'Tags': tags,
       },
@@ -2003,7 +2003,7 @@ class DataSync {
       payload: {
         'DiscoveryJobArn': discoveryJobArn,
         'ResourceId': resourceId,
-        'ResourceType': resourceType.toValue(),
+        'ResourceType': resourceType.value,
         if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
@@ -2073,9 +2073,9 @@ class DataSync {
       headers: headers,
       payload: {
         'DiscoveryJobArn': discoveryJobArn,
-        'ResourceType': resourceType.toValue(),
+        'ResourceType': resourceType.value,
         if (filter != null)
-          'Filter': filter.map((k, e) => MapEntry(k.toValue(), e)),
+          'Filter': filter.map((k, e) => MapEntry(k.value, e)),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (resourceIds != null) 'ResourceIds': resourceIds,
@@ -2189,7 +2189,7 @@ class DataSync {
       payload: {
         'DiscoveryJobArn': discoveryJobArn,
         'ResourceIds': resourceIds,
-        'ResourceType': resourceType.toValue(),
+        'ResourceType': resourceType.value,
       },
     );
   }
@@ -2971,11 +2971,11 @@ class DataSync {
       headers: headers,
       payload: {
         'LocationArn': locationArn,
-        if (accessTier != null) 'AccessTier': accessTier.toValue(),
+        if (accessTier != null) 'AccessTier': accessTier.value,
         if (agentArns != null) 'AgentArns': agentArns,
         if (authenticationType != null)
-          'AuthenticationType': authenticationType.toValue(),
-        if (blobType != null) 'BlobType': blobType.toValue(),
+          'AuthenticationType': authenticationType.value,
+        if (blobType != null) 'BlobType': blobType.value,
         if (sasConfiguration != null) 'SasConfiguration': sasConfiguration,
         if (subdirectory != null) 'Subdirectory': subdirectory,
       },
@@ -3081,7 +3081,7 @@ class DataSync {
         'LocationArn': locationArn,
         if (agentArns != null) 'AgentArns': agentArns,
         if (authenticationType != null)
-          'AuthenticationType': authenticationType.toValue(),
+          'AuthenticationType': authenticationType.value,
         if (blockSize != null) 'BlockSize': blockSize,
         if (kerberosKeytab != null)
           'KerberosKeytab': base64Encode(kerberosKeytab),
@@ -3248,7 +3248,7 @@ class DataSync {
         if (serverCertificate != null)
           'ServerCertificate': base64Encode(serverCertificate),
         if (serverPort != null) 'ServerPort': serverPort,
-        if (serverProtocol != null) 'ServerProtocol': serverProtocol.toValue(),
+        if (serverProtocol != null) 'ServerProtocol': serverProtocol.value,
         if (subdirectory != null) 'Subdirectory': subdirectory,
       },
     );
@@ -3594,122 +3594,67 @@ class AgentListEntry {
       platform: json['Platform'] != null
           ? Platform.fromJson(json['Platform'] as Map<String, dynamic>)
           : null,
-      status: (json['Status'] as String?)?.toAgentStatus(),
+      status: (json['Status'] as String?)?.let(AgentStatus.fromString),
     );
   }
 }
 
 enum AgentStatus {
-  online,
-  offline,
-}
+  online('ONLINE'),
+  offline('OFFLINE'),
+  ;
 
-extension AgentStatusValueExtension on AgentStatus {
-  String toValue() {
-    switch (this) {
-      case AgentStatus.online:
-        return 'ONLINE';
-      case AgentStatus.offline:
-        return 'OFFLINE';
-    }
-  }
-}
+  final String value;
 
-extension AgentStatusFromString on String {
-  AgentStatus toAgentStatus() {
-    switch (this) {
-      case 'ONLINE':
-        return AgentStatus.online;
-      case 'OFFLINE':
-        return AgentStatus.offline;
-    }
-    throw Exception('$this is not known in enum AgentStatus');
-  }
+  const AgentStatus(this.value);
+
+  static AgentStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AgentStatus'));
 }
 
 enum Atime {
-  none,
-  bestEffort,
-}
+  none('NONE'),
+  bestEffort('BEST_EFFORT'),
+  ;
 
-extension AtimeValueExtension on Atime {
-  String toValue() {
-    switch (this) {
-      case Atime.none:
-        return 'NONE';
-      case Atime.bestEffort:
-        return 'BEST_EFFORT';
-    }
-  }
-}
+  final String value;
 
-extension AtimeFromString on String {
-  Atime toAtime() {
-    switch (this) {
-      case 'NONE':
-        return Atime.none;
-      case 'BEST_EFFORT':
-        return Atime.bestEffort;
-    }
-    throw Exception('$this is not known in enum Atime');
-  }
+  const Atime(this.value);
+
+  static Atime fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Atime'));
 }
 
 enum AzureAccessTier {
-  hot,
-  cool,
-  archive,
-}
+  hot('HOT'),
+  cool('COOL'),
+  archive('ARCHIVE'),
+  ;
 
-extension AzureAccessTierValueExtension on AzureAccessTier {
-  String toValue() {
-    switch (this) {
-      case AzureAccessTier.hot:
-        return 'HOT';
-      case AzureAccessTier.cool:
-        return 'COOL';
-      case AzureAccessTier.archive:
-        return 'ARCHIVE';
-    }
-  }
-}
+  final String value;
 
-extension AzureAccessTierFromString on String {
-  AzureAccessTier toAzureAccessTier() {
-    switch (this) {
-      case 'HOT':
-        return AzureAccessTier.hot;
-      case 'COOL':
-        return AzureAccessTier.cool;
-      case 'ARCHIVE':
-        return AzureAccessTier.archive;
-    }
-    throw Exception('$this is not known in enum AzureAccessTier');
-  }
+  const AzureAccessTier(this.value);
+
+  static AzureAccessTier fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AzureAccessTier'));
 }
 
 enum AzureBlobAuthenticationType {
-  sas,
-}
+  sas('SAS'),
+  ;
 
-extension AzureBlobAuthenticationTypeValueExtension
-    on AzureBlobAuthenticationType {
-  String toValue() {
-    switch (this) {
-      case AzureBlobAuthenticationType.sas:
-        return 'SAS';
-    }
-  }
-}
+  final String value;
 
-extension AzureBlobAuthenticationTypeFromString on String {
-  AzureBlobAuthenticationType toAzureBlobAuthenticationType() {
-    switch (this) {
-      case 'SAS':
-        return AzureBlobAuthenticationType.sas;
-    }
-    throw Exception('$this is not known in enum AzureBlobAuthenticationType');
-  }
+  const AzureBlobAuthenticationType(this.value);
+
+  static AzureBlobAuthenticationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AzureBlobAuthenticationType'));
 }
 
 /// The shared access signature (SAS) configuration that allows DataSync to
@@ -3741,26 +3686,17 @@ class AzureBlobSasConfiguration {
 }
 
 enum AzureBlobType {
-  block,
-}
+  block('BLOCK'),
+  ;
 
-extension AzureBlobTypeValueExtension on AzureBlobType {
-  String toValue() {
-    switch (this) {
-      case AzureBlobType.block:
-        return 'BLOCK';
-    }
-  }
-}
+  final String value;
 
-extension AzureBlobTypeFromString on String {
-  AzureBlobType toAzureBlobType() {
-    switch (this) {
-      case 'BLOCK':
-        return AzureBlobType.block;
-    }
-    throw Exception('$this is not known in enum AzureBlobType');
-  }
+  const AzureBlobType(this.value);
+
+  static AzureBlobType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AzureBlobType'));
 }
 
 class CancelTaskExecutionResponse {
@@ -4127,7 +4063,8 @@ class DescribeAgentResponse {
     return DescribeAgentResponse(
       agentArn: json['AgentArn'] as String?,
       creationTime: timeStampFromJson(json['CreationTime']),
-      endpointType: (json['EndpointType'] as String?)?.toEndpointType(),
+      endpointType:
+          (json['EndpointType'] as String?)?.let(EndpointType.fromString),
       lastConnectionTime: timeStampFromJson(json['LastConnectionTime']),
       name: json['Name'] as String?,
       platform: json['Platform'] != null
@@ -4137,7 +4074,7 @@ class DescribeAgentResponse {
           ? PrivateLinkConfig.fromJson(
               json['PrivateLinkConfig'] as Map<String, dynamic>)
           : null,
-      status: (json['Status'] as String?)?.toAgentStatus(),
+      status: (json['Status'] as String?)?.let(AgentStatus.fromString),
     );
   }
 }
@@ -4179,7 +4116,7 @@ class DescribeDiscoveryJobResponse {
       discoveryJobArn: json['DiscoveryJobArn'] as String?,
       jobEndTime: timeStampFromJson(json['JobEndTime']),
       jobStartTime: timeStampFromJson(json['JobStartTime']),
-      status: (json['Status'] as String?)?.toDiscoveryJobStatus(),
+      status: (json['Status'] as String?)?.let(DiscoveryJobStatus.fromString),
       storageSystemArn: json['StorageSystemArn'] as String?,
     );
   }
@@ -4231,14 +4168,15 @@ class DescribeLocationAzureBlobResponse {
   factory DescribeLocationAzureBlobResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeLocationAzureBlobResponse(
-      accessTier: (json['AccessTier'] as String?)?.toAzureAccessTier(),
+      accessTier:
+          (json['AccessTier'] as String?)?.let(AzureAccessTier.fromString),
       agentArns: (json['AgentArns'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
       authenticationType: (json['AuthenticationType'] as String?)
-          ?.toAzureBlobAuthenticationType(),
-      blobType: (json['BlobType'] as String?)?.toAzureBlobType(),
+          ?.let(AzureBlobAuthenticationType.fromString),
+      blobType: (json['BlobType'] as String?)?.let(AzureBlobType.fromString),
       creationTime: timeStampFromJson(json['CreationTime']),
       locationArn: json['LocationArn'] as String?,
       locationUri: json['LocationUri'] as String?,
@@ -4288,8 +4226,8 @@ class DescribeLocationEfsResponse {
           ? Ec2Config.fromJson(json['Ec2Config'] as Map<String, dynamic>)
           : null,
       fileSystemAccessRoleArn: json['FileSystemAccessRoleArn'] as String?,
-      inTransitEncryption:
-          (json['InTransitEncryption'] as String?)?.toEfsInTransitEncryption(),
+      inTransitEncryption: (json['InTransitEncryption'] as String?)
+          ?.let(EfsInTransitEncryption.fromString),
       locationArn: json['LocationArn'] as String?,
       locationUri: json['LocationUri'] as String?,
     );
@@ -4542,8 +4480,8 @@ class DescribeLocationHdfsResponse {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      authenticationType:
-          (json['AuthenticationType'] as String?)?.toHdfsAuthenticationType(),
+      authenticationType: (json['AuthenticationType'] as String?)
+          ?.let(HdfsAuthenticationType.fromString),
       blockSize: json['BlockSize'] as int?,
       creationTime: timeStampFromJson(json['CreationTime']),
       kerberosPrincipal: json['KerberosPrincipal'] as String?,
@@ -4659,8 +4597,8 @@ class DescribeLocationObjectStorageResponse {
       serverCertificate:
           _s.decodeNullableUint8List(json['ServerCertificate'] as String?),
       serverPort: json['ServerPort'] as int?,
-      serverProtocol:
-          (json['ServerProtocol'] as String?)?.toObjectStorageServerProtocol(),
+      serverProtocol: (json['ServerProtocol'] as String?)
+          ?.let(ObjectStorageServerProtocol.fromString),
     );
   }
 }
@@ -4715,7 +4653,8 @@ class DescribeLocationS3Response {
       s3Config: json['S3Config'] != null
           ? S3Config.fromJson(json['S3Config'] as Map<String, dynamic>)
           : null,
-      s3StorageClass: (json['S3StorageClass'] as String?)?.toS3StorageClass(),
+      s3StorageClass:
+          (json['S3StorageClass'] as String?)?.let(S3StorageClass.fromString),
     );
   }
 }
@@ -4898,7 +4837,7 @@ class DescribeStorageSystemResponse {
           .toList(),
       cloudWatchLogGroupArn: json['CloudWatchLogGroupArn'] as String?,
       connectivityStatus: (json['ConnectivityStatus'] as String?)
-          ?.toStorageSystemConnectivityStatus(),
+          ?.let(StorageSystemConnectivityStatus.fromString),
       creationTime: timeStampFromJson(json['CreationTime']),
       errorMessage: json['ErrorMessage'] as String?,
       name: json['Name'] as String?,
@@ -4908,7 +4847,8 @@ class DescribeStorageSystemResponse {
               json['ServerConfiguration'] as Map<String, dynamic>)
           : null,
       storageSystemArn: json['StorageSystemArn'] as String?,
-      systemType: (json['SystemType'] as String?)?.toDiscoverySystemType(),
+      systemType:
+          (json['SystemType'] as String?)?.let(DiscoverySystemType.fromString),
     );
   }
 }
@@ -5085,7 +5025,7 @@ class DescribeTaskExecutionResponse {
               json['Result'] as Map<String, dynamic>)
           : null,
       startTime: timeStampFromJson(json['StartTime']),
-      status: (json['Status'] as String?)?.toTaskExecutionStatus(),
+      status: (json['Status'] as String?)?.let(TaskExecutionStatus.fromString),
       taskExecutionArn: json['TaskExecutionArn'] as String?,
       taskReportConfig: json['TaskReportConfig'] != null
           ? TaskReportConfig.fromJson(
@@ -5256,7 +5196,7 @@ class DescribeTaskResponse {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      status: (json['Status'] as String?)?.toTaskStatus(),
+      status: (json['Status'] as String?)?.let(TaskStatus.fromString),
       taskArn: json['TaskArn'] as String?,
       taskReportConfig: json['TaskReportConfig'] != null
           ? TaskReportConfig.fromJson(
@@ -5284,118 +5224,59 @@ class DiscoveryJobListEntry {
   factory DiscoveryJobListEntry.fromJson(Map<String, dynamic> json) {
     return DiscoveryJobListEntry(
       discoveryJobArn: json['DiscoveryJobArn'] as String?,
-      status: (json['Status'] as String?)?.toDiscoveryJobStatus(),
+      status: (json['Status'] as String?)?.let(DiscoveryJobStatus.fromString),
     );
   }
 }
 
 enum DiscoveryJobStatus {
-  running,
-  warning,
-  terminated,
-  failed,
-  stopped,
-  completed,
-  completedWithIssues,
-}
+  running('RUNNING'),
+  warning('WARNING'),
+  terminated('TERMINATED'),
+  failed('FAILED'),
+  stopped('STOPPED'),
+  completed('COMPLETED'),
+  completedWithIssues('COMPLETED_WITH_ISSUES'),
+  ;
 
-extension DiscoveryJobStatusValueExtension on DiscoveryJobStatus {
-  String toValue() {
-    switch (this) {
-      case DiscoveryJobStatus.running:
-        return 'RUNNING';
-      case DiscoveryJobStatus.warning:
-        return 'WARNING';
-      case DiscoveryJobStatus.terminated:
-        return 'TERMINATED';
-      case DiscoveryJobStatus.failed:
-        return 'FAILED';
-      case DiscoveryJobStatus.stopped:
-        return 'STOPPED';
-      case DiscoveryJobStatus.completed:
-        return 'COMPLETED';
-      case DiscoveryJobStatus.completedWithIssues:
-        return 'COMPLETED_WITH_ISSUES';
-    }
-  }
-}
+  final String value;
 
-extension DiscoveryJobStatusFromString on String {
-  DiscoveryJobStatus toDiscoveryJobStatus() {
-    switch (this) {
-      case 'RUNNING':
-        return DiscoveryJobStatus.running;
-      case 'WARNING':
-        return DiscoveryJobStatus.warning;
-      case 'TERMINATED':
-        return DiscoveryJobStatus.terminated;
-      case 'FAILED':
-        return DiscoveryJobStatus.failed;
-      case 'STOPPED':
-        return DiscoveryJobStatus.stopped;
-      case 'COMPLETED':
-        return DiscoveryJobStatus.completed;
-      case 'COMPLETED_WITH_ISSUES':
-        return DiscoveryJobStatus.completedWithIssues;
-    }
-    throw Exception('$this is not known in enum DiscoveryJobStatus');
-  }
+  const DiscoveryJobStatus(this.value);
+
+  static DiscoveryJobStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DiscoveryJobStatus'));
 }
 
 enum DiscoveryResourceFilter {
-  svm,
-}
+  svm('SVM'),
+  ;
 
-extension DiscoveryResourceFilterValueExtension on DiscoveryResourceFilter {
-  String toValue() {
-    switch (this) {
-      case DiscoveryResourceFilter.svm:
-        return 'SVM';
-    }
-  }
-}
+  final String value;
 
-extension DiscoveryResourceFilterFromString on String {
-  DiscoveryResourceFilter toDiscoveryResourceFilter() {
-    switch (this) {
-      case 'SVM':
-        return DiscoveryResourceFilter.svm;
-    }
-    throw Exception('$this is not known in enum DiscoveryResourceFilter');
-  }
+  const DiscoveryResourceFilter(this.value);
+
+  static DiscoveryResourceFilter fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DiscoveryResourceFilter'));
 }
 
 enum DiscoveryResourceType {
-  svm,
-  volume,
-  cluster,
-}
+  svm('SVM'),
+  volume('VOLUME'),
+  cluster('CLUSTER'),
+  ;
 
-extension DiscoveryResourceTypeValueExtension on DiscoveryResourceType {
-  String toValue() {
-    switch (this) {
-      case DiscoveryResourceType.svm:
-        return 'SVM';
-      case DiscoveryResourceType.volume:
-        return 'VOLUME';
-      case DiscoveryResourceType.cluster:
-        return 'CLUSTER';
-    }
-  }
-}
+  final String value;
 
-extension DiscoveryResourceTypeFromString on String {
-  DiscoveryResourceType toDiscoveryResourceType() {
-    switch (this) {
-      case 'SVM':
-        return DiscoveryResourceType.svm;
-      case 'VOLUME':
-        return DiscoveryResourceType.volume;
-      case 'CLUSTER':
-        return DiscoveryResourceType.cluster;
-    }
-    throw Exception('$this is not known in enum DiscoveryResourceType');
-  }
+  const DiscoveryResourceType(this.value);
+
+  static DiscoveryResourceType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DiscoveryResourceType'));
 }
 
 /// The network settings that DataSync Discovery uses to connect with your
@@ -5430,26 +5311,17 @@ class DiscoveryServerConfiguration {
 }
 
 enum DiscoverySystemType {
-  netAppONTAP,
-}
+  netAppONTAP('NetAppONTAP'),
+  ;
 
-extension DiscoverySystemTypeValueExtension on DiscoverySystemType {
-  String toValue() {
-    switch (this) {
-      case DiscoverySystemType.netAppONTAP:
-        return 'NetAppONTAP';
-    }
-  }
-}
+  final String value;
 
-extension DiscoverySystemTypeFromString on String {
-  DiscoverySystemType toDiscoverySystemType() {
-    switch (this) {
-      case 'NetAppONTAP':
-        return DiscoverySystemType.netAppONTAP;
-    }
-    throw Exception('$this is not known in enum DiscoverySystemType');
-  }
+  const DiscoverySystemType(this.value);
+
+  static DiscoverySystemType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DiscoverySystemType'));
 }
 
 /// The subnet and security groups that DataSync uses to access your Amazon EFS
@@ -5504,64 +5376,34 @@ class Ec2Config {
 }
 
 enum EfsInTransitEncryption {
-  none,
-  tls1_2,
-}
+  none('NONE'),
+  tls1_2('TLS1_2'),
+  ;
 
-extension EfsInTransitEncryptionValueExtension on EfsInTransitEncryption {
-  String toValue() {
-    switch (this) {
-      case EfsInTransitEncryption.none:
-        return 'NONE';
-      case EfsInTransitEncryption.tls1_2:
-        return 'TLS1_2';
-    }
-  }
-}
+  final String value;
 
-extension EfsInTransitEncryptionFromString on String {
-  EfsInTransitEncryption toEfsInTransitEncryption() {
-    switch (this) {
-      case 'NONE':
-        return EfsInTransitEncryption.none;
-      case 'TLS1_2':
-        return EfsInTransitEncryption.tls1_2;
-    }
-    throw Exception('$this is not known in enum EfsInTransitEncryption');
-  }
+  const EfsInTransitEncryption(this.value);
+
+  static EfsInTransitEncryption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum EfsInTransitEncryption'));
 }
 
 enum EndpointType {
-  public,
-  privateLink,
-  fips,
-}
+  public('PUBLIC'),
+  privateLink('PRIVATE_LINK'),
+  fips('FIPS'),
+  ;
 
-extension EndpointTypeValueExtension on EndpointType {
-  String toValue() {
-    switch (this) {
-      case EndpointType.public:
-        return 'PUBLIC';
-      case EndpointType.privateLink:
-        return 'PRIVATE_LINK';
-      case EndpointType.fips:
-        return 'FIPS';
-    }
-  }
-}
+  final String value;
 
-extension EndpointTypeFromString on String {
-  EndpointType toEndpointType() {
-    switch (this) {
-      case 'PUBLIC':
-        return EndpointType.public;
-      case 'PRIVATE_LINK':
-        return EndpointType.privateLink;
-      case 'FIPS':
-        return EndpointType.fips;
-    }
-    throw Exception('$this is not known in enum EndpointType');
-  }
+  const EndpointType(this.value);
+
+  static EndpointType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EndpointType'));
 }
 
 /// Specifies which files, folders, and objects to include or exclude when
@@ -5585,7 +5427,7 @@ class FilterRule {
 
   factory FilterRule.fromJson(Map<String, dynamic> json) {
     return FilterRule(
-      filterType: (json['FilterType'] as String?)?.toFilterType(),
+      filterType: (json['FilterType'] as String?)?.let(FilterType.fromString),
       value: json['Value'] as String?,
     );
   }
@@ -5594,33 +5436,23 @@ class FilterRule {
     final filterType = this.filterType;
     final value = this.value;
     return {
-      if (filterType != null) 'FilterType': filterType.toValue(),
+      if (filterType != null) 'FilterType': filterType.value,
       if (value != null) 'Value': value,
     };
   }
 }
 
 enum FilterType {
-  simplePattern,
-}
+  simplePattern('SIMPLE_PATTERN'),
+  ;
 
-extension FilterTypeValueExtension on FilterType {
-  String toValue() {
-    switch (this) {
-      case FilterType.simplePattern:
-        return 'SIMPLE_PATTERN';
-    }
-  }
-}
+  final String value;
 
-extension FilterTypeFromString on String {
-  FilterType toFilterType() {
-    switch (this) {
-      case 'SIMPLE_PATTERN':
-        return FilterType.simplePattern;
-    }
-    throw Exception('$this is not known in enum FilterType');
-  }
+  const FilterType(this.value);
+
+  static FilterType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum FilterType'));
 }
 
 /// Specifies the data transfer protocol that DataSync uses to access your
@@ -5756,108 +5588,51 @@ class GenerateRecommendationsResponse {
 }
 
 enum Gid {
-  none,
-  intValue,
-  name,
-  both,
-}
+  none('NONE'),
+  intValue('INT_VALUE'),
+  name('NAME'),
+  both('BOTH'),
+  ;
 
-extension GidValueExtension on Gid {
-  String toValue() {
-    switch (this) {
-      case Gid.none:
-        return 'NONE';
-      case Gid.intValue:
-        return 'INT_VALUE';
-      case Gid.name:
-        return 'NAME';
-      case Gid.both:
-        return 'BOTH';
-    }
-  }
-}
+  final String value;
 
-extension GidFromString on String {
-  Gid toGid() {
-    switch (this) {
-      case 'NONE':
-        return Gid.none;
-      case 'INT_VALUE':
-        return Gid.intValue;
-      case 'NAME':
-        return Gid.name;
-      case 'BOTH':
-        return Gid.both;
-    }
-    throw Exception('$this is not known in enum Gid');
-  }
+  const Gid(this.value);
+
+  static Gid fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Gid'));
 }
 
 enum HdfsAuthenticationType {
-  simple,
-  kerberos,
-}
+  simple('SIMPLE'),
+  kerberos('KERBEROS'),
+  ;
 
-extension HdfsAuthenticationTypeValueExtension on HdfsAuthenticationType {
-  String toValue() {
-    switch (this) {
-      case HdfsAuthenticationType.simple:
-        return 'SIMPLE';
-      case HdfsAuthenticationType.kerberos:
-        return 'KERBEROS';
-    }
-  }
-}
+  final String value;
 
-extension HdfsAuthenticationTypeFromString on String {
-  HdfsAuthenticationType toHdfsAuthenticationType() {
-    switch (this) {
-      case 'SIMPLE':
-        return HdfsAuthenticationType.simple;
-      case 'KERBEROS':
-        return HdfsAuthenticationType.kerberos;
-    }
-    throw Exception('$this is not known in enum HdfsAuthenticationType');
-  }
+  const HdfsAuthenticationType(this.value);
+
+  static HdfsAuthenticationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum HdfsAuthenticationType'));
 }
 
 enum HdfsDataTransferProtection {
-  disabled,
-  authentication,
-  integrity,
-  privacy,
-}
+  disabled('DISABLED'),
+  authentication('AUTHENTICATION'),
+  integrity('INTEGRITY'),
+  privacy('PRIVACY'),
+  ;
 
-extension HdfsDataTransferProtectionValueExtension
-    on HdfsDataTransferProtection {
-  String toValue() {
-    switch (this) {
-      case HdfsDataTransferProtection.disabled:
-        return 'DISABLED';
-      case HdfsDataTransferProtection.authentication:
-        return 'AUTHENTICATION';
-      case HdfsDataTransferProtection.integrity:
-        return 'INTEGRITY';
-      case HdfsDataTransferProtection.privacy:
-        return 'PRIVACY';
-    }
-  }
-}
+  final String value;
 
-extension HdfsDataTransferProtectionFromString on String {
-  HdfsDataTransferProtection toHdfsDataTransferProtection() {
-    switch (this) {
-      case 'DISABLED':
-        return HdfsDataTransferProtection.disabled;
-      case 'AUTHENTICATION':
-        return HdfsDataTransferProtection.authentication;
-      case 'INTEGRITY':
-        return HdfsDataTransferProtection.integrity;
-      case 'PRIVACY':
-        return HdfsDataTransferProtection.privacy;
-    }
-    throw Exception('$this is not known in enum HdfsDataTransferProtection');
-  }
+  const HdfsDataTransferProtection(this.value);
+
+  static HdfsDataTransferProtection fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum HdfsDataTransferProtection'));
 }
 
 /// The NameNode of the Hadoop Distributed File System (HDFS). The NameNode
@@ -5897,41 +5672,20 @@ class HdfsNameNode {
 }
 
 enum HdfsRpcProtection {
-  disabled,
-  authentication,
-  integrity,
-  privacy,
-}
+  disabled('DISABLED'),
+  authentication('AUTHENTICATION'),
+  integrity('INTEGRITY'),
+  privacy('PRIVACY'),
+  ;
 
-extension HdfsRpcProtectionValueExtension on HdfsRpcProtection {
-  String toValue() {
-    switch (this) {
-      case HdfsRpcProtection.disabled:
-        return 'DISABLED';
-      case HdfsRpcProtection.authentication:
-        return 'AUTHENTICATION';
-      case HdfsRpcProtection.integrity:
-        return 'INTEGRITY';
-      case HdfsRpcProtection.privacy:
-        return 'PRIVACY';
-    }
-  }
-}
+  final String value;
 
-extension HdfsRpcProtectionFromString on String {
-  HdfsRpcProtection toHdfsRpcProtection() {
-    switch (this) {
-      case 'DISABLED':
-        return HdfsRpcProtection.disabled;
-      case 'AUTHENTICATION':
-        return HdfsRpcProtection.authentication;
-      case 'INTEGRITY':
-        return HdfsRpcProtection.integrity;
-      case 'PRIVACY':
-        return HdfsRpcProtection.privacy;
-    }
-    throw Exception('$this is not known in enum HdfsRpcProtection');
-  }
+  const HdfsRpcProtection(this.value);
+
+  static HdfsRpcProtection fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum HdfsRpcProtection'));
 }
 
 /// The IOPS peaks for an on-premises storage system resource. Each data point
@@ -6204,44 +5958,27 @@ class LocationFilter {
     final operator = this.operator;
     final values = this.values;
     return {
-      'Name': name.toValue(),
-      'Operator': operator.toValue(),
+      'Name': name.value,
+      'Operator': operator.value,
       'Values': values,
     };
   }
 }
 
 enum LocationFilterName {
-  locationUri,
-  locationType,
-  creationTime,
-}
+  locationUri('LocationUri'),
+  locationType('LocationType'),
+  creationTime('CreationTime'),
+  ;
 
-extension LocationFilterNameValueExtension on LocationFilterName {
-  String toValue() {
-    switch (this) {
-      case LocationFilterName.locationUri:
-        return 'LocationUri';
-      case LocationFilterName.locationType:
-        return 'LocationType';
-      case LocationFilterName.creationTime:
-        return 'CreationTime';
-    }
-  }
-}
+  final String value;
 
-extension LocationFilterNameFromString on String {
-  LocationFilterName toLocationFilterName() {
-    switch (this) {
-      case 'LocationUri':
-        return LocationFilterName.locationUri;
-      case 'LocationType':
-        return LocationFilterName.locationType;
-      case 'CreationTime':
-        return LocationFilterName.creationTime;
-    }
-    throw Exception('$this is not known in enum LocationFilterName');
-  }
+  const LocationFilterName(this.value);
+
+  static LocationFilterName fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum LocationFilterName'));
 }
 
 /// Represents a single entry in a list of locations.
@@ -6293,59 +6030,32 @@ class LocationListEntry {
 }
 
 enum LogLevel {
-  off,
-  basic,
-  transfer,
-}
+  off('OFF'),
+  basic('BASIC'),
+  transfer('TRANSFER'),
+  ;
 
-extension LogLevelValueExtension on LogLevel {
-  String toValue() {
-    switch (this) {
-      case LogLevel.off:
-        return 'OFF';
-      case LogLevel.basic:
-        return 'BASIC';
-      case LogLevel.transfer:
-        return 'TRANSFER';
-    }
-  }
-}
+  final String value;
 
-extension LogLevelFromString on String {
-  LogLevel toLogLevel() {
-    switch (this) {
-      case 'OFF':
-        return LogLevel.off;
-      case 'BASIC':
-        return LogLevel.basic;
-      case 'TRANSFER':
-        return LogLevel.transfer;
-    }
-    throw Exception('$this is not known in enum LogLevel');
-  }
+  const LogLevel(this.value);
+
+  static LogLevel fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum LogLevel'));
 }
 
 enum ManifestAction {
-  transfer,
-}
+  transfer('TRANSFER'),
+  ;
 
-extension ManifestActionValueExtension on ManifestAction {
-  String toValue() {
-    switch (this) {
-      case ManifestAction.transfer:
-        return 'TRANSFER';
-    }
-  }
-}
+  final String value;
 
-extension ManifestActionFromString on String {
-  ManifestAction toManifestAction() {
-    switch (this) {
-      case 'TRANSFER':
-        return ManifestAction.transfer;
-    }
-    throw Exception('$this is not known in enum ManifestAction');
-  }
+  const ManifestAction(this.value);
+
+  static ManifestAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ManifestAction'));
 }
 
 /// Configures a manifest, which is a list of files or objects that you want
@@ -6384,8 +6094,8 @@ class ManifestConfig {
 
   factory ManifestConfig.fromJson(Map<String, dynamic> json) {
     return ManifestConfig(
-      action: (json['Action'] as String?)?.toManifestAction(),
-      format: (json['Format'] as String?)?.toManifestFormat(),
+      action: (json['Action'] as String?)?.let(ManifestAction.fromString),
+      format: (json['Format'] as String?)?.let(ManifestFormat.fromString),
       source: json['Source'] != null
           ? SourceManifestConfig.fromJson(
               json['Source'] as Map<String, dynamic>)
@@ -6398,34 +6108,25 @@ class ManifestConfig {
     final format = this.format;
     final source = this.source;
     return {
-      if (action != null) 'Action': action.toValue(),
-      if (format != null) 'Format': format.toValue(),
+      if (action != null) 'Action': action.value,
+      if (format != null) 'Format': format.value,
       if (source != null) 'Source': source,
     };
   }
 }
 
 enum ManifestFormat {
-  csv,
-}
+  csv('CSV'),
+  ;
 
-extension ManifestFormatValueExtension on ManifestFormat {
-  String toValue() {
-    switch (this) {
-      case ManifestFormat.csv:
-        return 'CSV';
-    }
-  }
-}
+  final String value;
 
-extension ManifestFormatFromString on String {
-  ManifestFormat toManifestFormat() {
-    switch (this) {
-      case 'CSV':
-        return ManifestFormat.csv;
-    }
-    throw Exception('$this is not known in enum ManifestFormat');
-  }
+  const ManifestFormat(this.value);
+
+  static ManifestFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ManifestFormat'));
 }
 
 /// The performance data that DataSync Discovery collects about an on-premises
@@ -6496,31 +6197,17 @@ class MaxP95Performance {
 }
 
 enum Mtime {
-  none,
-  preserve,
-}
+  none('NONE'),
+  preserve('PRESERVE'),
+  ;
 
-extension MtimeValueExtension on Mtime {
-  String toValue() {
-    switch (this) {
-      case Mtime.none:
-        return 'NONE';
-      case Mtime.preserve:
-        return 'PRESERVE';
-    }
-  }
-}
+  final String value;
 
-extension MtimeFromString on String {
-  Mtime toMtime() {
-    switch (this) {
-      case 'NONE':
-        return Mtime.none;
-      case 'PRESERVE':
-        return Mtime.preserve;
-    }
-    throw Exception('$this is not known in enum Mtime');
-  }
+  const Mtime(this.value);
+
+  static Mtime fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Mtime'));
 }
 
 /// The information that DataSync Discovery collects about an on-premises
@@ -6602,8 +6289,8 @@ class NetAppONTAPCluster {
               json['MaxP95Performance'] as Map<String, dynamic>)
           : null,
       nfsExportedVolumes: json['NfsExportedVolumes'] as int?,
-      recommendationStatus:
-          (json['RecommendationStatus'] as String?)?.toRecommendationStatus(),
+      recommendationStatus: (json['RecommendationStatus'] as String?)
+          ?.let(RecommendationStatus.fromString),
       recommendations: (json['Recommendations'] as List?)
           ?.whereNotNull()
           .map((e) => Recommendation.fromJson(e as Map<String, dynamic>))
@@ -6699,8 +6386,8 @@ class NetAppONTAPSVM {
               json['MaxP95Performance'] as Map<String, dynamic>)
           : null,
       nfsExportedVolumes: json['NfsExportedVolumes'] as int?,
-      recommendationStatus:
-          (json['RecommendationStatus'] as String?)?.toRecommendationStatus(),
+      recommendationStatus: (json['RecommendationStatus'] as String?)
+          ?.let(RecommendationStatus.fromString),
       recommendations: (json['Recommendations'] as List?)
           ?.whereNotNull()
           .map((e) => Recommendation.fromJson(e as Map<String, dynamic>))
@@ -6802,8 +6489,8 @@ class NetAppONTAPVolume {
               json['MaxP95Performance'] as Map<String, dynamic>)
           : null,
       nfsExported: json['NfsExported'] as bool?,
-      recommendationStatus:
-          (json['RecommendationStatus'] as String?)?.toRecommendationStatus(),
+      recommendationStatus: (json['RecommendationStatus'] as String?)
+          ?.let(RecommendationStatus.fromString),
       recommendations: (json['Recommendations'] as List?)
           ?.whereNotNull()
           .map((e) => Recommendation.fromJson(e as Map<String, dynamic>))
@@ -6855,139 +6542,76 @@ class NfsMountOptions {
 
   factory NfsMountOptions.fromJson(Map<String, dynamic> json) {
     return NfsMountOptions(
-      version: (json['Version'] as String?)?.toNfsVersion(),
+      version: (json['Version'] as String?)?.let(NfsVersion.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final version = this.version;
     return {
-      if (version != null) 'Version': version.toValue(),
+      if (version != null) 'Version': version.value,
     };
   }
 }
 
 enum NfsVersion {
-  automatic,
-  nfs3,
-  nfs4_0,
-  nfs4_1,
-}
+  automatic('AUTOMATIC'),
+  nfs3('NFS3'),
+  nfs4_0('NFS4_0'),
+  nfs4_1('NFS4_1'),
+  ;
 
-extension NfsVersionValueExtension on NfsVersion {
-  String toValue() {
-    switch (this) {
-      case NfsVersion.automatic:
-        return 'AUTOMATIC';
-      case NfsVersion.nfs3:
-        return 'NFS3';
-      case NfsVersion.nfs4_0:
-        return 'NFS4_0';
-      case NfsVersion.nfs4_1:
-        return 'NFS4_1';
-    }
-  }
-}
+  final String value;
 
-extension NfsVersionFromString on String {
-  NfsVersion toNfsVersion() {
-    switch (this) {
-      case 'AUTOMATIC':
-        return NfsVersion.automatic;
-      case 'NFS3':
-        return NfsVersion.nfs3;
-      case 'NFS4_0':
-        return NfsVersion.nfs4_0;
-      case 'NFS4_1':
-        return NfsVersion.nfs4_1;
-    }
-    throw Exception('$this is not known in enum NfsVersion');
-  }
+  const NfsVersion(this.value);
+
+  static NfsVersion fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum NfsVersion'));
 }
 
 enum ObjectStorageServerProtocol {
-  https,
-  http,
-}
+  https('HTTPS'),
+  http('HTTP'),
+  ;
 
-extension ObjectStorageServerProtocolValueExtension
-    on ObjectStorageServerProtocol {
-  String toValue() {
-    switch (this) {
-      case ObjectStorageServerProtocol.https:
-        return 'HTTPS';
-      case ObjectStorageServerProtocol.http:
-        return 'HTTP';
-    }
-  }
-}
+  final String value;
 
-extension ObjectStorageServerProtocolFromString on String {
-  ObjectStorageServerProtocol toObjectStorageServerProtocol() {
-    switch (this) {
-      case 'HTTPS':
-        return ObjectStorageServerProtocol.https;
-      case 'HTTP':
-        return ObjectStorageServerProtocol.http;
-    }
-    throw Exception('$this is not known in enum ObjectStorageServerProtocol');
-  }
+  const ObjectStorageServerProtocol(this.value);
+
+  static ObjectStorageServerProtocol fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ObjectStorageServerProtocol'));
 }
 
 enum ObjectTags {
-  preserve,
-  none,
-}
+  preserve('PRESERVE'),
+  none('NONE'),
+  ;
 
-extension ObjectTagsValueExtension on ObjectTags {
-  String toValue() {
-    switch (this) {
-      case ObjectTags.preserve:
-        return 'PRESERVE';
-      case ObjectTags.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension ObjectTagsFromString on String {
-  ObjectTags toObjectTags() {
-    switch (this) {
-      case 'PRESERVE':
-        return ObjectTags.preserve;
-      case 'NONE':
-        return ObjectTags.none;
-    }
-    throw Exception('$this is not known in enum ObjectTags');
-  }
+  const ObjectTags(this.value);
+
+  static ObjectTags fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ObjectTags'));
 }
 
 enum ObjectVersionIds {
-  include,
-  none,
-}
+  include('INCLUDE'),
+  none('NONE'),
+  ;
 
-extension ObjectVersionIdsValueExtension on ObjectVersionIds {
-  String toValue() {
-    switch (this) {
-      case ObjectVersionIds.include:
-        return 'INCLUDE';
-      case ObjectVersionIds.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension ObjectVersionIdsFromString on String {
-  ObjectVersionIds toObjectVersionIds() {
-    switch (this) {
-      case 'INCLUDE':
-        return ObjectVersionIds.include;
-      case 'NONE':
-        return ObjectVersionIds.none;
-    }
-    throw Exception('$this is not known in enum ObjectVersionIds');
-  }
+  const ObjectVersionIds(this.value);
+
+  static ObjectVersionIds fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ObjectVersionIds'));
 }
 
 /// The DataSync agents that are connecting to a Network File System (NFS)
@@ -7019,71 +6643,25 @@ class OnPremConfig {
 }
 
 enum Operator {
-  equals,
-  notEquals,
-  $in,
-  lessThanOrEqual,
-  lessThan,
-  greaterThanOrEqual,
-  greaterThan,
-  contains,
-  notContains,
-  beginsWith,
-}
+  equals('Equals'),
+  notEquals('NotEquals'),
+  $in('In'),
+  lessThanOrEqual('LessThanOrEqual'),
+  lessThan('LessThan'),
+  greaterThanOrEqual('GreaterThanOrEqual'),
+  greaterThan('GreaterThan'),
+  contains('Contains'),
+  notContains('NotContains'),
+  beginsWith('BeginsWith'),
+  ;
 
-extension OperatorValueExtension on Operator {
-  String toValue() {
-    switch (this) {
-      case Operator.equals:
-        return 'Equals';
-      case Operator.notEquals:
-        return 'NotEquals';
-      case Operator.$in:
-        return 'In';
-      case Operator.lessThanOrEqual:
-        return 'LessThanOrEqual';
-      case Operator.lessThan:
-        return 'LessThan';
-      case Operator.greaterThanOrEqual:
-        return 'GreaterThanOrEqual';
-      case Operator.greaterThan:
-        return 'GreaterThan';
-      case Operator.contains:
-        return 'Contains';
-      case Operator.notContains:
-        return 'NotContains';
-      case Operator.beginsWith:
-        return 'BeginsWith';
-    }
-  }
-}
+  final String value;
 
-extension OperatorFromString on String {
-  Operator toOperator() {
-    switch (this) {
-      case 'Equals':
-        return Operator.equals;
-      case 'NotEquals':
-        return Operator.notEquals;
-      case 'In':
-        return Operator.$in;
-      case 'LessThanOrEqual':
-        return Operator.lessThanOrEqual;
-      case 'LessThan':
-        return Operator.lessThan;
-      case 'GreaterThanOrEqual':
-        return Operator.greaterThanOrEqual;
-      case 'GreaterThan':
-        return Operator.greaterThan;
-      case 'Contains':
-        return Operator.contains;
-      case 'NotContains':
-        return Operator.notContains;
-      case 'BeginsWith':
-        return Operator.beginsWith;
-    }
-    throw Exception('$this is not known in enum Operator');
-  }
+  const Operator(this.value);
+
+  static Operator fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Operator'));
 }
 
 /// Indicates how your transfer task is configured. These options include how
@@ -7436,26 +7014,29 @@ class Options {
 
   factory Options.fromJson(Map<String, dynamic> json) {
     return Options(
-      atime: (json['Atime'] as String?)?.toAtime(),
+      atime: (json['Atime'] as String?)?.let(Atime.fromString),
       bytesPerSecond: json['BytesPerSecond'] as int?,
-      gid: (json['Gid'] as String?)?.toGid(),
-      logLevel: (json['LogLevel'] as String?)?.toLogLevel(),
-      mtime: (json['Mtime'] as String?)?.toMtime(),
-      objectTags: (json['ObjectTags'] as String?)?.toObjectTags(),
-      overwriteMode: (json['OverwriteMode'] as String?)?.toOverwriteMode(),
-      posixPermissions:
-          (json['PosixPermissions'] as String?)?.toPosixPermissions(),
-      preserveDeletedFiles:
-          (json['PreserveDeletedFiles'] as String?)?.toPreserveDeletedFiles(),
+      gid: (json['Gid'] as String?)?.let(Gid.fromString),
+      logLevel: (json['LogLevel'] as String?)?.let(LogLevel.fromString),
+      mtime: (json['Mtime'] as String?)?.let(Mtime.fromString),
+      objectTags: (json['ObjectTags'] as String?)?.let(ObjectTags.fromString),
+      overwriteMode:
+          (json['OverwriteMode'] as String?)?.let(OverwriteMode.fromString),
+      posixPermissions: (json['PosixPermissions'] as String?)
+          ?.let(PosixPermissions.fromString),
+      preserveDeletedFiles: (json['PreserveDeletedFiles'] as String?)
+          ?.let(PreserveDeletedFiles.fromString),
       preserveDevices:
-          (json['PreserveDevices'] as String?)?.toPreserveDevices(),
+          (json['PreserveDevices'] as String?)?.let(PreserveDevices.fromString),
       securityDescriptorCopyFlags:
           (json['SecurityDescriptorCopyFlags'] as String?)
-              ?.toSmbSecurityDescriptorCopyFlags(),
-      taskQueueing: (json['TaskQueueing'] as String?)?.toTaskQueueing(),
-      transferMode: (json['TransferMode'] as String?)?.toTransferMode(),
-      uid: (json['Uid'] as String?)?.toUid(),
-      verifyMode: (json['VerifyMode'] as String?)?.toVerifyMode(),
+              ?.let(SmbSecurityDescriptorCopyFlags.fromString),
+      taskQueueing:
+          (json['TaskQueueing'] as String?)?.let(TaskQueueing.fromString),
+      transferMode:
+          (json['TransferMode'] as String?)?.let(TransferMode.fromString),
+      uid: (json['Uid'] as String?)?.let(Uid.fromString),
+      verifyMode: (json['VerifyMode'] as String?)?.let(VerifyMode.fromString),
     );
   }
 
@@ -7476,54 +7057,40 @@ class Options {
     final uid = this.uid;
     final verifyMode = this.verifyMode;
     return {
-      if (atime != null) 'Atime': atime.toValue(),
+      if (atime != null) 'Atime': atime.value,
       if (bytesPerSecond != null) 'BytesPerSecond': bytesPerSecond,
-      if (gid != null) 'Gid': gid.toValue(),
-      if (logLevel != null) 'LogLevel': logLevel.toValue(),
-      if (mtime != null) 'Mtime': mtime.toValue(),
-      if (objectTags != null) 'ObjectTags': objectTags.toValue(),
-      if (overwriteMode != null) 'OverwriteMode': overwriteMode.toValue(),
-      if (posixPermissions != null)
-        'PosixPermissions': posixPermissions.toValue(),
+      if (gid != null) 'Gid': gid.value,
+      if (logLevel != null) 'LogLevel': logLevel.value,
+      if (mtime != null) 'Mtime': mtime.value,
+      if (objectTags != null) 'ObjectTags': objectTags.value,
+      if (overwriteMode != null) 'OverwriteMode': overwriteMode.value,
+      if (posixPermissions != null) 'PosixPermissions': posixPermissions.value,
       if (preserveDeletedFiles != null)
-        'PreserveDeletedFiles': preserveDeletedFiles.toValue(),
-      if (preserveDevices != null) 'PreserveDevices': preserveDevices.toValue(),
+        'PreserveDeletedFiles': preserveDeletedFiles.value,
+      if (preserveDevices != null) 'PreserveDevices': preserveDevices.value,
       if (securityDescriptorCopyFlags != null)
-        'SecurityDescriptorCopyFlags': securityDescriptorCopyFlags.toValue(),
-      if (taskQueueing != null) 'TaskQueueing': taskQueueing.toValue(),
-      if (transferMode != null) 'TransferMode': transferMode.toValue(),
-      if (uid != null) 'Uid': uid.toValue(),
-      if (verifyMode != null) 'VerifyMode': verifyMode.toValue(),
+        'SecurityDescriptorCopyFlags': securityDescriptorCopyFlags.value,
+      if (taskQueueing != null) 'TaskQueueing': taskQueueing.value,
+      if (transferMode != null) 'TransferMode': transferMode.value,
+      if (uid != null) 'Uid': uid.value,
+      if (verifyMode != null) 'VerifyMode': verifyMode.value,
     };
   }
 }
 
 enum OverwriteMode {
-  always,
-  never,
-}
+  always('ALWAYS'),
+  never('NEVER'),
+  ;
 
-extension OverwriteModeValueExtension on OverwriteMode {
-  String toValue() {
-    switch (this) {
-      case OverwriteMode.always:
-        return 'ALWAYS';
-      case OverwriteMode.never:
-        return 'NEVER';
-    }
-  }
-}
+  final String value;
 
-extension OverwriteModeFromString on String {
-  OverwriteMode toOverwriteMode() {
-    switch (this) {
-      case 'ALWAYS':
-        return OverwriteMode.always;
-      case 'NEVER':
-        return OverwriteMode.never;
-    }
-    throw Exception('$this is not known in enum OverwriteMode');
-  }
+  const OverwriteMode(this.value);
+
+  static OverwriteMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OverwriteMode'));
 }
 
 /// The types of performance data that DataSync Discovery collects about an
@@ -7563,36 +7130,18 @@ class P95Metrics {
 }
 
 enum PhaseStatus {
-  pending,
-  success,
-  error,
-}
+  pending('PENDING'),
+  success('SUCCESS'),
+  error('ERROR'),
+  ;
 
-extension PhaseStatusValueExtension on PhaseStatus {
-  String toValue() {
-    switch (this) {
-      case PhaseStatus.pending:
-        return 'PENDING';
-      case PhaseStatus.success:
-        return 'SUCCESS';
-      case PhaseStatus.error:
-        return 'ERROR';
-    }
-  }
-}
+  final String value;
 
-extension PhaseStatusFromString on String {
-  PhaseStatus toPhaseStatus() {
-    switch (this) {
-      case 'PENDING':
-        return PhaseStatus.pending;
-      case 'SUCCESS':
-        return PhaseStatus.success;
-      case 'ERROR':
-        return PhaseStatus.error;
-    }
-    throw Exception('$this is not known in enum PhaseStatus');
-  }
+  const PhaseStatus(this.value);
+
+  static PhaseStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum PhaseStatus'));
 }
 
 /// The platform-related details about the DataSync agent, such as the version
@@ -7613,87 +7162,48 @@ class Platform {
 }
 
 enum PosixPermissions {
-  none,
-  preserve,
-}
+  none('NONE'),
+  preserve('PRESERVE'),
+  ;
 
-extension PosixPermissionsValueExtension on PosixPermissions {
-  String toValue() {
-    switch (this) {
-      case PosixPermissions.none:
-        return 'NONE';
-      case PosixPermissions.preserve:
-        return 'PRESERVE';
-    }
-  }
-}
+  final String value;
 
-extension PosixPermissionsFromString on String {
-  PosixPermissions toPosixPermissions() {
-    switch (this) {
-      case 'NONE':
-        return PosixPermissions.none;
-      case 'PRESERVE':
-        return PosixPermissions.preserve;
-    }
-    throw Exception('$this is not known in enum PosixPermissions');
-  }
+  const PosixPermissions(this.value);
+
+  static PosixPermissions fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PosixPermissions'));
 }
 
 enum PreserveDeletedFiles {
-  preserve,
-  remove,
-}
+  preserve('PRESERVE'),
+  remove('REMOVE'),
+  ;
 
-extension PreserveDeletedFilesValueExtension on PreserveDeletedFiles {
-  String toValue() {
-    switch (this) {
-      case PreserveDeletedFiles.preserve:
-        return 'PRESERVE';
-      case PreserveDeletedFiles.remove:
-        return 'REMOVE';
-    }
-  }
-}
+  final String value;
 
-extension PreserveDeletedFilesFromString on String {
-  PreserveDeletedFiles toPreserveDeletedFiles() {
-    switch (this) {
-      case 'PRESERVE':
-        return PreserveDeletedFiles.preserve;
-      case 'REMOVE':
-        return PreserveDeletedFiles.remove;
-    }
-    throw Exception('$this is not known in enum PreserveDeletedFiles');
-  }
+  const PreserveDeletedFiles(this.value);
+
+  static PreserveDeletedFiles fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum PreserveDeletedFiles'));
 }
 
 enum PreserveDevices {
-  none,
-  preserve,
-}
+  none('NONE'),
+  preserve('PRESERVE'),
+  ;
 
-extension PreserveDevicesValueExtension on PreserveDevices {
-  String toValue() {
-    switch (this) {
-      case PreserveDevices.none:
-        return 'NONE';
-      case PreserveDevices.preserve:
-        return 'PRESERVE';
-    }
-  }
-}
+  final String value;
 
-extension PreserveDevicesFromString on String {
-  PreserveDevices toPreserveDevices() {
-    switch (this) {
-      case 'NONE':
-        return PreserveDevices.none;
-      case 'PRESERVE':
-        return PreserveDevices.preserve;
-    }
-    throw Exception('$this is not known in enum PreserveDevices');
-  }
+  const PreserveDevices(this.value);
+
+  static PreserveDevices fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PreserveDevices'));
 }
 
 /// Specifies how your DataSync agent connects to Amazon Web Services using a <a
@@ -7762,8 +7272,9 @@ class QopConfiguration {
   factory QopConfiguration.fromJson(Map<String, dynamic> json) {
     return QopConfiguration(
       dataTransferProtection: (json['DataTransferProtection'] as String?)
-          ?.toHdfsDataTransferProtection(),
-      rpcProtection: (json['RpcProtection'] as String?)?.toHdfsRpcProtection(),
+          ?.let(HdfsDataTransferProtection.fromString),
+      rpcProtection:
+          (json['RpcProtection'] as String?)?.let(HdfsRpcProtection.fromString),
     );
   }
 
@@ -7772,8 +7283,8 @@ class QopConfiguration {
     final rpcProtection = this.rpcProtection;
     return {
       if (dataTransferProtection != null)
-        'DataTransferProtection': dataTransferProtection.toValue(),
-      if (rpcProtection != null) 'RpcProtection': rpcProtection.toValue(),
+        'DataTransferProtection': dataTransferProtection.value,
+      if (rpcProtection != null) 'RpcProtection': rpcProtection.value,
     };
   }
 }
@@ -7817,41 +7328,20 @@ class Recommendation {
 }
 
 enum RecommendationStatus {
-  none,
-  inProgress,
-  completed,
-  failed,
-}
+  none('NONE'),
+  inProgress('IN_PROGRESS'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  ;
 
-extension RecommendationStatusValueExtension on RecommendationStatus {
-  String toValue() {
-    switch (this) {
-      case RecommendationStatus.none:
-        return 'NONE';
-      case RecommendationStatus.inProgress:
-        return 'IN_PROGRESS';
-      case RecommendationStatus.completed:
-        return 'COMPLETED';
-      case RecommendationStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension RecommendationStatusFromString on String {
-  RecommendationStatus toRecommendationStatus() {
-    switch (this) {
-      case 'NONE':
-        return RecommendationStatus.none;
-      case 'IN_PROGRESS':
-        return RecommendationStatus.inProgress;
-      case 'COMPLETED':
-        return RecommendationStatus.completed;
-      case 'FAILED':
-        return RecommendationStatus.failed;
-    }
-    throw Exception('$this is not known in enum RecommendationStatus');
-  }
+  const RecommendationStatus(this.value);
+
+  static RecommendationStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RecommendationStatus'));
 }
 
 class RemoveStorageSystemResponse {
@@ -7933,59 +7423,32 @@ class ReportDestinationS3 {
 }
 
 enum ReportLevel {
-  errorsOnly,
-  successesAndErrors,
-}
+  errorsOnly('ERRORS_ONLY'),
+  successesAndErrors('SUCCESSES_AND_ERRORS'),
+  ;
 
-extension ReportLevelValueExtension on ReportLevel {
-  String toValue() {
-    switch (this) {
-      case ReportLevel.errorsOnly:
-        return 'ERRORS_ONLY';
-      case ReportLevel.successesAndErrors:
-        return 'SUCCESSES_AND_ERRORS';
-    }
-  }
-}
+  final String value;
 
-extension ReportLevelFromString on String {
-  ReportLevel toReportLevel() {
-    switch (this) {
-      case 'ERRORS_ONLY':
-        return ReportLevel.errorsOnly;
-      case 'SUCCESSES_AND_ERRORS':
-        return ReportLevel.successesAndErrors;
-    }
-    throw Exception('$this is not known in enum ReportLevel');
-  }
+  const ReportLevel(this.value);
+
+  static ReportLevel fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ReportLevel'));
 }
 
 enum ReportOutputType {
-  summaryOnly,
-  standard,
-}
+  summaryOnly('SUMMARY_ONLY'),
+  standard('STANDARD'),
+  ;
 
-extension ReportOutputTypeValueExtension on ReportOutputType {
-  String toValue() {
-    switch (this) {
-      case ReportOutputType.summaryOnly:
-        return 'SUMMARY_ONLY';
-      case ReportOutputType.standard:
-        return 'STANDARD';
-    }
-  }
-}
+  final String value;
 
-extension ReportOutputTypeFromString on String {
-  ReportOutputType toReportOutputType() {
-    switch (this) {
-      case 'SUMMARY_ONLY':
-        return ReportOutputType.summaryOnly;
-      case 'STANDARD':
-        return ReportOutputType.standard;
-    }
-    throw Exception('$this is not known in enum ReportOutputType');
-  }
+  const ReportOutputType(this.value);
+
+  static ReportOutputType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ReportOutputType'));
 }
 
 /// Specifies the level of detail for a particular aspect of your DataSync <a
@@ -8010,14 +7473,15 @@ class ReportOverride {
 
   factory ReportOverride.fromJson(Map<String, dynamic> json) {
     return ReportOverride(
-      reportLevel: (json['ReportLevel'] as String?)?.toReportLevel(),
+      reportLevel:
+          (json['ReportLevel'] as String?)?.let(ReportLevel.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final reportLevel = this.reportLevel;
     return {
-      if (reportLevel != null) 'ReportLevel': reportLevel.toValue(),
+      if (reportLevel != null) 'ReportLevel': reportLevel.value,
     };
   }
 }
@@ -8108,7 +7572,7 @@ class ReportResult {
     return ReportResult(
       errorCode: json['ErrorCode'] as String?,
       errorDetail: json['ErrorDetail'] as String?,
-      status: (json['Status'] as String?)?.toPhaseStatus(),
+      status: (json['Status'] as String?)?.let(PhaseStatus.fromString),
     );
   }
 }
@@ -8190,8 +7654,8 @@ class ResourceMetrics {
           ? P95Metrics.fromJson(json['P95Metrics'] as Map<String, dynamic>)
           : null,
       resourceId: json['ResourceId'] as String?,
-      resourceType:
-          (json['ResourceType'] as String?)?.toDiscoveryResourceType(),
+      resourceType: (json['ResourceType'] as String?)
+          ?.let(DiscoveryResourceType.fromString),
       timestamp: timeStampFromJson(json['Timestamp']),
     );
   }
@@ -8281,117 +7745,54 @@ class S3ManifestConfig {
 }
 
 enum S3StorageClass {
-  standard,
-  standardIa,
-  onezoneIa,
-  intelligentTiering,
-  glacier,
-  deepArchive,
-  outposts,
-  glacierInstantRetrieval,
-}
+  standard('STANDARD'),
+  standardIa('STANDARD_IA'),
+  onezoneIa('ONEZONE_IA'),
+  intelligentTiering('INTELLIGENT_TIERING'),
+  glacier('GLACIER'),
+  deepArchive('DEEP_ARCHIVE'),
+  outposts('OUTPOSTS'),
+  glacierInstantRetrieval('GLACIER_INSTANT_RETRIEVAL'),
+  ;
 
-extension S3StorageClassValueExtension on S3StorageClass {
-  String toValue() {
-    switch (this) {
-      case S3StorageClass.standard:
-        return 'STANDARD';
-      case S3StorageClass.standardIa:
-        return 'STANDARD_IA';
-      case S3StorageClass.onezoneIa:
-        return 'ONEZONE_IA';
-      case S3StorageClass.intelligentTiering:
-        return 'INTELLIGENT_TIERING';
-      case S3StorageClass.glacier:
-        return 'GLACIER';
-      case S3StorageClass.deepArchive:
-        return 'DEEP_ARCHIVE';
-      case S3StorageClass.outposts:
-        return 'OUTPOSTS';
-      case S3StorageClass.glacierInstantRetrieval:
-        return 'GLACIER_INSTANT_RETRIEVAL';
-    }
-  }
-}
+  final String value;
 
-extension S3StorageClassFromString on String {
-  S3StorageClass toS3StorageClass() {
-    switch (this) {
-      case 'STANDARD':
-        return S3StorageClass.standard;
-      case 'STANDARD_IA':
-        return S3StorageClass.standardIa;
-      case 'ONEZONE_IA':
-        return S3StorageClass.onezoneIa;
-      case 'INTELLIGENT_TIERING':
-        return S3StorageClass.intelligentTiering;
-      case 'GLACIER':
-        return S3StorageClass.glacier;
-      case 'DEEP_ARCHIVE':
-        return S3StorageClass.deepArchive;
-      case 'OUTPOSTS':
-        return S3StorageClass.outposts;
-      case 'GLACIER_INSTANT_RETRIEVAL':
-        return S3StorageClass.glacierInstantRetrieval;
-    }
-    throw Exception('$this is not known in enum S3StorageClass');
-  }
+  const S3StorageClass(this.value);
+
+  static S3StorageClass fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum S3StorageClass'));
 }
 
 enum ScheduleDisabledBy {
-  user,
-  service,
-}
+  user('USER'),
+  service('SERVICE'),
+  ;
 
-extension ScheduleDisabledByValueExtension on ScheduleDisabledBy {
-  String toValue() {
-    switch (this) {
-      case ScheduleDisabledBy.user:
-        return 'USER';
-      case ScheduleDisabledBy.service:
-        return 'SERVICE';
-    }
-  }
-}
+  final String value;
 
-extension ScheduleDisabledByFromString on String {
-  ScheduleDisabledBy toScheduleDisabledBy() {
-    switch (this) {
-      case 'USER':
-        return ScheduleDisabledBy.user;
-      case 'SERVICE':
-        return ScheduleDisabledBy.service;
-    }
-    throw Exception('$this is not known in enum ScheduleDisabledBy');
-  }
+  const ScheduleDisabledBy(this.value);
+
+  static ScheduleDisabledBy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ScheduleDisabledBy'));
 }
 
 enum ScheduleStatus {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension ScheduleStatusValueExtension on ScheduleStatus {
-  String toValue() {
-    switch (this) {
-      case ScheduleStatus.enabled:
-        return 'ENABLED';
-      case ScheduleStatus.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension ScheduleStatusFromString on String {
-  ScheduleStatus toScheduleStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return ScheduleStatus.enabled;
-      case 'DISABLED':
-        return ScheduleStatus.disabled;
-    }
-    throw Exception('$this is not known in enum ScheduleStatus');
-  }
+  const ScheduleStatus(this.value);
+
+  static ScheduleStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ScheduleStatus'));
 }
 
 /// Specifies the version of the Server Message Block (SMB) protocol that
@@ -8442,94 +7843,49 @@ class SmbMountOptions {
 
   factory SmbMountOptions.fromJson(Map<String, dynamic> json) {
     return SmbMountOptions(
-      version: (json['Version'] as String?)?.toSmbVersion(),
+      version: (json['Version'] as String?)?.let(SmbVersion.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final version = this.version;
     return {
-      if (version != null) 'Version': version.toValue(),
+      if (version != null) 'Version': version.value,
     };
   }
 }
 
 enum SmbSecurityDescriptorCopyFlags {
-  none,
-  ownerDacl,
-  ownerDaclSacl,
-}
+  none('NONE'),
+  ownerDacl('OWNER_DACL'),
+  ownerDaclSacl('OWNER_DACL_SACL'),
+  ;
 
-extension SmbSecurityDescriptorCopyFlagsValueExtension
-    on SmbSecurityDescriptorCopyFlags {
-  String toValue() {
-    switch (this) {
-      case SmbSecurityDescriptorCopyFlags.none:
-        return 'NONE';
-      case SmbSecurityDescriptorCopyFlags.ownerDacl:
-        return 'OWNER_DACL';
-      case SmbSecurityDescriptorCopyFlags.ownerDaclSacl:
-        return 'OWNER_DACL_SACL';
-    }
-  }
-}
+  final String value;
 
-extension SmbSecurityDescriptorCopyFlagsFromString on String {
-  SmbSecurityDescriptorCopyFlags toSmbSecurityDescriptorCopyFlags() {
-    switch (this) {
-      case 'NONE':
-        return SmbSecurityDescriptorCopyFlags.none;
-      case 'OWNER_DACL':
-        return SmbSecurityDescriptorCopyFlags.ownerDacl;
-      case 'OWNER_DACL_SACL':
-        return SmbSecurityDescriptorCopyFlags.ownerDaclSacl;
-    }
-    throw Exception(
-        '$this is not known in enum SmbSecurityDescriptorCopyFlags');
-  }
+  const SmbSecurityDescriptorCopyFlags(this.value);
+
+  static SmbSecurityDescriptorCopyFlags fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SmbSecurityDescriptorCopyFlags'));
 }
 
 enum SmbVersion {
-  automatic,
-  smb2,
-  smb3,
-  smb1,
-  smb2_0,
-}
+  automatic('AUTOMATIC'),
+  smb2('SMB2'),
+  smb3('SMB3'),
+  smb1('SMB1'),
+  smb2_0('SMB2_0'),
+  ;
 
-extension SmbVersionValueExtension on SmbVersion {
-  String toValue() {
-    switch (this) {
-      case SmbVersion.automatic:
-        return 'AUTOMATIC';
-      case SmbVersion.smb2:
-        return 'SMB2';
-      case SmbVersion.smb3:
-        return 'SMB3';
-      case SmbVersion.smb1:
-        return 'SMB1';
-      case SmbVersion.smb2_0:
-        return 'SMB2_0';
-    }
-  }
-}
+  final String value;
 
-extension SmbVersionFromString on String {
-  SmbVersion toSmbVersion() {
-    switch (this) {
-      case 'AUTOMATIC':
-        return SmbVersion.automatic;
-      case 'SMB2':
-        return SmbVersion.smb2;
-      case 'SMB3':
-        return SmbVersion.smb3;
-      case 'SMB1':
-        return SmbVersion.smb1;
-      case 'SMB2_0':
-        return SmbVersion.smb2_0;
-    }
-    throw Exception('$this is not known in enum SmbVersion');
-  }
+  const SmbVersion(this.value);
+
+  static SmbVersion fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SmbVersion'));
 }
 
 /// Specifies the manifest that you want DataSync to use and where it's hosted.
@@ -8598,38 +7954,19 @@ class StopDiscoveryJobResponse {
 }
 
 enum StorageSystemConnectivityStatus {
-  pass,
-  fail,
-  unknown,
-}
+  pass('PASS'),
+  fail('FAIL'),
+  unknown('UNKNOWN'),
+  ;
 
-extension StorageSystemConnectivityStatusValueExtension
-    on StorageSystemConnectivityStatus {
-  String toValue() {
-    switch (this) {
-      case StorageSystemConnectivityStatus.pass:
-        return 'PASS';
-      case StorageSystemConnectivityStatus.fail:
-        return 'FAIL';
-      case StorageSystemConnectivityStatus.unknown:
-        return 'UNKNOWN';
-    }
-  }
-}
+  final String value;
 
-extension StorageSystemConnectivityStatusFromString on String {
-  StorageSystemConnectivityStatus toStorageSystemConnectivityStatus() {
-    switch (this) {
-      case 'PASS':
-        return StorageSystemConnectivityStatus.pass;
-      case 'FAIL':
-        return StorageSystemConnectivityStatus.fail;
-      case 'UNKNOWN':
-        return StorageSystemConnectivityStatus.unknown;
-    }
-    throw Exception(
-        '$this is not known in enum StorageSystemConnectivityStatus');
-  }
+  const StorageSystemConnectivityStatus(this.value);
+
+  static StorageSystemConnectivityStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum StorageSystemConnectivityStatus'));
 }
 
 /// Information that identifies an on-premises storage system that you're using
@@ -8715,7 +8052,7 @@ class TaskExecutionListEntry {
 
   factory TaskExecutionListEntry.fromJson(Map<String, dynamic> json) {
     return TaskExecutionListEntry(
-      status: (json['Status'] as String?)?.toTaskExecutionStatus(),
+      status: (json['Status'] as String?)?.let(TaskExecutionStatus.fromString),
       taskExecutionArn: json['TaskExecutionArn'] as String?,
     );
   }
@@ -8773,72 +8110,38 @@ class TaskExecutionResultDetail {
       errorCode: json['ErrorCode'] as String?,
       errorDetail: json['ErrorDetail'] as String?,
       prepareDuration: json['PrepareDuration'] as int?,
-      prepareStatus: (json['PrepareStatus'] as String?)?.toPhaseStatus(),
+      prepareStatus:
+          (json['PrepareStatus'] as String?)?.let(PhaseStatus.fromString),
       totalDuration: json['TotalDuration'] as int?,
       transferDuration: json['TransferDuration'] as int?,
-      transferStatus: (json['TransferStatus'] as String?)?.toPhaseStatus(),
+      transferStatus:
+          (json['TransferStatus'] as String?)?.let(PhaseStatus.fromString),
       verifyDuration: json['VerifyDuration'] as int?,
-      verifyStatus: (json['VerifyStatus'] as String?)?.toPhaseStatus(),
+      verifyStatus:
+          (json['VerifyStatus'] as String?)?.let(PhaseStatus.fromString),
     );
   }
 }
 
 enum TaskExecutionStatus {
-  queued,
-  cancelling,
-  launching,
-  preparing,
-  transferring,
-  verifying,
-  success,
-  error,
-}
+  queued('QUEUED'),
+  cancelling('CANCELLING'),
+  launching('LAUNCHING'),
+  preparing('PREPARING'),
+  transferring('TRANSFERRING'),
+  verifying('VERIFYING'),
+  success('SUCCESS'),
+  error('ERROR'),
+  ;
 
-extension TaskExecutionStatusValueExtension on TaskExecutionStatus {
-  String toValue() {
-    switch (this) {
-      case TaskExecutionStatus.queued:
-        return 'QUEUED';
-      case TaskExecutionStatus.cancelling:
-        return 'CANCELLING';
-      case TaskExecutionStatus.launching:
-        return 'LAUNCHING';
-      case TaskExecutionStatus.preparing:
-        return 'PREPARING';
-      case TaskExecutionStatus.transferring:
-        return 'TRANSFERRING';
-      case TaskExecutionStatus.verifying:
-        return 'VERIFYING';
-      case TaskExecutionStatus.success:
-        return 'SUCCESS';
-      case TaskExecutionStatus.error:
-        return 'ERROR';
-    }
-  }
-}
+  final String value;
 
-extension TaskExecutionStatusFromString on String {
-  TaskExecutionStatus toTaskExecutionStatus() {
-    switch (this) {
-      case 'QUEUED':
-        return TaskExecutionStatus.queued;
-      case 'CANCELLING':
-        return TaskExecutionStatus.cancelling;
-      case 'LAUNCHING':
-        return TaskExecutionStatus.launching;
-      case 'PREPARING':
-        return TaskExecutionStatus.preparing;
-      case 'TRANSFERRING':
-        return TaskExecutionStatus.transferring;
-      case 'VERIFYING':
-        return TaskExecutionStatus.verifying;
-      case 'SUCCESS':
-        return TaskExecutionStatus.success;
-      case 'ERROR':
-        return TaskExecutionStatus.error;
-    }
-    throw Exception('$this is not known in enum TaskExecutionStatus');
-  }
+  const TaskExecutionStatus(this.value);
+
+  static TaskExecutionStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TaskExecutionStatus'));
 }
 
 /// You can use API filters to narrow down the list of resources returned by
@@ -8875,39 +8178,26 @@ class TaskFilter {
     final operator = this.operator;
     final values = this.values;
     return {
-      'Name': name.toValue(),
-      'Operator': operator.toValue(),
+      'Name': name.value,
+      'Operator': operator.value,
       'Values': values,
     };
   }
 }
 
 enum TaskFilterName {
-  locationId,
-  creationTime,
-}
+  locationId('LocationId'),
+  creationTime('CreationTime'),
+  ;
 
-extension TaskFilterNameValueExtension on TaskFilterName {
-  String toValue() {
-    switch (this) {
-      case TaskFilterName.locationId:
-        return 'LocationId';
-      case TaskFilterName.creationTime:
-        return 'CreationTime';
-    }
-  }
-}
+  final String value;
 
-extension TaskFilterNameFromString on String {
-  TaskFilterName toTaskFilterName() {
-    switch (this) {
-      case 'LocationId':
-        return TaskFilterName.locationId;
-      case 'CreationTime':
-        return TaskFilterName.creationTime;
-    }
-    throw Exception('$this is not known in enum TaskFilterName');
-  }
+  const TaskFilterName(this.value);
+
+  static TaskFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TaskFilterName'));
 }
 
 /// Represents a single entry in a list of tasks. <code>TaskListEntry</code>
@@ -8934,38 +8224,25 @@ class TaskListEntry {
   factory TaskListEntry.fromJson(Map<String, dynamic> json) {
     return TaskListEntry(
       name: json['Name'] as String?,
-      status: (json['Status'] as String?)?.toTaskStatus(),
+      status: (json['Status'] as String?)?.let(TaskStatus.fromString),
       taskArn: json['TaskArn'] as String?,
     );
   }
 }
 
 enum TaskQueueing {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension TaskQueueingValueExtension on TaskQueueing {
-  String toValue() {
-    switch (this) {
-      case TaskQueueing.enabled:
-        return 'ENABLED';
-      case TaskQueueing.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension TaskQueueingFromString on String {
-  TaskQueueing toTaskQueueing() {
-    switch (this) {
-      case 'ENABLED':
-        return TaskQueueing.enabled;
-      case 'DISABLED':
-        return TaskQueueing.disabled;
-    }
-    throw Exception('$this is not known in enum TaskQueueing');
-  }
+  const TaskQueueing(this.value);
+
+  static TaskQueueing fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TaskQueueing'));
 }
 
 /// Specifies how you want to configure a task report, which provides detailed
@@ -9039,13 +8316,15 @@ class TaskReportConfig {
           ? ReportDestination.fromJson(
               json['Destination'] as Map<String, dynamic>)
           : null,
-      objectVersionIds:
-          (json['ObjectVersionIds'] as String?)?.toObjectVersionIds(),
-      outputType: (json['OutputType'] as String?)?.toReportOutputType(),
+      objectVersionIds: (json['ObjectVersionIds'] as String?)
+          ?.let(ObjectVersionIds.fromString),
+      outputType:
+          (json['OutputType'] as String?)?.let(ReportOutputType.fromString),
       overrides: json['Overrides'] != null
           ? ReportOverrides.fromJson(json['Overrides'] as Map<String, dynamic>)
           : null,
-      reportLevel: (json['ReportLevel'] as String?)?.toReportLevel(),
+      reportLevel:
+          (json['ReportLevel'] as String?)?.let(ReportLevel.fromString),
     );
   }
 
@@ -9057,11 +8336,10 @@ class TaskReportConfig {
     final reportLevel = this.reportLevel;
     return {
       if (destination != null) 'Destination': destination,
-      if (objectVersionIds != null)
-        'ObjectVersionIds': objectVersionIds.toValue(),
-      if (outputType != null) 'OutputType': outputType.toValue(),
+      if (objectVersionIds != null) 'ObjectVersionIds': objectVersionIds.value,
+      if (outputType != null) 'OutputType': outputType.value,
       if (overrides != null) 'Overrides': overrides,
-      if (reportLevel != null) 'ReportLevel': reportLevel.toValue(),
+      if (reportLevel != null) 'ReportLevel': reportLevel.value,
     };
   }
 }
@@ -9094,7 +8372,7 @@ class TaskSchedule {
   factory TaskSchedule.fromJson(Map<String, dynamic> json) {
     return TaskSchedule(
       scheduleExpression: json['ScheduleExpression'] as String,
-      status: (json['Status'] as String?)?.toScheduleStatus(),
+      status: (json['Status'] as String?)?.let(ScheduleStatus.fromString),
     );
   }
 
@@ -9103,7 +8381,7 @@ class TaskSchedule {
     final status = this.status;
     return {
       'ScheduleExpression': scheduleExpression,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -9152,7 +8430,8 @@ class TaskScheduleDetails {
 
   factory TaskScheduleDetails.fromJson(Map<String, dynamic> json) {
     return TaskScheduleDetails(
-      disabledBy: (json['DisabledBy'] as String?)?.toScheduleDisabledBy(),
+      disabledBy:
+          (json['DisabledBy'] as String?)?.let(ScheduleDisabledBy.fromString),
       disabledReason: json['DisabledReason'] as String?,
       statusUpdateTime: timeStampFromJson(json['StatusUpdateTime']),
     );
@@ -9160,46 +8439,20 @@ class TaskScheduleDetails {
 }
 
 enum TaskStatus {
-  available,
-  creating,
-  queued,
-  running,
-  unavailable,
-}
+  available('AVAILABLE'),
+  creating('CREATING'),
+  queued('QUEUED'),
+  running('RUNNING'),
+  unavailable('UNAVAILABLE'),
+  ;
 
-extension TaskStatusValueExtension on TaskStatus {
-  String toValue() {
-    switch (this) {
-      case TaskStatus.available:
-        return 'AVAILABLE';
-      case TaskStatus.creating:
-        return 'CREATING';
-      case TaskStatus.queued:
-        return 'QUEUED';
-      case TaskStatus.running:
-        return 'RUNNING';
-      case TaskStatus.unavailable:
-        return 'UNAVAILABLE';
-    }
-  }
-}
+  final String value;
 
-extension TaskStatusFromString on String {
-  TaskStatus toTaskStatus() {
-    switch (this) {
-      case 'AVAILABLE':
-        return TaskStatus.available;
-      case 'CREATING':
-        return TaskStatus.creating;
-      case 'QUEUED':
-        return TaskStatus.queued;
-      case 'RUNNING':
-        return TaskStatus.running;
-      case 'UNAVAILABLE':
-        return TaskStatus.unavailable;
-    }
-    throw Exception('$this is not known in enum TaskStatus');
-  }
+  const TaskStatus(this.value);
+
+  static TaskStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TaskStatus'));
 }
 
 /// The throughput peaks for an on-premises storage system volume. Each data
@@ -9235,69 +8488,34 @@ class Throughput {
 }
 
 enum TransferMode {
-  changed,
-  all,
-}
+  changed('CHANGED'),
+  all('ALL'),
+  ;
 
-extension TransferModeValueExtension on TransferMode {
-  String toValue() {
-    switch (this) {
-      case TransferMode.changed:
-        return 'CHANGED';
-      case TransferMode.all:
-        return 'ALL';
-    }
-  }
-}
+  final String value;
 
-extension TransferModeFromString on String {
-  TransferMode toTransferMode() {
-    switch (this) {
-      case 'CHANGED':
-        return TransferMode.changed;
-      case 'ALL':
-        return TransferMode.all;
-    }
-    throw Exception('$this is not known in enum TransferMode');
-  }
+  const TransferMode(this.value);
+
+  static TransferMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TransferMode'));
 }
 
 enum Uid {
-  none,
-  intValue,
-  name,
-  both,
-}
+  none('NONE'),
+  intValue('INT_VALUE'),
+  name('NAME'),
+  both('BOTH'),
+  ;
 
-extension UidValueExtension on Uid {
-  String toValue() {
-    switch (this) {
-      case Uid.none:
-        return 'NONE';
-      case Uid.intValue:
-        return 'INT_VALUE';
-      case Uid.name:
-        return 'NAME';
-      case Uid.both:
-        return 'BOTH';
-    }
-  }
-}
+  final String value;
 
-extension UidFromString on String {
-  Uid toUid() {
-    switch (this) {
-      case 'NONE':
-        return Uid.none;
-      case 'INT_VALUE':
-        return Uid.intValue;
-      case 'NAME':
-        return Uid.name;
-      case 'BOTH':
-        return Uid.both;
-    }
-    throw Exception('$this is not known in enum Uid');
-  }
+  const Uid(this.value);
+
+  static Uid fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Uid'));
 }
 
 class UntagResourceResponse {
@@ -9389,36 +8607,18 @@ class UpdateTaskResponse {
 }
 
 enum VerifyMode {
-  pointInTimeConsistent,
-  onlyFilesTransferred,
-  none,
-}
+  pointInTimeConsistent('POINT_IN_TIME_CONSISTENT'),
+  onlyFilesTransferred('ONLY_FILES_TRANSFERRED'),
+  none('NONE'),
+  ;
 
-extension VerifyModeValueExtension on VerifyMode {
-  String toValue() {
-    switch (this) {
-      case VerifyMode.pointInTimeConsistent:
-        return 'POINT_IN_TIME_CONSISTENT';
-      case VerifyMode.onlyFilesTransferred:
-        return 'ONLY_FILES_TRANSFERRED';
-      case VerifyMode.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension VerifyModeFromString on String {
-  VerifyMode toVerifyMode() {
-    switch (this) {
-      case 'POINT_IN_TIME_CONSISTENT':
-        return VerifyMode.pointInTimeConsistent;
-      case 'ONLY_FILES_TRANSFERRED':
-        return VerifyMode.onlyFilesTransferred;
-      case 'NONE':
-        return VerifyMode.none;
-    }
-    throw Exception('$this is not known in enum VerifyMode');
-  }
+  const VerifyMode(this.value);
+
+  static VerifyMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum VerifyMode'));
 }
 
 class InternalException extends _s.GenericAwsException {

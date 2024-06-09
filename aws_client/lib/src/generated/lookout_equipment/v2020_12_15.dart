@@ -212,7 +212,7 @@ class LookoutEquipment {
       payload: {
         'DataInputConfiguration': dataInputConfiguration,
         'DataOutputConfiguration': dataOutputConfiguration,
-        'DataUploadFrequency': dataUploadFrequency.toValue(),
+        'DataUploadFrequency': dataUploadFrequency.value,
         'InferenceSchedulerName': inferenceSchedulerName,
         'ModelName': modelName,
         'RoleArn': roleArn,
@@ -298,7 +298,7 @@ class LookoutEquipment {
       payload: {
         'EndTime': unixTimestampToJson(endTime),
         'LabelGroupName': labelGroupName,
-        'Rating': rating.toValue(),
+        'Rating': rating.value,
         'StartTime': unixTimestampToJson(startTime),
         'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (equipment != null) 'Equipment': equipment,
@@ -589,7 +589,7 @@ class LookoutEquipment {
         'ModelName': modelName,
         'RetrainingFrequency': retrainingFrequency,
         'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
-        if (promoteMode != null) 'PromoteMode': promoteMode.toValue(),
+        if (promoteMode != null) 'PromoteMode': promoteMode.value,
         if (retrainingStartDate != null)
           'RetrainingStartDate': unixTimestampToJson(retrainingStartDate),
       },
@@ -1274,7 +1274,7 @@ class LookoutEquipment {
         'SourceModelVersionArn': sourceModelVersionArn,
         'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (inferenceDataImportStrategy != null)
-          'InferenceDataImportStrategy': inferenceDataImportStrategy.toValue(),
+          'InferenceDataImportStrategy': inferenceDataImportStrategy.value,
         if (labelsInputConfiguration != null)
           'LabelsInputConfiguration': labelsInputConfiguration,
         if (modelName != null) 'ModelName': modelName,
@@ -1334,7 +1334,7 @@ class LookoutEquipment {
         if (datasetName != null) 'DatasetName': datasetName,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (status != null) 'Status': status.toValue(),
+        if (status != null) 'Status': status.value,
       },
     );
 
@@ -1513,7 +1513,7 @@ class LookoutEquipment {
           'DataStartTimeAfter': unixTimestampToJson(dataStartTimeAfter),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (status != null) 'Status': status.toValue(),
+        if (status != null) 'Status': status.value,
       },
     );
 
@@ -1574,7 +1574,7 @@ class LookoutEquipment {
         if (maxResults != null) 'MaxResults': maxResults,
         if (modelName != null) 'ModelName': modelName,
         if (nextToken != null) 'NextToken': nextToken,
-        if (status != null) 'Status': status.toValue(),
+        if (status != null) 'Status': status.value,
       },
     );
 
@@ -1790,8 +1790,8 @@ class LookoutEquipment {
         if (maxResults != null) 'MaxResults': maxResults,
         if (minModelVersion != null) 'MinModelVersion': minModelVersion,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sourceType != null) 'SourceType': sourceType.toValue(),
-        if (status != null) 'Status': status.toValue(),
+        if (sourceType != null) 'SourceType': sourceType.value,
+        if (status != null) 'Status': status.value,
       },
     );
 
@@ -1852,7 +1852,7 @@ class LookoutEquipment {
         if (modelNameBeginsWith != null)
           'ModelNameBeginsWith': modelNameBeginsWith,
         if (nextToken != null) 'NextToken': nextToken,
-        if (status != null) 'Status': status.toValue(),
+        if (status != null) 'Status': status.value,
       },
     );
 
@@ -1910,7 +1910,7 @@ class LookoutEquipment {
         if (modelNameBeginsWith != null)
           'ModelNameBeginsWith': modelNameBeginsWith,
         if (nextToken != null) 'NextToken': nextToken,
-        if (status != null) 'Status': status.toValue(),
+        if (status != null) 'Status': status.value,
       },
     );
 
@@ -2441,7 +2441,7 @@ class LookoutEquipment {
         if (dataOutputConfiguration != null)
           'DataOutputConfiguration': dataOutputConfiguration,
         if (dataUploadFrequency != null)
-          'DataUploadFrequency': dataUploadFrequency.toValue(),
+          'DataUploadFrequency': dataUploadFrequency.value,
         if (roleArn != null) 'RoleArn': roleArn,
       },
     );
@@ -2600,7 +2600,7 @@ class LookoutEquipment {
       payload: {
         'ModelName': modelName,
         if (lookbackWindow != null) 'LookbackWindow': lookbackWindow,
-        if (promoteMode != null) 'PromoteMode': promoteMode.toValue(),
+        if (promoteMode != null) 'PromoteMode': promoteMode.value,
         if (retrainingFrequency != null)
           'RetrainingFrequency': retrainingFrequency,
         if (retrainingStartDate != null)
@@ -2611,46 +2611,21 @@ class LookoutEquipment {
 }
 
 enum AutoPromotionResult {
-  modelPromoted,
-  modelNotPromoted,
-  retrainingInternalError,
-  retrainingCustomerError,
-  retrainingCancelled,
-}
+  modelPromoted('MODEL_PROMOTED'),
+  modelNotPromoted('MODEL_NOT_PROMOTED'),
+  retrainingInternalError('RETRAINING_INTERNAL_ERROR'),
+  retrainingCustomerError('RETRAINING_CUSTOMER_ERROR'),
+  retrainingCancelled('RETRAINING_CANCELLED'),
+  ;
 
-extension AutoPromotionResultValueExtension on AutoPromotionResult {
-  String toValue() {
-    switch (this) {
-      case AutoPromotionResult.modelPromoted:
-        return 'MODEL_PROMOTED';
-      case AutoPromotionResult.modelNotPromoted:
-        return 'MODEL_NOT_PROMOTED';
-      case AutoPromotionResult.retrainingInternalError:
-        return 'RETRAINING_INTERNAL_ERROR';
-      case AutoPromotionResult.retrainingCustomerError:
-        return 'RETRAINING_CUSTOMER_ERROR';
-      case AutoPromotionResult.retrainingCancelled:
-        return 'RETRAINING_CANCELLED';
-    }
-  }
-}
+  final String value;
 
-extension AutoPromotionResultFromString on String {
-  AutoPromotionResult toAutoPromotionResult() {
-    switch (this) {
-      case 'MODEL_PROMOTED':
-        return AutoPromotionResult.modelPromoted;
-      case 'MODEL_NOT_PROMOTED':
-        return AutoPromotionResult.modelNotPromoted;
-      case 'RETRAINING_INTERNAL_ERROR':
-        return AutoPromotionResult.retrainingInternalError;
-      case 'RETRAINING_CUSTOMER_ERROR':
-        return AutoPromotionResult.retrainingCustomerError;
-      case 'RETRAINING_CANCELLED':
-        return AutoPromotionResult.retrainingCancelled;
-    }
-    throw Exception('$this is not known in enum AutoPromotionResult');
-  }
+  const AutoPromotionResult(this.value);
+
+  static AutoPromotionResult fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AutoPromotionResult'));
 }
 
 /// Entity that comprises information on categorical values in data.
@@ -2669,7 +2644,7 @@ class CategoricalValues {
 
   factory CategoricalValues.fromJson(Map<String, dynamic> json) {
     return CategoricalValues(
-      status: (json['Status'] as String).toStatisticalIssueStatus(),
+      status: StatisticalIssueStatus.fromString((json['Status'] as String)),
       numberOfCategory: json['NumberOfCategory'] as int?,
     );
   }
@@ -2678,7 +2653,7 @@ class CategoricalValues {
     final status = this.status;
     final numberOfCategory = this.numberOfCategory;
     return {
-      'Status': status.toValue(),
+      'Status': status.value,
       if (numberOfCategory != null) 'NumberOfCategory': numberOfCategory,
     };
   }
@@ -2734,7 +2709,7 @@ class CreateDatasetResponse {
     return CreateDatasetResponse(
       datasetArn: json['DatasetArn'] as String?,
       datasetName: json['DatasetName'] as String?,
-      status: (json['Status'] as String?)?.toDatasetStatus(),
+      status: (json['Status'] as String?)?.let(DatasetStatus.fromString),
     );
   }
 
@@ -2745,7 +2720,7 @@ class CreateDatasetResponse {
     return {
       if (datasetArn != null) 'DatasetArn': datasetArn,
       if (datasetName != null) 'DatasetName': datasetName,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -2790,8 +2765,10 @@ class CreateInferenceSchedulerResponse {
     return CreateInferenceSchedulerResponse(
       inferenceSchedulerArn: json['InferenceSchedulerArn'] as String?,
       inferenceSchedulerName: json['InferenceSchedulerName'] as String?,
-      modelQuality: (json['ModelQuality'] as String?)?.toModelQuality(),
-      status: (json['Status'] as String?)?.toInferenceSchedulerStatus(),
+      modelQuality:
+          (json['ModelQuality'] as String?)?.let(ModelQuality.fromString),
+      status:
+          (json['Status'] as String?)?.let(InferenceSchedulerStatus.fromString),
     );
   }
 
@@ -2805,8 +2782,8 @@ class CreateInferenceSchedulerResponse {
         'InferenceSchedulerArn': inferenceSchedulerArn,
       if (inferenceSchedulerName != null)
         'InferenceSchedulerName': inferenceSchedulerName,
-      if (modelQuality != null) 'ModelQuality': modelQuality.toValue(),
-      if (status != null) 'Status': status.toValue(),
+      if (modelQuality != null) 'ModelQuality': modelQuality.value,
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -2879,7 +2856,7 @@ class CreateModelResponse {
   factory CreateModelResponse.fromJson(Map<String, dynamic> json) {
     return CreateModelResponse(
       modelArn: json['ModelArn'] as String?,
-      status: (json['Status'] as String?)?.toModelStatus(),
+      status: (json['Status'] as String?)?.let(ModelStatus.fromString),
     );
   }
 
@@ -2888,7 +2865,7 @@ class CreateModelResponse {
     final status = this.status;
     return {
       if (modelArn != null) 'ModelArn': modelArn,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -2914,7 +2891,8 @@ class CreateRetrainingSchedulerResponse {
     return CreateRetrainingSchedulerResponse(
       modelArn: json['ModelArn'] as String?,
       modelName: json['ModelName'] as String?,
-      status: (json['Status'] as String?)?.toRetrainingSchedulerStatus(),
+      status: (json['Status'] as String?)
+          ?.let(RetrainingSchedulerStatus.fromString),
     );
   }
 
@@ -2925,7 +2903,7 @@ class CreateRetrainingSchedulerResponse {
     return {
       if (modelArn != null) 'ModelArn': modelArn,
       if (modelName != null) 'ModelName': modelName,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -2967,7 +2945,7 @@ class DataIngestionJobSummary {
               json['IngestionInputConfiguration'] as Map<String, dynamic>)
           : null,
       jobId: json['JobId'] as String?,
-      status: (json['Status'] as String?)?.toIngestionJobStatus(),
+      status: (json['Status'] as String?)?.let(IngestionJobStatus.fromString),
     );
   }
 
@@ -2983,7 +2961,7 @@ class DataIngestionJobSummary {
       if (ingestionInputConfiguration != null)
         'IngestionInputConfiguration': ingestionInputConfiguration,
       if (jobId != null) 'JobId': jobId,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -3016,8 +2994,8 @@ class DataPreProcessingConfiguration {
 
   factory DataPreProcessingConfiguration.fromJson(Map<String, dynamic> json) {
     return DataPreProcessingConfiguration(
-      targetSamplingRate:
-          (json['TargetSamplingRate'] as String?)?.toTargetSamplingRate(),
+      targetSamplingRate: (json['TargetSamplingRate'] as String?)
+          ?.let(TargetSamplingRate.fromString),
     );
   }
 
@@ -3025,7 +3003,7 @@ class DataPreProcessingConfiguration {
     final targetSamplingRate = this.targetSamplingRate;
     return {
       if (targetSamplingRate != null)
-        'TargetSamplingRate': targetSamplingRate.toValue(),
+        'TargetSamplingRate': targetSamplingRate.value,
     };
   }
 }
@@ -3097,46 +3075,21 @@ class DataQualitySummary {
 }
 
 enum DataUploadFrequency {
-  pt5m,
-  pt10m,
-  pt15m,
-  pt30m,
-  pt1h,
-}
+  pt5m('PT5M'),
+  pt10m('PT10M'),
+  pt15m('PT15M'),
+  pt30m('PT30M'),
+  pt1h('PT1H'),
+  ;
 
-extension DataUploadFrequencyValueExtension on DataUploadFrequency {
-  String toValue() {
-    switch (this) {
-      case DataUploadFrequency.pt5m:
-        return 'PT5M';
-      case DataUploadFrequency.pt10m:
-        return 'PT10M';
-      case DataUploadFrequency.pt15m:
-        return 'PT15M';
-      case DataUploadFrequency.pt30m:
-        return 'PT30M';
-      case DataUploadFrequency.pt1h:
-        return 'PT1H';
-    }
-  }
-}
+  final String value;
 
-extension DataUploadFrequencyFromString on String {
-  DataUploadFrequency toDataUploadFrequency() {
-    switch (this) {
-      case 'PT5M':
-        return DataUploadFrequency.pt5m;
-      case 'PT10M':
-        return DataUploadFrequency.pt10m;
-      case 'PT15M':
-        return DataUploadFrequency.pt15m;
-      case 'PT30M':
-        return DataUploadFrequency.pt30m;
-      case 'PT1H':
-        return DataUploadFrequency.pt1h;
-    }
-    throw Exception('$this is not known in enum DataUploadFrequency');
-  }
+  const DataUploadFrequency(this.value);
+
+  static DataUploadFrequency fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DataUploadFrequency'));
 }
 
 /// Provides information about the data schema used with the given dataset.
@@ -3158,41 +3111,20 @@ class DatasetSchema {
 }
 
 enum DatasetStatus {
-  created,
-  ingestionInProgress,
-  active,
-  importInProgress,
-}
+  created('CREATED'),
+  ingestionInProgress('INGESTION_IN_PROGRESS'),
+  active('ACTIVE'),
+  importInProgress('IMPORT_IN_PROGRESS'),
+  ;
 
-extension DatasetStatusValueExtension on DatasetStatus {
-  String toValue() {
-    switch (this) {
-      case DatasetStatus.created:
-        return 'CREATED';
-      case DatasetStatus.ingestionInProgress:
-        return 'INGESTION_IN_PROGRESS';
-      case DatasetStatus.active:
-        return 'ACTIVE';
-      case DatasetStatus.importInProgress:
-        return 'IMPORT_IN_PROGRESS';
-    }
-  }
-}
+  final String value;
 
-extension DatasetStatusFromString on String {
-  DatasetStatus toDatasetStatus() {
-    switch (this) {
-      case 'CREATED':
-        return DatasetStatus.created;
-      case 'INGESTION_IN_PROGRESS':
-        return DatasetStatus.ingestionInProgress;
-      case 'ACTIVE':
-        return DatasetStatus.active;
-      case 'IMPORT_IN_PROGRESS':
-        return DatasetStatus.importInProgress;
-    }
-    throw Exception('$this is not known in enum DatasetStatus');
-  }
+  const DatasetStatus(this.value);
+
+  static DatasetStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DatasetStatus'));
 }
 
 /// Contains information about the specific data set, including name, ARN, and
@@ -3222,7 +3154,7 @@ class DatasetSummary {
       createdAt: timeStampFromJson(json['CreatedAt']),
       datasetArn: json['DatasetArn'] as String?,
       datasetName: json['DatasetName'] as String?,
-      status: (json['Status'] as String?)?.toDatasetStatus(),
+      status: (json['Status'] as String?)?.let(DatasetStatus.fromString),
     );
   }
 
@@ -3235,7 +3167,7 @@ class DatasetSummary {
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
       if (datasetArn != null) 'DatasetArn': datasetArn,
       if (datasetName != null) 'DatasetName': datasetName,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -3331,7 +3263,7 @@ class DescribeDataIngestionJobResponse {
       jobId: json['JobId'] as String?,
       roleArn: json['RoleArn'] as String?,
       sourceDatasetArn: json['SourceDatasetArn'] as String?,
-      status: (json['Status'] as String?)?.toIngestionJobStatus(),
+      status: (json['Status'] as String?)?.let(IngestionJobStatus.fromString),
       statusDetail: json['StatusDetail'] as String?,
     );
   }
@@ -3367,7 +3299,7 @@ class DescribeDataIngestionJobResponse {
       if (jobId != null) 'JobId': jobId,
       if (roleArn != null) 'RoleArn': roleArn,
       if (sourceDatasetArn != null) 'SourceDatasetArn': sourceDatasetArn,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusDetail != null) 'StatusDetail': statusDetail,
     };
   }
@@ -3470,7 +3402,7 @@ class DescribeDatasetResponse {
           json['Schema'] == null ? null : jsonDecode(json['Schema'] as String),
       serverSideKmsKeyId: json['ServerSideKmsKeyId'] as String?,
       sourceDatasetArn: json['SourceDatasetArn'] as String?,
-      status: (json['Status'] as String?)?.toDatasetStatus(),
+      status: (json['Status'] as String?)?.let(DatasetStatus.fromString),
     );
   }
 
@@ -3507,7 +3439,7 @@ class DescribeDatasetResponse {
       if (schema != null) 'Schema': jsonEncode(schema),
       if (serverSideKmsKeyId != null) 'ServerSideKmsKeyId': serverSideKmsKeyId,
       if (sourceDatasetArn != null) 'SourceDatasetArn': sourceDatasetArn,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -3605,17 +3537,18 @@ class DescribeInferenceSchedulerResponse {
           ? InferenceOutputConfiguration.fromJson(
               json['DataOutputConfiguration'] as Map<String, dynamic>)
           : null,
-      dataUploadFrequency:
-          (json['DataUploadFrequency'] as String?)?.toDataUploadFrequency(),
+      dataUploadFrequency: (json['DataUploadFrequency'] as String?)
+          ?.let(DataUploadFrequency.fromString),
       inferenceSchedulerArn: json['InferenceSchedulerArn'] as String?,
       inferenceSchedulerName: json['InferenceSchedulerName'] as String?,
-      latestInferenceResult:
-          (json['LatestInferenceResult'] as String?)?.toLatestInferenceResult(),
+      latestInferenceResult: (json['LatestInferenceResult'] as String?)
+          ?.let(LatestInferenceResult.fromString),
       modelArn: json['ModelArn'] as String?,
       modelName: json['ModelName'] as String?,
       roleArn: json['RoleArn'] as String?,
       serverSideKmsKeyId: json['ServerSideKmsKeyId'] as String?,
-      status: (json['Status'] as String?)?.toInferenceSchedulerStatus(),
+      status:
+          (json['Status'] as String?)?.let(InferenceSchedulerStatus.fromString),
       updatedAt: timeStampFromJson(json['UpdatedAt']),
     );
   }
@@ -3644,18 +3577,18 @@ class DescribeInferenceSchedulerResponse {
       if (dataOutputConfiguration != null)
         'DataOutputConfiguration': dataOutputConfiguration,
       if (dataUploadFrequency != null)
-        'DataUploadFrequency': dataUploadFrequency.toValue(),
+        'DataUploadFrequency': dataUploadFrequency.value,
       if (inferenceSchedulerArn != null)
         'InferenceSchedulerArn': inferenceSchedulerArn,
       if (inferenceSchedulerName != null)
         'InferenceSchedulerName': inferenceSchedulerName,
       if (latestInferenceResult != null)
-        'LatestInferenceResult': latestInferenceResult.toValue(),
+        'LatestInferenceResult': latestInferenceResult.value,
       if (modelArn != null) 'ModelArn': modelArn,
       if (modelName != null) 'ModelName': modelName,
       if (roleArn != null) 'RoleArn': roleArn,
       if (serverSideKmsKeyId != null) 'ServerSideKmsKeyId': serverSideKmsKeyId,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
     };
   }
@@ -3775,7 +3708,7 @@ class DescribeLabelResponse {
       labelGroupName: json['LabelGroupName'] as String?,
       labelId: json['LabelId'] as String?,
       notes: json['Notes'] as String?,
-      rating: (json['Rating'] as String?)?.toLabelRating(),
+      rating: (json['Rating'] as String?)?.let(LabelRating.fromString),
       startTime: timeStampFromJson(json['StartTime']),
     );
   }
@@ -3800,7 +3733,7 @@ class DescribeLabelResponse {
       if (labelGroupName != null) 'LabelGroupName': labelGroupName,
       if (labelId != null) 'LabelId': labelId,
       if (notes != null) 'Notes': notes,
-      if (rating != null) 'Rating': rating.toValue(),
+      if (rating != null) 'Rating': rating.value,
       if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
     };
   }
@@ -4074,7 +4007,7 @@ class DescribeModelResponse {
           timeStampFromJson(json['LatestScheduledRetrainingStartTime']),
       latestScheduledRetrainingStatus:
           (json['LatestScheduledRetrainingStatus'] as String?)
-              ?.toModelVersionStatus(),
+              ?.let(ModelVersionStatus.fromString),
       modelArn: json['ModelArn'] as String?,
       modelDiagnosticsOutputConfiguration:
           json['ModelDiagnosticsOutputConfiguration'] != null
@@ -4086,7 +4019,8 @@ class DescribeModelResponse {
           ? null
           : jsonDecode(json['ModelMetrics'] as String),
       modelName: json['ModelName'] as String?,
-      modelQuality: (json['ModelQuality'] as String?)?.toModelQuality(),
+      modelQuality:
+          (json['ModelQuality'] as String?)?.let(ModelQuality.fromString),
       modelVersionActivatedAt:
           timeStampFromJson(json['ModelVersionActivatedAt']),
       nextScheduledRetrainingStartDate:
@@ -4101,13 +4035,13 @@ class DescribeModelResponse {
           ? null
           : jsonDecode(json['PriorModelMetrics'] as String),
       retrainingSchedulerStatus: (json['RetrainingSchedulerStatus'] as String?)
-          ?.toRetrainingSchedulerStatus(),
+          ?.let(RetrainingSchedulerStatus.fromString),
       roleArn: json['RoleArn'] as String?,
       schema:
           json['Schema'] == null ? null : jsonDecode(json['Schema'] as String),
       serverSideKmsKeyId: json['ServerSideKmsKeyId'] as String?,
       sourceModelVersionArn: json['SourceModelVersionArn'] as String?,
-      status: (json['Status'] as String?)?.toModelStatus(),
+      status: (json['Status'] as String?)?.let(ModelStatus.fromString),
       trainingDataEndTime: timeStampFromJson(json['TrainingDataEndTime']),
       trainingDataStartTime: timeStampFromJson(json['TrainingDataStartTime']),
       trainingExecutionEndTime:
@@ -4212,14 +4146,14 @@ class DescribeModelResponse {
             unixTimestampToJson(latestScheduledRetrainingStartTime),
       if (latestScheduledRetrainingStatus != null)
         'LatestScheduledRetrainingStatus':
-            latestScheduledRetrainingStatus.toValue(),
+            latestScheduledRetrainingStatus.value,
       if (modelArn != null) 'ModelArn': modelArn,
       if (modelDiagnosticsOutputConfiguration != null)
         'ModelDiagnosticsOutputConfiguration':
             modelDiagnosticsOutputConfiguration,
       if (modelMetrics != null) 'ModelMetrics': jsonEncode(modelMetrics),
       if (modelName != null) 'ModelName': modelName,
-      if (modelQuality != null) 'ModelQuality': modelQuality.toValue(),
+      if (modelQuality != null) 'ModelQuality': modelQuality.value,
       if (modelVersionActivatedAt != null)
         'ModelVersionActivatedAt': unixTimestampToJson(modelVersionActivatedAt),
       if (nextScheduledRetrainingStartDate != null)
@@ -4236,13 +4170,13 @@ class DescribeModelResponse {
       if (priorModelMetrics != null)
         'PriorModelMetrics': jsonEncode(priorModelMetrics),
       if (retrainingSchedulerStatus != null)
-        'RetrainingSchedulerStatus': retrainingSchedulerStatus.toValue(),
+        'RetrainingSchedulerStatus': retrainingSchedulerStatus.value,
       if (roleArn != null) 'RoleArn': roleArn,
       if (schema != null) 'Schema': jsonEncode(schema),
       if (serverSideKmsKeyId != null) 'ServerSideKmsKeyId': serverSideKmsKeyId,
       if (sourceModelVersionArn != null)
         'SourceModelVersionArn': sourceModelVersionArn,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (trainingDataEndTime != null)
         'TrainingDataEndTime': unixTimestampToJson(trainingDataEndTime),
       if (trainingDataStartTime != null)
@@ -4451,8 +4385,8 @@ class DescribeModelVersionResponse {
 
   factory DescribeModelVersionResponse.fromJson(Map<String, dynamic> json) {
     return DescribeModelVersionResponse(
-      autoPromotionResult:
-          (json['AutoPromotionResult'] as String?)?.toAutoPromotionResult(),
+      autoPromotionResult: (json['AutoPromotionResult'] as String?)
+          ?.let(AutoPromotionResult.fromString),
       autoPromotionResultReason: json['AutoPromotionResultReason'] as String?,
       createdAt: timeStampFromJson(json['CreatedAt']),
       dataPreProcessingConfiguration: json['DataPreProcessingConfiguration'] !=
@@ -4488,7 +4422,8 @@ class DescribeModelVersionResponse {
               : null,
       modelMetrics: json['ModelMetrics'] as String?,
       modelName: json['ModelName'] as String?,
-      modelQuality: (json['ModelQuality'] as String?)?.toModelQuality(),
+      modelQuality:
+          (json['ModelQuality'] as String?)?.let(ModelQuality.fromString),
       modelVersion: json['ModelVersion'] as int?,
       modelVersionArn: json['ModelVersionArn'] as String?,
       offCondition: json['OffCondition'] as String?,
@@ -4499,8 +4434,9 @@ class DescribeModelVersionResponse {
       schema: json['Schema'] as String?,
       serverSideKmsKeyId: json['ServerSideKmsKeyId'] as String?,
       sourceModelVersionArn: json['SourceModelVersionArn'] as String?,
-      sourceType: (json['SourceType'] as String?)?.toModelVersionSourceType(),
-      status: (json['Status'] as String?)?.toModelVersionStatus(),
+      sourceType: (json['SourceType'] as String?)
+          ?.let(ModelVersionSourceType.fromString),
+      status: (json['Status'] as String?)?.let(ModelVersionStatus.fromString),
       trainingDataEndTime: timeStampFromJson(json['TrainingDataEndTime']),
       trainingDataStartTime: timeStampFromJson(json['TrainingDataStartTime']),
       trainingExecutionEndTime:
@@ -4549,7 +4485,7 @@ class DescribeModelVersionResponse {
     final trainingExecutionStartTime = this.trainingExecutionStartTime;
     return {
       if (autoPromotionResult != null)
-        'AutoPromotionResult': autoPromotionResult.toValue(),
+        'AutoPromotionResult': autoPromotionResult.value,
       if (autoPromotionResultReason != null)
         'AutoPromotionResultReason': autoPromotionResultReason,
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
@@ -4580,7 +4516,7 @@ class DescribeModelVersionResponse {
         'ModelDiagnosticsResultsObject': modelDiagnosticsResultsObject,
       if (modelMetrics != null) 'ModelMetrics': modelMetrics,
       if (modelName != null) 'ModelName': modelName,
-      if (modelQuality != null) 'ModelQuality': modelQuality.toValue(),
+      if (modelQuality != null) 'ModelQuality': modelQuality.value,
       if (modelVersion != null) 'ModelVersion': modelVersion,
       if (modelVersionArn != null) 'ModelVersionArn': modelVersionArn,
       if (offCondition != null) 'OffCondition': offCondition,
@@ -4592,8 +4528,8 @@ class DescribeModelVersionResponse {
       if (serverSideKmsKeyId != null) 'ServerSideKmsKeyId': serverSideKmsKeyId,
       if (sourceModelVersionArn != null)
         'SourceModelVersionArn': sourceModelVersionArn,
-      if (sourceType != null) 'SourceType': sourceType.toValue(),
-      if (status != null) 'Status': status.toValue(),
+      if (sourceType != null) 'SourceType': sourceType.value,
+      if (status != null) 'Status': status.value,
       if (trainingDataEndTime != null)
         'TrainingDataEndTime': unixTimestampToJson(trainingDataEndTime),
       if (trainingDataStartTime != null)
@@ -4708,10 +4644,12 @@ class DescribeRetrainingSchedulerResponse {
       lookbackWindow: json['LookbackWindow'] as String?,
       modelArn: json['ModelArn'] as String?,
       modelName: json['ModelName'] as String?,
-      promoteMode: (json['PromoteMode'] as String?)?.toModelPromoteMode(),
+      promoteMode:
+          (json['PromoteMode'] as String?)?.let(ModelPromoteMode.fromString),
       retrainingFrequency: json['RetrainingFrequency'] as String?,
       retrainingStartDate: timeStampFromJson(json['RetrainingStartDate']),
-      status: (json['Status'] as String?)?.toRetrainingSchedulerStatus(),
+      status: (json['Status'] as String?)
+          ?.let(RetrainingSchedulerStatus.fromString),
       updatedAt: timeStampFromJson(json['UpdatedAt']),
     );
   }
@@ -4731,12 +4669,12 @@ class DescribeRetrainingSchedulerResponse {
       if (lookbackWindow != null) 'LookbackWindow': lookbackWindow,
       if (modelArn != null) 'ModelArn': modelArn,
       if (modelName != null) 'ModelName': modelName,
-      if (promoteMode != null) 'PromoteMode': promoteMode.toValue(),
+      if (promoteMode != null) 'PromoteMode': promoteMode.value,
       if (retrainingFrequency != null)
         'RetrainingFrequency': retrainingFrequency,
       if (retrainingStartDate != null)
         'RetrainingStartDate': unixTimestampToJson(retrainingStartDate),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
     };
   }
@@ -4793,7 +4731,7 @@ class ImportDatasetResponse {
       datasetArn: json['DatasetArn'] as String?,
       datasetName: json['DatasetName'] as String?,
       jobId: json['JobId'] as String?,
-      status: (json['Status'] as String?)?.toDatasetStatus(),
+      status: (json['Status'] as String?)?.let(DatasetStatus.fromString),
     );
   }
 
@@ -4806,7 +4744,7 @@ class ImportDatasetResponse {
       if (datasetArn != null) 'DatasetArn': datasetArn,
       if (datasetName != null) 'DatasetName': datasetName,
       if (jobId != null) 'JobId': jobId,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -4841,7 +4779,7 @@ class ImportModelVersionResponse {
       modelName: json['ModelName'] as String?,
       modelVersion: json['ModelVersion'] as int?,
       modelVersionArn: json['ModelVersionArn'] as String?,
-      status: (json['Status'] as String?)?.toModelVersionStatus(),
+      status: (json['Status'] as String?)?.let(ModelVersionStatus.fromString),
     );
   }
 
@@ -4856,43 +4794,25 @@ class ImportModelVersionResponse {
       if (modelName != null) 'ModelName': modelName,
       if (modelVersion != null) 'ModelVersion': modelVersion,
       if (modelVersionArn != null) 'ModelVersionArn': modelVersionArn,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
 
 enum InferenceDataImportStrategy {
-  noImport,
-  addWhenEmpty,
-  overwrite,
-}
+  noImport('NO_IMPORT'),
+  addWhenEmpty('ADD_WHEN_EMPTY'),
+  overwrite('OVERWRITE'),
+  ;
 
-extension InferenceDataImportStrategyValueExtension
-    on InferenceDataImportStrategy {
-  String toValue() {
-    switch (this) {
-      case InferenceDataImportStrategy.noImport:
-        return 'NO_IMPORT';
-      case InferenceDataImportStrategy.addWhenEmpty:
-        return 'ADD_WHEN_EMPTY';
-      case InferenceDataImportStrategy.overwrite:
-        return 'OVERWRITE';
-    }
-  }
-}
+  final String value;
 
-extension InferenceDataImportStrategyFromString on String {
-  InferenceDataImportStrategy toInferenceDataImportStrategy() {
-    switch (this) {
-      case 'NO_IMPORT':
-        return InferenceDataImportStrategy.noImport;
-      case 'ADD_WHEN_EMPTY':
-        return InferenceDataImportStrategy.addWhenEmpty;
-      case 'OVERWRITE':
-        return InferenceDataImportStrategy.overwrite;
-    }
-    throw Exception('$this is not known in enum InferenceDataImportStrategy');
-  }
+  const InferenceDataImportStrategy(this.value);
+
+  static InferenceDataImportStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum InferenceDataImportStrategy'));
 }
 
 /// Contains information about the specific inference event, including start and
@@ -4962,36 +4882,19 @@ class InferenceEventSummary {
 }
 
 enum InferenceExecutionStatus {
-  inProgress,
-  success,
-  failed,
-}
+  inProgress('IN_PROGRESS'),
+  success('SUCCESS'),
+  failed('FAILED'),
+  ;
 
-extension InferenceExecutionStatusValueExtension on InferenceExecutionStatus {
-  String toValue() {
-    switch (this) {
-      case InferenceExecutionStatus.inProgress:
-        return 'IN_PROGRESS';
-      case InferenceExecutionStatus.success:
-        return 'SUCCESS';
-      case InferenceExecutionStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension InferenceExecutionStatusFromString on String {
-  InferenceExecutionStatus toInferenceExecutionStatus() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return InferenceExecutionStatus.inProgress;
-      case 'SUCCESS':
-        return InferenceExecutionStatus.success;
-      case 'FAILED':
-        return InferenceExecutionStatus.failed;
-    }
-    throw Exception('$this is not known in enum InferenceExecutionStatus');
-  }
+  const InferenceExecutionStatus(this.value);
+
+  static InferenceExecutionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum InferenceExecutionStatus'));
 }
 
 /// Contains information about the specific inference execution, including input
@@ -5090,7 +4993,8 @@ class InferenceExecutionSummary {
       modelVersion: json['ModelVersion'] as int?,
       modelVersionArn: json['ModelVersionArn'] as String?,
       scheduledStartTime: timeStampFromJson(json['ScheduledStartTime']),
-      status: (json['Status'] as String?)?.toInferenceExecutionStatus(),
+      status:
+          (json['Status'] as String?)?.let(InferenceExecutionStatus.fromString),
     );
   }
 
@@ -5130,7 +5034,7 @@ class InferenceExecutionSummary {
       if (modelVersionArn != null) 'ModelVersionArn': modelVersionArn,
       if (scheduledStartTime != null)
         'ScheduledStartTime': unixTimestampToJson(scheduledStartTime),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -5318,41 +5222,20 @@ class InferenceS3OutputConfiguration {
 }
 
 enum InferenceSchedulerStatus {
-  pending,
-  running,
-  stopping,
-  stopped,
-}
+  pending('PENDING'),
+  running('RUNNING'),
+  stopping('STOPPING'),
+  stopped('STOPPED'),
+  ;
 
-extension InferenceSchedulerStatusValueExtension on InferenceSchedulerStatus {
-  String toValue() {
-    switch (this) {
-      case InferenceSchedulerStatus.pending:
-        return 'PENDING';
-      case InferenceSchedulerStatus.running:
-        return 'RUNNING';
-      case InferenceSchedulerStatus.stopping:
-        return 'STOPPING';
-      case InferenceSchedulerStatus.stopped:
-        return 'STOPPED';
-    }
-  }
-}
+  final String value;
 
-extension InferenceSchedulerStatusFromString on String {
-  InferenceSchedulerStatus toInferenceSchedulerStatus() {
-    switch (this) {
-      case 'PENDING':
-        return InferenceSchedulerStatus.pending;
-      case 'RUNNING':
-        return InferenceSchedulerStatus.running;
-      case 'STOPPING':
-        return InferenceSchedulerStatus.stopping;
-      case 'STOPPED':
-        return InferenceSchedulerStatus.stopped;
-    }
-    throw Exception('$this is not known in enum InferenceSchedulerStatus');
-  }
+  const InferenceSchedulerStatus(this.value);
+
+  static InferenceSchedulerStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum InferenceSchedulerStatus'));
 }
 
 /// Contains information about the specific inference scheduler, including data
@@ -5410,15 +5293,16 @@ class InferenceSchedulerSummary {
   factory InferenceSchedulerSummary.fromJson(Map<String, dynamic> json) {
     return InferenceSchedulerSummary(
       dataDelayOffsetInMinutes: json['DataDelayOffsetInMinutes'] as int?,
-      dataUploadFrequency:
-          (json['DataUploadFrequency'] as String?)?.toDataUploadFrequency(),
+      dataUploadFrequency: (json['DataUploadFrequency'] as String?)
+          ?.let(DataUploadFrequency.fromString),
       inferenceSchedulerArn: json['InferenceSchedulerArn'] as String?,
       inferenceSchedulerName: json['InferenceSchedulerName'] as String?,
-      latestInferenceResult:
-          (json['LatestInferenceResult'] as String?)?.toLatestInferenceResult(),
+      latestInferenceResult: (json['LatestInferenceResult'] as String?)
+          ?.let(LatestInferenceResult.fromString),
       modelArn: json['ModelArn'] as String?,
       modelName: json['ModelName'] as String?,
-      status: (json['Status'] as String?)?.toInferenceSchedulerStatus(),
+      status:
+          (json['Status'] as String?)?.let(InferenceSchedulerStatus.fromString),
     );
   }
 
@@ -5435,16 +5319,16 @@ class InferenceSchedulerSummary {
       if (dataDelayOffsetInMinutes != null)
         'DataDelayOffsetInMinutes': dataDelayOffsetInMinutes,
       if (dataUploadFrequency != null)
-        'DataUploadFrequency': dataUploadFrequency.toValue(),
+        'DataUploadFrequency': dataUploadFrequency.value,
       if (inferenceSchedulerArn != null)
         'InferenceSchedulerArn': inferenceSchedulerArn,
       if (inferenceSchedulerName != null)
         'InferenceSchedulerName': inferenceSchedulerName,
       if (latestInferenceResult != null)
-        'LatestInferenceResult': latestInferenceResult.toValue(),
+        'LatestInferenceResult': latestInferenceResult.value,
       if (modelArn != null) 'ModelArn': modelArn,
       if (modelName != null) 'ModelName': modelName,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -5518,41 +5402,20 @@ class IngestionInputConfiguration {
 }
 
 enum IngestionJobStatus {
-  inProgress,
-  success,
-  failed,
-  importInProgress,
-}
+  inProgress('IN_PROGRESS'),
+  success('SUCCESS'),
+  failed('FAILED'),
+  importInProgress('IMPORT_IN_PROGRESS'),
+  ;
 
-extension IngestionJobStatusValueExtension on IngestionJobStatus {
-  String toValue() {
-    switch (this) {
-      case IngestionJobStatus.inProgress:
-        return 'IN_PROGRESS';
-      case IngestionJobStatus.success:
-        return 'SUCCESS';
-      case IngestionJobStatus.failed:
-        return 'FAILED';
-      case IngestionJobStatus.importInProgress:
-        return 'IMPORT_IN_PROGRESS';
-    }
-  }
-}
+  final String value;
 
-extension IngestionJobStatusFromString on String {
-  IngestionJobStatus toIngestionJobStatus() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return IngestionJobStatus.inProgress;
-      case 'SUCCESS':
-        return IngestionJobStatus.success;
-      case 'FAILED':
-        return IngestionJobStatus.failed;
-      case 'IMPORT_IN_PROGRESS':
-        return IngestionJobStatus.importInProgress;
-    }
-    throw Exception('$this is not known in enum IngestionJobStatus');
-  }
+  const IngestionJobStatus(this.value);
+
+  static IngestionJobStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum IngestionJobStatus'));
 }
 
 /// Specifies S3 configuration information for the input data for the data
@@ -5713,36 +5576,18 @@ class LabelGroupSummary {
 }
 
 enum LabelRating {
-  anomaly,
-  noAnomaly,
-  neutral,
-}
+  anomaly('ANOMALY'),
+  noAnomaly('NO_ANOMALY'),
+  neutral('NEUTRAL'),
+  ;
 
-extension LabelRatingValueExtension on LabelRating {
-  String toValue() {
-    switch (this) {
-      case LabelRating.anomaly:
-        return 'ANOMALY';
-      case LabelRating.noAnomaly:
-        return 'NO_ANOMALY';
-      case LabelRating.neutral:
-        return 'NEUTRAL';
-    }
-  }
-}
+  final String value;
 
-extension LabelRatingFromString on String {
-  LabelRating toLabelRating() {
-    switch (this) {
-      case 'ANOMALY':
-        return LabelRating.anomaly;
-      case 'NO_ANOMALY':
-        return LabelRating.noAnomaly;
-      case 'NEUTRAL':
-        return LabelRating.neutral;
-    }
-    throw Exception('$this is not known in enum LabelRating');
-  }
+  const LabelRating(this.value);
+
+  static LabelRating fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum LabelRating'));
 }
 
 /// Information about the label.
@@ -5798,7 +5643,7 @@ class LabelSummary {
       labelGroupArn: json['LabelGroupArn'] as String?,
       labelGroupName: json['LabelGroupName'] as String?,
       labelId: json['LabelId'] as String?,
-      rating: (json['Rating'] as String?)?.toLabelRating(),
+      rating: (json['Rating'] as String?)?.let(LabelRating.fromString),
       startTime: timeStampFromJson(json['StartTime']),
     );
   }
@@ -5821,7 +5666,7 @@ class LabelSummary {
       if (labelGroupArn != null) 'LabelGroupArn': labelGroupArn,
       if (labelGroupName != null) 'LabelGroupName': labelGroupName,
       if (labelId != null) 'LabelId': labelId,
-      if (rating != null) 'Rating': rating.toValue(),
+      if (rating != null) 'Rating': rating.value,
       if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
     };
   }
@@ -5914,7 +5759,7 @@ class LargeTimestampGaps {
 
   factory LargeTimestampGaps.fromJson(Map<String, dynamic> json) {
     return LargeTimestampGaps(
-      status: (json['Status'] as String).toStatisticalIssueStatus(),
+      status: StatisticalIssueStatus.fromString((json['Status'] as String)),
       maxTimestampGapInDays: json['MaxTimestampGapInDays'] as int?,
       numberOfLargeTimestampGaps: json['NumberOfLargeTimestampGaps'] as int?,
     );
@@ -5925,7 +5770,7 @@ class LargeTimestampGaps {
     final maxTimestampGapInDays = this.maxTimestampGapInDays;
     final numberOfLargeTimestampGaps = this.numberOfLargeTimestampGaps;
     return {
-      'Status': status.toValue(),
+      'Status': status.value,
       if (maxTimestampGapInDays != null)
         'MaxTimestampGapInDays': maxTimestampGapInDays,
       if (numberOfLargeTimestampGaps != null)
@@ -5935,31 +5780,18 @@ class LargeTimestampGaps {
 }
 
 enum LatestInferenceResult {
-  anomalous,
-  normal,
-}
+  anomalous('ANOMALOUS'),
+  normal('NORMAL'),
+  ;
 
-extension LatestInferenceResultValueExtension on LatestInferenceResult {
-  String toValue() {
-    switch (this) {
-      case LatestInferenceResult.anomalous:
-        return 'ANOMALOUS';
-      case LatestInferenceResult.normal:
-        return 'NORMAL';
-    }
-  }
-}
+  final String value;
 
-extension LatestInferenceResultFromString on String {
-  LatestInferenceResult toLatestInferenceResult() {
-    switch (this) {
-      case 'ANOMALOUS':
-        return LatestInferenceResult.anomalous;
-      case 'NORMAL':
-        return LatestInferenceResult.normal;
-    }
-    throw Exception('$this is not known in enum LatestInferenceResult');
-  }
+  const LatestInferenceResult(this.value);
+
+  static LatestInferenceResult fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum LatestInferenceResult'));
 }
 
 class ListDataIngestionJobsResponse {
@@ -6535,102 +6367,50 @@ class ModelDiagnosticsS3OutputConfiguration {
 }
 
 enum ModelPromoteMode {
-  managed,
-  manual,
-}
+  managed('MANAGED'),
+  manual('MANUAL'),
+  ;
 
-extension ModelPromoteModeValueExtension on ModelPromoteMode {
-  String toValue() {
-    switch (this) {
-      case ModelPromoteMode.managed:
-        return 'MANAGED';
-      case ModelPromoteMode.manual:
-        return 'MANUAL';
-    }
-  }
-}
+  final String value;
 
-extension ModelPromoteModeFromString on String {
-  ModelPromoteMode toModelPromoteMode() {
-    switch (this) {
-      case 'MANAGED':
-        return ModelPromoteMode.managed;
-      case 'MANUAL':
-        return ModelPromoteMode.manual;
-    }
-    throw Exception('$this is not known in enum ModelPromoteMode');
-  }
+  const ModelPromoteMode(this.value);
+
+  static ModelPromoteMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ModelPromoteMode'));
 }
 
 enum ModelQuality {
-  qualityThresholdMet,
-  cannotDetermineQuality,
-  poorQualityDetected,
-}
+  qualityThresholdMet('QUALITY_THRESHOLD_MET'),
+  cannotDetermineQuality('CANNOT_DETERMINE_QUALITY'),
+  poorQualityDetected('POOR_QUALITY_DETECTED'),
+  ;
 
-extension ModelQualityValueExtension on ModelQuality {
-  String toValue() {
-    switch (this) {
-      case ModelQuality.qualityThresholdMet:
-        return 'QUALITY_THRESHOLD_MET';
-      case ModelQuality.cannotDetermineQuality:
-        return 'CANNOT_DETERMINE_QUALITY';
-      case ModelQuality.poorQualityDetected:
-        return 'POOR_QUALITY_DETECTED';
-    }
-  }
-}
+  final String value;
 
-extension ModelQualityFromString on String {
-  ModelQuality toModelQuality() {
-    switch (this) {
-      case 'QUALITY_THRESHOLD_MET':
-        return ModelQuality.qualityThresholdMet;
-      case 'CANNOT_DETERMINE_QUALITY':
-        return ModelQuality.cannotDetermineQuality;
-      case 'POOR_QUALITY_DETECTED':
-        return ModelQuality.poorQualityDetected;
-    }
-    throw Exception('$this is not known in enum ModelQuality');
-  }
+  const ModelQuality(this.value);
+
+  static ModelQuality fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ModelQuality'));
 }
 
 enum ModelStatus {
-  inProgress,
-  success,
-  failed,
-  importInProgress,
-}
+  inProgress('IN_PROGRESS'),
+  success('SUCCESS'),
+  failed('FAILED'),
+  importInProgress('IMPORT_IN_PROGRESS'),
+  ;
 
-extension ModelStatusValueExtension on ModelStatus {
-  String toValue() {
-    switch (this) {
-      case ModelStatus.inProgress:
-        return 'IN_PROGRESS';
-      case ModelStatus.success:
-        return 'SUCCESS';
-      case ModelStatus.failed:
-        return 'FAILED';
-      case ModelStatus.importInProgress:
-        return 'IMPORT_IN_PROGRESS';
-    }
-  }
-}
+  final String value;
 
-extension ModelStatusFromString on String {
-  ModelStatus toModelStatus() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return ModelStatus.inProgress;
-      case 'SUCCESS':
-        return ModelStatus.success;
-      case 'FAILED':
-        return ModelStatus.failed;
-      case 'IMPORT_IN_PROGRESS':
-        return ModelStatus.importInProgress;
-    }
-    throw Exception('$this is not known in enum ModelStatus');
-  }
+  const ModelStatus(this.value);
+
+  static ModelStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ModelStatus'));
 }
 
 /// Provides information about the specified machine learning model, including
@@ -6733,7 +6513,7 @@ class ModelSummary {
           timeStampFromJson(json['LatestScheduledRetrainingStartTime']),
       latestScheduledRetrainingStatus:
           (json['LatestScheduledRetrainingStatus'] as String?)
-              ?.toModelVersionStatus(),
+              ?.let(ModelVersionStatus.fromString),
       modelArn: json['ModelArn'] as String?,
       modelDiagnosticsOutputConfiguration:
           json['ModelDiagnosticsOutputConfiguration'] != null
@@ -6742,12 +6522,13 @@ class ModelSummary {
                       as Map<String, dynamic>)
               : null,
       modelName: json['ModelName'] as String?,
-      modelQuality: (json['ModelQuality'] as String?)?.toModelQuality(),
+      modelQuality:
+          (json['ModelQuality'] as String?)?.let(ModelQuality.fromString),
       nextScheduledRetrainingStartDate:
           timeStampFromJson(json['NextScheduledRetrainingStartDate']),
       retrainingSchedulerStatus: (json['RetrainingSchedulerStatus'] as String?)
-          ?.toRetrainingSchedulerStatus(),
-      status: (json['Status'] as String?)?.toModelStatus(),
+          ?.let(RetrainingSchedulerStatus.fromString),
+      status: (json['Status'] as String?)?.let(ModelStatus.fromString),
     );
   }
 
@@ -6787,97 +6568,55 @@ class ModelSummary {
             unixTimestampToJson(latestScheduledRetrainingStartTime),
       if (latestScheduledRetrainingStatus != null)
         'LatestScheduledRetrainingStatus':
-            latestScheduledRetrainingStatus.toValue(),
+            latestScheduledRetrainingStatus.value,
       if (modelArn != null) 'ModelArn': modelArn,
       if (modelDiagnosticsOutputConfiguration != null)
         'ModelDiagnosticsOutputConfiguration':
             modelDiagnosticsOutputConfiguration,
       if (modelName != null) 'ModelName': modelName,
-      if (modelQuality != null) 'ModelQuality': modelQuality.toValue(),
+      if (modelQuality != null) 'ModelQuality': modelQuality.value,
       if (nextScheduledRetrainingStartDate != null)
         'NextScheduledRetrainingStartDate':
             unixTimestampToJson(nextScheduledRetrainingStartDate),
       if (retrainingSchedulerStatus != null)
-        'RetrainingSchedulerStatus': retrainingSchedulerStatus.toValue(),
-      if (status != null) 'Status': status.toValue(),
+        'RetrainingSchedulerStatus': retrainingSchedulerStatus.value,
+      if (status != null) 'Status': status.value,
     };
   }
 }
 
 enum ModelVersionSourceType {
-  training,
-  retraining,
-  import,
-}
+  training('TRAINING'),
+  retraining('RETRAINING'),
+  import('IMPORT'),
+  ;
 
-extension ModelVersionSourceTypeValueExtension on ModelVersionSourceType {
-  String toValue() {
-    switch (this) {
-      case ModelVersionSourceType.training:
-        return 'TRAINING';
-      case ModelVersionSourceType.retraining:
-        return 'RETRAINING';
-      case ModelVersionSourceType.import:
-        return 'IMPORT';
-    }
-  }
-}
+  final String value;
 
-extension ModelVersionSourceTypeFromString on String {
-  ModelVersionSourceType toModelVersionSourceType() {
-    switch (this) {
-      case 'TRAINING':
-        return ModelVersionSourceType.training;
-      case 'RETRAINING':
-        return ModelVersionSourceType.retraining;
-      case 'IMPORT':
-        return ModelVersionSourceType.import;
-    }
-    throw Exception('$this is not known in enum ModelVersionSourceType');
-  }
+  const ModelVersionSourceType(this.value);
+
+  static ModelVersionSourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ModelVersionSourceType'));
 }
 
 enum ModelVersionStatus {
-  inProgress,
-  success,
-  failed,
-  importInProgress,
-  canceled,
-}
+  inProgress('IN_PROGRESS'),
+  success('SUCCESS'),
+  failed('FAILED'),
+  importInProgress('IMPORT_IN_PROGRESS'),
+  canceled('CANCELED'),
+  ;
 
-extension ModelVersionStatusValueExtension on ModelVersionStatus {
-  String toValue() {
-    switch (this) {
-      case ModelVersionStatus.inProgress:
-        return 'IN_PROGRESS';
-      case ModelVersionStatus.success:
-        return 'SUCCESS';
-      case ModelVersionStatus.failed:
-        return 'FAILED';
-      case ModelVersionStatus.importInProgress:
-        return 'IMPORT_IN_PROGRESS';
-      case ModelVersionStatus.canceled:
-        return 'CANCELED';
-    }
-  }
-}
+  final String value;
 
-extension ModelVersionStatusFromString on String {
-  ModelVersionStatus toModelVersionStatus() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return ModelVersionStatus.inProgress;
-      case 'SUCCESS':
-        return ModelVersionStatus.success;
-      case 'FAILED':
-        return ModelVersionStatus.failed;
-      case 'IMPORT_IN_PROGRESS':
-        return ModelVersionStatus.importInProgress;
-      case 'CANCELED':
-        return ModelVersionStatus.canceled;
-    }
-    throw Exception('$this is not known in enum ModelVersionStatus');
-  }
+  const ModelVersionStatus(this.value);
+
+  static ModelVersionStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ModelVersionStatus'));
 }
 
 /// Contains information about the specific model version.
@@ -6935,11 +6674,13 @@ class ModelVersionSummary {
       createdAt: timeStampFromJson(json['CreatedAt']),
       modelArn: json['ModelArn'] as String?,
       modelName: json['ModelName'] as String?,
-      modelQuality: (json['ModelQuality'] as String?)?.toModelQuality(),
+      modelQuality:
+          (json['ModelQuality'] as String?)?.let(ModelQuality.fromString),
       modelVersion: json['ModelVersion'] as int?,
       modelVersionArn: json['ModelVersionArn'] as String?,
-      sourceType: (json['SourceType'] as String?)?.toModelVersionSourceType(),
-      status: (json['Status'] as String?)?.toModelVersionStatus(),
+      sourceType: (json['SourceType'] as String?)
+          ?.let(ModelVersionSourceType.fromString),
+      status: (json['Status'] as String?)?.let(ModelVersionStatus.fromString),
     );
   }
 
@@ -6956,11 +6697,11 @@ class ModelVersionSummary {
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
       if (modelArn != null) 'ModelArn': modelArn,
       if (modelName != null) 'ModelName': modelName,
-      if (modelQuality != null) 'ModelQuality': modelQuality.toValue(),
+      if (modelQuality != null) 'ModelQuality': modelQuality.value,
       if (modelVersion != null) 'ModelVersion': modelVersion,
       if (modelVersionArn != null) 'ModelVersionArn': modelVersionArn,
-      if (sourceType != null) 'SourceType': sourceType.toValue(),
-      if (status != null) 'Status': status.toValue(),
+      if (sourceType != null) 'SourceType': sourceType.value,
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -6982,8 +6723,9 @@ class MonotonicValues {
 
   factory MonotonicValues.fromJson(Map<String, dynamic> json) {
     return MonotonicValues(
-      status: (json['Status'] as String).toStatisticalIssueStatus(),
-      monotonicity: (json['Monotonicity'] as String?)?.toMonotonicity(),
+      status: StatisticalIssueStatus.fromString((json['Status'] as String)),
+      monotonicity:
+          (json['Monotonicity'] as String?)?.let(Monotonicity.fromString),
     );
   }
 
@@ -6991,43 +6733,26 @@ class MonotonicValues {
     final status = this.status;
     final monotonicity = this.monotonicity;
     return {
-      'Status': status.toValue(),
-      if (monotonicity != null) 'Monotonicity': monotonicity.toValue(),
+      'Status': status.value,
+      if (monotonicity != null) 'Monotonicity': monotonicity.value,
     };
   }
 }
 
 enum Monotonicity {
-  decreasing,
-  increasing,
-  static,
-}
+  decreasing('DECREASING'),
+  increasing('INCREASING'),
+  static('STATIC'),
+  ;
 
-extension MonotonicityValueExtension on Monotonicity {
-  String toValue() {
-    switch (this) {
-      case Monotonicity.decreasing:
-        return 'DECREASING';
-      case Monotonicity.increasing:
-        return 'INCREASING';
-      case Monotonicity.static:
-        return 'STATIC';
-    }
-  }
-}
+  final String value;
 
-extension MonotonicityFromString on String {
-  Monotonicity toMonotonicity() {
-    switch (this) {
-      case 'DECREASING':
-        return Monotonicity.decreasing;
-      case 'INCREASING':
-        return Monotonicity.increasing;
-      case 'STATIC':
-        return Monotonicity.static;
-    }
-    throw Exception('$this is not known in enum Monotonicity');
-  }
+  const Monotonicity(this.value);
+
+  static Monotonicity fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum Monotonicity'));
 }
 
 /// Entity that comprises information on operating modes in data.
@@ -7042,14 +6767,14 @@ class MultipleOperatingModes {
 
   factory MultipleOperatingModes.fromJson(Map<String, dynamic> json) {
     return MultipleOperatingModes(
-      status: (json['Status'] as String).toStatisticalIssueStatus(),
+      status: StatisticalIssueStatus.fromString((json['Status'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {
-      'Status': status.toValue(),
+      'Status': status.value,
     };
   }
 }
@@ -7085,41 +6810,20 @@ class PutResourcePolicyResponse {
 }
 
 enum RetrainingSchedulerStatus {
-  pending,
-  running,
-  stopping,
-  stopped,
-}
+  pending('PENDING'),
+  running('RUNNING'),
+  stopping('STOPPING'),
+  stopped('STOPPED'),
+  ;
 
-extension RetrainingSchedulerStatusValueExtension on RetrainingSchedulerStatus {
-  String toValue() {
-    switch (this) {
-      case RetrainingSchedulerStatus.pending:
-        return 'PENDING';
-      case RetrainingSchedulerStatus.running:
-        return 'RUNNING';
-      case RetrainingSchedulerStatus.stopping:
-        return 'STOPPING';
-      case RetrainingSchedulerStatus.stopped:
-        return 'STOPPED';
-    }
-  }
-}
+  final String value;
 
-extension RetrainingSchedulerStatusFromString on String {
-  RetrainingSchedulerStatus toRetrainingSchedulerStatus() {
-    switch (this) {
-      case 'PENDING':
-        return RetrainingSchedulerStatus.pending;
-      case 'RUNNING':
-        return RetrainingSchedulerStatus.running;
-      case 'STOPPING':
-        return RetrainingSchedulerStatus.stopping;
-      case 'STOPPED':
-        return RetrainingSchedulerStatus.stopped;
-    }
-    throw Exception('$this is not known in enum RetrainingSchedulerStatus');
-  }
+  const RetrainingSchedulerStatus(this.value);
+
+  static RetrainingSchedulerStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RetrainingSchedulerStatus'));
 }
 
 /// Provides information about the specified retraining scheduler, including
@@ -7162,7 +6866,8 @@ class RetrainingSchedulerSummary {
       modelName: json['ModelName'] as String?,
       retrainingFrequency: json['RetrainingFrequency'] as String?,
       retrainingStartDate: timeStampFromJson(json['RetrainingStartDate']),
-      status: (json['Status'] as String?)?.toRetrainingSchedulerStatus(),
+      status: (json['Status'] as String?)
+          ?.let(RetrainingSchedulerStatus.fromString),
     );
   }
 
@@ -7181,7 +6886,7 @@ class RetrainingSchedulerSummary {
         'RetrainingFrequency': retrainingFrequency,
       if (retrainingStartDate != null)
         'RetrainingStartDate': unixTimestampToJson(retrainingStartDate),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -7401,7 +7106,7 @@ class StartDataIngestionJobResponse {
   factory StartDataIngestionJobResponse.fromJson(Map<String, dynamic> json) {
     return StartDataIngestionJobResponse(
       jobId: json['JobId'] as String?,
-      status: (json['Status'] as String?)?.toIngestionJobStatus(),
+      status: (json['Status'] as String?)?.let(IngestionJobStatus.fromString),
     );
   }
 
@@ -7410,7 +7115,7 @@ class StartDataIngestionJobResponse {
     final status = this.status;
     return {
       if (jobId != null) 'JobId': jobId,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -7447,7 +7152,8 @@ class StartInferenceSchedulerResponse {
       inferenceSchedulerName: json['InferenceSchedulerName'] as String?,
       modelArn: json['ModelArn'] as String?,
       modelName: json['ModelName'] as String?,
-      status: (json['Status'] as String?)?.toInferenceSchedulerStatus(),
+      status:
+          (json['Status'] as String?)?.let(InferenceSchedulerStatus.fromString),
     );
   }
 
@@ -7464,7 +7170,7 @@ class StartInferenceSchedulerResponse {
         'InferenceSchedulerName': inferenceSchedulerName,
       if (modelArn != null) 'ModelArn': modelArn,
       if (modelName != null) 'ModelName': modelName,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -7489,7 +7195,8 @@ class StartRetrainingSchedulerResponse {
     return StartRetrainingSchedulerResponse(
       modelArn: json['ModelArn'] as String?,
       modelName: json['ModelName'] as String?,
-      status: (json['Status'] as String?)?.toRetrainingSchedulerStatus(),
+      status: (json['Status'] as String?)
+          ?.let(RetrainingSchedulerStatus.fromString),
     );
   }
 
@@ -7500,37 +7207,24 @@ class StartRetrainingSchedulerResponse {
     return {
       if (modelArn != null) 'ModelArn': modelArn,
       if (modelName != null) 'ModelName': modelName,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
 
 enum StatisticalIssueStatus {
-  potentialIssueDetected,
-  noIssueDetected,
-}
+  potentialIssueDetected('POTENTIAL_ISSUE_DETECTED'),
+  noIssueDetected('NO_ISSUE_DETECTED'),
+  ;
 
-extension StatisticalIssueStatusValueExtension on StatisticalIssueStatus {
-  String toValue() {
-    switch (this) {
-      case StatisticalIssueStatus.potentialIssueDetected:
-        return 'POTENTIAL_ISSUE_DETECTED';
-      case StatisticalIssueStatus.noIssueDetected:
-        return 'NO_ISSUE_DETECTED';
-    }
-  }
-}
+  final String value;
 
-extension StatisticalIssueStatusFromString on String {
-  StatisticalIssueStatus toStatisticalIssueStatus() {
-    switch (this) {
-      case 'POTENTIAL_ISSUE_DETECTED':
-        return StatisticalIssueStatus.potentialIssueDetected;
-      case 'NO_ISSUE_DETECTED':
-        return StatisticalIssueStatus.noIssueDetected;
-    }
-    throw Exception('$this is not known in enum StatisticalIssueStatus');
-  }
+  const StatisticalIssueStatus(this.value);
+
+  static StatisticalIssueStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum StatisticalIssueStatus'));
 }
 
 class StopInferenceSchedulerResponse {
@@ -7565,7 +7259,8 @@ class StopInferenceSchedulerResponse {
       inferenceSchedulerName: json['InferenceSchedulerName'] as String?,
       modelArn: json['ModelArn'] as String?,
       modelName: json['ModelName'] as String?,
-      status: (json['Status'] as String?)?.toInferenceSchedulerStatus(),
+      status:
+          (json['Status'] as String?)?.let(InferenceSchedulerStatus.fromString),
     );
   }
 
@@ -7582,7 +7277,7 @@ class StopInferenceSchedulerResponse {
         'InferenceSchedulerName': inferenceSchedulerName,
       if (modelArn != null) 'ModelArn': modelArn,
       if (modelName != null) 'ModelName': modelName,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -7607,7 +7302,8 @@ class StopRetrainingSchedulerResponse {
     return StopRetrainingSchedulerResponse(
       modelArn: json['ModelArn'] as String?,
       modelName: json['ModelName'] as String?,
-      status: (json['Status'] as String?)?.toRetrainingSchedulerStatus(),
+      status: (json['Status'] as String?)
+          ?.let(RetrainingSchedulerStatus.fromString),
     );
   }
 
@@ -7618,7 +7314,7 @@ class StopRetrainingSchedulerResponse {
     return {
       if (modelArn != null) 'ModelArn': modelArn,
       if (modelName != null) 'ModelName': modelName,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -7666,76 +7362,27 @@ class TagResourceResponse {
 }
 
 enum TargetSamplingRate {
-  pt1s,
-  pt5s,
-  pt10s,
-  pt15s,
-  pt30s,
-  pt1m,
-  pt5m,
-  pt10m,
-  pt15m,
-  pt30m,
-  pt1h,
-}
+  pt1s('PT1S'),
+  pt5s('PT5S'),
+  pt10s('PT10S'),
+  pt15s('PT15S'),
+  pt30s('PT30S'),
+  pt1m('PT1M'),
+  pt5m('PT5M'),
+  pt10m('PT10M'),
+  pt15m('PT15M'),
+  pt30m('PT30M'),
+  pt1h('PT1H'),
+  ;
 
-extension TargetSamplingRateValueExtension on TargetSamplingRate {
-  String toValue() {
-    switch (this) {
-      case TargetSamplingRate.pt1s:
-        return 'PT1S';
-      case TargetSamplingRate.pt5s:
-        return 'PT5S';
-      case TargetSamplingRate.pt10s:
-        return 'PT10S';
-      case TargetSamplingRate.pt15s:
-        return 'PT15S';
-      case TargetSamplingRate.pt30s:
-        return 'PT30S';
-      case TargetSamplingRate.pt1m:
-        return 'PT1M';
-      case TargetSamplingRate.pt5m:
-        return 'PT5M';
-      case TargetSamplingRate.pt10m:
-        return 'PT10M';
-      case TargetSamplingRate.pt15m:
-        return 'PT15M';
-      case TargetSamplingRate.pt30m:
-        return 'PT30M';
-      case TargetSamplingRate.pt1h:
-        return 'PT1H';
-    }
-  }
-}
+  final String value;
 
-extension TargetSamplingRateFromString on String {
-  TargetSamplingRate toTargetSamplingRate() {
-    switch (this) {
-      case 'PT1S':
-        return TargetSamplingRate.pt1s;
-      case 'PT5S':
-        return TargetSamplingRate.pt5s;
-      case 'PT10S':
-        return TargetSamplingRate.pt10s;
-      case 'PT15S':
-        return TargetSamplingRate.pt15s;
-      case 'PT30S':
-        return TargetSamplingRate.pt30s;
-      case 'PT1M':
-        return TargetSamplingRate.pt1m;
-      case 'PT5M':
-        return TargetSamplingRate.pt5m;
-      case 'PT10M':
-        return TargetSamplingRate.pt10m;
-      case 'PT15M':
-        return TargetSamplingRate.pt15m;
-      case 'PT30M':
-        return TargetSamplingRate.pt30m;
-      case 'PT1H':
-        return TargetSamplingRate.pt1h;
-    }
-    throw Exception('$this is not known in enum TargetSamplingRate');
-  }
+  const TargetSamplingRate(this.value);
+
+  static TargetSamplingRate fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TargetSamplingRate'));
 }
 
 /// Entity that comprises information abount unsupported timestamps in the

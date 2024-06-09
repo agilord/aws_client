@@ -110,7 +110,7 @@ class EntityResolution {
   }) async {
     final $payload = <String, dynamic>{
       'action': action,
-      'effect': effect.toValue(),
+      'effect': effect.value,
       'principal': principal,
       if (condition != null) 'condition': condition,
     };
@@ -278,7 +278,7 @@ class EntityResolution {
   }) async {
     final $payload = <String, dynamic>{
       'idNamespaceName': idNamespaceName,
-      'type': type.toValue(),
+      'type': type.value,
       if (description != null) 'description': description,
       if (idMappingWorkflowProperties != null)
         'idMappingWorkflowProperties': idMappingWorkflowProperties,
@@ -1489,31 +1489,18 @@ class AddPolicyStatementOutput {
 }
 
 enum AttributeMatchingModel {
-  oneToOne,
-  manyToMany,
-}
+  oneToOne('ONE_TO_ONE'),
+  manyToMany('MANY_TO_MANY'),
+  ;
 
-extension AttributeMatchingModelValueExtension on AttributeMatchingModel {
-  String toValue() {
-    switch (this) {
-      case AttributeMatchingModel.oneToOne:
-        return 'ONE_TO_ONE';
-      case AttributeMatchingModel.manyToMany:
-        return 'MANY_TO_MANY';
-    }
-  }
-}
+  final String value;
 
-extension AttributeMatchingModelFromString on String {
-  AttributeMatchingModel toAttributeMatchingModel() {
-    switch (this) {
-      case 'ONE_TO_ONE':
-        return AttributeMatchingModel.oneToOne;
-      case 'MANY_TO_MANY':
-        return AttributeMatchingModel.manyToMany;
-    }
-    throw Exception('$this is not known in enum AttributeMatchingModel');
-  }
+  const AttributeMatchingModel(this.value);
+
+  static AttributeMatchingModel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AttributeMatchingModel'));
 }
 
 class BatchDeleteUniqueIdOutput {
@@ -1550,7 +1537,7 @@ class BatchDeleteUniqueIdOutput {
           .whereNotNull()
           .map((e) => DeleteUniqueIdError.fromJson(e as Map<String, dynamic>))
           .toList(),
-      status: (json['status'] as String).toDeleteUniqueIdStatus(),
+      status: DeleteUniqueIdStatus.fromString((json['status'] as String)),
     );
   }
 
@@ -1563,7 +1550,7 @@ class BatchDeleteUniqueIdOutput {
       'deleted': deleted,
       'disconnectedUniqueIds': disconnectedUniqueIds,
       'errors': errors,
-      'status': status.toValue(),
+      'status': status.value,
     };
   }
 }
@@ -1708,7 +1695,7 @@ class CreateIdNamespaceOutput {
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
       idNamespaceArn: json['idNamespaceArn'] as String,
       idNamespaceName: json['idNamespaceName'] as String,
-      type: (json['type'] as String).toIdNamespaceType(),
+      type: IdNamespaceType.fromString((json['type'] as String)),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       description: json['description'] as String?,
       idMappingWorkflowProperties:
@@ -1743,7 +1730,7 @@ class CreateIdNamespaceOutput {
       'createdAt': unixTimestampToJson(createdAt),
       'idNamespaceArn': idNamespaceArn,
       'idNamespaceName': idNamespaceName,
-      'type': type.toValue(),
+      'type': type.value,
       'updatedAt': unixTimestampToJson(updatedAt),
       if (description != null) 'description': description,
       if (idMappingWorkflowProperties != null)
@@ -2032,7 +2019,8 @@ class DeleteUniqueIdError {
 
   factory DeleteUniqueIdError.fromJson(Map<String, dynamic> json) {
     return DeleteUniqueIdError(
-      errorType: (json['errorType'] as String).toDeleteUniqueIdErrorType(),
+      errorType:
+          DeleteUniqueIdErrorType.fromString((json['errorType'] as String)),
       uniqueId: json['uniqueId'] as String,
     );
   }
@@ -2041,66 +2029,40 @@ class DeleteUniqueIdError {
     final errorType = this.errorType;
     final uniqueId = this.uniqueId;
     return {
-      'errorType': errorType.toValue(),
+      'errorType': errorType.value,
       'uniqueId': uniqueId,
     };
   }
 }
 
 enum DeleteUniqueIdErrorType {
-  serviceError,
-  validationError,
-}
+  serviceError('SERVICE_ERROR'),
+  validationError('VALIDATION_ERROR'),
+  ;
 
-extension DeleteUniqueIdErrorTypeValueExtension on DeleteUniqueIdErrorType {
-  String toValue() {
-    switch (this) {
-      case DeleteUniqueIdErrorType.serviceError:
-        return 'SERVICE_ERROR';
-      case DeleteUniqueIdErrorType.validationError:
-        return 'VALIDATION_ERROR';
-    }
-  }
-}
+  final String value;
 
-extension DeleteUniqueIdErrorTypeFromString on String {
-  DeleteUniqueIdErrorType toDeleteUniqueIdErrorType() {
-    switch (this) {
-      case 'SERVICE_ERROR':
-        return DeleteUniqueIdErrorType.serviceError;
-      case 'VALIDATION_ERROR':
-        return DeleteUniqueIdErrorType.validationError;
-    }
-    throw Exception('$this is not known in enum DeleteUniqueIdErrorType');
-  }
+  const DeleteUniqueIdErrorType(this.value);
+
+  static DeleteUniqueIdErrorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DeleteUniqueIdErrorType'));
 }
 
 enum DeleteUniqueIdStatus {
-  completed,
-  accepted,
-}
+  completed('COMPLETED'),
+  accepted('ACCEPTED'),
+  ;
 
-extension DeleteUniqueIdStatusValueExtension on DeleteUniqueIdStatus {
-  String toValue() {
-    switch (this) {
-      case DeleteUniqueIdStatus.completed:
-        return 'COMPLETED';
-      case DeleteUniqueIdStatus.accepted:
-        return 'ACCEPTED';
-    }
-  }
-}
+  final String value;
 
-extension DeleteUniqueIdStatusFromString on String {
-  DeleteUniqueIdStatus toDeleteUniqueIdStatus() {
-    switch (this) {
-      case 'COMPLETED':
-        return DeleteUniqueIdStatus.completed;
-      case 'ACCEPTED':
-        return DeleteUniqueIdStatus.accepted;
-    }
-    throw Exception('$this is not known in enum DeleteUniqueIdStatus');
-  }
+  const DeleteUniqueIdStatus(this.value);
+
+  static DeleteUniqueIdStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DeleteUniqueIdStatus'));
 }
 
 /// The deleted unique ID.
@@ -2196,7 +2158,7 @@ class GetIdMappingJobOutput {
     return GetIdMappingJobOutput(
       jobId: json['jobId'] as String,
       startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
-      status: (json['status'] as String).toJobStatus(),
+      status: JobStatus.fromString((json['status'] as String)),
       endTime: timeStampFromJson(json['endTime']),
       errorDetails: json['errorDetails'] != null
           ? ErrorDetails.fromJson(json['errorDetails'] as Map<String, dynamic>)
@@ -2224,7 +2186,7 @@ class GetIdMappingJobOutput {
     return {
       'jobId': jobId,
       'startTime': unixTimestampToJson(startTime),
-      'status': status.toValue(),
+      'status': status.value,
       if (endTime != null) 'endTime': unixTimestampToJson(endTime),
       if (errorDetails != null) 'errorDetails': errorDetails,
       if (metrics != null) 'metrics': metrics,
@@ -2395,7 +2357,7 @@ class GetIdNamespaceOutput {
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
       idNamespaceArn: json['idNamespaceArn'] as String,
       idNamespaceName: json['idNamespaceName'] as String,
-      type: (json['type'] as String).toIdNamespaceType(),
+      type: IdNamespaceType.fromString((json['type'] as String)),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       description: json['description'] as String?,
       idMappingWorkflowProperties:
@@ -2430,7 +2392,7 @@ class GetIdNamespaceOutput {
       'createdAt': unixTimestampToJson(createdAt),
       'idNamespaceArn': idNamespaceArn,
       'idNamespaceName': idNamespaceName,
-      'type': type.toValue(),
+      'type': type.value,
       'updatedAt': unixTimestampToJson(updatedAt),
       if (description != null) 'description': description,
       if (idMappingWorkflowProperties != null)
@@ -2508,7 +2470,7 @@ class GetMatchingJobOutput {
     return GetMatchingJobOutput(
       jobId: json['jobId'] as String,
       startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
-      status: (json['status'] as String).toJobStatus(),
+      status: JobStatus.fromString((json['status'] as String)),
       endTime: timeStampFromJson(json['endTime']),
       errorDetails: json['errorDetails'] != null
           ? ErrorDetails.fromJson(json['errorDetails'] as Map<String, dynamic>)
@@ -2534,7 +2496,7 @@ class GetMatchingJobOutput {
     return {
       'jobId': jobId,
       'startTime': unixTimestampToJson(startTime),
-      'status': status.toValue(),
+      'status': status.value,
       if (endTime != null) 'endTime': unixTimestampToJson(endTime),
       if (errorDetails != null) 'errorDetails': errorDetails,
       if (metrics != null) 'metrics': metrics,
@@ -2765,7 +2727,7 @@ class GetProviderServiceOutput {
       providerServiceDisplayName: json['providerServiceDisplayName'] as String,
       providerServiceName: json['providerServiceName'] as String,
       providerServiceType:
-          (json['providerServiceType'] as String).toServiceType(),
+          ServiceType.fromString((json['providerServiceType'] as String)),
       providerComponentSchema: json['providerComponentSchema'] != null
           ? ProviderComponentSchema.fromJson(
               json['providerComponentSchema'] as Map<String, dynamic>)
@@ -2819,7 +2781,7 @@ class GetProviderServiceOutput {
       'providerServiceArn': providerServiceArn,
       'providerServiceDisplayName': providerServiceDisplayName,
       'providerServiceName': providerServiceName,
-      'providerServiceType': providerServiceType.toValue(),
+      'providerServiceType': providerServiceType.value,
       if (providerComponentSchema != null)
         'providerComponentSchema': providerComponentSchema,
       if (providerConfigurationDefinition != null)
@@ -3012,7 +2974,8 @@ class IdMappingTechniques {
 
   factory IdMappingTechniques.fromJson(Map<String, dynamic> json) {
     return IdMappingTechniques(
-      idMappingType: (json['idMappingType'] as String).toIdMappingType(),
+      idMappingType:
+          IdMappingType.fromString((json['idMappingType'] as String)),
       providerProperties: json['providerProperties'] != null
           ? ProviderProperties.fromJson(
               json['providerProperties'] as Map<String, dynamic>)
@@ -3024,33 +2987,24 @@ class IdMappingTechniques {
     final idMappingType = this.idMappingType;
     final providerProperties = this.providerProperties;
     return {
-      'idMappingType': idMappingType.toValue(),
+      'idMappingType': idMappingType.value,
       if (providerProperties != null) 'providerProperties': providerProperties,
     };
   }
 }
 
 enum IdMappingType {
-  provider,
-}
+  provider('PROVIDER'),
+  ;
 
-extension IdMappingTypeValueExtension on IdMappingType {
-  String toValue() {
-    switch (this) {
-      case IdMappingType.provider:
-        return 'PROVIDER';
-    }
-  }
-}
+  final String value;
 
-extension IdMappingTypeFromString on String {
-  IdMappingType toIdMappingType() {
-    switch (this) {
-      case 'PROVIDER':
-        return IdMappingType.provider;
-    }
-    throw Exception('$this is not known in enum IdMappingType');
-  }
+  const IdMappingType(this.value);
+
+  static IdMappingType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum IdMappingType'));
 }
 
 /// An object containing <code>InputSourceARN</code>, <code>SchemaName</code>,
@@ -3082,7 +3036,7 @@ class IdMappingWorkflowInputSource {
     return IdMappingWorkflowInputSource(
       inputSourceARN: json['inputSourceARN'] as String,
       schemaName: json['schemaName'] as String?,
-      type: (json['type'] as String?)?.toIdNamespaceType(),
+      type: (json['type'] as String?)?.let(IdNamespaceType.fromString),
     );
   }
 
@@ -3093,7 +3047,7 @@ class IdMappingWorkflowInputSource {
     return {
       'inputSourceARN': inputSourceARN,
       if (schemaName != null) 'schemaName': schemaName,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -3194,7 +3148,8 @@ class IdNamespaceIdMappingWorkflowProperties {
   factory IdNamespaceIdMappingWorkflowProperties.fromJson(
       Map<String, dynamic> json) {
     return IdNamespaceIdMappingWorkflowProperties(
-      idMappingType: (json['idMappingType'] as String).toIdMappingType(),
+      idMappingType:
+          IdMappingType.fromString((json['idMappingType'] as String)),
       providerProperties: json['providerProperties'] != null
           ? NamespaceProviderProperties.fromJson(
               json['providerProperties'] as Map<String, dynamic>)
@@ -3206,7 +3161,7 @@ class IdNamespaceIdMappingWorkflowProperties {
     final idMappingType = this.idMappingType;
     final providerProperties = this.providerProperties;
     return {
-      'idMappingType': idMappingType.toValue(),
+      'idMappingType': idMappingType.value,
       if (providerProperties != null) 'providerProperties': providerProperties,
     };
   }
@@ -3284,7 +3239,7 @@ class IdNamespaceSummary {
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
       idNamespaceArn: json['idNamespaceArn'] as String,
       idNamespaceName: json['idNamespaceName'] as String,
-      type: (json['type'] as String).toIdNamespaceType(),
+      type: IdNamespaceType.fromString((json['type'] as String)),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       description: json['description'] as String?,
     );
@@ -3301,7 +3256,7 @@ class IdNamespaceSummary {
       'createdAt': unixTimestampToJson(createdAt),
       'idNamespaceArn': idNamespaceArn,
       'idNamespaceName': idNamespaceName,
-      'type': type.toValue(),
+      'type': type.value,
       'updatedAt': unixTimestampToJson(updatedAt),
       if (description != null) 'description': description,
     };
@@ -3309,31 +3264,18 @@ class IdNamespaceSummary {
 }
 
 enum IdNamespaceType {
-  source,
-  target,
-}
+  source('SOURCE'),
+  target('TARGET'),
+  ;
 
-extension IdNamespaceTypeValueExtension on IdNamespaceType {
-  String toValue() {
-    switch (this) {
-      case IdNamespaceType.source:
-        return 'SOURCE';
-      case IdNamespaceType.target:
-        return 'TARGET';
-    }
-  }
-}
+  final String value;
 
-extension IdNamespaceTypeFromString on String {
-  IdNamespaceType toIdNamespaceType() {
-    switch (this) {
-      case 'SOURCE':
-        return IdNamespaceType.source;
-      case 'TARGET':
-        return IdNamespaceType.target;
-    }
-    throw Exception('$this is not known in enum IdNamespaceType');
-  }
+  const IdNamespaceType(this.value);
+
+  static IdNamespaceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum IdNamespaceType'));
 }
 
 /// An object which defines an incremental run type and has only
@@ -3349,8 +3291,8 @@ class IncrementalRunConfig {
 
   factory IncrementalRunConfig.fromJson(Map<String, dynamic> json) {
     return IncrementalRunConfig(
-      incrementalRunType:
-          (json['incrementalRunType'] as String?)?.toIncrementalRunType(),
+      incrementalRunType: (json['incrementalRunType'] as String?)
+          ?.let(IncrementalRunType.fromString),
     );
   }
 
@@ -3358,32 +3300,23 @@ class IncrementalRunConfig {
     final incrementalRunType = this.incrementalRunType;
     return {
       if (incrementalRunType != null)
-        'incrementalRunType': incrementalRunType.toValue(),
+        'incrementalRunType': incrementalRunType.value,
     };
   }
 }
 
 enum IncrementalRunType {
-  immediate,
-}
+  immediate('IMMEDIATE'),
+  ;
 
-extension IncrementalRunTypeValueExtension on IncrementalRunType {
-  String toValue() {
-    switch (this) {
-      case IncrementalRunType.immediate:
-        return 'IMMEDIATE';
-    }
-  }
-}
+  final String value;
 
-extension IncrementalRunTypeFromString on String {
-  IncrementalRunType toIncrementalRunType() {
-    switch (this) {
-      case 'IMMEDIATE':
-        return IncrementalRunType.immediate;
-    }
-    throw Exception('$this is not known in enum IncrementalRunType');
-  }
+  const IncrementalRunType(this.value);
+
+  static IncrementalRunType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum IncrementalRunType'));
 }
 
 /// An object containing <code>InputSourceARN</code>, <code>SchemaName</code>,
@@ -3543,41 +3476,19 @@ class JobOutputSource {
 }
 
 enum JobStatus {
-  running,
-  succeeded,
-  failed,
-  queued,
-}
+  running('RUNNING'),
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  queued('QUEUED'),
+  ;
 
-extension JobStatusValueExtension on JobStatus {
-  String toValue() {
-    switch (this) {
-      case JobStatus.running:
-        return 'RUNNING';
-      case JobStatus.succeeded:
-        return 'SUCCEEDED';
-      case JobStatus.failed:
-        return 'FAILED';
-      case JobStatus.queued:
-        return 'QUEUED';
-    }
-  }
-}
+  final String value;
 
-extension JobStatusFromString on String {
-  JobStatus toJobStatus() {
-    switch (this) {
-      case 'RUNNING':
-        return JobStatus.running;
-      case 'SUCCEEDED':
-        return JobStatus.succeeded;
-      case 'FAILED':
-        return JobStatus.failed;
-      case 'QUEUED':
-        return JobStatus.queued;
-    }
-    throw Exception('$this is not known in enum JobStatus');
-  }
+  const JobStatus(this.value);
+
+  static JobStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum JobStatus'));
 }
 
 /// An object containing the <code>JobId</code>, <code>Status</code>,
@@ -3606,7 +3517,7 @@ class JobSummary {
     return JobSummary(
       jobId: json['jobId'] as String,
       startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
-      status: (json['status'] as String).toJobStatus(),
+      status: JobStatus.fromString((json['status'] as String)),
       endTime: timeStampFromJson(json['endTime']),
     );
   }
@@ -3619,7 +3530,7 @@ class JobSummary {
     return {
       'jobId': jobId,
       'startTime': unixTimestampToJson(startTime),
-      'status': status.toValue(),
+      'status': status.value,
       if (endTime != null) 'endTime': unixTimestampToJson(endTime),
     };
   }
@@ -3914,7 +3825,8 @@ class MatchingWorkflowSummary {
   factory MatchingWorkflowSummary.fromJson(Map<String, dynamic> json) {
     return MatchingWorkflowSummary(
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      resolutionType: (json['resolutionType'] as String).toResolutionType(),
+      resolutionType:
+          ResolutionType.fromString((json['resolutionType'] as String)),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       workflowArn: json['workflowArn'] as String,
       workflowName: json['workflowName'] as String,
@@ -3929,7 +3841,7 @@ class MatchingWorkflowSummary {
     final workflowName = this.workflowName;
     return {
       'createdAt': unixTimestampToJson(createdAt),
-      'resolutionType': resolutionType.toValue(),
+      'resolutionType': resolutionType.value,
       'updatedAt': unixTimestampToJson(updatedAt),
       'workflowArn': workflowArn,
       'workflowName': workflowName,
@@ -4341,7 +4253,7 @@ class ProviderSchemaAttribute {
   factory ProviderSchemaAttribute.fromJson(Map<String, dynamic> json) {
     return ProviderSchemaAttribute(
       fieldName: json['fieldName'] as String,
-      type: (json['type'] as String).toSchemaAttributeType(),
+      type: SchemaAttributeType.fromString((json['type'] as String)),
       hashing: json['hashing'] as bool?,
       subType: json['subType'] as String?,
     );
@@ -4354,7 +4266,7 @@ class ProviderSchemaAttribute {
     final subType = this.subType;
     return {
       'fieldName': fieldName,
-      'type': type.toValue(),
+      'type': type.value,
       if (hashing != null) 'hashing': hashing,
       if (subType != null) 'subType': subType,
     };
@@ -4396,7 +4308,7 @@ class ProviderServiceSummary {
       providerServiceDisplayName: json['providerServiceDisplayName'] as String,
       providerServiceName: json['providerServiceName'] as String,
       providerServiceType:
-          (json['providerServiceType'] as String).toServiceType(),
+          ServiceType.fromString((json['providerServiceType'] as String)),
     );
   }
 
@@ -4411,7 +4323,7 @@ class ProviderServiceSummary {
       'providerServiceArn': providerServiceArn,
       'providerServiceDisplayName': providerServiceDisplayName,
       'providerServiceName': providerServiceName,
-      'providerServiceType': providerServiceType.toValue(),
+      'providerServiceType': providerServiceType.value,
     };
   }
 }
@@ -4475,7 +4387,8 @@ class ResolutionTechniques {
 
   factory ResolutionTechniques.fromJson(Map<String, dynamic> json) {
     return ResolutionTechniques(
-      resolutionType: (json['resolutionType'] as String).toResolutionType(),
+      resolutionType:
+          ResolutionType.fromString((json['resolutionType'] as String)),
       providerProperties: json['providerProperties'] != null
           ? ProviderProperties.fromJson(
               json['providerProperties'] as Map<String, dynamic>)
@@ -4492,7 +4405,7 @@ class ResolutionTechniques {
     final providerProperties = this.providerProperties;
     final ruleBasedProperties = this.ruleBasedProperties;
     return {
-      'resolutionType': resolutionType.toValue(),
+      'resolutionType': resolutionType.value,
       if (providerProperties != null) 'providerProperties': providerProperties,
       if (ruleBasedProperties != null)
         'ruleBasedProperties': ruleBasedProperties,
@@ -4501,36 +4414,19 @@ class ResolutionTechniques {
 }
 
 enum ResolutionType {
-  ruleMatching,
-  mlMatching,
-  provider,
-}
+  ruleMatching('RULE_MATCHING'),
+  mlMatching('ML_MATCHING'),
+  provider('PROVIDER'),
+  ;
 
-extension ResolutionTypeValueExtension on ResolutionType {
-  String toValue() {
-    switch (this) {
-      case ResolutionType.ruleMatching:
-        return 'RULE_MATCHING';
-      case ResolutionType.mlMatching:
-        return 'ML_MATCHING';
-      case ResolutionType.provider:
-        return 'PROVIDER';
-    }
-  }
-}
+  final String value;
 
-extension ResolutionTypeFromString on String {
-  ResolutionType toResolutionType() {
-    switch (this) {
-      case 'RULE_MATCHING':
-        return ResolutionType.ruleMatching;
-      case 'ML_MATCHING':
-        return ResolutionType.mlMatching;
-      case 'PROVIDER':
-        return ResolutionType.provider;
-    }
-    throw Exception('$this is not known in enum ResolutionType');
-  }
+  const ResolutionType(this.value);
+
+  static ResolutionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResolutionType'));
 }
 
 /// An object containing <code>RuleName</code>, and <code>MatchingKeys</code>.
@@ -4596,8 +4492,8 @@ class RuleBasedProperties {
 
   factory RuleBasedProperties.fromJson(Map<String, dynamic> json) {
     return RuleBasedProperties(
-      attributeMatchingModel:
-          (json['attributeMatchingModel'] as String).toAttributeMatchingModel(),
+      attributeMatchingModel: AttributeMatchingModel.fromString(
+          (json['attributeMatchingModel'] as String)),
       rules: (json['rules'] as List)
           .whereNotNull()
           .map((e) => Rule.fromJson(e as Map<String, dynamic>))
@@ -4609,128 +4505,43 @@ class RuleBasedProperties {
     final attributeMatchingModel = this.attributeMatchingModel;
     final rules = this.rules;
     return {
-      'attributeMatchingModel': attributeMatchingModel.toValue(),
+      'attributeMatchingModel': attributeMatchingModel.value,
       'rules': rules,
     };
   }
 }
 
 enum SchemaAttributeType {
-  name,
-  nameFirst,
-  nameMiddle,
-  nameLast,
-  address,
-  addressStreet1,
-  addressStreet2,
-  addressStreet3,
-  addressCity,
-  addressState,
-  addressCountry,
-  addressPostalcode,
-  phone,
-  phoneNumber,
-  phoneCountrycode,
-  emailAddress,
-  uniqueId,
-  date,
-  string,
-  providerId,
-}
+  name('NAME'),
+  nameFirst('NAME_FIRST'),
+  nameMiddle('NAME_MIDDLE'),
+  nameLast('NAME_LAST'),
+  address('ADDRESS'),
+  addressStreet1('ADDRESS_STREET1'),
+  addressStreet2('ADDRESS_STREET2'),
+  addressStreet3('ADDRESS_STREET3'),
+  addressCity('ADDRESS_CITY'),
+  addressState('ADDRESS_STATE'),
+  addressCountry('ADDRESS_COUNTRY'),
+  addressPostalcode('ADDRESS_POSTALCODE'),
+  phone('PHONE'),
+  phoneNumber('PHONE_NUMBER'),
+  phoneCountrycode('PHONE_COUNTRYCODE'),
+  emailAddress('EMAIL_ADDRESS'),
+  uniqueId('UNIQUE_ID'),
+  date('DATE'),
+  string('STRING'),
+  providerId('PROVIDER_ID'),
+  ;
 
-extension SchemaAttributeTypeValueExtension on SchemaAttributeType {
-  String toValue() {
-    switch (this) {
-      case SchemaAttributeType.name:
-        return 'NAME';
-      case SchemaAttributeType.nameFirst:
-        return 'NAME_FIRST';
-      case SchemaAttributeType.nameMiddle:
-        return 'NAME_MIDDLE';
-      case SchemaAttributeType.nameLast:
-        return 'NAME_LAST';
-      case SchemaAttributeType.address:
-        return 'ADDRESS';
-      case SchemaAttributeType.addressStreet1:
-        return 'ADDRESS_STREET1';
-      case SchemaAttributeType.addressStreet2:
-        return 'ADDRESS_STREET2';
-      case SchemaAttributeType.addressStreet3:
-        return 'ADDRESS_STREET3';
-      case SchemaAttributeType.addressCity:
-        return 'ADDRESS_CITY';
-      case SchemaAttributeType.addressState:
-        return 'ADDRESS_STATE';
-      case SchemaAttributeType.addressCountry:
-        return 'ADDRESS_COUNTRY';
-      case SchemaAttributeType.addressPostalcode:
-        return 'ADDRESS_POSTALCODE';
-      case SchemaAttributeType.phone:
-        return 'PHONE';
-      case SchemaAttributeType.phoneNumber:
-        return 'PHONE_NUMBER';
-      case SchemaAttributeType.phoneCountrycode:
-        return 'PHONE_COUNTRYCODE';
-      case SchemaAttributeType.emailAddress:
-        return 'EMAIL_ADDRESS';
-      case SchemaAttributeType.uniqueId:
-        return 'UNIQUE_ID';
-      case SchemaAttributeType.date:
-        return 'DATE';
-      case SchemaAttributeType.string:
-        return 'STRING';
-      case SchemaAttributeType.providerId:
-        return 'PROVIDER_ID';
-    }
-  }
-}
+  final String value;
 
-extension SchemaAttributeTypeFromString on String {
-  SchemaAttributeType toSchemaAttributeType() {
-    switch (this) {
-      case 'NAME':
-        return SchemaAttributeType.name;
-      case 'NAME_FIRST':
-        return SchemaAttributeType.nameFirst;
-      case 'NAME_MIDDLE':
-        return SchemaAttributeType.nameMiddle;
-      case 'NAME_LAST':
-        return SchemaAttributeType.nameLast;
-      case 'ADDRESS':
-        return SchemaAttributeType.address;
-      case 'ADDRESS_STREET1':
-        return SchemaAttributeType.addressStreet1;
-      case 'ADDRESS_STREET2':
-        return SchemaAttributeType.addressStreet2;
-      case 'ADDRESS_STREET3':
-        return SchemaAttributeType.addressStreet3;
-      case 'ADDRESS_CITY':
-        return SchemaAttributeType.addressCity;
-      case 'ADDRESS_STATE':
-        return SchemaAttributeType.addressState;
-      case 'ADDRESS_COUNTRY':
-        return SchemaAttributeType.addressCountry;
-      case 'ADDRESS_POSTALCODE':
-        return SchemaAttributeType.addressPostalcode;
-      case 'PHONE':
-        return SchemaAttributeType.phone;
-      case 'PHONE_NUMBER':
-        return SchemaAttributeType.phoneNumber;
-      case 'PHONE_COUNTRYCODE':
-        return SchemaAttributeType.phoneCountrycode;
-      case 'EMAIL_ADDRESS':
-        return SchemaAttributeType.emailAddress;
-      case 'UNIQUE_ID':
-        return SchemaAttributeType.uniqueId;
-      case 'DATE':
-        return SchemaAttributeType.date;
-      case 'STRING':
-        return SchemaAttributeType.string;
-      case 'PROVIDER_ID':
-        return SchemaAttributeType.providerId;
-    }
-    throw Exception('$this is not known in enum SchemaAttributeType');
-  }
+  const SchemaAttributeType(this.value);
+
+  static SchemaAttributeType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SchemaAttributeType'));
 }
 
 /// An object containing <code>FieldName</code>, <code>Type</code>,
@@ -4775,7 +4586,7 @@ class SchemaInputAttribute {
   factory SchemaInputAttribute.fromJson(Map<String, dynamic> json) {
     return SchemaInputAttribute(
       fieldName: json['fieldName'] as String,
-      type: (json['type'] as String).toSchemaAttributeType(),
+      type: SchemaAttributeType.fromString((json['type'] as String)),
       groupName: json['groupName'] as String?,
       matchKey: json['matchKey'] as String?,
       subType: json['subType'] as String?,
@@ -4790,7 +4601,7 @@ class SchemaInputAttribute {
     final subType = this.subType;
     return {
       'fieldName': fieldName,
-      'type': type.toValue(),
+      'type': type.value,
       if (groupName != null) 'groupName': groupName,
       if (matchKey != null) 'matchKey': matchKey,
       if (subType != null) 'subType': subType,
@@ -4852,31 +4663,17 @@ class SchemaMappingSummary {
 }
 
 enum ServiceType {
-  assignment,
-  idMapping,
-}
+  assignment('ASSIGNMENT'),
+  idMapping('ID_MAPPING'),
+  ;
 
-extension ServiceTypeValueExtension on ServiceType {
-  String toValue() {
-    switch (this) {
-      case ServiceType.assignment:
-        return 'ASSIGNMENT';
-      case ServiceType.idMapping:
-        return 'ID_MAPPING';
-    }
-  }
-}
+  final String value;
 
-extension ServiceTypeFromString on String {
-  ServiceType toServiceType() {
-    switch (this) {
-      case 'ASSIGNMENT':
-        return ServiceType.assignment;
-      case 'ID_MAPPING':
-        return ServiceType.idMapping;
-    }
-    throw Exception('$this is not known in enum ServiceType');
-  }
+  const ServiceType(this.value);
+
+  static ServiceType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ServiceType'));
 }
 
 class StartIdMappingJobOutput {
@@ -4935,31 +4732,18 @@ class StartMatchingJobOutput {
 }
 
 enum StatementEffect {
-  allow,
-  deny,
-}
+  allow('Allow'),
+  deny('Deny'),
+  ;
 
-extension StatementEffectValueExtension on StatementEffect {
-  String toValue() {
-    switch (this) {
-      case StatementEffect.allow:
-        return 'Allow';
-      case StatementEffect.deny:
-        return 'Deny';
-    }
-  }
-}
+  final String value;
 
-extension StatementEffectFromString on String {
-  StatementEffect toStatementEffect() {
-    switch (this) {
-      case 'Allow':
-        return StatementEffect.allow;
-      case 'Deny':
-        return StatementEffect.deny;
-    }
-    throw Exception('$this is not known in enum StatementEffect');
-  }
+  const StatementEffect(this.value);
+
+  static StatementEffect fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum StatementEffect'));
 }
 
 class TagResourceOutput {
@@ -5122,7 +4906,7 @@ class UpdateIdNamespaceOutput {
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
       idNamespaceArn: json['idNamespaceArn'] as String,
       idNamespaceName: json['idNamespaceName'] as String,
-      type: (json['type'] as String).toIdNamespaceType(),
+      type: IdNamespaceType.fromString((json['type'] as String)),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       description: json['description'] as String?,
       idMappingWorkflowProperties:
@@ -5154,7 +4938,7 @@ class UpdateIdNamespaceOutput {
       'createdAt': unixTimestampToJson(createdAt),
       'idNamespaceArn': idNamespaceArn,
       'idNamespaceName': idNamespaceName,
-      'type': type.toValue(),
+      'type': type.value,
       'updatedAt': unixTimestampToJson(updatedAt),
       if (description != null) 'description': description,
       if (idMappingWorkflowProperties != null)

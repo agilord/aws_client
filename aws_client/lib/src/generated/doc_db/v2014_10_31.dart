@@ -2601,7 +2601,7 @@ class DocDB {
       if (marker != null) 'Marker': marker,
       if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
       if (sourceIdentifier != null) 'SourceIdentifier': sourceIdentifier,
-      if (sourceType != null) 'SourceType': sourceType.toValue(),
+      if (sourceType != null) 'SourceType': sourceType.value,
       if (startTime != null) 'StartTime': _s.iso8601ToJson(startTime),
     };
     final $result = await _protocol.send(
@@ -4501,31 +4501,17 @@ class AddSourceIdentifierToSubscriptionResult {
 }
 
 enum ApplyMethod {
-  immediate,
-  pendingReboot,
-}
+  immediate('immediate'),
+  pendingReboot('pending-reboot'),
+  ;
 
-extension ApplyMethodValueExtension on ApplyMethod {
-  String toValue() {
-    switch (this) {
-      case ApplyMethod.immediate:
-        return 'immediate';
-      case ApplyMethod.pendingReboot:
-        return 'pending-reboot';
-    }
-  }
-}
+  final String value;
 
-extension ApplyMethodFromString on String {
-  ApplyMethod toApplyMethod() {
-    switch (this) {
-      case 'immediate':
-        return ApplyMethod.immediate;
-      case 'pending-reboot':
-        return ApplyMethod.pendingReboot;
-    }
-    throw Exception('$this is not known in enum ApplyMethod');
-  }
+  const ApplyMethod(this.value);
+
+  static ApplyMethod fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ApplyMethod'));
 }
 
 class ApplyPendingMaintenanceActionResult {
@@ -6743,7 +6729,9 @@ class Event {
       message: _s.extractXmlStringValue(elem, 'Message'),
       sourceArn: _s.extractXmlStringValue(elem, 'SourceArn'),
       sourceIdentifier: _s.extractXmlStringValue(elem, 'SourceIdentifier'),
-      sourceType: _s.extractXmlStringValue(elem, 'SourceType')?.toSourceType(),
+      sourceType: _s
+          .extractXmlStringValue(elem, 'SourceType')
+          ?.let(SourceType.fromString) /* Nullability(true, true) */,
     );
   }
 
@@ -6760,7 +6748,7 @@ class Event {
       if (message != null) 'Message': message,
       if (sourceArn != null) 'SourceArn': sourceArn,
       if (sourceIdentifier != null) 'SourceIdentifier': sourceIdentifier,
-      if (sourceType != null) 'SourceType': sourceType.toValue(),
+      if (sourceType != null) 'SourceType': sourceType.value,
     };
   }
 }
@@ -7519,8 +7507,9 @@ class Parameter {
   factory Parameter.fromXml(_s.XmlElement elem) {
     return Parameter(
       allowedValues: _s.extractXmlStringValue(elem, 'AllowedValues'),
-      applyMethod:
-          _s.extractXmlStringValue(elem, 'ApplyMethod')?.toApplyMethod(),
+      applyMethod: _s
+          .extractXmlStringValue(elem, 'ApplyMethod')
+          ?.let(ApplyMethod.fromString) /* Nullability(true, true) */,
       applyType: _s.extractXmlStringValue(elem, 'ApplyType'),
       dataType: _s.extractXmlStringValue(elem, 'DataType'),
       description: _s.extractXmlStringValue(elem, 'Description'),
@@ -7546,7 +7535,7 @@ class Parameter {
     final source = this.source;
     return {
       if (allowedValues != null) 'AllowedValues': allowedValues,
-      if (applyMethod != null) 'ApplyMethod': applyMethod.toValue(),
+      if (applyMethod != null) 'ApplyMethod': applyMethod.value,
       if (applyType != null) 'ApplyType': applyType,
       if (dataType != null) 'DataType': dataType,
       if (description != null) 'Description': description,
@@ -7572,7 +7561,7 @@ class Parameter {
     final source = this.source;
     return {
       if (allowedValues != null) 'AllowedValues': allowedValues,
-      if (applyMethod != null) 'ApplyMethod': applyMethod.toValue(),
+      if (applyMethod != null) 'ApplyMethod': applyMethod.value,
       if (applyType != null) 'ApplyType': applyType,
       if (dataType != null) 'DataType': dataType,
       if (description != null) 'Description': description,
@@ -8006,51 +7995,21 @@ class RestoreDBClusterToPointInTimeResult {
 }
 
 enum SourceType {
-  dbInstance,
-  dbParameterGroup,
-  dbSecurityGroup,
-  dbSnapshot,
-  dbCluster,
-  dbClusterSnapshot,
-}
+  dbInstance('db-instance'),
+  dbParameterGroup('db-parameter-group'),
+  dbSecurityGroup('db-security-group'),
+  dbSnapshot('db-snapshot'),
+  dbCluster('db-cluster'),
+  dbClusterSnapshot('db-cluster-snapshot'),
+  ;
 
-extension SourceTypeValueExtension on SourceType {
-  String toValue() {
-    switch (this) {
-      case SourceType.dbInstance:
-        return 'db-instance';
-      case SourceType.dbParameterGroup:
-        return 'db-parameter-group';
-      case SourceType.dbSecurityGroup:
-        return 'db-security-group';
-      case SourceType.dbSnapshot:
-        return 'db-snapshot';
-      case SourceType.dbCluster:
-        return 'db-cluster';
-      case SourceType.dbClusterSnapshot:
-        return 'db-cluster-snapshot';
-    }
-  }
-}
+  final String value;
 
-extension SourceTypeFromString on String {
-  SourceType toSourceType() {
-    switch (this) {
-      case 'db-instance':
-        return SourceType.dbInstance;
-      case 'db-parameter-group':
-        return SourceType.dbParameterGroup;
-      case 'db-security-group':
-        return SourceType.dbSecurityGroup;
-      case 'db-snapshot':
-        return SourceType.dbSnapshot;
-      case 'db-cluster':
-        return SourceType.dbCluster;
-      case 'db-cluster-snapshot':
-        return SourceType.dbClusterSnapshot;
-    }
-    throw Exception('$this is not known in enum SourceType');
-  }
+  const SourceType(this.value);
+
+  static SourceType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SourceType'));
 }
 
 class StartDBClusterResult {

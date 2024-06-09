@@ -373,7 +373,7 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'ContentRange': contentRange,
-        'Format': format.toValue(),
+        'Format': format.value,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
         if (recurrence != null) 'Recurrence': recurrence,
@@ -433,7 +433,7 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'ConferenceProviderName': conferenceProviderName,
-        'ConferenceProviderType': conferenceProviderType.toValue(),
+        'ConferenceProviderType': conferenceProviderType.value,
         'MeetingSetting': meetingSetting,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
@@ -634,7 +634,7 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'NetworkProfileName': networkProfileName,
-        'SecurityType': securityType.toValue(),
+        'SecurityType': securityType.value,
         'Ssid': ssid,
         if (certificateAuthorityArn != null)
           'CertificateAuthorityArn': certificateAuthorityArn,
@@ -642,7 +642,7 @@ class AlexaForBusiness {
             clientRequestToken ?? _s.generateIdempotencyToken(),
         if (currentPassword != null) 'CurrentPassword': currentPassword,
         if (description != null) 'Description': description,
-        if (eapMethod != null) 'EapMethod': eapMethod.toValue(),
+        if (eapMethod != null) 'EapMethod': eapMethod.value,
         if (nextPassword != null) 'NextPassword': nextPassword,
         if (tags != null) 'Tags': tags,
         if (trustAnchors != null) 'TrustAnchors': trustAnchors,
@@ -728,11 +728,11 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'Address': address,
-        'DistanceUnit': distanceUnit.toValue(),
+        'DistanceUnit': distanceUnit.value,
         'ProfileName': profileName,
-        'TemperatureUnit': temperatureUnit.toValue(),
+        'TemperatureUnit': temperatureUnit.value,
         'Timezone': timezone,
-        'WakeWord': wakeWord.toValue(),
+        'WakeWord': wakeWord.value,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
         if (dataRetentionOptIn != null)
@@ -1069,7 +1069,7 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'DeviceArn': deviceArn,
-        'DeviceUsageType': deviceUsageType.toValue(),
+        'DeviceUsageType': deviceUsageType.value,
       },
     );
   }
@@ -1947,7 +1947,7 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'DeviceArn': deviceArn,
-        if (eventType != null) 'EventType': eventType.toValue(),
+        if (eventType != null) 'EventType': eventType.value,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -2084,11 +2084,11 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (enablementType != null) 'EnablementType': enablementType.toValue(),
+        if (enablementType != null) 'EnablementType': enablementType.value,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (skillGroupArn != null) 'SkillGroupArn': skillGroupArn,
-        if (skillType != null) 'SkillType': skillType.toValue(),
+        if (skillType != null) 'SkillType': skillType.value,
       },
     );
 
@@ -3158,7 +3158,7 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Features': features.map((e) => e.toValue()).toList(),
+        'Features': features.map((e) => e.value).toList(),
         if (deviceArn != null) 'DeviceArn': deviceArn,
         if (roomArn != null) 'RoomArn': roomArn,
       },
@@ -3334,7 +3334,7 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'ScheduleArn': scheduleArn,
-        if (format != null) 'Format': format.toValue(),
+        if (format != null) 'Format': format.value,
         if (recurrence != null) 'Recurrence': recurrence,
         if (s3BucketName != null) 'S3BucketName': s3BucketName,
         if (s3KeyPrefix != null) 'S3KeyPrefix': s3KeyPrefix,
@@ -3380,7 +3380,7 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'ConferenceProviderArn': conferenceProviderArn,
-        'ConferenceProviderType': conferenceProviderType.toValue(),
+        'ConferenceProviderType': conferenceProviderType.value,
         'MeetingSetting': meetingSetting,
         if (iPDialIn != null) 'IPDialIn': iPDialIn,
         if (pSTNDialIn != null) 'PSTNDialIn': pSTNDialIn,
@@ -3705,7 +3705,7 @@ class AlexaForBusiness {
         if (address != null) 'Address': address,
         if (dataRetentionOptIn != null)
           'DataRetentionOptIn': dataRetentionOptIn,
-        if (distanceUnit != null) 'DistanceUnit': distanceUnit.toValue(),
+        if (distanceUnit != null) 'DistanceUnit': distanceUnit.value,
         if (isDefault != null) 'IsDefault': isDefault,
         if (locale != null) 'Locale': locale,
         if (maxVolumeLimit != null) 'MaxVolumeLimit': maxVolumeLimit,
@@ -3715,10 +3715,9 @@ class AlexaForBusiness {
         if (profileArn != null) 'ProfileArn': profileArn,
         if (profileName != null) 'ProfileName': profileName,
         if (setupModeDisabled != null) 'SetupModeDisabled': setupModeDisabled,
-        if (temperatureUnit != null)
-          'TemperatureUnit': temperatureUnit.toValue(),
+        if (temperatureUnit != null) 'TemperatureUnit': temperatureUnit.value,
         if (timezone != null) 'Timezone': timezone,
-        if (wakeWord != null) 'WakeWord': wakeWord.toValue(),
+        if (wakeWord != null) 'WakeWord': wakeWord.value,
       },
     );
   }
@@ -4001,7 +4000,7 @@ class Audio {
     final locale = this.locale;
     final location = this.location;
     return {
-      'Locale': locale.toValue(),
+      'Locale': locale.value,
       'Location': location,
     };
   }
@@ -4037,13 +4036,13 @@ class BusinessReport {
     return BusinessReport(
       deliveryTime: timeStampFromJson(json['DeliveryTime']),
       downloadUrl: json['DownloadUrl'] as String?,
-      failureCode:
-          (json['FailureCode'] as String?)?.toBusinessReportFailureCode(),
+      failureCode: (json['FailureCode'] as String?)
+          ?.let(BusinessReportFailureCode.fromString),
       s3Location: json['S3Location'] != null
           ? BusinessReportS3Location.fromJson(
               json['S3Location'] as Map<String, dynamic>)
           : null,
-      status: (json['Status'] as String?)?.toBusinessReportStatus(),
+      status: (json['Status'] as String?)?.let(BusinessReportStatus.fromString),
     );
   }
 
@@ -4057,9 +4056,9 @@ class BusinessReport {
       if (deliveryTime != null)
         'DeliveryTime': unixTimestampToJson(deliveryTime),
       if (downloadUrl != null) 'DownloadUrl': downloadUrl,
-      if (failureCode != null) 'FailureCode': failureCode.toValue(),
+      if (failureCode != null) 'FailureCode': failureCode.value,
       if (s3Location != null) 'S3Location': s3Location,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -4075,110 +4074,63 @@ class BusinessReportContentRange {
 
   factory BusinessReportContentRange.fromJson(Map<String, dynamic> json) {
     return BusinessReportContentRange(
-      interval: (json['Interval'] as String).toBusinessReportInterval(),
+      interval: BusinessReportInterval.fromString((json['Interval'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final interval = this.interval;
     return {
-      'Interval': interval.toValue(),
+      'Interval': interval.value,
     };
   }
 }
 
 enum BusinessReportFailureCode {
-  accessDenied,
-  noSuchBucket,
-  internalFailure,
-}
+  accessDenied('ACCESS_DENIED'),
+  noSuchBucket('NO_SUCH_BUCKET'),
+  internalFailure('INTERNAL_FAILURE'),
+  ;
 
-extension BusinessReportFailureCodeValueExtension on BusinessReportFailureCode {
-  String toValue() {
-    switch (this) {
-      case BusinessReportFailureCode.accessDenied:
-        return 'ACCESS_DENIED';
-      case BusinessReportFailureCode.noSuchBucket:
-        return 'NO_SUCH_BUCKET';
-      case BusinessReportFailureCode.internalFailure:
-        return 'INTERNAL_FAILURE';
-    }
-  }
-}
+  final String value;
 
-extension BusinessReportFailureCodeFromString on String {
-  BusinessReportFailureCode toBusinessReportFailureCode() {
-    switch (this) {
-      case 'ACCESS_DENIED':
-        return BusinessReportFailureCode.accessDenied;
-      case 'NO_SUCH_BUCKET':
-        return BusinessReportFailureCode.noSuchBucket;
-      case 'INTERNAL_FAILURE':
-        return BusinessReportFailureCode.internalFailure;
-    }
-    throw Exception('$this is not known in enum BusinessReportFailureCode');
-  }
+  const BusinessReportFailureCode(this.value);
+
+  static BusinessReportFailureCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum BusinessReportFailureCode'));
 }
 
 enum BusinessReportFormat {
-  csv,
-  csvZip,
-}
+  csv('CSV'),
+  csvZip('CSV_ZIP'),
+  ;
 
-extension BusinessReportFormatValueExtension on BusinessReportFormat {
-  String toValue() {
-    switch (this) {
-      case BusinessReportFormat.csv:
-        return 'CSV';
-      case BusinessReportFormat.csvZip:
-        return 'CSV_ZIP';
-    }
-  }
-}
+  final String value;
 
-extension BusinessReportFormatFromString on String {
-  BusinessReportFormat toBusinessReportFormat() {
-    switch (this) {
-      case 'CSV':
-        return BusinessReportFormat.csv;
-      case 'CSV_ZIP':
-        return BusinessReportFormat.csvZip;
-    }
-    throw Exception('$this is not known in enum BusinessReportFormat');
-  }
+  const BusinessReportFormat(this.value);
+
+  static BusinessReportFormat fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum BusinessReportFormat'));
 }
 
 enum BusinessReportInterval {
-  oneDay,
-  oneWeek,
-  thirtyDays,
-}
+  oneDay('ONE_DAY'),
+  oneWeek('ONE_WEEK'),
+  thirtyDays('THIRTY_DAYS'),
+  ;
 
-extension BusinessReportIntervalValueExtension on BusinessReportInterval {
-  String toValue() {
-    switch (this) {
-      case BusinessReportInterval.oneDay:
-        return 'ONE_DAY';
-      case BusinessReportInterval.oneWeek:
-        return 'ONE_WEEK';
-      case BusinessReportInterval.thirtyDays:
-        return 'THIRTY_DAYS';
-    }
-  }
-}
+  final String value;
 
-extension BusinessReportIntervalFromString on String {
-  BusinessReportInterval toBusinessReportInterval() {
-    switch (this) {
-      case 'ONE_DAY':
-        return BusinessReportInterval.oneDay;
-      case 'ONE_WEEK':
-        return BusinessReportInterval.oneWeek;
-      case 'THIRTY_DAYS':
-        return BusinessReportInterval.thirtyDays;
-    }
-    throw Exception('$this is not known in enum BusinessReportInterval');
-  }
+  const BusinessReportInterval(this.value);
+
+  static BusinessReportInterval fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum BusinessReportInterval'));
 }
 
 /// The recurrence of the reports.
@@ -4279,7 +4231,7 @@ class BusinessReportSchedule {
           ? BusinessReportContentRange.fromJson(
               json['ContentRange'] as Map<String, dynamic>)
           : null,
-      format: (json['Format'] as String?)?.toBusinessReportFormat(),
+      format: (json['Format'] as String?)?.let(BusinessReportFormat.fromString),
       lastBusinessReport: json['LastBusinessReport'] != null
           ? BusinessReport.fromJson(
               json['LastBusinessReport'] as Map<String, dynamic>)
@@ -4306,7 +4258,7 @@ class BusinessReportSchedule {
     final scheduleName = this.scheduleName;
     return {
       if (contentRange != null) 'ContentRange': contentRange,
-      if (format != null) 'Format': format.toValue(),
+      if (format != null) 'Format': format.value,
       if (lastBusinessReport != null) 'LastBusinessReport': lastBusinessReport,
       if (recurrence != null) 'Recurrence': recurrence,
       if (s3BucketName != null) 'S3BucketName': s3BucketName,
@@ -4318,36 +4270,19 @@ class BusinessReportSchedule {
 }
 
 enum BusinessReportStatus {
-  running,
-  succeeded,
-  failed,
-}
+  running('RUNNING'),
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  ;
 
-extension BusinessReportStatusValueExtension on BusinessReportStatus {
-  String toValue() {
-    switch (this) {
-      case BusinessReportStatus.running:
-        return 'RUNNING';
-      case BusinessReportStatus.succeeded:
-        return 'SUCCEEDED';
-      case BusinessReportStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension BusinessReportStatusFromString on String {
-  BusinessReportStatus toBusinessReportStatus() {
-    switch (this) {
-      case 'RUNNING':
-        return BusinessReportStatus.running;
-      case 'SUCCEEDED':
-        return BusinessReportStatus.succeeded;
-      case 'FAILED':
-        return BusinessReportStatus.failed;
-    }
-    throw Exception('$this is not known in enum BusinessReportStatus');
-  }
+  const BusinessReportStatus(this.value);
+
+  static BusinessReportStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum BusinessReportStatus'));
 }
 
 /// The skill store category that is shown. Alexa skills are assigned a specific
@@ -4382,36 +4317,19 @@ class Category {
 }
 
 enum CommsProtocol {
-  sip,
-  sips,
-  h323,
-}
+  sip('SIP'),
+  sips('SIPS'),
+  h323('H323'),
+  ;
 
-extension CommsProtocolValueExtension on CommsProtocol {
-  String toValue() {
-    switch (this) {
-      case CommsProtocol.sip:
-        return 'SIP';
-      case CommsProtocol.sips:
-        return 'SIPS';
-      case CommsProtocol.h323:
-        return 'H323';
-    }
-  }
-}
+  final String value;
 
-extension CommsProtocolFromString on String {
-  CommsProtocol toCommsProtocol() {
-    switch (this) {
-      case 'SIP':
-        return CommsProtocol.sip;
-      case 'SIPS':
-        return CommsProtocol.sips;
-      case 'H323':
-        return CommsProtocol.h323;
-    }
-    throw Exception('$this is not known in enum CommsProtocol');
-  }
+  const CommsProtocol(this.value);
+
+  static CommsProtocol fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CommsProtocol'));
 }
 
 /// The default conference provider that is used if no other scheduled meetings
@@ -4486,7 +4404,7 @@ class ConferenceProvider {
       pSTNDialIn: json['PSTNDialIn'] != null
           ? PSTNDialIn.fromJson(json['PSTNDialIn'] as Map<String, dynamic>)
           : null,
-      type: (json['Type'] as String?)?.toConferenceProviderType(),
+      type: (json['Type'] as String?)?.let(ConferenceProviderType.fromString),
     );
   }
 
@@ -4503,105 +4421,47 @@ class ConferenceProvider {
       if (meetingSetting != null) 'MeetingSetting': meetingSetting,
       if (name != null) 'Name': name,
       if (pSTNDialIn != null) 'PSTNDialIn': pSTNDialIn,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum ConferenceProviderType {
-  chime,
-  bluejeans,
-  fuze,
-  googleHangouts,
-  polycom,
-  ringcentral,
-  skypeForBusiness,
-  webex,
-  zoom,
-  custom,
-}
+  chime('CHIME'),
+  bluejeans('BLUEJEANS'),
+  fuze('FUZE'),
+  googleHangouts('GOOGLE_HANGOUTS'),
+  polycom('POLYCOM'),
+  ringcentral('RINGCENTRAL'),
+  skypeForBusiness('SKYPE_FOR_BUSINESS'),
+  webex('WEBEX'),
+  zoom('ZOOM'),
+  custom('CUSTOM'),
+  ;
 
-extension ConferenceProviderTypeValueExtension on ConferenceProviderType {
-  String toValue() {
-    switch (this) {
-      case ConferenceProviderType.chime:
-        return 'CHIME';
-      case ConferenceProviderType.bluejeans:
-        return 'BLUEJEANS';
-      case ConferenceProviderType.fuze:
-        return 'FUZE';
-      case ConferenceProviderType.googleHangouts:
-        return 'GOOGLE_HANGOUTS';
-      case ConferenceProviderType.polycom:
-        return 'POLYCOM';
-      case ConferenceProviderType.ringcentral:
-        return 'RINGCENTRAL';
-      case ConferenceProviderType.skypeForBusiness:
-        return 'SKYPE_FOR_BUSINESS';
-      case ConferenceProviderType.webex:
-        return 'WEBEX';
-      case ConferenceProviderType.zoom:
-        return 'ZOOM';
-      case ConferenceProviderType.custom:
-        return 'CUSTOM';
-    }
-  }
-}
+  final String value;
 
-extension ConferenceProviderTypeFromString on String {
-  ConferenceProviderType toConferenceProviderType() {
-    switch (this) {
-      case 'CHIME':
-        return ConferenceProviderType.chime;
-      case 'BLUEJEANS':
-        return ConferenceProviderType.bluejeans;
-      case 'FUZE':
-        return ConferenceProviderType.fuze;
-      case 'GOOGLE_HANGOUTS':
-        return ConferenceProviderType.googleHangouts;
-      case 'POLYCOM':
-        return ConferenceProviderType.polycom;
-      case 'RINGCENTRAL':
-        return ConferenceProviderType.ringcentral;
-      case 'SKYPE_FOR_BUSINESS':
-        return ConferenceProviderType.skypeForBusiness;
-      case 'WEBEX':
-        return ConferenceProviderType.webex;
-      case 'ZOOM':
-        return ConferenceProviderType.zoom;
-      case 'CUSTOM':
-        return ConferenceProviderType.custom;
-    }
-    throw Exception('$this is not known in enum ConferenceProviderType');
-  }
+  const ConferenceProviderType(this.value);
+
+  static ConferenceProviderType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ConferenceProviderType'));
 }
 
 enum ConnectionStatus {
-  online,
-  offline,
-}
+  online('ONLINE'),
+  offline('OFFLINE'),
+  ;
 
-extension ConnectionStatusValueExtension on ConnectionStatus {
-  String toValue() {
-    switch (this) {
-      case ConnectionStatus.online:
-        return 'ONLINE';
-      case ConnectionStatus.offline:
-        return 'OFFLINE';
-    }
-  }
-}
+  final String value;
 
-extension ConnectionStatusFromString on String {
-  ConnectionStatus toConnectionStatus() {
-    switch (this) {
-      case 'ONLINE':
-        return ConnectionStatus.online;
-      case 'OFFLINE':
-        return ConnectionStatus.offline;
-    }
-    throw Exception('$this is not known in enum ConnectionStatus');
-  }
+  const ConnectionStatus(this.value);
+
+  static ConnectionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ConnectionStatus'));
 }
 
 /// A contact with attributes.
@@ -4898,7 +4758,7 @@ class CreateEndOfMeetingReminder {
     return {
       'Enabled': enabled,
       'ReminderAtMinutes': reminderAtMinutes,
-      'ReminderType': reminderType.toValue(),
+      'ReminderType': reminderType.value,
     };
   }
 }
@@ -5391,7 +5251,8 @@ class Device {
       deviceArn: json['DeviceArn'] as String?,
       deviceName: json['DeviceName'] as String?,
       deviceSerialNumber: json['DeviceSerialNumber'] as String?,
-      deviceStatus: (json['DeviceStatus'] as String?)?.toDeviceStatus(),
+      deviceStatus:
+          (json['DeviceStatus'] as String?)?.let(DeviceStatus.fromString),
       deviceStatusInfo: json['DeviceStatusInfo'] != null
           ? DeviceStatusInfo.fromJson(
               json['DeviceStatusInfo'] as Map<String, dynamic>)
@@ -5422,7 +5283,7 @@ class Device {
       if (deviceArn != null) 'DeviceArn': deviceArn,
       if (deviceName != null) 'DeviceName': deviceName,
       if (deviceSerialNumber != null) 'DeviceSerialNumber': deviceSerialNumber,
-      if (deviceStatus != null) 'DeviceStatus': deviceStatus.toValue(),
+      if (deviceStatus != null) 'DeviceStatus': deviceStatus.value,
       if (deviceStatusInfo != null) 'DeviceStatusInfo': deviceStatusInfo,
       if (deviceType != null) 'DeviceType': deviceType,
       if (macAddress != null) 'MacAddress': macAddress,
@@ -5496,7 +5357,8 @@ class DeviceData {
       deviceArn: json['DeviceArn'] as String?,
       deviceName: json['DeviceName'] as String?,
       deviceSerialNumber: json['DeviceSerialNumber'] as String?,
-      deviceStatus: (json['DeviceStatus'] as String?)?.toDeviceStatus(),
+      deviceStatus:
+          (json['DeviceStatus'] as String?)?.let(DeviceStatus.fromString),
       deviceStatusInfo: json['DeviceStatusInfo'] != null
           ? DeviceStatusInfo.fromJson(
               json['DeviceStatusInfo'] as Map<String, dynamic>)
@@ -5530,7 +5392,7 @@ class DeviceData {
       if (deviceArn != null) 'DeviceArn': deviceArn,
       if (deviceName != null) 'DeviceName': deviceName,
       if (deviceSerialNumber != null) 'DeviceSerialNumber': deviceSerialNumber,
-      if (deviceStatus != null) 'DeviceStatus': deviceStatus.toValue(),
+      if (deviceStatus != null) 'DeviceStatus': deviceStatus.value,
       if (deviceStatusInfo != null) 'DeviceStatusInfo': deviceStatusInfo,
       if (deviceType != null) 'DeviceType': deviceType,
       if (macAddress != null) 'MacAddress': macAddress,
@@ -5563,7 +5425,7 @@ class DeviceEvent {
   factory DeviceEvent.fromJson(Map<String, dynamic> json) {
     return DeviceEvent(
       timestamp: timeStampFromJson(json['Timestamp']),
-      type: (json['Type'] as String?)?.toDeviceEventType(),
+      type: (json['Type'] as String?)?.let(DeviceEventType.fromString),
       value: json['Value'] as String?,
     );
   }
@@ -5574,38 +5436,25 @@ class DeviceEvent {
     final value = this.value;
     return {
       if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
       if (value != null) 'Value': value,
     };
   }
 }
 
 enum DeviceEventType {
-  connectionStatus,
-  deviceStatus,
-}
+  connectionStatus('CONNECTION_STATUS'),
+  deviceStatus('DEVICE_STATUS'),
+  ;
 
-extension DeviceEventTypeValueExtension on DeviceEventType {
-  String toValue() {
-    switch (this) {
-      case DeviceEventType.connectionStatus:
-        return 'CONNECTION_STATUS';
-      case DeviceEventType.deviceStatus:
-        return 'DEVICE_STATUS';
-    }
-  }
-}
+  final String value;
 
-extension DeviceEventTypeFromString on String {
-  DeviceEventType toDeviceEventType() {
-    switch (this) {
-      case 'CONNECTION_STATUS':
-        return DeviceEventType.connectionStatus;
-      case 'DEVICE_STATUS':
-        return DeviceEventType.deviceStatus;
-    }
-    throw Exception('$this is not known in enum DeviceEventType');
-  }
+  const DeviceEventType(this.value);
+
+  static DeviceEventType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DeviceEventType'));
 }
 
 /// Detailed information about a device's network profile.
@@ -5649,46 +5498,21 @@ class DeviceNetworkProfileInfo {
 }
 
 enum DeviceStatus {
-  ready,
-  pending,
-  wasOffline,
-  deregistered,
-  failed,
-}
+  ready('READY'),
+  pending('PENDING'),
+  wasOffline('WAS_OFFLINE'),
+  deregistered('DEREGISTERED'),
+  failed('FAILED'),
+  ;
 
-extension DeviceStatusValueExtension on DeviceStatus {
-  String toValue() {
-    switch (this) {
-      case DeviceStatus.ready:
-        return 'READY';
-      case DeviceStatus.pending:
-        return 'PENDING';
-      case DeviceStatus.wasOffline:
-        return 'WAS_OFFLINE';
-      case DeviceStatus.deregistered:
-        return 'DEREGISTERED';
-      case DeviceStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension DeviceStatusFromString on String {
-  DeviceStatus toDeviceStatus() {
-    switch (this) {
-      case 'READY':
-        return DeviceStatus.ready;
-      case 'PENDING':
-        return DeviceStatus.pending;
-      case 'WAS_OFFLINE':
-        return DeviceStatus.wasOffline;
-      case 'DEREGISTERED':
-        return DeviceStatus.deregistered;
-      case 'FAILED':
-        return DeviceStatus.failed;
-    }
-    throw Exception('$this is not known in enum DeviceStatus');
-  }
+  const DeviceStatus(this.value);
+
+  static DeviceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DeviceStatus'));
 }
 
 /// Details of a device’s status.
@@ -5706,8 +5530,8 @@ class DeviceStatusDetail {
 
   factory DeviceStatusDetail.fromJson(Map<String, dynamic> json) {
     return DeviceStatusDetail(
-      code: (json['Code'] as String?)?.toDeviceStatusDetailCode(),
-      feature: (json['Feature'] as String?)?.toFeature(),
+      code: (json['Code'] as String?)?.let(DeviceStatusDetailCode.fromString),
+      feature: (json['Feature'] as String?)?.let(Feature.fromString),
     );
   }
 
@@ -5715,113 +5539,40 @@ class DeviceStatusDetail {
     final code = this.code;
     final feature = this.feature;
     return {
-      if (code != null) 'Code': code.toValue(),
-      if (feature != null) 'Feature': feature.toValue(),
+      if (code != null) 'Code': code.value,
+      if (feature != null) 'Feature': feature.value,
     };
   }
 }
 
 enum DeviceStatusDetailCode {
-  deviceSoftwareUpdateNeeded,
-  deviceWasOffline,
-  credentialsAccessFailure,
-  tlsVersionMismatch,
-  associationRejection,
-  authenticationFailure,
-  dhcpFailure,
-  internetUnavailable,
-  dnsFailure,
-  unknownFailure,
-  certificateIssuingLimitExceeded,
-  invalidCertificateAuthority,
-  networkProfileNotFound,
-  invalidPasswordState,
-  passwordNotFound,
-  passwordManagerAccessDenied,
-  certificateAuthorityAccessDenied,
-}
+  deviceSoftwareUpdateNeeded('DEVICE_SOFTWARE_UPDATE_NEEDED'),
+  deviceWasOffline('DEVICE_WAS_OFFLINE'),
+  credentialsAccessFailure('CREDENTIALS_ACCESS_FAILURE'),
+  tlsVersionMismatch('TLS_VERSION_MISMATCH'),
+  associationRejection('ASSOCIATION_REJECTION'),
+  authenticationFailure('AUTHENTICATION_FAILURE'),
+  dhcpFailure('DHCP_FAILURE'),
+  internetUnavailable('INTERNET_UNAVAILABLE'),
+  dnsFailure('DNS_FAILURE'),
+  unknownFailure('UNKNOWN_FAILURE'),
+  certificateIssuingLimitExceeded('CERTIFICATE_ISSUING_LIMIT_EXCEEDED'),
+  invalidCertificateAuthority('INVALID_CERTIFICATE_AUTHORITY'),
+  networkProfileNotFound('NETWORK_PROFILE_NOT_FOUND'),
+  invalidPasswordState('INVALID_PASSWORD_STATE'),
+  passwordNotFound('PASSWORD_NOT_FOUND'),
+  passwordManagerAccessDenied('PASSWORD_MANAGER_ACCESS_DENIED'),
+  certificateAuthorityAccessDenied('CERTIFICATE_AUTHORITY_ACCESS_DENIED'),
+  ;
 
-extension DeviceStatusDetailCodeValueExtension on DeviceStatusDetailCode {
-  String toValue() {
-    switch (this) {
-      case DeviceStatusDetailCode.deviceSoftwareUpdateNeeded:
-        return 'DEVICE_SOFTWARE_UPDATE_NEEDED';
-      case DeviceStatusDetailCode.deviceWasOffline:
-        return 'DEVICE_WAS_OFFLINE';
-      case DeviceStatusDetailCode.credentialsAccessFailure:
-        return 'CREDENTIALS_ACCESS_FAILURE';
-      case DeviceStatusDetailCode.tlsVersionMismatch:
-        return 'TLS_VERSION_MISMATCH';
-      case DeviceStatusDetailCode.associationRejection:
-        return 'ASSOCIATION_REJECTION';
-      case DeviceStatusDetailCode.authenticationFailure:
-        return 'AUTHENTICATION_FAILURE';
-      case DeviceStatusDetailCode.dhcpFailure:
-        return 'DHCP_FAILURE';
-      case DeviceStatusDetailCode.internetUnavailable:
-        return 'INTERNET_UNAVAILABLE';
-      case DeviceStatusDetailCode.dnsFailure:
-        return 'DNS_FAILURE';
-      case DeviceStatusDetailCode.unknownFailure:
-        return 'UNKNOWN_FAILURE';
-      case DeviceStatusDetailCode.certificateIssuingLimitExceeded:
-        return 'CERTIFICATE_ISSUING_LIMIT_EXCEEDED';
-      case DeviceStatusDetailCode.invalidCertificateAuthority:
-        return 'INVALID_CERTIFICATE_AUTHORITY';
-      case DeviceStatusDetailCode.networkProfileNotFound:
-        return 'NETWORK_PROFILE_NOT_FOUND';
-      case DeviceStatusDetailCode.invalidPasswordState:
-        return 'INVALID_PASSWORD_STATE';
-      case DeviceStatusDetailCode.passwordNotFound:
-        return 'PASSWORD_NOT_FOUND';
-      case DeviceStatusDetailCode.passwordManagerAccessDenied:
-        return 'PASSWORD_MANAGER_ACCESS_DENIED';
-      case DeviceStatusDetailCode.certificateAuthorityAccessDenied:
-        return 'CERTIFICATE_AUTHORITY_ACCESS_DENIED';
-    }
-  }
-}
+  final String value;
 
-extension DeviceStatusDetailCodeFromString on String {
-  DeviceStatusDetailCode toDeviceStatusDetailCode() {
-    switch (this) {
-      case 'DEVICE_SOFTWARE_UPDATE_NEEDED':
-        return DeviceStatusDetailCode.deviceSoftwareUpdateNeeded;
-      case 'DEVICE_WAS_OFFLINE':
-        return DeviceStatusDetailCode.deviceWasOffline;
-      case 'CREDENTIALS_ACCESS_FAILURE':
-        return DeviceStatusDetailCode.credentialsAccessFailure;
-      case 'TLS_VERSION_MISMATCH':
-        return DeviceStatusDetailCode.tlsVersionMismatch;
-      case 'ASSOCIATION_REJECTION':
-        return DeviceStatusDetailCode.associationRejection;
-      case 'AUTHENTICATION_FAILURE':
-        return DeviceStatusDetailCode.authenticationFailure;
-      case 'DHCP_FAILURE':
-        return DeviceStatusDetailCode.dhcpFailure;
-      case 'INTERNET_UNAVAILABLE':
-        return DeviceStatusDetailCode.internetUnavailable;
-      case 'DNS_FAILURE':
-        return DeviceStatusDetailCode.dnsFailure;
-      case 'UNKNOWN_FAILURE':
-        return DeviceStatusDetailCode.unknownFailure;
-      case 'CERTIFICATE_ISSUING_LIMIT_EXCEEDED':
-        return DeviceStatusDetailCode.certificateIssuingLimitExceeded;
-      case 'INVALID_CERTIFICATE_AUTHORITY':
-        return DeviceStatusDetailCode.invalidCertificateAuthority;
-      case 'NETWORK_PROFILE_NOT_FOUND':
-        return DeviceStatusDetailCode.networkProfileNotFound;
-      case 'INVALID_PASSWORD_STATE':
-        return DeviceStatusDetailCode.invalidPasswordState;
-      case 'PASSWORD_NOT_FOUND':
-        return DeviceStatusDetailCode.passwordNotFound;
-      case 'PASSWORD_MANAGER_ACCESS_DENIED':
-        return DeviceStatusDetailCode.passwordManagerAccessDenied;
-      case 'CERTIFICATE_AUTHORITY_ACCESS_DENIED':
-        return DeviceStatusDetailCode.certificateAuthorityAccessDenied;
-    }
-    throw Exception('$this is not known in enum DeviceStatusDetailCode');
-  }
+  const DeviceStatusDetailCode(this.value);
+
+  static DeviceStatusDetailCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DeviceStatusDetailCode'));
 }
 
 /// Detailed information about a device's status.
@@ -5843,8 +5594,8 @@ class DeviceStatusInfo {
 
   factory DeviceStatusInfo.fromJson(Map<String, dynamic> json) {
     return DeviceStatusInfo(
-      connectionStatus:
-          (json['ConnectionStatus'] as String?)?.toConnectionStatus(),
+      connectionStatus: (json['ConnectionStatus'] as String?)
+          ?.let(ConnectionStatus.fromString),
       connectionStatusUpdatedTime:
           timeStampFromJson(json['ConnectionStatusUpdatedTime']),
       deviceStatusDetails: (json['DeviceStatusDetails'] as List?)
@@ -5859,8 +5610,7 @@ class DeviceStatusInfo {
     final connectionStatusUpdatedTime = this.connectionStatusUpdatedTime;
     final deviceStatusDetails = this.deviceStatusDetails;
     return {
-      if (connectionStatus != null)
-        'ConnectionStatus': connectionStatus.toValue(),
+      if (connectionStatus != null) 'ConnectionStatus': connectionStatus.value,
       if (connectionStatusUpdatedTime != null)
         'ConnectionStatusUpdatedTime':
             unixTimestampToJson(connectionStatusUpdatedTime),
@@ -5871,26 +5621,17 @@ class DeviceStatusInfo {
 }
 
 enum DeviceUsageType {
-  voice,
-}
+  voice('VOICE'),
+  ;
 
-extension DeviceUsageTypeValueExtension on DeviceUsageType {
-  String toValue() {
-    switch (this) {
-      case DeviceUsageType.voice:
-        return 'VOICE';
-    }
-  }
-}
+  final String value;
 
-extension DeviceUsageTypeFromString on String {
-  DeviceUsageType toDeviceUsageType() {
-    switch (this) {
-      case 'VOICE':
-        return DeviceUsageType.voice;
-    }
-    throw Exception('$this is not known in enum DeviceUsageType');
-  }
+  const DeviceUsageType(this.value);
+
+  static DeviceUsageType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DeviceUsageType'));
 }
 
 class DisassociateContactFromAddressBookResponse {
@@ -5957,87 +5698,48 @@ class DisassociateSkillGroupFromRoomResponse {
 }
 
 enum DistanceUnit {
-  metric,
-  imperial,
-}
+  metric('METRIC'),
+  imperial('IMPERIAL'),
+  ;
 
-extension DistanceUnitValueExtension on DistanceUnit {
-  String toValue() {
-    switch (this) {
-      case DistanceUnit.metric:
-        return 'METRIC';
-      case DistanceUnit.imperial:
-        return 'IMPERIAL';
-    }
-  }
-}
+  final String value;
 
-extension DistanceUnitFromString on String {
-  DistanceUnit toDistanceUnit() {
-    switch (this) {
-      case 'METRIC':
-        return DistanceUnit.metric;
-      case 'IMPERIAL':
-        return DistanceUnit.imperial;
-    }
-    throw Exception('$this is not known in enum DistanceUnit');
-  }
+  const DistanceUnit(this.value);
+
+  static DistanceUnit fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DistanceUnit'));
 }
 
 enum EnablementType {
-  enabled,
-  pending,
-}
+  enabled('ENABLED'),
+  pending('PENDING'),
+  ;
 
-extension EnablementTypeValueExtension on EnablementType {
-  String toValue() {
-    switch (this) {
-      case EnablementType.enabled:
-        return 'ENABLED';
-      case EnablementType.pending:
-        return 'PENDING';
-    }
-  }
-}
+  final String value;
 
-extension EnablementTypeFromString on String {
-  EnablementType toEnablementType() {
-    switch (this) {
-      case 'ENABLED':
-        return EnablementType.enabled;
-      case 'PENDING':
-        return EnablementType.pending;
-    }
-    throw Exception('$this is not known in enum EnablementType');
-  }
+  const EnablementType(this.value);
+
+  static EnablementType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EnablementType'));
 }
 
 enum EnablementTypeFilter {
-  enabled,
-  pending,
-}
+  enabled('ENABLED'),
+  pending('PENDING'),
+  ;
 
-extension EnablementTypeFilterValueExtension on EnablementTypeFilter {
-  String toValue() {
-    switch (this) {
-      case EnablementTypeFilter.enabled:
-        return 'ENABLED';
-      case EnablementTypeFilter.pending:
-        return 'PENDING';
-    }
-  }
-}
+  final String value;
 
-extension EnablementTypeFilterFromString on String {
-  EnablementTypeFilter toEnablementTypeFilter() {
-    switch (this) {
-      case 'ENABLED':
-        return EnablementTypeFilter.enabled;
-      case 'PENDING':
-        return EnablementTypeFilter.pending;
-    }
-    throw Exception('$this is not known in enum EnablementTypeFilter');
-  }
+  const EnablementTypeFilter(this.value);
+
+  static EnablementTypeFilter fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum EnablementTypeFilter'));
 }
 
 /// Settings for the end of meeting reminder feature that are applied to a room
@@ -6066,8 +5768,8 @@ class EndOfMeetingReminder {
           ?.whereNotNull()
           .map((e) => e as int)
           .toList(),
-      reminderType:
-          (json['ReminderType'] as String?)?.toEndOfMeetingReminderType(),
+      reminderType: (json['ReminderType'] as String?)
+          ?.let(EndOfMeetingReminderType.fromString),
     );
   }
 
@@ -6078,148 +5780,64 @@ class EndOfMeetingReminder {
     return {
       if (enabled != null) 'Enabled': enabled,
       if (reminderAtMinutes != null) 'ReminderAtMinutes': reminderAtMinutes,
-      if (reminderType != null) 'ReminderType': reminderType.toValue(),
+      if (reminderType != null) 'ReminderType': reminderType.value,
     };
   }
 }
 
 enum EndOfMeetingReminderType {
-  announcementTimeCheck,
-  announcementVariableTimeLeft,
-  chime,
-  knock,
-}
+  announcementTimeCheck('ANNOUNCEMENT_TIME_CHECK'),
+  announcementVariableTimeLeft('ANNOUNCEMENT_VARIABLE_TIME_LEFT'),
+  chime('CHIME'),
+  knock('KNOCK'),
+  ;
 
-extension EndOfMeetingReminderTypeValueExtension on EndOfMeetingReminderType {
-  String toValue() {
-    switch (this) {
-      case EndOfMeetingReminderType.announcementTimeCheck:
-        return 'ANNOUNCEMENT_TIME_CHECK';
-      case EndOfMeetingReminderType.announcementVariableTimeLeft:
-        return 'ANNOUNCEMENT_VARIABLE_TIME_LEFT';
-      case EndOfMeetingReminderType.chime:
-        return 'CHIME';
-      case EndOfMeetingReminderType.knock:
-        return 'KNOCK';
-    }
-  }
-}
+  final String value;
 
-extension EndOfMeetingReminderTypeFromString on String {
-  EndOfMeetingReminderType toEndOfMeetingReminderType() {
-    switch (this) {
-      case 'ANNOUNCEMENT_TIME_CHECK':
-        return EndOfMeetingReminderType.announcementTimeCheck;
-      case 'ANNOUNCEMENT_VARIABLE_TIME_LEFT':
-        return EndOfMeetingReminderType.announcementVariableTimeLeft;
-      case 'CHIME':
-        return EndOfMeetingReminderType.chime;
-      case 'KNOCK':
-        return EndOfMeetingReminderType.knock;
-    }
-    throw Exception('$this is not known in enum EndOfMeetingReminderType');
-  }
+  const EndOfMeetingReminderType(this.value);
+
+  static EndOfMeetingReminderType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum EndOfMeetingReminderType'));
 }
 
 enum EnrollmentStatus {
-  initialized,
-  pending,
-  registered,
-  disassociating,
-  deregistering,
-}
+  initialized('INITIALIZED'),
+  pending('PENDING'),
+  registered('REGISTERED'),
+  disassociating('DISASSOCIATING'),
+  deregistering('DEREGISTERING'),
+  ;
 
-extension EnrollmentStatusValueExtension on EnrollmentStatus {
-  String toValue() {
-    switch (this) {
-      case EnrollmentStatus.initialized:
-        return 'INITIALIZED';
-      case EnrollmentStatus.pending:
-        return 'PENDING';
-      case EnrollmentStatus.registered:
-        return 'REGISTERED';
-      case EnrollmentStatus.disassociating:
-        return 'DISASSOCIATING';
-      case EnrollmentStatus.deregistering:
-        return 'DEREGISTERING';
-    }
-  }
-}
+  final String value;
 
-extension EnrollmentStatusFromString on String {
-  EnrollmentStatus toEnrollmentStatus() {
-    switch (this) {
-      case 'INITIALIZED':
-        return EnrollmentStatus.initialized;
-      case 'PENDING':
-        return EnrollmentStatus.pending;
-      case 'REGISTERED':
-        return EnrollmentStatus.registered;
-      case 'DISASSOCIATING':
-        return EnrollmentStatus.disassociating;
-      case 'DEREGISTERING':
-        return EnrollmentStatus.deregistering;
-    }
-    throw Exception('$this is not known in enum EnrollmentStatus');
-  }
+  const EnrollmentStatus(this.value);
+
+  static EnrollmentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EnrollmentStatus'));
 }
 
 enum Feature {
-  bluetooth,
-  volume,
-  notifications,
-  lists,
-  skills,
-  networkProfile,
-  settings,
-  all,
-}
+  bluetooth('BLUETOOTH'),
+  volume('VOLUME'),
+  notifications('NOTIFICATIONS'),
+  lists('LISTS'),
+  skills('SKILLS'),
+  networkProfile('NETWORK_PROFILE'),
+  settings('SETTINGS'),
+  all('ALL'),
+  ;
 
-extension FeatureValueExtension on Feature {
-  String toValue() {
-    switch (this) {
-      case Feature.bluetooth:
-        return 'BLUETOOTH';
-      case Feature.volume:
-        return 'VOLUME';
-      case Feature.notifications:
-        return 'NOTIFICATIONS';
-      case Feature.lists:
-        return 'LISTS';
-      case Feature.skills:
-        return 'SKILLS';
-      case Feature.networkProfile:
-        return 'NETWORK_PROFILE';
-      case Feature.settings:
-        return 'SETTINGS';
-      case Feature.all:
-        return 'ALL';
-    }
-  }
-}
+  final String value;
 
-extension FeatureFromString on String {
-  Feature toFeature() {
-    switch (this) {
-      case 'BLUETOOTH':
-        return Feature.bluetooth;
-      case 'VOLUME':
-        return Feature.volume;
-      case 'NOTIFICATIONS':
-        return Feature.notifications;
-      case 'LISTS':
-        return Feature.lists;
-      case 'SKILLS':
-        return Feature.skills;
-      case 'NETWORK_PROFILE':
-        return Feature.networkProfile;
-      case 'SETTINGS':
-        return Feature.settings;
-      case 'ALL':
-        return Feature.all;
-    }
-    throw Exception('$this is not known in enum Feature');
-  }
+  const Feature(this.value);
+
+  static Feature fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Feature'));
 }
 
 /// A filter name and value pair that is used to return a more specific list of
@@ -6785,7 +6403,8 @@ class IPDialIn {
 
   factory IPDialIn.fromJson(Map<String, dynamic> json) {
     return IPDialIn(
-      commsProtocol: (json['CommsProtocol'] as String).toCommsProtocol(),
+      commsProtocol:
+          CommsProtocol.fromString((json['CommsProtocol'] as String)),
       endpoint: json['Endpoint'] as String,
     );
   }
@@ -6794,7 +6413,7 @@ class IPDialIn {
     final commsProtocol = this.commsProtocol;
     final endpoint = this.endpoint;
     return {
-      'CommsProtocol': commsProtocol.toValue(),
+      'CommsProtocol': commsProtocol.value,
       'Endpoint': endpoint,
     };
   }
@@ -7161,26 +6780,16 @@ class ListTagsResponse {
 }
 
 enum Locale {
-  enUs,
-}
+  enUs('en-US'),
+  ;
 
-extension LocaleValueExtension on Locale {
-  String toValue() {
-    switch (this) {
-      case Locale.enUs:
-        return 'en-US';
-    }
-  }
-}
+  final String value;
 
-extension LocaleFromString on String {
-  Locale toLocale() {
-    switch (this) {
-      case 'en-US':
-        return Locale.enUs;
-    }
-    throw Exception('$this is not known in enum Locale');
-  }
+  const Locale(this.value);
+
+  static Locale fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Locale'));
 }
 
 /// Meeting room settings of a room profile.
@@ -7270,39 +6879,30 @@ class MeetingSetting {
 
   factory MeetingSetting.fromJson(Map<String, dynamic> json) {
     return MeetingSetting(
-      requirePin: (json['RequirePin'] as String).toRequirePin(),
+      requirePin: RequirePin.fromString((json['RequirePin'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final requirePin = this.requirePin;
     return {
-      'RequirePin': requirePin.toValue(),
+      'RequirePin': requirePin.value,
     };
   }
 }
 
 enum NetworkEapMethod {
-  eapTls,
-}
+  eapTls('EAP_TLS'),
+  ;
 
-extension NetworkEapMethodValueExtension on NetworkEapMethod {
-  String toValue() {
-    switch (this) {
-      case NetworkEapMethod.eapTls:
-        return 'EAP_TLS';
-    }
-  }
-}
+  final String value;
 
-extension NetworkEapMethodFromString on String {
-  NetworkEapMethod toNetworkEapMethod() {
-    switch (this) {
-      case 'EAP_TLS':
-        return NetworkEapMethod.eapTls;
-    }
-    throw Exception('$this is not known in enum NetworkEapMethod');
-  }
+  const NetworkEapMethod(this.value);
+
+  static NetworkEapMethod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum NetworkEapMethod'));
 }
 
 /// The network profile associated with a device.
@@ -7363,11 +6963,13 @@ class NetworkProfile {
       certificateAuthorityArn: json['CertificateAuthorityArn'] as String?,
       currentPassword: json['CurrentPassword'] as String?,
       description: json['Description'] as String?,
-      eapMethod: (json['EapMethod'] as String?)?.toNetworkEapMethod(),
+      eapMethod:
+          (json['EapMethod'] as String?)?.let(NetworkEapMethod.fromString),
       networkProfileArn: json['NetworkProfileArn'] as String?,
       networkProfileName: json['NetworkProfileName'] as String?,
       nextPassword: json['NextPassword'] as String?,
-      securityType: (json['SecurityType'] as String?)?.toNetworkSecurityType(),
+      securityType: (json['SecurityType'] as String?)
+          ?.let(NetworkSecurityType.fromString),
       ssid: json['Ssid'] as String?,
       trustAnchors: (json['TrustAnchors'] as List?)
           ?.whereNotNull()
@@ -7392,11 +6994,11 @@ class NetworkProfile {
         'CertificateAuthorityArn': certificateAuthorityArn,
       if (currentPassword != null) 'CurrentPassword': currentPassword,
       if (description != null) 'Description': description,
-      if (eapMethod != null) 'EapMethod': eapMethod.toValue(),
+      if (eapMethod != null) 'EapMethod': eapMethod.value,
       if (networkProfileArn != null) 'NetworkProfileArn': networkProfileArn,
       if (networkProfileName != null) 'NetworkProfileName': networkProfileName,
       if (nextPassword != null) 'NextPassword': nextPassword,
-      if (securityType != null) 'SecurityType': securityType.toValue(),
+      if (securityType != null) 'SecurityType': securityType.value,
       if (ssid != null) 'Ssid': ssid,
       if (trustAnchors != null) 'TrustAnchors': trustAnchors,
     };
@@ -7444,10 +7046,12 @@ class NetworkProfileData {
     return NetworkProfileData(
       certificateAuthorityArn: json['CertificateAuthorityArn'] as String?,
       description: json['Description'] as String?,
-      eapMethod: (json['EapMethod'] as String?)?.toNetworkEapMethod(),
+      eapMethod:
+          (json['EapMethod'] as String?)?.let(NetworkEapMethod.fromString),
       networkProfileArn: json['NetworkProfileArn'] as String?,
       networkProfileName: json['NetworkProfileName'] as String?,
-      securityType: (json['SecurityType'] as String?)?.toNetworkSecurityType(),
+      securityType: (json['SecurityType'] as String?)
+          ?.let(NetworkSecurityType.fromString),
       ssid: json['Ssid'] as String?,
     );
   }
@@ -7464,56 +7068,31 @@ class NetworkProfileData {
       if (certificateAuthorityArn != null)
         'CertificateAuthorityArn': certificateAuthorityArn,
       if (description != null) 'Description': description,
-      if (eapMethod != null) 'EapMethod': eapMethod.toValue(),
+      if (eapMethod != null) 'EapMethod': eapMethod.value,
       if (networkProfileArn != null) 'NetworkProfileArn': networkProfileArn,
       if (networkProfileName != null) 'NetworkProfileName': networkProfileName,
-      if (securityType != null) 'SecurityType': securityType.toValue(),
+      if (securityType != null) 'SecurityType': securityType.value,
       if (ssid != null) 'Ssid': ssid,
     };
   }
 }
 
 enum NetworkSecurityType {
-  open,
-  wep,
-  wpaPsk,
-  wpa2Psk,
-  wpa2Enterprise,
-}
+  open('OPEN'),
+  wep('WEP'),
+  wpaPsk('WPA_PSK'),
+  wpa2Psk('WPA2_PSK'),
+  wpa2Enterprise('WPA2_ENTERPRISE'),
+  ;
 
-extension NetworkSecurityTypeValueExtension on NetworkSecurityType {
-  String toValue() {
-    switch (this) {
-      case NetworkSecurityType.open:
-        return 'OPEN';
-      case NetworkSecurityType.wep:
-        return 'WEP';
-      case NetworkSecurityType.wpaPsk:
-        return 'WPA_PSK';
-      case NetworkSecurityType.wpa2Psk:
-        return 'WPA2_PSK';
-      case NetworkSecurityType.wpa2Enterprise:
-        return 'WPA2_ENTERPRISE';
-    }
-  }
-}
+  final String value;
 
-extension NetworkSecurityTypeFromString on String {
-  NetworkSecurityType toNetworkSecurityType() {
-    switch (this) {
-      case 'OPEN':
-        return NetworkSecurityType.open;
-      case 'WEP':
-        return NetworkSecurityType.wep;
-      case 'WPA_PSK':
-        return NetworkSecurityType.wpaPsk;
-      case 'WPA2_PSK':
-        return NetworkSecurityType.wpa2Psk;
-      case 'WPA2_ENTERPRISE':
-        return NetworkSecurityType.wpa2Enterprise;
-    }
-    throw Exception('$this is not known in enum NetworkSecurityType');
-  }
+  const NetworkSecurityType(this.value);
+
+  static NetworkSecurityType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum NetworkSecurityType'));
 }
 
 /// The information for public switched telephone network (PSTN) conferencing.
@@ -7581,7 +7160,7 @@ class PhoneNumber {
   factory PhoneNumber.fromJson(Map<String, dynamic> json) {
     return PhoneNumber(
       number: json['Number'] as String,
-      type: (json['Type'] as String).toPhoneNumberType(),
+      type: PhoneNumberType.fromString((json['Type'] as String)),
     );
   }
 
@@ -7590,42 +7169,25 @@ class PhoneNumber {
     final type = this.type;
     return {
       'Number': number,
-      'Type': type.toValue(),
+      'Type': type.value,
     };
   }
 }
 
 enum PhoneNumberType {
-  mobile,
-  work,
-  home,
-}
+  mobile('MOBILE'),
+  work('WORK'),
+  home('HOME'),
+  ;
 
-extension PhoneNumberTypeValueExtension on PhoneNumberType {
-  String toValue() {
-    switch (this) {
-      case PhoneNumberType.mobile:
-        return 'MOBILE';
-      case PhoneNumberType.work:
-        return 'WORK';
-      case PhoneNumberType.home:
-        return 'HOME';
-    }
-  }
-}
+  final String value;
 
-extension PhoneNumberTypeFromString on String {
-  PhoneNumberType toPhoneNumberType() {
-    switch (this) {
-      case 'MOBILE':
-        return PhoneNumberType.mobile;
-      case 'WORK':
-        return PhoneNumberType.work;
-      case 'HOME':
-        return PhoneNumberType.home;
-    }
-    throw Exception('$this is not known in enum PhoneNumberType');
-  }
+  const PhoneNumberType(this.value);
+
+  static PhoneNumberType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PhoneNumberType'));
 }
 
 /// A room profile with attributes.
@@ -7699,7 +7261,8 @@ class Profile {
       address: json['Address'] as String?,
       addressBookArn: json['AddressBookArn'] as String?,
       dataRetentionOptIn: json['DataRetentionOptIn'] as bool?,
-      distanceUnit: (json['DistanceUnit'] as String?)?.toDistanceUnit(),
+      distanceUnit:
+          (json['DistanceUnit'] as String?)?.let(DistanceUnit.fromString),
       isDefault: json['IsDefault'] as bool?,
       locale: json['Locale'] as String?,
       maxVolumeLimit: json['MaxVolumeLimit'] as int?,
@@ -7712,9 +7275,9 @@ class Profile {
       profileName: json['ProfileName'] as String?,
       setupModeDisabled: json['SetupModeDisabled'] as bool?,
       temperatureUnit:
-          (json['TemperatureUnit'] as String?)?.toTemperatureUnit(),
+          (json['TemperatureUnit'] as String?)?.let(TemperatureUnit.fromString),
       timezone: json['Timezone'] as String?,
-      wakeWord: (json['WakeWord'] as String?)?.toWakeWord(),
+      wakeWord: (json['WakeWord'] as String?)?.let(WakeWord.fromString),
     );
   }
 
@@ -7738,7 +7301,7 @@ class Profile {
       if (address != null) 'Address': address,
       if (addressBookArn != null) 'AddressBookArn': addressBookArn,
       if (dataRetentionOptIn != null) 'DataRetentionOptIn': dataRetentionOptIn,
-      if (distanceUnit != null) 'DistanceUnit': distanceUnit.toValue(),
+      if (distanceUnit != null) 'DistanceUnit': distanceUnit.value,
       if (isDefault != null) 'IsDefault': isDefault,
       if (locale != null) 'Locale': locale,
       if (maxVolumeLimit != null) 'MaxVolumeLimit': maxVolumeLimit,
@@ -7748,9 +7311,9 @@ class Profile {
       if (profileArn != null) 'ProfileArn': profileArn,
       if (profileName != null) 'ProfileName': profileName,
       if (setupModeDisabled != null) 'SetupModeDisabled': setupModeDisabled,
-      if (temperatureUnit != null) 'TemperatureUnit': temperatureUnit.toValue(),
+      if (temperatureUnit != null) 'TemperatureUnit': temperatureUnit.value,
       if (timezone != null) 'Timezone': timezone,
-      if (wakeWord != null) 'WakeWord': wakeWord.toValue(),
+      if (wakeWord != null) 'WakeWord': wakeWord.value,
     };
   }
 }
@@ -7800,15 +7363,16 @@ class ProfileData {
   factory ProfileData.fromJson(Map<String, dynamic> json) {
     return ProfileData(
       address: json['Address'] as String?,
-      distanceUnit: (json['DistanceUnit'] as String?)?.toDistanceUnit(),
+      distanceUnit:
+          (json['DistanceUnit'] as String?)?.let(DistanceUnit.fromString),
       isDefault: json['IsDefault'] as bool?,
       locale: json['Locale'] as String?,
       profileArn: json['ProfileArn'] as String?,
       profileName: json['ProfileName'] as String?,
       temperatureUnit:
-          (json['TemperatureUnit'] as String?)?.toTemperatureUnit(),
+          (json['TemperatureUnit'] as String?)?.let(TemperatureUnit.fromString),
       timezone: json['Timezone'] as String?,
-      wakeWord: (json['WakeWord'] as String?)?.toWakeWord(),
+      wakeWord: (json['WakeWord'] as String?)?.let(WakeWord.fromString),
     );
   }
 
@@ -7824,14 +7388,14 @@ class ProfileData {
     final wakeWord = this.wakeWord;
     return {
       if (address != null) 'Address': address,
-      if (distanceUnit != null) 'DistanceUnit': distanceUnit.toValue(),
+      if (distanceUnit != null) 'DistanceUnit': distanceUnit.value,
       if (isDefault != null) 'IsDefault': isDefault,
       if (locale != null) 'Locale': locale,
       if (profileArn != null) 'ProfileArn': profileArn,
       if (profileName != null) 'ProfileName': profileName,
-      if (temperatureUnit != null) 'TemperatureUnit': temperatureUnit.toValue(),
+      if (temperatureUnit != null) 'TemperatureUnit': temperatureUnit.value,
       if (timezone != null) 'Timezone': timezone,
-      if (wakeWord != null) 'WakeWord': wakeWord.toValue(),
+      if (wakeWord != null) 'WakeWord': wakeWord.value,
     };
   }
 }
@@ -7953,36 +7517,18 @@ class RequireCheckIn {
 }
 
 enum RequirePin {
-  yes,
-  no,
-  optional,
-}
+  yes('YES'),
+  no('NO'),
+  optional('OPTIONAL'),
+  ;
 
-extension RequirePinValueExtension on RequirePin {
-  String toValue() {
-    switch (this) {
-      case RequirePin.yes:
-        return 'YES';
-      case RequirePin.no:
-        return 'NO';
-      case RequirePin.optional:
-        return 'OPTIONAL';
-    }
-  }
-}
+  final String value;
 
-extension RequirePinFromString on String {
-  RequirePin toRequirePin() {
-    switch (this) {
-      case 'YES':
-        return RequirePin.yes;
-      case 'NO':
-        return RequirePin.no;
-      case 'OPTIONAL':
-        return RequirePin.optional;
-    }
-    throw Exception('$this is not known in enum RequirePin');
-  }
+  const RequirePin(this.value);
+
+  static RequirePin fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum RequirePin'));
 }
 
 class ResolveRoomResponse {
@@ -8543,7 +8089,7 @@ class SipAddress {
 
   factory SipAddress.fromJson(Map<String, dynamic> json) {
     return SipAddress(
-      type: (json['Type'] as String).toSipType(),
+      type: SipType.fromString((json['Type'] as String)),
       uri: json['Uri'] as String,
     );
   }
@@ -8552,33 +8098,23 @@ class SipAddress {
     final type = this.type;
     final uri = this.uri;
     return {
-      'Type': type.toValue(),
+      'Type': type.value,
       'Uri': uri,
     };
   }
 }
 
 enum SipType {
-  work,
-}
+  work('WORK'),
+  ;
 
-extension SipTypeValueExtension on SipType {
-  String toValue() {
-    switch (this) {
-      case SipType.work:
-        return 'WORK';
-    }
-  }
-}
+  final String value;
 
-extension SipTypeFromString on String {
-  SipType toSipType() {
-    switch (this) {
-      case 'WORK':
-        return SipType.work;
-    }
-    throw Exception('$this is not known in enum SipType');
-  }
+  const SipType(this.value);
+
+  static SipType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum SipType'));
 }
 
 /// Granular information about the skill.
@@ -8791,10 +8327,11 @@ class SkillSummary {
 
   factory SkillSummary.fromJson(Map<String, dynamic> json) {
     return SkillSummary(
-      enablementType: (json['EnablementType'] as String?)?.toEnablementType(),
+      enablementType:
+          (json['EnablementType'] as String?)?.let(EnablementType.fromString),
       skillId: json['SkillId'] as String?,
       skillName: json['SkillName'] as String?,
-      skillType: (json['SkillType'] as String?)?.toSkillType(),
+      skillType: (json['SkillType'] as String?)?.let(SkillType.fromString),
       supportsLinking: json['SupportsLinking'] as bool?,
     );
   }
@@ -8806,74 +8343,43 @@ class SkillSummary {
     final skillType = this.skillType;
     final supportsLinking = this.supportsLinking;
     return {
-      if (enablementType != null) 'EnablementType': enablementType.toValue(),
+      if (enablementType != null) 'EnablementType': enablementType.value,
       if (skillId != null) 'SkillId': skillId,
       if (skillName != null) 'SkillName': skillName,
-      if (skillType != null) 'SkillType': skillType.toValue(),
+      if (skillType != null) 'SkillType': skillType.value,
       if (supportsLinking != null) 'SupportsLinking': supportsLinking,
     };
   }
 }
 
 enum SkillType {
-  public,
-  private,
-}
+  public('PUBLIC'),
+  private('PRIVATE'),
+  ;
 
-extension SkillTypeValueExtension on SkillType {
-  String toValue() {
-    switch (this) {
-      case SkillType.public:
-        return 'PUBLIC';
-      case SkillType.private:
-        return 'PRIVATE';
-    }
-  }
-}
+  final String value;
 
-extension SkillTypeFromString on String {
-  SkillType toSkillType() {
-    switch (this) {
-      case 'PUBLIC':
-        return SkillType.public;
-      case 'PRIVATE':
-        return SkillType.private;
-    }
-    throw Exception('$this is not known in enum SkillType');
-  }
+  const SkillType(this.value);
+
+  static SkillType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SkillType'));
 }
 
 enum SkillTypeFilter {
-  public,
-  private,
-  all,
-}
+  public('PUBLIC'),
+  private('PRIVATE'),
+  all('ALL'),
+  ;
 
-extension SkillTypeFilterValueExtension on SkillTypeFilter {
-  String toValue() {
-    switch (this) {
-      case SkillTypeFilter.public:
-        return 'PUBLIC';
-      case SkillTypeFilter.private:
-        return 'PRIVATE';
-      case SkillTypeFilter.all:
-        return 'ALL';
-    }
-  }
-}
+  final String value;
 
-extension SkillTypeFilterFromString on String {
-  SkillTypeFilter toSkillTypeFilter() {
-    switch (this) {
-      case 'PUBLIC':
-        return SkillTypeFilter.public;
-      case 'PRIVATE':
-        return SkillTypeFilter.private;
-      case 'ALL':
-        return SkillTypeFilter.all;
-    }
-    throw Exception('$this is not known in enum SkillTypeFilter');
-  }
+  const SkillTypeFilter(this.value);
+
+  static SkillTypeFilter fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SkillTypeFilter'));
 }
 
 /// The detailed information about an Alexa skill.
@@ -9002,37 +8508,23 @@ class Sort {
     final value = this.value;
     return {
       'Key': key,
-      'Value': value.toValue(),
+      'Value': value.value,
     };
   }
 }
 
 enum SortValue {
-  asc,
-  desc,
-}
+  asc('ASC'),
+  desc('DESC'),
+  ;
 
-extension SortValueValueExtension on SortValue {
-  String toValue() {
-    switch (this) {
-      case SortValue.asc:
-        return 'ASC';
-      case SortValue.desc:
-        return 'DESC';
-    }
-  }
-}
+  final String value;
 
-extension SortValueFromString on String {
-  SortValue toSortValue() {
-    switch (this) {
-      case 'ASC':
-        return SortValue.asc;
-      case 'DESC':
-        return SortValue.desc;
-    }
-    throw Exception('$this is not known in enum SortValue');
-  }
+  const SortValue(this.value);
+
+  static SortValue fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SortValue'));
 }
 
 /// The SSML message. For more information, see <a
@@ -9055,7 +8547,7 @@ class Ssml {
     final locale = this.locale;
     final value = this.value;
     return {
-      'Locale': locale.toValue(),
+      'Locale': locale.value,
       'Value': value,
     };
   }
@@ -9129,31 +8621,18 @@ class TagResourceResponse {
 }
 
 enum TemperatureUnit {
-  fahrenheit,
-  celsius,
-}
+  fahrenheit('FAHRENHEIT'),
+  celsius('CELSIUS'),
+  ;
 
-extension TemperatureUnitValueExtension on TemperatureUnit {
-  String toValue() {
-    switch (this) {
-      case TemperatureUnit.fahrenheit:
-        return 'FAHRENHEIT';
-      case TemperatureUnit.celsius:
-        return 'CELSIUS';
-    }
-  }
-}
+  final String value;
 
-extension TemperatureUnitFromString on String {
-  TemperatureUnit toTemperatureUnit() {
-    switch (this) {
-      case 'FAHRENHEIT':
-        return TemperatureUnit.fahrenheit;
-      case 'CELSIUS':
-        return TemperatureUnit.celsius;
-    }
-    throw Exception('$this is not known in enum TemperatureUnit');
-  }
+  const TemperatureUnit(this.value);
+
+  static TemperatureUnit fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TemperatureUnit'));
 }
 
 /// The text message.
@@ -9173,7 +8652,7 @@ class Text {
     final locale = this.locale;
     final value = this.value;
     return {
-      'Locale': locale.toValue(),
+      'Locale': locale.value,
       'Value': value,
     };
   }
@@ -9280,7 +8759,7 @@ class UpdateEndOfMeetingReminder {
     return {
       if (enabled != null) 'Enabled': enabled,
       if (reminderAtMinutes != null) 'ReminderAtMinutes': reminderAtMinutes,
-      if (reminderType != null) 'ReminderType': reminderType.toValue(),
+      if (reminderType != null) 'ReminderType': reminderType.value,
     };
   }
 }
@@ -9486,8 +8965,8 @@ class UserData {
     return UserData(
       email: json['Email'] as String?,
       enrollmentId: json['EnrollmentId'] as String?,
-      enrollmentStatus:
-          (json['EnrollmentStatus'] as String?)?.toEnrollmentStatus(),
+      enrollmentStatus: (json['EnrollmentStatus'] as String?)
+          ?.let(EnrollmentStatus.fromString),
       firstName: json['FirstName'] as String?,
       lastName: json['LastName'] as String?,
       userArn: json['UserArn'] as String?,
@@ -9504,8 +8983,7 @@ class UserData {
     return {
       if (email != null) 'Email': email,
       if (enrollmentId != null) 'EnrollmentId': enrollmentId,
-      if (enrollmentStatus != null)
-        'EnrollmentStatus': enrollmentStatus.toValue(),
+      if (enrollmentStatus != null) 'EnrollmentStatus': enrollmentStatus.value,
       if (firstName != null) 'FirstName': firstName,
       if (lastName != null) 'LastName': lastName,
       if (userArn != null) 'UserArn': userArn,
@@ -9514,41 +8992,19 @@ class UserData {
 }
 
 enum WakeWord {
-  alexa,
-  amazon,
-  echo,
-  computer,
-}
+  alexa('ALEXA'),
+  amazon('AMAZON'),
+  echo('ECHO'),
+  computer('COMPUTER'),
+  ;
 
-extension WakeWordValueExtension on WakeWord {
-  String toValue() {
-    switch (this) {
-      case WakeWord.alexa:
-        return 'ALEXA';
-      case WakeWord.amazon:
-        return 'AMAZON';
-      case WakeWord.echo:
-        return 'ECHO';
-      case WakeWord.computer:
-        return 'COMPUTER';
-    }
-  }
-}
+  final String value;
 
-extension WakeWordFromString on String {
-  WakeWord toWakeWord() {
-    switch (this) {
-      case 'ALEXA':
-        return WakeWord.alexa;
-      case 'AMAZON':
-        return WakeWord.amazon;
-      case 'ECHO':
-        return WakeWord.echo;
-      case 'COMPUTER':
-        return WakeWord.computer;
-    }
-    throw Exception('$this is not known in enum WakeWord');
-  }
+  const WakeWord(this.value);
+
+  static WakeWord fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum WakeWord'));
 }
 
 class AlreadyExistsException extends _s.GenericAwsException {

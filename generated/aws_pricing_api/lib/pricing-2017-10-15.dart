@@ -513,33 +513,23 @@ class Filter {
     final value = this.value;
     return {
       'Field': field,
-      'Type': type.toValue(),
+      'Type': type.value,
       'Value': value,
     };
   }
 }
 
 enum FilterType {
-  termMatch,
-}
+  termMatch('TERM_MATCH'),
+  ;
 
-extension FilterTypeValueExtension on FilterType {
-  String toValue() {
-    switch (this) {
-      case FilterType.termMatch:
-        return 'TERM_MATCH';
-    }
-  }
-}
+  final String value;
 
-extension FilterTypeFromString on String {
-  FilterType toFilterType() {
-    switch (this) {
-      case 'TERM_MATCH':
-        return FilterType.termMatch;
-    }
-    throw Exception('$this is not known in enum FilterType');
-  }
+  const FilterType(this.value);
+
+  static FilterType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum FilterType'));
 }
 
 class GetAttributeValuesResponse {

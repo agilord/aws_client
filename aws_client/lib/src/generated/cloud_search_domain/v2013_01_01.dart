@@ -482,7 +482,7 @@ class CloudSearchDomain {
       if (highlight != null) 'highlight': [highlight],
       if (partial != null) 'partial': [partial.toString()],
       if (queryOptions != null) 'q.options': [queryOptions],
-      if (queryParser != null) 'q.parser': [queryParser.toValue()],
+      if (queryParser != null) 'q.parser': [queryParser.value],
       if (returnValue != null) 'return': [returnValue],
       if (size != null) 'size': [size.toString()],
       if (sort != null) 'sort': [sort],
@@ -594,7 +594,7 @@ class CloudSearchDomain {
     required Uint8List documents,
   }) async {
     final headers = <String, String>{
-      'Content-Type': contentType.toValue(),
+      'Content-Type': contentType.value,
     };
     final response = await _protocol.send(
       payload: documents,
@@ -665,31 +665,17 @@ class BucketInfo {
 }
 
 enum ContentType {
-  applicationJson,
-  applicationXml,
-}
+  applicationJson('application/json'),
+  applicationXml('application/xml'),
+  ;
 
-extension ContentTypeValueExtension on ContentType {
-  String toValue() {
-    switch (this) {
-      case ContentType.applicationJson:
-        return 'application/json';
-      case ContentType.applicationXml:
-        return 'application/xml';
-    }
-  }
-}
+  final String value;
 
-extension ContentTypeFromString on String {
-  ContentType toContentType() {
-    switch (this) {
-      case 'application/json':
-        return ContentType.applicationJson;
-      case 'application/xml':
-        return ContentType.applicationXml;
-    }
-    throw Exception('$this is not known in enum ContentType');
-  }
+  const ContentType(this.value);
+
+  static ContentType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ContentType'));
 }
 
 /// Information about any problems encountered while processing an upload
@@ -944,41 +930,19 @@ class Hits {
 }
 
 enum QueryParser {
-  simple,
-  structured,
-  lucene,
-  dismax,
-}
+  simple('simple'),
+  structured('structured'),
+  lucene('lucene'),
+  dismax('dismax'),
+  ;
 
-extension QueryParserValueExtension on QueryParser {
-  String toValue() {
-    switch (this) {
-      case QueryParser.simple:
-        return 'simple';
-      case QueryParser.structured:
-        return 'structured';
-      case QueryParser.lucene:
-        return 'lucene';
-      case QueryParser.dismax:
-        return 'dismax';
-    }
-  }
-}
+  final String value;
 
-extension QueryParserFromString on String {
-  QueryParser toQueryParser() {
-    switch (this) {
-      case 'simple':
-        return QueryParser.simple;
-      case 'structured':
-        return QueryParser.structured;
-      case 'lucene':
-        return QueryParser.lucene;
-      case 'dismax':
-        return QueryParser.dismax;
-    }
-    throw Exception('$this is not known in enum QueryParser');
-  }
+  const QueryParser(this.value);
+
+  static QueryParser fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum QueryParser'));
 }
 
 /// Information about any problems encountered while processing a search

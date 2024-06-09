@@ -1169,8 +1169,9 @@ class IndexField {
   factory IndexField.fromXml(_s.XmlElement elem) {
     return IndexField(
       indexFieldName: _s.extractXmlStringValue(elem, 'IndexFieldName')!,
-      indexFieldType:
-          _s.extractXmlStringValue(elem, 'IndexFieldType')!.toIndexFieldType(),
+      indexFieldType: _s
+          .extractXmlStringValue(elem, 'IndexFieldType')!
+          .let(IndexFieldType.fromString),
       literalOptions: _s
           .extractXmlChild(elem, 'LiteralOptions')
           ?.let(LiteralOptions.fromXml),
@@ -1195,7 +1196,7 @@ class IndexField {
     final uIntOptions = this.uIntOptions;
     return {
       'IndexFieldName': indexFieldName,
-      'IndexFieldType': indexFieldType.toValue(),
+      'IndexFieldType': indexFieldType.value,
       if (literalOptions != null) 'LiteralOptions': literalOptions,
       if (sourceAttributes != null) 'SourceAttributes': sourceAttributes,
       if (textOptions != null) 'TextOptions': textOptions,
@@ -1212,7 +1213,7 @@ class IndexField {
     final uIntOptions = this.uIntOptions;
     return {
       'IndexFieldName': indexFieldName,
-      'IndexFieldType': indexFieldType.toValue(),
+      'IndexFieldType': indexFieldType.value,
       if (literalOptions != null)
         for (var e1 in literalOptions.toQueryMap().entries)
           'LiteralOptions.${e1.key}': e1.value,
@@ -1252,36 +1253,19 @@ class IndexFieldStatus {
 
 /// The type of <code>IndexField</code>.
 enum IndexFieldType {
-  uint,
-  literal,
-  text,
-}
+  uint('uint'),
+  literal('literal'),
+  text('text'),
+  ;
 
-extension IndexFieldTypeValueExtension on IndexFieldType {
-  String toValue() {
-    switch (this) {
-      case IndexFieldType.uint:
-        return 'uint';
-      case IndexFieldType.literal:
-        return 'literal';
-      case IndexFieldType.text:
-        return 'text';
-    }
-  }
-}
+  final String value;
 
-extension IndexFieldTypeFromString on String {
-  IndexFieldType toIndexFieldType() {
-    switch (this) {
-      case 'uint':
-        return IndexFieldType.uint;
-      case 'literal':
-        return IndexFieldType.literal;
-      case 'text':
-        return IndexFieldType.text;
-    }
-    throw Exception('$this is not known in enum IndexFieldType');
-  }
+  const IndexFieldType(this.value);
+
+  static IndexFieldType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum IndexFieldType'));
 }
 
 /// An internal error occurred while processing the request. If this problem
@@ -1457,36 +1441,18 @@ class NamedRankExpression {
 
 /// The state of processing a change to an option.
 enum OptionState {
-  requiresIndexDocuments,
-  processing,
-  active,
-}
+  requiresIndexDocuments('RequiresIndexDocuments'),
+  processing('Processing'),
+  active('Active'),
+  ;
 
-extension OptionStateValueExtension on OptionState {
-  String toValue() {
-    switch (this) {
-      case OptionState.requiresIndexDocuments:
-        return 'RequiresIndexDocuments';
-      case OptionState.processing:
-        return 'Processing';
-      case OptionState.active:
-        return 'Active';
-    }
-  }
-}
+  final String value;
 
-extension OptionStateFromString on String {
-  OptionState toOptionState() {
-    switch (this) {
-      case 'RequiresIndexDocuments':
-        return OptionState.requiresIndexDocuments;
-      case 'Processing':
-        return OptionState.processing;
-      case 'Active':
-        return OptionState.active;
-    }
-    throw Exception('$this is not known in enum OptionState');
-  }
+  const OptionState(this.value);
+
+  static OptionState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum OptionState'));
 }
 
 /// The status of an option, including when it was last updated and whether it
@@ -1528,7 +1494,8 @@ class OptionStatus {
   factory OptionStatus.fromXml(_s.XmlElement elem) {
     return OptionStatus(
       creationDate: _s.extractXmlDateTimeValue(elem, 'CreationDate')!,
-      state: _s.extractXmlStringValue(elem, 'State')!.toOptionState(),
+      state:
+          _s.extractXmlStringValue(elem, 'State')!.let(OptionState.fromString),
       updateDate: _s.extractXmlDateTimeValue(elem, 'UpdateDate')!,
       pendingDeletion: _s.extractXmlBoolValue(elem, 'PendingDeletion'),
       updateVersion: _s.extractXmlIntValue(elem, 'UpdateVersion'),
@@ -1618,7 +1585,7 @@ class SourceAttribute {
     return SourceAttribute(
       sourceDataFunction: _s
           .extractXmlStringValue(elem, 'SourceDataFunction')!
-          .toSourceDataFunction(),
+          .let(SourceDataFunction.fromString),
       sourceDataCopy:
           _s.extractXmlChild(elem, 'SourceDataCopy')?.let(SourceData.fromXml),
       sourceDataMap:
@@ -1635,7 +1602,7 @@ class SourceAttribute {
     final sourceDataMap = this.sourceDataMap;
     final sourceDataTrimTitle = this.sourceDataTrimTitle;
     return {
-      'SourceDataFunction': sourceDataFunction.toValue(),
+      'SourceDataFunction': sourceDataFunction.value,
       if (sourceDataCopy != null) 'SourceDataCopy': sourceDataCopy,
       if (sourceDataMap != null) 'SourceDataMap': sourceDataMap,
       if (sourceDataTrimTitle != null)
@@ -1649,7 +1616,7 @@ class SourceAttribute {
     final sourceDataMap = this.sourceDataMap;
     final sourceDataTrimTitle = this.sourceDataTrimTitle;
     return {
-      'SourceDataFunction': sourceDataFunction.toValue(),
+      'SourceDataFunction': sourceDataFunction.value,
       if (sourceDataCopy != null)
         for (var e1 in sourceDataCopy.toQueryMap().entries)
           'SourceDataCopy.${e1.key}': e1.value,
@@ -1705,36 +1672,19 @@ class SourceData {
 }
 
 enum SourceDataFunction {
-  copy,
-  trimTitle,
-  map,
-}
+  copy('Copy'),
+  trimTitle('TrimTitle'),
+  map('Map'),
+  ;
 
-extension SourceDataFunctionValueExtension on SourceDataFunction {
-  String toValue() {
-    switch (this) {
-      case SourceDataFunction.copy:
-        return 'Copy';
-      case SourceDataFunction.trimTitle:
-        return 'TrimTitle';
-      case SourceDataFunction.map:
-        return 'Map';
-    }
-  }
-}
+  final String value;
 
-extension SourceDataFunctionFromString on String {
-  SourceDataFunction toSourceDataFunction() {
-    switch (this) {
-      case 'Copy':
-        return SourceDataFunction.copy;
-      case 'TrimTitle':
-        return SourceDataFunction.trimTitle;
-      case 'Map':
-        return SourceDataFunction.map;
-    }
-    throw Exception('$this is not known in enum SourceDataFunction');
-  }
+  const SourceDataFunction(this.value);
+
+  static SourceDataFunction fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SourceDataFunction'));
 }
 
 /// Specifies how to map source attribute values to custom values when

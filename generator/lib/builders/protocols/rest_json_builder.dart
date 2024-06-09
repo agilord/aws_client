@@ -132,7 +132,7 @@ class RestJsonServiceBuilder extends ServiceBuilder {
         for (var member in outputShape.members.where((m) => m.isHeader)) {
           var headerCode = extractHeaderCode(member, 'response.headers');
           if (member.isRequired) {
-            if (headerCode.contains('?.to')) {
+            if (headerCode.contains('?.')) {
               headerCode = '($headerCode)';
             }
             headerCode += '!';

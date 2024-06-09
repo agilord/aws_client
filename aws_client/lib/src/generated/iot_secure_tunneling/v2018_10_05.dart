@@ -279,7 +279,7 @@ class IoTSecureTunneling {
       // TODO queryParams
       headers: headers,
       payload: {
-        'clientMode': clientMode.toValue(),
+        'clientMode': clientMode.value,
         'tunnelId': tunnelId,
         if (destinationConfig != null) 'destinationConfig': destinationConfig,
       },
@@ -350,36 +350,18 @@ class IoTSecureTunneling {
 }
 
 enum ClientMode {
-  source,
-  destination,
-  all,
-}
+  source('SOURCE'),
+  destination('DESTINATION'),
+  all('ALL'),
+  ;
 
-extension ClientModeValueExtension on ClientMode {
-  String toValue() {
-    switch (this) {
-      case ClientMode.source:
-        return 'SOURCE';
-      case ClientMode.destination:
-        return 'DESTINATION';
-      case ClientMode.all:
-        return 'ALL';
-    }
-  }
-}
+  final String value;
 
-extension ClientModeFromString on String {
-  ClientMode toClientMode() {
-    switch (this) {
-      case 'SOURCE':
-        return ClientMode.source;
-      case 'DESTINATION':
-        return ClientMode.destination;
-      case 'ALL':
-        return ClientMode.all;
-    }
-    throw Exception('$this is not known in enum ClientMode');
-  }
+  const ClientMode(this.value);
+
+  static ClientMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ClientMode'));
 }
 
 class CloseTunnelResponse {
@@ -411,7 +393,7 @@ class ConnectionState {
   factory ConnectionState.fromJson(Map<String, dynamic> json) {
     return ConnectionState(
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
-      status: (json['status'] as String?)?.toConnectionStatus(),
+      status: (json['status'] as String?)?.let(ConnectionStatus.fromString),
     );
   }
 
@@ -421,37 +403,24 @@ class ConnectionState {
     return {
       if (lastUpdatedAt != null)
         'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
 
 enum ConnectionStatus {
-  connected,
-  disconnected,
-}
+  connected('CONNECTED'),
+  disconnected('DISCONNECTED'),
+  ;
 
-extension ConnectionStatusValueExtension on ConnectionStatus {
-  String toValue() {
-    switch (this) {
-      case ConnectionStatus.connected:
-        return 'CONNECTED';
-      case ConnectionStatus.disconnected:
-        return 'DISCONNECTED';
-    }
-  }
-}
+  final String value;
 
-extension ConnectionStatusFromString on String {
-  ConnectionStatus toConnectionStatus() {
-    switch (this) {
-      case 'CONNECTED':
-        return ConnectionStatus.connected;
-      case 'DISCONNECTED':
-        return ConnectionStatus.disconnected;
-    }
-    throw Exception('$this is not known in enum ConnectionStatus');
-  }
+  const ConnectionStatus(this.value);
+
+  static ConnectionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ConnectionStatus'));
 }
 
 class DescribeTunnelResponse {
@@ -795,7 +764,7 @@ class Tunnel {
           ? ConnectionState.fromJson(
               json['sourceConnectionState'] as Map<String, dynamic>)
           : null,
-      status: (json['status'] as String?)?.toTunnelStatus(),
+      status: (json['status'] as String?)?.let(TunnelStatus.fromString),
       tags: (json['tags'] as List?)
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -831,7 +800,7 @@ class Tunnel {
         'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
       if (sourceConnectionState != null)
         'sourceConnectionState': sourceConnectionState,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (tags != null) 'tags': tags,
       if (timeoutConfig != null) 'timeoutConfig': timeoutConfig,
       if (tunnelArn != null) 'tunnelArn': tunnelArn,
@@ -841,31 +810,18 @@ class Tunnel {
 }
 
 enum TunnelStatus {
-  open,
-  closed,
-}
+  open('OPEN'),
+  closed('CLOSED'),
+  ;
 
-extension TunnelStatusValueExtension on TunnelStatus {
-  String toValue() {
-    switch (this) {
-      case TunnelStatus.open:
-        return 'OPEN';
-      case TunnelStatus.closed:
-        return 'CLOSED';
-    }
-  }
-}
+  final String value;
 
-extension TunnelStatusFromString on String {
-  TunnelStatus toTunnelStatus() {
-    switch (this) {
-      case 'OPEN':
-        return TunnelStatus.open;
-      case 'CLOSED':
-        return TunnelStatus.closed;
-    }
-    throw Exception('$this is not known in enum TunnelStatus');
-  }
+  const TunnelStatus(this.value);
+
+  static TunnelStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TunnelStatus'));
 }
 
 /// Information about the tunnel.
@@ -902,7 +858,7 @@ class TunnelSummary {
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
-      status: (json['status'] as String?)?.toTunnelStatus(),
+      status: (json['status'] as String?)?.let(TunnelStatus.fromString),
       tunnelArn: json['tunnelArn'] as String?,
       tunnelId: json['tunnelId'] as String?,
     );
@@ -920,7 +876,7 @@ class TunnelSummary {
       if (description != null) 'description': description,
       if (lastUpdatedAt != null)
         'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (tunnelArn != null) 'tunnelArn': tunnelArn,
       if (tunnelId != null) 'tunnelId': tunnelId,
     };

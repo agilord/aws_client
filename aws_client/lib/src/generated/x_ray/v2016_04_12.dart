@@ -536,7 +536,7 @@ class XRay {
       if (groupName != null) 'GroupName': groupName,
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
-      if (states != null) 'States': states.map((e) => e.toValue()).toList(),
+      if (states != null) 'States': states.map((e) => e.value).toList(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -819,7 +819,7 @@ class XRay {
       if (nextToken != null) 'NextToken': nextToken,
       if (sampling != null) 'Sampling': sampling,
       if (samplingStrategy != null) 'SamplingStrategy': samplingStrategy,
-      if (timeRangeType != null) 'TimeRangeType': timeRangeType.toValue(),
+      if (timeRangeType != null) 'TimeRangeType': timeRangeType.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -918,7 +918,7 @@ class XRay {
     String? keyId,
   }) async {
     final $payload = <String, dynamic>{
-      'Type': type.toValue(),
+      'Type': type.value,
       if (keyId != null) 'KeyId': keyId,
     };
     final response = await _protocol.send(
@@ -1768,8 +1768,8 @@ class EncryptionConfig {
   factory EncryptionConfig.fromJson(Map<String, dynamic> json) {
     return EncryptionConfig(
       keyId: json['KeyId'] as String?,
-      status: (json['Status'] as String?)?.toEncryptionStatus(),
-      type: (json['Type'] as String?)?.toEncryptionType(),
+      status: (json['Status'] as String?)?.let(EncryptionStatus.fromString),
+      type: (json['Type'] as String?)?.let(EncryptionType.fromString),
     );
   }
 
@@ -1779,66 +1779,40 @@ class EncryptionConfig {
     final type = this.type;
     return {
       if (keyId != null) 'KeyId': keyId,
-      if (status != null) 'Status': status.toValue(),
-      if (type != null) 'Type': type.toValue(),
+      if (status != null) 'Status': status.value,
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum EncryptionStatus {
-  updating,
-  active,
-}
+  updating('UPDATING'),
+  active('ACTIVE'),
+  ;
 
-extension EncryptionStatusValueExtension on EncryptionStatus {
-  String toValue() {
-    switch (this) {
-      case EncryptionStatus.updating:
-        return 'UPDATING';
-      case EncryptionStatus.active:
-        return 'ACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension EncryptionStatusFromString on String {
-  EncryptionStatus toEncryptionStatus() {
-    switch (this) {
-      case 'UPDATING':
-        return EncryptionStatus.updating;
-      case 'ACTIVE':
-        return EncryptionStatus.active;
-    }
-    throw Exception('$this is not known in enum EncryptionStatus');
-  }
+  const EncryptionStatus(this.value);
+
+  static EncryptionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EncryptionStatus'));
 }
 
 enum EncryptionType {
-  none,
-  kms,
-}
+  none('NONE'),
+  kms('KMS'),
+  ;
 
-extension EncryptionTypeValueExtension on EncryptionType {
-  String toValue() {
-    switch (this) {
-      case EncryptionType.none:
-        return 'NONE';
-      case EncryptionType.kms:
-        return 'KMS';
-    }
-  }
-}
+  final String value;
 
-extension EncryptionTypeFromString on String {
-  EncryptionType toEncryptionType() {
-    switch (this) {
-      case 'NONE':
-        return EncryptionType.none;
-      case 'KMS':
-        return EncryptionType.kms;
-    }
-    throw Exception('$this is not known in enum EncryptionType');
-  }
+  const EncryptionType(this.value);
+
+  static EncryptionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EncryptionType'));
 }
 
 /// The root cause of a trace summary error.
@@ -3037,7 +3011,7 @@ class Insight {
     return Insight(
       categories: (json['Categories'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toInsightCategory())
+          .map((e) => InsightCategory.fromString((e as String)))
           .toList(),
       clientRequestImpactStatistics:
           json['ClientRequestImpactStatistics'] != null
@@ -3059,7 +3033,7 @@ class Insight {
                       as Map<String, dynamic>)
               : null,
       startTime: timeStampFromJson(json['StartTime']),
-      state: (json['State'] as String?)?.toInsightState(),
+      state: (json['State'] as String?)?.let(InsightState.fromString),
       summary: json['Summary'] as String?,
       topAnomalousServices: (json['TopAnomalousServices'] as List?)
           ?.whereNotNull()
@@ -3084,7 +3058,7 @@ class Insight {
     final topAnomalousServices = this.topAnomalousServices;
     return {
       if (categories != null)
-        'Categories': categories.map((e) => e.toValue()).toList(),
+        'Categories': categories.map((e) => e.value).toList(),
       if (clientRequestImpactStatistics != null)
         'ClientRequestImpactStatistics': clientRequestImpactStatistics,
       if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
@@ -3096,7 +3070,7 @@ class Insight {
         'RootCauseServiceRequestImpactStatistics':
             rootCauseServiceRequestImpactStatistics,
       if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (summary != null) 'Summary': summary,
       if (topAnomalousServices != null)
         'TopAnomalousServices': topAnomalousServices,
@@ -3105,26 +3079,17 @@ class Insight {
 }
 
 enum InsightCategory {
-  fault,
-}
+  fault('FAULT'),
+  ;
 
-extension InsightCategoryValueExtension on InsightCategory {
-  String toValue() {
-    switch (this) {
-      case InsightCategory.fault:
-        return 'FAULT';
-    }
-  }
-}
+  final String value;
 
-extension InsightCategoryFromString on String {
-  InsightCategory toInsightCategory() {
-    switch (this) {
-      case 'FAULT':
-        return InsightCategory.fault;
-    }
-    throw Exception('$this is not known in enum InsightCategory');
-  }
+  const InsightCategory(this.value);
+
+  static InsightCategory fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum InsightCategory'));
 }
 
 /// X-Ray reevaluates insights periodically until they are resolved, and records
@@ -3312,31 +3277,18 @@ class InsightImpactGraphService {
 }
 
 enum InsightState {
-  active,
-  closed,
-}
+  active('ACTIVE'),
+  closed('CLOSED'),
+  ;
 
-extension InsightStateValueExtension on InsightState {
-  String toValue() {
-    switch (this) {
-      case InsightState.active:
-        return 'ACTIVE';
-      case InsightState.closed:
-        return 'CLOSED';
-    }
-  }
-}
+  final String value;
 
-extension InsightStateFromString on String {
-  InsightState toInsightState() {
-    switch (this) {
-      case 'ACTIVE':
-        return InsightState.active;
-      case 'CLOSED':
-        return InsightState.closed;
-    }
-    throw Exception('$this is not known in enum InsightState');
-  }
+  const InsightState(this.value);
+
+  static InsightState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum InsightState'));
 }
 
 /// Information that describes an insight.
@@ -3401,7 +3353,7 @@ class InsightSummary {
     return InsightSummary(
       categories: (json['Categories'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toInsightCategory())
+          .map((e) => InsightCategory.fromString((e as String)))
           .toList(),
       clientRequestImpactStatistics:
           json['ClientRequestImpactStatistics'] != null
@@ -3424,7 +3376,7 @@ class InsightSummary {
                       as Map<String, dynamic>)
               : null,
       startTime: timeStampFromJson(json['StartTime']),
-      state: (json['State'] as String?)?.toInsightState(),
+      state: (json['State'] as String?)?.let(InsightState.fromString),
       summary: json['Summary'] as String?,
       topAnomalousServices: (json['TopAnomalousServices'] as List?)
           ?.whereNotNull()
@@ -3450,7 +3402,7 @@ class InsightSummary {
     final topAnomalousServices = this.topAnomalousServices;
     return {
       if (categories != null)
-        'Categories': categories.map((e) => e.toValue()).toList(),
+        'Categories': categories.map((e) => e.value).toList(),
       if (clientRequestImpactStatistics != null)
         'ClientRequestImpactStatistics': clientRequestImpactStatistics,
       if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
@@ -3464,7 +3416,7 @@ class InsightSummary {
         'RootCauseServiceRequestImpactStatistics':
             rootCauseServiceRequestImpactStatistics,
       if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (summary != null) 'Summary': summary,
       if (topAnomalousServices != null)
         'TopAnomalousServices': topAnomalousServices,
@@ -4331,38 +4283,25 @@ class SamplingStrategy {
     final name = this.name;
     final value = this.value;
     return {
-      if (name != null) 'Name': name.toValue(),
+      if (name != null) 'Name': name.value,
       if (value != null) 'Value': value,
     };
   }
 }
 
 enum SamplingStrategyName {
-  partialScan,
-  fixedRate,
-}
+  partialScan('PartialScan'),
+  fixedRate('FixedRate'),
+  ;
 
-extension SamplingStrategyNameValueExtension on SamplingStrategyName {
-  String toValue() {
-    switch (this) {
-      case SamplingStrategyName.partialScan:
-        return 'PartialScan';
-      case SamplingStrategyName.fixedRate:
-        return 'FixedRate';
-    }
-  }
-}
+  final String value;
 
-extension SamplingStrategyNameFromString on String {
-  SamplingStrategyName toSamplingStrategyName() {
-    switch (this) {
-      case 'PartialScan':
-        return SamplingStrategyName.partialScan;
-      case 'FixedRate':
-        return SamplingStrategyName.fixedRate;
-    }
-    throw Exception('$this is not known in enum SamplingStrategyName');
-  }
+  const SamplingStrategyName(this.value);
+
+  static SamplingStrategyName fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SamplingStrategyName'));
 }
 
 /// Temporary changes to a sampling rule configuration. To meet the global
@@ -4831,36 +4770,19 @@ class TelemetryRecord {
 }
 
 enum TimeRangeType {
-  traceId,
-  event,
-  service,
-}
+  traceId('TraceId'),
+  event('Event'),
+  service('Service'),
+  ;
 
-extension TimeRangeTypeValueExtension on TimeRangeType {
-  String toValue() {
-    switch (this) {
-      case TimeRangeType.traceId:
-        return 'TraceId';
-      case TimeRangeType.event:
-        return 'Event';
-      case TimeRangeType.service:
-        return 'Service';
-    }
-  }
-}
+  final String value;
 
-extension TimeRangeTypeFromString on String {
-  TimeRangeType toTimeRangeType() {
-    switch (this) {
-      case 'TraceId':
-        return TimeRangeType.traceId;
-      case 'Event':
-        return TimeRangeType.event;
-      case 'Service':
-        return TimeRangeType.service;
-    }
-    throw Exception('$this is not known in enum TimeRangeType');
-  }
+  const TimeRangeType(this.value);
+
+  static TimeRangeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TimeRangeType'));
 }
 
 /// A list of TimeSeriesStatistic structures.

@@ -54,13 +54,13 @@ class Enum {
     List<EnumType>? listEnums,
   }) async {
     final $request = <String, String>{
-      if (fooEnum != null) 'FooEnum': fooEnum.toValue(),
+      if (fooEnum != null) 'FooEnum': fooEnum.value,
       if (listEnums != null)
         if (listEnums.isEmpty)
           'ListEnums': ''
         else
           for (var i1 = 0; i1 < listEnums.length; i1++)
-            'ListEnums.member.${i1 + 1}': listEnums[i1].toValue(),
+            'ListEnums.member.${i1 + 1}': listEnums[i1].value,
     };
     await _protocol.send(
       $request,
@@ -77,13 +77,13 @@ class Enum {
     List<EnumType>? listEnums,
   }) async {
     final $request = <String, String>{
-      if (fooEnum != null) 'FooEnum': fooEnum.toValue(),
+      if (fooEnum != null) 'FooEnum': fooEnum.value,
       if (listEnums != null)
         if (listEnums.isEmpty)
           'ListEnums': ''
         else
           for (var i1 = 0; i1 < listEnums.length; i1++)
-            'ListEnums.member.${i1 + 1}': listEnums[i1].toValue(),
+            'ListEnums.member.${i1 + 1}': listEnums[i1].value,
     };
     await _protocol.send(
       $request,
@@ -100,13 +100,13 @@ class Enum {
     List<EnumType>? listEnums,
   }) async {
     final $request = <String, String>{
-      if (fooEnum != null) 'FooEnum': fooEnum.toValue(),
+      if (fooEnum != null) 'FooEnum': fooEnum.value,
       if (listEnums != null)
         if (listEnums.isEmpty)
           'ListEnums': ''
         else
           for (var i1 = 0; i1 < listEnums.length; i1++)
-            'ListEnums.member.${i1 + 1}': listEnums[i1].toValue(),
+            'ListEnums.member.${i1 + 1}': listEnums[i1].value,
     };
     await _protocol.send(
       $request,
@@ -120,31 +120,17 @@ class Enum {
 }
 
 enum EnumType {
-  foo,
-  bar,
-}
+  foo('foo'),
+  bar('bar'),
+  ;
 
-extension EnumTypeValueExtension on EnumType {
-  String toValue() {
-    switch (this) {
-      case EnumType.foo:
-        return 'foo';
-      case EnumType.bar:
-        return 'bar';
-    }
-  }
-}
+  final String value;
 
-extension EnumTypeFromString on String {
-  EnumType toEnumType() {
-    switch (this) {
-      case 'foo':
-        return EnumType.foo;
-      case 'bar':
-        return EnumType.bar;
-    }
-    throw Exception('$this is not known in enum EnumType');
-  }
+  const EnumType(this.value);
+
+  static EnumType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum EnumType'));
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

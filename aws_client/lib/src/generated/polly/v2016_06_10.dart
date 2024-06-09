@@ -133,12 +133,12 @@ class Polly {
     String? nextToken,
   }) async {
     final $query = <String, List<String>>{
-      if (engine != null) 'Engine': [engine.toValue()],
+      if (engine != null) 'Engine': [engine.value],
       if (includeAdditionalLanguageCodes != null)
         'IncludeAdditionalLanguageCodes': [
           includeAdditionalLanguageCodes.toString()
         ],
-      if (languageCode != null) 'LanguageCode': [languageCode.toValue()],
+      if (languageCode != null) 'LanguageCode': [languageCode.value],
       if (nextToken != null) 'NextToken': [nextToken],
     };
     final response = await _protocol.send(
@@ -254,7 +254,7 @@ class Polly {
     final $query = <String, List<String>>{
       if (maxResults != null) 'MaxResults': [maxResults.toString()],
       if (nextToken != null) 'NextToken': [nextToken],
-      if (status != null) 'Status': [status.toValue()],
+      if (status != null) 'Status': [status.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -406,19 +406,19 @@ class Polly {
     TextType? textType,
   }) async {
     final $payload = <String, dynamic>{
-      'OutputFormat': outputFormat.toValue(),
+      'OutputFormat': outputFormat.value,
       'OutputS3BucketName': outputS3BucketName,
       'Text': text,
-      'VoiceId': voiceId.toValue(),
-      if (engine != null) 'Engine': engine.toValue(),
-      if (languageCode != null) 'LanguageCode': languageCode.toValue(),
+      'VoiceId': voiceId.value,
+      if (engine != null) 'Engine': engine.value,
+      if (languageCode != null) 'LanguageCode': languageCode.value,
       if (lexiconNames != null) 'LexiconNames': lexiconNames,
       if (outputS3KeyPrefix != null) 'OutputS3KeyPrefix': outputS3KeyPrefix,
       if (sampleRate != null) 'SampleRate': sampleRate,
       if (snsTopicArn != null) 'SnsTopicArn': snsTopicArn,
       if (speechMarkTypes != null)
-        'SpeechMarkTypes': speechMarkTypes.map((e) => e.toValue()).toList(),
-      if (textType != null) 'TextType': textType.toValue(),
+        'SpeechMarkTypes': speechMarkTypes.map((e) => e.value).toList(),
+      if (textType != null) 'TextType': textType.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -533,16 +533,16 @@ class Polly {
     TextType? textType,
   }) async {
     final $payload = <String, dynamic>{
-      'OutputFormat': outputFormat.toValue(),
+      'OutputFormat': outputFormat.value,
       'Text': text,
-      'VoiceId': voiceId.toValue(),
-      if (engine != null) 'Engine': engine.toValue(),
-      if (languageCode != null) 'LanguageCode': languageCode.toValue(),
+      'VoiceId': voiceId.value,
+      if (engine != null) 'Engine': engine.value,
+      if (languageCode != null) 'LanguageCode': languageCode.value,
       if (lexiconNames != null) 'LexiconNames': lexiconNames,
       if (sampleRate != null) 'SampleRate': sampleRate,
       if (speechMarkTypes != null)
-        'SpeechMarkTypes': speechMarkTypes.map((e) => e.toValue()).toList(),
-      if (textType != null) 'TextType': textType.toValue(),
+        'SpeechMarkTypes': speechMarkTypes.map((e) => e.value).toList(),
+      if (textType != null) 'TextType': textType.value,
     };
     final response = await _protocol.sendRaw(
       payload: $payload,
@@ -607,69 +607,33 @@ class DescribeVoicesOutput {
 }
 
 enum Engine {
-  standard,
-  neural,
-  longForm,
-  generative,
-}
+  standard('standard'),
+  neural('neural'),
+  longForm('long-form'),
+  generative('generative'),
+  ;
 
-extension EngineValueExtension on Engine {
-  String toValue() {
-    switch (this) {
-      case Engine.standard:
-        return 'standard';
-      case Engine.neural:
-        return 'neural';
-      case Engine.longForm:
-        return 'long-form';
-      case Engine.generative:
-        return 'generative';
-    }
-  }
-}
+  final String value;
 
-extension EngineFromString on String {
-  Engine toEngine() {
-    switch (this) {
-      case 'standard':
-        return Engine.standard;
-      case 'neural':
-        return Engine.neural;
-      case 'long-form':
-        return Engine.longForm;
-      case 'generative':
-        return Engine.generative;
-    }
-    throw Exception('$this is not known in enum Engine');
-  }
+  const Engine(this.value);
+
+  static Engine fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Engine'));
 }
 
 enum Gender {
-  female,
-  male,
-}
+  female('Female'),
+  male('Male'),
+  ;
 
-extension GenderValueExtension on Gender {
-  String toValue() {
-    switch (this) {
-      case Gender.female:
-        return 'Female';
-      case Gender.male:
-        return 'Male';
-    }
-  }
-}
+  final String value;
 
-extension GenderFromString on String {
-  Gender toGender() {
-    switch (this) {
-      case 'Female':
-        return Gender.female;
-      case 'Male':
-        return Gender.male;
-    }
-    throw Exception('$this is not known in enum Gender');
-  }
+  const Gender(this.value);
+
+  static Gender fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Gender'));
 }
 
 class GetLexiconOutput {
@@ -735,216 +699,55 @@ class GetSpeechSynthesisTaskOutput {
 }
 
 enum LanguageCode {
-  arb,
-  cmnCn,
-  cyGb,
-  daDk,
-  deDe,
-  enAu,
-  enGb,
-  enGbWls,
-  enIn,
-  enUs,
-  esEs,
-  esMx,
-  esUs,
-  frCa,
-  frFr,
-  isIs,
-  itIt,
-  jaJp,
-  hiIn,
-  koKr,
-  nbNo,
-  nlNl,
-  plPl,
-  ptBr,
-  ptPt,
-  roRo,
-  ruRu,
-  svSe,
-  trTr,
-  enNz,
-  enZa,
-  caEs,
-  deAt,
-  yueCn,
-  arAe,
-  fiFi,
-  enIe,
-  nlBe,
-  frBe,
-}
+  arb('arb'),
+  cmnCn('cmn-CN'),
+  cyGb('cy-GB'),
+  daDk('da-DK'),
+  deDe('de-DE'),
+  enAu('en-AU'),
+  enGb('en-GB'),
+  enGbWls('en-GB-WLS'),
+  enIn('en-IN'),
+  enUs('en-US'),
+  esEs('es-ES'),
+  esMx('es-MX'),
+  esUs('es-US'),
+  frCa('fr-CA'),
+  frFr('fr-FR'),
+  isIs('is-IS'),
+  itIt('it-IT'),
+  jaJp('ja-JP'),
+  hiIn('hi-IN'),
+  koKr('ko-KR'),
+  nbNo('nb-NO'),
+  nlNl('nl-NL'),
+  plPl('pl-PL'),
+  ptBr('pt-BR'),
+  ptPt('pt-PT'),
+  roRo('ro-RO'),
+  ruRu('ru-RU'),
+  svSe('sv-SE'),
+  trTr('tr-TR'),
+  enNz('en-NZ'),
+  enZa('en-ZA'),
+  caEs('ca-ES'),
+  deAt('de-AT'),
+  yueCn('yue-CN'),
+  arAe('ar-AE'),
+  fiFi('fi-FI'),
+  enIe('en-IE'),
+  nlBe('nl-BE'),
+  frBe('fr-BE'),
+  ;
 
-extension LanguageCodeValueExtension on LanguageCode {
-  String toValue() {
-    switch (this) {
-      case LanguageCode.arb:
-        return 'arb';
-      case LanguageCode.cmnCn:
-        return 'cmn-CN';
-      case LanguageCode.cyGb:
-        return 'cy-GB';
-      case LanguageCode.daDk:
-        return 'da-DK';
-      case LanguageCode.deDe:
-        return 'de-DE';
-      case LanguageCode.enAu:
-        return 'en-AU';
-      case LanguageCode.enGb:
-        return 'en-GB';
-      case LanguageCode.enGbWls:
-        return 'en-GB-WLS';
-      case LanguageCode.enIn:
-        return 'en-IN';
-      case LanguageCode.enUs:
-        return 'en-US';
-      case LanguageCode.esEs:
-        return 'es-ES';
-      case LanguageCode.esMx:
-        return 'es-MX';
-      case LanguageCode.esUs:
-        return 'es-US';
-      case LanguageCode.frCa:
-        return 'fr-CA';
-      case LanguageCode.frFr:
-        return 'fr-FR';
-      case LanguageCode.isIs:
-        return 'is-IS';
-      case LanguageCode.itIt:
-        return 'it-IT';
-      case LanguageCode.jaJp:
-        return 'ja-JP';
-      case LanguageCode.hiIn:
-        return 'hi-IN';
-      case LanguageCode.koKr:
-        return 'ko-KR';
-      case LanguageCode.nbNo:
-        return 'nb-NO';
-      case LanguageCode.nlNl:
-        return 'nl-NL';
-      case LanguageCode.plPl:
-        return 'pl-PL';
-      case LanguageCode.ptBr:
-        return 'pt-BR';
-      case LanguageCode.ptPt:
-        return 'pt-PT';
-      case LanguageCode.roRo:
-        return 'ro-RO';
-      case LanguageCode.ruRu:
-        return 'ru-RU';
-      case LanguageCode.svSe:
-        return 'sv-SE';
-      case LanguageCode.trTr:
-        return 'tr-TR';
-      case LanguageCode.enNz:
-        return 'en-NZ';
-      case LanguageCode.enZa:
-        return 'en-ZA';
-      case LanguageCode.caEs:
-        return 'ca-ES';
-      case LanguageCode.deAt:
-        return 'de-AT';
-      case LanguageCode.yueCn:
-        return 'yue-CN';
-      case LanguageCode.arAe:
-        return 'ar-AE';
-      case LanguageCode.fiFi:
-        return 'fi-FI';
-      case LanguageCode.enIe:
-        return 'en-IE';
-      case LanguageCode.nlBe:
-        return 'nl-BE';
-      case LanguageCode.frBe:
-        return 'fr-BE';
-    }
-  }
-}
+  final String value;
 
-extension LanguageCodeFromString on String {
-  LanguageCode toLanguageCode() {
-    switch (this) {
-      case 'arb':
-        return LanguageCode.arb;
-      case 'cmn-CN':
-        return LanguageCode.cmnCn;
-      case 'cy-GB':
-        return LanguageCode.cyGb;
-      case 'da-DK':
-        return LanguageCode.daDk;
-      case 'de-DE':
-        return LanguageCode.deDe;
-      case 'en-AU':
-        return LanguageCode.enAu;
-      case 'en-GB':
-        return LanguageCode.enGb;
-      case 'en-GB-WLS':
-        return LanguageCode.enGbWls;
-      case 'en-IN':
-        return LanguageCode.enIn;
-      case 'en-US':
-        return LanguageCode.enUs;
-      case 'es-ES':
-        return LanguageCode.esEs;
-      case 'es-MX':
-        return LanguageCode.esMx;
-      case 'es-US':
-        return LanguageCode.esUs;
-      case 'fr-CA':
-        return LanguageCode.frCa;
-      case 'fr-FR':
-        return LanguageCode.frFr;
-      case 'is-IS':
-        return LanguageCode.isIs;
-      case 'it-IT':
-        return LanguageCode.itIt;
-      case 'ja-JP':
-        return LanguageCode.jaJp;
-      case 'hi-IN':
-        return LanguageCode.hiIn;
-      case 'ko-KR':
-        return LanguageCode.koKr;
-      case 'nb-NO':
-        return LanguageCode.nbNo;
-      case 'nl-NL':
-        return LanguageCode.nlNl;
-      case 'pl-PL':
-        return LanguageCode.plPl;
-      case 'pt-BR':
-        return LanguageCode.ptBr;
-      case 'pt-PT':
-        return LanguageCode.ptPt;
-      case 'ro-RO':
-        return LanguageCode.roRo;
-      case 'ru-RU':
-        return LanguageCode.ruRu;
-      case 'sv-SE':
-        return LanguageCode.svSe;
-      case 'tr-TR':
-        return LanguageCode.trTr;
-      case 'en-NZ':
-        return LanguageCode.enNz;
-      case 'en-ZA':
-        return LanguageCode.enZa;
-      case 'ca-ES':
-        return LanguageCode.caEs;
-      case 'de-AT':
-        return LanguageCode.deAt;
-      case 'yue-CN':
-        return LanguageCode.yueCn;
-      case 'ar-AE':
-        return LanguageCode.arAe;
-      case 'fi-FI':
-        return LanguageCode.fiFi;
-      case 'en-IE':
-        return LanguageCode.enIe;
-      case 'nl-BE':
-        return LanguageCode.nlBe;
-      case 'fr-BE':
-        return LanguageCode.frBe;
-    }
-    throw Exception('$this is not known in enum LanguageCode');
-  }
+  const LanguageCode(this.value);
+
+  static LanguageCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LanguageCode'));
 }
 
 /// Provides lexicon name and lexicon content in string format. For more
@@ -1019,7 +822,8 @@ class LexiconAttributes {
   factory LexiconAttributes.fromJson(Map<String, dynamic> json) {
     return LexiconAttributes(
       alphabet: json['Alphabet'] as String?,
-      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
       lastModified: timeStampFromJson(json['LastModified']),
       lexemesCount: json['LexemesCount'] as int?,
       lexiconArn: json['LexiconArn'] as String?,
@@ -1036,7 +840,7 @@ class LexiconAttributes {
     final size = this.size;
     return {
       if (alphabet != null) 'Alphabet': alphabet,
-      if (languageCode != null) 'LanguageCode': languageCode.toValue(),
+      if (languageCode != null) 'LanguageCode': languageCode.value,
       if (lastModified != null)
         'LastModified': unixTimestampToJson(lastModified),
       if (lexemesCount != null) 'LexemesCount': lexemesCount,
@@ -1149,41 +953,20 @@ class ListSpeechSynthesisTasksOutput {
 }
 
 enum OutputFormat {
-  json,
-  mp3,
-  oggVorbis,
-  pcm,
-}
+  json('json'),
+  mp3('mp3'),
+  oggVorbis('ogg_vorbis'),
+  pcm('pcm'),
+  ;
 
-extension OutputFormatValueExtension on OutputFormat {
-  String toValue() {
-    switch (this) {
-      case OutputFormat.json:
-        return 'json';
-      case OutputFormat.mp3:
-        return 'mp3';
-      case OutputFormat.oggVorbis:
-        return 'ogg_vorbis';
-      case OutputFormat.pcm:
-        return 'pcm';
-    }
-  }
-}
+  final String value;
 
-extension OutputFormatFromString on String {
-  OutputFormat toOutputFormat() {
-    switch (this) {
-      case 'json':
-        return OutputFormat.json;
-      case 'mp3':
-        return OutputFormat.mp3;
-      case 'ogg_vorbis':
-        return OutputFormat.oggVorbis;
-      case 'pcm':
-        return OutputFormat.pcm;
-    }
-    throw Exception('$this is not known in enum OutputFormat');
-  }
+  const OutputFormat(this.value);
+
+  static OutputFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OutputFormat'));
 }
 
 class PutLexiconOutput {
@@ -1199,41 +982,20 @@ class PutLexiconOutput {
 }
 
 enum SpeechMarkType {
-  sentence,
-  ssml,
-  viseme,
-  word,
-}
+  sentence('sentence'),
+  ssml('ssml'),
+  viseme('viseme'),
+  word('word'),
+  ;
 
-extension SpeechMarkTypeValueExtension on SpeechMarkType {
-  String toValue() {
-    switch (this) {
-      case SpeechMarkType.sentence:
-        return 'sentence';
-      case SpeechMarkType.ssml:
-        return 'ssml';
-      case SpeechMarkType.viseme:
-        return 'viseme';
-      case SpeechMarkType.word:
-        return 'word';
-    }
-  }
-}
+  final String value;
 
-extension SpeechMarkTypeFromString on String {
-  SpeechMarkType toSpeechMarkType() {
-    switch (this) {
-      case 'sentence':
-        return SpeechMarkType.sentence;
-      case 'ssml':
-        return SpeechMarkType.ssml;
-      case 'viseme':
-        return SpeechMarkType.viseme;
-      case 'word':
-        return SpeechMarkType.word;
-    }
-    throw Exception('$this is not known in enum SpeechMarkType');
-  }
+  const SpeechMarkType(this.value);
+
+  static SpeechMarkType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SpeechMarkType'));
 }
 
 class StartSpeechSynthesisTaskOutput {
@@ -1356,26 +1118,28 @@ class SynthesisTask {
   factory SynthesisTask.fromJson(Map<String, dynamic> json) {
     return SynthesisTask(
       creationTime: timeStampFromJson(json['CreationTime']),
-      engine: (json['Engine'] as String?)?.toEngine(),
-      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      engine: (json['Engine'] as String?)?.let(Engine.fromString),
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
       lexiconNames: (json['LexiconNames'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      outputFormat: (json['OutputFormat'] as String?)?.toOutputFormat(),
+      outputFormat:
+          (json['OutputFormat'] as String?)?.let(OutputFormat.fromString),
       outputUri: json['OutputUri'] as String?,
       requestCharacters: json['RequestCharacters'] as int?,
       sampleRate: json['SampleRate'] as String?,
       snsTopicArn: json['SnsTopicArn'] as String?,
       speechMarkTypes: (json['SpeechMarkTypes'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toSpeechMarkType())
+          .map((e) => SpeechMarkType.fromString((e as String)))
           .toList(),
       taskId: json['TaskId'] as String?,
-      taskStatus: (json['TaskStatus'] as String?)?.toTaskStatus(),
+      taskStatus: (json['TaskStatus'] as String?)?.let(TaskStatus.fromString),
       taskStatusReason: json['TaskStatusReason'] as String?,
-      textType: (json['TextType'] as String?)?.toTextType(),
-      voiceId: (json['VoiceId'] as String?)?.toVoiceId(),
+      textType: (json['TextType'] as String?)?.let(TextType.fromString),
+      voiceId: (json['VoiceId'] as String?)?.let(VoiceId.fromString),
     );
   }
 
@@ -1398,21 +1162,21 @@ class SynthesisTask {
     return {
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
-      if (engine != null) 'Engine': engine.toValue(),
-      if (languageCode != null) 'LanguageCode': languageCode.toValue(),
+      if (engine != null) 'Engine': engine.value,
+      if (languageCode != null) 'LanguageCode': languageCode.value,
       if (lexiconNames != null) 'LexiconNames': lexiconNames,
-      if (outputFormat != null) 'OutputFormat': outputFormat.toValue(),
+      if (outputFormat != null) 'OutputFormat': outputFormat.value,
       if (outputUri != null) 'OutputUri': outputUri,
       if (requestCharacters != null) 'RequestCharacters': requestCharacters,
       if (sampleRate != null) 'SampleRate': sampleRate,
       if (snsTopicArn != null) 'SnsTopicArn': snsTopicArn,
       if (speechMarkTypes != null)
-        'SpeechMarkTypes': speechMarkTypes.map((e) => e.toValue()).toList(),
+        'SpeechMarkTypes': speechMarkTypes.map((e) => e.value).toList(),
       if (taskId != null) 'TaskId': taskId,
-      if (taskStatus != null) 'TaskStatus': taskStatus.toValue(),
+      if (taskStatus != null) 'TaskStatus': taskStatus.value,
       if (taskStatusReason != null) 'TaskStatusReason': taskStatusReason,
-      if (textType != null) 'TextType': textType.toValue(),
-      if (voiceId != null) 'VoiceId': voiceId.toValue(),
+      if (textType != null) 'TextType': textType.value,
+      if (voiceId != null) 'VoiceId': voiceId.value,
     };
   }
 }
@@ -1466,69 +1230,33 @@ class SynthesizeSpeechOutput {
 }
 
 enum TaskStatus {
-  scheduled,
-  inProgress,
-  completed,
-  failed,
-}
+  scheduled('scheduled'),
+  inProgress('inProgress'),
+  completed('completed'),
+  failed('failed'),
+  ;
 
-extension TaskStatusValueExtension on TaskStatus {
-  String toValue() {
-    switch (this) {
-      case TaskStatus.scheduled:
-        return 'scheduled';
-      case TaskStatus.inProgress:
-        return 'inProgress';
-      case TaskStatus.completed:
-        return 'completed';
-      case TaskStatus.failed:
-        return 'failed';
-    }
-  }
-}
+  final String value;
 
-extension TaskStatusFromString on String {
-  TaskStatus toTaskStatus() {
-    switch (this) {
-      case 'scheduled':
-        return TaskStatus.scheduled;
-      case 'inProgress':
-        return TaskStatus.inProgress;
-      case 'completed':
-        return TaskStatus.completed;
-      case 'failed':
-        return TaskStatus.failed;
-    }
-    throw Exception('$this is not known in enum TaskStatus');
-  }
+  const TaskStatus(this.value);
+
+  static TaskStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TaskStatus'));
 }
 
 enum TextType {
-  ssml,
-  text,
-}
+  ssml('ssml'),
+  text('text'),
+  ;
 
-extension TextTypeValueExtension on TextType {
-  String toValue() {
-    switch (this) {
-      case TextType.ssml:
-        return 'ssml';
-      case TextType.text:
-        return 'text';
-    }
-  }
-}
+  final String value;
 
-extension TextTypeFromString on String {
-  TextType toTextType() {
-    switch (this) {
-      case 'ssml':
-        return TextType.ssml;
-      case 'text':
-        return TextType.text;
-    }
-    throw Exception('$this is not known in enum TextType');
-  }
+  const TextType(this.value);
+
+  static TextType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TextType'));
 }
 
 /// Description of the voice.
@@ -1578,16 +1306,17 @@ class Voice {
     return Voice(
       additionalLanguageCodes: (json['AdditionalLanguageCodes'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toLanguageCode())
+          .map((e) => LanguageCode.fromString((e as String)))
           .toList(),
-      gender: (json['Gender'] as String?)?.toGender(),
-      id: (json['Id'] as String?)?.toVoiceId(),
-      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      gender: (json['Gender'] as String?)?.let(Gender.fromString),
+      id: (json['Id'] as String?)?.let(VoiceId.fromString),
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
       languageName: json['LanguageName'] as String?,
       name: json['Name'] as String?,
       supportedEngines: (json['SupportedEngines'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toEngine())
+          .map((e) => Engine.fromString((e as String)))
           .toList(),
     );
   }
@@ -1603,514 +1332,124 @@ class Voice {
     return {
       if (additionalLanguageCodes != null)
         'AdditionalLanguageCodes':
-            additionalLanguageCodes.map((e) => e.toValue()).toList(),
-      if (gender != null) 'Gender': gender.toValue(),
-      if (id != null) 'Id': id.toValue(),
-      if (languageCode != null) 'LanguageCode': languageCode.toValue(),
+            additionalLanguageCodes.map((e) => e.value).toList(),
+      if (gender != null) 'Gender': gender.value,
+      if (id != null) 'Id': id.value,
+      if (languageCode != null) 'LanguageCode': languageCode.value,
       if (languageName != null) 'LanguageName': languageName,
       if (name != null) 'Name': name,
       if (supportedEngines != null)
-        'SupportedEngines': supportedEngines.map((e) => e.toValue()).toList(),
+        'SupportedEngines': supportedEngines.map((e) => e.value).toList(),
     };
   }
 }
 
 enum VoiceId {
-  aditi,
-  amy,
-  astrid,
-  bianca,
-  brian,
-  camila,
-  carla,
-  carmen,
-  celine,
-  chantal,
-  conchita,
-  cristiano,
-  dora,
-  emma,
-  enrique,
-  ewa,
-  filiz,
-  gabrielle,
-  geraint,
-  giorgio,
-  gwyneth,
-  hans,
-  ines,
-  ivy,
-  jacek,
-  jan,
-  joanna,
-  joey,
-  justin,
-  karl,
-  kendra,
-  kevin,
-  kimberly,
-  lea,
-  liv,
-  lotte,
-  lucia,
-  lupe,
-  mads,
-  maja,
-  marlene,
-  mathieu,
-  matthew,
-  maxim,
-  mia,
-  miguel,
-  mizuki,
-  naja,
-  nicole,
-  olivia,
-  penelope,
-  raveena,
-  ricardo,
-  ruben,
-  russell,
-  salli,
-  seoyeon,
-  takumi,
-  tatyana,
-  vicki,
-  vitoria,
-  zeina,
-  zhiyu,
-  aria,
-  ayanda,
-  arlet,
-  hannah,
-  arthur,
-  daniel,
-  liam,
-  pedro,
-  kajal,
-  hiujin,
-  laura,
-  elin,
-  ida,
-  suvi,
-  ola,
-  hala,
-  andres,
-  sergio,
-  remi,
-  adriano,
-  thiago,
-  ruth,
-  stephen,
-  kazuha,
-  tomoko,
-  niamh,
-  sofie,
-  lisa,
-  isabelle,
-  zayd,
-  danielle,
-  gregory,
-  burcu,
-}
+  aditi('Aditi'),
+  amy('Amy'),
+  astrid('Astrid'),
+  bianca('Bianca'),
+  brian('Brian'),
+  camila('Camila'),
+  carla('Carla'),
+  carmen('Carmen'),
+  celine('Celine'),
+  chantal('Chantal'),
+  conchita('Conchita'),
+  cristiano('Cristiano'),
+  dora('Dora'),
+  emma('Emma'),
+  enrique('Enrique'),
+  ewa('Ewa'),
+  filiz('Filiz'),
+  gabrielle('Gabrielle'),
+  geraint('Geraint'),
+  giorgio('Giorgio'),
+  gwyneth('Gwyneth'),
+  hans('Hans'),
+  ines('Ines'),
+  ivy('Ivy'),
+  jacek('Jacek'),
+  jan('Jan'),
+  joanna('Joanna'),
+  joey('Joey'),
+  justin('Justin'),
+  karl('Karl'),
+  kendra('Kendra'),
+  kevin('Kevin'),
+  kimberly('Kimberly'),
+  lea('Lea'),
+  liv('Liv'),
+  lotte('Lotte'),
+  lucia('Lucia'),
+  lupe('Lupe'),
+  mads('Mads'),
+  maja('Maja'),
+  marlene('Marlene'),
+  mathieu('Mathieu'),
+  matthew('Matthew'),
+  maxim('Maxim'),
+  mia('Mia'),
+  miguel('Miguel'),
+  mizuki('Mizuki'),
+  naja('Naja'),
+  nicole('Nicole'),
+  olivia('Olivia'),
+  penelope('Penelope'),
+  raveena('Raveena'),
+  ricardo('Ricardo'),
+  ruben('Ruben'),
+  russell('Russell'),
+  salli('Salli'),
+  seoyeon('Seoyeon'),
+  takumi('Takumi'),
+  tatyana('Tatyana'),
+  vicki('Vicki'),
+  vitoria('Vitoria'),
+  zeina('Zeina'),
+  zhiyu('Zhiyu'),
+  aria('Aria'),
+  ayanda('Ayanda'),
+  arlet('Arlet'),
+  hannah('Hannah'),
+  arthur('Arthur'),
+  daniel('Daniel'),
+  liam('Liam'),
+  pedro('Pedro'),
+  kajal('Kajal'),
+  hiujin('Hiujin'),
+  laura('Laura'),
+  elin('Elin'),
+  ida('Ida'),
+  suvi('Suvi'),
+  ola('Ola'),
+  hala('Hala'),
+  andres('Andres'),
+  sergio('Sergio'),
+  remi('Remi'),
+  adriano('Adriano'),
+  thiago('Thiago'),
+  ruth('Ruth'),
+  stephen('Stephen'),
+  kazuha('Kazuha'),
+  tomoko('Tomoko'),
+  niamh('Niamh'),
+  sofie('Sofie'),
+  lisa('Lisa'),
+  isabelle('Isabelle'),
+  zayd('Zayd'),
+  danielle('Danielle'),
+  gregory('Gregory'),
+  burcu('Burcu'),
+  ;
 
-extension VoiceIdValueExtension on VoiceId {
-  String toValue() {
-    switch (this) {
-      case VoiceId.aditi:
-        return 'Aditi';
-      case VoiceId.amy:
-        return 'Amy';
-      case VoiceId.astrid:
-        return 'Astrid';
-      case VoiceId.bianca:
-        return 'Bianca';
-      case VoiceId.brian:
-        return 'Brian';
-      case VoiceId.camila:
-        return 'Camila';
-      case VoiceId.carla:
-        return 'Carla';
-      case VoiceId.carmen:
-        return 'Carmen';
-      case VoiceId.celine:
-        return 'Celine';
-      case VoiceId.chantal:
-        return 'Chantal';
-      case VoiceId.conchita:
-        return 'Conchita';
-      case VoiceId.cristiano:
-        return 'Cristiano';
-      case VoiceId.dora:
-        return 'Dora';
-      case VoiceId.emma:
-        return 'Emma';
-      case VoiceId.enrique:
-        return 'Enrique';
-      case VoiceId.ewa:
-        return 'Ewa';
-      case VoiceId.filiz:
-        return 'Filiz';
-      case VoiceId.gabrielle:
-        return 'Gabrielle';
-      case VoiceId.geraint:
-        return 'Geraint';
-      case VoiceId.giorgio:
-        return 'Giorgio';
-      case VoiceId.gwyneth:
-        return 'Gwyneth';
-      case VoiceId.hans:
-        return 'Hans';
-      case VoiceId.ines:
-        return 'Ines';
-      case VoiceId.ivy:
-        return 'Ivy';
-      case VoiceId.jacek:
-        return 'Jacek';
-      case VoiceId.jan:
-        return 'Jan';
-      case VoiceId.joanna:
-        return 'Joanna';
-      case VoiceId.joey:
-        return 'Joey';
-      case VoiceId.justin:
-        return 'Justin';
-      case VoiceId.karl:
-        return 'Karl';
-      case VoiceId.kendra:
-        return 'Kendra';
-      case VoiceId.kevin:
-        return 'Kevin';
-      case VoiceId.kimberly:
-        return 'Kimberly';
-      case VoiceId.lea:
-        return 'Lea';
-      case VoiceId.liv:
-        return 'Liv';
-      case VoiceId.lotte:
-        return 'Lotte';
-      case VoiceId.lucia:
-        return 'Lucia';
-      case VoiceId.lupe:
-        return 'Lupe';
-      case VoiceId.mads:
-        return 'Mads';
-      case VoiceId.maja:
-        return 'Maja';
-      case VoiceId.marlene:
-        return 'Marlene';
-      case VoiceId.mathieu:
-        return 'Mathieu';
-      case VoiceId.matthew:
-        return 'Matthew';
-      case VoiceId.maxim:
-        return 'Maxim';
-      case VoiceId.mia:
-        return 'Mia';
-      case VoiceId.miguel:
-        return 'Miguel';
-      case VoiceId.mizuki:
-        return 'Mizuki';
-      case VoiceId.naja:
-        return 'Naja';
-      case VoiceId.nicole:
-        return 'Nicole';
-      case VoiceId.olivia:
-        return 'Olivia';
-      case VoiceId.penelope:
-        return 'Penelope';
-      case VoiceId.raveena:
-        return 'Raveena';
-      case VoiceId.ricardo:
-        return 'Ricardo';
-      case VoiceId.ruben:
-        return 'Ruben';
-      case VoiceId.russell:
-        return 'Russell';
-      case VoiceId.salli:
-        return 'Salli';
-      case VoiceId.seoyeon:
-        return 'Seoyeon';
-      case VoiceId.takumi:
-        return 'Takumi';
-      case VoiceId.tatyana:
-        return 'Tatyana';
-      case VoiceId.vicki:
-        return 'Vicki';
-      case VoiceId.vitoria:
-        return 'Vitoria';
-      case VoiceId.zeina:
-        return 'Zeina';
-      case VoiceId.zhiyu:
-        return 'Zhiyu';
-      case VoiceId.aria:
-        return 'Aria';
-      case VoiceId.ayanda:
-        return 'Ayanda';
-      case VoiceId.arlet:
-        return 'Arlet';
-      case VoiceId.hannah:
-        return 'Hannah';
-      case VoiceId.arthur:
-        return 'Arthur';
-      case VoiceId.daniel:
-        return 'Daniel';
-      case VoiceId.liam:
-        return 'Liam';
-      case VoiceId.pedro:
-        return 'Pedro';
-      case VoiceId.kajal:
-        return 'Kajal';
-      case VoiceId.hiujin:
-        return 'Hiujin';
-      case VoiceId.laura:
-        return 'Laura';
-      case VoiceId.elin:
-        return 'Elin';
-      case VoiceId.ida:
-        return 'Ida';
-      case VoiceId.suvi:
-        return 'Suvi';
-      case VoiceId.ola:
-        return 'Ola';
-      case VoiceId.hala:
-        return 'Hala';
-      case VoiceId.andres:
-        return 'Andres';
-      case VoiceId.sergio:
-        return 'Sergio';
-      case VoiceId.remi:
-        return 'Remi';
-      case VoiceId.adriano:
-        return 'Adriano';
-      case VoiceId.thiago:
-        return 'Thiago';
-      case VoiceId.ruth:
-        return 'Ruth';
-      case VoiceId.stephen:
-        return 'Stephen';
-      case VoiceId.kazuha:
-        return 'Kazuha';
-      case VoiceId.tomoko:
-        return 'Tomoko';
-      case VoiceId.niamh:
-        return 'Niamh';
-      case VoiceId.sofie:
-        return 'Sofie';
-      case VoiceId.lisa:
-        return 'Lisa';
-      case VoiceId.isabelle:
-        return 'Isabelle';
-      case VoiceId.zayd:
-        return 'Zayd';
-      case VoiceId.danielle:
-        return 'Danielle';
-      case VoiceId.gregory:
-        return 'Gregory';
-      case VoiceId.burcu:
-        return 'Burcu';
-    }
-  }
-}
+  final String value;
 
-extension VoiceIdFromString on String {
-  VoiceId toVoiceId() {
-    switch (this) {
-      case 'Aditi':
-        return VoiceId.aditi;
-      case 'Amy':
-        return VoiceId.amy;
-      case 'Astrid':
-        return VoiceId.astrid;
-      case 'Bianca':
-        return VoiceId.bianca;
-      case 'Brian':
-        return VoiceId.brian;
-      case 'Camila':
-        return VoiceId.camila;
-      case 'Carla':
-        return VoiceId.carla;
-      case 'Carmen':
-        return VoiceId.carmen;
-      case 'Celine':
-        return VoiceId.celine;
-      case 'Chantal':
-        return VoiceId.chantal;
-      case 'Conchita':
-        return VoiceId.conchita;
-      case 'Cristiano':
-        return VoiceId.cristiano;
-      case 'Dora':
-        return VoiceId.dora;
-      case 'Emma':
-        return VoiceId.emma;
-      case 'Enrique':
-        return VoiceId.enrique;
-      case 'Ewa':
-        return VoiceId.ewa;
-      case 'Filiz':
-        return VoiceId.filiz;
-      case 'Gabrielle':
-        return VoiceId.gabrielle;
-      case 'Geraint':
-        return VoiceId.geraint;
-      case 'Giorgio':
-        return VoiceId.giorgio;
-      case 'Gwyneth':
-        return VoiceId.gwyneth;
-      case 'Hans':
-        return VoiceId.hans;
-      case 'Ines':
-        return VoiceId.ines;
-      case 'Ivy':
-        return VoiceId.ivy;
-      case 'Jacek':
-        return VoiceId.jacek;
-      case 'Jan':
-        return VoiceId.jan;
-      case 'Joanna':
-        return VoiceId.joanna;
-      case 'Joey':
-        return VoiceId.joey;
-      case 'Justin':
-        return VoiceId.justin;
-      case 'Karl':
-        return VoiceId.karl;
-      case 'Kendra':
-        return VoiceId.kendra;
-      case 'Kevin':
-        return VoiceId.kevin;
-      case 'Kimberly':
-        return VoiceId.kimberly;
-      case 'Lea':
-        return VoiceId.lea;
-      case 'Liv':
-        return VoiceId.liv;
-      case 'Lotte':
-        return VoiceId.lotte;
-      case 'Lucia':
-        return VoiceId.lucia;
-      case 'Lupe':
-        return VoiceId.lupe;
-      case 'Mads':
-        return VoiceId.mads;
-      case 'Maja':
-        return VoiceId.maja;
-      case 'Marlene':
-        return VoiceId.marlene;
-      case 'Mathieu':
-        return VoiceId.mathieu;
-      case 'Matthew':
-        return VoiceId.matthew;
-      case 'Maxim':
-        return VoiceId.maxim;
-      case 'Mia':
-        return VoiceId.mia;
-      case 'Miguel':
-        return VoiceId.miguel;
-      case 'Mizuki':
-        return VoiceId.mizuki;
-      case 'Naja':
-        return VoiceId.naja;
-      case 'Nicole':
-        return VoiceId.nicole;
-      case 'Olivia':
-        return VoiceId.olivia;
-      case 'Penelope':
-        return VoiceId.penelope;
-      case 'Raveena':
-        return VoiceId.raveena;
-      case 'Ricardo':
-        return VoiceId.ricardo;
-      case 'Ruben':
-        return VoiceId.ruben;
-      case 'Russell':
-        return VoiceId.russell;
-      case 'Salli':
-        return VoiceId.salli;
-      case 'Seoyeon':
-        return VoiceId.seoyeon;
-      case 'Takumi':
-        return VoiceId.takumi;
-      case 'Tatyana':
-        return VoiceId.tatyana;
-      case 'Vicki':
-        return VoiceId.vicki;
-      case 'Vitoria':
-        return VoiceId.vitoria;
-      case 'Zeina':
-        return VoiceId.zeina;
-      case 'Zhiyu':
-        return VoiceId.zhiyu;
-      case 'Aria':
-        return VoiceId.aria;
-      case 'Ayanda':
-        return VoiceId.ayanda;
-      case 'Arlet':
-        return VoiceId.arlet;
-      case 'Hannah':
-        return VoiceId.hannah;
-      case 'Arthur':
-        return VoiceId.arthur;
-      case 'Daniel':
-        return VoiceId.daniel;
-      case 'Liam':
-        return VoiceId.liam;
-      case 'Pedro':
-        return VoiceId.pedro;
-      case 'Kajal':
-        return VoiceId.kajal;
-      case 'Hiujin':
-        return VoiceId.hiujin;
-      case 'Laura':
-        return VoiceId.laura;
-      case 'Elin':
-        return VoiceId.elin;
-      case 'Ida':
-        return VoiceId.ida;
-      case 'Suvi':
-        return VoiceId.suvi;
-      case 'Ola':
-        return VoiceId.ola;
-      case 'Hala':
-        return VoiceId.hala;
-      case 'Andres':
-        return VoiceId.andres;
-      case 'Sergio':
-        return VoiceId.sergio;
-      case 'Remi':
-        return VoiceId.remi;
-      case 'Adriano':
-        return VoiceId.adriano;
-      case 'Thiago':
-        return VoiceId.thiago;
-      case 'Ruth':
-        return VoiceId.ruth;
-      case 'Stephen':
-        return VoiceId.stephen;
-      case 'Kazuha':
-        return VoiceId.kazuha;
-      case 'Tomoko':
-        return VoiceId.tomoko;
-      case 'Niamh':
-        return VoiceId.niamh;
-      case 'Sofie':
-        return VoiceId.sofie;
-      case 'Lisa':
-        return VoiceId.lisa;
-      case 'Isabelle':
-        return VoiceId.isabelle;
-      case 'Zayd':
-        return VoiceId.zayd;
-      case 'Danielle':
-        return VoiceId.danielle;
-      case 'Gregory':
-        return VoiceId.gregory;
-      case 'Burcu':
-        return VoiceId.burcu;
-    }
-    throw Exception('$this is not known in enum VoiceId');
-  }
+  const VoiceId(this.value);
+
+  static VoiceId fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum VoiceId'));
 }
 
 class EngineNotSupportedException extends _s.GenericAwsException {

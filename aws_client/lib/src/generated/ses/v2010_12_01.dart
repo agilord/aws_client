@@ -839,7 +839,7 @@ class Ses {
         else
           for (var i1 = 0; i1 < configurationSetAttributeNames.length; i1++)
             'ConfigurationSetAttributeNames.member.${i1 + 1}':
-                configurationSetAttributeNames[i1].toValue(),
+                configurationSetAttributeNames[i1].value,
     };
     final $result = await _protocol.send(
       $request,
@@ -1380,7 +1380,7 @@ class Ses {
     String? nextToken,
   }) async {
     final $request = <String, String>{
-      if (identityType != null) 'IdentityType': identityType.toValue(),
+      if (identityType != null) 'IdentityType': identityType.value,
       if (maxItems != null) 'MaxItems': maxItems.toString(),
       if (nextToken != null) 'NextToken': nextToken,
     };
@@ -2895,7 +2895,7 @@ class Ses {
     final $request = <String, String>{
       'Enabled': enabled.toString(),
       'Identity': identity,
-      'NotificationType': notificationType.toValue(),
+      'NotificationType': notificationType.value,
     };
     await _protocol.send(
       $request,
@@ -2951,7 +2951,7 @@ class Ses {
     final $request = <String, String>{
       'Identity': identity,
       if (behaviorOnMXFailure != null)
-        'BehaviorOnMXFailure': behaviorOnMXFailure.toValue(),
+        'BehaviorOnMXFailure': behaviorOnMXFailure.value,
       if (mailFromDomain != null) 'MailFromDomain': mailFromDomain,
     };
     await _protocol.send(
@@ -3004,7 +3004,7 @@ class Ses {
   }) async {
     final $request = <String, String>{
       'Identity': identity,
-      'NotificationType': notificationType.toValue(),
+      'NotificationType': notificationType.value,
       if (snsTopic != null) 'SnsTopic': snsTopic,
     };
     await _protocol.send(
@@ -3594,31 +3594,18 @@ class AddHeaderAction {
 }
 
 enum BehaviorOnMXFailure {
-  useDefaultValue,
-  rejectMessage,
-}
+  useDefaultValue('UseDefaultValue'),
+  rejectMessage('RejectMessage'),
+  ;
 
-extension BehaviorOnMXFailureValueExtension on BehaviorOnMXFailure {
-  String toValue() {
-    switch (this) {
-      case BehaviorOnMXFailure.useDefaultValue:
-        return 'UseDefaultValue';
-      case BehaviorOnMXFailure.rejectMessage:
-        return 'RejectMessage';
-    }
-  }
-}
+  final String value;
 
-extension BehaviorOnMXFailureFromString on String {
-  BehaviorOnMXFailure toBehaviorOnMXFailure() {
-    switch (this) {
-      case 'UseDefaultValue':
-        return BehaviorOnMXFailure.useDefaultValue;
-      case 'RejectMessage':
-        return BehaviorOnMXFailure.rejectMessage;
-    }
-    throw Exception('$this is not known in enum BehaviorOnMXFailure');
-  }
+  const BehaviorOnMXFailure(this.value);
+
+  static BehaviorOnMXFailure fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum BehaviorOnMXFailure'));
 }
 
 /// Represents the body of the message. You can specify text, HTML, or both. If
@@ -3743,51 +3730,21 @@ class BounceAction {
 }
 
 enum BounceType {
-  doesNotExist,
-  messageTooLarge,
-  exceededQuota,
-  contentRejected,
-  undefined,
-  temporaryFailure,
-}
+  doesNotExist('DoesNotExist'),
+  messageTooLarge('MessageTooLarge'),
+  exceededQuota('ExceededQuota'),
+  contentRejected('ContentRejected'),
+  undefined('Undefined'),
+  temporaryFailure('TemporaryFailure'),
+  ;
 
-extension BounceTypeValueExtension on BounceType {
-  String toValue() {
-    switch (this) {
-      case BounceType.doesNotExist:
-        return 'DoesNotExist';
-      case BounceType.messageTooLarge:
-        return 'MessageTooLarge';
-      case BounceType.exceededQuota:
-        return 'ExceededQuota';
-      case BounceType.contentRejected:
-        return 'ContentRejected';
-      case BounceType.undefined:
-        return 'Undefined';
-      case BounceType.temporaryFailure:
-        return 'TemporaryFailure';
-    }
-  }
-}
+  final String value;
 
-extension BounceTypeFromString on String {
-  BounceType toBounceType() {
-    switch (this) {
-      case 'DoesNotExist':
-        return BounceType.doesNotExist;
-      case 'MessageTooLarge':
-        return BounceType.messageTooLarge;
-      case 'ExceededQuota':
-        return BounceType.exceededQuota;
-      case 'ContentRejected':
-        return BounceType.contentRejected;
-      case 'Undefined':
-        return BounceType.undefined;
-      case 'TemporaryFailure':
-        return BounceType.temporaryFailure;
-    }
-    throw Exception('$this is not known in enum BounceType');
-  }
+  const BounceType(this.value);
+
+  static BounceType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum BounceType'));
 }
 
 /// Recipient-related information to include in the Delivery Status Notification
@@ -3831,7 +3788,7 @@ class BouncedRecipientInfo {
     final recipientDsnFields = this.recipientDsnFields;
     return {
       'Recipient': recipient,
-      if (bounceType != null) 'BounceType': bounceType.toValue(),
+      if (bounceType != null) 'BounceType': bounceType.value,
       if (recipientArn != null) 'RecipientArn': recipientArn,
       if (recipientDsnFields != null) 'RecipientDsnFields': recipientDsnFields,
     };
@@ -3844,7 +3801,7 @@ class BouncedRecipientInfo {
     final recipientDsnFields = this.recipientDsnFields;
     return {
       'Recipient': recipient,
-      if (bounceType != null) 'BounceType': bounceType.toValue(),
+      if (bounceType != null) 'BounceType': bounceType.value,
       if (recipientArn != null) 'RecipientArn': recipientArn,
       if (recipientDsnFields != null)
         for (var e1 in recipientDsnFields.toQueryMap().entries)
@@ -3994,7 +3951,9 @@ class BulkEmailDestinationStatus {
     return BulkEmailDestinationStatus(
       error: _s.extractXmlStringValue(elem, 'Error'),
       messageId: _s.extractXmlStringValue(elem, 'MessageId'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.toBulkEmailStatus(),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(BulkEmailStatus.fromString) /* Nullability(true, true) */,
     );
   }
 
@@ -4005,97 +3964,36 @@ class BulkEmailDestinationStatus {
     return {
       if (error != null) 'Error': error,
       if (messageId != null) 'MessageId': messageId,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
 
 enum BulkEmailStatus {
-  success,
-  messageRejected,
-  mailFromDomainNotVerified,
-  configurationSetDoesNotExist,
-  templateDoesNotExist,
-  accountSuspended,
-  accountThrottled,
-  accountDailyQuotaExceeded,
-  invalidSendingPoolName,
-  accountSendingPaused,
-  configurationSetSendingPaused,
-  invalidParameterValue,
-  transientFailure,
-  failed,
-}
+  success('Success'),
+  messageRejected('MessageRejected'),
+  mailFromDomainNotVerified('MailFromDomainNotVerified'),
+  configurationSetDoesNotExist('ConfigurationSetDoesNotExist'),
+  templateDoesNotExist('TemplateDoesNotExist'),
+  accountSuspended('AccountSuspended'),
+  accountThrottled('AccountThrottled'),
+  accountDailyQuotaExceeded('AccountDailyQuotaExceeded'),
+  invalidSendingPoolName('InvalidSendingPoolName'),
+  accountSendingPaused('AccountSendingPaused'),
+  configurationSetSendingPaused('ConfigurationSetSendingPaused'),
+  invalidParameterValue('InvalidParameterValue'),
+  transientFailure('TransientFailure'),
+  failed('Failed'),
+  ;
 
-extension BulkEmailStatusValueExtension on BulkEmailStatus {
-  String toValue() {
-    switch (this) {
-      case BulkEmailStatus.success:
-        return 'Success';
-      case BulkEmailStatus.messageRejected:
-        return 'MessageRejected';
-      case BulkEmailStatus.mailFromDomainNotVerified:
-        return 'MailFromDomainNotVerified';
-      case BulkEmailStatus.configurationSetDoesNotExist:
-        return 'ConfigurationSetDoesNotExist';
-      case BulkEmailStatus.templateDoesNotExist:
-        return 'TemplateDoesNotExist';
-      case BulkEmailStatus.accountSuspended:
-        return 'AccountSuspended';
-      case BulkEmailStatus.accountThrottled:
-        return 'AccountThrottled';
-      case BulkEmailStatus.accountDailyQuotaExceeded:
-        return 'AccountDailyQuotaExceeded';
-      case BulkEmailStatus.invalidSendingPoolName:
-        return 'InvalidSendingPoolName';
-      case BulkEmailStatus.accountSendingPaused:
-        return 'AccountSendingPaused';
-      case BulkEmailStatus.configurationSetSendingPaused:
-        return 'ConfigurationSetSendingPaused';
-      case BulkEmailStatus.invalidParameterValue:
-        return 'InvalidParameterValue';
-      case BulkEmailStatus.transientFailure:
-        return 'TransientFailure';
-      case BulkEmailStatus.failed:
-        return 'Failed';
-    }
-  }
-}
+  final String value;
 
-extension BulkEmailStatusFromString on String {
-  BulkEmailStatus toBulkEmailStatus() {
-    switch (this) {
-      case 'Success':
-        return BulkEmailStatus.success;
-      case 'MessageRejected':
-        return BulkEmailStatus.messageRejected;
-      case 'MailFromDomainNotVerified':
-        return BulkEmailStatus.mailFromDomainNotVerified;
-      case 'ConfigurationSetDoesNotExist':
-        return BulkEmailStatus.configurationSetDoesNotExist;
-      case 'TemplateDoesNotExist':
-        return BulkEmailStatus.templateDoesNotExist;
-      case 'AccountSuspended':
-        return BulkEmailStatus.accountSuspended;
-      case 'AccountThrottled':
-        return BulkEmailStatus.accountThrottled;
-      case 'AccountDailyQuotaExceeded':
-        return BulkEmailStatus.accountDailyQuotaExceeded;
-      case 'InvalidSendingPoolName':
-        return BulkEmailStatus.invalidSendingPoolName;
-      case 'AccountSendingPaused':
-        return BulkEmailStatus.accountSendingPaused;
-      case 'ConfigurationSetSendingPaused':
-        return BulkEmailStatus.configurationSetSendingPaused;
-      case 'InvalidParameterValue':
-        return BulkEmailStatus.invalidParameterValue;
-      case 'TransientFailure':
-        return BulkEmailStatus.transientFailure;
-      case 'Failed':
-        return BulkEmailStatus.failed;
-    }
-    throw Exception('$this is not known in enum BulkEmailStatus');
-  }
+  const BulkEmailStatus(this.value);
+
+  static BulkEmailStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum BulkEmailStatus'));
 }
 
 /// An empty element returned on a successful request.
@@ -4216,7 +4114,7 @@ class CloudWatchDimensionConfiguration {
       dimensionName: _s.extractXmlStringValue(elem, 'DimensionName')!,
       dimensionValueSource: _s
           .extractXmlStringValue(elem, 'DimensionValueSource')!
-          .toDimensionValueSource(),
+          .let(DimensionValueSource.fromString) /* Nullability(true, false) */,
     );
   }
 
@@ -4227,7 +4125,7 @@ class CloudWatchDimensionConfiguration {
     return {
       'DefaultDimensionValue': defaultDimensionValue,
       'DimensionName': dimensionName,
-      'DimensionValueSource': dimensionValueSource.toValue(),
+      'DimensionValueSource': dimensionValueSource.value,
     };
   }
 
@@ -4238,7 +4136,7 @@ class CloudWatchDimensionConfiguration {
     return {
       'DefaultDimensionValue': defaultDimensionValue,
       'DimensionName': dimensionName,
-      'DimensionValueSource': dimensionValueSource.toValue(),
+      'DimensionValueSource': dimensionValueSource.value,
     };
   }
 }
@@ -4292,41 +4190,20 @@ class ConfigurationSet {
 }
 
 enum ConfigurationSetAttribute {
-  eventDestinations,
-  trackingOptions,
-  deliveryOptions,
-  reputationOptions,
-}
+  eventDestinations('eventDestinations'),
+  trackingOptions('trackingOptions'),
+  deliveryOptions('deliveryOptions'),
+  reputationOptions('reputationOptions'),
+  ;
 
-extension ConfigurationSetAttributeValueExtension on ConfigurationSetAttribute {
-  String toValue() {
-    switch (this) {
-      case ConfigurationSetAttribute.eventDestinations:
-        return 'eventDestinations';
-      case ConfigurationSetAttribute.trackingOptions:
-        return 'trackingOptions';
-      case ConfigurationSetAttribute.deliveryOptions:
-        return 'deliveryOptions';
-      case ConfigurationSetAttribute.reputationOptions:
-        return 'reputationOptions';
-    }
-  }
-}
+  final String value;
 
-extension ConfigurationSetAttributeFromString on String {
-  ConfigurationSetAttribute toConfigurationSetAttribute() {
-    switch (this) {
-      case 'eventDestinations':
-        return ConfigurationSetAttribute.eventDestinations;
-      case 'trackingOptions':
-        return ConfigurationSetAttribute.trackingOptions;
-      case 'deliveryOptions':
-        return ConfigurationSetAttribute.deliveryOptions;
-      case 'reputationOptions':
-        return ConfigurationSetAttribute.reputationOptions;
-    }
-    throw Exception('$this is not known in enum ConfigurationSetAttribute');
-  }
+  const ConfigurationSetAttribute(this.value);
+
+  static ConfigurationSetAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ConfigurationSetAttribute'));
 }
 
 /// Represents textual data, plus an optional character set specification.
@@ -4463,41 +4340,20 @@ class CreateTemplateResponse {
 }
 
 enum CustomMailFromStatus {
-  pending,
-  success,
-  failed,
-  temporaryFailure,
-}
+  pending('Pending'),
+  success('Success'),
+  failed('Failed'),
+  temporaryFailure('TemporaryFailure'),
+  ;
 
-extension CustomMailFromStatusValueExtension on CustomMailFromStatus {
-  String toValue() {
-    switch (this) {
-      case CustomMailFromStatus.pending:
-        return 'Pending';
-      case CustomMailFromStatus.success:
-        return 'Success';
-      case CustomMailFromStatus.failed:
-        return 'Failed';
-      case CustomMailFromStatus.temporaryFailure:
-        return 'TemporaryFailure';
-    }
-  }
-}
+  final String value;
 
-extension CustomMailFromStatusFromString on String {
-  CustomMailFromStatus toCustomMailFromStatus() {
-    switch (this) {
-      case 'Pending':
-        return CustomMailFromStatus.pending;
-      case 'Success':
-        return CustomMailFromStatus.success;
-      case 'Failed':
-        return CustomMailFromStatus.failed;
-      case 'TemporaryFailure':
-        return CustomMailFromStatus.temporaryFailure;
-    }
-    throw Exception('$this is not known in enum CustomMailFromStatus');
-  }
+  const CustomMailFromStatus(this.value);
+
+  static CustomMailFromStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum CustomMailFromStatus'));
 }
 
 /// Contains information about a custom verification email template.
@@ -4696,21 +4552,23 @@ class DeliveryOptions {
   });
   factory DeliveryOptions.fromXml(_s.XmlElement elem) {
     return DeliveryOptions(
-      tlsPolicy: _s.extractXmlStringValue(elem, 'TlsPolicy')?.toTlsPolicy(),
+      tlsPolicy: _s
+          .extractXmlStringValue(elem, 'TlsPolicy')
+          ?.let(TlsPolicy.fromString) /* Nullability(true, true) */,
     );
   }
 
   Map<String, dynamic> toJson() {
     final tlsPolicy = this.tlsPolicy;
     return {
-      if (tlsPolicy != null) 'TlsPolicy': tlsPolicy.toValue(),
+      if (tlsPolicy != null) 'TlsPolicy': tlsPolicy.value,
     };
   }
 
   Map<String, String> toQueryMap() {
     final tlsPolicy = this.tlsPolicy;
     return {
-      if (tlsPolicy != null) 'TlsPolicy': tlsPolicy.toValue(),
+      if (tlsPolicy != null) 'TlsPolicy': tlsPolicy.value,
     };
   }
 }
@@ -4944,79 +4802,36 @@ class Destination {
 }
 
 enum DimensionValueSource {
-  messageTag,
-  emailHeader,
-  linkTag,
-}
+  messageTag('messageTag'),
+  emailHeader('emailHeader'),
+  linkTag('linkTag'),
+  ;
 
-extension DimensionValueSourceValueExtension on DimensionValueSource {
-  String toValue() {
-    switch (this) {
-      case DimensionValueSource.messageTag:
-        return 'messageTag';
-      case DimensionValueSource.emailHeader:
-        return 'emailHeader';
-      case DimensionValueSource.linkTag:
-        return 'linkTag';
-    }
-  }
-}
+  final String value;
 
-extension DimensionValueSourceFromString on String {
-  DimensionValueSource toDimensionValueSource() {
-    switch (this) {
-      case 'messageTag':
-        return DimensionValueSource.messageTag;
-      case 'emailHeader':
-        return DimensionValueSource.emailHeader;
-      case 'linkTag':
-        return DimensionValueSource.linkTag;
-    }
-    throw Exception('$this is not known in enum DimensionValueSource');
-  }
+  const DimensionValueSource(this.value);
+
+  static DimensionValueSource fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DimensionValueSource'));
 }
 
 enum DsnAction {
-  failed,
-  delayed,
-  delivered,
-  relayed,
-  expanded,
-}
+  failed('failed'),
+  delayed('delayed'),
+  delivered('delivered'),
+  relayed('relayed'),
+  expanded('expanded'),
+  ;
 
-extension DsnActionValueExtension on DsnAction {
-  String toValue() {
-    switch (this) {
-      case DsnAction.failed:
-        return 'failed';
-      case DsnAction.delayed:
-        return 'delayed';
-      case DsnAction.delivered:
-        return 'delivered';
-      case DsnAction.relayed:
-        return 'relayed';
-      case DsnAction.expanded:
-        return 'expanded';
-    }
-  }
-}
+  final String value;
 
-extension DsnActionFromString on String {
-  DsnAction toDsnAction() {
-    switch (this) {
-      case 'failed':
-        return DsnAction.failed;
-      case 'delayed':
-        return DsnAction.delayed;
-      case 'delivered':
-        return DsnAction.delivered;
-      case 'relayed':
-        return DsnAction.relayed;
-      case 'expanded':
-        return DsnAction.expanded;
-    }
-    throw Exception('$this is not known in enum DsnAction');
-  }
+  const DsnAction(this.value);
+
+  static DsnAction fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum DsnAction'));
 }
 
 /// Contains information about an event destination.
@@ -5113,7 +4928,7 @@ class EventDestination {
       matchingEventTypes: _s
           .extractXmlStringListValues(
               _s.extractXmlChild(elem, 'MatchingEventTypes')!, 'member')
-          .map((s) => s.toEventType())
+          .map(EventType.fromString)
           .toList(),
       name: _s.extractXmlStringValue(elem, 'Name')!,
       cloudWatchDestination: _s
@@ -5137,7 +4952,7 @@ class EventDestination {
     final kinesisFirehoseDestination = this.kinesisFirehoseDestination;
     final sNSDestination = this.sNSDestination;
     return {
-      'MatchingEventTypes': matchingEventTypes.map((e) => e.toValue()).toList(),
+      'MatchingEventTypes': matchingEventTypes.map((e) => e.value).toList(),
       'Name': name,
       if (cloudWatchDestination != null)
         'CloudWatchDestination': cloudWatchDestination,
@@ -5160,8 +4975,7 @@ class EventDestination {
         'MatchingEventTypes': ''
       else
         for (var i1 = 0; i1 < matchingEventTypes.length; i1++)
-          'MatchingEventTypes.member.${i1 + 1}':
-              matchingEventTypes[i1].toValue(),
+          'MatchingEventTypes.member.${i1 + 1}': matchingEventTypes[i1].value,
       'Name': name,
       if (cloudWatchDestination != null)
         for (var e1 in cloudWatchDestination.toQueryMap().entries)
@@ -5178,61 +4992,23 @@ class EventDestination {
 }
 
 enum EventType {
-  send,
-  reject,
-  bounce,
-  complaint,
-  delivery,
-  open,
-  click,
-  renderingFailure,
-}
+  send('send'),
+  reject('reject'),
+  bounce('bounce'),
+  complaint('complaint'),
+  delivery('delivery'),
+  open('open'),
+  click('click'),
+  renderingFailure('renderingFailure'),
+  ;
 
-extension EventTypeValueExtension on EventType {
-  String toValue() {
-    switch (this) {
-      case EventType.send:
-        return 'send';
-      case EventType.reject:
-        return 'reject';
-      case EventType.bounce:
-        return 'bounce';
-      case EventType.complaint:
-        return 'complaint';
-      case EventType.delivery:
-        return 'delivery';
-      case EventType.open:
-        return 'open';
-      case EventType.click:
-        return 'click';
-      case EventType.renderingFailure:
-        return 'renderingFailure';
-    }
-  }
-}
+  final String value;
 
-extension EventTypeFromString on String {
-  EventType toEventType() {
-    switch (this) {
-      case 'send':
-        return EventType.send;
-      case 'reject':
-        return EventType.reject;
-      case 'bounce':
-        return EventType.bounce;
-      case 'complaint':
-        return EventType.complaint;
-      case 'delivery':
-        return EventType.delivery;
-      case 'open':
-        return EventType.open;
-      case 'click':
-        return EventType.click;
-      case 'renderingFailure':
-        return EventType.renderingFailure;
-    }
-    throw Exception('$this is not known in enum EventType');
-  }
+  const EventType(this.value);
+
+  static EventType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum EventType'));
 }
 
 /// Additional X-headers to include in the Delivery Status Notification (DSN)
@@ -5646,7 +5422,7 @@ class IdentityDkimAttributes {
       dkimEnabled: _s.extractXmlBoolValue(elem, 'DkimEnabled')!,
       dkimVerificationStatus: _s
           .extractXmlStringValue(elem, 'DkimVerificationStatus')!
-          .toVerificationStatus(),
+          .let(VerificationStatus.fromString) /* Nullability(true, false) */,
       dkimTokens: _s
           .extractXmlChild(elem, 'DkimTokens')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
@@ -5659,7 +5435,7 @@ class IdentityDkimAttributes {
     final dkimTokens = this.dkimTokens;
     return {
       'DkimEnabled': dkimEnabled,
-      'DkimVerificationStatus': dkimVerificationStatus.toValue(),
+      'DkimVerificationStatus': dkimVerificationStatus.value,
       if (dkimTokens != null) 'DkimTokens': dkimTokens,
     };
   }
@@ -5700,11 +5476,11 @@ class IdentityMailFromDomainAttributes {
     return IdentityMailFromDomainAttributes(
       behaviorOnMXFailure: _s
           .extractXmlStringValue(elem, 'BehaviorOnMXFailure')!
-          .toBehaviorOnMXFailure(),
+          .let(BehaviorOnMXFailure.fromString) /* Nullability(true, false) */,
       mailFromDomain: _s.extractXmlStringValue(elem, 'MailFromDomain')!,
       mailFromDomainStatus: _s
           .extractXmlStringValue(elem, 'MailFromDomainStatus')!
-          .toCustomMailFromStatus(),
+          .let(CustomMailFromStatus.fromString) /* Nullability(true, false) */,
     );
   }
 
@@ -5713,9 +5489,9 @@ class IdentityMailFromDomainAttributes {
     final mailFromDomain = this.mailFromDomain;
     final mailFromDomainStatus = this.mailFromDomainStatus;
     return {
-      'BehaviorOnMXFailure': behaviorOnMXFailure.toValue(),
+      'BehaviorOnMXFailure': behaviorOnMXFailure.value,
       'MailFromDomain': mailFromDomain,
-      'MailFromDomainStatus': mailFromDomainStatus.toValue(),
+      'MailFromDomainStatus': mailFromDomainStatus.value,
     };
   }
 }
@@ -5819,31 +5595,18 @@ class IdentityNotificationAttributes {
 }
 
 enum IdentityType {
-  emailAddress,
-  domain,
-}
+  emailAddress('EmailAddress'),
+  domain('Domain'),
+  ;
 
-extension IdentityTypeValueExtension on IdentityType {
-  String toValue() {
-    switch (this) {
-      case IdentityType.emailAddress:
-        return 'EmailAddress';
-      case IdentityType.domain:
-        return 'Domain';
-    }
-  }
-}
+  final String value;
 
-extension IdentityTypeFromString on String {
-  IdentityType toIdentityType() {
-    switch (this) {
-      case 'EmailAddress':
-        return IdentityType.emailAddress;
-      case 'Domain':
-        return IdentityType.domain;
-    }
-    throw Exception('$this is not known in enum IdentityType');
-  }
+  const IdentityType(this.value);
+
+  static IdentityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum IdentityType'));
 }
 
 /// Represents the verification attributes of a single identity.
@@ -5864,7 +5627,7 @@ class IdentityVerificationAttributes {
     return IdentityVerificationAttributes(
       verificationStatus: _s
           .extractXmlStringValue(elem, 'VerificationStatus')!
-          .toVerificationStatus(),
+          .let(VerificationStatus.fromString) /* Nullability(true, false) */,
       verificationToken: _s.extractXmlStringValue(elem, 'VerificationToken'),
     );
   }
@@ -5873,38 +5636,25 @@ class IdentityVerificationAttributes {
     final verificationStatus = this.verificationStatus;
     final verificationToken = this.verificationToken;
     return {
-      'VerificationStatus': verificationStatus.toValue(),
+      'VerificationStatus': verificationStatus.value,
       if (verificationToken != null) 'VerificationToken': verificationToken,
     };
   }
 }
 
 enum InvocationType {
-  event,
-  requestResponse,
-}
+  event('Event'),
+  requestResponse('RequestResponse'),
+  ;
 
-extension InvocationTypeValueExtension on InvocationType {
-  String toValue() {
-    switch (this) {
-      case InvocationType.event:
-        return 'Event';
-      case InvocationType.requestResponse:
-        return 'RequestResponse';
-    }
-  }
-}
+  final String value;
 
-extension InvocationTypeFromString on String {
-  InvocationType toInvocationType() {
-    switch (this) {
-      case 'Event':
-        return InvocationType.event;
-      case 'RequestResponse':
-        return InvocationType.requestResponse;
-    }
-    throw Exception('$this is not known in enum InvocationType');
-  }
+  const InvocationType(this.value);
+
+  static InvocationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum InvocationType'));
 }
 
 /// Contains the delivery stream ARN and the IAM role ARN associated with an
@@ -6012,8 +5762,9 @@ class LambdaAction {
   factory LambdaAction.fromXml(_s.XmlElement elem) {
     return LambdaAction(
       functionArn: _s.extractXmlStringValue(elem, 'FunctionArn')!,
-      invocationType:
-          _s.extractXmlStringValue(elem, 'InvocationType')?.toInvocationType(),
+      invocationType: _s
+          .extractXmlStringValue(elem, 'InvocationType')
+          ?.let(InvocationType.fromString) /* Nullability(true, true) */,
       topicArn: _s.extractXmlStringValue(elem, 'TopicArn'),
     );
   }
@@ -6024,7 +5775,7 @@ class LambdaAction {
     final topicArn = this.topicArn;
     return {
       'FunctionArn': functionArn,
-      if (invocationType != null) 'InvocationType': invocationType.toValue(),
+      if (invocationType != null) 'InvocationType': invocationType.value,
       if (topicArn != null) 'TopicArn': topicArn,
     };
   }
@@ -6035,7 +5786,7 @@ class LambdaAction {
     final topicArn = this.topicArn;
     return {
       'FunctionArn': functionArn,
-      if (invocationType != null) 'InvocationType': invocationType.toValue(),
+      if (invocationType != null) 'InvocationType': invocationType.value,
       if (topicArn != null) 'TopicArn': topicArn,
     };
   }
@@ -6448,36 +6199,19 @@ class MessageTag {
 }
 
 enum NotificationType {
-  bounce,
-  complaint,
-  delivery,
-}
+  bounce('Bounce'),
+  complaint('Complaint'),
+  delivery('Delivery'),
+  ;
 
-extension NotificationTypeValueExtension on NotificationType {
-  String toValue() {
-    switch (this) {
-      case NotificationType.bounce:
-        return 'Bounce';
-      case NotificationType.complaint:
-        return 'Complaint';
-      case NotificationType.delivery:
-        return 'Delivery';
-    }
-  }
-}
+  final String value;
 
-extension NotificationTypeFromString on String {
-  NotificationType toNotificationType() {
-    switch (this) {
-      case 'Bounce':
-        return NotificationType.bounce;
-      case 'Complaint':
-        return NotificationType.complaint;
-      case 'Delivery':
-        return NotificationType.delivery;
-    }
-    throw Exception('$this is not known in enum NotificationType');
-  }
+  const NotificationType(this.value);
+
+  static NotificationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum NotificationType'));
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
@@ -6728,31 +6462,18 @@ class ReceiptFilter {
 }
 
 enum ReceiptFilterPolicy {
-  block,
-  allow,
-}
+  block('Block'),
+  allow('Allow'),
+  ;
 
-extension ReceiptFilterPolicyValueExtension on ReceiptFilterPolicy {
-  String toValue() {
-    switch (this) {
-      case ReceiptFilterPolicy.block:
-        return 'Block';
-      case ReceiptFilterPolicy.allow:
-        return 'Allow';
-    }
-  }
-}
+  final String value;
 
-extension ReceiptFilterPolicyFromString on String {
-  ReceiptFilterPolicy toReceiptFilterPolicy() {
-    switch (this) {
-      case 'Block':
-        return ReceiptFilterPolicy.block;
-      case 'Allow':
-        return ReceiptFilterPolicy.allow;
-    }
-    throw Exception('$this is not known in enum ReceiptFilterPolicy');
-  }
+  const ReceiptFilterPolicy(this.value);
+
+  static ReceiptFilterPolicy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ReceiptFilterPolicy'));
 }
 
 /// A receipt IP address filter enables you to specify whether to accept or
@@ -6780,7 +6501,9 @@ class ReceiptIpFilter {
   factory ReceiptIpFilter.fromXml(_s.XmlElement elem) {
     return ReceiptIpFilter(
       cidr: _s.extractXmlStringValue(elem, 'Cidr')!,
-      policy: _s.extractXmlStringValue(elem, 'Policy')!.toReceiptFilterPolicy(),
+      policy: _s
+          .extractXmlStringValue(elem, 'Policy')!
+          .let(ReceiptFilterPolicy.fromString) /* Nullability(true, false) */,
     );
   }
 
@@ -6789,7 +6512,7 @@ class ReceiptIpFilter {
     final policy = this.policy;
     return {
       'Cidr': cidr,
-      'Policy': policy.toValue(),
+      'Policy': policy.value,
     };
   }
 
@@ -6798,7 +6521,7 @@ class ReceiptIpFilter {
     final policy = this.policy;
     return {
       'Cidr': cidr,
-      'Policy': policy.toValue(),
+      'Policy': policy.value,
     };
   }
 }
@@ -6873,7 +6596,9 @@ class ReceiptRule {
           .extractXmlChild(elem, 'Recipients')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       scanEnabled: _s.extractXmlBoolValue(elem, 'ScanEnabled'),
-      tlsPolicy: _s.extractXmlStringValue(elem, 'TlsPolicy')?.toTlsPolicy(),
+      tlsPolicy: _s
+          .extractXmlStringValue(elem, 'TlsPolicy')
+          ?.let(TlsPolicy.fromString) /* Nullability(true, true) */,
     );
   }
 
@@ -6890,7 +6615,7 @@ class ReceiptRule {
       if (enabled != null) 'Enabled': enabled,
       if (recipients != null) 'Recipients': recipients,
       if (scanEnabled != null) 'ScanEnabled': scanEnabled,
-      if (tlsPolicy != null) 'TlsPolicy': tlsPolicy.toValue(),
+      if (tlsPolicy != null) 'TlsPolicy': tlsPolicy.value,
     };
   }
 
@@ -6918,7 +6643,7 @@ class ReceiptRule {
           for (var i1 = 0; i1 < recipients.length; i1++)
             'Recipients.member.${i1 + 1}': recipients[i1],
       if (scanEnabled != null) 'ScanEnabled': scanEnabled.toString(),
-      if (tlsPolicy != null) 'TlsPolicy': tlsPolicy.toValue(),
+      if (tlsPolicy != null) 'TlsPolicy': tlsPolicy.value,
     };
   }
 }
@@ -7042,7 +6767,7 @@ class RecipientDsnFields {
     final lastAttemptDate = this.lastAttemptDate;
     final remoteMta = this.remoteMta;
     return {
-      'Action': action.toValue(),
+      'Action': action.value,
       'Status': status,
       if (diagnosticCode != null) 'DiagnosticCode': diagnosticCode,
       if (extensionFields != null) 'ExtensionFields': extensionFields,
@@ -7062,7 +6787,7 @@ class RecipientDsnFields {
     final lastAttemptDate = this.lastAttemptDate;
     final remoteMta = this.remoteMta;
     return {
-      'Action': action.toValue(),
+      'Action': action.value,
       'Status': status,
       if (diagnosticCode != null) 'DiagnosticCode': diagnosticCode,
       if (extensionFields != null)
@@ -7322,8 +7047,9 @@ class SNSAction {
   factory SNSAction.fromXml(_s.XmlElement elem) {
     return SNSAction(
       topicArn: _s.extractXmlStringValue(elem, 'TopicArn')!,
-      encoding:
-          _s.extractXmlStringValue(elem, 'Encoding')?.toSNSActionEncoding(),
+      encoding: _s
+          .extractXmlStringValue(elem, 'Encoding')
+          ?.let(SNSActionEncoding.fromString) /* Nullability(true, true) */,
     );
   }
 
@@ -7332,7 +7058,7 @@ class SNSAction {
     final encoding = this.encoding;
     return {
       'TopicArn': topicArn,
-      if (encoding != null) 'Encoding': encoding.toValue(),
+      if (encoding != null) 'Encoding': encoding.value,
     };
   }
 
@@ -7341,37 +7067,24 @@ class SNSAction {
     final encoding = this.encoding;
     return {
       'TopicArn': topicArn,
-      if (encoding != null) 'Encoding': encoding.toValue(),
+      if (encoding != null) 'Encoding': encoding.value,
     };
   }
 }
 
 enum SNSActionEncoding {
-  utf_8,
-  base64,
-}
+  utf_8('UTF-8'),
+  base64('Base64'),
+  ;
 
-extension SNSActionEncodingValueExtension on SNSActionEncoding {
-  String toValue() {
-    switch (this) {
-      case SNSActionEncoding.utf_8:
-        return 'UTF-8';
-      case SNSActionEncoding.base64:
-        return 'Base64';
-    }
-  }
-}
+  final String value;
 
-extension SNSActionEncodingFromString on String {
-  SNSActionEncoding toSNSActionEncoding() {
-    switch (this) {
-      case 'UTF-8':
-        return SNSActionEncoding.utf_8;
-      case 'Base64':
-        return SNSActionEncoding.base64;
-    }
-    throw Exception('$this is not known in enum SNSActionEncoding');
-  }
+  const SNSActionEncoding(this.value);
+
+  static SNSActionEncoding fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SNSActionEncoding'));
 }
 
 /// Contains the topic ARN associated with an Amazon Simple Notification Service
@@ -7735,7 +7448,9 @@ class StopAction {
   });
   factory StopAction.fromXml(_s.XmlElement elem) {
     return StopAction(
-      scope: _s.extractXmlStringValue(elem, 'Scope')!.toStopScope(),
+      scope: _s
+          .extractXmlStringValue(elem, 'Scope')!
+          .let(StopScope.fromString) /* Nullability(true, false) */,
       topicArn: _s.extractXmlStringValue(elem, 'TopicArn'),
     );
   }
@@ -7744,7 +7459,7 @@ class StopAction {
     final scope = this.scope;
     final topicArn = this.topicArn;
     return {
-      'Scope': scope.toValue(),
+      'Scope': scope.value,
       if (topicArn != null) 'TopicArn': topicArn,
     };
   }
@@ -7753,33 +7468,23 @@ class StopAction {
     final scope = this.scope;
     final topicArn = this.topicArn;
     return {
-      'Scope': scope.toValue(),
+      'Scope': scope.value,
       if (topicArn != null) 'TopicArn': topicArn,
     };
   }
 }
 
 enum StopScope {
-  ruleSet,
-}
+  ruleSet('RuleSet'),
+  ;
 
-extension StopScopeValueExtension on StopScope {
-  String toValue() {
-    switch (this) {
-      case StopScope.ruleSet:
-        return 'RuleSet';
-    }
-  }
-}
+  final String value;
 
-extension StopScopeFromString on String {
-  StopScope toStopScope() {
-    switch (this) {
-      case 'RuleSet':
-        return StopScope.ruleSet;
-    }
-    throw Exception('$this is not known in enum StopScope');
-  }
+  const StopScope(this.value);
+
+  static StopScope fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum StopScope'));
 }
 
 /// The content of the email, composed of a subject line and either an HTML part
@@ -7895,31 +7600,17 @@ class TestRenderTemplateResponse {
 }
 
 enum TlsPolicy {
-  require,
-  optional,
-}
+  require('Require'),
+  optional('Optional'),
+  ;
 
-extension TlsPolicyValueExtension on TlsPolicy {
-  String toValue() {
-    switch (this) {
-      case TlsPolicy.require:
-        return 'Require';
-      case TlsPolicy.optional:
-        return 'Optional';
-    }
-  }
-}
+  final String value;
 
-extension TlsPolicyFromString on String {
-  TlsPolicy toTlsPolicy() {
-    switch (this) {
-      case 'Require':
-        return TlsPolicy.require;
-      case 'Optional':
-        return TlsPolicy.optional;
-    }
-    throw Exception('$this is not known in enum TlsPolicy');
-  }
+  const TlsPolicy(this.value);
+
+  static TlsPolicy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TlsPolicy'));
 }
 
 /// A domain that is used to redirect email recipients to an Amazon SES-operated
@@ -8018,46 +7709,21 @@ class UpdateTemplateResponse {
 }
 
 enum VerificationStatus {
-  pending,
-  success,
-  failed,
-  temporaryFailure,
-  notStarted,
-}
+  pending('Pending'),
+  success('Success'),
+  failed('Failed'),
+  temporaryFailure('TemporaryFailure'),
+  notStarted('NotStarted'),
+  ;
 
-extension VerificationStatusValueExtension on VerificationStatus {
-  String toValue() {
-    switch (this) {
-      case VerificationStatus.pending:
-        return 'Pending';
-      case VerificationStatus.success:
-        return 'Success';
-      case VerificationStatus.failed:
-        return 'Failed';
-      case VerificationStatus.temporaryFailure:
-        return 'TemporaryFailure';
-      case VerificationStatus.notStarted:
-        return 'NotStarted';
-    }
-  }
-}
+  final String value;
 
-extension VerificationStatusFromString on String {
-  VerificationStatus toVerificationStatus() {
-    switch (this) {
-      case 'Pending':
-        return VerificationStatus.pending;
-      case 'Success':
-        return VerificationStatus.success;
-      case 'Failed':
-        return VerificationStatus.failed;
-      case 'TemporaryFailure':
-        return VerificationStatus.temporaryFailure;
-      case 'NotStarted':
-        return VerificationStatus.notStarted;
-    }
-    throw Exception('$this is not known in enum VerificationStatus');
-  }
+  const VerificationStatus(this.value);
+
+  static VerificationStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum VerificationStatus'));
 }
 
 /// Returns CNAME records that you must publish to the DNS server of your domain

@@ -531,66 +531,25 @@ class Acceptor {
 }
 
 enum AgreementStatus {
-  active,
-  archived,
-  cancelled,
-  expired,
-  renewed,
-  replaced,
-  rolledBack,
-  superseded,
-  terminated,
-}
+  active('ACTIVE'),
+  archived('ARCHIVED'),
+  cancelled('CANCELLED'),
+  expired('EXPIRED'),
+  renewed('RENEWED'),
+  replaced('REPLACED'),
+  rolledBack('ROLLED_BACK'),
+  superseded('SUPERSEDED'),
+  terminated('TERMINATED'),
+  ;
 
-extension AgreementStatusValueExtension on AgreementStatus {
-  String toValue() {
-    switch (this) {
-      case AgreementStatus.active:
-        return 'ACTIVE';
-      case AgreementStatus.archived:
-        return 'ARCHIVED';
-      case AgreementStatus.cancelled:
-        return 'CANCELLED';
-      case AgreementStatus.expired:
-        return 'EXPIRED';
-      case AgreementStatus.renewed:
-        return 'RENEWED';
-      case AgreementStatus.replaced:
-        return 'REPLACED';
-      case AgreementStatus.rolledBack:
-        return 'ROLLED_BACK';
-      case AgreementStatus.superseded:
-        return 'SUPERSEDED';
-      case AgreementStatus.terminated:
-        return 'TERMINATED';
-    }
-  }
-}
+  final String value;
 
-extension AgreementStatusFromString on String {
-  AgreementStatus toAgreementStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return AgreementStatus.active;
-      case 'ARCHIVED':
-        return AgreementStatus.archived;
-      case 'CANCELLED':
-        return AgreementStatus.cancelled;
-      case 'EXPIRED':
-        return AgreementStatus.expired;
-      case 'RENEWED':
-        return AgreementStatus.renewed;
-      case 'REPLACED':
-        return AgreementStatus.replaced;
-      case 'ROLLED_BACK':
-        return AgreementStatus.rolledBack;
-      case 'SUPERSEDED':
-        return AgreementStatus.superseded;
-      case 'TERMINATED':
-        return AgreementStatus.terminated;
-    }
-    throw Exception('$this is not known in enum AgreementStatus');
-  }
+  const AgreementStatus(this.value);
+
+  static AgreementStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AgreementStatus'));
 }
 
 /// A summary of the agreement, including top-level attributes (for example, the
@@ -656,7 +615,7 @@ class AgreementViewSummary {
           ? Proposer.fromJson(json['proposer'] as Map<String, dynamic>)
           : null,
       startTime: timeStampFromJson(json['startTime']),
-      status: (json['status'] as String?)?.toAgreementStatus(),
+      status: (json['status'] as String?)?.let(AgreementStatus.fromString),
     );
   }
 
@@ -680,7 +639,7 @@ class AgreementViewSummary {
       if (proposalSummary != null) 'proposalSummary': proposalSummary,
       if (proposer != null) 'proposer': proposer,
       if (startTime != null) 'startTime': unixTimestampToJson(startTime),
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -997,7 +956,7 @@ class DescribeAgreementOutput {
           ? Proposer.fromJson(json['proposer'] as Map<String, dynamic>)
           : null,
       startTime: timeStampFromJson(json['startTime']),
-      status: (json['status'] as String?)?.toAgreementStatus(),
+      status: (json['status'] as String?)?.let(AgreementStatus.fromString),
     );
   }
 
@@ -1023,7 +982,7 @@ class DescribeAgreementOutput {
       if (proposalSummary != null) 'proposalSummary': proposalSummary,
       if (proposer != null) 'proposer': proposer,
       if (startTime != null) 'startTime': unixTimestampToJson(startTime),
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -1810,37 +1769,23 @@ class Sort {
     final sortOrder = this.sortOrder;
     return {
       if (sortBy != null) 'sortBy': sortBy,
-      if (sortOrder != null) 'sortOrder': sortOrder.toValue(),
+      if (sortOrder != null) 'sortOrder': sortOrder.value,
     };
   }
 }
 
 enum SortOrder {
-  ascending,
-  descending,
-}
+  ascending('ASCENDING'),
+  descending('DESCENDING'),
+  ;
 
-extension SortOrderValueExtension on SortOrder {
-  String toValue() {
-    switch (this) {
-      case SortOrder.ascending:
-        return 'ASCENDING';
-      case SortOrder.descending:
-        return 'DESCENDING';
-    }
-  }
-}
+  final String value;
 
-extension SortOrderFromString on String {
-  SortOrder toSortOrder() {
-    switch (this) {
-      case 'ASCENDING':
-        return SortOrder.ascending;
-      case 'DESCENDING':
-        return SortOrder.descending;
-    }
-    throw Exception('$this is not known in enum SortOrder');
-  }
+  const SortOrder(this.value);
+
+  static SortOrder fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SortOrder'));
 }
 
 /// Defines the customer support available for the acceptors when they purchase

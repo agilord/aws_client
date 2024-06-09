@@ -778,14 +778,14 @@ class KMS {
         'CustomKeyStoreName': customKeyStoreName,
         if (cloudHsmClusterId != null) 'CloudHsmClusterId': cloudHsmClusterId,
         if (customKeyStoreType != null)
-          'CustomKeyStoreType': customKeyStoreType.toValue(),
+          'CustomKeyStoreType': customKeyStoreType.value,
         if (keyStorePassword != null) 'KeyStorePassword': keyStorePassword,
         if (trustAnchorCertificate != null)
           'TrustAnchorCertificate': trustAnchorCertificate,
         if (xksProxyAuthenticationCredential != null)
           'XksProxyAuthenticationCredential': xksProxyAuthenticationCredential,
         if (xksProxyConnectivity != null)
-          'XksProxyConnectivity': xksProxyConnectivity.toValue(),
+          'XksProxyConnectivity': xksProxyConnectivity.value,
         if (xksProxyUriEndpoint != null)
           'XksProxyUriEndpoint': xksProxyUriEndpoint,
         if (xksProxyUriPath != null) 'XksProxyUriPath': xksProxyUriPath,
@@ -1048,7 +1048,7 @@ class KMS {
       payload: {
         'GranteePrincipal': granteePrincipal,
         'KeyId': keyId,
-        'Operations': operations.map((e) => e.toValue()).toList(),
+        'Operations': operations.map((e) => e.value).toList(),
         if (constraints != null) 'Constraints': constraints,
         if (dryRun != null) 'DryRun': dryRun,
         if (grantTokens != null) 'GrantTokens': grantTokens,
@@ -1666,12 +1666,12 @@ class KMS {
           'BypassPolicyLockoutSafetyCheck': bypassPolicyLockoutSafetyCheck,
         if (customKeyStoreId != null) 'CustomKeyStoreId': customKeyStoreId,
         if (customerMasterKeySpec != null)
-          'CustomerMasterKeySpec': customerMasterKeySpec.toValue(),
+          'CustomerMasterKeySpec': customerMasterKeySpec.value,
         if (description != null) 'Description': description,
-        if (keySpec != null) 'KeySpec': keySpec.toValue(),
-        if (keyUsage != null) 'KeyUsage': keyUsage.toValue(),
+        if (keySpec != null) 'KeySpec': keySpec.value,
+        if (keyUsage != null) 'KeyUsage': keyUsage.value,
         if (multiRegion != null) 'MultiRegion': multiRegion,
-        if (origin != null) 'Origin': origin.toValue(),
+        if (origin != null) 'Origin': origin.value,
         if (policy != null) 'Policy': policy,
         if (tags != null) 'Tags': tags,
         if (xksKeyId != null) 'XksKeyId': xksKeyId,
@@ -1947,7 +1947,7 @@ class KMS {
         'CiphertextBlob': base64Encode(ciphertextBlob),
         if (dryRun != null) 'DryRun': dryRun,
         if (encryptionAlgorithm != null)
-          'EncryptionAlgorithm': encryptionAlgorithm.toValue(),
+          'EncryptionAlgorithm': encryptionAlgorithm.value,
         if (encryptionContext != null) 'EncryptionContext': encryptionContext,
         if (grantTokens != null) 'GrantTokens': grantTokens,
         if (keyId != null) 'KeyId': keyId,
@@ -3300,7 +3300,7 @@ class KMS {
         'Plaintext': base64Encode(plaintext),
         if (dryRun != null) 'DryRun': dryRun,
         if (encryptionAlgorithm != null)
-          'EncryptionAlgorithm': encryptionAlgorithm.toValue(),
+          'EncryptionAlgorithm': encryptionAlgorithm.value,
         if (encryptionContext != null) 'EncryptionContext': encryptionContext,
         if (grantTokens != null) 'GrantTokens': grantTokens,
       },
@@ -3597,7 +3597,7 @@ class KMS {
         if (dryRun != null) 'DryRun': dryRun,
         if (encryptionContext != null) 'EncryptionContext': encryptionContext,
         if (grantTokens != null) 'GrantTokens': grantTokens,
-        if (keySpec != null) 'KeySpec': keySpec.toValue(),
+        if (keySpec != null) 'KeySpec': keySpec.value,
         if (numberOfBytes != null) 'NumberOfBytes': numberOfBytes,
         if (recipient != null) 'Recipient': recipient,
       },
@@ -3855,7 +3855,7 @@ class KMS {
       headers: headers,
       payload: {
         'KeyId': keyId,
-        'KeyPairSpec': keyPairSpec.toValue(),
+        'KeyPairSpec': keyPairSpec.value,
         if (dryRun != null) 'DryRun': dryRun,
         if (encryptionContext != null) 'EncryptionContext': encryptionContext,
         if (grantTokens != null) 'GrantTokens': grantTokens,
@@ -4057,7 +4057,7 @@ class KMS {
       headers: headers,
       payload: {
         'KeyId': keyId,
-        'KeyPairSpec': keyPairSpec.toValue(),
+        'KeyPairSpec': keyPairSpec.value,
         if (dryRun != null) 'DryRun': dryRun,
         if (encryptionContext != null) 'EncryptionContext': encryptionContext,
         if (grantTokens != null) 'GrantTokens': grantTokens,
@@ -4281,7 +4281,7 @@ class KMS {
         if (dryRun != null) 'DryRun': dryRun,
         if (encryptionContext != null) 'EncryptionContext': encryptionContext,
         if (grantTokens != null) 'GrantTokens': grantTokens,
-        if (keySpec != null) 'KeySpec': keySpec.toValue(),
+        if (keySpec != null) 'KeySpec': keySpec.value,
         if (numberOfBytes != null) 'NumberOfBytes': numberOfBytes,
       },
     );
@@ -4404,7 +4404,7 @@ class KMS {
       headers: headers,
       payload: {
         'KeyId': keyId,
-        'MacAlgorithm': macAlgorithm.toValue(),
+        'MacAlgorithm': macAlgorithm.value,
         'Message': base64Encode(message),
         if (dryRun != null) 'DryRun': dryRun,
         if (grantTokens != null) 'GrantTokens': grantTokens,
@@ -4956,8 +4956,8 @@ class KMS {
       headers: headers,
       payload: {
         'KeyId': keyId,
-        'WrappingAlgorithm': wrappingAlgorithm.toValue(),
-        'WrappingKeySpec': wrappingKeySpec.toValue(),
+        'WrappingAlgorithm': wrappingAlgorithm.value,
+        'WrappingKeySpec': wrappingKeySpec.value,
       },
     );
 
@@ -5367,8 +5367,7 @@ class KMS {
         'EncryptedKeyMaterial': base64Encode(encryptedKeyMaterial),
         'ImportToken': base64Encode(importToken),
         'KeyId': keyId,
-        if (expirationModel != null)
-          'ExpirationModel': expirationModel.toValue(),
+        if (expirationModel != null) 'ExpirationModel': expirationModel.value,
         if (validTo != null) 'ValidTo': unixTimestampToJson(validTo),
       },
     );
@@ -6609,13 +6608,13 @@ class KMS {
         'DestinationKeyId': destinationKeyId,
         if (destinationEncryptionAlgorithm != null)
           'DestinationEncryptionAlgorithm':
-              destinationEncryptionAlgorithm.toValue(),
+              destinationEncryptionAlgorithm.value,
         if (destinationEncryptionContext != null)
           'DestinationEncryptionContext': destinationEncryptionContext,
         if (dryRun != null) 'DryRun': dryRun,
         if (grantTokens != null) 'GrantTokens': grantTokens,
         if (sourceEncryptionAlgorithm != null)
-          'SourceEncryptionAlgorithm': sourceEncryptionAlgorithm.toValue(),
+          'SourceEncryptionAlgorithm': sourceEncryptionAlgorithm.value,
         if (sourceEncryptionContext != null)
           'SourceEncryptionContext': sourceEncryptionContext,
         if (sourceKeyId != null) 'SourceKeyId': sourceKeyId,
@@ -7705,10 +7704,10 @@ class KMS {
       payload: {
         'KeyId': keyId,
         'Message': base64Encode(message),
-        'SigningAlgorithm': signingAlgorithm.toValue(),
+        'SigningAlgorithm': signingAlgorithm.value,
         if (dryRun != null) 'DryRun': dryRun,
         if (grantTokens != null) 'GrantTokens': grantTokens,
-        if (messageType != null) 'MessageType': messageType.toValue(),
+        if (messageType != null) 'MessageType': messageType.value,
       },
     );
 
@@ -8382,7 +8381,7 @@ class KMS {
         if (xksProxyAuthenticationCredential != null)
           'XksProxyAuthenticationCredential': xksProxyAuthenticationCredential,
         if (xksProxyConnectivity != null)
-          'XksProxyConnectivity': xksProxyConnectivity.toValue(),
+          'XksProxyConnectivity': xksProxyConnectivity.value,
         if (xksProxyUriEndpoint != null)
           'XksProxyUriEndpoint': xksProxyUriEndpoint,
         if (xksProxyUriPath != null) 'XksProxyUriPath': xksProxyUriPath,
@@ -8838,10 +8837,10 @@ class KMS {
         'KeyId': keyId,
         'Message': base64Encode(message),
         'Signature': base64Encode(signature),
-        'SigningAlgorithm': signingAlgorithm.toValue(),
+        'SigningAlgorithm': signingAlgorithm.value,
         if (dryRun != null) 'DryRun': dryRun,
         if (grantTokens != null) 'GrantTokens': grantTokens,
-        if (messageType != null) 'MessageType': messageType.toValue(),
+        if (messageType != null) 'MessageType': messageType.value,
       },
     );
 
@@ -8962,7 +8961,7 @@ class KMS {
       payload: {
         'KeyId': keyId,
         'Mac': base64Encode(mac),
-        'MacAlgorithm': macAlgorithm.toValue(),
+        'MacAlgorithm': macAlgorithm.value,
         'Message': base64Encode(message),
         if (dryRun != null) 'DryRun': dryRun,
         if (grantTokens != null) 'GrantTokens': grantTokens,
@@ -8974,51 +8973,22 @@ class KMS {
 }
 
 enum AlgorithmSpec {
-  rsaesPkcs1V1_5,
-  rsaesOaepSha_1,
-  rsaesOaepSha_256,
-  rsaAesKeyWrapSha_1,
-  rsaAesKeyWrapSha_256,
-  sm2pke,
-}
+  rsaesPkcs1V1_5('RSAES_PKCS1_V1_5'),
+  rsaesOaepSha_1('RSAES_OAEP_SHA_1'),
+  rsaesOaepSha_256('RSAES_OAEP_SHA_256'),
+  rsaAesKeyWrapSha_1('RSA_AES_KEY_WRAP_SHA_1'),
+  rsaAesKeyWrapSha_256('RSA_AES_KEY_WRAP_SHA_256'),
+  sm2pke('SM2PKE'),
+  ;
 
-extension AlgorithmSpecValueExtension on AlgorithmSpec {
-  String toValue() {
-    switch (this) {
-      case AlgorithmSpec.rsaesPkcs1V1_5:
-        return 'RSAES_PKCS1_V1_5';
-      case AlgorithmSpec.rsaesOaepSha_1:
-        return 'RSAES_OAEP_SHA_1';
-      case AlgorithmSpec.rsaesOaepSha_256:
-        return 'RSAES_OAEP_SHA_256';
-      case AlgorithmSpec.rsaAesKeyWrapSha_1:
-        return 'RSA_AES_KEY_WRAP_SHA_1';
-      case AlgorithmSpec.rsaAesKeyWrapSha_256:
-        return 'RSA_AES_KEY_WRAP_SHA_256';
-      case AlgorithmSpec.sm2pke:
-        return 'SM2PKE';
-    }
-  }
-}
+  final String value;
 
-extension AlgorithmSpecFromString on String {
-  AlgorithmSpec toAlgorithmSpec() {
-    switch (this) {
-      case 'RSAES_PKCS1_V1_5':
-        return AlgorithmSpec.rsaesPkcs1V1_5;
-      case 'RSAES_OAEP_SHA_1':
-        return AlgorithmSpec.rsaesOaepSha_1;
-      case 'RSAES_OAEP_SHA_256':
-        return AlgorithmSpec.rsaesOaepSha_256;
-      case 'RSA_AES_KEY_WRAP_SHA_1':
-        return AlgorithmSpec.rsaAesKeyWrapSha_1;
-      case 'RSA_AES_KEY_WRAP_SHA_256':
-        return AlgorithmSpec.rsaAesKeyWrapSha_256;
-      case 'SM2PKE':
-        return AlgorithmSpec.sm2pke;
-    }
-    throw Exception('$this is not known in enum AlgorithmSpec');
-  }
+  const AlgorithmSpec(this.value);
+
+  static AlgorithmSpec fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AlgorithmSpec'));
 }
 
 /// Contains information about an alias.
@@ -9086,155 +9056,53 @@ class ConnectCustomKeyStoreResponse {
 }
 
 enum ConnectionErrorCodeType {
-  invalidCredentials,
-  clusterNotFound,
-  networkErrors,
-  internalError,
-  insufficientCloudhsmHsms,
-  userLockedOut,
-  userNotFound,
-  userLoggedIn,
-  subnetNotFound,
-  insufficientFreeAddressesInSubnet,
-  xksProxyAccessDenied,
-  xksProxyNotReachable,
-  xksVpcEndpointServiceNotFound,
-  xksProxyInvalidResponse,
-  xksProxyInvalidConfiguration,
-  xksVpcEndpointServiceInvalidConfiguration,
-  xksProxyTimedOut,
-  xksProxyInvalidTlsConfiguration,
-}
+  invalidCredentials('INVALID_CREDENTIALS'),
+  clusterNotFound('CLUSTER_NOT_FOUND'),
+  networkErrors('NETWORK_ERRORS'),
+  internalError('INTERNAL_ERROR'),
+  insufficientCloudhsmHsms('INSUFFICIENT_CLOUDHSM_HSMS'),
+  userLockedOut('USER_LOCKED_OUT'),
+  userNotFound('USER_NOT_FOUND'),
+  userLoggedIn('USER_LOGGED_IN'),
+  subnetNotFound('SUBNET_NOT_FOUND'),
+  insufficientFreeAddressesInSubnet('INSUFFICIENT_FREE_ADDRESSES_IN_SUBNET'),
+  xksProxyAccessDenied('XKS_PROXY_ACCESS_DENIED'),
+  xksProxyNotReachable('XKS_PROXY_NOT_REACHABLE'),
+  xksVpcEndpointServiceNotFound('XKS_VPC_ENDPOINT_SERVICE_NOT_FOUND'),
+  xksProxyInvalidResponse('XKS_PROXY_INVALID_RESPONSE'),
+  xksProxyInvalidConfiguration('XKS_PROXY_INVALID_CONFIGURATION'),
+  xksVpcEndpointServiceInvalidConfiguration(
+      'XKS_VPC_ENDPOINT_SERVICE_INVALID_CONFIGURATION'),
+  xksProxyTimedOut('XKS_PROXY_TIMED_OUT'),
+  xksProxyInvalidTlsConfiguration('XKS_PROXY_INVALID_TLS_CONFIGURATION'),
+  ;
 
-extension ConnectionErrorCodeTypeValueExtension on ConnectionErrorCodeType {
-  String toValue() {
-    switch (this) {
-      case ConnectionErrorCodeType.invalidCredentials:
-        return 'INVALID_CREDENTIALS';
-      case ConnectionErrorCodeType.clusterNotFound:
-        return 'CLUSTER_NOT_FOUND';
-      case ConnectionErrorCodeType.networkErrors:
-        return 'NETWORK_ERRORS';
-      case ConnectionErrorCodeType.internalError:
-        return 'INTERNAL_ERROR';
-      case ConnectionErrorCodeType.insufficientCloudhsmHsms:
-        return 'INSUFFICIENT_CLOUDHSM_HSMS';
-      case ConnectionErrorCodeType.userLockedOut:
-        return 'USER_LOCKED_OUT';
-      case ConnectionErrorCodeType.userNotFound:
-        return 'USER_NOT_FOUND';
-      case ConnectionErrorCodeType.userLoggedIn:
-        return 'USER_LOGGED_IN';
-      case ConnectionErrorCodeType.subnetNotFound:
-        return 'SUBNET_NOT_FOUND';
-      case ConnectionErrorCodeType.insufficientFreeAddressesInSubnet:
-        return 'INSUFFICIENT_FREE_ADDRESSES_IN_SUBNET';
-      case ConnectionErrorCodeType.xksProxyAccessDenied:
-        return 'XKS_PROXY_ACCESS_DENIED';
-      case ConnectionErrorCodeType.xksProxyNotReachable:
-        return 'XKS_PROXY_NOT_REACHABLE';
-      case ConnectionErrorCodeType.xksVpcEndpointServiceNotFound:
-        return 'XKS_VPC_ENDPOINT_SERVICE_NOT_FOUND';
-      case ConnectionErrorCodeType.xksProxyInvalidResponse:
-        return 'XKS_PROXY_INVALID_RESPONSE';
-      case ConnectionErrorCodeType.xksProxyInvalidConfiguration:
-        return 'XKS_PROXY_INVALID_CONFIGURATION';
-      case ConnectionErrorCodeType.xksVpcEndpointServiceInvalidConfiguration:
-        return 'XKS_VPC_ENDPOINT_SERVICE_INVALID_CONFIGURATION';
-      case ConnectionErrorCodeType.xksProxyTimedOut:
-        return 'XKS_PROXY_TIMED_OUT';
-      case ConnectionErrorCodeType.xksProxyInvalidTlsConfiguration:
-        return 'XKS_PROXY_INVALID_TLS_CONFIGURATION';
-    }
-  }
-}
+  final String value;
 
-extension ConnectionErrorCodeTypeFromString on String {
-  ConnectionErrorCodeType toConnectionErrorCodeType() {
-    switch (this) {
-      case 'INVALID_CREDENTIALS':
-        return ConnectionErrorCodeType.invalidCredentials;
-      case 'CLUSTER_NOT_FOUND':
-        return ConnectionErrorCodeType.clusterNotFound;
-      case 'NETWORK_ERRORS':
-        return ConnectionErrorCodeType.networkErrors;
-      case 'INTERNAL_ERROR':
-        return ConnectionErrorCodeType.internalError;
-      case 'INSUFFICIENT_CLOUDHSM_HSMS':
-        return ConnectionErrorCodeType.insufficientCloudhsmHsms;
-      case 'USER_LOCKED_OUT':
-        return ConnectionErrorCodeType.userLockedOut;
-      case 'USER_NOT_FOUND':
-        return ConnectionErrorCodeType.userNotFound;
-      case 'USER_LOGGED_IN':
-        return ConnectionErrorCodeType.userLoggedIn;
-      case 'SUBNET_NOT_FOUND':
-        return ConnectionErrorCodeType.subnetNotFound;
-      case 'INSUFFICIENT_FREE_ADDRESSES_IN_SUBNET':
-        return ConnectionErrorCodeType.insufficientFreeAddressesInSubnet;
-      case 'XKS_PROXY_ACCESS_DENIED':
-        return ConnectionErrorCodeType.xksProxyAccessDenied;
-      case 'XKS_PROXY_NOT_REACHABLE':
-        return ConnectionErrorCodeType.xksProxyNotReachable;
-      case 'XKS_VPC_ENDPOINT_SERVICE_NOT_FOUND':
-        return ConnectionErrorCodeType.xksVpcEndpointServiceNotFound;
-      case 'XKS_PROXY_INVALID_RESPONSE':
-        return ConnectionErrorCodeType.xksProxyInvalidResponse;
-      case 'XKS_PROXY_INVALID_CONFIGURATION':
-        return ConnectionErrorCodeType.xksProxyInvalidConfiguration;
-      case 'XKS_VPC_ENDPOINT_SERVICE_INVALID_CONFIGURATION':
-        return ConnectionErrorCodeType
-            .xksVpcEndpointServiceInvalidConfiguration;
-      case 'XKS_PROXY_TIMED_OUT':
-        return ConnectionErrorCodeType.xksProxyTimedOut;
-      case 'XKS_PROXY_INVALID_TLS_CONFIGURATION':
-        return ConnectionErrorCodeType.xksProxyInvalidTlsConfiguration;
-    }
-    throw Exception('$this is not known in enum ConnectionErrorCodeType');
-  }
+  const ConnectionErrorCodeType(this.value);
+
+  static ConnectionErrorCodeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ConnectionErrorCodeType'));
 }
 
 enum ConnectionStateType {
-  connected,
-  connecting,
-  failed,
-  disconnected,
-  disconnecting,
-}
+  connected('CONNECTED'),
+  connecting('CONNECTING'),
+  failed('FAILED'),
+  disconnected('DISCONNECTED'),
+  disconnecting('DISCONNECTING'),
+  ;
 
-extension ConnectionStateTypeValueExtension on ConnectionStateType {
-  String toValue() {
-    switch (this) {
-      case ConnectionStateType.connected:
-        return 'CONNECTED';
-      case ConnectionStateType.connecting:
-        return 'CONNECTING';
-      case ConnectionStateType.failed:
-        return 'FAILED';
-      case ConnectionStateType.disconnected:
-        return 'DISCONNECTED';
-      case ConnectionStateType.disconnecting:
-        return 'DISCONNECTING';
-    }
-  }
-}
+  final String value;
 
-extension ConnectionStateTypeFromString on String {
-  ConnectionStateType toConnectionStateType() {
-    switch (this) {
-      case 'CONNECTED':
-        return ConnectionStateType.connected;
-      case 'CONNECTING':
-        return ConnectionStateType.connecting;
-      case 'FAILED':
-        return ConnectionStateType.failed;
-      case 'DISCONNECTED':
-        return ConnectionStateType.disconnected;
-      case 'DISCONNECTING':
-        return ConnectionStateType.disconnecting;
-    }
-    throw Exception('$this is not known in enum ConnectionStateType');
-  }
+  const ConnectionStateType(this.value);
+
+  static ConnectionStateType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ConnectionStateType'));
 }
 
 class CreateCustomKeyStoreResponse {
@@ -9301,31 +9169,18 @@ class CreateKeyResponse {
 }
 
 enum CustomKeyStoreType {
-  awsCloudhsm,
-  externalKeyStore,
-}
+  awsCloudhsm('AWS_CLOUDHSM'),
+  externalKeyStore('EXTERNAL_KEY_STORE'),
+  ;
 
-extension CustomKeyStoreTypeValueExtension on CustomKeyStoreType {
-  String toValue() {
-    switch (this) {
-      case CustomKeyStoreType.awsCloudhsm:
-        return 'AWS_CLOUDHSM';
-      case CustomKeyStoreType.externalKeyStore:
-        return 'EXTERNAL_KEY_STORE';
-    }
-  }
-}
+  final String value;
 
-extension CustomKeyStoreTypeFromString on String {
-  CustomKeyStoreType toCustomKeyStoreType() {
-    switch (this) {
-      case 'AWS_CLOUDHSM':
-        return CustomKeyStoreType.awsCloudhsm;
-      case 'EXTERNAL_KEY_STORE':
-        return CustomKeyStoreType.externalKeyStore;
-    }
-    throw Exception('$this is not known in enum CustomKeyStoreType');
-  }
+  const CustomKeyStoreType(this.value);
+
+  static CustomKeyStoreType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum CustomKeyStoreType'));
 }
 
 /// Contains information about each custom key store in the custom key store
@@ -9610,15 +9465,15 @@ class CustomKeyStoresListEntry {
   factory CustomKeyStoresListEntry.fromJson(Map<String, dynamic> json) {
     return CustomKeyStoresListEntry(
       cloudHsmClusterId: json['CloudHsmClusterId'] as String?,
-      connectionErrorCode:
-          (json['ConnectionErrorCode'] as String?)?.toConnectionErrorCodeType(),
-      connectionState:
-          (json['ConnectionState'] as String?)?.toConnectionStateType(),
+      connectionErrorCode: (json['ConnectionErrorCode'] as String?)
+          ?.let(ConnectionErrorCodeType.fromString),
+      connectionState: (json['ConnectionState'] as String?)
+          ?.let(ConnectionStateType.fromString),
       creationDate: timeStampFromJson(json['CreationDate']),
       customKeyStoreId: json['CustomKeyStoreId'] as String?,
       customKeyStoreName: json['CustomKeyStoreName'] as String?,
-      customKeyStoreType:
-          (json['CustomKeyStoreType'] as String?)?.toCustomKeyStoreType(),
+      customKeyStoreType: (json['CustomKeyStoreType'] as String?)
+          ?.let(CustomKeyStoreType.fromString),
       trustAnchorCertificate: json['TrustAnchorCertificate'] as String?,
       xksProxyConfiguration: json['XksProxyConfiguration'] != null
           ? XksProxyConfigurationType.fromJson(
@@ -9630,172 +9485,64 @@ class CustomKeyStoresListEntry {
 
 @Deprecated('This enum has been deprecated. Instead, use the KeySpec enum.')
 enum CustomerMasterKeySpec {
-  rsa_2048,
-  rsa_3072,
-  rsa_4096,
-  eccNistP256,
-  eccNistP384,
-  eccNistP521,
-  eccSecgP256k1,
-  symmetricDefault,
-  hmac_224,
-  hmac_256,
-  hmac_384,
-  hmac_512,
-  sm2,
-}
+  rsa_2048('RSA_2048'),
+  rsa_3072('RSA_3072'),
+  rsa_4096('RSA_4096'),
+  eccNistP256('ECC_NIST_P256'),
+  eccNistP384('ECC_NIST_P384'),
+  eccNistP521('ECC_NIST_P521'),
+  eccSecgP256k1('ECC_SECG_P256K1'),
+  symmetricDefault('SYMMETRIC_DEFAULT'),
+  hmac_224('HMAC_224'),
+  hmac_256('HMAC_256'),
+  hmac_384('HMAC_384'),
+  hmac_512('HMAC_512'),
+  sm2('SM2'),
+  ;
 
-extension CustomerMasterKeySpecValueExtension on CustomerMasterKeySpec {
-  String toValue() {
-    switch (this) {
-      case CustomerMasterKeySpec.rsa_2048:
-        return 'RSA_2048';
-      case CustomerMasterKeySpec.rsa_3072:
-        return 'RSA_3072';
-      case CustomerMasterKeySpec.rsa_4096:
-        return 'RSA_4096';
-      case CustomerMasterKeySpec.eccNistP256:
-        return 'ECC_NIST_P256';
-      case CustomerMasterKeySpec.eccNistP384:
-        return 'ECC_NIST_P384';
-      case CustomerMasterKeySpec.eccNistP521:
-        return 'ECC_NIST_P521';
-      case CustomerMasterKeySpec.eccSecgP256k1:
-        return 'ECC_SECG_P256K1';
-      case CustomerMasterKeySpec.symmetricDefault:
-        return 'SYMMETRIC_DEFAULT';
-      case CustomerMasterKeySpec.hmac_224:
-        return 'HMAC_224';
-      case CustomerMasterKeySpec.hmac_256:
-        return 'HMAC_256';
-      case CustomerMasterKeySpec.hmac_384:
-        return 'HMAC_384';
-      case CustomerMasterKeySpec.hmac_512:
-        return 'HMAC_512';
-      case CustomerMasterKeySpec.sm2:
-        return 'SM2';
-    }
-  }
-}
+  final String value;
 
-extension CustomerMasterKeySpecFromString on String {
-  CustomerMasterKeySpec toCustomerMasterKeySpec() {
-    switch (this) {
-      case 'RSA_2048':
-        return CustomerMasterKeySpec.rsa_2048;
-      case 'RSA_3072':
-        return CustomerMasterKeySpec.rsa_3072;
-      case 'RSA_4096':
-        return CustomerMasterKeySpec.rsa_4096;
-      case 'ECC_NIST_P256':
-        return CustomerMasterKeySpec.eccNistP256;
-      case 'ECC_NIST_P384':
-        return CustomerMasterKeySpec.eccNistP384;
-      case 'ECC_NIST_P521':
-        return CustomerMasterKeySpec.eccNistP521;
-      case 'ECC_SECG_P256K1':
-        return CustomerMasterKeySpec.eccSecgP256k1;
-      case 'SYMMETRIC_DEFAULT':
-        return CustomerMasterKeySpec.symmetricDefault;
-      case 'HMAC_224':
-        return CustomerMasterKeySpec.hmac_224;
-      case 'HMAC_256':
-        return CustomerMasterKeySpec.hmac_256;
-      case 'HMAC_384':
-        return CustomerMasterKeySpec.hmac_384;
-      case 'HMAC_512':
-        return CustomerMasterKeySpec.hmac_512;
-      case 'SM2':
-        return CustomerMasterKeySpec.sm2;
-    }
-    throw Exception('$this is not known in enum CustomerMasterKeySpec');
-  }
+  const CustomerMasterKeySpec(this.value);
+
+  static CustomerMasterKeySpec fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum CustomerMasterKeySpec'));
 }
 
 enum DataKeyPairSpec {
-  rsa_2048,
-  rsa_3072,
-  rsa_4096,
-  eccNistP256,
-  eccNistP384,
-  eccNistP521,
-  eccSecgP256k1,
-  sm2,
-}
+  rsa_2048('RSA_2048'),
+  rsa_3072('RSA_3072'),
+  rsa_4096('RSA_4096'),
+  eccNistP256('ECC_NIST_P256'),
+  eccNistP384('ECC_NIST_P384'),
+  eccNistP521('ECC_NIST_P521'),
+  eccSecgP256k1('ECC_SECG_P256K1'),
+  sm2('SM2'),
+  ;
 
-extension DataKeyPairSpecValueExtension on DataKeyPairSpec {
-  String toValue() {
-    switch (this) {
-      case DataKeyPairSpec.rsa_2048:
-        return 'RSA_2048';
-      case DataKeyPairSpec.rsa_3072:
-        return 'RSA_3072';
-      case DataKeyPairSpec.rsa_4096:
-        return 'RSA_4096';
-      case DataKeyPairSpec.eccNistP256:
-        return 'ECC_NIST_P256';
-      case DataKeyPairSpec.eccNistP384:
-        return 'ECC_NIST_P384';
-      case DataKeyPairSpec.eccNistP521:
-        return 'ECC_NIST_P521';
-      case DataKeyPairSpec.eccSecgP256k1:
-        return 'ECC_SECG_P256K1';
-      case DataKeyPairSpec.sm2:
-        return 'SM2';
-    }
-  }
-}
+  final String value;
 
-extension DataKeyPairSpecFromString on String {
-  DataKeyPairSpec toDataKeyPairSpec() {
-    switch (this) {
-      case 'RSA_2048':
-        return DataKeyPairSpec.rsa_2048;
-      case 'RSA_3072':
-        return DataKeyPairSpec.rsa_3072;
-      case 'RSA_4096':
-        return DataKeyPairSpec.rsa_4096;
-      case 'ECC_NIST_P256':
-        return DataKeyPairSpec.eccNistP256;
-      case 'ECC_NIST_P384':
-        return DataKeyPairSpec.eccNistP384;
-      case 'ECC_NIST_P521':
-        return DataKeyPairSpec.eccNistP521;
-      case 'ECC_SECG_P256K1':
-        return DataKeyPairSpec.eccSecgP256k1;
-      case 'SM2':
-        return DataKeyPairSpec.sm2;
-    }
-    throw Exception('$this is not known in enum DataKeyPairSpec');
-  }
+  const DataKeyPairSpec(this.value);
+
+  static DataKeyPairSpec fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DataKeyPairSpec'));
 }
 
 enum DataKeySpec {
-  aes_256,
-  aes_128,
-}
+  aes_256('AES_256'),
+  aes_128('AES_128'),
+  ;
 
-extension DataKeySpecValueExtension on DataKeySpec {
-  String toValue() {
-    switch (this) {
-      case DataKeySpec.aes_256:
-        return 'AES_256';
-      case DataKeySpec.aes_128:
-        return 'AES_128';
-    }
-  }
-}
+  final String value;
 
-extension DataKeySpecFromString on String {
-  DataKeySpec toDataKeySpec() {
-    switch (this) {
-      case 'AES_256':
-        return DataKeySpec.aes_256;
-      case 'AES_128':
-        return DataKeySpec.aes_128;
-    }
-    throw Exception('$this is not known in enum DataKeySpec');
-  }
+  const DataKeySpec(this.value);
+
+  static DataKeySpec fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum DataKeySpec'));
 }
 
 class DecryptResponse {
@@ -9838,8 +9585,8 @@ class DecryptResponse {
     return DecryptResponse(
       ciphertextForRecipient:
           _s.decodeNullableUint8List(json['CiphertextForRecipient'] as String?),
-      encryptionAlgorithm:
-          (json['EncryptionAlgorithm'] as String?)?.toEncryptionAlgorithmSpec(),
+      encryptionAlgorithm: (json['EncryptionAlgorithm'] as String?)
+          ?.let(EncryptionAlgorithmSpec.fromString),
       keyId: json['KeyId'] as String?,
       plaintext: _s.decodeNullableUint8List(json['Plaintext'] as String?),
     );
@@ -9937,77 +9684,43 @@ class EncryptResponse {
     return EncryptResponse(
       ciphertextBlob:
           _s.decodeNullableUint8List(json['CiphertextBlob'] as String?),
-      encryptionAlgorithm:
-          (json['EncryptionAlgorithm'] as String?)?.toEncryptionAlgorithmSpec(),
+      encryptionAlgorithm: (json['EncryptionAlgorithm'] as String?)
+          ?.let(EncryptionAlgorithmSpec.fromString),
       keyId: json['KeyId'] as String?,
     );
   }
 }
 
 enum EncryptionAlgorithmSpec {
-  symmetricDefault,
-  rsaesOaepSha_1,
-  rsaesOaepSha_256,
-  sm2pke,
-}
+  symmetricDefault('SYMMETRIC_DEFAULT'),
+  rsaesOaepSha_1('RSAES_OAEP_SHA_1'),
+  rsaesOaepSha_256('RSAES_OAEP_SHA_256'),
+  sm2pke('SM2PKE'),
+  ;
 
-extension EncryptionAlgorithmSpecValueExtension on EncryptionAlgorithmSpec {
-  String toValue() {
-    switch (this) {
-      case EncryptionAlgorithmSpec.symmetricDefault:
-        return 'SYMMETRIC_DEFAULT';
-      case EncryptionAlgorithmSpec.rsaesOaepSha_1:
-        return 'RSAES_OAEP_SHA_1';
-      case EncryptionAlgorithmSpec.rsaesOaepSha_256:
-        return 'RSAES_OAEP_SHA_256';
-      case EncryptionAlgorithmSpec.sm2pke:
-        return 'SM2PKE';
-    }
-  }
-}
+  final String value;
 
-extension EncryptionAlgorithmSpecFromString on String {
-  EncryptionAlgorithmSpec toEncryptionAlgorithmSpec() {
-    switch (this) {
-      case 'SYMMETRIC_DEFAULT':
-        return EncryptionAlgorithmSpec.symmetricDefault;
-      case 'RSAES_OAEP_SHA_1':
-        return EncryptionAlgorithmSpec.rsaesOaepSha_1;
-      case 'RSAES_OAEP_SHA_256':
-        return EncryptionAlgorithmSpec.rsaesOaepSha_256;
-      case 'SM2PKE':
-        return EncryptionAlgorithmSpec.sm2pke;
-    }
-    throw Exception('$this is not known in enum EncryptionAlgorithmSpec');
-  }
+  const EncryptionAlgorithmSpec(this.value);
+
+  static EncryptionAlgorithmSpec fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum EncryptionAlgorithmSpec'));
 }
 
 enum ExpirationModelType {
-  keyMaterialExpires,
-  keyMaterialDoesNotExpire,
-}
+  keyMaterialExpires('KEY_MATERIAL_EXPIRES'),
+  keyMaterialDoesNotExpire('KEY_MATERIAL_DOES_NOT_EXPIRE'),
+  ;
 
-extension ExpirationModelTypeValueExtension on ExpirationModelType {
-  String toValue() {
-    switch (this) {
-      case ExpirationModelType.keyMaterialExpires:
-        return 'KEY_MATERIAL_EXPIRES';
-      case ExpirationModelType.keyMaterialDoesNotExpire:
-        return 'KEY_MATERIAL_DOES_NOT_EXPIRE';
-    }
-  }
-}
+  final String value;
 
-extension ExpirationModelTypeFromString on String {
-  ExpirationModelType toExpirationModelType() {
-    switch (this) {
-      case 'KEY_MATERIAL_EXPIRES':
-        return ExpirationModelType.keyMaterialExpires;
-      case 'KEY_MATERIAL_DOES_NOT_EXPIRE':
-        return ExpirationModelType.keyMaterialDoesNotExpire;
-    }
-    throw Exception('$this is not known in enum ExpirationModelType');
-  }
+  const ExpirationModelType(this.value);
+
+  static ExpirationModelType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ExpirationModelType'));
 }
 
 class GenerateDataKeyPairResponse {
@@ -10064,7 +9777,8 @@ class GenerateDataKeyPairResponse {
       ciphertextForRecipient:
           _s.decodeNullableUint8List(json['CiphertextForRecipient'] as String?),
       keyId: json['KeyId'] as String?,
-      keyPairSpec: (json['KeyPairSpec'] as String?)?.toDataKeyPairSpec(),
+      keyPairSpec:
+          (json['KeyPairSpec'] as String?)?.let(DataKeyPairSpec.fromString),
       privateKeyCiphertextBlob: _s
           .decodeNullableUint8List(json['PrivateKeyCiphertextBlob'] as String?),
       privateKeyPlaintext:
@@ -10104,7 +9818,8 @@ class GenerateDataKeyPairWithoutPlaintextResponse {
       Map<String, dynamic> json) {
     return GenerateDataKeyPairWithoutPlaintextResponse(
       keyId: json['KeyId'] as String?,
-      keyPairSpec: (json['KeyPairSpec'] as String?)?.toDataKeyPairSpec(),
+      keyPairSpec:
+          (json['KeyPairSpec'] as String?)?.let(DataKeyPairSpec.fromString),
       privateKeyCiphertextBlob: _s
           .decodeNullableUint8List(json['PrivateKeyCiphertextBlob'] as String?),
       publicKey: _s.decodeNullableUint8List(json['PublicKey'] as String?),
@@ -10213,7 +9928,8 @@ class GenerateMacResponse {
     return GenerateMacResponse(
       keyId: json['KeyId'] as String?,
       mac: _s.decodeNullableUint8List(json['Mac'] as String?),
-      macAlgorithm: (json['MacAlgorithm'] as String?)?.toMacAlgorithmSpec(),
+      macAlgorithm:
+          (json['MacAlgorithm'] as String?)?.let(MacAlgorithmSpec.fromString),
     );
   }
 }
@@ -10419,19 +10135,19 @@ class GetPublicKeyResponse {
 
   factory GetPublicKeyResponse.fromJson(Map<String, dynamic> json) {
     return GetPublicKeyResponse(
-      customerMasterKeySpec:
-          (json['CustomerMasterKeySpec'] as String?)?.toCustomerMasterKeySpec(),
+      customerMasterKeySpec: (json['CustomerMasterKeySpec'] as String?)
+          ?.let(CustomerMasterKeySpec.fromString),
       encryptionAlgorithms: (json['EncryptionAlgorithms'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toEncryptionAlgorithmSpec())
+          .map((e) => EncryptionAlgorithmSpec.fromString((e as String)))
           .toList(),
       keyId: json['KeyId'] as String?,
-      keySpec: (json['KeySpec'] as String?)?.toKeySpec(),
-      keyUsage: (json['KeyUsage'] as String?)?.toKeyUsageType(),
+      keySpec: (json['KeySpec'] as String?)?.let(KeySpec.fromString),
+      keyUsage: (json['KeyUsage'] as String?)?.let(KeyUsageType.fromString),
       publicKey: _s.decodeNullableUint8List(json['PublicKey'] as String?),
       signingAlgorithms: (json['SigningAlgorithms'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toSigningAlgorithmSpec())
+          .map((e) => SigningAlgorithmSpec.fromString((e as String)))
           .toList(),
     );
   }
@@ -10580,7 +10296,7 @@ class GrantListEntry {
       name: json['Name'] as String?,
       operations: (json['Operations'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toGrantOperation())
+          .map((e) => GrantOperation.fromString((e as String)))
           .toList(),
       retiringPrincipal: json['RetiringPrincipal'] as String?,
     );
@@ -10588,101 +10304,32 @@ class GrantListEntry {
 }
 
 enum GrantOperation {
-  decrypt,
-  encrypt,
-  generateDataKey,
-  generateDataKeyWithoutPlaintext,
-  reEncryptFrom,
-  reEncryptTo,
-  sign,
-  verify,
-  getPublicKey,
-  createGrant,
-  retireGrant,
-  describeKey,
-  generateDataKeyPair,
-  generateDataKeyPairWithoutPlaintext,
-  generateMac,
-  verifyMac,
-}
+  decrypt('Decrypt'),
+  encrypt('Encrypt'),
+  generateDataKey('GenerateDataKey'),
+  generateDataKeyWithoutPlaintext('GenerateDataKeyWithoutPlaintext'),
+  reEncryptFrom('ReEncryptFrom'),
+  reEncryptTo('ReEncryptTo'),
+  sign('Sign'),
+  verify('Verify'),
+  getPublicKey('GetPublicKey'),
+  createGrant('CreateGrant'),
+  retireGrant('RetireGrant'),
+  describeKey('DescribeKey'),
+  generateDataKeyPair('GenerateDataKeyPair'),
+  generateDataKeyPairWithoutPlaintext('GenerateDataKeyPairWithoutPlaintext'),
+  generateMac('GenerateMac'),
+  verifyMac('VerifyMac'),
+  ;
 
-extension GrantOperationValueExtension on GrantOperation {
-  String toValue() {
-    switch (this) {
-      case GrantOperation.decrypt:
-        return 'Decrypt';
-      case GrantOperation.encrypt:
-        return 'Encrypt';
-      case GrantOperation.generateDataKey:
-        return 'GenerateDataKey';
-      case GrantOperation.generateDataKeyWithoutPlaintext:
-        return 'GenerateDataKeyWithoutPlaintext';
-      case GrantOperation.reEncryptFrom:
-        return 'ReEncryptFrom';
-      case GrantOperation.reEncryptTo:
-        return 'ReEncryptTo';
-      case GrantOperation.sign:
-        return 'Sign';
-      case GrantOperation.verify:
-        return 'Verify';
-      case GrantOperation.getPublicKey:
-        return 'GetPublicKey';
-      case GrantOperation.createGrant:
-        return 'CreateGrant';
-      case GrantOperation.retireGrant:
-        return 'RetireGrant';
-      case GrantOperation.describeKey:
-        return 'DescribeKey';
-      case GrantOperation.generateDataKeyPair:
-        return 'GenerateDataKeyPair';
-      case GrantOperation.generateDataKeyPairWithoutPlaintext:
-        return 'GenerateDataKeyPairWithoutPlaintext';
-      case GrantOperation.generateMac:
-        return 'GenerateMac';
-      case GrantOperation.verifyMac:
-        return 'VerifyMac';
-    }
-  }
-}
+  final String value;
 
-extension GrantOperationFromString on String {
-  GrantOperation toGrantOperation() {
-    switch (this) {
-      case 'Decrypt':
-        return GrantOperation.decrypt;
-      case 'Encrypt':
-        return GrantOperation.encrypt;
-      case 'GenerateDataKey':
-        return GrantOperation.generateDataKey;
-      case 'GenerateDataKeyWithoutPlaintext':
-        return GrantOperation.generateDataKeyWithoutPlaintext;
-      case 'ReEncryptFrom':
-        return GrantOperation.reEncryptFrom;
-      case 'ReEncryptTo':
-        return GrantOperation.reEncryptTo;
-      case 'Sign':
-        return GrantOperation.sign;
-      case 'Verify':
-        return GrantOperation.verify;
-      case 'GetPublicKey':
-        return GrantOperation.getPublicKey;
-      case 'CreateGrant':
-        return GrantOperation.createGrant;
-      case 'RetireGrant':
-        return GrantOperation.retireGrant;
-      case 'DescribeKey':
-        return GrantOperation.describeKey;
-      case 'GenerateDataKeyPair':
-        return GrantOperation.generateDataKeyPair;
-      case 'GenerateDataKeyPairWithoutPlaintext':
-        return GrantOperation.generateDataKeyPairWithoutPlaintext;
-      case 'GenerateMac':
-        return GrantOperation.generateMac;
-      case 'VerifyMac':
-        return GrantOperation.verifyMac;
-    }
-    throw Exception('$this is not known in enum GrantOperation');
-  }
+  const GrantOperation(this.value);
+
+  static GrantOperation fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum GrantOperation'));
 }
 
 class ImportKeyMaterialResponse {
@@ -10694,26 +10341,17 @@ class ImportKeyMaterialResponse {
 }
 
 enum KeyEncryptionMechanism {
-  rsaesOaepSha_256,
-}
+  rsaesOaepSha_256('RSAES_OAEP_SHA_256'),
+  ;
 
-extension KeyEncryptionMechanismValueExtension on KeyEncryptionMechanism {
-  String toValue() {
-    switch (this) {
-      case KeyEncryptionMechanism.rsaesOaepSha_256:
-        return 'RSAES_OAEP_SHA_256';
-    }
-  }
-}
+  final String value;
 
-extension KeyEncryptionMechanismFromString on String {
-  KeyEncryptionMechanism toKeyEncryptionMechanism() {
-    switch (this) {
-      case 'RSAES_OAEP_SHA_256':
-        return KeyEncryptionMechanism.rsaesOaepSha_256;
-    }
-    throw Exception('$this is not known in enum KeyEncryptionMechanism');
-  }
+  const KeyEncryptionMechanism(this.value);
+
+  static KeyEncryptionMechanism fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum KeyEncryptionMechanism'));
 }
 
 /// Contains information about each entry in the key list.
@@ -10738,31 +10376,18 @@ class KeyListEntry {
 }
 
 enum KeyManagerType {
-  aws,
-  customer,
-}
+  aws('AWS'),
+  customer('CUSTOMER'),
+  ;
 
-extension KeyManagerTypeValueExtension on KeyManagerType {
-  String toValue() {
-    switch (this) {
-      case KeyManagerType.aws:
-        return 'AWS';
-      case KeyManagerType.customer:
-        return 'CUSTOMER';
-    }
-  }
-}
+  final String value;
 
-extension KeyManagerTypeFromString on String {
-  KeyManagerType toKeyManagerType() {
-    switch (this) {
-      case 'AWS':
-        return KeyManagerType.aws;
-      case 'CUSTOMER':
-        return KeyManagerType.customer;
-    }
-    throw Exception('$this is not known in enum KeyManagerType');
-  }
+  const KeyManagerType(this.value);
+
+  static KeyManagerType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum KeyManagerType'));
 }
 
 /// Contains metadata about a KMS key.
@@ -10982,35 +10607,36 @@ class KeyMetadata {
       cloudHsmClusterId: json['CloudHsmClusterId'] as String?,
       creationDate: timeStampFromJson(json['CreationDate']),
       customKeyStoreId: json['CustomKeyStoreId'] as String?,
-      customerMasterKeySpec:
-          (json['CustomerMasterKeySpec'] as String?)?.toCustomerMasterKeySpec(),
+      customerMasterKeySpec: (json['CustomerMasterKeySpec'] as String?)
+          ?.let(CustomerMasterKeySpec.fromString),
       deletionDate: timeStampFromJson(json['DeletionDate']),
       description: json['Description'] as String?,
       enabled: json['Enabled'] as bool?,
       encryptionAlgorithms: (json['EncryptionAlgorithms'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toEncryptionAlgorithmSpec())
+          .map((e) => EncryptionAlgorithmSpec.fromString((e as String)))
           .toList(),
-      expirationModel:
-          (json['ExpirationModel'] as String?)?.toExpirationModelType(),
-      keyManager: (json['KeyManager'] as String?)?.toKeyManagerType(),
-      keySpec: (json['KeySpec'] as String?)?.toKeySpec(),
-      keyState: (json['KeyState'] as String?)?.toKeyState(),
-      keyUsage: (json['KeyUsage'] as String?)?.toKeyUsageType(),
+      expirationModel: (json['ExpirationModel'] as String?)
+          ?.let(ExpirationModelType.fromString),
+      keyManager:
+          (json['KeyManager'] as String?)?.let(KeyManagerType.fromString),
+      keySpec: (json['KeySpec'] as String?)?.let(KeySpec.fromString),
+      keyState: (json['KeyState'] as String?)?.let(KeyState.fromString),
+      keyUsage: (json['KeyUsage'] as String?)?.let(KeyUsageType.fromString),
       macAlgorithms: (json['MacAlgorithms'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toMacAlgorithmSpec())
+          .map((e) => MacAlgorithmSpec.fromString((e as String)))
           .toList(),
       multiRegion: json['MultiRegion'] as bool?,
       multiRegionConfiguration: json['MultiRegionConfiguration'] != null
           ? MultiRegionConfiguration.fromJson(
               json['MultiRegionConfiguration'] as Map<String, dynamic>)
           : null,
-      origin: (json['Origin'] as String?)?.toOriginType(),
+      origin: (json['Origin'] as String?)?.let(OriginType.fromString),
       pendingDeletionWindowInDays: json['PendingDeletionWindowInDays'] as int?,
       signingAlgorithms: (json['SigningAlgorithms'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toSigningAlgorithmSpec())
+          .map((e) => SigningAlgorithmSpec.fromString((e as String)))
           .toList(),
       validTo: timeStampFromJson(json['ValidTo']),
       xksKeyConfiguration: json['XksKeyConfiguration'] != null
@@ -11022,177 +10648,64 @@ class KeyMetadata {
 }
 
 enum KeySpec {
-  rsa_2048,
-  rsa_3072,
-  rsa_4096,
-  eccNistP256,
-  eccNistP384,
-  eccNistP521,
-  eccSecgP256k1,
-  symmetricDefault,
-  hmac_224,
-  hmac_256,
-  hmac_384,
-  hmac_512,
-  sm2,
-}
+  rsa_2048('RSA_2048'),
+  rsa_3072('RSA_3072'),
+  rsa_4096('RSA_4096'),
+  eccNistP256('ECC_NIST_P256'),
+  eccNistP384('ECC_NIST_P384'),
+  eccNistP521('ECC_NIST_P521'),
+  eccSecgP256k1('ECC_SECG_P256K1'),
+  symmetricDefault('SYMMETRIC_DEFAULT'),
+  hmac_224('HMAC_224'),
+  hmac_256('HMAC_256'),
+  hmac_384('HMAC_384'),
+  hmac_512('HMAC_512'),
+  sm2('SM2'),
+  ;
 
-extension KeySpecValueExtension on KeySpec {
-  String toValue() {
-    switch (this) {
-      case KeySpec.rsa_2048:
-        return 'RSA_2048';
-      case KeySpec.rsa_3072:
-        return 'RSA_3072';
-      case KeySpec.rsa_4096:
-        return 'RSA_4096';
-      case KeySpec.eccNistP256:
-        return 'ECC_NIST_P256';
-      case KeySpec.eccNistP384:
-        return 'ECC_NIST_P384';
-      case KeySpec.eccNistP521:
-        return 'ECC_NIST_P521';
-      case KeySpec.eccSecgP256k1:
-        return 'ECC_SECG_P256K1';
-      case KeySpec.symmetricDefault:
-        return 'SYMMETRIC_DEFAULT';
-      case KeySpec.hmac_224:
-        return 'HMAC_224';
-      case KeySpec.hmac_256:
-        return 'HMAC_256';
-      case KeySpec.hmac_384:
-        return 'HMAC_384';
-      case KeySpec.hmac_512:
-        return 'HMAC_512';
-      case KeySpec.sm2:
-        return 'SM2';
-    }
-  }
-}
+  final String value;
 
-extension KeySpecFromString on String {
-  KeySpec toKeySpec() {
-    switch (this) {
-      case 'RSA_2048':
-        return KeySpec.rsa_2048;
-      case 'RSA_3072':
-        return KeySpec.rsa_3072;
-      case 'RSA_4096':
-        return KeySpec.rsa_4096;
-      case 'ECC_NIST_P256':
-        return KeySpec.eccNistP256;
-      case 'ECC_NIST_P384':
-        return KeySpec.eccNistP384;
-      case 'ECC_NIST_P521':
-        return KeySpec.eccNistP521;
-      case 'ECC_SECG_P256K1':
-        return KeySpec.eccSecgP256k1;
-      case 'SYMMETRIC_DEFAULT':
-        return KeySpec.symmetricDefault;
-      case 'HMAC_224':
-        return KeySpec.hmac_224;
-      case 'HMAC_256':
-        return KeySpec.hmac_256;
-      case 'HMAC_384':
-        return KeySpec.hmac_384;
-      case 'HMAC_512':
-        return KeySpec.hmac_512;
-      case 'SM2':
-        return KeySpec.sm2;
-    }
-    throw Exception('$this is not known in enum KeySpec');
-  }
+  const KeySpec(this.value);
+
+  static KeySpec fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum KeySpec'));
 }
 
 enum KeyState {
-  creating,
-  enabled,
-  disabled,
-  pendingDeletion,
-  pendingImport,
-  pendingReplicaDeletion,
-  unavailable,
-  updating,
-}
+  creating('Creating'),
+  enabled('Enabled'),
+  disabled('Disabled'),
+  pendingDeletion('PendingDeletion'),
+  pendingImport('PendingImport'),
+  pendingReplicaDeletion('PendingReplicaDeletion'),
+  unavailable('Unavailable'),
+  updating('Updating'),
+  ;
 
-extension KeyStateValueExtension on KeyState {
-  String toValue() {
-    switch (this) {
-      case KeyState.creating:
-        return 'Creating';
-      case KeyState.enabled:
-        return 'Enabled';
-      case KeyState.disabled:
-        return 'Disabled';
-      case KeyState.pendingDeletion:
-        return 'PendingDeletion';
-      case KeyState.pendingImport:
-        return 'PendingImport';
-      case KeyState.pendingReplicaDeletion:
-        return 'PendingReplicaDeletion';
-      case KeyState.unavailable:
-        return 'Unavailable';
-      case KeyState.updating:
-        return 'Updating';
-    }
-  }
-}
+  final String value;
 
-extension KeyStateFromString on String {
-  KeyState toKeyState() {
-    switch (this) {
-      case 'Creating':
-        return KeyState.creating;
-      case 'Enabled':
-        return KeyState.enabled;
-      case 'Disabled':
-        return KeyState.disabled;
-      case 'PendingDeletion':
-        return KeyState.pendingDeletion;
-      case 'PendingImport':
-        return KeyState.pendingImport;
-      case 'PendingReplicaDeletion':
-        return KeyState.pendingReplicaDeletion;
-      case 'Unavailable':
-        return KeyState.unavailable;
-      case 'Updating':
-        return KeyState.updating;
-    }
-    throw Exception('$this is not known in enum KeyState');
-  }
+  const KeyState(this.value);
+
+  static KeyState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum KeyState'));
 }
 
 enum KeyUsageType {
-  signVerify,
-  encryptDecrypt,
-  generateVerifyMac,
-}
+  signVerify('SIGN_VERIFY'),
+  encryptDecrypt('ENCRYPT_DECRYPT'),
+  generateVerifyMac('GENERATE_VERIFY_MAC'),
+  ;
 
-extension KeyUsageTypeValueExtension on KeyUsageType {
-  String toValue() {
-    switch (this) {
-      case KeyUsageType.signVerify:
-        return 'SIGN_VERIFY';
-      case KeyUsageType.encryptDecrypt:
-        return 'ENCRYPT_DECRYPT';
-      case KeyUsageType.generateVerifyMac:
-        return 'GENERATE_VERIFY_MAC';
-    }
-  }
-}
+  final String value;
 
-extension KeyUsageTypeFromString on String {
-  KeyUsageType toKeyUsageType() {
-    switch (this) {
-      case 'SIGN_VERIFY':
-        return KeyUsageType.signVerify;
-      case 'ENCRYPT_DECRYPT':
-        return KeyUsageType.encryptDecrypt;
-      case 'GENERATE_VERIFY_MAC':
-        return KeyUsageType.generateVerifyMac;
-    }
-    throw Exception('$this is not known in enum KeyUsageType');
-  }
+  const KeyUsageType(this.value);
+
+  static KeyUsageType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum KeyUsageType'));
 }
 
 class ListAliasesResponse {
@@ -11402,69 +10915,34 @@ class ListResourceTagsResponse {
 }
 
 enum MacAlgorithmSpec {
-  hmacSha_224,
-  hmacSha_256,
-  hmacSha_384,
-  hmacSha_512,
-}
+  hmacSha_224('HMAC_SHA_224'),
+  hmacSha_256('HMAC_SHA_256'),
+  hmacSha_384('HMAC_SHA_384'),
+  hmacSha_512('HMAC_SHA_512'),
+  ;
 
-extension MacAlgorithmSpecValueExtension on MacAlgorithmSpec {
-  String toValue() {
-    switch (this) {
-      case MacAlgorithmSpec.hmacSha_224:
-        return 'HMAC_SHA_224';
-      case MacAlgorithmSpec.hmacSha_256:
-        return 'HMAC_SHA_256';
-      case MacAlgorithmSpec.hmacSha_384:
-        return 'HMAC_SHA_384';
-      case MacAlgorithmSpec.hmacSha_512:
-        return 'HMAC_SHA_512';
-    }
-  }
-}
+  final String value;
 
-extension MacAlgorithmSpecFromString on String {
-  MacAlgorithmSpec toMacAlgorithmSpec() {
-    switch (this) {
-      case 'HMAC_SHA_224':
-        return MacAlgorithmSpec.hmacSha_224;
-      case 'HMAC_SHA_256':
-        return MacAlgorithmSpec.hmacSha_256;
-      case 'HMAC_SHA_384':
-        return MacAlgorithmSpec.hmacSha_384;
-      case 'HMAC_SHA_512':
-        return MacAlgorithmSpec.hmacSha_512;
-    }
-    throw Exception('$this is not known in enum MacAlgorithmSpec');
-  }
+  const MacAlgorithmSpec(this.value);
+
+  static MacAlgorithmSpec fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MacAlgorithmSpec'));
 }
 
 enum MessageType {
-  raw,
-  digest,
-}
+  raw('RAW'),
+  digest('DIGEST'),
+  ;
 
-extension MessageTypeValueExtension on MessageType {
-  String toValue() {
-    switch (this) {
-      case MessageType.raw:
-        return 'RAW';
-      case MessageType.digest:
-        return 'DIGEST';
-    }
-  }
-}
+  final String value;
 
-extension MessageTypeFromString on String {
-  MessageType toMessageType() {
-    switch (this) {
-      case 'RAW':
-        return MessageType.raw;
-      case 'DIGEST':
-        return MessageType.digest;
-    }
-    throw Exception('$this is not known in enum MessageType');
-  }
+  const MessageType(this.value);
+
+  static MessageType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum MessageType'));
 }
 
 /// Describes the configuration of this multi-Region key. This field appears
@@ -11493,8 +10971,8 @@ class MultiRegionConfiguration {
 
   factory MultiRegionConfiguration.fromJson(Map<String, dynamic> json) {
     return MultiRegionConfiguration(
-      multiRegionKeyType:
-          (json['MultiRegionKeyType'] as String?)?.toMultiRegionKeyType(),
+      multiRegionKeyType: (json['MultiRegionKeyType'] as String?)
+          ?.let(MultiRegionKeyType.fromString),
       primaryKey: json['PrimaryKey'] != null
           ? MultiRegionKey.fromJson(json['PrimaryKey'] as Map<String, dynamic>)
           : null,
@@ -11529,69 +11007,34 @@ class MultiRegionKey {
 }
 
 enum MultiRegionKeyType {
-  primary,
-  replica,
-}
+  primary('PRIMARY'),
+  replica('REPLICA'),
+  ;
 
-extension MultiRegionKeyTypeValueExtension on MultiRegionKeyType {
-  String toValue() {
-    switch (this) {
-      case MultiRegionKeyType.primary:
-        return 'PRIMARY';
-      case MultiRegionKeyType.replica:
-        return 'REPLICA';
-    }
-  }
-}
+  final String value;
 
-extension MultiRegionKeyTypeFromString on String {
-  MultiRegionKeyType toMultiRegionKeyType() {
-    switch (this) {
-      case 'PRIMARY':
-        return MultiRegionKeyType.primary;
-      case 'REPLICA':
-        return MultiRegionKeyType.replica;
-    }
-    throw Exception('$this is not known in enum MultiRegionKeyType');
-  }
+  const MultiRegionKeyType(this.value);
+
+  static MultiRegionKeyType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum MultiRegionKeyType'));
 }
 
 enum OriginType {
-  awsKms,
-  external,
-  awsCloudhsm,
-  externalKeyStore,
-}
+  awsKms('AWS_KMS'),
+  external('EXTERNAL'),
+  awsCloudhsm('AWS_CLOUDHSM'),
+  externalKeyStore('EXTERNAL_KEY_STORE'),
+  ;
 
-extension OriginTypeValueExtension on OriginType {
-  String toValue() {
-    switch (this) {
-      case OriginType.awsKms:
-        return 'AWS_KMS';
-      case OriginType.external:
-        return 'EXTERNAL';
-      case OriginType.awsCloudhsm:
-        return 'AWS_CLOUDHSM';
-      case OriginType.externalKeyStore:
-        return 'EXTERNAL_KEY_STORE';
-    }
-  }
-}
+  final String value;
 
-extension OriginTypeFromString on String {
-  OriginType toOriginType() {
-    switch (this) {
-      case 'AWS_KMS':
-        return OriginType.awsKms;
-      case 'EXTERNAL':
-        return OriginType.external;
-      case 'AWS_CLOUDHSM':
-        return OriginType.awsCloudhsm;
-      case 'EXTERNAL_KEY_STORE':
-        return OriginType.externalKeyStore;
-    }
-    throw Exception('$this is not known in enum OriginType');
-  }
+  const OriginType(this.value);
+
+  static OriginType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum OriginType'));
 }
 
 class ReEncryptResponse {
@@ -11628,10 +11071,10 @@ class ReEncryptResponse {
           _s.decodeNullableUint8List(json['CiphertextBlob'] as String?),
       destinationEncryptionAlgorithm:
           (json['DestinationEncryptionAlgorithm'] as String?)
-              ?.toEncryptionAlgorithmSpec(),
+              ?.let(EncryptionAlgorithmSpec.fromString),
       keyId: json['KeyId'] as String?,
       sourceEncryptionAlgorithm: (json['SourceEncryptionAlgorithm'] as String?)
-          ?.toEncryptionAlgorithmSpec(),
+          ?.let(EncryptionAlgorithmSpec.fromString),
       sourceKeyId: json['SourceKeyId'] as String?,
     );
   }
@@ -11669,7 +11112,7 @@ class RecipientInfo {
       if (attestationDocument != null)
         'AttestationDocument': base64Encode(attestationDocument),
       if (keyEncryptionAlgorithm != null)
-        'KeyEncryptionAlgorithm': keyEncryptionAlgorithm.toValue(),
+        'KeyEncryptionAlgorithm': keyEncryptionAlgorithm.value,
     };
   }
 }
@@ -11730,31 +11173,18 @@ class RotateKeyOnDemandResponse {
 }
 
 enum RotationType {
-  automatic,
-  onDemand,
-}
+  automatic('AUTOMATIC'),
+  onDemand('ON_DEMAND'),
+  ;
 
-extension RotationTypeValueExtension on RotationType {
-  String toValue() {
-    switch (this) {
-      case RotationType.automatic:
-        return 'AUTOMATIC';
-      case RotationType.onDemand:
-        return 'ON_DEMAND';
-    }
-  }
-}
+  final String value;
 
-extension RotationTypeFromString on String {
-  RotationType toRotationType() {
-    switch (this) {
-      case 'AUTOMATIC':
-        return RotationType.automatic;
-      case 'ON_DEMAND':
-        return RotationType.onDemand;
-    }
-    throw Exception('$this is not known in enum RotationType');
-  }
+  const RotationType(this.value);
+
+  static RotationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RotationType'));
 }
 
 /// Contains information about completed key material rotations.
@@ -11783,7 +11213,8 @@ class RotationsListEntry {
     return RotationsListEntry(
       keyId: json['KeyId'] as String?,
       rotationDate: timeStampFromJson(json['RotationDate']),
-      rotationType: (json['RotationType'] as String?)?.toRotationType(),
+      rotationType:
+          (json['RotationType'] as String?)?.let(RotationType.fromString),
     );
   }
 }
@@ -11827,7 +11258,7 @@ class ScheduleKeyDeletionResponse {
     return ScheduleKeyDeletionResponse(
       deletionDate: timeStampFromJson(json['DeletionDate']),
       keyId: json['KeyId'] as String?,
-      keyState: (json['KeyState'] as String?)?.toKeyState(),
+      keyState: (json['KeyState'] as String?)?.let(KeyState.fromString),
       pendingWindowInDays: json['PendingWindowInDays'] as int?,
     );
   }
@@ -11873,78 +11304,33 @@ class SignResponse {
     return SignResponse(
       keyId: json['KeyId'] as String?,
       signature: _s.decodeNullableUint8List(json['Signature'] as String?),
-      signingAlgorithm:
-          (json['SigningAlgorithm'] as String?)?.toSigningAlgorithmSpec(),
+      signingAlgorithm: (json['SigningAlgorithm'] as String?)
+          ?.let(SigningAlgorithmSpec.fromString),
     );
   }
 }
 
 enum SigningAlgorithmSpec {
-  rsassaPssSha_256,
-  rsassaPssSha_384,
-  rsassaPssSha_512,
-  rsassaPkcs1V1_5Sha_256,
-  rsassaPkcs1V1_5Sha_384,
-  rsassaPkcs1V1_5Sha_512,
-  ecdsaSha_256,
-  ecdsaSha_384,
-  ecdsaSha_512,
-  sm2dsa,
-}
+  rsassaPssSha_256('RSASSA_PSS_SHA_256'),
+  rsassaPssSha_384('RSASSA_PSS_SHA_384'),
+  rsassaPssSha_512('RSASSA_PSS_SHA_512'),
+  rsassaPkcs1V1_5Sha_256('RSASSA_PKCS1_V1_5_SHA_256'),
+  rsassaPkcs1V1_5Sha_384('RSASSA_PKCS1_V1_5_SHA_384'),
+  rsassaPkcs1V1_5Sha_512('RSASSA_PKCS1_V1_5_SHA_512'),
+  ecdsaSha_256('ECDSA_SHA_256'),
+  ecdsaSha_384('ECDSA_SHA_384'),
+  ecdsaSha_512('ECDSA_SHA_512'),
+  sm2dsa('SM2DSA'),
+  ;
 
-extension SigningAlgorithmSpecValueExtension on SigningAlgorithmSpec {
-  String toValue() {
-    switch (this) {
-      case SigningAlgorithmSpec.rsassaPssSha_256:
-        return 'RSASSA_PSS_SHA_256';
-      case SigningAlgorithmSpec.rsassaPssSha_384:
-        return 'RSASSA_PSS_SHA_384';
-      case SigningAlgorithmSpec.rsassaPssSha_512:
-        return 'RSASSA_PSS_SHA_512';
-      case SigningAlgorithmSpec.rsassaPkcs1V1_5Sha_256:
-        return 'RSASSA_PKCS1_V1_5_SHA_256';
-      case SigningAlgorithmSpec.rsassaPkcs1V1_5Sha_384:
-        return 'RSASSA_PKCS1_V1_5_SHA_384';
-      case SigningAlgorithmSpec.rsassaPkcs1V1_5Sha_512:
-        return 'RSASSA_PKCS1_V1_5_SHA_512';
-      case SigningAlgorithmSpec.ecdsaSha_256:
-        return 'ECDSA_SHA_256';
-      case SigningAlgorithmSpec.ecdsaSha_384:
-        return 'ECDSA_SHA_384';
-      case SigningAlgorithmSpec.ecdsaSha_512:
-        return 'ECDSA_SHA_512';
-      case SigningAlgorithmSpec.sm2dsa:
-        return 'SM2DSA';
-    }
-  }
-}
+  final String value;
 
-extension SigningAlgorithmSpecFromString on String {
-  SigningAlgorithmSpec toSigningAlgorithmSpec() {
-    switch (this) {
-      case 'RSASSA_PSS_SHA_256':
-        return SigningAlgorithmSpec.rsassaPssSha_256;
-      case 'RSASSA_PSS_SHA_384':
-        return SigningAlgorithmSpec.rsassaPssSha_384;
-      case 'RSASSA_PSS_SHA_512':
-        return SigningAlgorithmSpec.rsassaPssSha_512;
-      case 'RSASSA_PKCS1_V1_5_SHA_256':
-        return SigningAlgorithmSpec.rsassaPkcs1V1_5Sha_256;
-      case 'RSASSA_PKCS1_V1_5_SHA_384':
-        return SigningAlgorithmSpec.rsassaPkcs1V1_5Sha_384;
-      case 'RSASSA_PKCS1_V1_5_SHA_512':
-        return SigningAlgorithmSpec.rsassaPkcs1V1_5Sha_512;
-      case 'ECDSA_SHA_256':
-        return SigningAlgorithmSpec.ecdsaSha_256;
-      case 'ECDSA_SHA_384':
-        return SigningAlgorithmSpec.ecdsaSha_384;
-      case 'ECDSA_SHA_512':
-        return SigningAlgorithmSpec.ecdsaSha_512;
-      case 'SM2DSA':
-        return SigningAlgorithmSpec.sm2dsa;
-    }
-    throw Exception('$this is not known in enum SigningAlgorithmSpec');
-  }
+  const SigningAlgorithmSpec(this.value);
+
+  static SigningAlgorithmSpec fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SigningAlgorithmSpec'));
 }
 
 /// A key-value pair. A tag consists of a tag key and a tag value. Tag keys and
@@ -12021,7 +11407,8 @@ class VerifyMacResponse {
   factory VerifyMacResponse.fromJson(Map<String, dynamic> json) {
     return VerifyMacResponse(
       keyId: json['KeyId'] as String?,
-      macAlgorithm: (json['MacAlgorithm'] as String?)?.toMacAlgorithmSpec(),
+      macAlgorithm:
+          (json['MacAlgorithm'] as String?)?.let(MacAlgorithmSpec.fromString),
       macValid: json['MacValid'] as bool?,
     );
   }
@@ -12054,48 +11441,27 @@ class VerifyResponse {
     return VerifyResponse(
       keyId: json['KeyId'] as String?,
       signatureValid: json['SignatureValid'] as bool?,
-      signingAlgorithm:
-          (json['SigningAlgorithm'] as String?)?.toSigningAlgorithmSpec(),
+      signingAlgorithm: (json['SigningAlgorithm'] as String?)
+          ?.let(SigningAlgorithmSpec.fromString),
     );
   }
 }
 
 enum WrappingKeySpec {
-  rsa_2048,
-  rsa_3072,
-  rsa_4096,
-  sm2,
-}
+  rsa_2048('RSA_2048'),
+  rsa_3072('RSA_3072'),
+  rsa_4096('RSA_4096'),
+  sm2('SM2'),
+  ;
 
-extension WrappingKeySpecValueExtension on WrappingKeySpec {
-  String toValue() {
-    switch (this) {
-      case WrappingKeySpec.rsa_2048:
-        return 'RSA_2048';
-      case WrappingKeySpec.rsa_3072:
-        return 'RSA_3072';
-      case WrappingKeySpec.rsa_4096:
-        return 'RSA_4096';
-      case WrappingKeySpec.sm2:
-        return 'SM2';
-    }
-  }
-}
+  final String value;
 
-extension WrappingKeySpecFromString on String {
-  WrappingKeySpec toWrappingKeySpec() {
-    switch (this) {
-      case 'RSA_2048':
-        return WrappingKeySpec.rsa_2048;
-      case 'RSA_3072':
-        return WrappingKeySpec.rsa_3072;
-      case 'RSA_4096':
-        return WrappingKeySpec.rsa_4096;
-      case 'SM2':
-        return WrappingKeySpec.sm2;
-    }
-    throw Exception('$this is not known in enum WrappingKeySpec');
-  }
+  const WrappingKeySpec(this.value);
+
+  static WrappingKeySpec fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum WrappingKeySpec'));
 }
 
 /// Information about the <a
@@ -12201,8 +11567,8 @@ class XksProxyConfigurationType {
   factory XksProxyConfigurationType.fromJson(Map<String, dynamic> json) {
     return XksProxyConfigurationType(
       accessKeyId: json['AccessKeyId'] as String?,
-      connectivity:
-          (json['Connectivity'] as String?)?.toXksProxyConnectivityType(),
+      connectivity: (json['Connectivity'] as String?)
+          ?.let(XksProxyConnectivityType.fromString),
       uriEndpoint: json['UriEndpoint'] as String?,
       uriPath: json['UriPath'] as String?,
       vpcEndpointServiceName: json['VpcEndpointServiceName'] as String?,
@@ -12211,31 +11577,18 @@ class XksProxyConfigurationType {
 }
 
 enum XksProxyConnectivityType {
-  publicEndpoint,
-  vpcEndpointService,
-}
+  publicEndpoint('PUBLIC_ENDPOINT'),
+  vpcEndpointService('VPC_ENDPOINT_SERVICE'),
+  ;
 
-extension XksProxyConnectivityTypeValueExtension on XksProxyConnectivityType {
-  String toValue() {
-    switch (this) {
-      case XksProxyConnectivityType.publicEndpoint:
-        return 'PUBLIC_ENDPOINT';
-      case XksProxyConnectivityType.vpcEndpointService:
-        return 'VPC_ENDPOINT_SERVICE';
-    }
-  }
-}
+  final String value;
 
-extension XksProxyConnectivityTypeFromString on String {
-  XksProxyConnectivityType toXksProxyConnectivityType() {
-    switch (this) {
-      case 'PUBLIC_ENDPOINT':
-        return XksProxyConnectivityType.publicEndpoint;
-      case 'VPC_ENDPOINT_SERVICE':
-        return XksProxyConnectivityType.vpcEndpointService;
-    }
-    throw Exception('$this is not known in enum XksProxyConnectivityType');
-  }
+  const XksProxyConnectivityType(this.value);
+
+  static XksProxyConnectivityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum XksProxyConnectivityType'));
 }
 
 class AlreadyExistsException extends _s.GenericAwsException {

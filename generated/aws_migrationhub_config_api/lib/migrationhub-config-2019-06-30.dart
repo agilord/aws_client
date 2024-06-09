@@ -375,7 +375,7 @@ class Target {
 
   factory Target.fromJson(Map<String, dynamic> json) {
     return Target(
-      type: (json['Type'] as String).toTargetType(),
+      type: TargetType.fromString((json['Type'] as String)),
       id: json['Id'] as String?,
     );
   }
@@ -384,33 +384,23 @@ class Target {
     final type = this.type;
     final id = this.id;
     return {
-      'Type': type.toValue(),
+      'Type': type.value,
       if (id != null) 'Id': id,
     };
   }
 }
 
 enum TargetType {
-  account,
-}
+  account('ACCOUNT'),
+  ;
 
-extension TargetTypeValueExtension on TargetType {
-  String toValue() {
-    switch (this) {
-      case TargetType.account:
-        return 'ACCOUNT';
-    }
-  }
-}
+  final String value;
 
-extension TargetTypeFromString on String {
-  TargetType toTargetType() {
-    switch (this) {
-      case 'ACCOUNT':
-        return TargetType.account;
-    }
-    throw Exception('$this is not known in enum TargetType');
-  }
+  const TargetType(this.value);
+
+  static TargetType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TargetType'));
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

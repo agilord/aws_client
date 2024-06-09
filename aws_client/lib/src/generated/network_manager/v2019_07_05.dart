@@ -1711,7 +1711,7 @@ class NetworkManager {
     int? policyVersionId,
   }) async {
     final $query = <String, List<String>>{
-      if (alias != null) 'alias': [alias.toValue()],
+      if (alias != null) 'alias': [alias.value],
       if (policyVersionId != null)
         'policyVersionId': [policyVersionId.toString()],
     };
@@ -2372,10 +2372,10 @@ class NetworkManager {
       if (longestPrefixMatches != null)
         'LongestPrefixMatches': longestPrefixMatches,
       if (prefixListIds != null) 'PrefixListIds': prefixListIds,
-      if (states != null) 'States': states.map((e) => e.toValue()).toList(),
+      if (states != null) 'States': states.map((e) => e.value).toList(),
       if (subnetOfMatches != null) 'SubnetOfMatches': subnetOfMatches,
       if (supernetOfMatches != null) 'SupernetOfMatches': supernetOfMatches,
-      if (types != null) 'Types': types.map((e) => e.toValue()).toList(),
+      if (types != null) 'Types': types.map((e) => e.value).toList(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2838,12 +2838,12 @@ class NetworkManager {
       500,
     );
     final $query = <String, List<String>>{
-      if (attachmentType != null) 'attachmentType': [attachmentType.toValue()],
+      if (attachmentType != null) 'attachmentType': [attachmentType.value],
       if (coreNetworkId != null) 'coreNetworkId': [coreNetworkId],
       if (edgeLocation != null) 'edgeLocation': [edgeLocation],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (state != null) 'state': [state.toValue()],
+      if (state != null) 'state': [state.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -3056,8 +3056,8 @@ class NetworkManager {
       if (edgeLocation != null) 'edgeLocation': [edgeLocation],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (peeringType != null) 'peeringType': [peeringType.toValue()],
-      if (state != null) 'state': [state.toValue()],
+      if (peeringType != null) 'peeringType': [peeringType.value],
+      if (state != null) 'state': [state.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -4041,7 +4041,8 @@ class Attachment {
     return Attachment(
       attachmentId: json['AttachmentId'] as String?,
       attachmentPolicyRuleNumber: json['AttachmentPolicyRuleNumber'] as int?,
-      attachmentType: (json['AttachmentType'] as String?)?.toAttachmentType(),
+      attachmentType:
+          (json['AttachmentType'] as String?)?.let(AttachmentType.fromString),
       coreNetworkArn: json['CoreNetworkArn'] as String?,
       coreNetworkId: json['CoreNetworkId'] as String?,
       createdAt: timeStampFromJson(json['CreatedAt']),
@@ -4053,7 +4054,7 @@ class Attachment {
           : null,
       resourceArn: json['ResourceArn'] as String?,
       segmentName: json['SegmentName'] as String?,
-      state: (json['State'] as String?)?.toAttachmentState(),
+      state: (json['State'] as String?)?.let(AttachmentState.fromString),
       tags: (json['Tags'] as List?)
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -4081,7 +4082,7 @@ class Attachment {
       if (attachmentId != null) 'AttachmentId': attachmentId,
       if (attachmentPolicyRuleNumber != null)
         'AttachmentPolicyRuleNumber': attachmentPolicyRuleNumber,
-      if (attachmentType != null) 'AttachmentType': attachmentType.toValue(),
+      if (attachmentType != null) 'AttachmentType': attachmentType.value,
       if (coreNetworkArn != null) 'CoreNetworkArn': coreNetworkArn,
       if (coreNetworkId != null) 'CoreNetworkId': coreNetworkId,
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
@@ -4091,7 +4092,7 @@ class Attachment {
         'ProposedSegmentChange': proposedSegmentChange,
       if (resourceArn != null) 'ResourceArn': resourceArn,
       if (segmentName != null) 'SegmentName': segmentName,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (tags != null) 'Tags': tags,
       if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
     };
@@ -4099,104 +4100,42 @@ class Attachment {
 }
 
 enum AttachmentState {
-  rejected,
-  pendingAttachmentAcceptance,
-  creating,
-  failed,
-  available,
-  updating,
-  pendingNetworkUpdate,
-  pendingTagAcceptance,
-  deleting,
-}
+  rejected('REJECTED'),
+  pendingAttachmentAcceptance('PENDING_ATTACHMENT_ACCEPTANCE'),
+  creating('CREATING'),
+  failed('FAILED'),
+  available('AVAILABLE'),
+  updating('UPDATING'),
+  pendingNetworkUpdate('PENDING_NETWORK_UPDATE'),
+  pendingTagAcceptance('PENDING_TAG_ACCEPTANCE'),
+  deleting('DELETING'),
+  ;
 
-extension AttachmentStateValueExtension on AttachmentState {
-  String toValue() {
-    switch (this) {
-      case AttachmentState.rejected:
-        return 'REJECTED';
-      case AttachmentState.pendingAttachmentAcceptance:
-        return 'PENDING_ATTACHMENT_ACCEPTANCE';
-      case AttachmentState.creating:
-        return 'CREATING';
-      case AttachmentState.failed:
-        return 'FAILED';
-      case AttachmentState.available:
-        return 'AVAILABLE';
-      case AttachmentState.updating:
-        return 'UPDATING';
-      case AttachmentState.pendingNetworkUpdate:
-        return 'PENDING_NETWORK_UPDATE';
-      case AttachmentState.pendingTagAcceptance:
-        return 'PENDING_TAG_ACCEPTANCE';
-      case AttachmentState.deleting:
-        return 'DELETING';
-    }
-  }
-}
+  final String value;
 
-extension AttachmentStateFromString on String {
-  AttachmentState toAttachmentState() {
-    switch (this) {
-      case 'REJECTED':
-        return AttachmentState.rejected;
-      case 'PENDING_ATTACHMENT_ACCEPTANCE':
-        return AttachmentState.pendingAttachmentAcceptance;
-      case 'CREATING':
-        return AttachmentState.creating;
-      case 'FAILED':
-        return AttachmentState.failed;
-      case 'AVAILABLE':
-        return AttachmentState.available;
-      case 'UPDATING':
-        return AttachmentState.updating;
-      case 'PENDING_NETWORK_UPDATE':
-        return AttachmentState.pendingNetworkUpdate;
-      case 'PENDING_TAG_ACCEPTANCE':
-        return AttachmentState.pendingTagAcceptance;
-      case 'DELETING':
-        return AttachmentState.deleting;
-    }
-    throw Exception('$this is not known in enum AttachmentState');
-  }
+  const AttachmentState(this.value);
+
+  static AttachmentState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AttachmentState'));
 }
 
 enum AttachmentType {
-  connect,
-  siteToSiteVpn,
-  vpc,
-  transitGatewayRouteTable,
-}
+  connect('CONNECT'),
+  siteToSiteVpn('SITE_TO_SITE_VPN'),
+  vpc('VPC'),
+  transitGatewayRouteTable('TRANSIT_GATEWAY_ROUTE_TABLE'),
+  ;
 
-extension AttachmentTypeValueExtension on AttachmentType {
-  String toValue() {
-    switch (this) {
-      case AttachmentType.connect:
-        return 'CONNECT';
-      case AttachmentType.siteToSiteVpn:
-        return 'SITE_TO_SITE_VPN';
-      case AttachmentType.vpc:
-        return 'VPC';
-      case AttachmentType.transitGatewayRouteTable:
-        return 'TRANSIT_GATEWAY_ROUTE_TABLE';
-    }
-  }
-}
+  final String value;
 
-extension AttachmentTypeFromString on String {
-  AttachmentType toAttachmentType() {
-    switch (this) {
-      case 'CONNECT':
-        return AttachmentType.connect;
-      case 'SITE_TO_SITE_VPN':
-        return AttachmentType.siteToSiteVpn;
-      case 'VPC':
-        return AttachmentType.vpc;
-      case 'TRANSIT_GATEWAY_ROUTE_TABLE':
-        return AttachmentType.transitGatewayRouteTable;
-    }
-    throw Exception('$this is not known in enum AttachmentType');
-  }
+  const AttachmentType(this.value);
+
+  static AttachmentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AttachmentType'));
 }
 
 /// Describes bandwidth information.
@@ -4247,185 +4186,76 @@ class BgpOptions {
 }
 
 enum ChangeAction {
-  add,
-  modify,
-  remove,
-}
+  add('ADD'),
+  modify('MODIFY'),
+  remove('REMOVE'),
+  ;
 
-extension ChangeActionValueExtension on ChangeAction {
-  String toValue() {
-    switch (this) {
-      case ChangeAction.add:
-        return 'ADD';
-      case ChangeAction.modify:
-        return 'MODIFY';
-      case ChangeAction.remove:
-        return 'REMOVE';
-    }
-  }
-}
+  final String value;
 
-extension ChangeActionFromString on String {
-  ChangeAction toChangeAction() {
-    switch (this) {
-      case 'ADD':
-        return ChangeAction.add;
-      case 'MODIFY':
-        return ChangeAction.modify;
-      case 'REMOVE':
-        return ChangeAction.remove;
-    }
-    throw Exception('$this is not known in enum ChangeAction');
-  }
+  const ChangeAction(this.value);
+
+  static ChangeAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ChangeAction'));
 }
 
 enum ChangeSetState {
-  pendingGeneration,
-  failedGeneration,
-  readyToExecute,
-  executing,
-  executionSucceeded,
-  outOfDate,
-}
+  pendingGeneration('PENDING_GENERATION'),
+  failedGeneration('FAILED_GENERATION'),
+  readyToExecute('READY_TO_EXECUTE'),
+  executing('EXECUTING'),
+  executionSucceeded('EXECUTION_SUCCEEDED'),
+  outOfDate('OUT_OF_DATE'),
+  ;
 
-extension ChangeSetStateValueExtension on ChangeSetState {
-  String toValue() {
-    switch (this) {
-      case ChangeSetState.pendingGeneration:
-        return 'PENDING_GENERATION';
-      case ChangeSetState.failedGeneration:
-        return 'FAILED_GENERATION';
-      case ChangeSetState.readyToExecute:
-        return 'READY_TO_EXECUTE';
-      case ChangeSetState.executing:
-        return 'EXECUTING';
-      case ChangeSetState.executionSucceeded:
-        return 'EXECUTION_SUCCEEDED';
-      case ChangeSetState.outOfDate:
-        return 'OUT_OF_DATE';
-    }
-  }
-}
+  final String value;
 
-extension ChangeSetStateFromString on String {
-  ChangeSetState toChangeSetState() {
-    switch (this) {
-      case 'PENDING_GENERATION':
-        return ChangeSetState.pendingGeneration;
-      case 'FAILED_GENERATION':
-        return ChangeSetState.failedGeneration;
-      case 'READY_TO_EXECUTE':
-        return ChangeSetState.readyToExecute;
-      case 'EXECUTING':
-        return ChangeSetState.executing;
-      case 'EXECUTION_SUCCEEDED':
-        return ChangeSetState.executionSucceeded;
-      case 'OUT_OF_DATE':
-        return ChangeSetState.outOfDate;
-    }
-    throw Exception('$this is not known in enum ChangeSetState');
-  }
+  const ChangeSetState(this.value);
+
+  static ChangeSetState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ChangeSetState'));
 }
 
 enum ChangeStatus {
-  notStarted,
-  inProgress,
-  complete,
-  failed,
-}
+  notStarted('NOT_STARTED'),
+  inProgress('IN_PROGRESS'),
+  complete('COMPLETE'),
+  failed('FAILED'),
+  ;
 
-extension ChangeStatusValueExtension on ChangeStatus {
-  String toValue() {
-    switch (this) {
-      case ChangeStatus.notStarted:
-        return 'NOT_STARTED';
-      case ChangeStatus.inProgress:
-        return 'IN_PROGRESS';
-      case ChangeStatus.complete:
-        return 'COMPLETE';
-      case ChangeStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ChangeStatusFromString on String {
-  ChangeStatus toChangeStatus() {
-    switch (this) {
-      case 'NOT_STARTED':
-        return ChangeStatus.notStarted;
-      case 'IN_PROGRESS':
-        return ChangeStatus.inProgress;
-      case 'COMPLETE':
-        return ChangeStatus.complete;
-      case 'FAILED':
-        return ChangeStatus.failed;
-    }
-    throw Exception('$this is not known in enum ChangeStatus');
-  }
+  const ChangeStatus(this.value);
+
+  static ChangeStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ChangeStatus'));
 }
 
 enum ChangeType {
-  coreNetworkSegment,
-  coreNetworkEdge,
-  attachmentMapping,
-  attachmentRoutePropagation,
-  attachmentRouteStatic,
-  coreNetworkConfiguration,
-  segmentsConfiguration,
-  segmentActionsConfiguration,
-  attachmentPoliciesConfiguration,
-}
+  coreNetworkSegment('CORE_NETWORK_SEGMENT'),
+  coreNetworkEdge('CORE_NETWORK_EDGE'),
+  attachmentMapping('ATTACHMENT_MAPPING'),
+  attachmentRoutePropagation('ATTACHMENT_ROUTE_PROPAGATION'),
+  attachmentRouteStatic('ATTACHMENT_ROUTE_STATIC'),
+  coreNetworkConfiguration('CORE_NETWORK_CONFIGURATION'),
+  segmentsConfiguration('SEGMENTS_CONFIGURATION'),
+  segmentActionsConfiguration('SEGMENT_ACTIONS_CONFIGURATION'),
+  attachmentPoliciesConfiguration('ATTACHMENT_POLICIES_CONFIGURATION'),
+  ;
 
-extension ChangeTypeValueExtension on ChangeType {
-  String toValue() {
-    switch (this) {
-      case ChangeType.coreNetworkSegment:
-        return 'CORE_NETWORK_SEGMENT';
-      case ChangeType.coreNetworkEdge:
-        return 'CORE_NETWORK_EDGE';
-      case ChangeType.attachmentMapping:
-        return 'ATTACHMENT_MAPPING';
-      case ChangeType.attachmentRoutePropagation:
-        return 'ATTACHMENT_ROUTE_PROPAGATION';
-      case ChangeType.attachmentRouteStatic:
-        return 'ATTACHMENT_ROUTE_STATIC';
-      case ChangeType.coreNetworkConfiguration:
-        return 'CORE_NETWORK_CONFIGURATION';
-      case ChangeType.segmentsConfiguration:
-        return 'SEGMENTS_CONFIGURATION';
-      case ChangeType.segmentActionsConfiguration:
-        return 'SEGMENT_ACTIONS_CONFIGURATION';
-      case ChangeType.attachmentPoliciesConfiguration:
-        return 'ATTACHMENT_POLICIES_CONFIGURATION';
-    }
-  }
-}
+  final String value;
 
-extension ChangeTypeFromString on String {
-  ChangeType toChangeType() {
-    switch (this) {
-      case 'CORE_NETWORK_SEGMENT':
-        return ChangeType.coreNetworkSegment;
-      case 'CORE_NETWORK_EDGE':
-        return ChangeType.coreNetworkEdge;
-      case 'ATTACHMENT_MAPPING':
-        return ChangeType.attachmentMapping;
-      case 'ATTACHMENT_ROUTE_PROPAGATION':
-        return ChangeType.attachmentRoutePropagation;
-      case 'ATTACHMENT_ROUTE_STATIC':
-        return ChangeType.attachmentRouteStatic;
-      case 'CORE_NETWORK_CONFIGURATION':
-        return ChangeType.coreNetworkConfiguration;
-      case 'SEGMENTS_CONFIGURATION':
-        return ChangeType.segmentsConfiguration;
-      case 'SEGMENT_ACTIONS_CONFIGURATION':
-        return ChangeType.segmentActionsConfiguration;
-      case 'ATTACHMENT_POLICIES_CONFIGURATION':
-        return ChangeType.attachmentPoliciesConfiguration;
-    }
-    throw Exception('$this is not known in enum ChangeType');
-  }
+  const ChangeType(this.value);
+
+  static ChangeType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ChangeType'));
 }
 
 /// Describes a core network Connect attachment.
@@ -4482,14 +4312,14 @@ class ConnectAttachmentOptions {
 
   factory ConnectAttachmentOptions.fromJson(Map<String, dynamic> json) {
     return ConnectAttachmentOptions(
-      protocol: (json['Protocol'] as String?)?.toTunnelProtocol(),
+      protocol: (json['Protocol'] as String?)?.let(TunnelProtocol.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final protocol = this.protocol;
     return {
-      if (protocol != null) 'Protocol': protocol.toValue(),
+      if (protocol != null) 'Protocol': protocol.value,
     };
   }
 }
@@ -4546,7 +4376,7 @@ class ConnectPeer {
       coreNetworkId: json['CoreNetworkId'] as String?,
       createdAt: timeStampFromJson(json['CreatedAt']),
       edgeLocation: json['EdgeLocation'] as String?,
-      state: (json['State'] as String?)?.toConnectPeerState(),
+      state: (json['State'] as String?)?.let(ConnectPeerState.fromString),
       subnetArn: json['SubnetArn'] as String?,
       tags: (json['Tags'] as List?)
           ?.whereNotNull()
@@ -4573,7 +4403,7 @@ class ConnectPeer {
       if (coreNetworkId != null) 'CoreNetworkId': coreNetworkId,
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
       if (edgeLocation != null) 'EdgeLocation': edgeLocation,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (subnetArn != null) 'SubnetArn': subnetArn,
       if (tags != null) 'Tags': tags,
     };
@@ -4611,7 +4441,8 @@ class ConnectPeerAssociation {
       deviceId: json['DeviceId'] as String?,
       globalNetworkId: json['GlobalNetworkId'] as String?,
       linkId: json['LinkId'] as String?,
-      state: (json['State'] as String?)?.toConnectPeerAssociationState(),
+      state: (json['State'] as String?)
+          ?.let(ConnectPeerAssociationState.fromString),
     );
   }
 
@@ -4626,48 +4457,26 @@ class ConnectPeerAssociation {
       if (deviceId != null) 'DeviceId': deviceId,
       if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
       if (linkId != null) 'LinkId': linkId,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
     };
   }
 }
 
 enum ConnectPeerAssociationState {
-  pending,
-  available,
-  deleting,
-  deleted,
-}
+  pending('PENDING'),
+  available('AVAILABLE'),
+  deleting('DELETING'),
+  deleted('DELETED'),
+  ;
 
-extension ConnectPeerAssociationStateValueExtension
-    on ConnectPeerAssociationState {
-  String toValue() {
-    switch (this) {
-      case ConnectPeerAssociationState.pending:
-        return 'PENDING';
-      case ConnectPeerAssociationState.available:
-        return 'AVAILABLE';
-      case ConnectPeerAssociationState.deleting:
-        return 'DELETING';
-      case ConnectPeerAssociationState.deleted:
-        return 'DELETED';
-    }
-  }
-}
+  final String value;
 
-extension ConnectPeerAssociationStateFromString on String {
-  ConnectPeerAssociationState toConnectPeerAssociationState() {
-    switch (this) {
-      case 'PENDING':
-        return ConnectPeerAssociationState.pending;
-      case 'AVAILABLE':
-        return ConnectPeerAssociationState.available;
-      case 'DELETING':
-        return ConnectPeerAssociationState.deleting;
-      case 'DELETED':
-        return ConnectPeerAssociationState.deleted;
-    }
-    throw Exception('$this is not known in enum ConnectPeerAssociationState');
-  }
+  const ConnectPeerAssociationState(this.value);
+
+  static ConnectPeerAssociationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ConnectPeerAssociationState'));
 }
 
 /// Describes a core network BGP configuration.
@@ -4752,7 +4561,7 @@ class ConnectPeerConfiguration {
           .map((e) => e as String)
           .toList(),
       peerAddress: json['PeerAddress'] as String?,
-      protocol: (json['Protocol'] as String?)?.toTunnelProtocol(),
+      protocol: (json['Protocol'] as String?)?.let(TunnelProtocol.fromString),
     );
   }
 
@@ -4767,47 +4576,26 @@ class ConnectPeerConfiguration {
       if (coreNetworkAddress != null) 'CoreNetworkAddress': coreNetworkAddress,
       if (insideCidrBlocks != null) 'InsideCidrBlocks': insideCidrBlocks,
       if (peerAddress != null) 'PeerAddress': peerAddress,
-      if (protocol != null) 'Protocol': protocol.toValue(),
+      if (protocol != null) 'Protocol': protocol.value,
     };
   }
 }
 
 enum ConnectPeerState {
-  creating,
-  failed,
-  available,
-  deleting,
-}
+  creating('CREATING'),
+  failed('FAILED'),
+  available('AVAILABLE'),
+  deleting('DELETING'),
+  ;
 
-extension ConnectPeerStateValueExtension on ConnectPeerState {
-  String toValue() {
-    switch (this) {
-      case ConnectPeerState.creating:
-        return 'CREATING';
-      case ConnectPeerState.failed:
-        return 'FAILED';
-      case ConnectPeerState.available:
-        return 'AVAILABLE';
-      case ConnectPeerState.deleting:
-        return 'DELETING';
-    }
-  }
-}
+  final String value;
 
-extension ConnectPeerStateFromString on String {
-  ConnectPeerState toConnectPeerState() {
-    switch (this) {
-      case 'CREATING':
-        return ConnectPeerState.creating;
-      case 'FAILED':
-        return ConnectPeerState.failed;
-      case 'AVAILABLE':
-        return ConnectPeerState.available;
-      case 'DELETING':
-        return ConnectPeerState.deleting;
-    }
-    throw Exception('$this is not known in enum ConnectPeerState');
-  }
+  const ConnectPeerState(this.value);
+
+  static ConnectPeerState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ConnectPeerState'));
 }
 
 /// Summary description of a Connect peer.
@@ -4851,8 +4639,8 @@ class ConnectPeerSummary {
     return ConnectPeerSummary(
       connectAttachmentId: json['ConnectAttachmentId'] as String?,
       connectPeerId: json['ConnectPeerId'] as String?,
-      connectPeerState:
-          (json['ConnectPeerState'] as String?)?.toConnectPeerState(),
+      connectPeerState: (json['ConnectPeerState'] as String?)
+          ?.let(ConnectPeerState.fromString),
       coreNetworkId: json['CoreNetworkId'] as String?,
       createdAt: timeStampFromJson(json['CreatedAt']),
       edgeLocation: json['EdgeLocation'] as String?,
@@ -4877,8 +4665,7 @@ class ConnectPeerSummary {
       if (connectAttachmentId != null)
         'ConnectAttachmentId': connectAttachmentId,
       if (connectPeerId != null) 'ConnectPeerId': connectPeerId,
-      if (connectPeerState != null)
-        'ConnectPeerState': connectPeerState.toValue(),
+      if (connectPeerState != null) 'ConnectPeerState': connectPeerState.value,
       if (coreNetworkId != null) 'CoreNetworkId': coreNetworkId,
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
       if (edgeLocation != null) 'EdgeLocation': edgeLocation,
@@ -4948,7 +4735,7 @@ class Connection {
       deviceId: json['DeviceId'] as String?,
       globalNetworkId: json['GlobalNetworkId'] as String?,
       linkId: json['LinkId'] as String?,
-      state: (json['State'] as String?)?.toConnectionState(),
+      state: (json['State'] as String?)?.let(ConnectionState.fromString),
       tags: (json['Tags'] as List?)
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -4978,7 +4765,7 @@ class Connection {
       if (deviceId != null) 'DeviceId': deviceId,
       if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
       if (linkId != null) 'LinkId': linkId,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (tags != null) 'Tags': tags,
     };
   }
@@ -5003,9 +4790,9 @@ class ConnectionHealth {
 
   factory ConnectionHealth.fromJson(Map<String, dynamic> json) {
     return ConnectionHealth(
-      status: (json['Status'] as String?)?.toConnectionStatus(),
+      status: (json['Status'] as String?)?.let(ConnectionStatus.fromString),
       timestamp: timeStampFromJson(json['Timestamp']),
-      type: (json['Type'] as String?)?.toConnectionType(),
+      type: (json['Type'] as String?)?.let(ConnectionType.fromString),
     );
   }
 
@@ -5014,105 +4801,58 @@ class ConnectionHealth {
     final timestamp = this.timestamp;
     final type = this.type;
     return {
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum ConnectionState {
-  pending,
-  available,
-  deleting,
-  updating,
-}
+  pending('PENDING'),
+  available('AVAILABLE'),
+  deleting('DELETING'),
+  updating('UPDATING'),
+  ;
 
-extension ConnectionStateValueExtension on ConnectionState {
-  String toValue() {
-    switch (this) {
-      case ConnectionState.pending:
-        return 'PENDING';
-      case ConnectionState.available:
-        return 'AVAILABLE';
-      case ConnectionState.deleting:
-        return 'DELETING';
-      case ConnectionState.updating:
-        return 'UPDATING';
-    }
-  }
-}
+  final String value;
 
-extension ConnectionStateFromString on String {
-  ConnectionState toConnectionState() {
-    switch (this) {
-      case 'PENDING':
-        return ConnectionState.pending;
-      case 'AVAILABLE':
-        return ConnectionState.available;
-      case 'DELETING':
-        return ConnectionState.deleting;
-      case 'UPDATING':
-        return ConnectionState.updating;
-    }
-    throw Exception('$this is not known in enum ConnectionState');
-  }
+  const ConnectionState(this.value);
+
+  static ConnectionState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ConnectionState'));
 }
 
 enum ConnectionStatus {
-  up,
-  down,
-}
+  up('UP'),
+  down('DOWN'),
+  ;
 
-extension ConnectionStatusValueExtension on ConnectionStatus {
-  String toValue() {
-    switch (this) {
-      case ConnectionStatus.up:
-        return 'UP';
-      case ConnectionStatus.down:
-        return 'DOWN';
-    }
-  }
-}
+  final String value;
 
-extension ConnectionStatusFromString on String {
-  ConnectionStatus toConnectionStatus() {
-    switch (this) {
-      case 'UP':
-        return ConnectionStatus.up;
-      case 'DOWN':
-        return ConnectionStatus.down;
-    }
-    throw Exception('$this is not known in enum ConnectionStatus');
-  }
+  const ConnectionStatus(this.value);
+
+  static ConnectionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ConnectionStatus'));
 }
 
 enum ConnectionType {
-  bgp,
-  ipsec,
-}
+  bgp('BGP'),
+  ipsec('IPSEC'),
+  ;
 
-extension ConnectionTypeValueExtension on ConnectionType {
-  String toValue() {
-    switch (this) {
-      case ConnectionType.bgp:
-        return 'BGP';
-      case ConnectionType.ipsec:
-        return 'IPSEC';
-    }
-  }
-}
+  final String value;
 
-extension ConnectionTypeFromString on String {
-  ConnectionType toConnectionType() {
-    switch (this) {
-      case 'BGP':
-        return ConnectionType.bgp;
-      case 'IPSEC':
-        return ConnectionType.ipsec;
-    }
-    throw Exception('$this is not known in enum ConnectionType');
-  }
+  const ConnectionType(this.value);
+
+  static ConnectionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ConnectionType'));
 }
 
 /// Describes a core network.
@@ -5171,7 +4911,7 @@ class CoreNetwork {
           ?.whereNotNull()
           .map((e) => CoreNetworkSegment.fromJson(e as Map<String, dynamic>))
           .toList(),
-      state: (json['State'] as String?)?.toCoreNetworkState(),
+      state: (json['State'] as String?)?.let(CoreNetworkState.fromString),
       tags: (json['Tags'] as List?)
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -5197,7 +4937,7 @@ class CoreNetwork {
       if (edges != null) 'Edges': edges,
       if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
       if (segments != null) 'Segments': segments,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (tags != null) 'Tags': tags,
     };
   }
@@ -5236,7 +4976,7 @@ class CoreNetworkChange {
 
   factory CoreNetworkChange.fromJson(Map<String, dynamic> json) {
     return CoreNetworkChange(
-      action: (json['Action'] as String?)?.toChangeAction(),
+      action: (json['Action'] as String?)?.let(ChangeAction.fromString),
       identifier: json['Identifier'] as String?,
       identifierPath: json['IdentifierPath'] as String?,
       newValues: json['NewValues'] != null
@@ -5247,7 +4987,7 @@ class CoreNetworkChange {
           ? CoreNetworkChangeValues.fromJson(
               json['PreviousValues'] as Map<String, dynamic>)
           : null,
-      type: (json['Type'] as String?)?.toChangeType(),
+      type: (json['Type'] as String?)?.let(ChangeType.fromString),
     );
   }
 
@@ -5259,12 +4999,12 @@ class CoreNetworkChange {
     final previousValues = this.previousValues;
     final type = this.type;
     return {
-      if (action != null) 'Action': action.toValue(),
+      if (action != null) 'Action': action.value,
       if (identifier != null) 'Identifier': identifier,
       if (identifierPath != null) 'IdentifierPath': identifierPath,
       if (newValues != null) 'NewValues': newValues,
       if (previousValues != null) 'PreviousValues': previousValues,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -5303,11 +5043,11 @@ class CoreNetworkChangeEvent {
 
   factory CoreNetworkChangeEvent.fromJson(Map<String, dynamic> json) {
     return CoreNetworkChangeEvent(
-      action: (json['Action'] as String?)?.toChangeAction(),
+      action: (json['Action'] as String?)?.let(ChangeAction.fromString),
       eventTime: timeStampFromJson(json['EventTime']),
       identifierPath: json['IdentifierPath'] as String?,
-      status: (json['Status'] as String?)?.toChangeStatus(),
-      type: (json['Type'] as String?)?.toChangeType(),
+      status: (json['Status'] as String?)?.let(ChangeStatus.fromString),
+      type: (json['Type'] as String?)?.let(ChangeType.fromString),
       values: json['Values'] != null
           ? CoreNetworkChangeEventValues.fromJson(
               json['Values'] as Map<String, dynamic>)
@@ -5323,11 +5063,11 @@ class CoreNetworkChangeEvent {
     final type = this.type;
     final values = this.values;
     return {
-      if (action != null) 'Action': action.toValue(),
+      if (action != null) 'Action': action.value,
       if (eventTime != null) 'EventTime': unixTimestampToJson(eventTime),
       if (identifierPath != null) 'IdentifierPath': identifierPath,
-      if (status != null) 'Status': status.toValue(),
-      if (type != null) 'Type': type.toValue(),
+      if (status != null) 'Status': status.value,
+      if (type != null) 'Type': type.value,
       if (values != null) 'Values': values,
     };
   }
@@ -5533,8 +5273,9 @@ class CoreNetworkPolicy {
 
   factory CoreNetworkPolicy.fromJson(Map<String, dynamic> json) {
     return CoreNetworkPolicy(
-      alias: (json['Alias'] as String?)?.toCoreNetworkPolicyAlias(),
-      changeSetState: (json['ChangeSetState'] as String?)?.toChangeSetState(),
+      alias: (json['Alias'] as String?)?.let(CoreNetworkPolicyAlias.fromString),
+      changeSetState:
+          (json['ChangeSetState'] as String?)?.let(ChangeSetState.fromString),
       coreNetworkId: json['CoreNetworkId'] as String?,
       createdAt: timeStampFromJson(json['CreatedAt']),
       description: json['Description'] as String?,
@@ -5560,8 +5301,8 @@ class CoreNetworkPolicy {
     final policyErrors = this.policyErrors;
     final policyVersionId = this.policyVersionId;
     return {
-      if (alias != null) 'Alias': alias.toValue(),
-      if (changeSetState != null) 'ChangeSetState': changeSetState.toValue(),
+      if (alias != null) 'Alias': alias.value,
+      if (changeSetState != null) 'ChangeSetState': changeSetState.value,
       if (coreNetworkId != null) 'CoreNetworkId': coreNetworkId,
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
       if (description != null) 'Description': description,
@@ -5573,31 +5314,18 @@ class CoreNetworkPolicy {
 }
 
 enum CoreNetworkPolicyAlias {
-  live,
-  latest,
-}
+  live('LIVE'),
+  latest('LATEST'),
+  ;
 
-extension CoreNetworkPolicyAliasValueExtension on CoreNetworkPolicyAlias {
-  String toValue() {
-    switch (this) {
-      case CoreNetworkPolicyAlias.live:
-        return 'LIVE';
-      case CoreNetworkPolicyAlias.latest:
-        return 'LATEST';
-    }
-  }
-}
+  final String value;
 
-extension CoreNetworkPolicyAliasFromString on String {
-  CoreNetworkPolicyAlias toCoreNetworkPolicyAlias() {
-    switch (this) {
-      case 'LIVE':
-        return CoreNetworkPolicyAlias.live;
-      case 'LATEST':
-        return CoreNetworkPolicyAlias.latest;
-    }
-    throw Exception('$this is not known in enum CoreNetworkPolicyAlias');
-  }
+  const CoreNetworkPolicyAlias(this.value);
+
+  static CoreNetworkPolicyAlias fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CoreNetworkPolicyAlias'));
 }
 
 /// Provides details about an error in a core network policy.
@@ -5669,8 +5397,9 @@ class CoreNetworkPolicyVersion {
 
   factory CoreNetworkPolicyVersion.fromJson(Map<String, dynamic> json) {
     return CoreNetworkPolicyVersion(
-      alias: (json['Alias'] as String?)?.toCoreNetworkPolicyAlias(),
-      changeSetState: (json['ChangeSetState'] as String?)?.toChangeSetState(),
+      alias: (json['Alias'] as String?)?.let(CoreNetworkPolicyAlias.fromString),
+      changeSetState:
+          (json['ChangeSetState'] as String?)?.let(ChangeSetState.fromString),
       coreNetworkId: json['CoreNetworkId'] as String?,
       createdAt: timeStampFromJson(json['CreatedAt']),
       description: json['Description'] as String?,
@@ -5686,8 +5415,8 @@ class CoreNetworkPolicyVersion {
     final description = this.description;
     final policyVersionId = this.policyVersionId;
     return {
-      if (alias != null) 'Alias': alias.toValue(),
-      if (changeSetState != null) 'ChangeSetState': changeSetState.toValue(),
+      if (alias != null) 'Alias': alias.value,
+      if (changeSetState != null) 'ChangeSetState': changeSetState.value,
       if (coreNetworkId != null) 'CoreNetworkId': coreNetworkId,
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
       if (description != null) 'Description': description,
@@ -5778,41 +5507,20 @@ class CoreNetworkSegmentEdgeIdentifier {
 }
 
 enum CoreNetworkState {
-  creating,
-  updating,
-  available,
-  deleting,
-}
+  creating('CREATING'),
+  updating('UPDATING'),
+  available('AVAILABLE'),
+  deleting('DELETING'),
+  ;
 
-extension CoreNetworkStateValueExtension on CoreNetworkState {
-  String toValue() {
-    switch (this) {
-      case CoreNetworkState.creating:
-        return 'CREATING';
-      case CoreNetworkState.updating:
-        return 'UPDATING';
-      case CoreNetworkState.available:
-        return 'AVAILABLE';
-      case CoreNetworkState.deleting:
-        return 'DELETING';
-    }
-  }
-}
+  final String value;
 
-extension CoreNetworkStateFromString on String {
-  CoreNetworkState toCoreNetworkState() {
-    switch (this) {
-      case 'CREATING':
-        return CoreNetworkState.creating;
-      case 'UPDATING':
-        return CoreNetworkState.updating;
-      case 'AVAILABLE':
-        return CoreNetworkState.available;
-      case 'DELETING':
-        return CoreNetworkState.deleting;
-    }
-    throw Exception('$this is not known in enum CoreNetworkState');
-  }
+  const CoreNetworkState(this.value);
+
+  static CoreNetworkState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CoreNetworkState'));
 }
 
 /// Returns summary information about a core network.
@@ -5855,7 +5563,7 @@ class CoreNetworkSummary {
       description: json['Description'] as String?,
       globalNetworkId: json['GlobalNetworkId'] as String?,
       ownerAccountId: json['OwnerAccountId'] as String?,
-      state: (json['State'] as String?)?.toCoreNetworkState(),
+      state: (json['State'] as String?)?.let(CoreNetworkState.fromString),
       tags: (json['Tags'] as List?)
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -5877,7 +5585,7 @@ class CoreNetworkSummary {
       if (description != null) 'Description': description,
       if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
       if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (tags != null) 'Tags': tags,
     };
   }
@@ -6219,7 +5927,8 @@ class CustomerGatewayAssociation {
       deviceId: json['DeviceId'] as String?,
       globalNetworkId: json['GlobalNetworkId'] as String?,
       linkId: json['LinkId'] as String?,
-      state: (json['State'] as String?)?.toCustomerGatewayAssociationState(),
+      state: (json['State'] as String?)
+          ?.let(CustomerGatewayAssociationState.fromString),
     );
   }
 
@@ -6234,49 +5943,26 @@ class CustomerGatewayAssociation {
       if (deviceId != null) 'DeviceId': deviceId,
       if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
       if (linkId != null) 'LinkId': linkId,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
     };
   }
 }
 
 enum CustomerGatewayAssociationState {
-  pending,
-  available,
-  deleting,
-  deleted,
-}
+  pending('PENDING'),
+  available('AVAILABLE'),
+  deleting('DELETING'),
+  deleted('DELETED'),
+  ;
 
-extension CustomerGatewayAssociationStateValueExtension
-    on CustomerGatewayAssociationState {
-  String toValue() {
-    switch (this) {
-      case CustomerGatewayAssociationState.pending:
-        return 'PENDING';
-      case CustomerGatewayAssociationState.available:
-        return 'AVAILABLE';
-      case CustomerGatewayAssociationState.deleting:
-        return 'DELETING';
-      case CustomerGatewayAssociationState.deleted:
-        return 'DELETED';
-    }
-  }
-}
+  final String value;
 
-extension CustomerGatewayAssociationStateFromString on String {
-  CustomerGatewayAssociationState toCustomerGatewayAssociationState() {
-    switch (this) {
-      case 'PENDING':
-        return CustomerGatewayAssociationState.pending;
-      case 'AVAILABLE':
-        return CustomerGatewayAssociationState.available;
-      case 'DELETING':
-        return CustomerGatewayAssociationState.deleting;
-      case 'DELETED':
-        return CustomerGatewayAssociationState.deleted;
-    }
-    throw Exception(
-        '$this is not known in enum CustomerGatewayAssociationState');
-  }
+  const CustomerGatewayAssociationState(this.value);
+
+  static CustomerGatewayAssociationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CustomerGatewayAssociationState'));
 }
 
 class DeleteAttachmentResponse {
@@ -6669,7 +6355,7 @@ class Device {
       model: json['Model'] as String?,
       serialNumber: json['SerialNumber'] as String?,
       siteId: json['SiteId'] as String?,
-      state: (json['State'] as String?)?.toDeviceState(),
+      state: (json['State'] as String?)?.let(DeviceState.fromString),
       tags: (json['Tags'] as List?)
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -6705,7 +6391,7 @@ class Device {
       if (model != null) 'Model': model,
       if (serialNumber != null) 'SerialNumber': serialNumber,
       if (siteId != null) 'SiteId': siteId,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (tags != null) 'Tags': tags,
       if (type != null) 'Type': type,
       if (vendor != null) 'Vendor': vendor,
@@ -6714,41 +6400,19 @@ class Device {
 }
 
 enum DeviceState {
-  pending,
-  available,
-  deleting,
-  updating,
-}
+  pending('PENDING'),
+  available('AVAILABLE'),
+  deleting('DELETING'),
+  updating('UPDATING'),
+  ;
 
-extension DeviceStateValueExtension on DeviceState {
-  String toValue() {
-    switch (this) {
-      case DeviceState.pending:
-        return 'PENDING';
-      case DeviceState.available:
-        return 'AVAILABLE';
-      case DeviceState.deleting:
-        return 'DELETING';
-      case DeviceState.updating:
-        return 'UPDATING';
-    }
-  }
-}
+  final String value;
 
-extension DeviceStateFromString on String {
-  DeviceState toDeviceState() {
-    switch (this) {
-      case 'PENDING':
-        return DeviceState.pending;
-      case 'AVAILABLE':
-        return DeviceState.available;
-      case 'DELETING':
-        return DeviceState.deleting;
-      case 'UPDATING':
-        return DeviceState.updating;
-    }
-    throw Exception('$this is not known in enum DeviceState');
-  }
+  const DeviceState(this.value);
+
+  static DeviceState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum DeviceState'));
 }
 
 class DisassociateConnectPeerResponse {
@@ -7371,7 +7035,8 @@ class GetNetworkRoutesResponse {
           .toList(),
       routeTableArn: json['RouteTableArn'] as String?,
       routeTableTimestamp: timeStampFromJson(json['RouteTableTimestamp']),
-      routeTableType: (json['RouteTableType'] as String?)?.toRouteTableType(),
+      routeTableType:
+          (json['RouteTableType'] as String?)?.let(RouteTableType.fromString),
     );
   }
 
@@ -7388,7 +7053,7 @@ class GetNetworkRoutesResponse {
       if (routeTableArn != null) 'RouteTableArn': routeTableArn,
       if (routeTableTimestamp != null)
         'RouteTableTimestamp': unixTimestampToJson(routeTableTimestamp),
-      if (routeTableType != null) 'RouteTableType': routeTableType.toValue(),
+      if (routeTableType != null) 'RouteTableType': routeTableType.value,
     };
   }
 }
@@ -7727,7 +7392,7 @@ class GlobalNetwork {
       description: json['Description'] as String?,
       globalNetworkArn: json['GlobalNetworkArn'] as String?,
       globalNetworkId: json['GlobalNetworkId'] as String?,
-      state: (json['State'] as String?)?.toGlobalNetworkState(),
+      state: (json['State'] as String?)?.let(GlobalNetworkState.fromString),
       tags: (json['Tags'] as List?)
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -7747,48 +7412,27 @@ class GlobalNetwork {
       if (description != null) 'Description': description,
       if (globalNetworkArn != null) 'GlobalNetworkArn': globalNetworkArn,
       if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (tags != null) 'Tags': tags,
     };
   }
 }
 
 enum GlobalNetworkState {
-  pending,
-  available,
-  deleting,
-  updating,
-}
+  pending('PENDING'),
+  available('AVAILABLE'),
+  deleting('DELETING'),
+  updating('UPDATING'),
+  ;
 
-extension GlobalNetworkStateValueExtension on GlobalNetworkState {
-  String toValue() {
-    switch (this) {
-      case GlobalNetworkState.pending:
-        return 'PENDING';
-      case GlobalNetworkState.available:
-        return 'AVAILABLE';
-      case GlobalNetworkState.deleting:
-        return 'DELETING';
-      case GlobalNetworkState.updating:
-        return 'UPDATING';
-    }
-  }
-}
+  final String value;
 
-extension GlobalNetworkStateFromString on String {
-  GlobalNetworkState toGlobalNetworkState() {
-    switch (this) {
-      case 'PENDING':
-        return GlobalNetworkState.pending;
-      case 'AVAILABLE':
-        return GlobalNetworkState.available;
-      case 'DELETING':
-        return GlobalNetworkState.deleting;
-      case 'UPDATING':
-        return GlobalNetworkState.updating;
-    }
-    throw Exception('$this is not known in enum GlobalNetworkState');
-  }
+  const GlobalNetworkState(this.value);
+
+  static GlobalNetworkState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum GlobalNetworkState'));
 }
 
 /// Describes a link.
@@ -7852,7 +7496,7 @@ class Link {
       linkId: json['LinkId'] as String?,
       provider: json['Provider'] as String?,
       siteId: json['SiteId'] as String?,
-      state: (json['State'] as String?)?.toLinkState(),
+      state: (json['State'] as String?)?.let(LinkState.fromString),
       tags: (json['Tags'] as List?)
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -7882,7 +7526,7 @@ class Link {
       if (linkId != null) 'LinkId': linkId,
       if (provider != null) 'Provider': provider,
       if (siteId != null) 'SiteId': siteId,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (tags != null) 'Tags': tags,
       if (type != null) 'Type': type,
     };
@@ -7914,8 +7558,8 @@ class LinkAssociation {
     return LinkAssociation(
       deviceId: json['DeviceId'] as String?,
       globalNetworkId: json['GlobalNetworkId'] as String?,
-      linkAssociationState:
-          (json['LinkAssociationState'] as String?)?.toLinkAssociationState(),
+      linkAssociationState: (json['LinkAssociationState'] as String?)
+          ?.let(LinkAssociationState.fromString),
       linkId: json['LinkId'] as String?,
     );
   }
@@ -7929,86 +7573,43 @@ class LinkAssociation {
       if (deviceId != null) 'DeviceId': deviceId,
       if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
       if (linkAssociationState != null)
-        'LinkAssociationState': linkAssociationState.toValue(),
+        'LinkAssociationState': linkAssociationState.value,
       if (linkId != null) 'LinkId': linkId,
     };
   }
 }
 
 enum LinkAssociationState {
-  pending,
-  available,
-  deleting,
-  deleted,
-}
+  pending('PENDING'),
+  available('AVAILABLE'),
+  deleting('DELETING'),
+  deleted('DELETED'),
+  ;
 
-extension LinkAssociationStateValueExtension on LinkAssociationState {
-  String toValue() {
-    switch (this) {
-      case LinkAssociationState.pending:
-        return 'PENDING';
-      case LinkAssociationState.available:
-        return 'AVAILABLE';
-      case LinkAssociationState.deleting:
-        return 'DELETING';
-      case LinkAssociationState.deleted:
-        return 'DELETED';
-    }
-  }
-}
+  final String value;
 
-extension LinkAssociationStateFromString on String {
-  LinkAssociationState toLinkAssociationState() {
-    switch (this) {
-      case 'PENDING':
-        return LinkAssociationState.pending;
-      case 'AVAILABLE':
-        return LinkAssociationState.available;
-      case 'DELETING':
-        return LinkAssociationState.deleting;
-      case 'DELETED':
-        return LinkAssociationState.deleted;
-    }
-    throw Exception('$this is not known in enum LinkAssociationState');
-  }
+  const LinkAssociationState(this.value);
+
+  static LinkAssociationState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum LinkAssociationState'));
 }
 
 enum LinkState {
-  pending,
-  available,
-  deleting,
-  updating,
-}
+  pending('PENDING'),
+  available('AVAILABLE'),
+  deleting('DELETING'),
+  updating('UPDATING'),
+  ;
 
-extension LinkStateValueExtension on LinkState {
-  String toValue() {
-    switch (this) {
-      case LinkState.pending:
-        return 'PENDING';
-      case LinkState.available:
-        return 'AVAILABLE';
-      case LinkState.deleting:
-        return 'DELETING';
-      case LinkState.updating:
-        return 'UPDATING';
-    }
-  }
-}
+  final String value;
 
-extension LinkStateFromString on String {
-  LinkState toLinkState() {
-    switch (this) {
-      case 'PENDING':
-        return LinkState.pending;
-      case 'AVAILABLE':
-        return LinkState.available;
-      case 'DELETING':
-        return LinkState.deleting;
-      case 'UPDATING':
-        return LinkState.updating;
-    }
-    throw Exception('$this is not known in enum LinkState');
-  }
+  const LinkState(this.value);
+
+  static LinkState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum LinkState'));
 }
 
 class ListAttachmentsResponse {
@@ -8548,8 +8149,8 @@ class NetworkRoute {
               NetworkRouteDestination.fromJson(e as Map<String, dynamic>))
           .toList(),
       prefixListId: json['PrefixListId'] as String?,
-      state: (json['State'] as String?)?.toRouteState(),
-      type: (json['Type'] as String?)?.toRouteType(),
+      state: (json['State'] as String?)?.let(RouteState.fromString),
+      type: (json['Type'] as String?)?.let(RouteType.fromString),
     );
   }
 
@@ -8564,8 +8165,8 @@ class NetworkRoute {
         'DestinationCidrBlock': destinationCidrBlock,
       if (destinations != null) 'Destinations': destinations,
       if (prefixListId != null) 'PrefixListId': prefixListId,
-      if (state != null) 'State': state.toValue(),
-      if (type != null) 'Type': type.toValue(),
+      if (state != null) 'State': state.value,
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -8863,9 +8464,10 @@ class Peering {
       edgeLocation: json['EdgeLocation'] as String?,
       ownerAccountId: json['OwnerAccountId'] as String?,
       peeringId: json['PeeringId'] as String?,
-      peeringType: (json['PeeringType'] as String?)?.toPeeringType(),
+      peeringType:
+          (json['PeeringType'] as String?)?.let(PeeringType.fromString),
       resourceArn: json['ResourceArn'] as String?,
-      state: (json['State'] as String?)?.toPeeringState(),
+      state: (json['State'] as String?)?.let(PeeringState.fromString),
       tags: (json['Tags'] as List?)
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -8891,73 +8493,42 @@ class Peering {
       if (edgeLocation != null) 'EdgeLocation': edgeLocation,
       if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
       if (peeringId != null) 'PeeringId': peeringId,
-      if (peeringType != null) 'PeeringType': peeringType.toValue(),
+      if (peeringType != null) 'PeeringType': peeringType.value,
       if (resourceArn != null) 'ResourceArn': resourceArn,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (tags != null) 'Tags': tags,
     };
   }
 }
 
 enum PeeringState {
-  creating,
-  failed,
-  available,
-  deleting,
-}
+  creating('CREATING'),
+  failed('FAILED'),
+  available('AVAILABLE'),
+  deleting('DELETING'),
+  ;
 
-extension PeeringStateValueExtension on PeeringState {
-  String toValue() {
-    switch (this) {
-      case PeeringState.creating:
-        return 'CREATING';
-      case PeeringState.failed:
-        return 'FAILED';
-      case PeeringState.available:
-        return 'AVAILABLE';
-      case PeeringState.deleting:
-        return 'DELETING';
-    }
-  }
-}
+  final String value;
 
-extension PeeringStateFromString on String {
-  PeeringState toPeeringState() {
-    switch (this) {
-      case 'CREATING':
-        return PeeringState.creating;
-      case 'FAILED':
-        return PeeringState.failed;
-      case 'AVAILABLE':
-        return PeeringState.available;
-      case 'DELETING':
-        return PeeringState.deleting;
-    }
-    throw Exception('$this is not known in enum PeeringState');
-  }
+  const PeeringState(this.value);
+
+  static PeeringState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PeeringState'));
 }
 
 enum PeeringType {
-  transitGateway,
-}
+  transitGateway('TRANSIT_GATEWAY'),
+  ;
 
-extension PeeringTypeValueExtension on PeeringType {
-  String toValue() {
-    switch (this) {
-      case PeeringType.transitGateway:
-        return 'TRANSIT_GATEWAY';
-    }
-  }
-}
+  final String value;
 
-extension PeeringTypeFromString on String {
-  PeeringType toPeeringType() {
-    switch (this) {
-      case 'TRANSIT_GATEWAY':
-        return PeeringType.transitGateway;
-    }
-    throw Exception('$this is not known in enum PeeringType');
-  }
+  const PeeringType(this.value);
+
+  static PeeringType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum PeeringType'));
 }
 
 /// Describes a proposed segment change. In some cases, the segment change must
@@ -9219,7 +8790,7 @@ class RouteAnalysis {
               json['Source'] as Map<String, dynamic>)
           : null,
       startTimestamp: timeStampFromJson(json['StartTimestamp']),
-      status: (json['Status'] as String?)?.toRouteAnalysisStatus(),
+      status: (json['Status'] as String?)?.let(RouteAnalysisStatus.fromString),
       useMiddleboxes: json['UseMiddleboxes'] as bool?,
     );
   }
@@ -9247,7 +8818,7 @@ class RouteAnalysis {
       if (source != null) 'Source': source,
       if (startTimestamp != null)
         'StartTimestamp': unixTimestampToJson(startTimestamp),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (useMiddleboxes != null) 'UseMiddleboxes': useMiddleboxes,
     };
   }
@@ -9313,11 +8884,11 @@ class RouteAnalysisCompletion {
   factory RouteAnalysisCompletion.fromJson(Map<String, dynamic> json) {
     return RouteAnalysisCompletion(
       reasonCode: (json['ReasonCode'] as String?)
-          ?.toRouteAnalysisCompletionReasonCode(),
+          ?.let(RouteAnalysisCompletionReasonCode.fromString),
       reasonContext: (json['ReasonContext'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       resultCode: (json['ResultCode'] as String?)
-          ?.toRouteAnalysisCompletionResultCode(),
+          ?.let(RouteAnalysisCompletionResultCode.fromString),
     );
   }
 
@@ -9326,125 +8897,53 @@ class RouteAnalysisCompletion {
     final reasonContext = this.reasonContext;
     final resultCode = this.resultCode;
     return {
-      if (reasonCode != null) 'ReasonCode': reasonCode.toValue(),
+      if (reasonCode != null) 'ReasonCode': reasonCode.value,
       if (reasonContext != null) 'ReasonContext': reasonContext,
-      if (resultCode != null) 'ResultCode': resultCode.toValue(),
+      if (resultCode != null) 'ResultCode': resultCode.value,
     };
   }
 }
 
 enum RouteAnalysisCompletionReasonCode {
-  transitGatewayAttachmentNotFound,
-  transitGatewayAttachmentNotInTransitGateway,
-  cyclicPathDetected,
-  transitGatewayAttachmentStableRouteTableNotFound,
-  routeNotFound,
-  blackholeRouteForDestinationFound,
-  inactiveRouteForDestinationFound,
-  transitGatewayAttachmentAttachArnNoMatch,
-  maxHopsExceeded,
-  possibleMiddlebox,
-  noDestinationArnProvided,
-}
+  transitGatewayAttachmentNotFound('TRANSIT_GATEWAY_ATTACHMENT_NOT_FOUND'),
+  transitGatewayAttachmentNotInTransitGateway(
+      'TRANSIT_GATEWAY_ATTACHMENT_NOT_IN_TRANSIT_GATEWAY'),
+  cyclicPathDetected('CYCLIC_PATH_DETECTED'),
+  transitGatewayAttachmentStableRouteTableNotFound(
+      'TRANSIT_GATEWAY_ATTACHMENT_STABLE_ROUTE_TABLE_NOT_FOUND'),
+  routeNotFound('ROUTE_NOT_FOUND'),
+  blackholeRouteForDestinationFound('BLACKHOLE_ROUTE_FOR_DESTINATION_FOUND'),
+  inactiveRouteForDestinationFound('INACTIVE_ROUTE_FOR_DESTINATION_FOUND'),
+  transitGatewayAttachmentAttachArnNoMatch(
+      'TRANSIT_GATEWAY_ATTACHMENT_ATTACH_ARN_NO_MATCH'),
+  maxHopsExceeded('MAX_HOPS_EXCEEDED'),
+  possibleMiddlebox('POSSIBLE_MIDDLEBOX'),
+  noDestinationArnProvided('NO_DESTINATION_ARN_PROVIDED'),
+  ;
 
-extension RouteAnalysisCompletionReasonCodeValueExtension
-    on RouteAnalysisCompletionReasonCode {
-  String toValue() {
-    switch (this) {
-      case RouteAnalysisCompletionReasonCode.transitGatewayAttachmentNotFound:
-        return 'TRANSIT_GATEWAY_ATTACHMENT_NOT_FOUND';
-      case RouteAnalysisCompletionReasonCode
-            .transitGatewayAttachmentNotInTransitGateway:
-        return 'TRANSIT_GATEWAY_ATTACHMENT_NOT_IN_TRANSIT_GATEWAY';
-      case RouteAnalysisCompletionReasonCode.cyclicPathDetected:
-        return 'CYCLIC_PATH_DETECTED';
-      case RouteAnalysisCompletionReasonCode
-            .transitGatewayAttachmentStableRouteTableNotFound:
-        return 'TRANSIT_GATEWAY_ATTACHMENT_STABLE_ROUTE_TABLE_NOT_FOUND';
-      case RouteAnalysisCompletionReasonCode.routeNotFound:
-        return 'ROUTE_NOT_FOUND';
-      case RouteAnalysisCompletionReasonCode.blackholeRouteForDestinationFound:
-        return 'BLACKHOLE_ROUTE_FOR_DESTINATION_FOUND';
-      case RouteAnalysisCompletionReasonCode.inactiveRouteForDestinationFound:
-        return 'INACTIVE_ROUTE_FOR_DESTINATION_FOUND';
-      case RouteAnalysisCompletionReasonCode
-            .transitGatewayAttachmentAttachArnNoMatch:
-        return 'TRANSIT_GATEWAY_ATTACHMENT_ATTACH_ARN_NO_MATCH';
-      case RouteAnalysisCompletionReasonCode.maxHopsExceeded:
-        return 'MAX_HOPS_EXCEEDED';
-      case RouteAnalysisCompletionReasonCode.possibleMiddlebox:
-        return 'POSSIBLE_MIDDLEBOX';
-      case RouteAnalysisCompletionReasonCode.noDestinationArnProvided:
-        return 'NO_DESTINATION_ARN_PROVIDED';
-    }
-  }
-}
+  final String value;
 
-extension RouteAnalysisCompletionReasonCodeFromString on String {
-  RouteAnalysisCompletionReasonCode toRouteAnalysisCompletionReasonCode() {
-    switch (this) {
-      case 'TRANSIT_GATEWAY_ATTACHMENT_NOT_FOUND':
-        return RouteAnalysisCompletionReasonCode
-            .transitGatewayAttachmentNotFound;
-      case 'TRANSIT_GATEWAY_ATTACHMENT_NOT_IN_TRANSIT_GATEWAY':
-        return RouteAnalysisCompletionReasonCode
-            .transitGatewayAttachmentNotInTransitGateway;
-      case 'CYCLIC_PATH_DETECTED':
-        return RouteAnalysisCompletionReasonCode.cyclicPathDetected;
-      case 'TRANSIT_GATEWAY_ATTACHMENT_STABLE_ROUTE_TABLE_NOT_FOUND':
-        return RouteAnalysisCompletionReasonCode
-            .transitGatewayAttachmentStableRouteTableNotFound;
-      case 'ROUTE_NOT_FOUND':
-        return RouteAnalysisCompletionReasonCode.routeNotFound;
-      case 'BLACKHOLE_ROUTE_FOR_DESTINATION_FOUND':
-        return RouteAnalysisCompletionReasonCode
-            .blackholeRouteForDestinationFound;
-      case 'INACTIVE_ROUTE_FOR_DESTINATION_FOUND':
-        return RouteAnalysisCompletionReasonCode
-            .inactiveRouteForDestinationFound;
-      case 'TRANSIT_GATEWAY_ATTACHMENT_ATTACH_ARN_NO_MATCH':
-        return RouteAnalysisCompletionReasonCode
-            .transitGatewayAttachmentAttachArnNoMatch;
-      case 'MAX_HOPS_EXCEEDED':
-        return RouteAnalysisCompletionReasonCode.maxHopsExceeded;
-      case 'POSSIBLE_MIDDLEBOX':
-        return RouteAnalysisCompletionReasonCode.possibleMiddlebox;
-      case 'NO_DESTINATION_ARN_PROVIDED':
-        return RouteAnalysisCompletionReasonCode.noDestinationArnProvided;
-    }
-    throw Exception(
-        '$this is not known in enum RouteAnalysisCompletionReasonCode');
-  }
+  const RouteAnalysisCompletionReasonCode(this.value);
+
+  static RouteAnalysisCompletionReasonCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RouteAnalysisCompletionReasonCode'));
 }
 
 enum RouteAnalysisCompletionResultCode {
-  connected,
-  notConnected,
-}
+  connected('CONNECTED'),
+  notConnected('NOT_CONNECTED'),
+  ;
 
-extension RouteAnalysisCompletionResultCodeValueExtension
-    on RouteAnalysisCompletionResultCode {
-  String toValue() {
-    switch (this) {
-      case RouteAnalysisCompletionResultCode.connected:
-        return 'CONNECTED';
-      case RouteAnalysisCompletionResultCode.notConnected:
-        return 'NOT_CONNECTED';
-    }
-  }
-}
+  final String value;
 
-extension RouteAnalysisCompletionResultCodeFromString on String {
-  RouteAnalysisCompletionResultCode toRouteAnalysisCompletionResultCode() {
-    switch (this) {
-      case 'CONNECTED':
-        return RouteAnalysisCompletionResultCode.connected;
-      case 'NOT_CONNECTED':
-        return RouteAnalysisCompletionResultCode.notConnected;
-    }
-    throw Exception(
-        '$this is not known in enum RouteAnalysisCompletionResultCode');
-  }
+  const RouteAnalysisCompletionResultCode(this.value);
+
+  static RouteAnalysisCompletionResultCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RouteAnalysisCompletionResultCode'));
 }
 
 /// Describes a source or a destination.
@@ -9547,64 +9046,33 @@ class RouteAnalysisPath {
 }
 
 enum RouteAnalysisStatus {
-  running,
-  completed,
-  failed,
-}
+  running('RUNNING'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  ;
 
-extension RouteAnalysisStatusValueExtension on RouteAnalysisStatus {
-  String toValue() {
-    switch (this) {
-      case RouteAnalysisStatus.running:
-        return 'RUNNING';
-      case RouteAnalysisStatus.completed:
-        return 'COMPLETED';
-      case RouteAnalysisStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension RouteAnalysisStatusFromString on String {
-  RouteAnalysisStatus toRouteAnalysisStatus() {
-    switch (this) {
-      case 'RUNNING':
-        return RouteAnalysisStatus.running;
-      case 'COMPLETED':
-        return RouteAnalysisStatus.completed;
-      case 'FAILED':
-        return RouteAnalysisStatus.failed;
-    }
-    throw Exception('$this is not known in enum RouteAnalysisStatus');
-  }
+  const RouteAnalysisStatus(this.value);
+
+  static RouteAnalysisStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RouteAnalysisStatus'));
 }
 
 enum RouteState {
-  active,
-  blackhole,
-}
+  active('ACTIVE'),
+  blackhole('BLACKHOLE'),
+  ;
 
-extension RouteStateValueExtension on RouteState {
-  String toValue() {
-    switch (this) {
-      case RouteState.active:
-        return 'ACTIVE';
-      case RouteState.blackhole:
-        return 'BLACKHOLE';
-    }
-  }
-}
+  final String value;
 
-extension RouteStateFromString on String {
-  RouteState toRouteState() {
-    switch (this) {
-      case 'ACTIVE':
-        return RouteState.active;
-      case 'BLACKHOLE':
-        return RouteState.blackhole;
-    }
-    throw Exception('$this is not known in enum RouteState');
-  }
+  const RouteState(this.value);
+
+  static RouteState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum RouteState'));
 }
 
 /// Describes a route table.
@@ -9635,59 +9103,32 @@ class RouteTableIdentifier {
 }
 
 enum RouteTableType {
-  transitGatewayRouteTable,
-  coreNetworkSegment,
-}
+  transitGatewayRouteTable('TRANSIT_GATEWAY_ROUTE_TABLE'),
+  coreNetworkSegment('CORE_NETWORK_SEGMENT'),
+  ;
 
-extension RouteTableTypeValueExtension on RouteTableType {
-  String toValue() {
-    switch (this) {
-      case RouteTableType.transitGatewayRouteTable:
-        return 'TRANSIT_GATEWAY_ROUTE_TABLE';
-      case RouteTableType.coreNetworkSegment:
-        return 'CORE_NETWORK_SEGMENT';
-    }
-  }
-}
+  final String value;
 
-extension RouteTableTypeFromString on String {
-  RouteTableType toRouteTableType() {
-    switch (this) {
-      case 'TRANSIT_GATEWAY_ROUTE_TABLE':
-        return RouteTableType.transitGatewayRouteTable;
-      case 'CORE_NETWORK_SEGMENT':
-        return RouteTableType.coreNetworkSegment;
-    }
-    throw Exception('$this is not known in enum RouteTableType');
-  }
+  const RouteTableType(this.value);
+
+  static RouteTableType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RouteTableType'));
 }
 
 enum RouteType {
-  propagated,
-  static,
-}
+  propagated('PROPAGATED'),
+  static('STATIC'),
+  ;
 
-extension RouteTypeValueExtension on RouteType {
-  String toValue() {
-    switch (this) {
-      case RouteType.propagated:
-        return 'PROPAGATED';
-      case RouteType.static:
-        return 'STATIC';
-    }
-  }
-}
+  final String value;
 
-extension RouteTypeFromString on String {
-  RouteType toRouteType() {
-    switch (this) {
-      case 'PROPAGATED':
-        return RouteType.propagated;
-      case 'STATIC':
-        return RouteType.static;
-    }
-    throw Exception('$this is not known in enum RouteType');
-  }
+  const RouteType(this.value);
+
+  static RouteType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum RouteType'));
 }
 
 /// Describes a site.
@@ -9737,7 +9178,7 @@ class Site {
           : null,
       siteArn: json['SiteArn'] as String?,
       siteId: json['SiteId'] as String?,
-      state: (json['State'] as String?)?.toSiteState(),
+      state: (json['State'] as String?)?.let(SiteState.fromString),
       tags: (json['Tags'] as List?)
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -9761,48 +9202,26 @@ class Site {
       if (location != null) 'Location': location,
       if (siteArn != null) 'SiteArn': siteArn,
       if (siteId != null) 'SiteId': siteId,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (tags != null) 'Tags': tags,
     };
   }
 }
 
 enum SiteState {
-  pending,
-  available,
-  deleting,
-  updating,
-}
+  pending('PENDING'),
+  available('AVAILABLE'),
+  deleting('DELETING'),
+  updating('UPDATING'),
+  ;
 
-extension SiteStateValueExtension on SiteState {
-  String toValue() {
-    switch (this) {
-      case SiteState.pending:
-        return 'PENDING';
-      case SiteState.available:
-        return 'AVAILABLE';
-      case SiteState.deleting:
-        return 'DELETING';
-      case SiteState.updating:
-        return 'UPDATING';
-    }
-  }
-}
+  final String value;
 
-extension SiteStateFromString on String {
-  SiteState toSiteState() {
-    switch (this) {
-      case 'PENDING':
-        return SiteState.pending;
-      case 'AVAILABLE':
-        return SiteState.available;
-      case 'DELETING':
-        return SiteState.deleting;
-      case 'UPDATING':
-        return SiteState.updating;
-    }
-    throw Exception('$this is not known in enum SiteState');
-  }
+  const SiteState(this.value);
+
+  static SiteState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SiteState'));
 }
 
 /// Creates a site-to-site VPN attachment.
@@ -9967,7 +9386,7 @@ class TransitGatewayConnectPeerAssociation {
       globalNetworkId: json['GlobalNetworkId'] as String?,
       linkId: json['LinkId'] as String?,
       state: (json['State'] as String?)
-          ?.toTransitGatewayConnectPeerAssociationState(),
+          ?.let(TransitGatewayConnectPeerAssociationState.fromString),
       transitGatewayConnectPeerArn:
           json['TransitGatewayConnectPeerArn'] as String?,
     );
@@ -9983,7 +9402,7 @@ class TransitGatewayConnectPeerAssociation {
       if (deviceId != null) 'DeviceId': deviceId,
       if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
       if (linkId != null) 'LinkId': linkId,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (transitGatewayConnectPeerArn != null)
         'TransitGatewayConnectPeerArn': transitGatewayConnectPeerArn,
     };
@@ -9991,44 +9410,20 @@ class TransitGatewayConnectPeerAssociation {
 }
 
 enum TransitGatewayConnectPeerAssociationState {
-  pending,
-  available,
-  deleting,
-  deleted,
-}
+  pending('PENDING'),
+  available('AVAILABLE'),
+  deleting('DELETING'),
+  deleted('DELETED'),
+  ;
 
-extension TransitGatewayConnectPeerAssociationStateValueExtension
-    on TransitGatewayConnectPeerAssociationState {
-  String toValue() {
-    switch (this) {
-      case TransitGatewayConnectPeerAssociationState.pending:
-        return 'PENDING';
-      case TransitGatewayConnectPeerAssociationState.available:
-        return 'AVAILABLE';
-      case TransitGatewayConnectPeerAssociationState.deleting:
-        return 'DELETING';
-      case TransitGatewayConnectPeerAssociationState.deleted:
-        return 'DELETED';
-    }
-  }
-}
+  final String value;
 
-extension TransitGatewayConnectPeerAssociationStateFromString on String {
-  TransitGatewayConnectPeerAssociationState
-      toTransitGatewayConnectPeerAssociationState() {
-    switch (this) {
-      case 'PENDING':
-        return TransitGatewayConnectPeerAssociationState.pending;
-      case 'AVAILABLE':
-        return TransitGatewayConnectPeerAssociationState.available;
-      case 'DELETING':
-        return TransitGatewayConnectPeerAssociationState.deleting;
-      case 'DELETED':
-        return TransitGatewayConnectPeerAssociationState.deleted;
-    }
-    throw Exception(
-        '$this is not known in enum TransitGatewayConnectPeerAssociationState');
-  }
+  const TransitGatewayConnectPeerAssociationState(this.value);
+
+  static TransitGatewayConnectPeerAssociationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TransitGatewayConnectPeerAssociationState'));
 }
 
 /// Describes a transit gateway peering attachment.
@@ -10114,48 +9509,21 @@ class TransitGatewayRegistration {
 }
 
 enum TransitGatewayRegistrationState {
-  pending,
-  available,
-  deleting,
-  deleted,
-  failed,
-}
+  pending('PENDING'),
+  available('AVAILABLE'),
+  deleting('DELETING'),
+  deleted('DELETED'),
+  failed('FAILED'),
+  ;
 
-extension TransitGatewayRegistrationStateValueExtension
-    on TransitGatewayRegistrationState {
-  String toValue() {
-    switch (this) {
-      case TransitGatewayRegistrationState.pending:
-        return 'PENDING';
-      case TransitGatewayRegistrationState.available:
-        return 'AVAILABLE';
-      case TransitGatewayRegistrationState.deleting:
-        return 'DELETING';
-      case TransitGatewayRegistrationState.deleted:
-        return 'DELETED';
-      case TransitGatewayRegistrationState.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension TransitGatewayRegistrationStateFromString on String {
-  TransitGatewayRegistrationState toTransitGatewayRegistrationState() {
-    switch (this) {
-      case 'PENDING':
-        return TransitGatewayRegistrationState.pending;
-      case 'AVAILABLE':
-        return TransitGatewayRegistrationState.available;
-      case 'DELETING':
-        return TransitGatewayRegistrationState.deleting;
-      case 'DELETED':
-        return TransitGatewayRegistrationState.deleted;
-      case 'FAILED':
-        return TransitGatewayRegistrationState.failed;
-    }
-    throw Exception(
-        '$this is not known in enum TransitGatewayRegistrationState');
-  }
+  const TransitGatewayRegistrationState(this.value);
+
+  static TransitGatewayRegistrationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TransitGatewayRegistrationState'));
 }
 
 /// Describes the status of a transit gateway registration.
@@ -10174,7 +9542,8 @@ class TransitGatewayRegistrationStateReason {
   factory TransitGatewayRegistrationStateReason.fromJson(
       Map<String, dynamic> json) {
     return TransitGatewayRegistrationStateReason(
-      code: (json['Code'] as String?)?.toTransitGatewayRegistrationState(),
+      code: (json['Code'] as String?)
+          ?.let(TransitGatewayRegistrationState.fromString),
       message: json['Message'] as String?,
     );
   }
@@ -10183,7 +9552,7 @@ class TransitGatewayRegistrationStateReason {
     final code = this.code;
     final message = this.message;
     return {
-      if (code != null) 'Code': code.toValue(),
+      if (code != null) 'Code': code.value,
       if (message != null) 'Message': message,
     };
   }
@@ -10233,31 +9602,18 @@ class TransitGatewayRouteTableAttachment {
 }
 
 enum TunnelProtocol {
-  gre,
-  noEncap,
-}
+  gre('GRE'),
+  noEncap('NO_ENCAP'),
+  ;
 
-extension TunnelProtocolValueExtension on TunnelProtocol {
-  String toValue() {
-    switch (this) {
-      case TunnelProtocol.gre:
-        return 'GRE';
-      case TunnelProtocol.noEncap:
-        return 'NO_ENCAP';
-    }
-  }
-}
+  final String value;
 
-extension TunnelProtocolFromString on String {
-  TunnelProtocol toTunnelProtocol() {
-    switch (this) {
-      case 'GRE':
-        return TunnelProtocol.gre;
-      case 'NO_ENCAP':
-        return TunnelProtocol.noEncap;
-    }
-    throw Exception('$this is not known in enum TunnelProtocol');
-  }
+  const TunnelProtocol(this.value);
+
+  static TunnelProtocol fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TunnelProtocol'));
 }
 
 class UntagResourceResponse {

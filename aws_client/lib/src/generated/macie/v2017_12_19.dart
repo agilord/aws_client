@@ -380,9 +380,10 @@ class ClassificationType {
 
   factory ClassificationType.fromJson(Map<String, dynamic> json) {
     return ClassificationType(
-      continuous:
-          (json['continuous'] as String).toS3ContinuousClassificationType(),
-      oneTime: (json['oneTime'] as String).toS3OneTimeClassificationType(),
+      continuous: S3ContinuousClassificationType.fromString(
+          (json['continuous'] as String)),
+      oneTime:
+          S3OneTimeClassificationType.fromString((json['oneTime'] as String)),
     );
   }
 
@@ -390,8 +391,8 @@ class ClassificationType {
     final continuous = this.continuous;
     final oneTime = this.oneTime;
     return {
-      'continuous': continuous.toValue(),
-      'oneTime': oneTime.toValue(),
+      'continuous': continuous.value,
+      'oneTime': oneTime.value,
     };
   }
 }
@@ -418,8 +419,8 @@ class ClassificationTypeUpdate {
     final continuous = this.continuous;
     final oneTime = this.oneTime;
     return {
-      if (continuous != null) 'continuous': continuous.toValue(),
-      if (oneTime != null) 'oneTime': oneTime.toValue(),
+      if (continuous != null) 'continuous': continuous.value,
+      if (oneTime != null) 'oneTime': oneTime.value,
     };
   }
 }
@@ -591,57 +592,32 @@ class MemberAccount {
 }
 
 enum S3ContinuousClassificationType {
-  full,
-}
+  full('FULL'),
+  ;
 
-extension S3ContinuousClassificationTypeValueExtension
-    on S3ContinuousClassificationType {
-  String toValue() {
-    switch (this) {
-      case S3ContinuousClassificationType.full:
-        return 'FULL';
-    }
-  }
-}
+  final String value;
 
-extension S3ContinuousClassificationTypeFromString on String {
-  S3ContinuousClassificationType toS3ContinuousClassificationType() {
-    switch (this) {
-      case 'FULL':
-        return S3ContinuousClassificationType.full;
-    }
-    throw Exception(
-        '$this is not known in enum S3ContinuousClassificationType');
-  }
+  const S3ContinuousClassificationType(this.value);
+
+  static S3ContinuousClassificationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum S3ContinuousClassificationType'));
 }
 
 enum S3OneTimeClassificationType {
-  full,
-  none,
-}
+  full('FULL'),
+  none('NONE'),
+  ;
 
-extension S3OneTimeClassificationTypeValueExtension
-    on S3OneTimeClassificationType {
-  String toValue() {
-    switch (this) {
-      case S3OneTimeClassificationType.full:
-        return 'FULL';
-      case S3OneTimeClassificationType.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension S3OneTimeClassificationTypeFromString on String {
-  S3OneTimeClassificationType toS3OneTimeClassificationType() {
-    switch (this) {
-      case 'FULL':
-        return S3OneTimeClassificationType.full;
-      case 'NONE':
-        return S3OneTimeClassificationType.none;
-    }
-    throw Exception('$this is not known in enum S3OneTimeClassificationType');
-  }
+  const S3OneTimeClassificationType(this.value);
+
+  static S3OneTimeClassificationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum S3OneTimeClassificationType'));
 }
 
 /// (Discontinued) Contains information about the S3 resource. This data type is

@@ -235,7 +235,7 @@ class WAFV2 {
       headers: headers,
       payload: {
         'Rules': rules,
-        'Scope': scope.toValue(),
+        'Scope': scope.value,
       },
     );
 
@@ -301,7 +301,7 @@ class WAFV2 {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Scope': scope.toValue(),
+        'Scope': scope.value,
         'TokenDomains': tokenDomains,
       },
     );
@@ -429,9 +429,9 @@ class WAFV2 {
       headers: headers,
       payload: {
         'Addresses': addresses,
-        'IPAddressVersion': iPAddressVersion.toValue(),
+        'IPAddressVersion': iPAddressVersion.value,
         'Name': name,
-        'Scope': scope.toValue(),
+        'Scope': scope.value,
         if (description != null) 'Description': description,
         if (tags != null) 'Tags': tags,
       },
@@ -504,7 +504,7 @@ class WAFV2 {
       payload: {
         'Name': name,
         'RegularExpressionList': regularExpressionList,
-        'Scope': scope.toValue(),
+        'Scope': scope.value,
         if (description != null) 'Description': description,
         if (tags != null) 'Tags': tags,
       },
@@ -635,7 +635,7 @@ class WAFV2 {
       payload: {
         'Capacity': capacity,
         'Name': name,
-        'Scope': scope.toValue(),
+        'Scope': scope.value,
         'VisibilityConfig': visibilityConfig,
         if (customResponseBodies != null)
           'CustomResponseBodies': customResponseBodies,
@@ -804,7 +804,7 @@ class WAFV2 {
       payload: {
         'DefaultAction': defaultAction,
         'Name': name,
-        'Scope': scope.toValue(),
+        'Scope': scope.value,
         'VisibilityConfig': visibilityConfig,
         if (associationConfig != null) 'AssociationConfig': associationConfig,
         if (captchaConfig != null) 'CaptchaConfig': captchaConfig,
@@ -870,7 +870,7 @@ class WAFV2 {
       headers: headers,
       payload: {
         'APIKey': aPIKey,
-        'Scope': scope.toValue(),
+        'Scope': scope.value,
       },
     );
   }
@@ -994,7 +994,7 @@ class WAFV2 {
         'Id': id,
         'LockToken': lockToken,
         'Name': name,
-        'Scope': scope.toValue(),
+        'Scope': scope.value,
       },
     );
   }
@@ -1047,8 +1047,8 @@ class WAFV2 {
       headers: headers,
       payload: {
         'ResourceArn': resourceArn,
-        if (logScope != null) 'LogScope': logScope.toValue(),
-        if (logType != null) 'LogType': logType.toValue(),
+        if (logScope != null) 'LogScope': logScope.value,
+        if (logType != null) 'LogType': logType.value,
       },
     );
   }
@@ -1154,7 +1154,7 @@ class WAFV2 {
         'Id': id,
         'LockToken': lockToken,
         'Name': name,
-        'Scope': scope.toValue(),
+        'Scope': scope.value,
       },
     );
   }
@@ -1229,7 +1229,7 @@ class WAFV2 {
         'Id': id,
         'LockToken': lockToken,
         'Name': name,
-        'Scope': scope.toValue(),
+        'Scope': scope.value,
       },
     );
   }
@@ -1341,7 +1341,7 @@ class WAFV2 {
         'Id': id,
         'LockToken': lockToken,
         'Name': name,
-        'Scope': scope.toValue(),
+        'Scope': scope.value,
       },
     );
   }
@@ -1386,7 +1386,7 @@ class WAFV2 {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Scope': scope.toValue(),
+        'Scope': scope.value,
       },
     );
 
@@ -1439,7 +1439,7 @@ class WAFV2 {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Scope': scope.toValue(),
+        'Scope': scope.value,
         'VendorName': vendorName,
       },
     );
@@ -1507,7 +1507,7 @@ class WAFV2 {
       headers: headers,
       payload: {
         'Name': name,
-        'Scope': scope.toValue(),
+        'Scope': scope.value,
         'VendorName': vendorName,
         if (versionName != null) 'VersionName': versionName,
       },
@@ -1634,7 +1634,7 @@ class WAFV2 {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Platform': platform.toValue(),
+        'Platform': platform.value,
         'ReleaseVersion': releaseVersion,
       },
     );
@@ -1696,7 +1696,7 @@ class WAFV2 {
       headers: headers,
       payload: {
         'APIKey': aPIKey,
-        'Scope': scope.toValue(),
+        'Scope': scope.value,
       },
     );
 
@@ -1756,7 +1756,7 @@ class WAFV2 {
       payload: {
         'Id': id,
         'Name': name,
-        'Scope': scope.toValue(),
+        'Scope': scope.value,
       },
     );
 
@@ -1810,8 +1810,8 @@ class WAFV2 {
       headers: headers,
       payload: {
         'ResourceArn': resourceArn,
-        if (logScope != null) 'LogScope': logScope.toValue(),
-        if (logType != null) 'LogType': logType.toValue(),
+        if (logScope != null) 'LogScope': logScope.value,
+        if (logType != null) 'LogType': logType.value,
       },
     );
 
@@ -1884,7 +1884,7 @@ class WAFV2 {
       payload: {
         'Id': id,
         'Name': name,
-        'Scope': scope.toValue(),
+        'Scope': scope.value,
       },
     );
 
@@ -1926,7 +1926,7 @@ class WAFV2 {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Platform': platform.toValue(),
+        'Platform': platform.value,
         'ReleaseVersion': releaseVersion,
       },
     );
@@ -2052,7 +2052,7 @@ class WAFV2 {
       headers: headers,
       payload: {
         'RuleName': ruleName,
-        'Scope': scope.toValue(),
+        'Scope': scope.value,
         'WebACLId': webACLId,
         'WebACLName': webACLName,
         if (ruleGroupRuleName != null) 'RuleGroupRuleName': ruleGroupRuleName,
@@ -2114,7 +2114,7 @@ class WAFV2 {
       payload: {
         'Id': id,
         'Name': name,
-        'Scope': scope.toValue(),
+        'Scope': scope.value,
       },
     );
 
@@ -2179,7 +2179,7 @@ class WAFV2 {
         if (arn != null) 'ARN': arn,
         if (id != null) 'Id': id,
         if (name != null) 'Name': name,
-        if (scope != null) 'Scope': scope.toValue(),
+        if (scope != null) 'Scope': scope.value,
       },
     );
 
@@ -2273,7 +2273,7 @@ class WAFV2 {
       payload: {
         'MaxItems': maxItems,
         'RuleMetricName': ruleMetricName,
-        'Scope': scope.toValue(),
+        'Scope': scope.value,
         'TimeWindow': timeWindow,
         'WebAclArn': webAclArn,
       },
@@ -2335,7 +2335,7 @@ class WAFV2 {
       payload: {
         'Id': id,
         'Name': name,
-        'Scope': scope.toValue(),
+        'Scope': scope.value,
       },
     );
 
@@ -2496,7 +2496,7 @@ class WAFV2 {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Scope': scope.toValue(),
+        'Scope': scope.value,
         if (limit != null) 'Limit': limit,
         if (nextMarker != null) 'NextMarker': nextMarker,
       },
@@ -2579,7 +2579,7 @@ class WAFV2 {
       headers: headers,
       payload: {
         'Name': name,
-        'Scope': scope.toValue(),
+        'Scope': scope.value,
         'VendorName': vendorName,
         if (limit != null) 'Limit': limit,
         if (nextMarker != null) 'NextMarker': nextMarker,
@@ -2654,7 +2654,7 @@ class WAFV2 {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Scope': scope.toValue(),
+        'Scope': scope.value,
         if (limit != null) 'Limit': limit,
         if (nextMarker != null) 'NextMarker': nextMarker,
       },
@@ -2724,7 +2724,7 @@ class WAFV2 {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Scope': scope.toValue(),
+        'Scope': scope.value,
         if (limit != null) 'Limit': limit,
         if (nextMarker != null) 'NextMarker': nextMarker,
       },
@@ -2808,9 +2808,9 @@ class WAFV2 {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Scope': scope.toValue(),
+        'Scope': scope.value,
         if (limit != null) 'Limit': limit,
-        if (logScope != null) 'LogScope': logScope.toValue(),
+        if (logScope != null) 'LogScope': logScope.value,
         if (nextMarker != null) 'NextMarker': nextMarker,
       },
     );
@@ -2888,7 +2888,7 @@ class WAFV2 {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Scope': scope.toValue(),
+        'Scope': scope.value,
         if (limit != null) 'Limit': limit,
         if (nextMarker != null) 'NextMarker': nextMarker,
       },
@@ -2947,7 +2947,7 @@ class WAFV2 {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Platform': platform.toValue(),
+        'Platform': platform.value,
         if (limit != null) 'Limit': limit,
         if (nextMarker != null) 'NextMarker': nextMarker,
       },
@@ -3017,7 +3017,7 @@ class WAFV2 {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Scope': scope.toValue(),
+        'Scope': scope.value,
         if (limit != null) 'Limit': limit,
         if (nextMarker != null) 'NextMarker': nextMarker,
       },
@@ -3075,7 +3075,7 @@ class WAFV2 {
       headers: headers,
       payload: {
         'WebACLArn': webACLArn,
-        if (resourceType != null) 'ResourceType': resourceType.toValue(),
+        if (resourceType != null) 'ResourceType': resourceType.value,
       },
     );
 
@@ -3143,7 +3143,7 @@ class WAFV2 {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Scope': scope.toValue(),
+        'Scope': scope.value,
         if (limit != null) 'Limit': limit,
         if (nextMarker != null) 'NextMarker': nextMarker,
       },
@@ -3277,7 +3277,7 @@ class WAFV2 {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Scope': scope.toValue(),
+        'Scope': scope.value,
         if (limit != null) 'Limit': limit,
         if (nextMarker != null) 'NextMarker': nextMarker,
       },
@@ -3473,7 +3473,7 @@ class WAFV2 {
         'Id': id,
         'LockToken': lockToken,
         'Name': name,
-        'Scope': scope.toValue(),
+        'Scope': scope.value,
         if (recommendedVersion != null)
           'RecommendedVersion': recommendedVersion,
         if (versionsToPublish != null) 'VersionsToPublish': versionsToPublish,
@@ -3819,7 +3819,7 @@ class WAFV2 {
         'Id': id,
         'LockToken': lockToken,
         'Name': name,
-        'Scope': scope.toValue(),
+        'Scope': scope.value,
         if (description != null) 'Description': description,
       },
     );
@@ -3924,7 +3924,7 @@ class WAFV2 {
         'Id': id,
         'LockToken': lockToken,
         'Name': name,
-        'Scope': scope.toValue(),
+        'Scope': scope.value,
         'VersionToExpire': versionToExpire,
       },
     );
@@ -4055,7 +4055,7 @@ class WAFV2 {
         'LockToken': lockToken,
         'Name': name,
         'RegularExpressionList': regularExpressionList,
-        'Scope': scope.toValue(),
+        'Scope': scope.value,
         if (description != null) 'Description': description,
       },
     );
@@ -4218,7 +4218,7 @@ class WAFV2 {
         'Id': id,
         'LockToken': lockToken,
         'Name': name,
-        'Scope': scope.toValue(),
+        'Scope': scope.value,
         'VisibilityConfig': visibilityConfig,
         if (customResponseBodies != null)
           'CustomResponseBodies': customResponseBodies,
@@ -4446,7 +4446,7 @@ class WAFV2 {
         'Id': id,
         'LockToken': lockToken,
         'Name': name,
-        'Scope': scope.toValue(),
+        'Scope': scope.value,
         'VisibilityConfig': visibilityConfig,
         if (associationConfig != null) 'AssociationConfig': associationConfig,
         if (captchaConfig != null) 'CaptchaConfig': captchaConfig,
@@ -4706,7 +4706,8 @@ class AWSManagedRulesBotControlRuleSet {
 
   factory AWSManagedRulesBotControlRuleSet.fromJson(Map<String, dynamic> json) {
     return AWSManagedRulesBotControlRuleSet(
-      inspectionLevel: (json['InspectionLevel'] as String).toInspectionLevel(),
+      inspectionLevel:
+          InspectionLevel.fromString((json['InspectionLevel'] as String)),
       enableMachineLearning: json['EnableMachineLearning'] as bool?,
     );
   }
@@ -4715,7 +4716,7 @@ class AWSManagedRulesBotControlRuleSet {
     final inspectionLevel = this.inspectionLevel;
     final enableMachineLearning = this.enableMachineLearning;
     return {
-      'InspectionLevel': inspectionLevel.toValue(),
+      'InspectionLevel': inspectionLevel.value,
       if (enableMachineLearning != null)
         'EnableMachineLearning': enableMachineLearning,
     };
@@ -4739,64 +4740,34 @@ class ActionCondition {
 
   factory ActionCondition.fromJson(Map<String, dynamic> json) {
     return ActionCondition(
-      action: (json['Action'] as String).toActionValue(),
+      action: ActionValue.fromString((json['Action'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final action = this.action;
     return {
-      'Action': action.toValue(),
+      'Action': action.value,
     };
   }
 }
 
 enum ActionValue {
-  allow,
-  block,
-  count,
-  captcha,
-  challenge,
-  excludedAsCount,
-}
+  allow('ALLOW'),
+  block('BLOCK'),
+  count('COUNT'),
+  captcha('CAPTCHA'),
+  challenge('CHALLENGE'),
+  excludedAsCount('EXCLUDED_AS_COUNT'),
+  ;
 
-extension ActionValueValueExtension on ActionValue {
-  String toValue() {
-    switch (this) {
-      case ActionValue.allow:
-        return 'ALLOW';
-      case ActionValue.block:
-        return 'BLOCK';
-      case ActionValue.count:
-        return 'COUNT';
-      case ActionValue.captcha:
-        return 'CAPTCHA';
-      case ActionValue.challenge:
-        return 'CHALLENGE';
-      case ActionValue.excludedAsCount:
-        return 'EXCLUDED_AS_COUNT';
-    }
-  }
-}
+  final String value;
 
-extension ActionValueFromString on String {
-  ActionValue toActionValue() {
-    switch (this) {
-      case 'ALLOW':
-        return ActionValue.allow;
-      case 'BLOCK':
-        return ActionValue.block;
-      case 'COUNT':
-        return ActionValue.count;
-      case 'CAPTCHA':
-        return ActionValue.captcha;
-      case 'CHALLENGE':
-        return ActionValue.challenge;
-      case 'EXCLUDED_AS_COUNT':
-        return ActionValue.excludedAsCount;
-    }
-    throw Exception('$this is not known in enum ActionValue');
-  }
+  const ActionValue(this.value);
+
+  static ActionValue fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ActionValue'));
 }
 
 /// The name of a field in the request payload that contains part or all of your
@@ -4965,46 +4936,21 @@ class AssociateWebACLResponse {
 }
 
 enum AssociatedResourceType {
-  cloudfront,
-  apiGateway,
-  cognitoUserPool,
-  appRunnerService,
-  verifiedAccessInstance,
-}
+  cloudfront('CLOUDFRONT'),
+  apiGateway('API_GATEWAY'),
+  cognitoUserPool('COGNITO_USER_POOL'),
+  appRunnerService('APP_RUNNER_SERVICE'),
+  verifiedAccessInstance('VERIFIED_ACCESS_INSTANCE'),
+  ;
 
-extension AssociatedResourceTypeValueExtension on AssociatedResourceType {
-  String toValue() {
-    switch (this) {
-      case AssociatedResourceType.cloudfront:
-        return 'CLOUDFRONT';
-      case AssociatedResourceType.apiGateway:
-        return 'API_GATEWAY';
-      case AssociatedResourceType.cognitoUserPool:
-        return 'COGNITO_USER_POOL';
-      case AssociatedResourceType.appRunnerService:
-        return 'APP_RUNNER_SERVICE';
-      case AssociatedResourceType.verifiedAccessInstance:
-        return 'VERIFIED_ACCESS_INSTANCE';
-    }
-  }
-}
+  final String value;
 
-extension AssociatedResourceTypeFromString on String {
-  AssociatedResourceType toAssociatedResourceType() {
-    switch (this) {
-      case 'CLOUDFRONT':
-        return AssociatedResourceType.cloudfront;
-      case 'API_GATEWAY':
-        return AssociatedResourceType.apiGateway;
-      case 'COGNITO_USER_POOL':
-        return AssociatedResourceType.cognitoUserPool;
-      case 'APP_RUNNER_SERVICE':
-        return AssociatedResourceType.appRunnerService;
-      case 'VERIFIED_ACCESS_INSTANCE':
-        return AssociatedResourceType.verifiedAccessInstance;
-    }
-    throw Exception('$this is not known in enum AssociatedResourceType');
-  }
+  const AssociatedResourceType(this.value);
+
+  static AssociatedResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AssociatedResourceType'));
 }
 
 /// Specifies custom configurations for the associations between the web ACL and
@@ -5047,7 +4993,7 @@ class AssociationConfig {
     return AssociationConfig(
       requestBody: (json['RequestBody'] as Map<String, dynamic>?)?.map((k, e) =>
           MapEntry(
-              k.toAssociatedResourceType(),
+              AssociatedResourceType.fromString(k),
               RequestBodyAssociatedResourceTypeConfig.fromJson(
                   e as Map<String, dynamic>))),
     );
@@ -5057,7 +5003,7 @@ class AssociationConfig {
     final requestBody = this.requestBody;
     return {
       if (requestBody != null)
-        'RequestBody': requestBody.map((k, e) => MapEntry(k.toValue(), e)),
+        'RequestBody': requestBody.map((k, e) => MapEntry(k.value, e)),
     };
   }
 }
@@ -5150,52 +5096,33 @@ class Body {
 
   factory Body.fromJson(Map<String, dynamic> json) {
     return Body(
-      oversizeHandling:
-          (json['OversizeHandling'] as String?)?.toOversizeHandling(),
+      oversizeHandling: (json['OversizeHandling'] as String?)
+          ?.let(OversizeHandling.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final oversizeHandling = this.oversizeHandling;
     return {
-      if (oversizeHandling != null)
-        'OversizeHandling': oversizeHandling.toValue(),
+      if (oversizeHandling != null) 'OversizeHandling': oversizeHandling.value,
     };
   }
 }
 
 enum BodyParsingFallbackBehavior {
-  match,
-  noMatch,
-  evaluateAsString,
-}
+  match('MATCH'),
+  noMatch('NO_MATCH'),
+  evaluateAsString('EVALUATE_AS_STRING'),
+  ;
 
-extension BodyParsingFallbackBehaviorValueExtension
-    on BodyParsingFallbackBehavior {
-  String toValue() {
-    switch (this) {
-      case BodyParsingFallbackBehavior.match:
-        return 'MATCH';
-      case BodyParsingFallbackBehavior.noMatch:
-        return 'NO_MATCH';
-      case BodyParsingFallbackBehavior.evaluateAsString:
-        return 'EVALUATE_AS_STRING';
-    }
-  }
-}
+  final String value;
 
-extension BodyParsingFallbackBehaviorFromString on String {
-  BodyParsingFallbackBehavior toBodyParsingFallbackBehavior() {
-    switch (this) {
-      case 'MATCH':
-        return BodyParsingFallbackBehavior.match;
-      case 'NO_MATCH':
-        return BodyParsingFallbackBehavior.noMatch;
-      case 'EVALUATE_AS_STRING':
-        return BodyParsingFallbackBehavior.evaluateAsString;
-    }
-    throw Exception('$this is not known in enum BodyParsingFallbackBehavior');
-  }
+  const BodyParsingFallbackBehavior(this.value);
+
+  static BodyParsingFallbackBehavior fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum BodyParsingFallbackBehavior'));
 }
 
 /// A rule statement that defines a string match search for WAF to apply to web
@@ -5334,8 +5261,8 @@ class ByteMatchStatement {
     return ByteMatchStatement(
       fieldToMatch:
           FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
-      positionalConstraint:
-          (json['PositionalConstraint'] as String).toPositionalConstraint(),
+      positionalConstraint: PositionalConstraint.fromString(
+          (json['PositionalConstraint'] as String)),
       searchString: _s.decodeUint8List(json['SearchString']! as String),
       textTransformations: (json['TextTransformations'] as List)
           .whereNotNull()
@@ -5351,7 +5278,7 @@ class ByteMatchStatement {
     final textTransformations = this.textTransformations;
     return {
       'FieldToMatch': fieldToMatch,
-      'PositionalConstraint': positionalConstraint.toValue(),
+      'PositionalConstraint': positionalConstraint.value,
       'SearchString': base64Encode(searchString),
       'TextTransformations': textTransformations,
     };
@@ -5481,7 +5408,8 @@ class CaptchaResponse {
 
   factory CaptchaResponse.fromJson(Map<String, dynamic> json) {
     return CaptchaResponse(
-      failureReason: (json['FailureReason'] as String?)?.toFailureReason(),
+      failureReason:
+          (json['FailureReason'] as String?)?.let(FailureReason.fromString),
       responseCode: json['ResponseCode'] as int?,
       solveTimestamp: json['SolveTimestamp'] as int?,
     );
@@ -5622,7 +5550,8 @@ class ChallengeResponse {
 
   factory ChallengeResponse.fromJson(Map<String, dynamic> json) {
     return ChallengeResponse(
-      failureReason: (json['FailureReason'] as String?)?.toFailureReason(),
+      failureReason:
+          (json['FailureReason'] as String?)?.let(FailureReason.fromString),
       responseCode: json['ResponseCode'] as int?,
       solveTimestamp: json['SolveTimestamp'] as int?,
     );
@@ -5645,51 +5574,22 @@ class CheckCapacityResponse {
 }
 
 enum ComparisonOperator {
-  eq,
-  ne,
-  le,
-  lt,
-  ge,
-  gt,
-}
+  eq('EQ'),
+  ne('NE'),
+  le('LE'),
+  lt('LT'),
+  ge('GE'),
+  gt('GT'),
+  ;
 
-extension ComparisonOperatorValueExtension on ComparisonOperator {
-  String toValue() {
-    switch (this) {
-      case ComparisonOperator.eq:
-        return 'EQ';
-      case ComparisonOperator.ne:
-        return 'NE';
-      case ComparisonOperator.le:
-        return 'LE';
-      case ComparisonOperator.lt:
-        return 'LT';
-      case ComparisonOperator.ge:
-        return 'GE';
-      case ComparisonOperator.gt:
-        return 'GT';
-    }
-  }
-}
+  final String value;
 
-extension ComparisonOperatorFromString on String {
-  ComparisonOperator toComparisonOperator() {
-    switch (this) {
-      case 'EQ':
-        return ComparisonOperator.eq;
-      case 'NE':
-        return ComparisonOperator.ne;
-      case 'LE':
-        return ComparisonOperator.le;
-      case 'LT':
-        return ComparisonOperator.lt;
-      case 'GE':
-        return ComparisonOperator.ge;
-      case 'GT':
-        return ComparisonOperator.gt;
-    }
-    throw Exception('$this is not known in enum ComparisonOperator');
-  }
+  const ComparisonOperator(this.value);
+
+  static ComparisonOperator fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ComparisonOperator'));
 }
 
 /// A single match condition for a <a>Filter</a>.
@@ -5851,9 +5751,9 @@ class Cookies {
     return Cookies(
       matchPattern: CookieMatchPattern.fromJson(
           json['MatchPattern'] as Map<String, dynamic>),
-      matchScope: (json['MatchScope'] as String).toMapMatchScope(),
+      matchScope: MapMatchScope.fromString((json['MatchScope'] as String)),
       oversizeHandling:
-          (json['OversizeHandling'] as String).toOversizeHandling(),
+          OversizeHandling.fromString((json['OversizeHandling'] as String)),
     );
   }
 
@@ -5863,8 +5763,8 @@ class Cookies {
     final oversizeHandling = this.oversizeHandling;
     return {
       'MatchPattern': matchPattern,
-      'MatchScope': matchScope.toValue(),
-      'OversizeHandling': oversizeHandling.toValue(),
+      'MatchScope': matchScope.value,
+      'OversizeHandling': oversizeHandling.value,
     };
   }
 }
@@ -5905,1271 +5805,265 @@ class CountAction {
 }
 
 enum CountryCode {
-  af,
-  ax,
-  al,
-  dz,
-  as,
-  ad,
-  ao,
-  ai,
-  aq,
-  ag,
-  ar,
-  am,
-  aw,
-  au,
-  at,
-  az,
-  bs,
-  bh,
-  bd,
-  bb,
-  by,
-  be,
-  bz,
-  bj,
-  bm,
-  bt,
-  bo,
-  bq,
-  ba,
-  bw,
-  bv,
-  br,
-  io,
-  bn,
-  bg,
-  bf,
-  bi,
-  kh,
-  cm,
-  ca,
-  cv,
-  ky,
-  cf,
-  td,
-  cl,
-  cn,
-  cx,
-  cc,
-  co,
-  km,
-  cg,
-  cd,
-  ck,
-  cr,
-  ci,
-  hr,
-  cu,
-  cw,
-  cy,
-  cz,
-  dk,
-  dj,
-  dm,
-  $do,
-  ec,
-  eg,
-  sv,
-  gq,
-  er,
-  ee,
-  et,
-  fk,
-  fo,
-  fj,
-  fi,
-  fr,
-  gf,
-  pf,
-  tf,
-  ga,
-  gm,
-  ge,
-  de,
-  gh,
-  gi,
-  gr,
-  gl,
-  gd,
-  gp,
-  gu,
-  gt,
-  gg,
-  gn,
-  gw,
-  gy,
-  ht,
-  hm,
-  va,
-  hn,
-  hk,
-  hu,
-  $is,
-  $in,
-  id,
-  ir,
-  iq,
-  ie,
-  im,
-  il,
-  it,
-  jm,
-  jp,
-  je,
-  jo,
-  kz,
-  ke,
-  ki,
-  kp,
-  kr,
-  kw,
-  kg,
-  la,
-  lv,
-  lb,
-  ls,
-  lr,
-  ly,
-  li,
-  lt,
-  lu,
-  mo,
-  mk,
-  mg,
-  mw,
-  my,
-  mv,
-  ml,
-  mt,
-  mh,
-  mq,
-  mr,
-  mu,
-  yt,
-  mx,
-  fm,
-  md,
-  mc,
-  mn,
-  me,
-  ms,
-  ma,
-  mz,
-  mm,
-  na,
-  nr,
-  np,
-  nl,
-  nc,
-  nz,
-  ni,
-  ne,
-  ng,
-  nu,
-  nf,
-  mp,
-  no,
-  om,
-  pk,
-  pw,
-  ps,
-  pa,
-  pg,
-  py,
-  pe,
-  ph,
-  pn,
-  pl,
-  pt,
-  pr,
-  qa,
-  re,
-  ro,
-  ru,
-  rw,
-  bl,
-  sh,
-  kn,
-  lc,
-  mf,
-  pm,
-  vc,
-  ws,
-  sm,
-  st,
-  sa,
-  sn,
-  rs,
-  sc,
-  sl,
-  sg,
-  sx,
-  sk,
-  si,
-  sb,
-  so,
-  za,
-  gs,
-  ss,
-  es,
-  lk,
-  sd,
-  sr,
-  sj,
-  sz,
-  se,
-  ch,
-  sy,
-  tw,
-  tj,
-  tz,
-  th,
-  tl,
-  tg,
-  tk,
-  to,
-  tt,
-  tn,
-  tr,
-  tm,
-  tc,
-  tv,
-  ug,
-  ua,
-  ae,
-  gb,
-  us,
-  um,
-  uy,
-  uz,
-  vu,
-  ve,
-  vn,
-  vg,
-  vi,
-  wf,
-  eh,
-  ye,
-  zm,
-  zw,
-  xk,
-}
+  af('AF'),
+  ax('AX'),
+  al('AL'),
+  dz('DZ'),
+  as('AS'),
+  ad('AD'),
+  ao('AO'),
+  ai('AI'),
+  aq('AQ'),
+  ag('AG'),
+  ar('AR'),
+  am('AM'),
+  aw('AW'),
+  au('AU'),
+  at('AT'),
+  az('AZ'),
+  bs('BS'),
+  bh('BH'),
+  bd('BD'),
+  bb('BB'),
+  by('BY'),
+  be('BE'),
+  bz('BZ'),
+  bj('BJ'),
+  bm('BM'),
+  bt('BT'),
+  bo('BO'),
+  bq('BQ'),
+  ba('BA'),
+  bw('BW'),
+  bv('BV'),
+  br('BR'),
+  io('IO'),
+  bn('BN'),
+  bg('BG'),
+  bf('BF'),
+  bi('BI'),
+  kh('KH'),
+  cm('CM'),
+  ca('CA'),
+  cv('CV'),
+  ky('KY'),
+  cf('CF'),
+  td('TD'),
+  cl('CL'),
+  cn('CN'),
+  cx('CX'),
+  cc('CC'),
+  co('CO'),
+  km('KM'),
+  cg('CG'),
+  cd('CD'),
+  ck('CK'),
+  cr('CR'),
+  ci('CI'),
+  hr('HR'),
+  cu('CU'),
+  cw('CW'),
+  cy('CY'),
+  cz('CZ'),
+  dk('DK'),
+  dj('DJ'),
+  dm('DM'),
+  $do('DO'),
+  ec('EC'),
+  eg('EG'),
+  sv('SV'),
+  gq('GQ'),
+  er('ER'),
+  ee('EE'),
+  et('ET'),
+  fk('FK'),
+  fo('FO'),
+  fj('FJ'),
+  fi('FI'),
+  fr('FR'),
+  gf('GF'),
+  pf('PF'),
+  tf('TF'),
+  ga('GA'),
+  gm('GM'),
+  ge('GE'),
+  de('DE'),
+  gh('GH'),
+  gi('GI'),
+  gr('GR'),
+  gl('GL'),
+  gd('GD'),
+  gp('GP'),
+  gu('GU'),
+  gt('GT'),
+  gg('GG'),
+  gn('GN'),
+  gw('GW'),
+  gy('GY'),
+  ht('HT'),
+  hm('HM'),
+  va('VA'),
+  hn('HN'),
+  hk('HK'),
+  hu('HU'),
+  $is('IS'),
+  $in('IN'),
+  id('ID'),
+  ir('IR'),
+  iq('IQ'),
+  ie('IE'),
+  im('IM'),
+  il('IL'),
+  it('IT'),
+  jm('JM'),
+  jp('JP'),
+  je('JE'),
+  jo('JO'),
+  kz('KZ'),
+  ke('KE'),
+  ki('KI'),
+  kp('KP'),
+  kr('KR'),
+  kw('KW'),
+  kg('KG'),
+  la('LA'),
+  lv('LV'),
+  lb('LB'),
+  ls('LS'),
+  lr('LR'),
+  ly('LY'),
+  li('LI'),
+  lt('LT'),
+  lu('LU'),
+  mo('MO'),
+  mk('MK'),
+  mg('MG'),
+  mw('MW'),
+  my('MY'),
+  mv('MV'),
+  ml('ML'),
+  mt('MT'),
+  mh('MH'),
+  mq('MQ'),
+  mr('MR'),
+  mu('MU'),
+  yt('YT'),
+  mx('MX'),
+  fm('FM'),
+  md('MD'),
+  mc('MC'),
+  mn('MN'),
+  me('ME'),
+  ms('MS'),
+  ma('MA'),
+  mz('MZ'),
+  mm('MM'),
+  na('NA'),
+  nr('NR'),
+  np('NP'),
+  nl('NL'),
+  nc('NC'),
+  nz('NZ'),
+  ni('NI'),
+  ne('NE'),
+  ng('NG'),
+  nu('NU'),
+  nf('NF'),
+  mp('MP'),
+  no('NO'),
+  om('OM'),
+  pk('PK'),
+  pw('PW'),
+  ps('PS'),
+  pa('PA'),
+  pg('PG'),
+  py('PY'),
+  pe('PE'),
+  ph('PH'),
+  pn('PN'),
+  pl('PL'),
+  pt('PT'),
+  pr('PR'),
+  qa('QA'),
+  re('RE'),
+  ro('RO'),
+  ru('RU'),
+  rw('RW'),
+  bl('BL'),
+  sh('SH'),
+  kn('KN'),
+  lc('LC'),
+  mf('MF'),
+  pm('PM'),
+  vc('VC'),
+  ws('WS'),
+  sm('SM'),
+  st('ST'),
+  sa('SA'),
+  sn('SN'),
+  rs('RS'),
+  sc('SC'),
+  sl('SL'),
+  sg('SG'),
+  sx('SX'),
+  sk('SK'),
+  si('SI'),
+  sb('SB'),
+  so('SO'),
+  za('ZA'),
+  gs('GS'),
+  ss('SS'),
+  es('ES'),
+  lk('LK'),
+  sd('SD'),
+  sr('SR'),
+  sj('SJ'),
+  sz('SZ'),
+  se('SE'),
+  ch('CH'),
+  sy('SY'),
+  tw('TW'),
+  tj('TJ'),
+  tz('TZ'),
+  th('TH'),
+  tl('TL'),
+  tg('TG'),
+  tk('TK'),
+  to('TO'),
+  tt('TT'),
+  tn('TN'),
+  tr('TR'),
+  tm('TM'),
+  tc('TC'),
+  tv('TV'),
+  ug('UG'),
+  ua('UA'),
+  ae('AE'),
+  gb('GB'),
+  us('US'),
+  um('UM'),
+  uy('UY'),
+  uz('UZ'),
+  vu('VU'),
+  ve('VE'),
+  vn('VN'),
+  vg('VG'),
+  vi('VI'),
+  wf('WF'),
+  eh('EH'),
+  ye('YE'),
+  zm('ZM'),
+  zw('ZW'),
+  xk('XK'),
+  ;
 
-extension CountryCodeValueExtension on CountryCode {
-  String toValue() {
-    switch (this) {
-      case CountryCode.af:
-        return 'AF';
-      case CountryCode.ax:
-        return 'AX';
-      case CountryCode.al:
-        return 'AL';
-      case CountryCode.dz:
-        return 'DZ';
-      case CountryCode.as:
-        return 'AS';
-      case CountryCode.ad:
-        return 'AD';
-      case CountryCode.ao:
-        return 'AO';
-      case CountryCode.ai:
-        return 'AI';
-      case CountryCode.aq:
-        return 'AQ';
-      case CountryCode.ag:
-        return 'AG';
-      case CountryCode.ar:
-        return 'AR';
-      case CountryCode.am:
-        return 'AM';
-      case CountryCode.aw:
-        return 'AW';
-      case CountryCode.au:
-        return 'AU';
-      case CountryCode.at:
-        return 'AT';
-      case CountryCode.az:
-        return 'AZ';
-      case CountryCode.bs:
-        return 'BS';
-      case CountryCode.bh:
-        return 'BH';
-      case CountryCode.bd:
-        return 'BD';
-      case CountryCode.bb:
-        return 'BB';
-      case CountryCode.by:
-        return 'BY';
-      case CountryCode.be:
-        return 'BE';
-      case CountryCode.bz:
-        return 'BZ';
-      case CountryCode.bj:
-        return 'BJ';
-      case CountryCode.bm:
-        return 'BM';
-      case CountryCode.bt:
-        return 'BT';
-      case CountryCode.bo:
-        return 'BO';
-      case CountryCode.bq:
-        return 'BQ';
-      case CountryCode.ba:
-        return 'BA';
-      case CountryCode.bw:
-        return 'BW';
-      case CountryCode.bv:
-        return 'BV';
-      case CountryCode.br:
-        return 'BR';
-      case CountryCode.io:
-        return 'IO';
-      case CountryCode.bn:
-        return 'BN';
-      case CountryCode.bg:
-        return 'BG';
-      case CountryCode.bf:
-        return 'BF';
-      case CountryCode.bi:
-        return 'BI';
-      case CountryCode.kh:
-        return 'KH';
-      case CountryCode.cm:
-        return 'CM';
-      case CountryCode.ca:
-        return 'CA';
-      case CountryCode.cv:
-        return 'CV';
-      case CountryCode.ky:
-        return 'KY';
-      case CountryCode.cf:
-        return 'CF';
-      case CountryCode.td:
-        return 'TD';
-      case CountryCode.cl:
-        return 'CL';
-      case CountryCode.cn:
-        return 'CN';
-      case CountryCode.cx:
-        return 'CX';
-      case CountryCode.cc:
-        return 'CC';
-      case CountryCode.co:
-        return 'CO';
-      case CountryCode.km:
-        return 'KM';
-      case CountryCode.cg:
-        return 'CG';
-      case CountryCode.cd:
-        return 'CD';
-      case CountryCode.ck:
-        return 'CK';
-      case CountryCode.cr:
-        return 'CR';
-      case CountryCode.ci:
-        return 'CI';
-      case CountryCode.hr:
-        return 'HR';
-      case CountryCode.cu:
-        return 'CU';
-      case CountryCode.cw:
-        return 'CW';
-      case CountryCode.cy:
-        return 'CY';
-      case CountryCode.cz:
-        return 'CZ';
-      case CountryCode.dk:
-        return 'DK';
-      case CountryCode.dj:
-        return 'DJ';
-      case CountryCode.dm:
-        return 'DM';
-      case CountryCode.$do:
-        return 'DO';
-      case CountryCode.ec:
-        return 'EC';
-      case CountryCode.eg:
-        return 'EG';
-      case CountryCode.sv:
-        return 'SV';
-      case CountryCode.gq:
-        return 'GQ';
-      case CountryCode.er:
-        return 'ER';
-      case CountryCode.ee:
-        return 'EE';
-      case CountryCode.et:
-        return 'ET';
-      case CountryCode.fk:
-        return 'FK';
-      case CountryCode.fo:
-        return 'FO';
-      case CountryCode.fj:
-        return 'FJ';
-      case CountryCode.fi:
-        return 'FI';
-      case CountryCode.fr:
-        return 'FR';
-      case CountryCode.gf:
-        return 'GF';
-      case CountryCode.pf:
-        return 'PF';
-      case CountryCode.tf:
-        return 'TF';
-      case CountryCode.ga:
-        return 'GA';
-      case CountryCode.gm:
-        return 'GM';
-      case CountryCode.ge:
-        return 'GE';
-      case CountryCode.de:
-        return 'DE';
-      case CountryCode.gh:
-        return 'GH';
-      case CountryCode.gi:
-        return 'GI';
-      case CountryCode.gr:
-        return 'GR';
-      case CountryCode.gl:
-        return 'GL';
-      case CountryCode.gd:
-        return 'GD';
-      case CountryCode.gp:
-        return 'GP';
-      case CountryCode.gu:
-        return 'GU';
-      case CountryCode.gt:
-        return 'GT';
-      case CountryCode.gg:
-        return 'GG';
-      case CountryCode.gn:
-        return 'GN';
-      case CountryCode.gw:
-        return 'GW';
-      case CountryCode.gy:
-        return 'GY';
-      case CountryCode.ht:
-        return 'HT';
-      case CountryCode.hm:
-        return 'HM';
-      case CountryCode.va:
-        return 'VA';
-      case CountryCode.hn:
-        return 'HN';
-      case CountryCode.hk:
-        return 'HK';
-      case CountryCode.hu:
-        return 'HU';
-      case CountryCode.$is:
-        return 'IS';
-      case CountryCode.$in:
-        return 'IN';
-      case CountryCode.id:
-        return 'ID';
-      case CountryCode.ir:
-        return 'IR';
-      case CountryCode.iq:
-        return 'IQ';
-      case CountryCode.ie:
-        return 'IE';
-      case CountryCode.im:
-        return 'IM';
-      case CountryCode.il:
-        return 'IL';
-      case CountryCode.it:
-        return 'IT';
-      case CountryCode.jm:
-        return 'JM';
-      case CountryCode.jp:
-        return 'JP';
-      case CountryCode.je:
-        return 'JE';
-      case CountryCode.jo:
-        return 'JO';
-      case CountryCode.kz:
-        return 'KZ';
-      case CountryCode.ke:
-        return 'KE';
-      case CountryCode.ki:
-        return 'KI';
-      case CountryCode.kp:
-        return 'KP';
-      case CountryCode.kr:
-        return 'KR';
-      case CountryCode.kw:
-        return 'KW';
-      case CountryCode.kg:
-        return 'KG';
-      case CountryCode.la:
-        return 'LA';
-      case CountryCode.lv:
-        return 'LV';
-      case CountryCode.lb:
-        return 'LB';
-      case CountryCode.ls:
-        return 'LS';
-      case CountryCode.lr:
-        return 'LR';
-      case CountryCode.ly:
-        return 'LY';
-      case CountryCode.li:
-        return 'LI';
-      case CountryCode.lt:
-        return 'LT';
-      case CountryCode.lu:
-        return 'LU';
-      case CountryCode.mo:
-        return 'MO';
-      case CountryCode.mk:
-        return 'MK';
-      case CountryCode.mg:
-        return 'MG';
-      case CountryCode.mw:
-        return 'MW';
-      case CountryCode.my:
-        return 'MY';
-      case CountryCode.mv:
-        return 'MV';
-      case CountryCode.ml:
-        return 'ML';
-      case CountryCode.mt:
-        return 'MT';
-      case CountryCode.mh:
-        return 'MH';
-      case CountryCode.mq:
-        return 'MQ';
-      case CountryCode.mr:
-        return 'MR';
-      case CountryCode.mu:
-        return 'MU';
-      case CountryCode.yt:
-        return 'YT';
-      case CountryCode.mx:
-        return 'MX';
-      case CountryCode.fm:
-        return 'FM';
-      case CountryCode.md:
-        return 'MD';
-      case CountryCode.mc:
-        return 'MC';
-      case CountryCode.mn:
-        return 'MN';
-      case CountryCode.me:
-        return 'ME';
-      case CountryCode.ms:
-        return 'MS';
-      case CountryCode.ma:
-        return 'MA';
-      case CountryCode.mz:
-        return 'MZ';
-      case CountryCode.mm:
-        return 'MM';
-      case CountryCode.na:
-        return 'NA';
-      case CountryCode.nr:
-        return 'NR';
-      case CountryCode.np:
-        return 'NP';
-      case CountryCode.nl:
-        return 'NL';
-      case CountryCode.nc:
-        return 'NC';
-      case CountryCode.nz:
-        return 'NZ';
-      case CountryCode.ni:
-        return 'NI';
-      case CountryCode.ne:
-        return 'NE';
-      case CountryCode.ng:
-        return 'NG';
-      case CountryCode.nu:
-        return 'NU';
-      case CountryCode.nf:
-        return 'NF';
-      case CountryCode.mp:
-        return 'MP';
-      case CountryCode.no:
-        return 'NO';
-      case CountryCode.om:
-        return 'OM';
-      case CountryCode.pk:
-        return 'PK';
-      case CountryCode.pw:
-        return 'PW';
-      case CountryCode.ps:
-        return 'PS';
-      case CountryCode.pa:
-        return 'PA';
-      case CountryCode.pg:
-        return 'PG';
-      case CountryCode.py:
-        return 'PY';
-      case CountryCode.pe:
-        return 'PE';
-      case CountryCode.ph:
-        return 'PH';
-      case CountryCode.pn:
-        return 'PN';
-      case CountryCode.pl:
-        return 'PL';
-      case CountryCode.pt:
-        return 'PT';
-      case CountryCode.pr:
-        return 'PR';
-      case CountryCode.qa:
-        return 'QA';
-      case CountryCode.re:
-        return 'RE';
-      case CountryCode.ro:
-        return 'RO';
-      case CountryCode.ru:
-        return 'RU';
-      case CountryCode.rw:
-        return 'RW';
-      case CountryCode.bl:
-        return 'BL';
-      case CountryCode.sh:
-        return 'SH';
-      case CountryCode.kn:
-        return 'KN';
-      case CountryCode.lc:
-        return 'LC';
-      case CountryCode.mf:
-        return 'MF';
-      case CountryCode.pm:
-        return 'PM';
-      case CountryCode.vc:
-        return 'VC';
-      case CountryCode.ws:
-        return 'WS';
-      case CountryCode.sm:
-        return 'SM';
-      case CountryCode.st:
-        return 'ST';
-      case CountryCode.sa:
-        return 'SA';
-      case CountryCode.sn:
-        return 'SN';
-      case CountryCode.rs:
-        return 'RS';
-      case CountryCode.sc:
-        return 'SC';
-      case CountryCode.sl:
-        return 'SL';
-      case CountryCode.sg:
-        return 'SG';
-      case CountryCode.sx:
-        return 'SX';
-      case CountryCode.sk:
-        return 'SK';
-      case CountryCode.si:
-        return 'SI';
-      case CountryCode.sb:
-        return 'SB';
-      case CountryCode.so:
-        return 'SO';
-      case CountryCode.za:
-        return 'ZA';
-      case CountryCode.gs:
-        return 'GS';
-      case CountryCode.ss:
-        return 'SS';
-      case CountryCode.es:
-        return 'ES';
-      case CountryCode.lk:
-        return 'LK';
-      case CountryCode.sd:
-        return 'SD';
-      case CountryCode.sr:
-        return 'SR';
-      case CountryCode.sj:
-        return 'SJ';
-      case CountryCode.sz:
-        return 'SZ';
-      case CountryCode.se:
-        return 'SE';
-      case CountryCode.ch:
-        return 'CH';
-      case CountryCode.sy:
-        return 'SY';
-      case CountryCode.tw:
-        return 'TW';
-      case CountryCode.tj:
-        return 'TJ';
-      case CountryCode.tz:
-        return 'TZ';
-      case CountryCode.th:
-        return 'TH';
-      case CountryCode.tl:
-        return 'TL';
-      case CountryCode.tg:
-        return 'TG';
-      case CountryCode.tk:
-        return 'TK';
-      case CountryCode.to:
-        return 'TO';
-      case CountryCode.tt:
-        return 'TT';
-      case CountryCode.tn:
-        return 'TN';
-      case CountryCode.tr:
-        return 'TR';
-      case CountryCode.tm:
-        return 'TM';
-      case CountryCode.tc:
-        return 'TC';
-      case CountryCode.tv:
-        return 'TV';
-      case CountryCode.ug:
-        return 'UG';
-      case CountryCode.ua:
-        return 'UA';
-      case CountryCode.ae:
-        return 'AE';
-      case CountryCode.gb:
-        return 'GB';
-      case CountryCode.us:
-        return 'US';
-      case CountryCode.um:
-        return 'UM';
-      case CountryCode.uy:
-        return 'UY';
-      case CountryCode.uz:
-        return 'UZ';
-      case CountryCode.vu:
-        return 'VU';
-      case CountryCode.ve:
-        return 'VE';
-      case CountryCode.vn:
-        return 'VN';
-      case CountryCode.vg:
-        return 'VG';
-      case CountryCode.vi:
-        return 'VI';
-      case CountryCode.wf:
-        return 'WF';
-      case CountryCode.eh:
-        return 'EH';
-      case CountryCode.ye:
-        return 'YE';
-      case CountryCode.zm:
-        return 'ZM';
-      case CountryCode.zw:
-        return 'ZW';
-      case CountryCode.xk:
-        return 'XK';
-    }
-  }
-}
+  final String value;
 
-extension CountryCodeFromString on String {
-  CountryCode toCountryCode() {
-    switch (this) {
-      case 'AF':
-        return CountryCode.af;
-      case 'AX':
-        return CountryCode.ax;
-      case 'AL':
-        return CountryCode.al;
-      case 'DZ':
-        return CountryCode.dz;
-      case 'AS':
-        return CountryCode.as;
-      case 'AD':
-        return CountryCode.ad;
-      case 'AO':
-        return CountryCode.ao;
-      case 'AI':
-        return CountryCode.ai;
-      case 'AQ':
-        return CountryCode.aq;
-      case 'AG':
-        return CountryCode.ag;
-      case 'AR':
-        return CountryCode.ar;
-      case 'AM':
-        return CountryCode.am;
-      case 'AW':
-        return CountryCode.aw;
-      case 'AU':
-        return CountryCode.au;
-      case 'AT':
-        return CountryCode.at;
-      case 'AZ':
-        return CountryCode.az;
-      case 'BS':
-        return CountryCode.bs;
-      case 'BH':
-        return CountryCode.bh;
-      case 'BD':
-        return CountryCode.bd;
-      case 'BB':
-        return CountryCode.bb;
-      case 'BY':
-        return CountryCode.by;
-      case 'BE':
-        return CountryCode.be;
-      case 'BZ':
-        return CountryCode.bz;
-      case 'BJ':
-        return CountryCode.bj;
-      case 'BM':
-        return CountryCode.bm;
-      case 'BT':
-        return CountryCode.bt;
-      case 'BO':
-        return CountryCode.bo;
-      case 'BQ':
-        return CountryCode.bq;
-      case 'BA':
-        return CountryCode.ba;
-      case 'BW':
-        return CountryCode.bw;
-      case 'BV':
-        return CountryCode.bv;
-      case 'BR':
-        return CountryCode.br;
-      case 'IO':
-        return CountryCode.io;
-      case 'BN':
-        return CountryCode.bn;
-      case 'BG':
-        return CountryCode.bg;
-      case 'BF':
-        return CountryCode.bf;
-      case 'BI':
-        return CountryCode.bi;
-      case 'KH':
-        return CountryCode.kh;
-      case 'CM':
-        return CountryCode.cm;
-      case 'CA':
-        return CountryCode.ca;
-      case 'CV':
-        return CountryCode.cv;
-      case 'KY':
-        return CountryCode.ky;
-      case 'CF':
-        return CountryCode.cf;
-      case 'TD':
-        return CountryCode.td;
-      case 'CL':
-        return CountryCode.cl;
-      case 'CN':
-        return CountryCode.cn;
-      case 'CX':
-        return CountryCode.cx;
-      case 'CC':
-        return CountryCode.cc;
-      case 'CO':
-        return CountryCode.co;
-      case 'KM':
-        return CountryCode.km;
-      case 'CG':
-        return CountryCode.cg;
-      case 'CD':
-        return CountryCode.cd;
-      case 'CK':
-        return CountryCode.ck;
-      case 'CR':
-        return CountryCode.cr;
-      case 'CI':
-        return CountryCode.ci;
-      case 'HR':
-        return CountryCode.hr;
-      case 'CU':
-        return CountryCode.cu;
-      case 'CW':
-        return CountryCode.cw;
-      case 'CY':
-        return CountryCode.cy;
-      case 'CZ':
-        return CountryCode.cz;
-      case 'DK':
-        return CountryCode.dk;
-      case 'DJ':
-        return CountryCode.dj;
-      case 'DM':
-        return CountryCode.dm;
-      case 'DO':
-        return CountryCode.$do;
-      case 'EC':
-        return CountryCode.ec;
-      case 'EG':
-        return CountryCode.eg;
-      case 'SV':
-        return CountryCode.sv;
-      case 'GQ':
-        return CountryCode.gq;
-      case 'ER':
-        return CountryCode.er;
-      case 'EE':
-        return CountryCode.ee;
-      case 'ET':
-        return CountryCode.et;
-      case 'FK':
-        return CountryCode.fk;
-      case 'FO':
-        return CountryCode.fo;
-      case 'FJ':
-        return CountryCode.fj;
-      case 'FI':
-        return CountryCode.fi;
-      case 'FR':
-        return CountryCode.fr;
-      case 'GF':
-        return CountryCode.gf;
-      case 'PF':
-        return CountryCode.pf;
-      case 'TF':
-        return CountryCode.tf;
-      case 'GA':
-        return CountryCode.ga;
-      case 'GM':
-        return CountryCode.gm;
-      case 'GE':
-        return CountryCode.ge;
-      case 'DE':
-        return CountryCode.de;
-      case 'GH':
-        return CountryCode.gh;
-      case 'GI':
-        return CountryCode.gi;
-      case 'GR':
-        return CountryCode.gr;
-      case 'GL':
-        return CountryCode.gl;
-      case 'GD':
-        return CountryCode.gd;
-      case 'GP':
-        return CountryCode.gp;
-      case 'GU':
-        return CountryCode.gu;
-      case 'GT':
-        return CountryCode.gt;
-      case 'GG':
-        return CountryCode.gg;
-      case 'GN':
-        return CountryCode.gn;
-      case 'GW':
-        return CountryCode.gw;
-      case 'GY':
-        return CountryCode.gy;
-      case 'HT':
-        return CountryCode.ht;
-      case 'HM':
-        return CountryCode.hm;
-      case 'VA':
-        return CountryCode.va;
-      case 'HN':
-        return CountryCode.hn;
-      case 'HK':
-        return CountryCode.hk;
-      case 'HU':
-        return CountryCode.hu;
-      case 'IS':
-        return CountryCode.$is;
-      case 'IN':
-        return CountryCode.$in;
-      case 'ID':
-        return CountryCode.id;
-      case 'IR':
-        return CountryCode.ir;
-      case 'IQ':
-        return CountryCode.iq;
-      case 'IE':
-        return CountryCode.ie;
-      case 'IM':
-        return CountryCode.im;
-      case 'IL':
-        return CountryCode.il;
-      case 'IT':
-        return CountryCode.it;
-      case 'JM':
-        return CountryCode.jm;
-      case 'JP':
-        return CountryCode.jp;
-      case 'JE':
-        return CountryCode.je;
-      case 'JO':
-        return CountryCode.jo;
-      case 'KZ':
-        return CountryCode.kz;
-      case 'KE':
-        return CountryCode.ke;
-      case 'KI':
-        return CountryCode.ki;
-      case 'KP':
-        return CountryCode.kp;
-      case 'KR':
-        return CountryCode.kr;
-      case 'KW':
-        return CountryCode.kw;
-      case 'KG':
-        return CountryCode.kg;
-      case 'LA':
-        return CountryCode.la;
-      case 'LV':
-        return CountryCode.lv;
-      case 'LB':
-        return CountryCode.lb;
-      case 'LS':
-        return CountryCode.ls;
-      case 'LR':
-        return CountryCode.lr;
-      case 'LY':
-        return CountryCode.ly;
-      case 'LI':
-        return CountryCode.li;
-      case 'LT':
-        return CountryCode.lt;
-      case 'LU':
-        return CountryCode.lu;
-      case 'MO':
-        return CountryCode.mo;
-      case 'MK':
-        return CountryCode.mk;
-      case 'MG':
-        return CountryCode.mg;
-      case 'MW':
-        return CountryCode.mw;
-      case 'MY':
-        return CountryCode.my;
-      case 'MV':
-        return CountryCode.mv;
-      case 'ML':
-        return CountryCode.ml;
-      case 'MT':
-        return CountryCode.mt;
-      case 'MH':
-        return CountryCode.mh;
-      case 'MQ':
-        return CountryCode.mq;
-      case 'MR':
-        return CountryCode.mr;
-      case 'MU':
-        return CountryCode.mu;
-      case 'YT':
-        return CountryCode.yt;
-      case 'MX':
-        return CountryCode.mx;
-      case 'FM':
-        return CountryCode.fm;
-      case 'MD':
-        return CountryCode.md;
-      case 'MC':
-        return CountryCode.mc;
-      case 'MN':
-        return CountryCode.mn;
-      case 'ME':
-        return CountryCode.me;
-      case 'MS':
-        return CountryCode.ms;
-      case 'MA':
-        return CountryCode.ma;
-      case 'MZ':
-        return CountryCode.mz;
-      case 'MM':
-        return CountryCode.mm;
-      case 'NA':
-        return CountryCode.na;
-      case 'NR':
-        return CountryCode.nr;
-      case 'NP':
-        return CountryCode.np;
-      case 'NL':
-        return CountryCode.nl;
-      case 'NC':
-        return CountryCode.nc;
-      case 'NZ':
-        return CountryCode.nz;
-      case 'NI':
-        return CountryCode.ni;
-      case 'NE':
-        return CountryCode.ne;
-      case 'NG':
-        return CountryCode.ng;
-      case 'NU':
-        return CountryCode.nu;
-      case 'NF':
-        return CountryCode.nf;
-      case 'MP':
-        return CountryCode.mp;
-      case 'NO':
-        return CountryCode.no;
-      case 'OM':
-        return CountryCode.om;
-      case 'PK':
-        return CountryCode.pk;
-      case 'PW':
-        return CountryCode.pw;
-      case 'PS':
-        return CountryCode.ps;
-      case 'PA':
-        return CountryCode.pa;
-      case 'PG':
-        return CountryCode.pg;
-      case 'PY':
-        return CountryCode.py;
-      case 'PE':
-        return CountryCode.pe;
-      case 'PH':
-        return CountryCode.ph;
-      case 'PN':
-        return CountryCode.pn;
-      case 'PL':
-        return CountryCode.pl;
-      case 'PT':
-        return CountryCode.pt;
-      case 'PR':
-        return CountryCode.pr;
-      case 'QA':
-        return CountryCode.qa;
-      case 'RE':
-        return CountryCode.re;
-      case 'RO':
-        return CountryCode.ro;
-      case 'RU':
-        return CountryCode.ru;
-      case 'RW':
-        return CountryCode.rw;
-      case 'BL':
-        return CountryCode.bl;
-      case 'SH':
-        return CountryCode.sh;
-      case 'KN':
-        return CountryCode.kn;
-      case 'LC':
-        return CountryCode.lc;
-      case 'MF':
-        return CountryCode.mf;
-      case 'PM':
-        return CountryCode.pm;
-      case 'VC':
-        return CountryCode.vc;
-      case 'WS':
-        return CountryCode.ws;
-      case 'SM':
-        return CountryCode.sm;
-      case 'ST':
-        return CountryCode.st;
-      case 'SA':
-        return CountryCode.sa;
-      case 'SN':
-        return CountryCode.sn;
-      case 'RS':
-        return CountryCode.rs;
-      case 'SC':
-        return CountryCode.sc;
-      case 'SL':
-        return CountryCode.sl;
-      case 'SG':
-        return CountryCode.sg;
-      case 'SX':
-        return CountryCode.sx;
-      case 'SK':
-        return CountryCode.sk;
-      case 'SI':
-        return CountryCode.si;
-      case 'SB':
-        return CountryCode.sb;
-      case 'SO':
-        return CountryCode.so;
-      case 'ZA':
-        return CountryCode.za;
-      case 'GS':
-        return CountryCode.gs;
-      case 'SS':
-        return CountryCode.ss;
-      case 'ES':
-        return CountryCode.es;
-      case 'LK':
-        return CountryCode.lk;
-      case 'SD':
-        return CountryCode.sd;
-      case 'SR':
-        return CountryCode.sr;
-      case 'SJ':
-        return CountryCode.sj;
-      case 'SZ':
-        return CountryCode.sz;
-      case 'SE':
-        return CountryCode.se;
-      case 'CH':
-        return CountryCode.ch;
-      case 'SY':
-        return CountryCode.sy;
-      case 'TW':
-        return CountryCode.tw;
-      case 'TJ':
-        return CountryCode.tj;
-      case 'TZ':
-        return CountryCode.tz;
-      case 'TH':
-        return CountryCode.th;
-      case 'TL':
-        return CountryCode.tl;
-      case 'TG':
-        return CountryCode.tg;
-      case 'TK':
-        return CountryCode.tk;
-      case 'TO':
-        return CountryCode.to;
-      case 'TT':
-        return CountryCode.tt;
-      case 'TN':
-        return CountryCode.tn;
-      case 'TR':
-        return CountryCode.tr;
-      case 'TM':
-        return CountryCode.tm;
-      case 'TC':
-        return CountryCode.tc;
-      case 'TV':
-        return CountryCode.tv;
-      case 'UG':
-        return CountryCode.ug;
-      case 'UA':
-        return CountryCode.ua;
-      case 'AE':
-        return CountryCode.ae;
-      case 'GB':
-        return CountryCode.gb;
-      case 'US':
-        return CountryCode.us;
-      case 'UM':
-        return CountryCode.um;
-      case 'UY':
-        return CountryCode.uy;
-      case 'UZ':
-        return CountryCode.uz;
-      case 'VU':
-        return CountryCode.vu;
-      case 'VE':
-        return CountryCode.ve;
-      case 'VN':
-        return CountryCode.vn;
-      case 'VG':
-        return CountryCode.vg;
-      case 'VI':
-        return CountryCode.vi;
-      case 'WF':
-        return CountryCode.wf;
-      case 'EH':
-        return CountryCode.eh;
-      case 'YE':
-        return CountryCode.ye;
-      case 'ZM':
-        return CountryCode.zm;
-      case 'ZW':
-        return CountryCode.zw;
-      case 'XK':
-        return CountryCode.xk;
-    }
-    throw Exception('$this is not known in enum CountryCode');
-  }
+  const CountryCode(this.value);
+
+  static CountryCode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum CountryCode'));
 }
 
 class CreateAPIKeyResponse {
@@ -7438,7 +6332,8 @@ class CustomResponseBody {
   factory CustomResponseBody.fromJson(Map<String, dynamic> json) {
     return CustomResponseBody(
       content: json['Content'] as String,
-      contentType: (json['ContentType'] as String).toResponseContentType(),
+      contentType:
+          ResponseContentType.fromString((json['ContentType'] as String)),
     );
   }
 
@@ -7447,7 +6342,7 @@ class CustomResponseBody {
     final contentType = this.contentType;
     return {
       'Content': content,
-      'ContentType': contentType.toValue(),
+      'ContentType': contentType.value,
     };
   }
 }
@@ -7788,69 +6683,35 @@ class ExcludedRule {
 }
 
 enum FailureReason {
-  tokenMissing,
-  tokenExpired,
-  tokenInvalid,
-  tokenDomainMismatch,
-}
+  tokenMissing('TOKEN_MISSING'),
+  tokenExpired('TOKEN_EXPIRED'),
+  tokenInvalid('TOKEN_INVALID'),
+  tokenDomainMismatch('TOKEN_DOMAIN_MISMATCH'),
+  ;
 
-extension FailureReasonValueExtension on FailureReason {
-  String toValue() {
-    switch (this) {
-      case FailureReason.tokenMissing:
-        return 'TOKEN_MISSING';
-      case FailureReason.tokenExpired:
-        return 'TOKEN_EXPIRED';
-      case FailureReason.tokenInvalid:
-        return 'TOKEN_INVALID';
-      case FailureReason.tokenDomainMismatch:
-        return 'TOKEN_DOMAIN_MISMATCH';
-    }
-  }
-}
+  final String value;
 
-extension FailureReasonFromString on String {
-  FailureReason toFailureReason() {
-    switch (this) {
-      case 'TOKEN_MISSING':
-        return FailureReason.tokenMissing;
-      case 'TOKEN_EXPIRED':
-        return FailureReason.tokenExpired;
-      case 'TOKEN_INVALID':
-        return FailureReason.tokenInvalid;
-      case 'TOKEN_DOMAIN_MISMATCH':
-        return FailureReason.tokenDomainMismatch;
-    }
-    throw Exception('$this is not known in enum FailureReason');
-  }
+  const FailureReason(this.value);
+
+  static FailureReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FailureReason'));
 }
 
 enum FallbackBehavior {
-  match,
-  noMatch,
-}
+  match('MATCH'),
+  noMatch('NO_MATCH'),
+  ;
 
-extension FallbackBehaviorValueExtension on FallbackBehavior {
-  String toValue() {
-    switch (this) {
-      case FallbackBehavior.match:
-        return 'MATCH';
-      case FallbackBehavior.noMatch:
-        return 'NO_MATCH';
-    }
-  }
-}
+  final String value;
 
-extension FallbackBehaviorFromString on String {
-  FallbackBehavior toFallbackBehavior() {
-    switch (this) {
-      case 'MATCH':
-        return FallbackBehavior.match;
-      case 'NO_MATCH':
-        return FallbackBehavior.noMatch;
-    }
-    throw Exception('$this is not known in enum FallbackBehavior');
-  }
+  const FallbackBehavior(this.value);
+
+  static FallbackBehavior fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FallbackBehavior'));
 }
 
 /// Specifies a web request component to be used in a rule match statement or in
@@ -8147,12 +7008,13 @@ class Filter {
 
   factory Filter.fromJson(Map<String, dynamic> json) {
     return Filter(
-      behavior: (json['Behavior'] as String).toFilterBehavior(),
+      behavior: FilterBehavior.fromString((json['Behavior'] as String)),
       conditions: (json['Conditions'] as List)
           .whereNotNull()
           .map((e) => Condition.fromJson(e as Map<String, dynamic>))
           .toList(),
-      requirement: (json['Requirement'] as String).toFilterRequirement(),
+      requirement:
+          FilterRequirement.fromString((json['Requirement'] as String)),
     );
   }
 
@@ -8161,67 +7023,41 @@ class Filter {
     final conditions = this.conditions;
     final requirement = this.requirement;
     return {
-      'Behavior': behavior.toValue(),
+      'Behavior': behavior.value,
       'Conditions': conditions,
-      'Requirement': requirement.toValue(),
+      'Requirement': requirement.value,
     };
   }
 }
 
 enum FilterBehavior {
-  keep,
-  drop,
-}
+  keep('KEEP'),
+  drop('DROP'),
+  ;
 
-extension FilterBehaviorValueExtension on FilterBehavior {
-  String toValue() {
-    switch (this) {
-      case FilterBehavior.keep:
-        return 'KEEP';
-      case FilterBehavior.drop:
-        return 'DROP';
-    }
-  }
-}
+  final String value;
 
-extension FilterBehaviorFromString on String {
-  FilterBehavior toFilterBehavior() {
-    switch (this) {
-      case 'KEEP':
-        return FilterBehavior.keep;
-      case 'DROP':
-        return FilterBehavior.drop;
-    }
-    throw Exception('$this is not known in enum FilterBehavior');
-  }
+  const FilterBehavior(this.value);
+
+  static FilterBehavior fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FilterBehavior'));
 }
 
 enum FilterRequirement {
-  meetsAll,
-  meetsAny,
-}
+  meetsAll('MEETS_ALL'),
+  meetsAny('MEETS_ANY'),
+  ;
 
-extension FilterRequirementValueExtension on FilterRequirement {
-  String toValue() {
-    switch (this) {
-      case FilterRequirement.meetsAll:
-        return 'MEETS_ALL';
-      case FilterRequirement.meetsAny:
-        return 'MEETS_ANY';
-    }
-  }
-}
+  final String value;
 
-extension FilterRequirementFromString on String {
-  FilterRequirement toFilterRequirement() {
-    switch (this) {
-      case 'MEETS_ALL':
-        return FilterRequirement.meetsAll;
-      case 'MEETS_ANY':
-        return FilterRequirement.meetsAny;
-    }
-    throw Exception('$this is not known in enum FilterRequirement');
-  }
+  const FilterRequirement(this.value);
+
+  static FilterRequirement fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FilterRequirement'));
 }
 
 /// A rule group that's defined for an Firewall Manager WAF policy.
@@ -8365,7 +7201,7 @@ class ForwardedIPConfig {
   factory ForwardedIPConfig.fromJson(Map<String, dynamic> json) {
     return ForwardedIPConfig(
       fallbackBehavior:
-          (json['FallbackBehavior'] as String).toFallbackBehavior(),
+          FallbackBehavior.fromString((json['FallbackBehavior'] as String)),
       headerName: json['HeaderName'] as String,
     );
   }
@@ -8374,43 +7210,26 @@ class ForwardedIPConfig {
     final fallbackBehavior = this.fallbackBehavior;
     final headerName = this.headerName;
     return {
-      'FallbackBehavior': fallbackBehavior.toValue(),
+      'FallbackBehavior': fallbackBehavior.value,
       'HeaderName': headerName,
     };
   }
 }
 
 enum ForwardedIPPosition {
-  first,
-  last,
-  any,
-}
+  first('FIRST'),
+  last('LAST'),
+  any('ANY'),
+  ;
 
-extension ForwardedIPPositionValueExtension on ForwardedIPPosition {
-  String toValue() {
-    switch (this) {
-      case ForwardedIPPosition.first:
-        return 'FIRST';
-      case ForwardedIPPosition.last:
-        return 'LAST';
-      case ForwardedIPPosition.any:
-        return 'ANY';
-    }
-  }
-}
+  final String value;
 
-extension ForwardedIPPositionFromString on String {
-  ForwardedIPPosition toForwardedIPPosition() {
-    switch (this) {
-      case 'FIRST':
-        return ForwardedIPPosition.first;
-      case 'LAST':
-        return ForwardedIPPosition.last;
-      case 'ANY':
-        return ForwardedIPPosition.any;
-    }
-    throw Exception('$this is not known in enum ForwardedIPPosition');
-  }
+  const ForwardedIPPosition(this.value);
+
+  static ForwardedIPPosition fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ForwardedIPPosition'));
 }
 
 class GenerateMobileSdkReleaseUrlResponse {
@@ -8500,7 +7319,7 @@ class GeoMatchStatement {
     return GeoMatchStatement(
       countryCodes: (json['CountryCodes'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toCountryCode())
+          .map((e) => CountryCode.fromString((e as String)))
           .toList(),
       forwardedIPConfig: json['ForwardedIPConfig'] != null
           ? ForwardedIPConfig.fromJson(
@@ -8514,7 +7333,7 @@ class GeoMatchStatement {
     final forwardedIPConfig = this.forwardedIPConfig;
     return {
       if (countryCodes != null)
-        'CountryCodes': countryCodes.map((e) => e.toValue()).toList(),
+        'CountryCodes': countryCodes.map((e) => e.value).toList(),
       if (forwardedIPConfig != null) 'ForwardedIPConfig': forwardedIPConfig,
     };
   }
@@ -9025,14 +7844,14 @@ class HeaderOrder {
   factory HeaderOrder.fromJson(Map<String, dynamic> json) {
     return HeaderOrder(
       oversizeHandling:
-          (json['OversizeHandling'] as String).toOversizeHandling(),
+          OversizeHandling.fromString((json['OversizeHandling'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final oversizeHandling = this.oversizeHandling;
     return {
-      'OversizeHandling': oversizeHandling.toValue(),
+      'OversizeHandling': oversizeHandling.value,
     };
   }
 }
@@ -9104,9 +7923,9 @@ class Headers {
     return Headers(
       matchPattern: HeaderMatchPattern.fromJson(
           json['MatchPattern'] as Map<String, dynamic>),
-      matchScope: (json['MatchScope'] as String).toMapMatchScope(),
+      matchScope: MapMatchScope.fromString((json['MatchScope'] as String)),
       oversizeHandling:
-          (json['OversizeHandling'] as String).toOversizeHandling(),
+          OversizeHandling.fromString((json['OversizeHandling'] as String)),
     );
   }
 
@@ -9116,38 +7935,25 @@ class Headers {
     final oversizeHandling = this.oversizeHandling;
     return {
       'MatchPattern': matchPattern,
-      'MatchScope': matchScope.toValue(),
-      'OversizeHandling': oversizeHandling.toValue(),
+      'MatchScope': matchScope.value,
+      'OversizeHandling': oversizeHandling.value,
     };
   }
 }
 
 enum IPAddressVersion {
-  ipv4,
-  ipv6,
-}
+  ipv4('IPV4'),
+  ipv6('IPV6'),
+  ;
 
-extension IPAddressVersionValueExtension on IPAddressVersion {
-  String toValue() {
-    switch (this) {
-      case IPAddressVersion.ipv4:
-        return 'IPV4';
-      case IPAddressVersion.ipv6:
-        return 'IPV6';
-    }
-  }
-}
+  final String value;
 
-extension IPAddressVersionFromString on String {
-  IPAddressVersion toIPAddressVersion() {
-    switch (this) {
-      case 'IPV4':
-        return IPAddressVersion.ipv4;
-      case 'IPV6':
-        return IPAddressVersion.ipv6;
-    }
-    throw Exception('$this is not known in enum IPAddressVersion');
-  }
+  const IPAddressVersion(this.value);
+
+  static IPAddressVersion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum IPAddressVersion'));
 }
 
 /// Contains zero or more IP addresses or blocks of IP addresses specified in
@@ -9249,7 +8055,7 @@ class IPSet {
           .map((e) => e as String)
           .toList(),
       iPAddressVersion:
-          (json['IPAddressVersion'] as String).toIPAddressVersion(),
+          IPAddressVersion.fromString((json['IPAddressVersion'] as String)),
       id: json['Id'] as String,
       name: json['Name'] as String,
       description: json['Description'] as String?,
@@ -9330,9 +8136,9 @@ class IPSetForwardedIPConfig {
   factory IPSetForwardedIPConfig.fromJson(Map<String, dynamic> json) {
     return IPSetForwardedIPConfig(
       fallbackBehavior:
-          (json['FallbackBehavior'] as String).toFallbackBehavior(),
+          FallbackBehavior.fromString((json['FallbackBehavior'] as String)),
       headerName: json['HeaderName'] as String,
-      position: (json['Position'] as String).toForwardedIPPosition(),
+      position: ForwardedIPPosition.fromString((json['Position'] as String)),
     );
   }
 
@@ -9341,9 +8147,9 @@ class IPSetForwardedIPConfig {
     final headerName = this.headerName;
     final position = this.position;
     return {
-      'FallbackBehavior': fallbackBehavior.toValue(),
+      'FallbackBehavior': fallbackBehavior.value,
       'HeaderName': headerName,
-      'Position': position.toValue(),
+      'Position': position.value,
     };
   }
 }
@@ -9477,31 +8283,18 @@ class ImmunityTimeProperty {
 }
 
 enum InspectionLevel {
-  common,
-  targeted,
-}
+  common('COMMON'),
+  targeted('TARGETED'),
+  ;
 
-extension InspectionLevelValueExtension on InspectionLevel {
-  String toValue() {
-    switch (this) {
-      case InspectionLevel.common:
-        return 'COMMON';
-      case InspectionLevel.targeted:
-        return 'TARGETED';
-    }
-  }
-}
+  final String value;
 
-extension InspectionLevelFromString on String {
-  InspectionLevel toInspectionLevel() {
-    switch (this) {
-      case 'COMMON':
-        return InspectionLevel.common;
-      case 'TARGETED':
-        return InspectionLevel.targeted;
-    }
-    throw Exception('$this is not known in enum InspectionLevel');
-  }
+  const InspectionLevel(this.value);
+
+  static InspectionLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum InspectionLevel'));
 }
 
 /// Available for use with Amazon CloudFront distributions and Application Load
@@ -9550,14 +8343,14 @@ class JA3Fingerprint {
   factory JA3Fingerprint.fromJson(Map<String, dynamic> json) {
     return JA3Fingerprint(
       fallbackBehavior:
-          (json['FallbackBehavior'] as String).toFallbackBehavior(),
+          FallbackBehavior.fromString((json['FallbackBehavior'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final fallbackBehavior = this.fallbackBehavior;
     return {
-      'FallbackBehavior': fallbackBehavior.toValue(),
+      'FallbackBehavior': fallbackBehavior.value,
     };
   }
 }
@@ -9682,11 +8475,11 @@ class JsonBody {
     return JsonBody(
       matchPattern: JsonMatchPattern.fromJson(
           json['MatchPattern'] as Map<String, dynamic>),
-      matchScope: (json['MatchScope'] as String).toJsonMatchScope(),
+      matchScope: JsonMatchScope.fromString((json['MatchScope'] as String)),
       invalidFallbackBehavior: (json['InvalidFallbackBehavior'] as String?)
-          ?.toBodyParsingFallbackBehavior(),
-      oversizeHandling:
-          (json['OversizeHandling'] as String?)?.toOversizeHandling(),
+          ?.let(BodyParsingFallbackBehavior.fromString),
+      oversizeHandling: (json['OversizeHandling'] as String?)
+          ?.let(OversizeHandling.fromString),
     );
   }
 
@@ -9697,11 +8490,10 @@ class JsonBody {
     final oversizeHandling = this.oversizeHandling;
     return {
       'MatchPattern': matchPattern,
-      'MatchScope': matchScope.toValue(),
+      'MatchScope': matchScope.value,
       if (invalidFallbackBehavior != null)
-        'InvalidFallbackBehavior': invalidFallbackBehavior.toValue(),
-      if (oversizeHandling != null)
-        'OversizeHandling': oversizeHandling.toValue(),
+        'InvalidFallbackBehavior': invalidFallbackBehavior.value,
+      if (oversizeHandling != null) 'OversizeHandling': oversizeHandling.value,
     };
   }
 }
@@ -9763,36 +8555,19 @@ class JsonMatchPattern {
 }
 
 enum JsonMatchScope {
-  all,
-  key,
-  value,
-}
+  all('ALL'),
+  key('KEY'),
+  $value('VALUE'),
+  ;
 
-extension JsonMatchScopeValueExtension on JsonMatchScope {
-  String toValue() {
-    switch (this) {
-      case JsonMatchScope.all:
-        return 'ALL';
-      case JsonMatchScope.key:
-        return 'KEY';
-      case JsonMatchScope.value:
-        return 'VALUE';
-    }
-  }
-}
+  final String value;
 
-extension JsonMatchScopeFromString on String {
-  JsonMatchScope toJsonMatchScope() {
-    switch (this) {
-      case 'ALL':
-        return JsonMatchScope.all;
-      case 'KEY':
-        return JsonMatchScope.key;
-      case 'VALUE':
-        return JsonMatchScope.value;
-    }
-    throw Exception('$this is not known in enum JsonMatchScope');
-  }
+  const JsonMatchScope(this.value);
+
+  static JsonMatchScope fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum JsonMatchScope'));
 }
 
 /// A single label container. This is used as an element of a label array in
@@ -9821,31 +8596,18 @@ class Label {
 }
 
 enum LabelMatchScope {
-  label,
-  namespace,
-}
+  label('LABEL'),
+  namespace('NAMESPACE'),
+  ;
 
-extension LabelMatchScopeValueExtension on LabelMatchScope {
-  String toValue() {
-    switch (this) {
-      case LabelMatchScope.label:
-        return 'LABEL';
-      case LabelMatchScope.namespace:
-        return 'NAMESPACE';
-    }
-  }
-}
+  final String value;
 
-extension LabelMatchScopeFromString on String {
-  LabelMatchScope toLabelMatchScope() {
-    switch (this) {
-      case 'LABEL':
-        return LabelMatchScope.label;
-      case 'NAMESPACE':
-        return LabelMatchScope.namespace;
-    }
-    throw Exception('$this is not known in enum LabelMatchScope');
-  }
+  const LabelMatchScope(this.value);
+
+  static LabelMatchScope fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LabelMatchScope'));
 }
 
 /// A rule statement to match against labels that have been added to the web
@@ -9893,7 +8655,7 @@ class LabelMatchStatement {
   factory LabelMatchStatement.fromJson(Map<String, dynamic> json) {
     return LabelMatchStatement(
       key: json['Key'] as String,
-      scope: (json['Scope'] as String).toLabelMatchScope(),
+      scope: LabelMatchScope.fromString((json['Scope'] as String)),
     );
   }
 
@@ -9902,7 +8664,7 @@ class LabelMatchStatement {
     final scope = this.scope;
     return {
       'Key': key,
-      'Scope': scope.toValue(),
+      'Scope': scope.value,
     };
   }
 }
@@ -10307,54 +9069,30 @@ class ListWebACLsResponse {
 }
 
 enum LogScope {
-  customer,
-  securityLake,
-}
+  customer('CUSTOMER'),
+  securityLake('SECURITY_LAKE'),
+  ;
 
-extension LogScopeValueExtension on LogScope {
-  String toValue() {
-    switch (this) {
-      case LogScope.customer:
-        return 'CUSTOMER';
-      case LogScope.securityLake:
-        return 'SECURITY_LAKE';
-    }
-  }
-}
+  final String value;
 
-extension LogScopeFromString on String {
-  LogScope toLogScope() {
-    switch (this) {
-      case 'CUSTOMER':
-        return LogScope.customer;
-      case 'SECURITY_LAKE':
-        return LogScope.securityLake;
-    }
-    throw Exception('$this is not known in enum LogScope');
-  }
+  const LogScope(this.value);
+
+  static LogScope fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum LogScope'));
 }
 
 enum LogType {
-  wafLogs,
-}
+  wafLogs('WAF_LOGS'),
+  ;
 
-extension LogTypeValueExtension on LogType {
-  String toValue() {
-    switch (this) {
-      case LogType.wafLogs:
-        return 'WAF_LOGS';
-    }
-  }
-}
+  final String value;
 
-extension LogTypeFromString on String {
-  LogType toLogType() {
-    switch (this) {
-      case 'WAF_LOGS':
-        return LogType.wafLogs;
-    }
-    throw Exception('$this is not known in enum LogType');
-  }
+  const LogType(this.value);
+
+  static LogType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum LogType'));
 }
 
 /// Defines an association between logging destinations and a web ACL resource,
@@ -10476,8 +9214,8 @@ class LoggingConfiguration {
           .map((e) => e as String)
           .toList(),
       resourceArn: json['ResourceArn'] as String,
-      logScope: (json['LogScope'] as String?)?.toLogScope(),
-      logType: (json['LogType'] as String?)?.toLogType(),
+      logScope: (json['LogScope'] as String?)?.let(LogScope.fromString),
+      logType: (json['LogType'] as String?)?.let(LogType.fromString),
       loggingFilter: json['LoggingFilter'] != null
           ? LoggingFilter.fromJson(
               json['LoggingFilter'] as Map<String, dynamic>)
@@ -10501,8 +9239,8 @@ class LoggingConfiguration {
     return {
       'LogDestinationConfigs': logDestinationConfigs,
       'ResourceArn': resourceArn,
-      if (logScope != null) 'LogScope': logScope.toValue(),
-      if (logType != null) 'LogType': logType.toValue(),
+      if (logScope != null) 'LogScope': logScope.value,
+      if (logType != null) 'LogType': logType.value,
       if (loggingFilter != null) 'LoggingFilter': loggingFilter,
       if (managedByFirewallManager != null)
         'ManagedByFirewallManager': managedByFirewallManager,
@@ -10531,7 +9269,8 @@ class LoggingFilter {
 
   factory LoggingFilter.fromJson(Map<String, dynamic> json) {
     return LoggingFilter(
-      defaultBehavior: (json['DefaultBehavior'] as String).toFilterBehavior(),
+      defaultBehavior:
+          FilterBehavior.fromString((json['DefaultBehavior'] as String)),
       filters: (json['Filters'] as List)
           .whereNotNull()
           .map((e) => Filter.fromJson(e as Map<String, dynamic>))
@@ -10543,7 +9282,7 @@ class LoggingFilter {
     final defaultBehavior = this.defaultBehavior;
     final filters = this.filters;
     return {
-      'DefaultBehavior': defaultBehavior.toValue(),
+      'DefaultBehavior': defaultBehavior.value,
       'Filters': filters,
     };
   }
@@ -10750,7 +9489,8 @@ class ManagedRuleGroupConfig {
           ? PasswordField.fromJson(
               json['PasswordField'] as Map<String, dynamic>)
           : null,
-      payloadType: (json['PayloadType'] as String?)?.toPayloadType(),
+      payloadType:
+          (json['PayloadType'] as String?)?.let(PayloadType.fromString),
       usernameField: json['UsernameField'] != null
           ? UsernameField.fromJson(
               json['UsernameField'] as Map<String, dynamic>)
@@ -10776,7 +9516,7 @@ class ManagedRuleGroupConfig {
         'AWSManagedRulesBotControlRuleSet': awsManagedRulesBotControlRuleSet,
       if (loginPath != null) 'LoginPath': loginPath,
       if (passwordField != null) 'PasswordField': passwordField,
-      if (payloadType != null) 'PayloadType': payloadType.toValue(),
+      if (payloadType != null) 'PayloadType': payloadType.value,
       if (usernameField != null) 'UsernameField': usernameField,
     };
   }
@@ -11236,36 +9976,19 @@ class ManagedRuleSetVersion {
 }
 
 enum MapMatchScope {
-  all,
-  key,
-  value,
-}
+  all('ALL'),
+  key('KEY'),
+  $value('VALUE'),
+  ;
 
-extension MapMatchScopeValueExtension on MapMatchScope {
-  String toValue() {
-    switch (this) {
-      case MapMatchScope.all:
-        return 'ALL';
-      case MapMatchScope.key:
-        return 'KEY';
-      case MapMatchScope.value:
-        return 'VALUE';
-    }
-  }
-}
+  final String value;
 
-extension MapMatchScopeFromString on String {
-  MapMatchScope toMapMatchScope() {
-    switch (this) {
-      case 'ALL':
-        return MapMatchScope.all;
-      case 'KEY':
-        return MapMatchScope.key;
-      case 'VALUE':
-        return MapMatchScope.value;
-    }
-    throw Exception('$this is not known in enum MapMatchScope');
-  }
+  const MapMatchScope(this.value);
+
+  static MapMatchScope fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MapMatchScope'));
 }
 
 /// Inspect the HTTP method of the web request. The method indicates the type of
@@ -11458,36 +10181,19 @@ class OverrideAction {
 }
 
 enum OversizeHandling {
-  $continue,
-  match,
-  noMatch,
-}
+  $continue('CONTINUE'),
+  match('MATCH'),
+  noMatch('NO_MATCH'),
+  ;
 
-extension OversizeHandlingValueExtension on OversizeHandling {
-  String toValue() {
-    switch (this) {
-      case OversizeHandling.$continue:
-        return 'CONTINUE';
-      case OversizeHandling.match:
-        return 'MATCH';
-      case OversizeHandling.noMatch:
-        return 'NO_MATCH';
-    }
-  }
-}
+  final String value;
 
-extension OversizeHandlingFromString on String {
-  OversizeHandling toOversizeHandling() {
-    switch (this) {
-      case 'CONTINUE':
-        return OversizeHandling.$continue;
-      case 'MATCH':
-        return OversizeHandling.match;
-      case 'NO_MATCH':
-        return OversizeHandling.noMatch;
-    }
-    throw Exception('$this is not known in enum OversizeHandling');
-  }
+  const OversizeHandling(this.value);
+
+  static OversizeHandling fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OversizeHandling'));
 }
 
 /// The name of the field in the request payload that contains your customer's
@@ -11541,31 +10247,17 @@ class PasswordField {
 }
 
 enum PayloadType {
-  json,
-  formEncoded,
-}
+  json('JSON'),
+  formEncoded('FORM_ENCODED'),
+  ;
 
-extension PayloadTypeValueExtension on PayloadType {
-  String toValue() {
-    switch (this) {
-      case PayloadType.json:
-        return 'JSON';
-      case PayloadType.formEncoded:
-        return 'FORM_ENCODED';
-    }
-  }
-}
+  final String value;
 
-extension PayloadTypeFromString on String {
-  PayloadType toPayloadType() {
-    switch (this) {
-      case 'JSON':
-        return PayloadType.json;
-      case 'FORM_ENCODED':
-        return PayloadType.formEncoded;
-    }
-    throw Exception('$this is not known in enum PayloadType');
-  }
+  const PayloadType(this.value);
+
+  static PayloadType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum PayloadType'));
 }
 
 /// The name of a field in the request payload that contains part or all of your
@@ -11623,74 +10315,35 @@ class PhoneNumberField {
 }
 
 enum Platform {
-  ios,
-  android,
-}
+  ios('IOS'),
+  android('ANDROID'),
+  ;
 
-extension PlatformValueExtension on Platform {
-  String toValue() {
-    switch (this) {
-      case Platform.ios:
-        return 'IOS';
-      case Platform.android:
-        return 'ANDROID';
-    }
-  }
-}
+  final String value;
 
-extension PlatformFromString on String {
-  Platform toPlatform() {
-    switch (this) {
-      case 'IOS':
-        return Platform.ios;
-      case 'ANDROID':
-        return Platform.android;
-    }
-    throw Exception('$this is not known in enum Platform');
-  }
+  const Platform(this.value);
+
+  static Platform fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Platform'));
 }
 
 enum PositionalConstraint {
-  exactly,
-  startsWith,
-  endsWith,
-  contains,
-  containsWord,
-}
+  exactly('EXACTLY'),
+  startsWith('STARTS_WITH'),
+  endsWith('ENDS_WITH'),
+  contains('CONTAINS'),
+  containsWord('CONTAINS_WORD'),
+  ;
 
-extension PositionalConstraintValueExtension on PositionalConstraint {
-  String toValue() {
-    switch (this) {
-      case PositionalConstraint.exactly:
-        return 'EXACTLY';
-      case PositionalConstraint.startsWith:
-        return 'STARTS_WITH';
-      case PositionalConstraint.endsWith:
-        return 'ENDS_WITH';
-      case PositionalConstraint.contains:
-        return 'CONTAINS';
-      case PositionalConstraint.containsWord:
-        return 'CONTAINS_WORD';
-    }
-  }
-}
+  final String value;
 
-extension PositionalConstraintFromString on String {
-  PositionalConstraint toPositionalConstraint() {
-    switch (this) {
-      case 'EXACTLY':
-        return PositionalConstraint.exactly;
-      case 'STARTS_WITH':
-        return PositionalConstraint.startsWith;
-      case 'ENDS_WITH':
-        return PositionalConstraint.endsWith;
-      case 'CONTAINS':
-        return PositionalConstraint.contains;
-      case 'CONTAINS_WORD':
-        return PositionalConstraint.containsWord;
-    }
-    throw Exception('$this is not known in enum PositionalConstraint');
-  }
+  const PositionalConstraint(this.value);
+
+  static PositionalConstraint fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum PositionalConstraint'));
 }
 
 class PutLoggingConfigurationResponse {
@@ -11998,8 +10651,8 @@ class RateBasedStatement {
 
   factory RateBasedStatement.fromJson(Map<String, dynamic> json) {
     return RateBasedStatement(
-      aggregateKeyType: (json['AggregateKeyType'] as String)
-          .toRateBasedStatementAggregateKeyType(),
+      aggregateKeyType: RateBasedStatementAggregateKeyType.fromString(
+          (json['AggregateKeyType'] as String)),
       limit: json['Limit'] as int,
       customKeys: (json['CustomKeys'] as List?)
           ?.whereNotNull()
@@ -12026,7 +10679,7 @@ class RateBasedStatement {
     final forwardedIPConfig = this.forwardedIPConfig;
     final scopeDownStatement = this.scopeDownStatement;
     return {
-      'AggregateKeyType': aggregateKeyType.toValue(),
+      'AggregateKeyType': aggregateKeyType.value,
       'Limit': limit,
       if (customKeys != null) 'CustomKeys': customKeys,
       if (evaluationWindowSec != null)
@@ -12038,43 +10691,20 @@ class RateBasedStatement {
 }
 
 enum RateBasedStatementAggregateKeyType {
-  ip,
-  forwardedIp,
-  customKeys,
-  constant,
-}
+  ip('IP'),
+  forwardedIp('FORWARDED_IP'),
+  customKeys('CUSTOM_KEYS'),
+  constant('CONSTANT'),
+  ;
 
-extension RateBasedStatementAggregateKeyTypeValueExtension
-    on RateBasedStatementAggregateKeyType {
-  String toValue() {
-    switch (this) {
-      case RateBasedStatementAggregateKeyType.ip:
-        return 'IP';
-      case RateBasedStatementAggregateKeyType.forwardedIp:
-        return 'FORWARDED_IP';
-      case RateBasedStatementAggregateKeyType.customKeys:
-        return 'CUSTOM_KEYS';
-      case RateBasedStatementAggregateKeyType.constant:
-        return 'CONSTANT';
-    }
-  }
-}
+  final String value;
 
-extension RateBasedStatementAggregateKeyTypeFromString on String {
-  RateBasedStatementAggregateKeyType toRateBasedStatementAggregateKeyType() {
-    switch (this) {
-      case 'IP':
-        return RateBasedStatementAggregateKeyType.ip;
-      case 'FORWARDED_IP':
-        return RateBasedStatementAggregateKeyType.forwardedIp;
-      case 'CUSTOM_KEYS':
-        return RateBasedStatementAggregateKeyType.customKeys;
-      case 'CONSTANT':
-        return RateBasedStatementAggregateKeyType.constant;
-    }
-    throw Exception(
-        '$this is not known in enum RateBasedStatementAggregateKeyType');
-  }
+  const RateBasedStatementAggregateKeyType(this.value);
+
+  static RateBasedStatementAggregateKeyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RateBasedStatementAggregateKeyType'));
 }
 
 /// Specifies a single custom aggregate key for a rate-base rule.
@@ -12259,8 +10889,8 @@ class RateBasedStatementManagedKeysIPSet {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      iPAddressVersion:
-          (json['IPAddressVersion'] as String?)?.toIPAddressVersion(),
+      iPAddressVersion: (json['IPAddressVersion'] as String?)
+          ?.let(IPAddressVersion.fromString),
     );
   }
 }
@@ -12861,15 +11491,15 @@ class RequestBodyAssociatedResourceTypeConfig {
   factory RequestBodyAssociatedResourceTypeConfig.fromJson(
       Map<String, dynamic> json) {
     return RequestBodyAssociatedResourceTypeConfig(
-      defaultSizeInspectionLimit: (json['DefaultSizeInspectionLimit'] as String)
-          .toSizeInspectionLimit(),
+      defaultSizeInspectionLimit: SizeInspectionLimit.fromString(
+          (json['DefaultSizeInspectionLimit'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final defaultSizeInspectionLimit = this.defaultSizeInspectionLimit;
     return {
-      'DefaultSizeInspectionLimit': defaultSizeInspectionLimit.toValue(),
+      'DefaultSizeInspectionLimit': defaultSizeInspectionLimit.value,
     };
   }
 }
@@ -12951,7 +11581,7 @@ class RequestInspection {
     return RequestInspection(
       passwordField:
           PasswordField.fromJson(json['PasswordField'] as Map<String, dynamic>),
-      payloadType: (json['PayloadType'] as String).toPayloadType(),
+      payloadType: PayloadType.fromString((json['PayloadType'] as String)),
       usernameField:
           UsernameField.fromJson(json['UsernameField'] as Map<String, dynamic>),
     );
@@ -12963,7 +11593,7 @@ class RequestInspection {
     final usernameField = this.usernameField;
     return {
       'PasswordField': passwordField,
-      'PayloadType': payloadType.toValue(),
+      'PayloadType': payloadType.value,
       'UsernameField': usernameField,
     };
   }
@@ -13145,7 +11775,7 @@ class RequestInspectionACFP {
 
   factory RequestInspectionACFP.fromJson(Map<String, dynamic> json) {
     return RequestInspectionACFP(
-      payloadType: (json['PayloadType'] as String).toPayloadType(),
+      payloadType: PayloadType.fromString((json['PayloadType'] as String)),
       addressFields: (json['AddressFields'] as List?)
           ?.whereNotNull()
           .map((e) => AddressField.fromJson(e as Map<String, dynamic>))
@@ -13176,7 +11806,7 @@ class RequestInspectionACFP {
     final phoneNumberFields = this.phoneNumberFields;
     final usernameField = this.usernameField;
     return {
-      'PayloadType': payloadType.toValue(),
+      'PayloadType': payloadType.value,
       if (addressFields != null) 'AddressFields': addressFields,
       if (emailField != null) 'EmailField': emailField,
       if (passwordField != null) 'PasswordField': passwordField,
@@ -13187,84 +11817,38 @@ class RequestInspectionACFP {
 }
 
 enum ResourceType {
-  applicationLoadBalancer,
-  apiGateway,
-  appsync,
-  cognitoUserPool,
-  appRunnerService,
-  verifiedAccessInstance,
-}
+  applicationLoadBalancer('APPLICATION_LOAD_BALANCER'),
+  apiGateway('API_GATEWAY'),
+  appsync('APPSYNC'),
+  cognitoUserPool('COGNITO_USER_POOL'),
+  appRunnerService('APP_RUNNER_SERVICE'),
+  verifiedAccessInstance('VERIFIED_ACCESS_INSTANCE'),
+  ;
 
-extension ResourceTypeValueExtension on ResourceType {
-  String toValue() {
-    switch (this) {
-      case ResourceType.applicationLoadBalancer:
-        return 'APPLICATION_LOAD_BALANCER';
-      case ResourceType.apiGateway:
-        return 'API_GATEWAY';
-      case ResourceType.appsync:
-        return 'APPSYNC';
-      case ResourceType.cognitoUserPool:
-        return 'COGNITO_USER_POOL';
-      case ResourceType.appRunnerService:
-        return 'APP_RUNNER_SERVICE';
-      case ResourceType.verifiedAccessInstance:
-        return 'VERIFIED_ACCESS_INSTANCE';
-    }
-  }
-}
+  final String value;
 
-extension ResourceTypeFromString on String {
-  ResourceType toResourceType() {
-    switch (this) {
-      case 'APPLICATION_LOAD_BALANCER':
-        return ResourceType.applicationLoadBalancer;
-      case 'API_GATEWAY':
-        return ResourceType.apiGateway;
-      case 'APPSYNC':
-        return ResourceType.appsync;
-      case 'COGNITO_USER_POOL':
-        return ResourceType.cognitoUserPool;
-      case 'APP_RUNNER_SERVICE':
-        return ResourceType.appRunnerService;
-      case 'VERIFIED_ACCESS_INSTANCE':
-        return ResourceType.verifiedAccessInstance;
-    }
-    throw Exception('$this is not known in enum ResourceType');
-  }
+  const ResourceType(this.value);
+
+  static ResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResourceType'));
 }
 
 enum ResponseContentType {
-  textPlain,
-  textHtml,
-  applicationJson,
-}
+  textPlain('TEXT_PLAIN'),
+  textHtml('TEXT_HTML'),
+  applicationJson('APPLICATION_JSON'),
+  ;
 
-extension ResponseContentTypeValueExtension on ResponseContentType {
-  String toValue() {
-    switch (this) {
-      case ResponseContentType.textPlain:
-        return 'TEXT_PLAIN';
-      case ResponseContentType.textHtml:
-        return 'TEXT_HTML';
-      case ResponseContentType.applicationJson:
-        return 'APPLICATION_JSON';
-    }
-  }
-}
+  final String value;
 
-extension ResponseContentTypeFromString on String {
-  ResponseContentType toResponseContentType() {
-    switch (this) {
-      case 'TEXT_PLAIN':
-        return ResponseContentType.textPlain;
-      case 'TEXT_HTML':
-        return ResponseContentType.textHtml;
-      case 'APPLICATION_JSON':
-        return ResponseContentType.applicationJson;
-    }
-    throw Exception('$this is not known in enum ResponseContentType');
-  }
+  const ResponseContentType(this.value);
+
+  static ResponseContentType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ResponseContentType'));
 }
 
 /// The criteria for inspecting responses to login requests and account creation
@@ -14261,59 +12845,32 @@ class SampledHTTPRequest {
 }
 
 enum Scope {
-  cloudfront,
-  regional,
-}
+  cloudfront('CLOUDFRONT'),
+  regional('REGIONAL'),
+  ;
 
-extension ScopeValueExtension on Scope {
-  String toValue() {
-    switch (this) {
-      case Scope.cloudfront:
-        return 'CLOUDFRONT';
-      case Scope.regional:
-        return 'REGIONAL';
-    }
-  }
-}
+  final String value;
 
-extension ScopeFromString on String {
-  Scope toScope() {
-    switch (this) {
-      case 'CLOUDFRONT':
-        return Scope.cloudfront;
-      case 'REGIONAL':
-        return Scope.regional;
-    }
-    throw Exception('$this is not known in enum Scope');
-  }
+  const Scope(this.value);
+
+  static Scope fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Scope'));
 }
 
 enum SensitivityLevel {
-  low,
-  high,
-}
+  low('LOW'),
+  high('HIGH'),
+  ;
 
-extension SensitivityLevelValueExtension on SensitivityLevel {
-  String toValue() {
-    switch (this) {
-      case SensitivityLevel.low:
-        return 'LOW';
-      case SensitivityLevel.high:
-        return 'HIGH';
-    }
-  }
-}
+  final String value;
 
-extension SensitivityLevelFromString on String {
-  SensitivityLevel toSensitivityLevel() {
-    switch (this) {
-      case 'LOW':
-        return SensitivityLevel.low;
-      case 'HIGH':
-        return SensitivityLevel.high;
-    }
-    throw Exception('$this is not known in enum SensitivityLevel');
-  }
+  const SensitivityLevel(this.value);
+
+  static SensitivityLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SensitivityLevel'));
 }
 
 /// Inspect one of the headers in the web request, identified by name, for
@@ -14427,7 +12984,7 @@ class SizeConstraintStatement {
   factory SizeConstraintStatement.fromJson(Map<String, dynamic> json) {
     return SizeConstraintStatement(
       comparisonOperator:
-          (json['ComparisonOperator'] as String).toComparisonOperator(),
+          ComparisonOperator.fromString((json['ComparisonOperator'] as String)),
       fieldToMatch:
           FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
       size: json['Size'] as int,
@@ -14444,7 +13001,7 @@ class SizeConstraintStatement {
     final size = this.size;
     final textTransformations = this.textTransformations;
     return {
-      'ComparisonOperator': comparisonOperator.toValue(),
+      'ComparisonOperator': comparisonOperator.value,
       'FieldToMatch': fieldToMatch,
       'Size': size,
       'TextTransformations': textTransformations,
@@ -14453,41 +13010,20 @@ class SizeConstraintStatement {
 }
 
 enum SizeInspectionLimit {
-  kb_16,
-  kb_32,
-  kb_48,
-  kb_64,
-}
+  kb_16('KB_16'),
+  kb_32('KB_32'),
+  kb_48('KB_48'),
+  kb_64('KB_64'),
+  ;
 
-extension SizeInspectionLimitValueExtension on SizeInspectionLimit {
-  String toValue() {
-    switch (this) {
-      case SizeInspectionLimit.kb_16:
-        return 'KB_16';
-      case SizeInspectionLimit.kb_32:
-        return 'KB_32';
-      case SizeInspectionLimit.kb_48:
-        return 'KB_48';
-      case SizeInspectionLimit.kb_64:
-        return 'KB_64';
-    }
-  }
-}
+  final String value;
 
-extension SizeInspectionLimitFromString on String {
-  SizeInspectionLimit toSizeInspectionLimit() {
-    switch (this) {
-      case 'KB_16':
-        return SizeInspectionLimit.kb_16;
-      case 'KB_32':
-        return SizeInspectionLimit.kb_32;
-      case 'KB_48':
-        return SizeInspectionLimit.kb_48;
-      case 'KB_64':
-        return SizeInspectionLimit.kb_64;
-    }
-    throw Exception('$this is not known in enum SizeInspectionLimit');
-  }
+  const SizeInspectionLimit(this.value);
+
+  static SizeInspectionLimit fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SizeInspectionLimit'));
 }
 
 /// A rule statement that inspects for malicious SQL code. Attackers insert
@@ -14539,8 +13075,8 @@ class SqliMatchStatement {
           .whereNotNull()
           .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
           .toList(),
-      sensitivityLevel:
-          (json['SensitivityLevel'] as String?)?.toSensitivityLevel(),
+      sensitivityLevel: (json['SensitivityLevel'] as String?)
+          ?.let(SensitivityLevel.fromString),
     );
   }
 
@@ -14551,8 +13087,7 @@ class SqliMatchStatement {
     return {
       'FieldToMatch': fieldToMatch,
       'TextTransformations': textTransformations,
-      if (sensitivityLevel != null)
-        'SensitivityLevel': sensitivityLevel.toValue(),
+      if (sensitivityLevel != null) 'SensitivityLevel': sensitivityLevel.value,
     };
   }
 }
@@ -15085,7 +13620,7 @@ class TextTransformation {
   factory TextTransformation.fromJson(Map<String, dynamic> json) {
     return TextTransformation(
       priority: json['Priority'] as int,
-      type: (json['Type'] as String).toTextTransformationType(),
+      type: TextTransformationType.fromString((json['Type'] as String)),
     );
   }
 
@@ -15094,132 +13629,43 @@ class TextTransformation {
     final type = this.type;
     return {
       'Priority': priority,
-      'Type': type.toValue(),
+      'Type': type.value,
     };
   }
 }
 
 enum TextTransformationType {
-  none,
-  compressWhiteSpace,
-  htmlEntityDecode,
-  lowercase,
-  cmdLine,
-  urlDecode,
-  base64Decode,
-  hexDecode,
-  md5,
-  replaceComments,
-  escapeSeqDecode,
-  sqlHexDecode,
-  cssDecode,
-  jsDecode,
-  normalizePath,
-  normalizePathWin,
-  removeNulls,
-  replaceNulls,
-  base64DecodeExt,
-  urlDecodeUni,
-  utf8ToUnicode,
-}
+  none('NONE'),
+  compressWhiteSpace('COMPRESS_WHITE_SPACE'),
+  htmlEntityDecode('HTML_ENTITY_DECODE'),
+  lowercase('LOWERCASE'),
+  cmdLine('CMD_LINE'),
+  urlDecode('URL_DECODE'),
+  base64Decode('BASE64_DECODE'),
+  hexDecode('HEX_DECODE'),
+  md5('MD5'),
+  replaceComments('REPLACE_COMMENTS'),
+  escapeSeqDecode('ESCAPE_SEQ_DECODE'),
+  sqlHexDecode('SQL_HEX_DECODE'),
+  cssDecode('CSS_DECODE'),
+  jsDecode('JS_DECODE'),
+  normalizePath('NORMALIZE_PATH'),
+  normalizePathWin('NORMALIZE_PATH_WIN'),
+  removeNulls('REMOVE_NULLS'),
+  replaceNulls('REPLACE_NULLS'),
+  base64DecodeExt('BASE64_DECODE_EXT'),
+  urlDecodeUni('URL_DECODE_UNI'),
+  utf8ToUnicode('UTF8_TO_UNICODE'),
+  ;
 
-extension TextTransformationTypeValueExtension on TextTransformationType {
-  String toValue() {
-    switch (this) {
-      case TextTransformationType.none:
-        return 'NONE';
-      case TextTransformationType.compressWhiteSpace:
-        return 'COMPRESS_WHITE_SPACE';
-      case TextTransformationType.htmlEntityDecode:
-        return 'HTML_ENTITY_DECODE';
-      case TextTransformationType.lowercase:
-        return 'LOWERCASE';
-      case TextTransformationType.cmdLine:
-        return 'CMD_LINE';
-      case TextTransformationType.urlDecode:
-        return 'URL_DECODE';
-      case TextTransformationType.base64Decode:
-        return 'BASE64_DECODE';
-      case TextTransformationType.hexDecode:
-        return 'HEX_DECODE';
-      case TextTransformationType.md5:
-        return 'MD5';
-      case TextTransformationType.replaceComments:
-        return 'REPLACE_COMMENTS';
-      case TextTransformationType.escapeSeqDecode:
-        return 'ESCAPE_SEQ_DECODE';
-      case TextTransformationType.sqlHexDecode:
-        return 'SQL_HEX_DECODE';
-      case TextTransformationType.cssDecode:
-        return 'CSS_DECODE';
-      case TextTransformationType.jsDecode:
-        return 'JS_DECODE';
-      case TextTransformationType.normalizePath:
-        return 'NORMALIZE_PATH';
-      case TextTransformationType.normalizePathWin:
-        return 'NORMALIZE_PATH_WIN';
-      case TextTransformationType.removeNulls:
-        return 'REMOVE_NULLS';
-      case TextTransformationType.replaceNulls:
-        return 'REPLACE_NULLS';
-      case TextTransformationType.base64DecodeExt:
-        return 'BASE64_DECODE_EXT';
-      case TextTransformationType.urlDecodeUni:
-        return 'URL_DECODE_UNI';
-      case TextTransformationType.utf8ToUnicode:
-        return 'UTF8_TO_UNICODE';
-    }
-  }
-}
+  final String value;
 
-extension TextTransformationTypeFromString on String {
-  TextTransformationType toTextTransformationType() {
-    switch (this) {
-      case 'NONE':
-        return TextTransformationType.none;
-      case 'COMPRESS_WHITE_SPACE':
-        return TextTransformationType.compressWhiteSpace;
-      case 'HTML_ENTITY_DECODE':
-        return TextTransformationType.htmlEntityDecode;
-      case 'LOWERCASE':
-        return TextTransformationType.lowercase;
-      case 'CMD_LINE':
-        return TextTransformationType.cmdLine;
-      case 'URL_DECODE':
-        return TextTransformationType.urlDecode;
-      case 'BASE64_DECODE':
-        return TextTransformationType.base64Decode;
-      case 'HEX_DECODE':
-        return TextTransformationType.hexDecode;
-      case 'MD5':
-        return TextTransformationType.md5;
-      case 'REPLACE_COMMENTS':
-        return TextTransformationType.replaceComments;
-      case 'ESCAPE_SEQ_DECODE':
-        return TextTransformationType.escapeSeqDecode;
-      case 'SQL_HEX_DECODE':
-        return TextTransformationType.sqlHexDecode;
-      case 'CSS_DECODE':
-        return TextTransformationType.cssDecode;
-      case 'JS_DECODE':
-        return TextTransformationType.jsDecode;
-      case 'NORMALIZE_PATH':
-        return TextTransformationType.normalizePath;
-      case 'NORMALIZE_PATH_WIN':
-        return TextTransformationType.normalizePathWin;
-      case 'REMOVE_NULLS':
-        return TextTransformationType.removeNulls;
-      case 'REPLACE_NULLS':
-        return TextTransformationType.replaceNulls;
-      case 'BASE64_DECODE_EXT':
-        return TextTransformationType.base64DecodeExt;
-      case 'URL_DECODE_UNI':
-        return TextTransformationType.urlDecodeUni;
-      case 'UTF8_TO_UNICODE':
-        return TextTransformationType.utf8ToUnicode;
-    }
-    throw Exception('$this is not known in enum TextTransformationType');
-  }
+  const TextTransformationType(this.value);
+
+  static TextTransformationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TextTransformationType'));
 }
 
 /// In a <a>GetSampledRequests</a> request, the <code>StartTime</code> and

@@ -207,7 +207,7 @@ class ManagedBlockchainQuery {
     String? transactionId,
   }) async {
     final $payload = <String, dynamic>{
-      'network': network.toValue(),
+      'network': network.value,
       if (transactionHash != null) 'transactionHash': transactionHash,
       if (transactionId != null) 'transactionId': transactionId,
     };
@@ -493,7 +493,7 @@ class ManagedBlockchainQuery {
       250,
     );
     final $payload = <String, dynamic>{
-      'network': network.toValue(),
+      'network': network.value,
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
       if (transactionHash != null) 'transactionHash': transactionHash,
@@ -566,7 +566,7 @@ class ManagedBlockchainQuery {
     );
     final $payload = <String, dynamic>{
       'address': address,
-      'network': network.toValue(),
+      'network': network.value,
       if (confirmationStatusFilter != null)
         'confirmationStatusFilter': confirmationStatusFilter,
       if (fromBlockchainInstant != null)
@@ -627,7 +627,8 @@ class AssetContract {
       contractIdentifier: ContractIdentifier.fromJson(
           json['contractIdentifier'] as Map<String, dynamic>),
       deployerAddress: json['deployerAddress'] as String,
-      tokenStandard: (json['tokenStandard'] as String).toQueryTokenStandard(),
+      tokenStandard:
+          QueryTokenStandard.fromString((json['tokenStandard'] as String)),
     );
   }
 
@@ -638,7 +639,7 @@ class AssetContract {
     return {
       'contractIdentifier': contractIdentifier,
       'deployerAddress': deployerAddress,
-      'tokenStandard': tokenStandard.toValue(),
+      'tokenStandard': tokenStandard.value,
     };
   }
 }
@@ -670,7 +671,7 @@ class BatchGetTokenBalanceErrorItem {
     return BatchGetTokenBalanceErrorItem(
       errorCode: json['errorCode'] as String,
       errorMessage: json['errorMessage'] as String,
-      errorType: (json['errorType'] as String).toErrorType(),
+      errorType: ErrorType.fromString((json['errorType'] as String)),
       atBlockchainInstant: json['atBlockchainInstant'] != null
           ? BlockchainInstant.fromJson(
               json['atBlockchainInstant'] as Map<String, dynamic>)
@@ -696,7 +697,7 @@ class BatchGetTokenBalanceErrorItem {
     return {
       'errorCode': errorCode,
       'errorMessage': errorMessage,
-      'errorType': errorType.toValue(),
+      'errorType': errorType.value,
       if (atBlockchainInstant != null)
         'atBlockchainInstant': atBlockchainInstant,
       if (ownerIdentifier != null) 'ownerIdentifier': ownerIdentifier,
@@ -850,31 +851,18 @@ class BlockchainInstant {
 }
 
 enum ConfirmationStatus {
-  $final,
-  nonfinal,
-}
+  $final('FINAL'),
+  nonfinal('NONFINAL'),
+  ;
 
-extension ConfirmationStatusValueExtension on ConfirmationStatus {
-  String toValue() {
-    switch (this) {
-      case ConfirmationStatus.$final:
-        return 'FINAL';
-      case ConfirmationStatus.nonfinal:
-        return 'NONFINAL';
-    }
-  }
-}
+  final String value;
 
-extension ConfirmationStatusFromString on String {
-  ConfirmationStatus toConfirmationStatus() {
-    switch (this) {
-      case 'FINAL':
-        return ConfirmationStatus.$final;
-      case 'NONFINAL':
-        return ConfirmationStatus.nonfinal;
-    }
-    throw Exception('$this is not known in enum ConfirmationStatus');
-  }
+  const ConfirmationStatus(this.value);
+
+  static ConfirmationStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ConfirmationStatus'));
 }
 
 /// The container for the <code>ConfirmationStatusFilter</code> that filters for
@@ -895,7 +883,7 @@ class ConfirmationStatusFilter {
   Map<String, dynamic> toJson() {
     final include = this.include;
     return {
-      'include': include.map((e) => e.toValue()).toList(),
+      'include': include.map((e) => e.value).toList(),
     };
   }
 }
@@ -923,8 +911,8 @@ class ContractFilter {
     final tokenStandard = this.tokenStandard;
     return {
       'deployerAddress': deployerAddress,
-      'network': network.toValue(),
-      'tokenStandard': tokenStandard.toValue(),
+      'network': network.value,
+      'tokenStandard': tokenStandard.value,
     };
   }
 }
@@ -946,7 +934,7 @@ class ContractIdentifier {
   factory ContractIdentifier.fromJson(Map<String, dynamic> json) {
     return ContractIdentifier(
       contractAddress: json['contractAddress'] as String,
-      network: (json['network'] as String).toQueryNetwork(),
+      network: QueryNetwork.fromString((json['network'] as String)),
     );
   }
 
@@ -955,7 +943,7 @@ class ContractIdentifier {
     final network = this.network;
     return {
       'contractAddress': contractAddress,
-      'network': network.toValue(),
+      'network': network.value,
     };
   }
 }
@@ -998,59 +986,32 @@ class ContractMetadata {
 }
 
 enum ErrorType {
-  validationException,
-  resourceNotFoundException,
-}
+  validationException('VALIDATION_EXCEPTION'),
+  resourceNotFoundException('RESOURCE_NOT_FOUND_EXCEPTION'),
+  ;
 
-extension ErrorTypeValueExtension on ErrorType {
-  String toValue() {
-    switch (this) {
-      case ErrorType.validationException:
-        return 'VALIDATION_EXCEPTION';
-      case ErrorType.resourceNotFoundException:
-        return 'RESOURCE_NOT_FOUND_EXCEPTION';
-    }
-  }
-}
+  final String value;
 
-extension ErrorTypeFromString on String {
-  ErrorType toErrorType() {
-    switch (this) {
-      case 'VALIDATION_EXCEPTION':
-        return ErrorType.validationException;
-      case 'RESOURCE_NOT_FOUND_EXCEPTION':
-        return ErrorType.resourceNotFoundException;
-    }
-    throw Exception('$this is not known in enum ErrorType');
-  }
+  const ErrorType(this.value);
+
+  static ErrorType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ErrorType'));
 }
 
 enum ExecutionStatus {
-  failed,
-  succeeded,
-}
+  failed('FAILED'),
+  succeeded('SUCCEEDED'),
+  ;
 
-extension ExecutionStatusValueExtension on ExecutionStatus {
-  String toValue() {
-    switch (this) {
-      case ExecutionStatus.failed:
-        return 'FAILED';
-      case ExecutionStatus.succeeded:
-        return 'SUCCEEDED';
-    }
-  }
-}
+  final String value;
 
-extension ExecutionStatusFromString on String {
-  ExecutionStatus toExecutionStatus() {
-    switch (this) {
-      case 'FAILED':
-        return ExecutionStatus.failed;
-      case 'SUCCEEDED':
-        return ExecutionStatus.succeeded;
-    }
-    throw Exception('$this is not known in enum ExecutionStatus');
-  }
+  const ExecutionStatus(this.value);
+
+  static ExecutionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ExecutionStatus'));
 }
 
 class GetAssetContractOutput {
@@ -1076,7 +1037,8 @@ class GetAssetContractOutput {
       contractIdentifier: ContractIdentifier.fromJson(
           json['contractIdentifier'] as Map<String, dynamic>),
       deployerAddress: json['deployerAddress'] as String,
-      tokenStandard: (json['tokenStandard'] as String).toQueryTokenStandard(),
+      tokenStandard:
+          QueryTokenStandard.fromString((json['tokenStandard'] as String)),
       metadata: json['metadata'] != null
           ? ContractMetadata.fromJson(json['metadata'] as Map<String, dynamic>)
           : null,
@@ -1091,7 +1053,7 @@ class GetAssetContractOutput {
     return {
       'contractIdentifier': contractIdentifier,
       'deployerAddress': deployerAddress,
-      'tokenStandard': tokenStandard.toValue(),
+      'tokenStandard': tokenStandard.value,
       if (metadata != null) 'metadata': metadata,
     };
   }
@@ -1261,35 +1223,24 @@ class ListFilteredTransactionEventsSort {
     final sortBy = this.sortBy;
     final sortOrder = this.sortOrder;
     return {
-      if (sortBy != null) 'sortBy': sortBy.toValue(),
-      if (sortOrder != null) 'sortOrder': sortOrder.toValue(),
+      if (sortBy != null) 'sortBy': sortBy.value,
+      if (sortOrder != null) 'sortOrder': sortOrder.value,
     };
   }
 }
 
 enum ListFilteredTransactionEventsSortBy {
-  blockchainInstant,
-}
+  blockchainInstant('blockchainInstant'),
+  ;
 
-extension ListFilteredTransactionEventsSortByValueExtension
-    on ListFilteredTransactionEventsSortBy {
-  String toValue() {
-    switch (this) {
-      case ListFilteredTransactionEventsSortBy.blockchainInstant:
-        return 'blockchainInstant';
-    }
-  }
-}
+  final String value;
 
-extension ListFilteredTransactionEventsSortByFromString on String {
-  ListFilteredTransactionEventsSortBy toListFilteredTransactionEventsSortBy() {
-    switch (this) {
-      case 'blockchainInstant':
-        return ListFilteredTransactionEventsSortBy.blockchainInstant;
-    }
-    throw Exception(
-        '$this is not known in enum ListFilteredTransactionEventsSortBy');
-  }
+  const ListFilteredTransactionEventsSortBy(this.value);
+
+  static ListFilteredTransactionEventsSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ListFilteredTransactionEventsSortBy'));
 }
 
 class ListTokenBalancesOutput {
@@ -1411,33 +1362,24 @@ class ListTransactionsSort {
     final sortBy = this.sortBy;
     final sortOrder = this.sortOrder;
     return {
-      if (sortBy != null) 'sortBy': sortBy.toValue(),
-      if (sortOrder != null) 'sortOrder': sortOrder.toValue(),
+      if (sortBy != null) 'sortBy': sortBy.value,
+      if (sortOrder != null) 'sortOrder': sortOrder.value,
     };
   }
 }
 
 enum ListTransactionsSortBy {
-  transactionTimestamp,
-}
+  transactionTimestamp('TRANSACTION_TIMESTAMP'),
+  ;
 
-extension ListTransactionsSortByValueExtension on ListTransactionsSortBy {
-  String toValue() {
-    switch (this) {
-      case ListTransactionsSortBy.transactionTimestamp:
-        return 'TRANSACTION_TIMESTAMP';
-    }
-  }
-}
+  final String value;
 
-extension ListTransactionsSortByFromString on String {
-  ListTransactionsSortBy toListTransactionsSortBy() {
-    switch (this) {
-      case 'TRANSACTION_TIMESTAMP':
-        return ListTransactionsSortBy.transactionTimestamp;
-    }
-    throw Exception('$this is not known in enum ListTransactionsSortBy');
-  }
+  const ListTransactionsSortBy(this.value);
+
+  static ListTransactionsSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ListTransactionsSortBy'));
 }
 
 /// The container for the owner information to filter by.
@@ -1481,175 +1423,74 @@ class OwnerIdentifier {
 }
 
 enum QueryNetwork {
-  ethereumMainnet,
-  ethereumSepoliaTestnet,
-  bitcoinMainnet,
-  bitcoinTestnet,
-}
+  ethereumMainnet('ETHEREUM_MAINNET'),
+  ethereumSepoliaTestnet('ETHEREUM_SEPOLIA_TESTNET'),
+  bitcoinMainnet('BITCOIN_MAINNET'),
+  bitcoinTestnet('BITCOIN_TESTNET'),
+  ;
 
-extension QueryNetworkValueExtension on QueryNetwork {
-  String toValue() {
-    switch (this) {
-      case QueryNetwork.ethereumMainnet:
-        return 'ETHEREUM_MAINNET';
-      case QueryNetwork.ethereumSepoliaTestnet:
-        return 'ETHEREUM_SEPOLIA_TESTNET';
-      case QueryNetwork.bitcoinMainnet:
-        return 'BITCOIN_MAINNET';
-      case QueryNetwork.bitcoinTestnet:
-        return 'BITCOIN_TESTNET';
-    }
-  }
-}
+  final String value;
 
-extension QueryNetworkFromString on String {
-  QueryNetwork toQueryNetwork() {
-    switch (this) {
-      case 'ETHEREUM_MAINNET':
-        return QueryNetwork.ethereumMainnet;
-      case 'ETHEREUM_SEPOLIA_TESTNET':
-        return QueryNetwork.ethereumSepoliaTestnet;
-      case 'BITCOIN_MAINNET':
-        return QueryNetwork.bitcoinMainnet;
-      case 'BITCOIN_TESTNET':
-        return QueryNetwork.bitcoinTestnet;
-    }
-    throw Exception('$this is not known in enum QueryNetwork');
-  }
+  const QueryNetwork(this.value);
+
+  static QueryNetwork fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum QueryNetwork'));
 }
 
 enum QueryTokenStandard {
-  erc20,
-  erc721,
-  erc1155,
-}
+  erc20('ERC20'),
+  erc721('ERC721'),
+  erc1155('ERC1155'),
+  ;
 
-extension QueryTokenStandardValueExtension on QueryTokenStandard {
-  String toValue() {
-    switch (this) {
-      case QueryTokenStandard.erc20:
-        return 'ERC20';
-      case QueryTokenStandard.erc721:
-        return 'ERC721';
-      case QueryTokenStandard.erc1155:
-        return 'ERC1155';
-    }
-  }
-}
+  final String value;
 
-extension QueryTokenStandardFromString on String {
-  QueryTokenStandard toQueryTokenStandard() {
-    switch (this) {
-      case 'ERC20':
-        return QueryTokenStandard.erc20;
-      case 'ERC721':
-        return QueryTokenStandard.erc721;
-      case 'ERC1155':
-        return QueryTokenStandard.erc1155;
-    }
-    throw Exception('$this is not known in enum QueryTokenStandard');
-  }
+  const QueryTokenStandard(this.value);
+
+  static QueryTokenStandard fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum QueryTokenStandard'));
 }
 
 enum QueryTransactionEventType {
-  erc20Transfer,
-  erc20Mint,
-  erc20Burn,
-  erc20Deposit,
-  erc20Withdrawal,
-  erc721Transfer,
-  erc1155Transfer,
-  bitcoinVin,
-  bitcoinVout,
-  internalEthTransfer,
-  ethTransfer,
-}
+  erc20Transfer('ERC20_TRANSFER'),
+  erc20Mint('ERC20_MINT'),
+  erc20Burn('ERC20_BURN'),
+  erc20Deposit('ERC20_DEPOSIT'),
+  erc20Withdrawal('ERC20_WITHDRAWAL'),
+  erc721Transfer('ERC721_TRANSFER'),
+  erc1155Transfer('ERC1155_TRANSFER'),
+  bitcoinVin('BITCOIN_VIN'),
+  bitcoinVout('BITCOIN_VOUT'),
+  internalEthTransfer('INTERNAL_ETH_TRANSFER'),
+  ethTransfer('ETH_TRANSFER'),
+  ;
 
-extension QueryTransactionEventTypeValueExtension on QueryTransactionEventType {
-  String toValue() {
-    switch (this) {
-      case QueryTransactionEventType.erc20Transfer:
-        return 'ERC20_TRANSFER';
-      case QueryTransactionEventType.erc20Mint:
-        return 'ERC20_MINT';
-      case QueryTransactionEventType.erc20Burn:
-        return 'ERC20_BURN';
-      case QueryTransactionEventType.erc20Deposit:
-        return 'ERC20_DEPOSIT';
-      case QueryTransactionEventType.erc20Withdrawal:
-        return 'ERC20_WITHDRAWAL';
-      case QueryTransactionEventType.erc721Transfer:
-        return 'ERC721_TRANSFER';
-      case QueryTransactionEventType.erc1155Transfer:
-        return 'ERC1155_TRANSFER';
-      case QueryTransactionEventType.bitcoinVin:
-        return 'BITCOIN_VIN';
-      case QueryTransactionEventType.bitcoinVout:
-        return 'BITCOIN_VOUT';
-      case QueryTransactionEventType.internalEthTransfer:
-        return 'INTERNAL_ETH_TRANSFER';
-      case QueryTransactionEventType.ethTransfer:
-        return 'ETH_TRANSFER';
-    }
-  }
-}
+  final String value;
 
-extension QueryTransactionEventTypeFromString on String {
-  QueryTransactionEventType toQueryTransactionEventType() {
-    switch (this) {
-      case 'ERC20_TRANSFER':
-        return QueryTransactionEventType.erc20Transfer;
-      case 'ERC20_MINT':
-        return QueryTransactionEventType.erc20Mint;
-      case 'ERC20_BURN':
-        return QueryTransactionEventType.erc20Burn;
-      case 'ERC20_DEPOSIT':
-        return QueryTransactionEventType.erc20Deposit;
-      case 'ERC20_WITHDRAWAL':
-        return QueryTransactionEventType.erc20Withdrawal;
-      case 'ERC721_TRANSFER':
-        return QueryTransactionEventType.erc721Transfer;
-      case 'ERC1155_TRANSFER':
-        return QueryTransactionEventType.erc1155Transfer;
-      case 'BITCOIN_VIN':
-        return QueryTransactionEventType.bitcoinVin;
-      case 'BITCOIN_VOUT':
-        return QueryTransactionEventType.bitcoinVout;
-      case 'INTERNAL_ETH_TRANSFER':
-        return QueryTransactionEventType.internalEthTransfer;
-      case 'ETH_TRANSFER':
-        return QueryTransactionEventType.ethTransfer;
-    }
-    throw Exception('$this is not known in enum QueryTransactionEventType');
-  }
+  const QueryTransactionEventType(this.value);
+
+  static QueryTransactionEventType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum QueryTransactionEventType'));
 }
 
 enum SortOrder {
-  ascending,
-  descending,
-}
+  ascending('ASCENDING'),
+  descending('DESCENDING'),
+  ;
 
-extension SortOrderValueExtension on SortOrder {
-  String toValue() {
-    switch (this) {
-      case SortOrder.ascending:
-        return 'ASCENDING';
-      case SortOrder.descending:
-        return 'DESCENDING';
-    }
-  }
-}
+  final String value;
 
-extension SortOrderFromString on String {
-  SortOrder toSortOrder() {
-    switch (this) {
-      case 'ASCENDING':
-        return SortOrder.ascending;
-      case 'DESCENDING':
-        return SortOrder.descending;
-    }
-    throw Exception('$this is not known in enum SortOrder');
-  }
+  const SortOrder(this.value);
+
+  static SortOrder fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SortOrder'));
 }
 
 /// This container is used to specify a time frame.
@@ -1767,7 +1608,7 @@ class TokenFilter {
     final contractAddress = this.contractAddress;
     final tokenId = this.tokenId;
     return {
-      'network': network.toValue(),
+      'network': network.value,
       if (contractAddress != null) 'contractAddress': contractAddress,
       if (tokenId != null) 'tokenId': tokenId,
     };
@@ -1804,7 +1645,7 @@ class TokenIdentifier {
 
   factory TokenIdentifier.fromJson(Map<String, dynamic> json) {
     return TokenIdentifier(
-      network: (json['network'] as String).toQueryNetwork(),
+      network: QueryNetwork.fromString((json['network'] as String)),
       contractAddress: json['contractAddress'] as String?,
       tokenId: json['tokenId'] as String?,
     );
@@ -1815,7 +1656,7 @@ class TokenIdentifier {
     final contractAddress = this.contractAddress;
     final tokenId = this.tokenId;
     return {
-      'network': network.toValue(),
+      'network': network.value,
       if (contractAddress != null) 'contractAddress': contractAddress,
       if (tokenId != null) 'tokenId': tokenId,
     };
@@ -1926,7 +1767,7 @@ class Transaction {
 
   factory Transaction.fromJson(Map<String, dynamic> json) {
     return Transaction(
-      network: (json['network'] as String).toQueryNetwork(),
+      network: QueryNetwork.fromString((json['network'] as String)),
       numberOfTransactions: json['numberOfTransactions'] as int,
       to: json['to'] as String,
       transactionHash: json['transactionHash'] as String,
@@ -1935,13 +1776,13 @@ class Transaction {
           nonNullableTimeStampFromJson(json['transactionTimestamp'] as Object),
       blockHash: json['blockHash'] as String?,
       blockNumber: json['blockNumber'] as String?,
-      confirmationStatus:
-          (json['confirmationStatus'] as String?)?.toConfirmationStatus(),
+      confirmationStatus: (json['confirmationStatus'] as String?)
+          ?.let(ConfirmationStatus.fromString),
       contractAddress: json['contractAddress'] as String?,
       cumulativeGasUsed: json['cumulativeGasUsed'] as String?,
       effectiveGasPrice: json['effectiveGasPrice'] as String?,
       executionStatus:
-          (json['executionStatus'] as String?)?.toExecutionStatus(),
+          (json['executionStatus'] as String?)?.let(ExecutionStatus.fromString),
       from: json['from'] as String?,
       gasUsed: json['gasUsed'] as String?,
       signatureR: json['signatureR'] as String?,
@@ -1974,7 +1815,7 @@ class Transaction {
     final transactionFee = this.transactionFee;
     final transactionId = this.transactionId;
     return {
-      'network': network.toValue(),
+      'network': network.value,
       'numberOfTransactions': numberOfTransactions,
       'to': to,
       'transactionHash': transactionHash,
@@ -1983,11 +1824,11 @@ class Transaction {
       if (blockHash != null) 'blockHash': blockHash,
       if (blockNumber != null) 'blockNumber': blockNumber,
       if (confirmationStatus != null)
-        'confirmationStatus': confirmationStatus.toValue(),
+        'confirmationStatus': confirmationStatus.value,
       if (contractAddress != null) 'contractAddress': contractAddress,
       if (cumulativeGasUsed != null) 'cumulativeGasUsed': cumulativeGasUsed,
       if (effectiveGasPrice != null) 'effectiveGasPrice': effectiveGasPrice,
-      if (executionStatus != null) 'executionStatus': executionStatus.toValue(),
+      if (executionStatus != null) 'executionStatus': executionStatus.value,
       if (from != null) 'from': from,
       if (gasUsed != null) 'gasUsed': gasUsed,
       if (signatureR != null) 'signatureR': signatureR,
@@ -2085,15 +1926,16 @@ class TransactionEvent {
 
   factory TransactionEvent.fromJson(Map<String, dynamic> json) {
     return TransactionEvent(
-      eventType: (json['eventType'] as String).toQueryTransactionEventType(),
-      network: (json['network'] as String).toQueryNetwork(),
+      eventType:
+          QueryTransactionEventType.fromString((json['eventType'] as String)),
+      network: QueryNetwork.fromString((json['network'] as String)),
       transactionHash: json['transactionHash'] as String,
       blockchainInstant: json['blockchainInstant'] != null
           ? BlockchainInstant.fromJson(
               json['blockchainInstant'] as Map<String, dynamic>)
           : null,
-      confirmationStatus:
-          (json['confirmationStatus'] as String?)?.toConfirmationStatus(),
+      confirmationStatus: (json['confirmationStatus'] as String?)
+          ?.let(ConfirmationStatus.fromString),
       contractAddress: json['contractAddress'] as String?,
       from: json['from'] as String?,
       spentVoutIndex: json['spentVoutIndex'] as int?,
@@ -2126,12 +1968,12 @@ class TransactionEvent {
     final voutIndex = this.voutIndex;
     final voutSpent = this.voutSpent;
     return {
-      'eventType': eventType.toValue(),
-      'network': network.toValue(),
+      'eventType': eventType.value,
+      'network': network.value,
       'transactionHash': transactionHash,
       if (blockchainInstant != null) 'blockchainInstant': blockchainInstant,
       if (confirmationStatus != null)
-        'confirmationStatus': confirmationStatus.toValue(),
+        'confirmationStatus': confirmationStatus.value,
       if (contractAddress != null) 'contractAddress': contractAddress,
       if (from != null) 'from': from,
       if (spentVoutIndex != null) 'spentVoutIndex': spentVoutIndex,
@@ -2177,12 +2019,12 @@ class TransactionOutputItem {
 
   factory TransactionOutputItem.fromJson(Map<String, dynamic> json) {
     return TransactionOutputItem(
-      network: (json['network'] as String).toQueryNetwork(),
+      network: QueryNetwork.fromString((json['network'] as String)),
       transactionHash: json['transactionHash'] as String,
       transactionTimestamp:
           nonNullableTimeStampFromJson(json['transactionTimestamp'] as Object),
-      confirmationStatus:
-          (json['confirmationStatus'] as String?)?.toConfirmationStatus(),
+      confirmationStatus: (json['confirmationStatus'] as String?)
+          ?.let(ConfirmationStatus.fromString),
       transactionId: json['transactionId'] as String?,
     );
   }
@@ -2194,11 +2036,11 @@ class TransactionOutputItem {
     final confirmationStatus = this.confirmationStatus;
     final transactionId = this.transactionId;
     return {
-      'network': network.toValue(),
+      'network': network.value,
       'transactionHash': transactionHash,
       'transactionTimestamp': unixTimestampToJson(transactionTimestamp),
       if (confirmationStatus != null)
-        'confirmationStatus': confirmationStatus.toValue(),
+        'confirmationStatus': confirmationStatus.value,
       if (transactionId != null) 'transactionId': transactionId,
     };
   }

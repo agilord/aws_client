@@ -5500,7 +5500,7 @@ class RDS {
                   e3.value,
       if (publiclyAccessible != null)
         'PubliclyAccessible': publiclyAccessible.toString(),
-      if (replicaMode != null) 'ReplicaMode': replicaMode.toValue(),
+      if (replicaMode != null) 'ReplicaMode': replicaMode.value,
       if (sourceDBClusterIdentifier != null)
         'SourceDBClusterIdentifier': sourceDBClusterIdentifier,
       if (sourceDBInstanceIdentifier != null)
@@ -5769,7 +5769,7 @@ class RDS {
           for (var e3 in auth[i1].toQueryMap().entries)
             'Auth.member.${i1 + 1}.${e3.key}': e3.value,
       'DBProxyName': dBProxyName,
-      'EngineFamily': engineFamily.toValue(),
+      'EngineFamily': engineFamily.value,
       'RoleArn': roleArn,
       if (vpcSubnetIds.isEmpty)
         'VpcSubnetIds': ''
@@ -5862,7 +5862,7 @@ class RDS {
           for (var i1 = 0; i1 < tags.length; i1++)
             for (var e3 in tags[i1].toQueryMap().entries)
               'Tags.Tag.${i1 + 1}.${e3.key}': e3.value,
-      if (targetRole != null) 'TargetRole': targetRole.toValue(),
+      if (targetRole != null) 'TargetRole': targetRole.value,
       if (vpcSecurityGroupIds != null)
         if (vpcSecurityGroupIds.isEmpty)
           'VpcSecurityGroupIds': ''
@@ -11079,7 +11079,7 @@ class RDS {
       if (marker != null) 'Marker': marker,
       if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
       if (sourceIdentifier != null) 'SourceIdentifier': sourceIdentifier,
-      if (sourceType != null) 'SourceType': sourceType.toValue(),
+      if (sourceType != null) 'SourceType': sourceType.value,
       if (startTime != null) 'StartTime': _s.iso8601ToJson(startTime),
     };
     final $result = await _protocol.send(
@@ -11197,7 +11197,7 @@ class RDS {
       if (marker != null) 'Marker': marker,
       if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
       if (sourceArn != null) 'SourceArn': sourceArn,
-      if (sourceType != null) 'SourceType': sourceType.toValue(),
+      if (sourceType != null) 'SourceType': sourceType.value,
     };
     final $result = await _protocol.send(
       $request,
@@ -12626,8 +12626,7 @@ class RDS {
     String? resourceArn,
   }) async {
     final $request = <String, String>{
-      if (auditPolicyState != null)
-        'AuditPolicyState': auditPolicyState.toValue(),
+      if (auditPolicyState != null) 'AuditPolicyState': auditPolicyState.value,
       if (resourceArn != null) 'ResourceArn': resourceArn,
     };
     final $result = await _protocol.send(
@@ -12890,7 +12889,7 @@ class RDS {
       'Engine': engine,
       'EngineVersion': engineVersion,
       if (description != null) 'Description': description,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
     final $result = await _protocol.send(
       $request,
@@ -15278,7 +15277,7 @@ class RDS {
         'ApplyImmediately': applyImmediately.toString(),
       if (autoMinorVersionUpgrade != null)
         'AutoMinorVersionUpgrade': autoMinorVersionUpgrade.toString(),
-      if (automationMode != null) 'AutomationMode': automationMode.toValue(),
+      if (automationMode != null) 'AutomationMode': automationMode.value,
       if (awsBackupRecoveryPointArn != null)
         'AwsBackupRecoveryPointArn': awsBackupRecoveryPointArn,
       if (backupRetentionPeriod != null)
@@ -15368,7 +15367,7 @@ class RDS {
       if (promotionTier != null) 'PromotionTier': promotionTier.toString(),
       if (publiclyAccessible != null)
         'PubliclyAccessible': publiclyAccessible.toString(),
-      if (replicaMode != null) 'ReplicaMode': replicaMode.toValue(),
+      if (replicaMode != null) 'ReplicaMode': replicaMode.value,
       if (resumeFullAutomationModeMinutes != null)
         'ResumeFullAutomationModeMinutes':
             resumeFullAutomationModeMinutes.toString(),
@@ -21409,7 +21408,7 @@ class RDS {
   }) async {
     final $request = <String, String>{
       'KmsKeyId': kmsKeyId,
-      'Mode': mode.toValue(),
+      'Mode': mode.value,
       'ResourceArn': resourceArn,
       if (applyImmediately != null)
         'ApplyImmediately': applyImmediately.toString(),
@@ -22260,108 +22259,52 @@ class AccountQuota {
 }
 
 enum ActivityStreamMode {
-  sync,
-  async,
-}
+  sync('sync'),
+  async('async'),
+  ;
 
-extension ActivityStreamModeValueExtension on ActivityStreamMode {
-  String toValue() {
-    switch (this) {
-      case ActivityStreamMode.sync:
-        return 'sync';
-      case ActivityStreamMode.async:
-        return 'async';
-    }
-  }
-}
+  final String value;
 
-extension ActivityStreamModeFromString on String {
-  ActivityStreamMode toActivityStreamMode() {
-    switch (this) {
-      case 'sync':
-        return ActivityStreamMode.sync;
-      case 'async':
-        return ActivityStreamMode.async;
-    }
-    throw Exception('$this is not known in enum ActivityStreamMode');
-  }
+  const ActivityStreamMode(this.value);
+
+  static ActivityStreamMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ActivityStreamMode'));
 }
 
 enum ActivityStreamPolicyStatus {
-  locked,
-  unlocked,
-  lockingPolicy,
-  unlockingPolicy,
-}
+  locked('locked'),
+  unlocked('unlocked'),
+  lockingPolicy('locking-policy'),
+  unlockingPolicy('unlocking-policy'),
+  ;
 
-extension ActivityStreamPolicyStatusValueExtension
-    on ActivityStreamPolicyStatus {
-  String toValue() {
-    switch (this) {
-      case ActivityStreamPolicyStatus.locked:
-        return 'locked';
-      case ActivityStreamPolicyStatus.unlocked:
-        return 'unlocked';
-      case ActivityStreamPolicyStatus.lockingPolicy:
-        return 'locking-policy';
-      case ActivityStreamPolicyStatus.unlockingPolicy:
-        return 'unlocking-policy';
-    }
-  }
-}
+  final String value;
 
-extension ActivityStreamPolicyStatusFromString on String {
-  ActivityStreamPolicyStatus toActivityStreamPolicyStatus() {
-    switch (this) {
-      case 'locked':
-        return ActivityStreamPolicyStatus.locked;
-      case 'unlocked':
-        return ActivityStreamPolicyStatus.unlocked;
-      case 'locking-policy':
-        return ActivityStreamPolicyStatus.lockingPolicy;
-      case 'unlocking-policy':
-        return ActivityStreamPolicyStatus.unlockingPolicy;
-    }
-    throw Exception('$this is not known in enum ActivityStreamPolicyStatus');
-  }
+  const ActivityStreamPolicyStatus(this.value);
+
+  static ActivityStreamPolicyStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ActivityStreamPolicyStatus'));
 }
 
 enum ActivityStreamStatus {
-  stopped,
-  starting,
-  started,
-  stopping,
-}
+  stopped('stopped'),
+  starting('starting'),
+  started('started'),
+  stopping('stopping'),
+  ;
 
-extension ActivityStreamStatusValueExtension on ActivityStreamStatus {
-  String toValue() {
-    switch (this) {
-      case ActivityStreamStatus.stopped:
-        return 'stopped';
-      case ActivityStreamStatus.starting:
-        return 'starting';
-      case ActivityStreamStatus.started:
-        return 'started';
-      case ActivityStreamStatus.stopping:
-        return 'stopping';
-    }
-  }
-}
+  final String value;
 
-extension ActivityStreamStatusFromString on String {
-  ActivityStreamStatus toActivityStreamStatus() {
-    switch (this) {
-      case 'stopped':
-        return ActivityStreamStatus.stopped;
-      case 'starting':
-        return ActivityStreamStatus.starting;
-      case 'started':
-        return ActivityStreamStatus.started;
-      case 'stopping':
-        return ActivityStreamStatus.stopping;
-    }
-    throw Exception('$this is not known in enum ActivityStreamStatus');
-  }
+  const ActivityStreamStatus(this.value);
+
+  static ActivityStreamStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ActivityStreamStatus'));
 }
 
 class AddSourceIdentifierToSubscriptionResult {
@@ -22380,31 +22323,17 @@ class AddSourceIdentifierToSubscriptionResult {
 }
 
 enum ApplyMethod {
-  immediate,
-  pendingReboot,
-}
+  immediate('immediate'),
+  pendingReboot('pending-reboot'),
+  ;
 
-extension ApplyMethodValueExtension on ApplyMethod {
-  String toValue() {
-    switch (this) {
-      case ApplyMethod.immediate:
-        return 'immediate';
-      case ApplyMethod.pendingReboot:
-        return 'pending-reboot';
-    }
-  }
-}
+  final String value;
 
-extension ApplyMethodFromString on String {
-  ApplyMethod toApplyMethod() {
-    switch (this) {
-      case 'immediate':
-        return ApplyMethod.immediate;
-      case 'pending-reboot':
-        return ApplyMethod.pendingReboot;
-    }
-    throw Exception('$this is not known in enum ApplyMethod');
-  }
+  const ApplyMethod(this.value);
+
+  static ApplyMethod fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ApplyMethod'));
 }
 
 class ApplyPendingMaintenanceActionResult {
@@ -22423,54 +22352,31 @@ class ApplyPendingMaintenanceActionResult {
 }
 
 enum AuditPolicyState {
-  locked,
-  unlocked,
-}
+  locked('locked'),
+  unlocked('unlocked'),
+  ;
 
-extension AuditPolicyStateValueExtension on AuditPolicyState {
-  String toValue() {
-    switch (this) {
-      case AuditPolicyState.locked:
-        return 'locked';
-      case AuditPolicyState.unlocked:
-        return 'unlocked';
-    }
-  }
-}
+  final String value;
 
-extension AuditPolicyStateFromString on String {
-  AuditPolicyState toAuditPolicyState() {
-    switch (this) {
-      case 'locked':
-        return AuditPolicyState.locked;
-      case 'unlocked':
-        return AuditPolicyState.unlocked;
-    }
-    throw Exception('$this is not known in enum AuditPolicyState');
-  }
+  const AuditPolicyState(this.value);
+
+  static AuditPolicyState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AuditPolicyState'));
 }
 
 enum AuthScheme {
-  secrets,
-}
+  secrets('SECRETS'),
+  ;
 
-extension AuthSchemeValueExtension on AuthScheme {
-  String toValue() {
-    switch (this) {
-      case AuthScheme.secrets:
-        return 'SECRETS';
-    }
-  }
-}
+  final String value;
 
-extension AuthSchemeFromString on String {
-  AuthScheme toAuthScheme() {
-    switch (this) {
-      case 'SECRETS':
-        return AuthScheme.secrets;
-    }
-    throw Exception('$this is not known in enum AuthScheme');
-  }
+  const AuthScheme(this.value);
+
+  static AuthScheme fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AuthScheme'));
 }
 
 class AuthorizeDBSecurityGroupIngressResult {
@@ -22489,31 +22395,18 @@ class AuthorizeDBSecurityGroupIngressResult {
 }
 
 enum AutomationMode {
-  full,
-  allPaused,
-}
+  full('full'),
+  allPaused('all-paused'),
+  ;
 
-extension AutomationModeValueExtension on AutomationMode {
-  String toValue() {
-    switch (this) {
-      case AutomationMode.full:
-        return 'full';
-      case AutomationMode.allPaused:
-        return 'all-paused';
-    }
-  }
-}
+  final String value;
 
-extension AutomationModeFromString on String {
-  AutomationMode toAutomationMode() {
-    switch (this) {
-      case 'full':
-        return AutomationMode.full;
-      case 'all-paused':
-        return AutomationMode.allPaused;
-    }
-    throw Exception('$this is not known in enum AutomationMode');
-  }
+  const AutomationMode(this.value);
+
+  static AutomationMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AutomationMode'));
 }
 
 /// Contains Availability Zone information.
@@ -22881,41 +22774,20 @@ class CharacterSet {
 }
 
 enum ClientPasswordAuthType {
-  mysqlNativePassword,
-  postgresScramSha_256,
-  postgresMd5,
-  sqlServerAuthentication,
-}
+  mysqlNativePassword('MYSQL_NATIVE_PASSWORD'),
+  postgresScramSha_256('POSTGRES_SCRAM_SHA_256'),
+  postgresMd5('POSTGRES_MD5'),
+  sqlServerAuthentication('SQL_SERVER_AUTHENTICATION'),
+  ;
 
-extension ClientPasswordAuthTypeValueExtension on ClientPasswordAuthType {
-  String toValue() {
-    switch (this) {
-      case ClientPasswordAuthType.mysqlNativePassword:
-        return 'MYSQL_NATIVE_PASSWORD';
-      case ClientPasswordAuthType.postgresScramSha_256:
-        return 'POSTGRES_SCRAM_SHA_256';
-      case ClientPasswordAuthType.postgresMd5:
-        return 'POSTGRES_MD5';
-      case ClientPasswordAuthType.sqlServerAuthentication:
-        return 'SQL_SERVER_AUTHENTICATION';
-    }
-  }
-}
+  final String value;
 
-extension ClientPasswordAuthTypeFromString on String {
-  ClientPasswordAuthType toClientPasswordAuthType() {
-    switch (this) {
-      case 'MYSQL_NATIVE_PASSWORD':
-        return ClientPasswordAuthType.mysqlNativePassword;
-      case 'POSTGRES_SCRAM_SHA_256':
-        return ClientPasswordAuthType.postgresScramSha_256;
-      case 'POSTGRES_MD5':
-        return ClientPasswordAuthType.postgresMd5;
-      case 'SQL_SERVER_AUTHENTICATION':
-        return ClientPasswordAuthType.sqlServerAuthentication;
-    }
-    throw Exception('$this is not known in enum ClientPasswordAuthType');
-  }
+  const ClientPasswordAuthType(this.value);
+
+  static ClientPasswordAuthType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ClientPasswordAuthType'));
 }
 
 /// The configuration setting for the log types to be enabled for export to
@@ -23601,36 +23473,19 @@ class CustomDBEngineVersionAMI {
 }
 
 enum CustomEngineVersionStatus {
-  available,
-  inactive,
-  inactiveExceptRestore,
-}
+  available('available'),
+  inactive('inactive'),
+  inactiveExceptRestore('inactive-except-restore'),
+  ;
 
-extension CustomEngineVersionStatusValueExtension on CustomEngineVersionStatus {
-  String toValue() {
-    switch (this) {
-      case CustomEngineVersionStatus.available:
-        return 'available';
-      case CustomEngineVersionStatus.inactive:
-        return 'inactive';
-      case CustomEngineVersionStatus.inactiveExceptRestore:
-        return 'inactive-except-restore';
-    }
-  }
-}
+  final String value;
 
-extension CustomEngineVersionStatusFromString on String {
-  CustomEngineVersionStatus toCustomEngineVersionStatus() {
-    switch (this) {
-      case 'available':
-        return CustomEngineVersionStatus.available;
-      case 'inactive':
-        return CustomEngineVersionStatus.inactive;
-      case 'inactive-except-restore':
-        return CustomEngineVersionStatus.inactiveExceptRestore;
-    }
-    throw Exception('$this is not known in enum CustomEngineVersionStatus');
-  }
+  const CustomEngineVersionStatus(this.value);
+
+  static CustomEngineVersionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CustomEngineVersionStatus'));
 }
 
 /// Contains the details of an Amazon Aurora DB cluster or Multi-AZ DB cluster.
@@ -24150,10 +24005,10 @@ class DBCluster {
           _s.extractXmlStringValue(elem, 'ActivityStreamKmsKeyId'),
       activityStreamMode: _s
           .extractXmlStringValue(elem, 'ActivityStreamMode')
-          ?.toActivityStreamMode(),
+          ?.let(ActivityStreamMode.fromString),
       activityStreamStatus: _s
           .extractXmlStringValue(elem, 'ActivityStreamStatus')
-          ?.toActivityStreamStatus(),
+          ?.let(ActivityStreamStatus.fromString),
       allocatedStorage: _s.extractXmlIntValue(elem, 'AllocatedStorage'),
       associatedRoles: _s.extractXmlChild(elem, 'AssociatedRoles')?.let(
           (elem) => elem
@@ -24231,7 +24086,7 @@ class DBCluster {
           _s.extractXmlBoolValue(elem, 'GlobalWriteForwardingRequested'),
       globalWriteForwardingStatus: _s
           .extractXmlStringValue(elem, 'GlobalWriteForwardingStatus')
-          ?.toWriteForwardingStatus(),
+          ?.let(WriteForwardingStatus.fromString),
       hostedZoneId: _s.extractXmlStringValue(elem, 'HostedZoneId'),
       httpEndpointEnabled: _s.extractXmlBoolValue(elem, 'HttpEndpointEnabled'),
       iAMDatabaseAuthenticationEnabled:
@@ -24247,7 +24102,7 @@ class DBCluster {
           ?.let(LimitlessDatabase.fromXml),
       localWriteForwardingStatus: _s
           .extractXmlStringValue(elem, 'LocalWriteForwardingStatus')
-          ?.toLocalWriteForwardingStatus(),
+          ?.let(LocalWriteForwardingStatus.fromString),
       masterUserSecret: _s
           .extractXmlChild(elem, 'MasterUserSecret')
           ?.let(MasterUserSecret.fromXml),
@@ -26210,13 +26065,13 @@ class DBInstance {
           _s.extractXmlStringValue(elem, 'ActivityStreamKmsKeyId'),
       activityStreamMode: _s
           .extractXmlStringValue(elem, 'ActivityStreamMode')
-          ?.toActivityStreamMode(),
+          ?.let(ActivityStreamMode.fromString),
       activityStreamPolicyStatus: _s
           .extractXmlStringValue(elem, 'ActivityStreamPolicyStatus')
-          ?.toActivityStreamPolicyStatus(),
+          ?.let(ActivityStreamPolicyStatus.fromString),
       activityStreamStatus: _s
           .extractXmlStringValue(elem, 'ActivityStreamStatus')
-          ?.toActivityStreamStatus(),
+          ?.let(ActivityStreamStatus.fromString),
       allocatedStorage: _s.extractXmlIntValue(elem, 'AllocatedStorage'),
       associatedRoles: _s.extractXmlChild(elem, 'AssociatedRoles')?.let(
           (elem) => elem
@@ -26227,8 +26082,9 @@ class DBInstance {
           _s.extractXmlBoolValue(elem, 'AutoMinorVersionUpgrade'),
       automaticRestartTime:
           _s.extractXmlDateTimeValue(elem, 'AutomaticRestartTime'),
-      automationMode:
-          _s.extractXmlStringValue(elem, 'AutomationMode')?.toAutomationMode(),
+      automationMode: _s
+          .extractXmlStringValue(elem, 'AutomationMode')
+          ?.let(AutomationMode.fromString),
       availabilityZone: _s.extractXmlStringValue(elem, 'AvailabilityZone'),
       awsBackupRecoveryPointArn:
           _s.extractXmlStringValue(elem, 'AwsBackupRecoveryPointArn'),
@@ -26356,8 +26212,9 @@ class DBInstance {
           elem, 'ReadReplicaSourceDBClusterIdentifier'),
       readReplicaSourceDBInstanceIdentifier: _s.extractXmlStringValue(
           elem, 'ReadReplicaSourceDBInstanceIdentifier'),
-      replicaMode:
-          _s.extractXmlStringValue(elem, 'ReplicaMode')?.toReplicaMode(),
+      replicaMode: _s
+          .extractXmlStringValue(elem, 'ReplicaMode')
+          ?.let(ReplicaMode.fromString),
       resumeFullAutomationModeTime:
           _s.extractXmlDateTimeValue(elem, 'ResumeFullAutomationModeTime'),
       secondaryAvailabilityZone:
@@ -27006,7 +26863,9 @@ class DBProxy {
       idleClientTimeout: _s.extractXmlIntValue(elem, 'IdleClientTimeout'),
       requireTLS: _s.extractXmlBoolValue(elem, 'RequireTLS'),
       roleArn: _s.extractXmlStringValue(elem, 'RoleArn'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.toDBProxyStatus(),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(DBProxyStatus.fromString),
       updatedDate: _s.extractXmlDateTimeValue(elem, 'UpdatedDate'),
       vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
       vpcSecurityGroupIds: _s
@@ -27095,11 +26954,12 @@ class DBProxyEndpoint {
       dBProxyName: _s.extractXmlStringValue(elem, 'DBProxyName'),
       endpoint: _s.extractXmlStringValue(elem, 'Endpoint'),
       isDefault: _s.extractXmlBoolValue(elem, 'IsDefault'),
-      status:
-          _s.extractXmlStringValue(elem, 'Status')?.toDBProxyEndpointStatus(),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(DBProxyEndpointStatus.fromString),
       targetRole: _s
           .extractXmlStringValue(elem, 'TargetRole')
-          ?.toDBProxyEndpointTargetRole(),
+          ?.let(DBProxyEndpointTargetRole.fromString),
       vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
       vpcSecurityGroupIds: _s
           .extractXmlChild(elem, 'VpcSecurityGroupIds')
@@ -27112,142 +26972,59 @@ class DBProxyEndpoint {
 }
 
 enum DBProxyEndpointStatus {
-  available,
-  modifying,
-  incompatibleNetwork,
-  insufficientResourceLimits,
-  creating,
-  deleting,
-}
+  available('available'),
+  modifying('modifying'),
+  incompatibleNetwork('incompatible-network'),
+  insufficientResourceLimits('insufficient-resource-limits'),
+  creating('creating'),
+  deleting('deleting'),
+  ;
 
-extension DBProxyEndpointStatusValueExtension on DBProxyEndpointStatus {
-  String toValue() {
-    switch (this) {
-      case DBProxyEndpointStatus.available:
-        return 'available';
-      case DBProxyEndpointStatus.modifying:
-        return 'modifying';
-      case DBProxyEndpointStatus.incompatibleNetwork:
-        return 'incompatible-network';
-      case DBProxyEndpointStatus.insufficientResourceLimits:
-        return 'insufficient-resource-limits';
-      case DBProxyEndpointStatus.creating:
-        return 'creating';
-      case DBProxyEndpointStatus.deleting:
-        return 'deleting';
-    }
-  }
-}
+  final String value;
 
-extension DBProxyEndpointStatusFromString on String {
-  DBProxyEndpointStatus toDBProxyEndpointStatus() {
-    switch (this) {
-      case 'available':
-        return DBProxyEndpointStatus.available;
-      case 'modifying':
-        return DBProxyEndpointStatus.modifying;
-      case 'incompatible-network':
-        return DBProxyEndpointStatus.incompatibleNetwork;
-      case 'insufficient-resource-limits':
-        return DBProxyEndpointStatus.insufficientResourceLimits;
-      case 'creating':
-        return DBProxyEndpointStatus.creating;
-      case 'deleting':
-        return DBProxyEndpointStatus.deleting;
-    }
-    throw Exception('$this is not known in enum DBProxyEndpointStatus');
-  }
+  const DBProxyEndpointStatus(this.value);
+
+  static DBProxyEndpointStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DBProxyEndpointStatus'));
 }
 
 enum DBProxyEndpointTargetRole {
-  readWrite,
-  readOnly,
-}
+  readWrite('READ_WRITE'),
+  readOnly('READ_ONLY'),
+  ;
 
-extension DBProxyEndpointTargetRoleValueExtension on DBProxyEndpointTargetRole {
-  String toValue() {
-    switch (this) {
-      case DBProxyEndpointTargetRole.readWrite:
-        return 'READ_WRITE';
-      case DBProxyEndpointTargetRole.readOnly:
-        return 'READ_ONLY';
-    }
-  }
-}
+  final String value;
 
-extension DBProxyEndpointTargetRoleFromString on String {
-  DBProxyEndpointTargetRole toDBProxyEndpointTargetRole() {
-    switch (this) {
-      case 'READ_WRITE':
-        return DBProxyEndpointTargetRole.readWrite;
-      case 'READ_ONLY':
-        return DBProxyEndpointTargetRole.readOnly;
-    }
-    throw Exception('$this is not known in enum DBProxyEndpointTargetRole');
-  }
+  const DBProxyEndpointTargetRole(this.value);
+
+  static DBProxyEndpointTargetRole fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DBProxyEndpointTargetRole'));
 }
 
 enum DBProxyStatus {
-  available,
-  modifying,
-  incompatibleNetwork,
-  insufficientResourceLimits,
-  creating,
-  deleting,
-  suspended,
-  suspending,
-  reactivating,
-}
+  available('available'),
+  modifying('modifying'),
+  incompatibleNetwork('incompatible-network'),
+  insufficientResourceLimits('insufficient-resource-limits'),
+  creating('creating'),
+  deleting('deleting'),
+  suspended('suspended'),
+  suspending('suspending'),
+  reactivating('reactivating'),
+  ;
 
-extension DBProxyStatusValueExtension on DBProxyStatus {
-  String toValue() {
-    switch (this) {
-      case DBProxyStatus.available:
-        return 'available';
-      case DBProxyStatus.modifying:
-        return 'modifying';
-      case DBProxyStatus.incompatibleNetwork:
-        return 'incompatible-network';
-      case DBProxyStatus.insufficientResourceLimits:
-        return 'insufficient-resource-limits';
-      case DBProxyStatus.creating:
-        return 'creating';
-      case DBProxyStatus.deleting:
-        return 'deleting';
-      case DBProxyStatus.suspended:
-        return 'suspended';
-      case DBProxyStatus.suspending:
-        return 'suspending';
-      case DBProxyStatus.reactivating:
-        return 'reactivating';
-    }
-  }
-}
+  final String value;
 
-extension DBProxyStatusFromString on String {
-  DBProxyStatus toDBProxyStatus() {
-    switch (this) {
-      case 'available':
-        return DBProxyStatus.available;
-      case 'modifying':
-        return DBProxyStatus.modifying;
-      case 'incompatible-network':
-        return DBProxyStatus.incompatibleNetwork;
-      case 'insufficient-resource-limits':
-        return DBProxyStatus.insufficientResourceLimits;
-      case 'creating':
-        return DBProxyStatus.creating;
-      case 'deleting':
-        return DBProxyStatus.deleting;
-      case 'suspended':
-        return DBProxyStatus.suspended;
-      case 'suspending':
-        return DBProxyStatus.suspending;
-      case 'reactivating':
-        return DBProxyStatus.reactivating;
-    }
-    throw Exception('$this is not known in enum DBProxyStatus');
-  }
+  const DBProxyStatus(this.value);
+
+  static DBProxyStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DBProxyStatus'));
 }
 
 /// Contains the details for an RDS Proxy target. It represents an RDS DB
@@ -27301,12 +27078,12 @@ class DBProxyTarget {
       endpoint: _s.extractXmlStringValue(elem, 'Endpoint'),
       port: _s.extractXmlIntValue(elem, 'Port'),
       rdsResourceId: _s.extractXmlStringValue(elem, 'RdsResourceId'),
-      role: _s.extractXmlStringValue(elem, 'Role')?.toTargetRole(),
+      role: _s.extractXmlStringValue(elem, 'Role')?.let(TargetRole.fromString),
       targetArn: _s.extractXmlStringValue(elem, 'TargetArn'),
       targetHealth:
           _s.extractXmlChild(elem, 'TargetHealth')?.let(TargetHealth.fromXml),
       trackedClusterId: _s.extractXmlStringValue(elem, 'TrackedClusterId'),
-      type: _s.extractXmlStringValue(elem, 'Type')?.toTargetType(),
+      type: _s.extractXmlStringValue(elem, 'Type')?.let(TargetType.fromString),
     );
   }
 }
@@ -29103,36 +28880,19 @@ class EngineDefaults {
 }
 
 enum EngineFamily {
-  mysql,
-  postgresql,
-  sqlserver,
-}
+  mysql('MYSQL'),
+  postgresql('POSTGRESQL'),
+  sqlserver('SQLSERVER'),
+  ;
 
-extension EngineFamilyValueExtension on EngineFamily {
-  String toValue() {
-    switch (this) {
-      case EngineFamily.mysql:
-        return 'MYSQL';
-      case EngineFamily.postgresql:
-        return 'POSTGRESQL';
-      case EngineFamily.sqlserver:
-        return 'SQLSERVER';
-    }
-  }
-}
+  final String value;
 
-extension EngineFamilyFromString on String {
-  EngineFamily toEngineFamily() {
-    switch (this) {
-      case 'MYSQL':
-        return EngineFamily.mysql;
-      case 'POSTGRESQL':
-        return EngineFamily.postgresql;
-      case 'SQLSERVER':
-        return EngineFamily.sqlserver;
-    }
-    throw Exception('$this is not known in enum EngineFamily');
-  }
+  const EngineFamily(this.value);
+
+  static EngineFamily fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EngineFamily'));
 }
 
 /// This data type is used as a response element in the <a
@@ -29174,7 +28934,9 @@ class Event {
       message: _s.extractXmlStringValue(elem, 'Message'),
       sourceArn: _s.extractXmlStringValue(elem, 'SourceArn'),
       sourceIdentifier: _s.extractXmlStringValue(elem, 'SourceIdentifier'),
-      sourceType: _s.extractXmlStringValue(elem, 'SourceType')?.toSourceType(),
+      sourceType: _s
+          .extractXmlStringValue(elem, 'SourceType')
+          ?.let(SourceType.fromString),
     );
   }
 }
@@ -29354,31 +29116,18 @@ class EventsMessage {
 }
 
 enum ExportSourceType {
-  snapshot,
-  cluster,
-}
+  snapshot('SNAPSHOT'),
+  cluster('CLUSTER'),
+  ;
 
-extension ExportSourceTypeValueExtension on ExportSourceType {
-  String toValue() {
-    switch (this) {
-      case ExportSourceType.snapshot:
-        return 'SNAPSHOT';
-      case ExportSourceType.cluster:
-        return 'CLUSTER';
-    }
-  }
-}
+  final String value;
 
-extension ExportSourceTypeFromString on String {
-  ExportSourceType toExportSourceType() {
-    switch (this) {
-      case 'SNAPSHOT':
-        return ExportSourceType.snapshot;
-      case 'CLUSTER':
-        return ExportSourceType.cluster;
-    }
-    throw Exception('$this is not known in enum ExportSourceType');
-  }
+  const ExportSourceType(this.value);
+
+  static ExportSourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ExportSourceType'));
 }
 
 /// Contains the details of a snapshot or cluster export to Amazon S3.
@@ -29519,8 +29268,9 @@ class ExportTask {
       s3Prefix: _s.extractXmlStringValue(elem, 'S3Prefix'),
       snapshotTime: _s.extractXmlDateTimeValue(elem, 'SnapshotTime'),
       sourceArn: _s.extractXmlStringValue(elem, 'SourceArn'),
-      sourceType:
-          _s.extractXmlStringValue(elem, 'SourceType')?.toExportSourceType(),
+      sourceType: _s
+          .extractXmlStringValue(elem, 'SourceType')
+          ?.let(ExportSourceType.fromString),
       status: _s.extractXmlStringValue(elem, 'Status'),
       taskEndTime: _s.extractXmlDateTimeValue(elem, 'TaskEndTime'),
       taskStartTime: _s.extractXmlDateTimeValue(elem, 'TaskStartTime'),
@@ -29637,43 +29387,28 @@ class FailoverState {
     return FailoverState(
       fromDbClusterArn: _s.extractXmlStringValue(elem, 'FromDbClusterArn'),
       isDataLossAllowed: _s.extractXmlBoolValue(elem, 'IsDataLossAllowed'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.toFailoverStatus(),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(FailoverStatus.fromString),
       toDbClusterArn: _s.extractXmlStringValue(elem, 'ToDbClusterArn'),
     );
   }
 }
 
 enum FailoverStatus {
-  pending,
-  failingOver,
-  cancelling,
-}
+  pending('pending'),
+  failingOver('failing-over'),
+  cancelling('cancelling'),
+  ;
 
-extension FailoverStatusValueExtension on FailoverStatus {
-  String toValue() {
-    switch (this) {
-      case FailoverStatus.pending:
-        return 'pending';
-      case FailoverStatus.failingOver:
-        return 'failing-over';
-      case FailoverStatus.cancelling:
-        return 'cancelling';
-    }
-  }
-}
+  final String value;
 
-extension FailoverStatusFromString on String {
-  FailoverStatus toFailoverStatus() {
-    switch (this) {
-      case 'pending':
-        return FailoverStatus.pending;
-      case 'failing-over':
-        return FailoverStatus.failingOver;
-      case 'cancelling':
-        return FailoverStatus.cancelling;
-    }
-    throw Exception('$this is not known in enum FailoverStatus');
-  }
+  const FailoverStatus(this.value);
+
+  static FailoverStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FailoverStatus'));
 }
 
 /// A filter name and value pair that is used to return a more specific list of
@@ -29868,47 +29603,31 @@ class GlobalClusterMember {
       dBClusterArn: _s.extractXmlStringValue(elem, 'DBClusterArn'),
       globalWriteForwardingStatus: _s
           .extractXmlStringValue(elem, 'GlobalWriteForwardingStatus')
-          ?.toWriteForwardingStatus(),
+          ?.let(WriteForwardingStatus.fromString),
       isWriter: _s.extractXmlBoolValue(elem, 'IsWriter'),
       readers: _s
           .extractXmlChild(elem, 'Readers')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       synchronizationStatus: _s
           .extractXmlStringValue(elem, 'SynchronizationStatus')
-          ?.toGlobalClusterMemberSynchronizationStatus(),
+          ?.let(GlobalClusterMemberSynchronizationStatus.fromString),
     );
   }
 }
 
 enum GlobalClusterMemberSynchronizationStatus {
-  connected,
-  pendingResync,
-}
+  connected('connected'),
+  pendingResync('pending-resync'),
+  ;
 
-extension GlobalClusterMemberSynchronizationStatusValueExtension
-    on GlobalClusterMemberSynchronizationStatus {
-  String toValue() {
-    switch (this) {
-      case GlobalClusterMemberSynchronizationStatus.connected:
-        return 'connected';
-      case GlobalClusterMemberSynchronizationStatus.pendingResync:
-        return 'pending-resync';
-    }
-  }
-}
+  final String value;
 
-extension GlobalClusterMemberSynchronizationStatusFromString on String {
-  GlobalClusterMemberSynchronizationStatus
-      toGlobalClusterMemberSynchronizationStatus() {
-    switch (this) {
-      case 'connected':
-        return GlobalClusterMemberSynchronizationStatus.connected;
-      case 'pending-resync':
-        return GlobalClusterMemberSynchronizationStatus.pendingResync;
-    }
-    throw Exception(
-        '$this is not known in enum GlobalClusterMemberSynchronizationStatus');
-  }
+  const GlobalClusterMemberSynchronizationStatus(this.value);
+
+  static GlobalClusterMemberSynchronizationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GlobalClusterMemberSynchronizationStatus'));
 }
 
 class GlobalClustersMessage {
@@ -29938,36 +29657,18 @@ class GlobalClustersMessage {
 }
 
 enum IAMAuthMode {
-  disabled,
-  required,
-  enabled,
-}
+  disabled('DISABLED'),
+  required('REQUIRED'),
+  enabled('ENABLED'),
+  ;
 
-extension IAMAuthModeValueExtension on IAMAuthMode {
-  String toValue() {
-    switch (this) {
-      case IAMAuthMode.disabled:
-        return 'DISABLED';
-      case IAMAuthMode.required:
-        return 'REQUIRED';
-      case IAMAuthMode.enabled:
-        return 'ENABLED';
-    }
-  }
-}
+  final String value;
 
-extension IAMAuthModeFromString on String {
-  IAMAuthMode toIAMAuthMode() {
-    switch (this) {
-      case 'DISABLED':
-        return IAMAuthMode.disabled;
-      case 'REQUIRED':
-        return IAMAuthMode.required;
-      case 'ENABLED':
-        return IAMAuthMode.enabled;
-    }
-    throw Exception('$this is not known in enum IAMAuthMode');
-  }
+  const IAMAuthMode(this.value);
+
+  static IAMAuthMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum IAMAuthMode'));
 }
 
 /// This data type is used as a response element in the
@@ -30074,7 +29775,9 @@ class Integration {
       integrationName: _s.extractXmlStringValue(elem, 'IntegrationName'),
       kMSKeyId: _s.extractXmlStringValue(elem, 'KMSKeyId'),
       sourceArn: _s.extractXmlStringValue(elem, 'SourceArn'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.toIntegrationStatus(),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(IntegrationStatus.fromString),
       tags: _s
           .extractXmlChild(elem, 'Tags')
           ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
@@ -30104,56 +29807,23 @@ class IntegrationError {
 }
 
 enum IntegrationStatus {
-  creating,
-  active,
-  modifying,
-  failed,
-  deleting,
-  syncing,
-  needsAttention,
-}
+  creating('creating'),
+  active('active'),
+  modifying('modifying'),
+  failed('failed'),
+  deleting('deleting'),
+  syncing('syncing'),
+  needsAttention('needs_attention'),
+  ;
 
-extension IntegrationStatusValueExtension on IntegrationStatus {
-  String toValue() {
-    switch (this) {
-      case IntegrationStatus.creating:
-        return 'creating';
-      case IntegrationStatus.active:
-        return 'active';
-      case IntegrationStatus.modifying:
-        return 'modifying';
-      case IntegrationStatus.failed:
-        return 'failed';
-      case IntegrationStatus.deleting:
-        return 'deleting';
-      case IntegrationStatus.syncing:
-        return 'syncing';
-      case IntegrationStatus.needsAttention:
-        return 'needs_attention';
-    }
-  }
-}
+  final String value;
 
-extension IntegrationStatusFromString on String {
-  IntegrationStatus toIntegrationStatus() {
-    switch (this) {
-      case 'creating':
-        return IntegrationStatus.creating;
-      case 'active':
-        return IntegrationStatus.active;
-      case 'modifying':
-        return IntegrationStatus.modifying;
-      case 'failed':
-        return IntegrationStatus.failed;
-      case 'deleting':
-        return IntegrationStatus.deleting;
-      case 'syncing':
-        return IntegrationStatus.syncing;
-      case 'needs_attention':
-        return IntegrationStatus.needsAttention;
-    }
-    throw Exception('$this is not known in enum IntegrationStatus');
-  }
+  const IntegrationStatus(this.value);
+
+  static IntegrationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum IntegrationStatus'));
 }
 
 /// The details of an issue with your DB instances, DB clusters, and DB
@@ -30191,112 +29861,50 @@ class LimitlessDatabase {
   factory LimitlessDatabase.fromXml(_s.XmlElement elem) {
     return LimitlessDatabase(
       minRequiredACU: _s.extractXmlDoubleValue(elem, 'MinRequiredACU'),
-      status:
-          _s.extractXmlStringValue(elem, 'Status')?.toLimitlessDatabaseStatus(),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(LimitlessDatabaseStatus.fromString),
     );
   }
 }
 
 enum LimitlessDatabaseStatus {
-  active,
-  notInUse,
-  enabled,
-  disabled,
-  enabling,
-  disabling,
-  modifyingMaxCapacity,
-  error,
-}
+  active('active'),
+  notInUse('not-in-use'),
+  enabled('enabled'),
+  disabled('disabled'),
+  enabling('enabling'),
+  disabling('disabling'),
+  modifyingMaxCapacity('modifying-max-capacity'),
+  error('error'),
+  ;
 
-extension LimitlessDatabaseStatusValueExtension on LimitlessDatabaseStatus {
-  String toValue() {
-    switch (this) {
-      case LimitlessDatabaseStatus.active:
-        return 'active';
-      case LimitlessDatabaseStatus.notInUse:
-        return 'not-in-use';
-      case LimitlessDatabaseStatus.enabled:
-        return 'enabled';
-      case LimitlessDatabaseStatus.disabled:
-        return 'disabled';
-      case LimitlessDatabaseStatus.enabling:
-        return 'enabling';
-      case LimitlessDatabaseStatus.disabling:
-        return 'disabling';
-      case LimitlessDatabaseStatus.modifyingMaxCapacity:
-        return 'modifying-max-capacity';
-      case LimitlessDatabaseStatus.error:
-        return 'error';
-    }
-  }
-}
+  final String value;
 
-extension LimitlessDatabaseStatusFromString on String {
-  LimitlessDatabaseStatus toLimitlessDatabaseStatus() {
-    switch (this) {
-      case 'active':
-        return LimitlessDatabaseStatus.active;
-      case 'not-in-use':
-        return LimitlessDatabaseStatus.notInUse;
-      case 'enabled':
-        return LimitlessDatabaseStatus.enabled;
-      case 'disabled':
-        return LimitlessDatabaseStatus.disabled;
-      case 'enabling':
-        return LimitlessDatabaseStatus.enabling;
-      case 'disabling':
-        return LimitlessDatabaseStatus.disabling;
-      case 'modifying-max-capacity':
-        return LimitlessDatabaseStatus.modifyingMaxCapacity;
-      case 'error':
-        return LimitlessDatabaseStatus.error;
-    }
-    throw Exception('$this is not known in enum LimitlessDatabaseStatus');
-  }
+  const LimitlessDatabaseStatus(this.value);
+
+  static LimitlessDatabaseStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum LimitlessDatabaseStatus'));
 }
 
 enum LocalWriteForwardingStatus {
-  enabled,
-  disabled,
-  enabling,
-  disabling,
-  requested,
-}
+  enabled('enabled'),
+  disabled('disabled'),
+  enabling('enabling'),
+  disabling('disabling'),
+  requested('requested'),
+  ;
 
-extension LocalWriteForwardingStatusValueExtension
-    on LocalWriteForwardingStatus {
-  String toValue() {
-    switch (this) {
-      case LocalWriteForwardingStatus.enabled:
-        return 'enabled';
-      case LocalWriteForwardingStatus.disabled:
-        return 'disabled';
-      case LocalWriteForwardingStatus.enabling:
-        return 'enabling';
-      case LocalWriteForwardingStatus.disabling:
-        return 'disabling';
-      case LocalWriteForwardingStatus.requested:
-        return 'requested';
-    }
-  }
-}
+  final String value;
 
-extension LocalWriteForwardingStatusFromString on String {
-  LocalWriteForwardingStatus toLocalWriteForwardingStatus() {
-    switch (this) {
-      case 'enabled':
-        return LocalWriteForwardingStatus.enabled;
-      case 'disabled':
-        return LocalWriteForwardingStatus.disabled;
-      case 'enabling':
-        return LocalWriteForwardingStatus.enabling;
-      case 'disabling':
-        return LocalWriteForwardingStatus.disabling;
-      case 'requested':
-        return LocalWriteForwardingStatus.requested;
-    }
-    throw Exception('$this is not known in enum LocalWriteForwardingStatus');
-  }
+  const LocalWriteForwardingStatus(this.value);
+
+  static LocalWriteForwardingStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum LocalWriteForwardingStatus'));
 }
 
 /// Contains the secret managed by RDS in Amazon Web Services Secrets Manager
@@ -30491,12 +30099,15 @@ class ModifyActivityStreamResponse {
           _s.extractXmlBoolValue(elem, 'EngineNativeAuditFieldsIncluded'),
       kinesisStreamName: _s.extractXmlStringValue(elem, 'KinesisStreamName'),
       kmsKeyId: _s.extractXmlStringValue(elem, 'KmsKeyId'),
-      mode: _s.extractXmlStringValue(elem, 'Mode')?.toActivityStreamMode(),
+      mode: _s
+          .extractXmlStringValue(elem, 'Mode')
+          ?.let(ActivityStreamMode.fromString),
       policyStatus: _s
           .extractXmlStringValue(elem, 'PolicyStatus')
-          ?.toActivityStreamPolicyStatus(),
-      status:
-          _s.extractXmlStringValue(elem, 'Status')?.toActivityStreamStatus(),
+          ?.let(ActivityStreamPolicyStatus.fromString),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(ActivityStreamStatus.fromString),
     );
   }
 }
@@ -31675,8 +31286,9 @@ class Parameter {
   factory Parameter.fromXml(_s.XmlElement elem) {
     return Parameter(
       allowedValues: _s.extractXmlStringValue(elem, 'AllowedValues'),
-      applyMethod:
-          _s.extractXmlStringValue(elem, 'ApplyMethod')?.toApplyMethod(),
+      applyMethod: _s
+          .extractXmlStringValue(elem, 'ApplyMethod')
+          ?.let(ApplyMethod.fromString),
       applyType: _s.extractXmlStringValue(elem, 'ApplyType'),
       dataType: _s.extractXmlStringValue(elem, 'DataType'),
       description: _s.extractXmlStringValue(elem, 'Description'),
@@ -31706,7 +31318,7 @@ class Parameter {
     final supportedEngineModes = this.supportedEngineModes;
     return {
       if (allowedValues != null) 'AllowedValues': allowedValues,
-      if (applyMethod != null) 'ApplyMethod': applyMethod.toValue(),
+      if (applyMethod != null) 'ApplyMethod': applyMethod.value,
       if (applyType != null) 'ApplyType': applyType,
       if (dataType != null) 'DataType': dataType,
       if (description != null) 'Description': description,
@@ -31735,7 +31347,7 @@ class Parameter {
     final supportedEngineModes = this.supportedEngineModes;
     return {
       if (allowedValues != null) 'AllowedValues': allowedValues,
-      if (applyMethod != null) 'ApplyMethod': applyMethod.toValue(),
+      if (applyMethod != null) 'ApplyMethod': applyMethod.value,
       if (applyType != null) 'ApplyType': applyType,
       if (dataType != null) 'DataType': dataType,
       if (description != null) 'Description': description,
@@ -31989,8 +31601,9 @@ class PendingModifiedValues {
   factory PendingModifiedValues.fromXml(_s.XmlElement elem) {
     return PendingModifiedValues(
       allocatedStorage: _s.extractXmlIntValue(elem, 'AllocatedStorage'),
-      automationMode:
-          _s.extractXmlStringValue(elem, 'AutomationMode')?.toAutomationMode(),
+      automationMode: _s
+          .extractXmlStringValue(elem, 'AutomationMode')
+          ?.let(AutomationMode.fromString),
       backupRetentionPeriod:
           _s.extractXmlIntValue(elem, 'BackupRetentionPeriod'),
       cACertificateIdentifier:
@@ -32372,8 +31985,9 @@ class RdsCustomClusterConfiguration {
     return RdsCustomClusterConfiguration(
       interconnectSubnetId:
           _s.extractXmlStringValue(elem, 'InterconnectSubnetId'),
-      replicaMode:
-          _s.extractXmlStringValue(elem, 'ReplicaMode')?.toReplicaMode(),
+      replicaMode: _s
+          .extractXmlStringValue(elem, 'ReplicaMode')
+          ?.let(ReplicaMode.fromString),
       transitGatewayMulticastDomainId:
           _s.extractXmlStringValue(elem, 'TransitGatewayMulticastDomainId'),
     );
@@ -32387,7 +32001,7 @@ class RdsCustomClusterConfiguration {
     return {
       if (interconnectSubnetId != null)
         'InterconnectSubnetId': interconnectSubnetId,
-      if (replicaMode != null) 'ReplicaMode': replicaMode.toValue(),
+      if (replicaMode != null) 'ReplicaMode': replicaMode.value,
       if (transitGatewayMulticastDomainId != null)
         'TransitGatewayMulticastDomainId': transitGatewayMulticastDomainId,
     };
@@ -32401,7 +32015,7 @@ class RdsCustomClusterConfiguration {
     return {
       if (interconnectSubnetId != null)
         'InterconnectSubnetId': interconnectSubnetId,
-      if (replicaMode != null) 'ReplicaMode': replicaMode.toValue(),
+      if (replicaMode != null) 'ReplicaMode': replicaMode.value,
       if (transitGatewayMulticastDomainId != null)
         'TransitGatewayMulticastDomainId': transitGatewayMulticastDomainId,
     };
@@ -32686,31 +32300,17 @@ class RemoveSourceIdentifierFromSubscriptionResult {
 }
 
 enum ReplicaMode {
-  openReadOnly,
-  mounted,
-}
+  openReadOnly('open-read-only'),
+  mounted('mounted'),
+  ;
 
-extension ReplicaModeValueExtension on ReplicaMode {
-  String toValue() {
-    switch (this) {
-      case ReplicaMode.openReadOnly:
-        return 'open-read-only';
-      case ReplicaMode.mounted:
-        return 'mounted';
-    }
-  }
-}
+  final String value;
 
-extension ReplicaModeFromString on String {
-  ReplicaMode toReplicaMode() {
-    switch (this) {
-      case 'open-read-only':
-        return ReplicaMode.openReadOnly;
-      case 'mounted':
-        return ReplicaMode.mounted;
-    }
-    throw Exception('$this is not known in enum ReplicaMode');
-  }
+  const ReplicaMode(this.value);
+
+  static ReplicaMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ReplicaMode'));
 }
 
 /// This data type is used as a response element in the
@@ -33416,66 +33016,24 @@ class SourceRegionMessage {
 }
 
 enum SourceType {
-  dbInstance,
-  dbParameterGroup,
-  dbSecurityGroup,
-  dbSnapshot,
-  dbCluster,
-  dbClusterSnapshot,
-  customEngineVersion,
-  dbProxy,
-  blueGreenDeployment,
-}
+  dbInstance('db-instance'),
+  dbParameterGroup('db-parameter-group'),
+  dbSecurityGroup('db-security-group'),
+  dbSnapshot('db-snapshot'),
+  dbCluster('db-cluster'),
+  dbClusterSnapshot('db-cluster-snapshot'),
+  customEngineVersion('custom-engine-version'),
+  dbProxy('db-proxy'),
+  blueGreenDeployment('blue-green-deployment'),
+  ;
 
-extension SourceTypeValueExtension on SourceType {
-  String toValue() {
-    switch (this) {
-      case SourceType.dbInstance:
-        return 'db-instance';
-      case SourceType.dbParameterGroup:
-        return 'db-parameter-group';
-      case SourceType.dbSecurityGroup:
-        return 'db-security-group';
-      case SourceType.dbSnapshot:
-        return 'db-snapshot';
-      case SourceType.dbCluster:
-        return 'db-cluster';
-      case SourceType.dbClusterSnapshot:
-        return 'db-cluster-snapshot';
-      case SourceType.customEngineVersion:
-        return 'custom-engine-version';
-      case SourceType.dbProxy:
-        return 'db-proxy';
-      case SourceType.blueGreenDeployment:
-        return 'blue-green-deployment';
-    }
-  }
-}
+  final String value;
 
-extension SourceTypeFromString on String {
-  SourceType toSourceType() {
-    switch (this) {
-      case 'db-instance':
-        return SourceType.dbInstance;
-      case 'db-parameter-group':
-        return SourceType.dbParameterGroup;
-      case 'db-security-group':
-        return SourceType.dbSecurityGroup;
-      case 'db-snapshot':
-        return SourceType.dbSnapshot;
-      case 'db-cluster':
-        return SourceType.dbCluster;
-      case 'db-cluster-snapshot':
-        return SourceType.dbClusterSnapshot;
-      case 'custom-engine-version':
-        return SourceType.customEngineVersion;
-      case 'db-proxy':
-        return SourceType.dbProxy;
-      case 'blue-green-deployment':
-        return SourceType.blueGreenDeployment;
-    }
-    throw Exception('$this is not known in enum SourceType');
-  }
+  const SourceType(this.value);
+
+  static SourceType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SourceType'));
 }
 
 class StartActivityStreamResponse {
@@ -33516,9 +33074,12 @@ class StartActivityStreamResponse {
           _s.extractXmlBoolValue(elem, 'EngineNativeAuditFieldsIncluded'),
       kinesisStreamName: _s.extractXmlStringValue(elem, 'KinesisStreamName'),
       kmsKeyId: _s.extractXmlStringValue(elem, 'KmsKeyId'),
-      mode: _s.extractXmlStringValue(elem, 'Mode')?.toActivityStreamMode(),
-      status:
-          _s.extractXmlStringValue(elem, 'Status')?.toActivityStreamStatus(),
+      mode: _s
+          .extractXmlStringValue(elem, 'Mode')
+          ?.let(ActivityStreamMode.fromString),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(ActivityStreamStatus.fromString),
     );
   }
 }
@@ -33590,8 +33151,9 @@ class StopActivityStreamResponse {
     return StopActivityStreamResponse(
       kinesisStreamName: _s.extractXmlStringValue(elem, 'KinesisStreamName'),
       kmsKeyId: _s.extractXmlStringValue(elem, 'KmsKeyId'),
-      status:
-          _s.extractXmlStringValue(elem, 'Status')?.toActivityStreamStatus(),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(ActivityStreamStatus.fromString),
     );
   }
 }
@@ -33877,152 +33439,76 @@ class TargetHealth {
   factory TargetHealth.fromXml(_s.XmlElement elem) {
     return TargetHealth(
       description: _s.extractXmlStringValue(elem, 'Description'),
-      reason: _s.extractXmlStringValue(elem, 'Reason')?.toTargetHealthReason(),
-      state: _s.extractXmlStringValue(elem, 'State')?.toTargetState(),
+      reason: _s
+          .extractXmlStringValue(elem, 'Reason')
+          ?.let(TargetHealthReason.fromString),
+      state:
+          _s.extractXmlStringValue(elem, 'State')?.let(TargetState.fromString),
     );
   }
 }
 
 enum TargetHealthReason {
-  unreachable,
-  connectionFailed,
-  authFailure,
-  pendingProxyCapacity,
-  invalidReplicationState,
-}
+  unreachable('UNREACHABLE'),
+  connectionFailed('CONNECTION_FAILED'),
+  authFailure('AUTH_FAILURE'),
+  pendingProxyCapacity('PENDING_PROXY_CAPACITY'),
+  invalidReplicationState('INVALID_REPLICATION_STATE'),
+  ;
 
-extension TargetHealthReasonValueExtension on TargetHealthReason {
-  String toValue() {
-    switch (this) {
-      case TargetHealthReason.unreachable:
-        return 'UNREACHABLE';
-      case TargetHealthReason.connectionFailed:
-        return 'CONNECTION_FAILED';
-      case TargetHealthReason.authFailure:
-        return 'AUTH_FAILURE';
-      case TargetHealthReason.pendingProxyCapacity:
-        return 'PENDING_PROXY_CAPACITY';
-      case TargetHealthReason.invalidReplicationState:
-        return 'INVALID_REPLICATION_STATE';
-    }
-  }
-}
+  final String value;
 
-extension TargetHealthReasonFromString on String {
-  TargetHealthReason toTargetHealthReason() {
-    switch (this) {
-      case 'UNREACHABLE':
-        return TargetHealthReason.unreachable;
-      case 'CONNECTION_FAILED':
-        return TargetHealthReason.connectionFailed;
-      case 'AUTH_FAILURE':
-        return TargetHealthReason.authFailure;
-      case 'PENDING_PROXY_CAPACITY':
-        return TargetHealthReason.pendingProxyCapacity;
-      case 'INVALID_REPLICATION_STATE':
-        return TargetHealthReason.invalidReplicationState;
-    }
-    throw Exception('$this is not known in enum TargetHealthReason');
-  }
+  const TargetHealthReason(this.value);
+
+  static TargetHealthReason fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TargetHealthReason'));
 }
 
 enum TargetRole {
-  readWrite,
-  readOnly,
-  unknown,
-}
+  readWrite('READ_WRITE'),
+  readOnly('READ_ONLY'),
+  unknown('UNKNOWN'),
+  ;
 
-extension TargetRoleValueExtension on TargetRole {
-  String toValue() {
-    switch (this) {
-      case TargetRole.readWrite:
-        return 'READ_WRITE';
-      case TargetRole.readOnly:
-        return 'READ_ONLY';
-      case TargetRole.unknown:
-        return 'UNKNOWN';
-    }
-  }
-}
+  final String value;
 
-extension TargetRoleFromString on String {
-  TargetRole toTargetRole() {
-    switch (this) {
-      case 'READ_WRITE':
-        return TargetRole.readWrite;
-      case 'READ_ONLY':
-        return TargetRole.readOnly;
-      case 'UNKNOWN':
-        return TargetRole.unknown;
-    }
-    throw Exception('$this is not known in enum TargetRole');
-  }
+  const TargetRole(this.value);
+
+  static TargetRole fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TargetRole'));
 }
 
 enum TargetState {
-  registering,
-  available,
-  unavailable,
-}
+  registering('REGISTERING'),
+  available('AVAILABLE'),
+  unavailable('UNAVAILABLE'),
+  ;
 
-extension TargetStateValueExtension on TargetState {
-  String toValue() {
-    switch (this) {
-      case TargetState.registering:
-        return 'REGISTERING';
-      case TargetState.available:
-        return 'AVAILABLE';
-      case TargetState.unavailable:
-        return 'UNAVAILABLE';
-    }
-  }
-}
+  final String value;
 
-extension TargetStateFromString on String {
-  TargetState toTargetState() {
-    switch (this) {
-      case 'REGISTERING':
-        return TargetState.registering;
-      case 'AVAILABLE':
-        return TargetState.available;
-      case 'UNAVAILABLE':
-        return TargetState.unavailable;
-    }
-    throw Exception('$this is not known in enum TargetState');
-  }
+  const TargetState(this.value);
+
+  static TargetState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TargetState'));
 }
 
 enum TargetType {
-  rdsInstance,
-  rdsServerlessEndpoint,
-  trackedCluster,
-}
+  rdsInstance('RDS_INSTANCE'),
+  rdsServerlessEndpoint('RDS_SERVERLESS_ENDPOINT'),
+  trackedCluster('TRACKED_CLUSTER'),
+  ;
 
-extension TargetTypeValueExtension on TargetType {
-  String toValue() {
-    switch (this) {
-      case TargetType.rdsInstance:
-        return 'RDS_INSTANCE';
-      case TargetType.rdsServerlessEndpoint:
-        return 'RDS_SERVERLESS_ENDPOINT';
-      case TargetType.trackedCluster:
-        return 'TRACKED_CLUSTER';
-    }
-  }
-}
+  final String value;
 
-extension TargetTypeFromString on String {
-  TargetType toTargetType() {
-    switch (this) {
-      case 'RDS_INSTANCE':
-        return TargetType.rdsInstance;
-      case 'RDS_SERVERLESS_ENDPOINT':
-        return TargetType.rdsServerlessEndpoint;
-      case 'TRACKED_CLUSTER':
-        return TargetType.trackedCluster;
-    }
-    throw Exception('$this is not known in enum TargetType');
-  }
+  const TargetType(this.value);
+
+  static TargetType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TargetType'));
 }
 
 /// A tenant database in the DB instance. This data type is an element in the
@@ -34311,11 +33797,11 @@ class UserAuthConfig {
     final secretArn = this.secretArn;
     final userName = this.userName;
     return {
-      if (authScheme != null) 'AuthScheme': authScheme.toValue(),
+      if (authScheme != null) 'AuthScheme': authScheme.value,
       if (clientPasswordAuthType != null)
-        'ClientPasswordAuthType': clientPasswordAuthType.toValue(),
+        'ClientPasswordAuthType': clientPasswordAuthType.value,
       if (description != null) 'Description': description,
-      if (iAMAuth != null) 'IAMAuth': iAMAuth.toValue(),
+      if (iAMAuth != null) 'IAMAuth': iAMAuth.value,
       if (secretArn != null) 'SecretArn': secretArn,
       if (userName != null) 'UserName': userName,
     };
@@ -34329,11 +33815,11 @@ class UserAuthConfig {
     final secretArn = this.secretArn;
     final userName = this.userName;
     return {
-      if (authScheme != null) 'AuthScheme': authScheme.toValue(),
+      if (authScheme != null) 'AuthScheme': authScheme.value,
       if (clientPasswordAuthType != null)
-        'ClientPasswordAuthType': clientPasswordAuthType.toValue(),
+        'ClientPasswordAuthType': clientPasswordAuthType.value,
       if (description != null) 'Description': description,
-      if (iAMAuth != null) 'IAMAuth': iAMAuth.toValue(),
+      if (iAMAuth != null) 'IAMAuth': iAMAuth.value,
       if (secretArn != null) 'SecretArn': secretArn,
       if (userName != null) 'UserName': userName,
     };
@@ -34378,12 +33864,16 @@ class UserAuthConfigInfo {
   });
   factory UserAuthConfigInfo.fromXml(_s.XmlElement elem) {
     return UserAuthConfigInfo(
-      authScheme: _s.extractXmlStringValue(elem, 'AuthScheme')?.toAuthScheme(),
+      authScheme: _s
+          .extractXmlStringValue(elem, 'AuthScheme')
+          ?.let(AuthScheme.fromString),
       clientPasswordAuthType: _s
           .extractXmlStringValue(elem, 'ClientPasswordAuthType')
-          ?.toClientPasswordAuthType(),
+          ?.let(ClientPasswordAuthType.fromString),
       description: _s.extractXmlStringValue(elem, 'Description'),
-      iAMAuth: _s.extractXmlStringValue(elem, 'IAMAuth')?.toIAMAuthMode(),
+      iAMAuth: _s
+          .extractXmlStringValue(elem, 'IAMAuth')
+          ?.let(IAMAuthMode.fromString),
       secretArn: _s.extractXmlStringValue(elem, 'SecretArn'),
       userName: _s.extractXmlStringValue(elem, 'UserName'),
     );
@@ -34519,46 +34009,21 @@ class VpcSecurityGroupMembership {
 }
 
 enum WriteForwardingStatus {
-  enabled,
-  disabled,
-  enabling,
-  disabling,
-  unknown,
-}
+  enabled('enabled'),
+  disabled('disabled'),
+  enabling('enabling'),
+  disabling('disabling'),
+  unknown('unknown'),
+  ;
 
-extension WriteForwardingStatusValueExtension on WriteForwardingStatus {
-  String toValue() {
-    switch (this) {
-      case WriteForwardingStatus.enabled:
-        return 'enabled';
-      case WriteForwardingStatus.disabled:
-        return 'disabled';
-      case WriteForwardingStatus.enabling:
-        return 'enabling';
-      case WriteForwardingStatus.disabling:
-        return 'disabling';
-      case WriteForwardingStatus.unknown:
-        return 'unknown';
-    }
-  }
-}
+  final String value;
 
-extension WriteForwardingStatusFromString on String {
-  WriteForwardingStatus toWriteForwardingStatus() {
-    switch (this) {
-      case 'enabled':
-        return WriteForwardingStatus.enabled;
-      case 'disabled':
-        return WriteForwardingStatus.disabled;
-      case 'enabling':
-        return WriteForwardingStatus.enabling;
-      case 'disabling':
-        return WriteForwardingStatus.disabling;
-      case 'unknown':
-        return WriteForwardingStatus.unknown;
-    }
-    throw Exception('$this is not known in enum WriteForwardingStatus');
-  }
+  const WriteForwardingStatus(this.value);
+
+  static WriteForwardingStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum WriteForwardingStatus'));
 }
 
 class AuthorizationAlreadyExistsFault extends _s.GenericAwsException {

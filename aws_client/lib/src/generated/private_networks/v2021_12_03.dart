@@ -594,7 +594,7 @@ class Private5G {
     final $payload = <String, dynamic>{
       'networkArn': networkArn,
       if (filters != null)
-        'filters': filters.map((k, e) => MapEntry(k.toValue(), e)),
+        'filters': filters.map((k, e) => MapEntry(k.value, e)),
       if (maxResults != null) 'maxResults': maxResults,
       if (startToken != null) 'startToken': startToken,
     };
@@ -659,7 +659,7 @@ class Private5G {
     final $payload = <String, dynamic>{
       'networkArn': networkArn,
       if (filters != null)
-        'filters': filters.map((k, e) => MapEntry(k.toValue(), e)),
+        'filters': filters.map((k, e) => MapEntry(k.value, e)),
       if (maxResults != null) 'maxResults': maxResults,
       if (startToken != null) 'startToken': startToken,
     };
@@ -717,7 +717,7 @@ class Private5G {
     final $payload = <String, dynamic>{
       'networkArn': networkArn,
       if (filters != null)
-        'filters': filters.map((k, e) => MapEntry(k.toValue(), e)),
+        'filters': filters.map((k, e) => MapEntry(k.value, e)),
       if (maxResults != null) 'maxResults': maxResults,
       if (startToken != null) 'startToken': startToken,
     };
@@ -769,7 +769,7 @@ class Private5G {
     );
     final $payload = <String, dynamic>{
       if (filters != null)
-        'filters': filters.map((k, e) => MapEntry(k.toValue(), e)),
+        'filters': filters.map((k, e) => MapEntry(k.value, e)),
       if (maxResults != null) 'maxResults': maxResults,
       if (startToken != null) 'startToken': startToken,
     };
@@ -833,7 +833,7 @@ class Private5G {
     final $payload = <String, dynamic>{
       'networkArn': networkArn,
       if (filters != null)
-        'filters': filters.map((k, e) => MapEntry(k.toValue(), e)),
+        'filters': filters.map((k, e) => MapEntry(k.value, e)),
       if (maxResults != null) 'maxResults': maxResults,
       if (startToken != null) 'startToken': startToken,
     };
@@ -983,7 +983,7 @@ class Private5G {
   }) async {
     final $payload = <String, dynamic>{
       'networkResourceArn': networkResourceArn,
-      'updateType': updateType.toValue(),
+      'updateType': updateType.value,
       if (commitmentConfiguration != null)
         'commitmentConfiguration': commitmentConfiguration,
       if (returnReason != null) 'returnReason': returnReason,
@@ -1151,36 +1151,19 @@ class AcknowledgeOrderReceiptResponse {
 }
 
 enum AcknowledgmentStatus {
-  acknowledging,
-  acknowledged,
-  unacknowledged,
-}
+  acknowledging('ACKNOWLEDGING'),
+  acknowledged('ACKNOWLEDGED'),
+  unacknowledged('UNACKNOWLEDGED'),
+  ;
 
-extension AcknowledgmentStatusValueExtension on AcknowledgmentStatus {
-  String toValue() {
-    switch (this) {
-      case AcknowledgmentStatus.acknowledging:
-        return 'ACKNOWLEDGING';
-      case AcknowledgmentStatus.acknowledged:
-        return 'ACKNOWLEDGED';
-      case AcknowledgmentStatus.unacknowledged:
-        return 'UNACKNOWLEDGED';
-    }
-  }
-}
+  final String value;
 
-extension AcknowledgmentStatusFromString on String {
-  AcknowledgmentStatus toAcknowledgmentStatus() {
-    switch (this) {
-      case 'ACKNOWLEDGING':
-        return AcknowledgmentStatus.acknowledging;
-      case 'ACKNOWLEDGED':
-        return AcknowledgmentStatus.acknowledged;
-      case 'UNACKNOWLEDGED':
-        return AcknowledgmentStatus.unacknowledged;
-    }
-    throw Exception('$this is not known in enum AcknowledgmentStatus');
-  }
+  const AcknowledgmentStatus(this.value);
+
+  static AcknowledgmentStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AcknowledgmentStatus'));
 }
 
 class ActivateDeviceIdentifierResponse {
@@ -1379,7 +1362,7 @@ class CommitmentConfiguration {
     return CommitmentConfiguration(
       automaticRenewal: json['automaticRenewal'] as bool,
       commitmentLength:
-          (json['commitmentLength'] as String).toCommitmentLength(),
+          CommitmentLength.fromString((json['commitmentLength'] as String)),
     );
   }
 
@@ -1388,7 +1371,7 @@ class CommitmentConfiguration {
     final commitmentLength = this.commitmentLength;
     return {
       'automaticRenewal': automaticRenewal,
-      'commitmentLength': commitmentLength.toValue(),
+      'commitmentLength': commitmentLength.value,
     };
   }
 }
@@ -1435,36 +1418,19 @@ class CommitmentInformation {
 }
 
 enum CommitmentLength {
-  sixtyDays,
-  oneYear,
-  threeYears,
-}
+  sixtyDays('SIXTY_DAYS'),
+  oneYear('ONE_YEAR'),
+  threeYears('THREE_YEARS'),
+  ;
 
-extension CommitmentLengthValueExtension on CommitmentLength {
-  String toValue() {
-    switch (this) {
-      case CommitmentLength.sixtyDays:
-        return 'SIXTY_DAYS';
-      case CommitmentLength.oneYear:
-        return 'ONE_YEAR';
-      case CommitmentLength.threeYears:
-        return 'THREE_YEARS';
-    }
-  }
-}
+  final String value;
 
-extension CommitmentLengthFromString on String {
-  CommitmentLength toCommitmentLength() {
-    switch (this) {
-      case 'SIXTY_DAYS':
-        return CommitmentLength.sixtyDays;
-      case 'ONE_YEAR':
-        return CommitmentLength.oneYear;
-      case 'THREE_YEARS':
-        return CommitmentLength.threeYears;
-    }
-    throw Exception('$this is not known in enum CommitmentLength');
-  }
+  const CommitmentLength(this.value);
+
+  static CommitmentLength fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CommitmentLength'));
 }
 
 class ConfigureAccessPointResponse {
@@ -1674,7 +1640,8 @@ class DeviceIdentifier {
       imsi: json['imsi'] as String?,
       networkArn: json['networkArn'] as String?,
       orderArn: json['orderArn'] as String?,
-      status: (json['status'] as String?)?.toDeviceIdentifierStatus(),
+      status:
+          (json['status'] as String?)?.let(DeviceIdentifierStatus.fromString),
       trafficGroupArn: json['trafficGroupArn'] as String?,
       vendor: json['vendor'] as String?,
     );
@@ -1698,7 +1665,7 @@ class DeviceIdentifier {
       if (imsi != null) 'imsi': imsi,
       if (networkArn != null) 'networkArn': networkArn,
       if (orderArn != null) 'orderArn': orderArn,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (trafficGroupArn != null) 'trafficGroupArn': trafficGroupArn,
       if (vendor != null) 'vendor': vendor,
     };
@@ -1706,116 +1673,63 @@ class DeviceIdentifier {
 }
 
 enum DeviceIdentifierFilterKeys {
-  status,
-  order,
-  trafficGroup,
-}
+  status('STATUS'),
+  order('ORDER'),
+  trafficGroup('TRAFFIC_GROUP'),
+  ;
 
-extension DeviceIdentifierFilterKeysValueExtension
-    on DeviceIdentifierFilterKeys {
-  String toValue() {
-    switch (this) {
-      case DeviceIdentifierFilterKeys.status:
-        return 'STATUS';
-      case DeviceIdentifierFilterKeys.order:
-        return 'ORDER';
-      case DeviceIdentifierFilterKeys.trafficGroup:
-        return 'TRAFFIC_GROUP';
-    }
-  }
-}
+  final String value;
 
-extension DeviceIdentifierFilterKeysFromString on String {
-  DeviceIdentifierFilterKeys toDeviceIdentifierFilterKeys() {
-    switch (this) {
-      case 'STATUS':
-        return DeviceIdentifierFilterKeys.status;
-      case 'ORDER':
-        return DeviceIdentifierFilterKeys.order;
-      case 'TRAFFIC_GROUP':
-        return DeviceIdentifierFilterKeys.trafficGroup;
-    }
-    throw Exception('$this is not known in enum DeviceIdentifierFilterKeys');
-  }
+  const DeviceIdentifierFilterKeys(this.value);
+
+  static DeviceIdentifierFilterKeys fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DeviceIdentifierFilterKeys'));
 }
 
 enum DeviceIdentifierStatus {
-  active,
-  inactive,
-}
+  active('ACTIVE'),
+  inactive('INACTIVE'),
+  ;
 
-extension DeviceIdentifierStatusValueExtension on DeviceIdentifierStatus {
-  String toValue() {
-    switch (this) {
-      case DeviceIdentifierStatus.active:
-        return 'ACTIVE';
-      case DeviceIdentifierStatus.inactive:
-        return 'INACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension DeviceIdentifierStatusFromString on String {
-  DeviceIdentifierStatus toDeviceIdentifierStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return DeviceIdentifierStatus.active;
-      case 'INACTIVE':
-        return DeviceIdentifierStatus.inactive;
-    }
-    throw Exception('$this is not known in enum DeviceIdentifierStatus');
-  }
+  const DeviceIdentifierStatus(this.value);
+
+  static DeviceIdentifierStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DeviceIdentifierStatus'));
 }
 
 enum ElevationReference {
-  agl,
-  amsl,
-}
+  agl('AGL'),
+  amsl('AMSL'),
+  ;
 
-extension ElevationReferenceValueExtension on ElevationReference {
-  String toValue() {
-    switch (this) {
-      case ElevationReference.agl:
-        return 'AGL';
-      case ElevationReference.amsl:
-        return 'AMSL';
-    }
-  }
-}
+  final String value;
 
-extension ElevationReferenceFromString on String {
-  ElevationReference toElevationReference() {
-    switch (this) {
-      case 'AGL':
-        return ElevationReference.agl;
-      case 'AMSL':
-        return ElevationReference.amsl;
-    }
-    throw Exception('$this is not known in enum ElevationReference');
-  }
+  const ElevationReference(this.value);
+
+  static ElevationReference fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ElevationReference'));
 }
 
 enum ElevationUnit {
-  feet,
-}
+  feet('FEET'),
+  ;
 
-extension ElevationUnitValueExtension on ElevationUnit {
-  String toValue() {
-    switch (this) {
-      case ElevationUnit.feet:
-        return 'FEET';
-    }
-  }
-}
+  final String value;
 
-extension ElevationUnitFromString on String {
-  ElevationUnit toElevationUnit() {
-    switch (this) {
-      case 'FEET':
-        return ElevationUnit.feet;
-    }
-    throw Exception('$this is not known in enum ElevationUnit');
-  }
+  const ElevationUnit(this.value);
+
+  static ElevationUnit fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ElevationUnit'));
 }
 
 class GetDeviceIdentifierResponse {
@@ -1975,36 +1889,19 @@ class GetOrderResponse {
 }
 
 enum HealthStatus {
-  initial,
-  healthy,
-  unhealthy,
-}
+  initial('INITIAL'),
+  healthy('HEALTHY'),
+  unhealthy('UNHEALTHY'),
+  ;
 
-extension HealthStatusValueExtension on HealthStatus {
-  String toValue() {
-    switch (this) {
-      case HealthStatus.initial:
-        return 'INITIAL';
-      case HealthStatus.healthy:
-        return 'HEALTHY';
-      case HealthStatus.unhealthy:
-        return 'UNHEALTHY';
-    }
-  }
-}
+  final String value;
 
-extension HealthStatusFromString on String {
-  HealthStatus toHealthStatus() {
-    switch (this) {
-      case 'INITIAL':
-        return HealthStatus.initial;
-      case 'HEALTHY':
-        return HealthStatus.healthy;
-      case 'UNHEALTHY':
-        return HealthStatus.unhealthy;
-    }
-    throw Exception('$this is not known in enum HealthStatus');
-  }
+  const HealthStatus(this.value);
+
+  static HealthStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum HealthStatus'));
 }
 
 class ListDeviceIdentifiersResponse {
@@ -2253,7 +2150,7 @@ class Network {
     return Network(
       networkArn: json['networkArn'] as String,
       networkName: json['networkName'] as String,
-      status: (json['status'] as String).toNetworkStatus(),
+      status: NetworkStatus.fromString((json['status'] as String)),
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
       statusReason: json['statusReason'] as String?,
@@ -2270,7 +2167,7 @@ class Network {
     return {
       'networkArn': networkArn,
       'networkName': networkName,
-      'status': status.toValue(),
+      'status': status.value,
       if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
       if (description != null) 'description': description,
       if (statusReason != null) 'statusReason': statusReason,
@@ -2279,26 +2176,17 @@ class Network {
 }
 
 enum NetworkFilterKeys {
-  status,
-}
+  status('STATUS'),
+  ;
 
-extension NetworkFilterKeysValueExtension on NetworkFilterKeys {
-  String toValue() {
-    switch (this) {
-      case NetworkFilterKeys.status:
-        return 'STATUS';
-    }
-  }
-}
+  final String value;
 
-extension NetworkFilterKeysFromString on String {
-  NetworkFilterKeys toNetworkFilterKeys() {
-    switch (this) {
-      case 'STATUS':
-        return NetworkFilterKeys.status;
-    }
-    throw Exception('$this is not known in enum NetworkFilterKeys');
-  }
+  const NetworkFilterKeys(this.value);
+
+  static NetworkFilterKeys fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum NetworkFilterKeys'));
 }
 
 /// Information about a network resource.
@@ -2391,7 +2279,7 @@ class NetworkResource {
           : null,
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
-      health: (json['health'] as String?)?.toHealthStatus(),
+      health: (json['health'] as String?)?.let(HealthStatus.fromString),
       model: json['model'] as String?,
       networkArn: json['networkArn'] as String?,
       networkResourceArn: json['networkResourceArn'] as String?,
@@ -2405,9 +2293,10 @@ class NetworkResource {
               json['returnInformation'] as Map<String, dynamic>)
           : null,
       serialNumber: json['serialNumber'] as String?,
-      status: (json['status'] as String?)?.toNetworkResourceStatus(),
+      status:
+          (json['status'] as String?)?.let(NetworkResourceStatus.fromString),
       statusReason: json['statusReason'] as String?,
-      type: (json['type'] as String?)?.toNetworkResourceType(),
+      type: (json['type'] as String?)?.let(NetworkResourceType.fromString),
       vendor: json['vendor'] as String?,
     );
   }
@@ -2436,7 +2325,7 @@ class NetworkResource {
         'commitmentInformation': commitmentInformation,
       if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
       if (description != null) 'description': description,
-      if (health != null) 'health': health.toValue(),
+      if (health != null) 'health': health.value,
       if (model != null) 'model': model,
       if (networkArn != null) 'networkArn': networkArn,
       if (networkResourceArn != null) 'networkResourceArn': networkResourceArn,
@@ -2445,9 +2334,9 @@ class NetworkResource {
       if (position != null) 'position': position,
       if (returnInformation != null) 'returnInformation': returnInformation,
       if (serialNumber != null) 'serialNumber': serialNumber,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (statusReason != null) 'statusReason': statusReason,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
       if (vendor != null) 'vendor': vendor,
     };
   }
@@ -2473,7 +2362,7 @@ class NetworkResourceDefinition {
   factory NetworkResourceDefinition.fromJson(Map<String, dynamic> json) {
     return NetworkResourceDefinition(
       count: json['count'] as int,
-      type: (json['type'] as String).toNetworkResourceDefinitionType(),
+      type: NetworkResourceDefinitionType.fromString((json['type'] as String)),
       options: (json['options'] as List?)
           ?.whereNotNull()
           .map((e) => NameValuePair.fromJson(e as Map<String, dynamic>))
@@ -2487,153 +2376,76 @@ class NetworkResourceDefinition {
     final options = this.options;
     return {
       'count': count,
-      'type': type.toValue(),
+      'type': type.value,
       if (options != null) 'options': options,
     };
   }
 }
 
 enum NetworkResourceDefinitionType {
-  radioUnit,
-  deviceIdentifier,
-}
+  radioUnit('RADIO_UNIT'),
+  deviceIdentifier('DEVICE_IDENTIFIER'),
+  ;
 
-extension NetworkResourceDefinitionTypeValueExtension
-    on NetworkResourceDefinitionType {
-  String toValue() {
-    switch (this) {
-      case NetworkResourceDefinitionType.radioUnit:
-        return 'RADIO_UNIT';
-      case NetworkResourceDefinitionType.deviceIdentifier:
-        return 'DEVICE_IDENTIFIER';
-    }
-  }
-}
+  final String value;
 
-extension NetworkResourceDefinitionTypeFromString on String {
-  NetworkResourceDefinitionType toNetworkResourceDefinitionType() {
-    switch (this) {
-      case 'RADIO_UNIT':
-        return NetworkResourceDefinitionType.radioUnit;
-      case 'DEVICE_IDENTIFIER':
-        return NetworkResourceDefinitionType.deviceIdentifier;
-    }
-    throw Exception('$this is not known in enum NetworkResourceDefinitionType');
-  }
+  const NetworkResourceDefinitionType(this.value);
+
+  static NetworkResourceDefinitionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum NetworkResourceDefinitionType'));
 }
 
 enum NetworkResourceFilterKeys {
-  order,
-  status,
-}
+  order('ORDER'),
+  status('STATUS'),
+  ;
 
-extension NetworkResourceFilterKeysValueExtension on NetworkResourceFilterKeys {
-  String toValue() {
-    switch (this) {
-      case NetworkResourceFilterKeys.order:
-        return 'ORDER';
-      case NetworkResourceFilterKeys.status:
-        return 'STATUS';
-    }
-  }
-}
+  final String value;
 
-extension NetworkResourceFilterKeysFromString on String {
-  NetworkResourceFilterKeys toNetworkResourceFilterKeys() {
-    switch (this) {
-      case 'ORDER':
-        return NetworkResourceFilterKeys.order;
-      case 'STATUS':
-        return NetworkResourceFilterKeys.status;
-    }
-    throw Exception('$this is not known in enum NetworkResourceFilterKeys');
-  }
+  const NetworkResourceFilterKeys(this.value);
+
+  static NetworkResourceFilterKeys fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum NetworkResourceFilterKeys'));
 }
 
 enum NetworkResourceStatus {
-  pending,
-  shipped,
-  provisioning,
-  provisioned,
-  available,
-  deleting,
-  pendingReturn,
-  deleted,
-  creatingShippingLabel,
-}
+  pending('PENDING'),
+  shipped('SHIPPED'),
+  provisioning('PROVISIONING'),
+  provisioned('PROVISIONED'),
+  available('AVAILABLE'),
+  deleting('DELETING'),
+  pendingReturn('PENDING_RETURN'),
+  deleted('DELETED'),
+  creatingShippingLabel('CREATING_SHIPPING_LABEL'),
+  ;
 
-extension NetworkResourceStatusValueExtension on NetworkResourceStatus {
-  String toValue() {
-    switch (this) {
-      case NetworkResourceStatus.pending:
-        return 'PENDING';
-      case NetworkResourceStatus.shipped:
-        return 'SHIPPED';
-      case NetworkResourceStatus.provisioning:
-        return 'PROVISIONING';
-      case NetworkResourceStatus.provisioned:
-        return 'PROVISIONED';
-      case NetworkResourceStatus.available:
-        return 'AVAILABLE';
-      case NetworkResourceStatus.deleting:
-        return 'DELETING';
-      case NetworkResourceStatus.pendingReturn:
-        return 'PENDING_RETURN';
-      case NetworkResourceStatus.deleted:
-        return 'DELETED';
-      case NetworkResourceStatus.creatingShippingLabel:
-        return 'CREATING_SHIPPING_LABEL';
-    }
-  }
-}
+  final String value;
 
-extension NetworkResourceStatusFromString on String {
-  NetworkResourceStatus toNetworkResourceStatus() {
-    switch (this) {
-      case 'PENDING':
-        return NetworkResourceStatus.pending;
-      case 'SHIPPED':
-        return NetworkResourceStatus.shipped;
-      case 'PROVISIONING':
-        return NetworkResourceStatus.provisioning;
-      case 'PROVISIONED':
-        return NetworkResourceStatus.provisioned;
-      case 'AVAILABLE':
-        return NetworkResourceStatus.available;
-      case 'DELETING':
-        return NetworkResourceStatus.deleting;
-      case 'PENDING_RETURN':
-        return NetworkResourceStatus.pendingReturn;
-      case 'DELETED':
-        return NetworkResourceStatus.deleted;
-      case 'CREATING_SHIPPING_LABEL':
-        return NetworkResourceStatus.creatingShippingLabel;
-    }
-    throw Exception('$this is not known in enum NetworkResourceStatus');
-  }
+  const NetworkResourceStatus(this.value);
+
+  static NetworkResourceStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum NetworkResourceStatus'));
 }
 
 enum NetworkResourceType {
-  radioUnit,
-}
+  radioUnit('RADIO_UNIT'),
+  ;
 
-extension NetworkResourceTypeValueExtension on NetworkResourceType {
-  String toValue() {
-    switch (this) {
-      case NetworkResourceType.radioUnit:
-        return 'RADIO_UNIT';
-    }
-  }
-}
+  final String value;
 
-extension NetworkResourceTypeFromString on String {
-  NetworkResourceType toNetworkResourceType() {
-    switch (this) {
-      case 'RADIO_UNIT':
-        return NetworkResourceType.radioUnit;
-    }
-    throw Exception('$this is not known in enum NetworkResourceType');
-  }
+  const NetworkResourceType(this.value);
+
+  static NetworkResourceType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum NetworkResourceType'));
 }
 
 /// Information about a network site.
@@ -2691,7 +2503,7 @@ class NetworkSite {
       networkArn: json['networkArn'] as String,
       networkSiteArn: json['networkSiteArn'] as String,
       networkSiteName: json['networkSiteName'] as String,
-      status: (json['status'] as String).toNetworkSiteStatus(),
+      status: NetworkSiteStatus.fromString((json['status'] as String)),
       availabilityZone: json['availabilityZone'] as String?,
       availabilityZoneId: json['availabilityZoneId'] as String?,
       createdAt: timeStampFromJson(json['createdAt']),
@@ -2722,7 +2534,7 @@ class NetworkSite {
       'networkArn': networkArn,
       'networkSiteArn': networkSiteArn,
       'networkSiteName': networkSiteName,
-      'status': status.toValue(),
+      'status': status.value,
       if (availabilityZone != null) 'availabilityZone': availabilityZone,
       if (availabilityZoneId != null) 'availabilityZoneId': availabilityZoneId,
       if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
@@ -2735,112 +2547,53 @@ class NetworkSite {
 }
 
 enum NetworkSiteFilterKeys {
-  status,
-}
+  status('STATUS'),
+  ;
 
-extension NetworkSiteFilterKeysValueExtension on NetworkSiteFilterKeys {
-  String toValue() {
-    switch (this) {
-      case NetworkSiteFilterKeys.status:
-        return 'STATUS';
-    }
-  }
-}
+  final String value;
 
-extension NetworkSiteFilterKeysFromString on String {
-  NetworkSiteFilterKeys toNetworkSiteFilterKeys() {
-    switch (this) {
-      case 'STATUS':
-        return NetworkSiteFilterKeys.status;
-    }
-    throw Exception('$this is not known in enum NetworkSiteFilterKeys');
-  }
+  const NetworkSiteFilterKeys(this.value);
+
+  static NetworkSiteFilterKeys fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum NetworkSiteFilterKeys'));
 }
 
 enum NetworkSiteStatus {
-  created,
-  provisioning,
-  available,
-  deprovisioning,
-  deleted,
-}
+  created('CREATED'),
+  provisioning('PROVISIONING'),
+  available('AVAILABLE'),
+  deprovisioning('DEPROVISIONING'),
+  deleted('DELETED'),
+  ;
 
-extension NetworkSiteStatusValueExtension on NetworkSiteStatus {
-  String toValue() {
-    switch (this) {
-      case NetworkSiteStatus.created:
-        return 'CREATED';
-      case NetworkSiteStatus.provisioning:
-        return 'PROVISIONING';
-      case NetworkSiteStatus.available:
-        return 'AVAILABLE';
-      case NetworkSiteStatus.deprovisioning:
-        return 'DEPROVISIONING';
-      case NetworkSiteStatus.deleted:
-        return 'DELETED';
-    }
-  }
-}
+  final String value;
 
-extension NetworkSiteStatusFromString on String {
-  NetworkSiteStatus toNetworkSiteStatus() {
-    switch (this) {
-      case 'CREATED':
-        return NetworkSiteStatus.created;
-      case 'PROVISIONING':
-        return NetworkSiteStatus.provisioning;
-      case 'AVAILABLE':
-        return NetworkSiteStatus.available;
-      case 'DEPROVISIONING':
-        return NetworkSiteStatus.deprovisioning;
-      case 'DELETED':
-        return NetworkSiteStatus.deleted;
-    }
-    throw Exception('$this is not known in enum NetworkSiteStatus');
-  }
+  const NetworkSiteStatus(this.value);
+
+  static NetworkSiteStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum NetworkSiteStatus'));
 }
 
 enum NetworkStatus {
-  created,
-  provisioning,
-  available,
-  deprovisioning,
-  deleted,
-}
+  created('CREATED'),
+  provisioning('PROVISIONING'),
+  available('AVAILABLE'),
+  deprovisioning('DEPROVISIONING'),
+  deleted('DELETED'),
+  ;
 
-extension NetworkStatusValueExtension on NetworkStatus {
-  String toValue() {
-    switch (this) {
-      case NetworkStatus.created:
-        return 'CREATED';
-      case NetworkStatus.provisioning:
-        return 'PROVISIONING';
-      case NetworkStatus.available:
-        return 'AVAILABLE';
-      case NetworkStatus.deprovisioning:
-        return 'DEPROVISIONING';
-      case NetworkStatus.deleted:
-        return 'DELETED';
-    }
-  }
-}
+  final String value;
 
-extension NetworkStatusFromString on String {
-  NetworkStatus toNetworkStatus() {
-    switch (this) {
-      case 'CREATED':
-        return NetworkStatus.created;
-      case 'PROVISIONING':
-        return NetworkStatus.provisioning;
-      case 'AVAILABLE':
-        return NetworkStatus.available;
-      case 'DEPROVISIONING':
-        return NetworkStatus.deprovisioning;
-      case 'DELETED':
-        return NetworkStatus.deleted;
-    }
-    throw Exception('$this is not known in enum NetworkStatus');
-  }
+  const NetworkStatus(this.value);
+
+  static NetworkStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum NetworkStatus'));
 }
 
 /// Information about an order.
@@ -2883,8 +2636,8 @@ class Order {
 
   factory Order.fromJson(Map<String, dynamic> json) {
     return Order(
-      acknowledgmentStatus:
-          (json['acknowledgmentStatus'] as String?)?.toAcknowledgmentStatus(),
+      acknowledgmentStatus: (json['acknowledgmentStatus'] as String?)
+          ?.let(AcknowledgmentStatus.fromString),
       createdAt: timeStampFromJson(json['createdAt']),
       networkArn: json['networkArn'] as String?,
       networkSiteArn: json['networkSiteArn'] as String?,
@@ -2915,7 +2668,7 @@ class Order {
     final trackingInformation = this.trackingInformation;
     return {
       if (acknowledgmentStatus != null)
-        'acknowledgmentStatus': acknowledgmentStatus.toValue(),
+        'acknowledgmentStatus': acknowledgmentStatus.value,
       if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
       if (networkArn != null) 'networkArn': networkArn,
       if (networkSiteArn != null) 'networkSiteArn': networkSiteArn,
@@ -2929,31 +2682,18 @@ class Order {
 }
 
 enum OrderFilterKeys {
-  status,
-  networkSite,
-}
+  status('STATUS'),
+  networkSite('NETWORK_SITE'),
+  ;
 
-extension OrderFilterKeysValueExtension on OrderFilterKeys {
-  String toValue() {
-    switch (this) {
-      case OrderFilterKeys.status:
-        return 'STATUS';
-      case OrderFilterKeys.networkSite:
-        return 'NETWORK_SITE';
-    }
-  }
-}
+  final String value;
 
-extension OrderFilterKeysFromString on String {
-  OrderFilterKeys toOrderFilterKeys() {
-    switch (this) {
-      case 'STATUS':
-        return OrderFilterKeys.status;
-      case 'NETWORK_SITE':
-        return OrderFilterKeys.networkSite;
-    }
-    throw Exception('$this is not known in enum OrderFilterKeys');
-  }
+  const OrderFilterKeys(this.value);
+
+  static OrderFilterKeys fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OrderFilterKeys'));
 }
 
 /// Details of the network resources in the order.
@@ -2978,7 +2718,7 @@ class OrderedResourceDefinition {
   factory OrderedResourceDefinition.fromJson(Map<String, dynamic> json) {
     return OrderedResourceDefinition(
       count: json['count'] as int,
-      type: (json['type'] as String).toNetworkResourceDefinitionType(),
+      type: NetworkResourceDefinitionType.fromString((json['type'] as String)),
       commitmentConfiguration: json['commitmentConfiguration'] != null
           ? CommitmentConfiguration.fromJson(
               json['commitmentConfiguration'] as Map<String, dynamic>)
@@ -2992,7 +2732,7 @@ class OrderedResourceDefinition {
     final commitmentConfiguration = this.commitmentConfiguration;
     return {
       'count': count,
-      'type': type.toValue(),
+      'type': type.value,
       if (commitmentConfiguration != null)
         'commitmentConfiguration': commitmentConfiguration,
     };
@@ -3049,9 +2789,10 @@ class Position {
   factory Position.fromJson(Map<String, dynamic> json) {
     return Position(
       elevation: json['elevation'] as double?,
-      elevationReference:
-          (json['elevationReference'] as String?)?.toElevationReference(),
-      elevationUnit: (json['elevationUnit'] as String?)?.toElevationUnit(),
+      elevationReference: (json['elevationReference'] as String?)
+          ?.let(ElevationReference.fromString),
+      elevationUnit:
+          (json['elevationUnit'] as String?)?.let(ElevationUnit.fromString),
       latitude: json['latitude'] as double?,
       longitude: json['longitude'] as double?,
     );
@@ -3066,8 +2807,8 @@ class Position {
     return {
       if (elevation != null) 'elevation': elevation,
       if (elevationReference != null)
-        'elevationReference': elevationReference.toValue(),
-      if (elevationUnit != null) 'elevationUnit': elevationUnit.toValue(),
+        'elevationReference': elevationReference.value,
+      if (elevationUnit != null) 'elevationUnit': elevationUnit.value,
       if (latitude != null) 'latitude': latitude,
       if (longitude != null) 'longitude': longitude,
     };
@@ -3270,36 +3011,18 @@ class UpdateNetworkSiteResponse {
 }
 
 enum UpdateType {
-  replace,
-  $return,
-  commitment,
-}
+  replace('REPLACE'),
+  $return('RETURN'),
+  commitment('COMMITMENT'),
+  ;
 
-extension UpdateTypeValueExtension on UpdateType {
-  String toValue() {
-    switch (this) {
-      case UpdateType.replace:
-        return 'REPLACE';
-      case UpdateType.$return:
-        return 'RETURN';
-      case UpdateType.commitment:
-        return 'COMMITMENT';
-    }
-  }
-}
+  final String value;
 
-extension UpdateTypeFromString on String {
-  UpdateType toUpdateType() {
-    switch (this) {
-      case 'REPLACE':
-        return UpdateType.replace;
-      case 'RETURN':
-        return UpdateType.$return;
-      case 'COMMITMENT':
-        return UpdateType.commitment;
-    }
-    throw Exception('$this is not known in enum UpdateType');
-  }
+  const UpdateType(this.value);
+
+  static UpdateType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum UpdateType'));
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

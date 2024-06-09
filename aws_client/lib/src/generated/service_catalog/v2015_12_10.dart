@@ -113,7 +113,7 @@ class ServiceCatalog {
         'PortfolioId': portfolioId,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
         if (portfolioShareType != null)
-          'PortfolioShareType': portfolioShareType.toValue(),
+          'PortfolioShareType': portfolioShareType.value,
       },
     );
   }
@@ -288,7 +288,7 @@ class ServiceCatalog {
       payload: {
         'PortfolioId': portfolioId,
         'PrincipalARN': principalARN,
-        'PrincipalType': principalType.toValue(),
+        'PrincipalType': principalType.value,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
       },
     );
@@ -611,12 +611,12 @@ class ServiceCatalog {
         'SourceProductArn': sourceProductArn,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
         if (copyOptions != null)
-          'CopyOptions': copyOptions.map((e) => e.toValue()).toList(),
+          'CopyOptions': copyOptions.map((e) => e.value).toList(),
         'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
         if (sourceProvisioningArtifactIdentifiers != null)
           'SourceProvisioningArtifactIdentifiers':
               sourceProvisioningArtifactIdentifiers
-                  .map((e) => e.map((k, e) => MapEntry(k.toValue(), e)))
+                  .map((e) => e.map((k, e) => MapEntry(k.value, e)))
                   .toList(),
         if (targetProductId != null) 'TargetProductId': targetProductId,
         if (targetProductName != null) 'TargetProductName': targetProductName,
@@ -1068,7 +1068,7 @@ class ServiceCatalog {
       payload: {
         'Name': name,
         'Owner': owner,
-        'ProductType': productType.toValue(),
+        'ProductType': productType.value,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
         if (description != null) 'Description': description,
         if (distributor != null) 'Distributor': distributor,
@@ -1184,7 +1184,7 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'PlanName': planName,
-        'PlanType': planType.toValue(),
+        'PlanType': planType.value,
         'ProductId': productId,
         'ProvisionedProductName': provisionedProductName,
         'ProvisioningArtifactId': provisioningArtifactId,
@@ -1340,8 +1340,8 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Definition': definition.map((k, e) => MapEntry(k.toValue(), e)),
-        'DefinitionType': definitionType.toValue(),
+        'Definition': definition.map((k, e) => MapEntry(k.value, e)),
+        'DefinitionType': definitionType.value,
         'Name': name,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
         if (description != null) 'Description': description,
@@ -1976,7 +1976,7 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'PortfolioId': portfolioId,
-        'Type': type.toValue(),
+        'Type': type.value,
         if (pageSize != null) 'PageSize': pageSize,
         if (pageToken != null) 'PageToken': pageToken,
       },
@@ -2749,7 +2749,7 @@ class ServiceCatalog {
         'PortfolioId': portfolioId,
         'PrincipalARN': principalARN,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (principalType != null) 'PrincipalType': principalType.toValue(),
+        if (principalType != null) 'PrincipalType': principalType.value,
       },
     );
   }
@@ -3321,7 +3321,7 @@ class ServiceCatalog {
         if (pageSize != null) 'PageSize': pageSize,
         if (pageToken != null) 'PageToken': pageToken,
         if (portfolioShareType != null)
-          'PortfolioShareType': portfolioShareType.toValue(),
+          'PortfolioShareType': portfolioShareType.value,
       },
     );
 
@@ -3595,7 +3595,7 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'OrganizationNodeType': organizationNodeType.toValue(),
+        'OrganizationNodeType': organizationNodeType.value,
         'PortfolioId': portfolioId,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
         if (pageSize != null) 'PageSize': pageSize,
@@ -4429,7 +4429,7 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'RecordId': recordId,
-        'Status': status.toValue(),
+        'Status': status.value,
         'WorkflowToken': workflowToken,
         if (failureReason != null) 'FailureReason': failureReason,
         'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
@@ -4481,7 +4481,7 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'RecordId': recordId,
-        'Status': status.toValue(),
+        'Status': status.value,
         'WorkflowToken': workflowToken,
         if (failureReason != null) 'FailureReason': failureReason,
         'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
@@ -4533,7 +4533,7 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'RecordId': recordId,
-        'Status': status.toValue(),
+        'Status': status.value,
         'WorkflowToken': workflowToken,
         if (failureReason != null) 'FailureReason': failureReason,
         'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
@@ -4729,7 +4729,7 @@ class ServiceCatalog {
         'PortfolioId': portfolioId,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
         if (portfolioShareType != null)
-          'PortfolioShareType': portfolioShareType.toValue(),
+          'PortfolioShareType': portfolioShareType.value,
       },
     );
   }
@@ -4854,11 +4854,11 @@ class ServiceCatalog {
       payload: {
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
         if (filters != null)
-          'Filters': filters.map((k, e) => MapEntry(k.toValue(), e)),
+          'Filters': filters.map((k, e) => MapEntry(k.value, e)),
         if (pageSize != null) 'PageSize': pageSize,
         if (pageToken != null) 'PageToken': pageToken,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -4934,13 +4934,13 @@ class ServiceCatalog {
       payload: {
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
         if (filters != null)
-          'Filters': filters.map((k, e) => MapEntry(k.toValue(), e)),
+          'Filters': filters.map((k, e) => MapEntry(k.value, e)),
         if (pageSize != null) 'PageSize': pageSize,
         if (pageToken != null) 'PageToken': pageToken,
         if (portfolioId != null) 'PortfolioId': portfolioId,
-        if (productSource != null) 'ProductSource': productSource.toValue(),
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (productSource != null) 'ProductSource': productSource.value,
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -5026,11 +5026,11 @@ class ServiceCatalog {
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
         if (accessLevelFilter != null) 'AccessLevelFilter': accessLevelFilter,
         if (filters != null)
-          'Filters': filters.map((k, e) => MapEntry(k.toValue(), e)),
+          'Filters': filters.map((k, e) => MapEntry(k.value, e)),
         if (pageSize != null) 'PageSize': pageSize,
         if (pageToken != null) 'PageToken': pageToken,
         if (sortBy != null) 'SortBy': sortBy,
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -5703,8 +5703,8 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'ProvisionedProductId': provisionedProductId,
-        'ProvisionedProductProperties': provisionedProductProperties
-            .map((k, e) => MapEntry(k.toValue(), e)),
+        'ProvisionedProductProperties':
+            provisionedProductProperties.map((k, e) => MapEntry(k.value, e)),
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
         'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
       },
@@ -5789,7 +5789,7 @@ class ServiceCatalog {
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
         if (active != null) 'Active': active,
         if (description != null) 'Description': description,
-        if (guidance != null) 'Guidance': guidance.toValue(),
+        if (guidance != null) 'Guidance': guidance.value,
         if (name != null) 'Name': name,
       },
     );
@@ -5846,7 +5846,7 @@ class ServiceCatalog {
         'Id': id,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
         if (definition != null)
-          'Definition': definition.map((k, e) => MapEntry(k.toValue(), e)),
+          'Definition': definition.map((k, e) => MapEntry(k.value, e)),
         if (description != null) 'Description': description,
         if (name != null) 'Name': name,
       },
@@ -5939,76 +5939,42 @@ class AccessLevelFilter {
     final key = this.key;
     final value = this.value;
     return {
-      if (key != null) 'Key': key.toValue(),
+      if (key != null) 'Key': key.value,
       if (value != null) 'Value': value,
     };
   }
 }
 
 enum AccessLevelFilterKey {
-  account,
-  role,
-  user,
-}
+  account('Account'),
+  role('Role'),
+  user('User'),
+  ;
 
-extension AccessLevelFilterKeyValueExtension on AccessLevelFilterKey {
-  String toValue() {
-    switch (this) {
-      case AccessLevelFilterKey.account:
-        return 'Account';
-      case AccessLevelFilterKey.role:
-        return 'Role';
-      case AccessLevelFilterKey.user:
-        return 'User';
-    }
-  }
-}
+  final String value;
 
-extension AccessLevelFilterKeyFromString on String {
-  AccessLevelFilterKey toAccessLevelFilterKey() {
-    switch (this) {
-      case 'Account':
-        return AccessLevelFilterKey.account;
-      case 'Role':
-        return AccessLevelFilterKey.role;
-      case 'User':
-        return AccessLevelFilterKey.user;
-    }
-    throw Exception('$this is not known in enum AccessLevelFilterKey');
-  }
+  const AccessLevelFilterKey(this.value);
+
+  static AccessLevelFilterKey fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AccessLevelFilterKey'));
 }
 
 enum AccessStatus {
-  enabled,
-  underChange,
-  disabled,
-}
+  enabled('ENABLED'),
+  underChange('UNDER_CHANGE'),
+  disabled('DISABLED'),
+  ;
 
-extension AccessStatusValueExtension on AccessStatus {
-  String toValue() {
-    switch (this) {
-      case AccessStatus.enabled:
-        return 'ENABLED';
-      case AccessStatus.underChange:
-        return 'UNDER_CHANGE';
-      case AccessStatus.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension AccessStatusFromString on String {
-  AccessStatus toAccessStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return AccessStatus.enabled;
-      case 'UNDER_CHANGE':
-        return AccessStatus.underChange;
-      case 'DISABLED':
-        return AccessStatus.disabled;
-    }
-    throw Exception('$this is not known in enum AccessStatus');
-  }
+  const AccessStatus(this.value);
+
+  static AccessStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AccessStatus'));
 }
 
 class AssociateBudgetWithResourceOutput {
@@ -6160,36 +6126,19 @@ class BudgetDetail {
 }
 
 enum ChangeAction {
-  add,
-  modify,
-  remove,
-}
+  add('ADD'),
+  modify('MODIFY'),
+  remove('REMOVE'),
+  ;
 
-extension ChangeActionValueExtension on ChangeAction {
-  String toValue() {
-    switch (this) {
-      case ChangeAction.add:
-        return 'ADD';
-      case ChangeAction.modify:
-        return 'MODIFY';
-      case ChangeAction.remove:
-        return 'REMOVE';
-    }
-  }
-}
+  final String value;
 
-extension ChangeActionFromString on String {
-  ChangeAction toChangeAction() {
-    switch (this) {
-      case 'ADD':
-        return ChangeAction.add;
-      case 'MODIFY':
-        return ChangeAction.modify;
-      case 'REMOVE':
-        return ChangeAction.remove;
-    }
-    throw Exception('$this is not known in enum ChangeAction');
-  }
+  const ChangeAction(this.value);
+
+  static ChangeAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ChangeAction'));
 }
 
 /// Information about a CloudWatch dashboard.
@@ -6386,26 +6335,16 @@ class ConstraintSummary {
 }
 
 enum CopyOption {
-  copyTags,
-}
+  copyTags('CopyTags'),
+  ;
 
-extension CopyOptionValueExtension on CopyOption {
-  String toValue() {
-    switch (this) {
-      case CopyOption.copyTags:
-        return 'CopyTags';
-    }
-  }
-}
+  final String value;
 
-extension CopyOptionFromString on String {
-  CopyOption toCopyOption() {
-    switch (this) {
-      case 'CopyTags':
-        return CopyOption.copyTags;
-    }
-    throw Exception('$this is not known in enum CopyOption');
-  }
+  const CopyOption(this.value);
+
+  static CopyOption fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum CopyOption'));
 }
 
 class CopyProductOutput {
@@ -6431,36 +6370,19 @@ class CopyProductOutput {
 }
 
 enum CopyProductStatus {
-  succeeded,
-  inProgress,
-  failed,
-}
+  succeeded('SUCCEEDED'),
+  inProgress('IN_PROGRESS'),
+  failed('FAILED'),
+  ;
 
-extension CopyProductStatusValueExtension on CopyProductStatus {
-  String toValue() {
-    switch (this) {
-      case CopyProductStatus.succeeded:
-        return 'SUCCEEDED';
-      case CopyProductStatus.inProgress:
-        return 'IN_PROGRESS';
-      case CopyProductStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension CopyProductStatusFromString on String {
-  CopyProductStatus toCopyProductStatus() {
-    switch (this) {
-      case 'SUCCEEDED':
-        return CopyProductStatus.succeeded;
-      case 'IN_PROGRESS':
-        return CopyProductStatus.inProgress;
-      case 'FAILED':
-        return CopyProductStatus.failed;
-    }
-    throw Exception('$this is not known in enum CopyProductStatus');
-  }
+  const CopyProductStatus(this.value);
+
+  static CopyProductStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CopyProductStatus'));
 }
 
 class CreateConstraintOutput {
@@ -6486,7 +6408,7 @@ class CreateConstraintOutput {
               json['ConstraintDetail'] as Map<String, dynamic>)
           : null,
       constraintParameters: json['ConstraintParameters'] as String?,
-      status: (json['Status'] as String?)?.toStatus(),
+      status: (json['Status'] as String?)?.let(Status.fromString),
     );
   }
 
@@ -6498,7 +6420,7 @@ class CreateConstraintOutput {
       if (constraintDetail != null) 'ConstraintDetail': constraintDetail,
       if (constraintParameters != null)
         'ConstraintParameters': constraintParameters,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -6700,7 +6622,7 @@ class CreateProvisioningArtifactOutput {
           ? ProvisioningArtifactDetail.fromJson(
               json['ProvisioningArtifactDetail'] as Map<String, dynamic>)
           : null,
-      status: (json['Status'] as String?)?.toStatus(),
+      status: (json['Status'] as String?)?.let(Status.fromString),
     );
   }
 
@@ -6712,7 +6634,7 @@ class CreateProvisioningArtifactOutput {
       if (info != null) 'Info': info,
       if (provisioningArtifactDetail != null)
         'ProvisioningArtifactDetail': provisioningArtifactDetail,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -6899,7 +6821,7 @@ class DescribeConstraintOutput {
               json['ConstraintDetail'] as Map<String, dynamic>)
           : null,
       constraintParameters: json['ConstraintParameters'] as String?,
-      status: (json['Status'] as String?)?.toStatus(),
+      status: (json['Status'] as String?)?.let(Status.fromString),
     );
   }
 
@@ -6911,7 +6833,7 @@ class DescribeConstraintOutput {
       if (constraintDetail != null) 'ConstraintDetail': constraintDetail,
       if (constraintParameters != null)
         'ConstraintParameters': constraintParameters,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -6934,8 +6856,8 @@ class DescribeCopyProductStatusOutput {
 
   factory DescribeCopyProductStatusOutput.fromJson(Map<String, dynamic> json) {
     return DescribeCopyProductStatusOutput(
-      copyProductStatus:
-          (json['CopyProductStatus'] as String?)?.toCopyProductStatus(),
+      copyProductStatus: (json['CopyProductStatus'] as String?)
+          ?.let(CopyProductStatus.fromString),
       statusDetail: json['StatusDetail'] as String?,
       targetProductId: json['TargetProductId'] as String?,
     );
@@ -6947,7 +6869,7 @@ class DescribeCopyProductStatusOutput {
     final targetProductId = this.targetProductId;
     return {
       if (copyProductStatus != null)
-        'CopyProductStatus': copyProductStatus.toValue(),
+        'CopyProductStatus': copyProductStatus.value,
       if (statusDetail != null) 'StatusDetail': statusDetail,
       if (targetProductId != null) 'TargetProductId': targetProductId,
     };
@@ -7044,7 +6966,7 @@ class DescribePortfolioShareStatusOutput {
       shareDetails: json['ShareDetails'] != null
           ? ShareDetails.fromJson(json['ShareDetails'] as Map<String, dynamic>)
           : null,
-      status: (json['Status'] as String?)?.toShareStatus(),
+      status: (json['Status'] as String?)?.let(ShareStatus.fromString),
     );
   }
 
@@ -7061,48 +6983,26 @@ class DescribePortfolioShareStatusOutput {
       if (portfolioShareToken != null)
         'PortfolioShareToken': portfolioShareToken,
       if (shareDetails != null) 'ShareDetails': shareDetails,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
 
 enum DescribePortfolioShareType {
-  account,
-  organization,
-  organizationalUnit,
-  organizationMemberAccount,
-}
+  account('ACCOUNT'),
+  organization('ORGANIZATION'),
+  organizationalUnit('ORGANIZATIONAL_UNIT'),
+  organizationMemberAccount('ORGANIZATION_MEMBER_ACCOUNT'),
+  ;
 
-extension DescribePortfolioShareTypeValueExtension
-    on DescribePortfolioShareType {
-  String toValue() {
-    switch (this) {
-      case DescribePortfolioShareType.account:
-        return 'ACCOUNT';
-      case DescribePortfolioShareType.organization:
-        return 'ORGANIZATION';
-      case DescribePortfolioShareType.organizationalUnit:
-        return 'ORGANIZATIONAL_UNIT';
-      case DescribePortfolioShareType.organizationMemberAccount:
-        return 'ORGANIZATION_MEMBER_ACCOUNT';
-    }
-  }
-}
+  final String value;
 
-extension DescribePortfolioShareTypeFromString on String {
-  DescribePortfolioShareType toDescribePortfolioShareType() {
-    switch (this) {
-      case 'ACCOUNT':
-        return DescribePortfolioShareType.account;
-      case 'ORGANIZATION':
-        return DescribePortfolioShareType.organization;
-      case 'ORGANIZATIONAL_UNIT':
-        return DescribePortfolioShareType.organizationalUnit;
-      case 'ORGANIZATION_MEMBER_ACCOUNT':
-        return DescribePortfolioShareType.organizationMemberAccount;
-    }
-    throw Exception('$this is not known in enum DescribePortfolioShareType');
-  }
+  const DescribePortfolioShareType(this.value);
+
+  static DescribePortfolioShareType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DescribePortfolioShareType'));
 }
 
 class DescribePortfolioSharesOutput {
@@ -7420,7 +7320,7 @@ class DescribeProvisioningArtifactOutput {
           .map((e) =>
               ProvisioningArtifactParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
-      status: (json['Status'] as String?)?.toStatus(),
+      status: (json['Status'] as String?)?.let(Status.fromString),
     );
   }
 
@@ -7435,7 +7335,7 @@ class DescribeProvisioningArtifactOutput {
         'ProvisioningArtifactDetail': provisioningArtifactDetail,
       if (provisioningArtifactParameters != null)
         'ProvisioningArtifactParameters': provisioningArtifactParameters,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -7776,59 +7676,33 @@ class EngineWorkflowResourceIdentifier {
 }
 
 enum EngineWorkflowStatus {
-  succeeded,
-  failed,
-}
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  ;
 
-extension EngineWorkflowStatusValueExtension on EngineWorkflowStatus {
-  String toValue() {
-    switch (this) {
-      case EngineWorkflowStatus.succeeded:
-        return 'SUCCEEDED';
-      case EngineWorkflowStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension EngineWorkflowStatusFromString on String {
-  EngineWorkflowStatus toEngineWorkflowStatus() {
-    switch (this) {
-      case 'SUCCEEDED':
-        return EngineWorkflowStatus.succeeded;
-      case 'FAILED':
-        return EngineWorkflowStatus.failed;
-    }
-    throw Exception('$this is not known in enum EngineWorkflowStatus');
-  }
+  const EngineWorkflowStatus(this.value);
+
+  static EngineWorkflowStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum EngineWorkflowStatus'));
 }
 
 enum EvaluationType {
-  static,
-  $dynamic,
-}
+  static('STATIC'),
+  $dynamic('DYNAMIC'),
+  ;
 
-extension EvaluationTypeValueExtension on EvaluationType {
-  String toValue() {
-    switch (this) {
-      case EvaluationType.static:
-        return 'STATIC';
-      case EvaluationType.$dynamic:
-        return 'DYNAMIC';
-    }
-  }
-}
+  final String value;
 
-extension EvaluationTypeFromString on String {
-  EvaluationType toEvaluationType() {
-    switch (this) {
-      case 'STATIC':
-        return EvaluationType.static;
-      case 'DYNAMIC':
-        return EvaluationType.$dynamic;
-    }
-    throw Exception('$this is not known in enum EvaluationType');
-  }
+  const EvaluationType(this.value);
+
+  static EvaluationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EvaluationType'));
 }
 
 class ExecuteProvisionedProductPlanOutput {
@@ -7953,8 +7827,8 @@ class FailedServiceActionAssociation {
 
   factory FailedServiceActionAssociation.fromJson(Map<String, dynamic> json) {
     return FailedServiceActionAssociation(
-      errorCode:
-          (json['ErrorCode'] as String?)?.toServiceActionAssociationErrorCode(),
+      errorCode: (json['ErrorCode'] as String?)
+          ?.let(ServiceActionAssociationErrorCode.fromString),
       errorMessage: json['ErrorMessage'] as String?,
       productId: json['ProductId'] as String?,
       provisioningArtifactId: json['ProvisioningArtifactId'] as String?,
@@ -7969,7 +7843,7 @@ class FailedServiceActionAssociation {
     final provisioningArtifactId = this.provisioningArtifactId;
     final serviceActionId = this.serviceActionId;
     return {
-      if (errorCode != null) 'ErrorCode': errorCode.toValue(),
+      if (errorCode != null) 'ErrorCode': errorCode.value,
       if (errorMessage != null) 'ErrorMessage': errorMessage,
       if (productId != null) 'ProductId': productId,
       if (provisioningArtifactId != null)
@@ -7990,14 +7864,15 @@ class GetAWSOrganizationsAccessStatusOutput {
   factory GetAWSOrganizationsAccessStatusOutput.fromJson(
       Map<String, dynamic> json) {
     return GetAWSOrganizationsAccessStatusOutput(
-      accessStatus: (json['AccessStatus'] as String?)?.toAccessStatus(),
+      accessStatus:
+          (json['AccessStatus'] as String?)?.let(AccessStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final accessStatus = this.accessStatus;
     return {
-      if (accessStatus != null) 'AccessStatus': accessStatus.toValue(),
+      if (accessStatus != null) 'AccessStatus': accessStatus.value,
     };
   }
 }
@@ -8114,7 +7989,8 @@ class LastSync {
       lastSuccessfulSyncProvisioningArtifactId:
           json['LastSuccessfulSyncProvisioningArtifactId'] as String?,
       lastSuccessfulSyncTime: timeStampFromJson(json['LastSuccessfulSyncTime']),
-      lastSyncStatus: (json['LastSyncStatus'] as String?)?.toLastSyncStatus(),
+      lastSyncStatus:
+          (json['LastSyncStatus'] as String?)?.let(LastSyncStatus.fromString),
       lastSyncStatusMessage: json['LastSyncStatusMessage'] as String?,
       lastSyncTime: timeStampFromJson(json['LastSyncTime']),
     );
@@ -8133,7 +8009,7 @@ class LastSync {
             lastSuccessfulSyncProvisioningArtifactId,
       if (lastSuccessfulSyncTime != null)
         'LastSuccessfulSyncTime': unixTimestampToJson(lastSuccessfulSyncTime),
-      if (lastSyncStatus != null) 'LastSyncStatus': lastSyncStatus.toValue(),
+      if (lastSyncStatus != null) 'LastSyncStatus': lastSyncStatus.value,
       if (lastSyncStatusMessage != null)
         'LastSyncStatusMessage': lastSyncStatusMessage,
       if (lastSyncTime != null)
@@ -8143,31 +8019,18 @@ class LastSync {
 }
 
 enum LastSyncStatus {
-  succeeded,
-  failed,
-}
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  ;
 
-extension LastSyncStatusValueExtension on LastSyncStatus {
-  String toValue() {
-    switch (this) {
-      case LastSyncStatus.succeeded:
-        return 'SUCCEEDED';
-      case LastSyncStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension LastSyncStatusFromString on String {
-  LastSyncStatus toLastSyncStatus() {
-    switch (this) {
-      case 'SUCCEEDED':
-        return LastSyncStatus.succeeded;
-      case 'FAILED':
-        return LastSyncStatus.failed;
-    }
-    throw Exception('$this is not known in enum LastSyncStatus');
-  }
+  const LastSyncStatus(this.value);
+
+  static LastSyncStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LastSyncStatus'));
 }
 
 /// A launch path object.
@@ -8984,7 +8847,7 @@ class OrganizationNode {
 
   factory OrganizationNode.fromJson(Map<String, dynamic> json) {
     return OrganizationNode(
-      type: (json['Type'] as String?)?.toOrganizationNodeType(),
+      type: (json['Type'] as String?)?.let(OrganizationNodeType.fromString),
       value: json['Value'] as String?,
     );
   }
@@ -8993,43 +8856,26 @@ class OrganizationNode {
     final type = this.type;
     final value = this.value;
     return {
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
       if (value != null) 'Value': value,
     };
   }
 }
 
 enum OrganizationNodeType {
-  organization,
-  organizationalUnit,
-  account,
-}
+  organization('ORGANIZATION'),
+  organizationalUnit('ORGANIZATIONAL_UNIT'),
+  account('ACCOUNT'),
+  ;
 
-extension OrganizationNodeTypeValueExtension on OrganizationNodeType {
-  String toValue() {
-    switch (this) {
-      case OrganizationNodeType.organization:
-        return 'ORGANIZATION';
-      case OrganizationNodeType.organizationalUnit:
-        return 'ORGANIZATIONAL_UNIT';
-      case OrganizationNodeType.account:
-        return 'ACCOUNT';
-    }
-  }
-}
+  final String value;
 
-extension OrganizationNodeTypeFromString on String {
-  OrganizationNodeType toOrganizationNodeType() {
-    switch (this) {
-      case 'ORGANIZATION':
-        return OrganizationNodeType.organization;
-      case 'ORGANIZATIONAL_UNIT':
-        return OrganizationNodeType.organizationalUnit;
-      case 'ACCOUNT':
-        return OrganizationNodeType.account;
-    }
-    throw Exception('$this is not known in enum OrganizationNodeType');
-  }
+  const OrganizationNodeType(this.value);
+
+  static OrganizationNodeType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum OrganizationNodeType'));
 }
 
 /// The constraints that the administrator has put on the parameter.
@@ -9223,7 +9069,8 @@ class PortfolioShareDetail {
       principalId: json['PrincipalId'] as String?,
       sharePrincipals: json['SharePrincipals'] as bool?,
       shareTagOptions: json['ShareTagOptions'] as bool?,
-      type: (json['Type'] as String?)?.toDescribePortfolioShareType(),
+      type:
+          (json['Type'] as String?)?.let(DescribePortfolioShareType.fromString),
     );
   }
 
@@ -9238,42 +9085,25 @@ class PortfolioShareDetail {
       if (principalId != null) 'PrincipalId': principalId,
       if (sharePrincipals != null) 'SharePrincipals': sharePrincipals,
       if (shareTagOptions != null) 'ShareTagOptions': shareTagOptions,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum PortfolioShareType {
-  imported,
-  awsServicecatalog,
-  awsOrganizations,
-}
+  imported('IMPORTED'),
+  awsServicecatalog('AWS_SERVICECATALOG'),
+  awsOrganizations('AWS_ORGANIZATIONS'),
+  ;
 
-extension PortfolioShareTypeValueExtension on PortfolioShareType {
-  String toValue() {
-    switch (this) {
-      case PortfolioShareType.imported:
-        return 'IMPORTED';
-      case PortfolioShareType.awsServicecatalog:
-        return 'AWS_SERVICECATALOG';
-      case PortfolioShareType.awsOrganizations:
-        return 'AWS_ORGANIZATIONS';
-    }
-  }
-}
+  final String value;
 
-extension PortfolioShareTypeFromString on String {
-  PortfolioShareType toPortfolioShareType() {
-    switch (this) {
-      case 'IMPORTED':
-        return PortfolioShareType.imported;
-      case 'AWS_SERVICECATALOG':
-        return PortfolioShareType.awsServicecatalog;
-      case 'AWS_ORGANIZATIONS':
-        return PortfolioShareType.awsOrganizations;
-    }
-    throw Exception('$this is not known in enum PortfolioShareType');
-  }
+  const PortfolioShareType(this.value);
+
+  static PortfolioShareType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum PortfolioShareType'));
 }
 
 /// Information about a principal.
@@ -9300,7 +9130,8 @@ class Principal {
   factory Principal.fromJson(Map<String, dynamic> json) {
     return Principal(
       principalARN: json['PrincipalARN'] as String?,
-      principalType: (json['PrincipalType'] as String?)?.toPrincipalType(),
+      principalType:
+          (json['PrincipalType'] as String?)?.let(PrincipalType.fromString),
     );
   }
 
@@ -9309,103 +9140,55 @@ class Principal {
     final principalType = this.principalType;
     return {
       if (principalARN != null) 'PrincipalARN': principalARN,
-      if (principalType != null) 'PrincipalType': principalType.toValue(),
+      if (principalType != null) 'PrincipalType': principalType.value,
     };
   }
 }
 
 enum PrincipalType {
-  iam,
-  iamPattern,
-}
+  iam('IAM'),
+  iamPattern('IAM_PATTERN'),
+  ;
 
-extension PrincipalTypeValueExtension on PrincipalType {
-  String toValue() {
-    switch (this) {
-      case PrincipalType.iam:
-        return 'IAM';
-      case PrincipalType.iamPattern:
-        return 'IAM_PATTERN';
-    }
-  }
-}
+  final String value;
 
-extension PrincipalTypeFromString on String {
-  PrincipalType toPrincipalType() {
-    switch (this) {
-      case 'IAM':
-        return PrincipalType.iam;
-      case 'IAM_PATTERN':
-        return PrincipalType.iamPattern;
-    }
-    throw Exception('$this is not known in enum PrincipalType');
-  }
+  const PrincipalType(this.value);
+
+  static PrincipalType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PrincipalType'));
 }
 
 enum ProductSource {
-  account,
-}
+  account('ACCOUNT'),
+  ;
 
-extension ProductSourceValueExtension on ProductSource {
-  String toValue() {
-    switch (this) {
-      case ProductSource.account:
-        return 'ACCOUNT';
-    }
-  }
-}
+  final String value;
 
-extension ProductSourceFromString on String {
-  ProductSource toProductSource() {
-    switch (this) {
-      case 'ACCOUNT':
-        return ProductSource.account;
-    }
-    throw Exception('$this is not known in enum ProductSource');
-  }
+  const ProductSource(this.value);
+
+  static ProductSource fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ProductSource'));
 }
 
 enum ProductType {
-  cloudFormationTemplate,
-  marketplace,
-  terraformOpenSource,
-  terraformCloud,
-  external,
-}
+  cloudFormationTemplate('CLOUD_FORMATION_TEMPLATE'),
+  marketplace('MARKETPLACE'),
+  terraformOpenSource('TERRAFORM_OPEN_SOURCE'),
+  terraformCloud('TERRAFORM_CLOUD'),
+  external('EXTERNAL'),
+  ;
 
-extension ProductTypeValueExtension on ProductType {
-  String toValue() {
-    switch (this) {
-      case ProductType.cloudFormationTemplate:
-        return 'CLOUD_FORMATION_TEMPLATE';
-      case ProductType.marketplace:
-        return 'MARKETPLACE';
-      case ProductType.terraformOpenSource:
-        return 'TERRAFORM_OPEN_SOURCE';
-      case ProductType.terraformCloud:
-        return 'TERRAFORM_CLOUD';
-      case ProductType.external:
-        return 'EXTERNAL';
-    }
-  }
-}
+  final String value;
 
-extension ProductTypeFromString on String {
-  ProductType toProductType() {
-    switch (this) {
-      case 'CLOUD_FORMATION_TEMPLATE':
-        return ProductType.cloudFormationTemplate;
-      case 'MARKETPLACE':
-        return ProductType.marketplace;
-      case 'TERRAFORM_OPEN_SOURCE':
-        return ProductType.terraformOpenSource;
-      case 'TERRAFORM_CLOUD':
-        return ProductType.terraformCloud;
-      case 'EXTERNAL':
-        return ProductType.external;
-    }
-    throw Exception('$this is not known in enum ProductType');
-  }
+  const ProductType(this.value);
+
+  static ProductType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ProductType'));
 }
 
 /// A single product view aggregation value/count pair, containing metadata
@@ -9495,7 +9278,7 @@ class ProductViewDetail {
           ? SourceConnectionDetail.fromJson(
               json['SourceConnection'] as Map<String, dynamic>)
           : null,
-      status: (json['Status'] as String?)?.toStatus(),
+      status: (json['Status'] as String?)?.let(Status.fromString),
     );
   }
 
@@ -9510,80 +9293,42 @@ class ProductViewDetail {
       if (productARN != null) 'ProductARN': productARN,
       if (productViewSummary != null) 'ProductViewSummary': productViewSummary,
       if (sourceConnection != null) 'SourceConnection': sourceConnection,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
 
 enum ProductViewFilterBy {
-  fullTextSearch,
-  owner,
-  productType,
-  sourceProductId,
-}
+  fullTextSearch('FullTextSearch'),
+  owner('Owner'),
+  productType('ProductType'),
+  sourceProductId('SourceProductId'),
+  ;
 
-extension ProductViewFilterByValueExtension on ProductViewFilterBy {
-  String toValue() {
-    switch (this) {
-      case ProductViewFilterBy.fullTextSearch:
-        return 'FullTextSearch';
-      case ProductViewFilterBy.owner:
-        return 'Owner';
-      case ProductViewFilterBy.productType:
-        return 'ProductType';
-      case ProductViewFilterBy.sourceProductId:
-        return 'SourceProductId';
-    }
-  }
-}
+  final String value;
 
-extension ProductViewFilterByFromString on String {
-  ProductViewFilterBy toProductViewFilterBy() {
-    switch (this) {
-      case 'FullTextSearch':
-        return ProductViewFilterBy.fullTextSearch;
-      case 'Owner':
-        return ProductViewFilterBy.owner;
-      case 'ProductType':
-        return ProductViewFilterBy.productType;
-      case 'SourceProductId':
-        return ProductViewFilterBy.sourceProductId;
-    }
-    throw Exception('$this is not known in enum ProductViewFilterBy');
-  }
+  const ProductViewFilterBy(this.value);
+
+  static ProductViewFilterBy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ProductViewFilterBy'));
 }
 
 enum ProductViewSortBy {
-  title,
-  versionCount,
-  creationDate,
-}
+  title('Title'),
+  versionCount('VersionCount'),
+  creationDate('CreationDate'),
+  ;
 
-extension ProductViewSortByValueExtension on ProductViewSortBy {
-  String toValue() {
-    switch (this) {
-      case ProductViewSortBy.title:
-        return 'Title';
-      case ProductViewSortBy.versionCount:
-        return 'VersionCount';
-      case ProductViewSortBy.creationDate:
-        return 'CreationDate';
-    }
-  }
-}
+  final String value;
 
-extension ProductViewSortByFromString on String {
-  ProductViewSortBy toProductViewSortBy() {
-    switch (this) {
-      case 'Title':
-        return ProductViewSortBy.title;
-      case 'VersionCount':
-        return ProductViewSortBy.versionCount;
-      case 'CreationDate':
-        return ProductViewSortBy.creationDate;
-    }
-    throw Exception('$this is not known in enum ProductViewSortBy');
-  }
+  const ProductViewSortBy(this.value);
+
+  static ProductViewSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ProductViewSortBy'));
 }
 
 /// Summary information about a product view.
@@ -9655,7 +9400,7 @@ class ProductViewSummary {
       supportDescription: json['SupportDescription'] as String?,
       supportEmail: json['SupportEmail'] as String?,
       supportUrl: json['SupportUrl'] as String?,
-      type: (json['Type'] as String?)?.toProductType(),
+      type: (json['Type'] as String?)?.let(ProductType.fromString),
     );
   }
 
@@ -9682,37 +9427,23 @@ class ProductViewSummary {
       if (supportDescription != null) 'SupportDescription': supportDescription,
       if (supportEmail != null) 'SupportEmail': supportEmail,
       if (supportUrl != null) 'SupportUrl': supportUrl,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum PropertyKey {
-  owner,
-  launchRole,
-}
+  owner('OWNER'),
+  launchRole('LAUNCH_ROLE'),
+  ;
 
-extension PropertyKeyValueExtension on PropertyKey {
-  String toValue() {
-    switch (this) {
-      case PropertyKey.owner:
-        return 'OWNER';
-      case PropertyKey.launchRole:
-        return 'LAUNCH_ROLE';
-    }
-  }
-}
+  final String value;
 
-extension PropertyKeyFromString on String {
-  PropertyKey toPropertyKey() {
-    switch (this) {
-      case 'OWNER':
-        return PropertyKey.owner;
-      case 'LAUNCH_ROLE':
-        return PropertyKey.launchRole;
-    }
-    throw Exception('$this is not known in enum PropertyKey');
-  }
+  const PropertyKey(this.value);
+
+  static PropertyKey fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum PropertyKey'));
 }
 
 class ProvisionProductOutput {
@@ -9905,7 +9636,8 @@ class ProvisionedProductAttribute {
       productName: json['ProductName'] as String?,
       provisioningArtifactId: json['ProvisioningArtifactId'] as String?,
       provisioningArtifactName: json['ProvisioningArtifactName'] as String?,
-      status: (json['Status'] as String?)?.toProvisionedProductStatus(),
+      status:
+          (json['Status'] as String?)?.let(ProvisionedProductStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
       tags: (json['Tags'] as List?)
           ?.whereNotNull()
@@ -9957,7 +9689,7 @@ class ProvisionedProductAttribute {
         'ProvisioningArtifactId': provisioningArtifactId,
       if (provisioningArtifactName != null)
         'ProvisioningArtifactName': provisioningArtifactName,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusMessage != null) 'StatusMessage': statusMessage,
       if (tags != null) 'Tags': tags,
       if (type != null) 'Type': type,
@@ -10111,7 +9843,8 @@ class ProvisionedProductDetail {
       name: json['Name'] as String?,
       productId: json['ProductId'] as String?,
       provisioningArtifactId: json['ProvisioningArtifactId'] as String?,
-      status: (json['Status'] as String?)?.toProvisionedProductStatus(),
+      status:
+          (json['Status'] as String?)?.let(ProvisionedProductStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
       type: json['Type'] as String?,
     );
@@ -10149,7 +9882,7 @@ class ProvisionedProductDetail {
       if (productId != null) 'ProductId': productId,
       if (provisioningArtifactId != null)
         'ProvisioningArtifactId': provisioningArtifactId,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusMessage != null) 'StatusMessage': statusMessage,
       if (type != null) 'Type': type,
     };
@@ -10235,7 +9968,8 @@ class ProvisionedProductPlanDetails {
       pathId: json['PathId'] as String?,
       planId: json['PlanId'] as String?,
       planName: json['PlanName'] as String?,
-      planType: (json['PlanType'] as String?)?.toProvisionedProductPlanType(),
+      planType: (json['PlanType'] as String?)
+          ?.let(ProvisionedProductPlanType.fromString),
       productId: json['ProductId'] as String?,
       provisionProductId: json['ProvisionProductId'] as String?,
       provisionProductName: json['ProvisionProductName'] as String?,
@@ -10245,7 +9979,8 @@ class ProvisionedProductPlanDetails {
           .map((e) =>
               UpdateProvisioningParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
-      status: (json['Status'] as String?)?.toProvisionedProductPlanStatus(),
+      status: (json['Status'] as String?)
+          ?.let(ProvisionedProductPlanStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
       tags: (json['Tags'] as List?)
           ?.whereNotNull()
@@ -10277,7 +10012,7 @@ class ProvisionedProductPlanDetails {
       if (pathId != null) 'PathId': pathId,
       if (planId != null) 'PlanId': planId,
       if (planName != null) 'PlanName': planName,
-      if (planType != null) 'PlanType': planType.toValue(),
+      if (planType != null) 'PlanType': planType.value,
       if (productId != null) 'ProductId': productId,
       if (provisionProductId != null) 'ProvisionProductId': provisionProductId,
       if (provisionProductName != null)
@@ -10286,7 +10021,7 @@ class ProvisionedProductPlanDetails {
         'ProvisioningArtifactId': provisioningArtifactId,
       if (provisioningParameters != null)
         'ProvisioningParameters': provisioningParameters,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusMessage != null) 'StatusMessage': statusMessage,
       if (tags != null) 'Tags': tags,
       if (updatedTime != null) 'UpdatedTime': unixTimestampToJson(updatedTime),
@@ -10295,52 +10030,22 @@ class ProvisionedProductPlanDetails {
 }
 
 enum ProvisionedProductPlanStatus {
-  createInProgress,
-  createSuccess,
-  createFailed,
-  executeInProgress,
-  executeSuccess,
-  executeFailed,
-}
+  createInProgress('CREATE_IN_PROGRESS'),
+  createSuccess('CREATE_SUCCESS'),
+  createFailed('CREATE_FAILED'),
+  executeInProgress('EXECUTE_IN_PROGRESS'),
+  executeSuccess('EXECUTE_SUCCESS'),
+  executeFailed('EXECUTE_FAILED'),
+  ;
 
-extension ProvisionedProductPlanStatusValueExtension
-    on ProvisionedProductPlanStatus {
-  String toValue() {
-    switch (this) {
-      case ProvisionedProductPlanStatus.createInProgress:
-        return 'CREATE_IN_PROGRESS';
-      case ProvisionedProductPlanStatus.createSuccess:
-        return 'CREATE_SUCCESS';
-      case ProvisionedProductPlanStatus.createFailed:
-        return 'CREATE_FAILED';
-      case ProvisionedProductPlanStatus.executeInProgress:
-        return 'EXECUTE_IN_PROGRESS';
-      case ProvisionedProductPlanStatus.executeSuccess:
-        return 'EXECUTE_SUCCESS';
-      case ProvisionedProductPlanStatus.executeFailed:
-        return 'EXECUTE_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ProvisionedProductPlanStatusFromString on String {
-  ProvisionedProductPlanStatus toProvisionedProductPlanStatus() {
-    switch (this) {
-      case 'CREATE_IN_PROGRESS':
-        return ProvisionedProductPlanStatus.createInProgress;
-      case 'CREATE_SUCCESS':
-        return ProvisionedProductPlanStatus.createSuccess;
-      case 'CREATE_FAILED':
-        return ProvisionedProductPlanStatus.createFailed;
-      case 'EXECUTE_IN_PROGRESS':
-        return ProvisionedProductPlanStatus.executeInProgress;
-      case 'EXECUTE_SUCCESS':
-        return ProvisionedProductPlanStatus.executeSuccess;
-      case 'EXECUTE_FAILED':
-        return ProvisionedProductPlanStatus.executeFailed;
-    }
-    throw Exception('$this is not known in enum ProvisionedProductPlanStatus');
-  }
+  const ProvisionedProductPlanStatus(this.value);
+
+  static ProvisionedProductPlanStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ProvisionedProductPlanStatus'));
 }
 
 /// Summary information about a plan.
@@ -10376,7 +10081,8 @@ class ProvisionedProductPlanSummary {
     return ProvisionedProductPlanSummary(
       planId: json['PlanId'] as String?,
       planName: json['PlanName'] as String?,
-      planType: (json['PlanType'] as String?)?.toProvisionedProductPlanType(),
+      planType: (json['PlanType'] as String?)
+          ?.let(ProvisionedProductPlanType.fromString),
       provisionProductId: json['ProvisionProductId'] as String?,
       provisionProductName: json['ProvisionProductName'] as String?,
       provisioningArtifactId: json['ProvisioningArtifactId'] as String?,
@@ -10393,7 +10099,7 @@ class ProvisionedProductPlanSummary {
     return {
       if (planId != null) 'PlanId': planId,
       if (planName != null) 'PlanName': planName,
-      if (planType != null) 'PlanType': planType.toValue(),
+      if (planType != null) 'PlanType': planType.value,
       if (provisionProductId != null) 'ProvisionProductId': provisionProductId,
       if (provisionProductName != null)
         'ProvisionProductName': provisionProductName,
@@ -10404,95 +10110,49 @@ class ProvisionedProductPlanSummary {
 }
 
 enum ProvisionedProductPlanType {
-  cloudformation,
-}
+  cloudformation('CLOUDFORMATION'),
+  ;
 
-extension ProvisionedProductPlanTypeValueExtension
-    on ProvisionedProductPlanType {
-  String toValue() {
-    switch (this) {
-      case ProvisionedProductPlanType.cloudformation:
-        return 'CLOUDFORMATION';
-    }
-  }
-}
+  final String value;
 
-extension ProvisionedProductPlanTypeFromString on String {
-  ProvisionedProductPlanType toProvisionedProductPlanType() {
-    switch (this) {
-      case 'CLOUDFORMATION':
-        return ProvisionedProductPlanType.cloudformation;
-    }
-    throw Exception('$this is not known in enum ProvisionedProductPlanType');
-  }
+  const ProvisionedProductPlanType(this.value);
+
+  static ProvisionedProductPlanType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ProvisionedProductPlanType'));
 }
 
 enum ProvisionedProductStatus {
-  available,
-  underChange,
-  tainted,
-  error,
-  planInProgress,
-}
+  available('AVAILABLE'),
+  underChange('UNDER_CHANGE'),
+  tainted('TAINTED'),
+  error('ERROR'),
+  planInProgress('PLAN_IN_PROGRESS'),
+  ;
 
-extension ProvisionedProductStatusValueExtension on ProvisionedProductStatus {
-  String toValue() {
-    switch (this) {
-      case ProvisionedProductStatus.available:
-        return 'AVAILABLE';
-      case ProvisionedProductStatus.underChange:
-        return 'UNDER_CHANGE';
-      case ProvisionedProductStatus.tainted:
-        return 'TAINTED';
-      case ProvisionedProductStatus.error:
-        return 'ERROR';
-      case ProvisionedProductStatus.planInProgress:
-        return 'PLAN_IN_PROGRESS';
-    }
-  }
-}
+  final String value;
 
-extension ProvisionedProductStatusFromString on String {
-  ProvisionedProductStatus toProvisionedProductStatus() {
-    switch (this) {
-      case 'AVAILABLE':
-        return ProvisionedProductStatus.available;
-      case 'UNDER_CHANGE':
-        return ProvisionedProductStatus.underChange;
-      case 'TAINTED':
-        return ProvisionedProductStatus.tainted;
-      case 'ERROR':
-        return ProvisionedProductStatus.error;
-      case 'PLAN_IN_PROGRESS':
-        return ProvisionedProductStatus.planInProgress;
-    }
-    throw Exception('$this is not known in enum ProvisionedProductStatus');
-  }
+  const ProvisionedProductStatus(this.value);
+
+  static ProvisionedProductStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ProvisionedProductStatus'));
 }
 
 enum ProvisionedProductViewFilterBy {
-  searchQuery,
-}
+  searchQuery('SearchQuery'),
+  ;
 
-extension ProvisionedProductViewFilterByValueExtension
-    on ProvisionedProductViewFilterBy {
-  String toValue() {
-    switch (this) {
-      case ProvisionedProductViewFilterBy.searchQuery:
-        return 'SearchQuery';
-    }
-  }
-}
+  final String value;
 
-extension ProvisionedProductViewFilterByFromString on String {
-  ProvisionedProductViewFilterBy toProvisionedProductViewFilterBy() {
-    switch (this) {
-      case 'SearchQuery':
-        return ProvisionedProductViewFilterBy.searchQuery;
-    }
-    throw Exception(
-        '$this is not known in enum ProvisionedProductViewFilterBy');
-  }
+  const ProvisionedProductViewFilterBy(this.value);
+
+  static ProvisionedProductViewFilterBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ProvisionedProductViewFilterBy'));
 }
 
 /// Information about a provisioning artifact. A provisioning artifact is also
@@ -10526,7 +10186,8 @@ class ProvisioningArtifact {
     return ProvisioningArtifact(
       createdTime: timeStampFromJson(json['CreatedTime']),
       description: json['Description'] as String?,
-      guidance: (json['Guidance'] as String?)?.toProvisioningArtifactGuidance(),
+      guidance: (json['Guidance'] as String?)
+          ?.let(ProvisioningArtifactGuidance.fromString),
       id: json['Id'] as String?,
       name: json['Name'] as String?,
     );
@@ -10541,7 +10202,7 @@ class ProvisioningArtifact {
     return {
       if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
       if (description != null) 'Description': description,
-      if (guidance != null) 'Guidance': guidance.toValue(),
+      if (guidance != null) 'Guidance': guidance.value,
       if (id != null) 'Id': id,
       if (name != null) 'Name': name,
     };
@@ -10618,11 +10279,12 @@ class ProvisioningArtifactDetail {
       active: json['Active'] as bool?,
       createdTime: timeStampFromJson(json['CreatedTime']),
       description: json['Description'] as String?,
-      guidance: (json['Guidance'] as String?)?.toProvisioningArtifactGuidance(),
+      guidance: (json['Guidance'] as String?)
+          ?.let(ProvisioningArtifactGuidance.fromString),
       id: json['Id'] as String?,
       name: json['Name'] as String?,
       sourceRevision: json['SourceRevision'] as String?,
-      type: (json['Type'] as String?)?.toProvisioningArtifactType(),
+      type: (json['Type'] as String?)?.let(ProvisioningArtifactType.fromString),
     );
   }
 
@@ -10639,42 +10301,28 @@ class ProvisioningArtifactDetail {
       if (active != null) 'Active': active,
       if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
       if (description != null) 'Description': description,
-      if (guidance != null) 'Guidance': guidance.toValue(),
+      if (guidance != null) 'Guidance': guidance.value,
       if (id != null) 'Id': id,
       if (name != null) 'Name': name,
       if (sourceRevision != null) 'SourceRevision': sourceRevision,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum ProvisioningArtifactGuidance {
-  $default,
-  deprecated,
-}
+  $default('DEFAULT'),
+  deprecated('DEPRECATED'),
+  ;
 
-extension ProvisioningArtifactGuidanceValueExtension
-    on ProvisioningArtifactGuidance {
-  String toValue() {
-    switch (this) {
-      case ProvisioningArtifactGuidance.$default:
-        return 'DEFAULT';
-      case ProvisioningArtifactGuidance.deprecated:
-        return 'DEPRECATED';
-    }
-  }
-}
+  final String value;
 
-extension ProvisioningArtifactGuidanceFromString on String {
-  ProvisioningArtifactGuidance toProvisioningArtifactGuidance() {
-    switch (this) {
-      case 'DEFAULT':
-        return ProvisioningArtifactGuidance.$default;
-      case 'DEPRECATED':
-        return ProvisioningArtifactGuidance.deprecated;
-    }
-    throw Exception('$this is not known in enum ProvisioningArtifactGuidance');
-  }
+  const ProvisioningArtifactGuidance(this.value);
+
+  static ProvisioningArtifactGuidance fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ProvisioningArtifactGuidance'));
 }
 
 /// Provisioning artifact output.
@@ -10898,34 +10546,23 @@ class ProvisioningArtifactProperties {
         'DisableTemplateValidation': disableTemplateValidation,
       if (info != null) 'Info': info,
       if (name != null) 'Name': name,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum ProvisioningArtifactPropertyName {
-  id,
-}
+  id('Id'),
+  ;
 
-extension ProvisioningArtifactPropertyNameValueExtension
-    on ProvisioningArtifactPropertyName {
-  String toValue() {
-    switch (this) {
-      case ProvisioningArtifactPropertyName.id:
-        return 'Id';
-    }
-  }
-}
+  final String value;
 
-extension ProvisioningArtifactPropertyNameFromString on String {
-  ProvisioningArtifactPropertyName toProvisioningArtifactPropertyName() {
-    switch (this) {
-      case 'Id':
-        return ProvisioningArtifactPropertyName.id;
-    }
-    throw Exception(
-        '$this is not known in enum ProvisioningArtifactPropertyName');
-  }
+  const ProvisioningArtifactPropertyName(this.value);
+
+  static ProvisioningArtifactPropertyName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ProvisioningArtifactPropertyName'));
 }
 
 /// Summary information about a provisioning artifact (also known as a version)
@@ -10985,51 +10622,22 @@ class ProvisioningArtifactSummary {
 }
 
 enum ProvisioningArtifactType {
-  cloudFormationTemplate,
-  marketplaceAmi,
-  marketplaceCar,
-  terraformOpenSource,
-  terraformCloud,
-  external,
-}
+  cloudFormationTemplate('CLOUD_FORMATION_TEMPLATE'),
+  marketplaceAmi('MARKETPLACE_AMI'),
+  marketplaceCar('MARKETPLACE_CAR'),
+  terraformOpenSource('TERRAFORM_OPEN_SOURCE'),
+  terraformCloud('TERRAFORM_CLOUD'),
+  external('EXTERNAL'),
+  ;
 
-extension ProvisioningArtifactTypeValueExtension on ProvisioningArtifactType {
-  String toValue() {
-    switch (this) {
-      case ProvisioningArtifactType.cloudFormationTemplate:
-        return 'CLOUD_FORMATION_TEMPLATE';
-      case ProvisioningArtifactType.marketplaceAmi:
-        return 'MARKETPLACE_AMI';
-      case ProvisioningArtifactType.marketplaceCar:
-        return 'MARKETPLACE_CAR';
-      case ProvisioningArtifactType.terraformOpenSource:
-        return 'TERRAFORM_OPEN_SOURCE';
-      case ProvisioningArtifactType.terraformCloud:
-        return 'TERRAFORM_CLOUD';
-      case ProvisioningArtifactType.external:
-        return 'EXTERNAL';
-    }
-  }
-}
+  final String value;
 
-extension ProvisioningArtifactTypeFromString on String {
-  ProvisioningArtifactType toProvisioningArtifactType() {
-    switch (this) {
-      case 'CLOUD_FORMATION_TEMPLATE':
-        return ProvisioningArtifactType.cloudFormationTemplate;
-      case 'MARKETPLACE_AMI':
-        return ProvisioningArtifactType.marketplaceAmi;
-      case 'MARKETPLACE_CAR':
-        return ProvisioningArtifactType.marketplaceCar;
-      case 'TERRAFORM_OPEN_SOURCE':
-        return ProvisioningArtifactType.terraformOpenSource;
-      case 'TERRAFORM_CLOUD':
-        return ProvisioningArtifactType.terraformCloud;
-      case 'EXTERNAL':
-        return ProvisioningArtifactType.external;
-    }
-    throw Exception('$this is not known in enum ProvisioningArtifactType');
-  }
+  const ProvisioningArtifactType(this.value);
+
+  static ProvisioningArtifactType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ProvisioningArtifactType'));
 }
 
 /// An object that contains summary information about a product view and a
@@ -11354,7 +10962,7 @@ class RecordDetail {
           .map((e) => RecordTag.fromJson(e as Map<String, dynamic>))
           .toList(),
       recordType: json['RecordType'] as String?,
-      status: (json['Status'] as String?)?.toRecordStatus(),
+      status: (json['Status'] as String?)?.let(RecordStatus.fromString),
       updatedTime: timeStampFromJson(json['UpdatedTime']),
     );
   }
@@ -11391,7 +10999,7 @@ class RecordDetail {
       if (recordId != null) 'RecordId': recordId,
       if (recordTags != null) 'RecordTags': recordTags,
       if (recordType != null) 'RecordType': recordType,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (updatedTime != null) 'UpdatedTime': unixTimestampToJson(updatedTime),
     };
   }
@@ -11467,46 +11075,21 @@ class RecordOutput {
 }
 
 enum RecordStatus {
-  created,
-  inProgress,
-  inProgressInError,
-  succeeded,
-  failed,
-}
+  created('CREATED'),
+  inProgress('IN_PROGRESS'),
+  inProgressInError('IN_PROGRESS_IN_ERROR'),
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  ;
 
-extension RecordStatusValueExtension on RecordStatus {
-  String toValue() {
-    switch (this) {
-      case RecordStatus.created:
-        return 'CREATED';
-      case RecordStatus.inProgress:
-        return 'IN_PROGRESS';
-      case RecordStatus.inProgressInError:
-        return 'IN_PROGRESS_IN_ERROR';
-      case RecordStatus.succeeded:
-        return 'SUCCEEDED';
-      case RecordStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension RecordStatusFromString on String {
-  RecordStatus toRecordStatus() {
-    switch (this) {
-      case 'CREATED':
-        return RecordStatus.created;
-      case 'IN_PROGRESS':
-        return RecordStatus.inProgress;
-      case 'IN_PROGRESS_IN_ERROR':
-        return RecordStatus.inProgressInError;
-      case 'SUCCEEDED':
-        return RecordStatus.succeeded;
-      case 'FAILED':
-        return RecordStatus.failed;
-    }
-    throw Exception('$this is not known in enum RecordStatus');
-  }
+  const RecordStatus(this.value);
+
+  static RecordStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RecordStatus'));
 }
 
 /// Information about a tag, which is a key-value pair.
@@ -11552,117 +11135,53 @@ class RejectPortfolioShareOutput {
 }
 
 enum Replacement {
-  $true,
-  $false,
-  conditional,
-}
+  $true('TRUE'),
+  $false('FALSE'),
+  conditional('CONDITIONAL'),
+  ;
 
-extension ReplacementValueExtension on Replacement {
-  String toValue() {
-    switch (this) {
-      case Replacement.$true:
-        return 'TRUE';
-      case Replacement.$false:
-        return 'FALSE';
-      case Replacement.conditional:
-        return 'CONDITIONAL';
-    }
-  }
-}
+  final String value;
 
-extension ReplacementFromString on String {
-  Replacement toReplacement() {
-    switch (this) {
-      case 'TRUE':
-        return Replacement.$true;
-      case 'FALSE':
-        return Replacement.$false;
-      case 'CONDITIONAL':
-        return Replacement.conditional;
-    }
-    throw Exception('$this is not known in enum Replacement');
-  }
+  const Replacement(this.value);
+
+  static Replacement fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Replacement'));
 }
 
 enum RequiresRecreation {
-  never,
-  conditionally,
-  always,
-}
+  never('NEVER'),
+  conditionally('CONDITIONALLY'),
+  always('ALWAYS'),
+  ;
 
-extension RequiresRecreationValueExtension on RequiresRecreation {
-  String toValue() {
-    switch (this) {
-      case RequiresRecreation.never:
-        return 'NEVER';
-      case RequiresRecreation.conditionally:
-        return 'CONDITIONALLY';
-      case RequiresRecreation.always:
-        return 'ALWAYS';
-    }
-  }
-}
+  final String value;
 
-extension RequiresRecreationFromString on String {
-  RequiresRecreation toRequiresRecreation() {
-    switch (this) {
-      case 'NEVER':
-        return RequiresRecreation.never;
-      case 'CONDITIONALLY':
-        return RequiresRecreation.conditionally;
-      case 'ALWAYS':
-        return RequiresRecreation.always;
-    }
-    throw Exception('$this is not known in enum RequiresRecreation');
-  }
+  const RequiresRecreation(this.value);
+
+  static RequiresRecreation fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RequiresRecreation'));
 }
 
 enum ResourceAttribute {
-  properties,
-  metadata,
-  creationpolicy,
-  updatepolicy,
-  deletionpolicy,
-  tags,
-}
+  properties('PROPERTIES'),
+  metadata('METADATA'),
+  creationpolicy('CREATIONPOLICY'),
+  updatepolicy('UPDATEPOLICY'),
+  deletionpolicy('DELETIONPOLICY'),
+  tags('TAGS'),
+  ;
 
-extension ResourceAttributeValueExtension on ResourceAttribute {
-  String toValue() {
-    switch (this) {
-      case ResourceAttribute.properties:
-        return 'PROPERTIES';
-      case ResourceAttribute.metadata:
-        return 'METADATA';
-      case ResourceAttribute.creationpolicy:
-        return 'CREATIONPOLICY';
-      case ResourceAttribute.updatepolicy:
-        return 'UPDATEPOLICY';
-      case ResourceAttribute.deletionpolicy:
-        return 'DELETIONPOLICY';
-      case ResourceAttribute.tags:
-        return 'TAGS';
-    }
-  }
-}
+  final String value;
 
-extension ResourceAttributeFromString on String {
-  ResourceAttribute toResourceAttribute() {
-    switch (this) {
-      case 'PROPERTIES':
-        return ResourceAttribute.properties;
-      case 'METADATA':
-        return ResourceAttribute.metadata;
-      case 'CREATIONPOLICY':
-        return ResourceAttribute.creationpolicy;
-      case 'UPDATEPOLICY':
-        return ResourceAttribute.updatepolicy;
-      case 'DELETIONPOLICY':
-        return ResourceAttribute.deletionpolicy;
-      case 'TAGS':
-        return ResourceAttribute.tags;
-    }
-    throw Exception('$this is not known in enum ResourceAttribute');
-  }
+  const ResourceAttribute(this.value);
+
+  static ResourceAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResourceAttribute'));
 }
 
 /// Information about a resource change that will occur when a plan is executed.
@@ -11701,18 +11220,19 @@ class ResourceChange {
 
   factory ResourceChange.fromJson(Map<String, dynamic> json) {
     return ResourceChange(
-      action: (json['Action'] as String?)?.toChangeAction(),
+      action: (json['Action'] as String?)?.let(ChangeAction.fromString),
       details: (json['Details'] as List?)
           ?.whereNotNull()
           .map((e) => ResourceChangeDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       logicalResourceId: json['LogicalResourceId'] as String?,
       physicalResourceId: json['PhysicalResourceId'] as String?,
-      replacement: (json['Replacement'] as String?)?.toReplacement(),
+      replacement:
+          (json['Replacement'] as String?)?.let(Replacement.fromString),
       resourceType: json['ResourceType'] as String?,
       scope: (json['Scope'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toResourceAttribute())
+          .map((e) => ResourceAttribute.fromString((e as String)))
           .toList(),
     );
   }
@@ -11726,13 +11246,13 @@ class ResourceChange {
     final resourceType = this.resourceType;
     final scope = this.scope;
     return {
-      if (action != null) 'Action': action.toValue(),
+      if (action != null) 'Action': action.value,
       if (details != null) 'Details': details,
       if (logicalResourceId != null) 'LogicalResourceId': logicalResourceId,
       if (physicalResourceId != null) 'PhysicalResourceId': physicalResourceId,
-      if (replacement != null) 'Replacement': replacement.toValue(),
+      if (replacement != null) 'Replacement': replacement.value,
       if (resourceType != null) 'ResourceType': resourceType,
-      if (scope != null) 'Scope': scope.map((e) => e.toValue()).toList(),
+      if (scope != null) 'Scope': scope.map((e) => e.value).toList(),
     };
   }
 }
@@ -11759,7 +11279,8 @@ class ResourceChangeDetail {
   factory ResourceChangeDetail.fromJson(Map<String, dynamic> json) {
     return ResourceChangeDetail(
       causingEntity: json['CausingEntity'] as String?,
-      evaluation: (json['Evaluation'] as String?)?.toEvaluationType(),
+      evaluation:
+          (json['Evaluation'] as String?)?.let(EvaluationType.fromString),
       target: json['Target'] != null
           ? ResourceTargetDefinition.fromJson(
               json['Target'] as Map<String, dynamic>)
@@ -11773,7 +11294,7 @@ class ResourceChangeDetail {
     final target = this.target;
     return {
       if (causingEntity != null) 'CausingEntity': causingEntity,
-      if (evaluation != null) 'Evaluation': evaluation.toValue(),
+      if (evaluation != null) 'Evaluation': evaluation.value,
       if (target != null) 'Target': target,
     };
   }
@@ -11851,10 +11372,11 @@ class ResourceTargetDefinition {
 
   factory ResourceTargetDefinition.fromJson(Map<String, dynamic> json) {
     return ResourceTargetDefinition(
-      attribute: (json['Attribute'] as String?)?.toResourceAttribute(),
+      attribute:
+          (json['Attribute'] as String?)?.let(ResourceAttribute.fromString),
       name: json['Name'] as String?,
-      requiresRecreation:
-          (json['RequiresRecreation'] as String?)?.toRequiresRecreation(),
+      requiresRecreation: (json['RequiresRecreation'] as String?)
+          ?.let(RequiresRecreation.fromString),
     );
   }
 
@@ -11863,10 +11385,10 @@ class ResourceTargetDefinition {
     final name = this.name;
     final requiresRecreation = this.requiresRecreation;
     return {
-      if (attribute != null) 'Attribute': attribute.toValue(),
+      if (attribute != null) 'Attribute': attribute.value,
       if (name != null) 'Name': name,
       if (requiresRecreation != null)
-        'RequiresRecreation': requiresRecreation.toValue(),
+        'RequiresRecreation': requiresRecreation.value,
     };
   }
 }
@@ -12064,116 +11586,53 @@ class ServiceActionAssociation {
 }
 
 enum ServiceActionAssociationErrorCode {
-  duplicateResource,
-  internalFailure,
-  limitExceeded,
-  resourceNotFound,
-  throttling,
-  invalidParameter,
-}
+  duplicateResource('DUPLICATE_RESOURCE'),
+  internalFailure('INTERNAL_FAILURE'),
+  limitExceeded('LIMIT_EXCEEDED'),
+  resourceNotFound('RESOURCE_NOT_FOUND'),
+  throttling('THROTTLING'),
+  invalidParameter('INVALID_PARAMETER'),
+  ;
 
-extension ServiceActionAssociationErrorCodeValueExtension
-    on ServiceActionAssociationErrorCode {
-  String toValue() {
-    switch (this) {
-      case ServiceActionAssociationErrorCode.duplicateResource:
-        return 'DUPLICATE_RESOURCE';
-      case ServiceActionAssociationErrorCode.internalFailure:
-        return 'INTERNAL_FAILURE';
-      case ServiceActionAssociationErrorCode.limitExceeded:
-        return 'LIMIT_EXCEEDED';
-      case ServiceActionAssociationErrorCode.resourceNotFound:
-        return 'RESOURCE_NOT_FOUND';
-      case ServiceActionAssociationErrorCode.throttling:
-        return 'THROTTLING';
-      case ServiceActionAssociationErrorCode.invalidParameter:
-        return 'INVALID_PARAMETER';
-    }
-  }
-}
+  final String value;
 
-extension ServiceActionAssociationErrorCodeFromString on String {
-  ServiceActionAssociationErrorCode toServiceActionAssociationErrorCode() {
-    switch (this) {
-      case 'DUPLICATE_RESOURCE':
-        return ServiceActionAssociationErrorCode.duplicateResource;
-      case 'INTERNAL_FAILURE':
-        return ServiceActionAssociationErrorCode.internalFailure;
-      case 'LIMIT_EXCEEDED':
-        return ServiceActionAssociationErrorCode.limitExceeded;
-      case 'RESOURCE_NOT_FOUND':
-        return ServiceActionAssociationErrorCode.resourceNotFound;
-      case 'THROTTLING':
-        return ServiceActionAssociationErrorCode.throttling;
-      case 'INVALID_PARAMETER':
-        return ServiceActionAssociationErrorCode.invalidParameter;
-    }
-    throw Exception(
-        '$this is not known in enum ServiceActionAssociationErrorCode');
-  }
+  const ServiceActionAssociationErrorCode(this.value);
+
+  static ServiceActionAssociationErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ServiceActionAssociationErrorCode'));
 }
 
 enum ServiceActionDefinitionKey {
-  name,
-  version,
-  assumeRole,
-  parameters,
-}
+  name('Name'),
+  version('Version'),
+  assumeRole('AssumeRole'),
+  parameters('Parameters'),
+  ;
 
-extension ServiceActionDefinitionKeyValueExtension
-    on ServiceActionDefinitionKey {
-  String toValue() {
-    switch (this) {
-      case ServiceActionDefinitionKey.name:
-        return 'Name';
-      case ServiceActionDefinitionKey.version:
-        return 'Version';
-      case ServiceActionDefinitionKey.assumeRole:
-        return 'AssumeRole';
-      case ServiceActionDefinitionKey.parameters:
-        return 'Parameters';
-    }
-  }
-}
+  final String value;
 
-extension ServiceActionDefinitionKeyFromString on String {
-  ServiceActionDefinitionKey toServiceActionDefinitionKey() {
-    switch (this) {
-      case 'Name':
-        return ServiceActionDefinitionKey.name;
-      case 'Version':
-        return ServiceActionDefinitionKey.version;
-      case 'AssumeRole':
-        return ServiceActionDefinitionKey.assumeRole;
-      case 'Parameters':
-        return ServiceActionDefinitionKey.parameters;
-    }
-    throw Exception('$this is not known in enum ServiceActionDefinitionKey');
-  }
+  const ServiceActionDefinitionKey(this.value);
+
+  static ServiceActionDefinitionKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ServiceActionDefinitionKey'));
 }
 
 enum ServiceActionDefinitionType {
-  ssmAutomation,
-}
+  ssmAutomation('SSM_AUTOMATION'),
+  ;
 
-extension ServiceActionDefinitionTypeValueExtension
-    on ServiceActionDefinitionType {
-  String toValue() {
-    switch (this) {
-      case ServiceActionDefinitionType.ssmAutomation:
-        return 'SSM_AUTOMATION';
-    }
-  }
-}
+  final String value;
 
-extension ServiceActionDefinitionTypeFromString on String {
-  ServiceActionDefinitionType toServiceActionDefinitionType() {
-    switch (this) {
-      case 'SSM_AUTOMATION':
-        return ServiceActionDefinitionType.ssmAutomation;
-    }
-    throw Exception('$this is not known in enum ServiceActionDefinitionType');
-  }
+  const ServiceActionDefinitionType(this.value);
+
+  static ServiceActionDefinitionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ServiceActionDefinitionType'));
 }
 
 /// An object containing detailed information about the self-service action.
@@ -12191,8 +11650,8 @@ class ServiceActionDetail {
 
   factory ServiceActionDetail.fromJson(Map<String, dynamic> json) {
     return ServiceActionDetail(
-      definition: (json['Definition'] as Map<String, dynamic>?)?.map(
-          (k, e) => MapEntry(k.toServiceActionDefinitionKey(), e as String)),
+      definition: (json['Definition'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(ServiceActionDefinitionKey.fromString(k), e as String)),
       serviceActionSummary: json['ServiceActionSummary'] != null
           ? ServiceActionSummary.fromJson(
               json['ServiceActionSummary'] as Map<String, dynamic>)
@@ -12205,7 +11664,7 @@ class ServiceActionDetail {
     final serviceActionSummary = this.serviceActionSummary;
     return {
       if (definition != null)
-        'Definition': definition.map((k, e) => MapEntry(k.toValue(), e)),
+        'Definition': definition.map((k, e) => MapEntry(k.value, e)),
       if (serviceActionSummary != null)
         'ServiceActionSummary': serviceActionSummary,
     };
@@ -12236,8 +11695,8 @@ class ServiceActionSummary {
 
   factory ServiceActionSummary.fromJson(Map<String, dynamic> json) {
     return ServiceActionSummary(
-      definitionType:
-          (json['DefinitionType'] as String?)?.toServiceActionDefinitionType(),
+      definitionType: (json['DefinitionType'] as String?)
+          ?.let(ServiceActionDefinitionType.fromString),
       description: json['Description'] as String?,
       id: json['Id'] as String?,
       name: json['Name'] as String?,
@@ -12250,7 +11709,7 @@ class ServiceActionSummary {
     final id = this.id;
     final name = this.name;
     return {
-      if (definitionType != null) 'DefinitionType': definitionType.toValue(),
+      if (definitionType != null) 'DefinitionType': definitionType.value,
       if (description != null) 'Description': description,
       if (id != null) 'Id': id,
       if (name != null) 'Name': name,
@@ -12335,74 +11794,34 @@ class ShareError {
 }
 
 enum ShareStatus {
-  notStarted,
-  inProgress,
-  completed,
-  completedWithErrors,
-  error,
-}
+  notStarted('NOT_STARTED'),
+  inProgress('IN_PROGRESS'),
+  completed('COMPLETED'),
+  completedWithErrors('COMPLETED_WITH_ERRORS'),
+  error('ERROR'),
+  ;
 
-extension ShareStatusValueExtension on ShareStatus {
-  String toValue() {
-    switch (this) {
-      case ShareStatus.notStarted:
-        return 'NOT_STARTED';
-      case ShareStatus.inProgress:
-        return 'IN_PROGRESS';
-      case ShareStatus.completed:
-        return 'COMPLETED';
-      case ShareStatus.completedWithErrors:
-        return 'COMPLETED_WITH_ERRORS';
-      case ShareStatus.error:
-        return 'ERROR';
-    }
-  }
-}
+  final String value;
 
-extension ShareStatusFromString on String {
-  ShareStatus toShareStatus() {
-    switch (this) {
-      case 'NOT_STARTED':
-        return ShareStatus.notStarted;
-      case 'IN_PROGRESS':
-        return ShareStatus.inProgress;
-      case 'COMPLETED':
-        return ShareStatus.completed;
-      case 'COMPLETED_WITH_ERRORS':
-        return ShareStatus.completedWithErrors;
-      case 'ERROR':
-        return ShareStatus.error;
-    }
-    throw Exception('$this is not known in enum ShareStatus');
-  }
+  const ShareStatus(this.value);
+
+  static ShareStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ShareStatus'));
 }
 
 enum SortOrder {
-  ascending,
-  descending,
-}
+  ascending('ASCENDING'),
+  descending('DESCENDING'),
+  ;
 
-extension SortOrderValueExtension on SortOrder {
-  String toValue() {
-    switch (this) {
-      case SortOrder.ascending:
-        return 'ASCENDING';
-      case SortOrder.descending:
-        return 'DESCENDING';
-    }
-  }
-}
+  final String value;
 
-extension SortOrderFromString on String {
-  SortOrder toSortOrder() {
-    switch (this) {
-      case 'ASCENDING':
-        return SortOrder.ascending;
-      case 'DESCENDING':
-        return SortOrder.descending;
-    }
-    throw Exception('$this is not known in enum SortOrder');
-  }
+  const SortOrder(this.value);
+
+  static SortOrder fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SortOrder'));
 }
 
 /// A top level <code>ProductViewDetail</code> response containing details about
@@ -12429,7 +11848,7 @@ class SourceConnection {
     final type = this.type;
     return {
       'ConnectionParameters': connectionParameters,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -12479,7 +11898,7 @@ class SourceConnectionDetail {
       lastSync: json['LastSync'] != null
           ? LastSync.fromJson(json['LastSync'] as Map<String, dynamic>)
           : null,
-      type: (json['Type'] as String?)?.toSourceType(),
+      type: (json['Type'] as String?)?.let(SourceType.fromString),
     );
   }
 
@@ -12491,7 +11910,7 @@ class SourceConnectionDetail {
       if (connectionParameters != null)
         'ConnectionParameters': connectionParameters,
       if (lastSync != null) 'LastSync': lastSync,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -12523,26 +11942,16 @@ class SourceConnectionParameters {
 }
 
 enum SourceType {
-  codestar,
-}
+  codestar('CODESTAR'),
+  ;
 
-extension SourceTypeValueExtension on SourceType {
-  String toValue() {
-    switch (this) {
-      case SourceType.codestar:
-        return 'CODESTAR';
-    }
-  }
-}
+  final String value;
 
-extension SourceTypeFromString on String {
-  SourceType toSourceType() {
-    switch (this) {
-      case 'CODESTAR':
-        return SourceType.codestar;
-    }
-    throw Exception('$this is not known in enum SourceType');
-  }
+  const SourceType(this.value);
+
+  static SourceType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SourceType'));
 }
 
 /// An CloudFormation stack, in a specific account and Region, that's part of a
@@ -12597,8 +12006,8 @@ class StackInstance {
     return StackInstance(
       account: json['Account'] as String?,
       region: json['Region'] as String?,
-      stackInstanceStatus:
-          (json['StackInstanceStatus'] as String?)?.toStackInstanceStatus(),
+      stackInstanceStatus: (json['StackInstanceStatus'] as String?)
+          ?.let(StackInstanceStatus.fromString),
     );
   }
 
@@ -12610,108 +12019,56 @@ class StackInstance {
       if (account != null) 'Account': account,
       if (region != null) 'Region': region,
       if (stackInstanceStatus != null)
-        'StackInstanceStatus': stackInstanceStatus.toValue(),
+        'StackInstanceStatus': stackInstanceStatus.value,
     };
   }
 }
 
 enum StackInstanceStatus {
-  current,
-  outdated,
-  inoperable,
-}
+  current('CURRENT'),
+  outdated('OUTDATED'),
+  inoperable('INOPERABLE'),
+  ;
 
-extension StackInstanceStatusValueExtension on StackInstanceStatus {
-  String toValue() {
-    switch (this) {
-      case StackInstanceStatus.current:
-        return 'CURRENT';
-      case StackInstanceStatus.outdated:
-        return 'OUTDATED';
-      case StackInstanceStatus.inoperable:
-        return 'INOPERABLE';
-    }
-  }
-}
+  final String value;
 
-extension StackInstanceStatusFromString on String {
-  StackInstanceStatus toStackInstanceStatus() {
-    switch (this) {
-      case 'CURRENT':
-        return StackInstanceStatus.current;
-      case 'OUTDATED':
-        return StackInstanceStatus.outdated;
-      case 'INOPERABLE':
-        return StackInstanceStatus.inoperable;
-    }
-    throw Exception('$this is not known in enum StackInstanceStatus');
-  }
+  const StackInstanceStatus(this.value);
+
+  static StackInstanceStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum StackInstanceStatus'));
 }
 
 enum StackSetOperationType {
-  create,
-  update,
-  delete,
-}
+  create('CREATE'),
+  update('UPDATE'),
+  delete('DELETE'),
+  ;
 
-extension StackSetOperationTypeValueExtension on StackSetOperationType {
-  String toValue() {
-    switch (this) {
-      case StackSetOperationType.create:
-        return 'CREATE';
-      case StackSetOperationType.update:
-        return 'UPDATE';
-      case StackSetOperationType.delete:
-        return 'DELETE';
-    }
-  }
-}
+  final String value;
 
-extension StackSetOperationTypeFromString on String {
-  StackSetOperationType toStackSetOperationType() {
-    switch (this) {
-      case 'CREATE':
-        return StackSetOperationType.create;
-      case 'UPDATE':
-        return StackSetOperationType.update;
-      case 'DELETE':
-        return StackSetOperationType.delete;
-    }
-    throw Exception('$this is not known in enum StackSetOperationType');
-  }
+  const StackSetOperationType(this.value);
+
+  static StackSetOperationType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum StackSetOperationType'));
 }
 
 enum Status {
-  available,
-  creating,
-  failed,
-}
+  available('AVAILABLE'),
+  creating('CREATING'),
+  failed('FAILED'),
+  ;
 
-extension StatusValueExtension on Status {
-  String toValue() {
-    switch (this) {
-      case Status.available:
-        return 'AVAILABLE';
-      case Status.creating:
-        return 'CREATING';
-      case Status.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension StatusFromString on String {
-  Status toStatus() {
-    switch (this) {
-      case 'AVAILABLE':
-        return Status.available;
-      case 'CREATING':
-        return Status.creating;
-      case 'FAILED':
-        return Status.failed;
-    }
-    throw Exception('$this is not known in enum Status');
-  }
+  const Status(this.value);
+
+  static Status fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Status'));
 }
 
 /// Information about a tag. A tag is a key-value pair. Tags are propagated to
@@ -12902,7 +12259,7 @@ class UpdateConstraintOutput {
               json['ConstraintDetail'] as Map<String, dynamic>)
           : null,
       constraintParameters: json['ConstraintParameters'] as String?,
-      status: (json['Status'] as String?)?.toStatus(),
+      status: (json['Status'] as String?)?.let(Status.fromString),
     );
   }
 
@@ -12914,7 +12271,7 @@ class UpdateConstraintOutput {
       if (constraintDetail != null) 'ConstraintDetail': constraintDetail,
       if (constraintParameters != null)
         'ConstraintParameters': constraintParameters,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -12972,7 +12329,7 @@ class UpdatePortfolioShareOutput {
   factory UpdatePortfolioShareOutput.fromJson(Map<String, dynamic> json) {
     return UpdatePortfolioShareOutput(
       portfolioShareToken: json['PortfolioShareToken'] as String?,
-      status: (json['Status'] as String?)?.toShareStatus(),
+      status: (json['Status'] as String?)?.let(ShareStatus.fromString),
     );
   }
 
@@ -12982,7 +12339,7 @@ class UpdatePortfolioShareOutput {
     return {
       if (portfolioShareToken != null)
         'PortfolioShareToken': portfolioShareToken,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -13072,9 +12429,9 @@ class UpdateProvisionedProductPropertiesOutput {
       provisionedProductId: json['ProvisionedProductId'] as String?,
       provisionedProductProperties:
           (json['ProvisionedProductProperties'] as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(k.toPropertyKey(), e as String)),
+              ?.map((k, e) => MapEntry(PropertyKey.fromString(k), e as String)),
       recordId: json['RecordId'] as String?,
-      status: (json['Status'] as String?)?.toRecordStatus(),
+      status: (json['Status'] as String?)?.let(RecordStatus.fromString),
     );
   }
 
@@ -13087,10 +12444,10 @@ class UpdateProvisionedProductPropertiesOutput {
       if (provisionedProductId != null)
         'ProvisionedProductId': provisionedProductId,
       if (provisionedProductProperties != null)
-        'ProvisionedProductProperties': provisionedProductProperties
-            .map((k, e) => MapEntry(k.toValue(), e)),
+        'ProvisionedProductProperties':
+            provisionedProductProperties.map((k, e) => MapEntry(k.value, e)),
       if (recordId != null) 'RecordId': recordId,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -13120,7 +12477,7 @@ class UpdateProvisioningArtifactOutput {
           ? ProvisioningArtifactDetail.fromJson(
               json['ProvisioningArtifactDetail'] as Map<String, dynamic>)
           : null,
-      status: (json['Status'] as String?)?.toStatus(),
+      status: (json['Status'] as String?)?.let(Status.fromString),
     );
   }
 
@@ -13132,7 +12489,7 @@ class UpdateProvisioningArtifactOutput {
       if (info != null) 'Info': info,
       if (provisioningArtifactDetail != null)
         'ProvisioningArtifactDetail': provisioningArtifactDetail,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -13321,7 +12678,7 @@ class UpdateProvisioningPreferences {
       if (stackSetMaxConcurrencyPercentage != null)
         'StackSetMaxConcurrencyPercentage': stackSetMaxConcurrencyPercentage,
       if (stackSetOperationType != null)
-        'StackSetOperationType': stackSetOperationType.toValue(),
+        'StackSetOperationType': stackSetOperationType.value,
       if (stackSetRegions != null) 'StackSetRegions': stackSetRegions,
     };
   }

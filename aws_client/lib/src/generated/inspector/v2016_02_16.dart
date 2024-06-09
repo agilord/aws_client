@@ -513,7 +513,7 @@ class Inspector {
       headers: headers,
       payload: {
         'exclusionArns': exclusionArns,
-        if (locale != null) 'locale': locale.toValue(),
+        if (locale != null) 'locale': locale.value,
       },
     );
 
@@ -547,7 +547,7 @@ class Inspector {
       headers: headers,
       payload: {
         'findingArns': findingArns,
-        if (locale != null) 'locale': locale.toValue(),
+        if (locale != null) 'locale': locale.value,
       },
     );
 
@@ -610,7 +610,7 @@ class Inspector {
       headers: headers,
       payload: {
         'rulesPackageArns': rulesPackageArns,
-        if (locale != null) 'locale': locale.toValue(),
+        if (locale != null) 'locale': locale.value,
       },
     );
 
@@ -659,8 +659,8 @@ class Inspector {
       headers: headers,
       payload: {
         'assessmentRunArn': assessmentRunArn,
-        'reportFileFormat': reportFileFormat.toValue(),
-        'reportType': reportType.toValue(),
+        'reportFileFormat': reportFileFormat.value,
+        'reportType': reportType.value,
       },
     );
 
@@ -717,7 +717,7 @@ class Inspector {
       payload: {
         'assessmentTemplateArn': assessmentTemplateArn,
         'previewToken': previewToken,
-        if (locale != null) 'locale': locale.toValue(),
+        if (locale != null) 'locale': locale.value,
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
       },
@@ -1435,7 +1435,7 @@ class Inspector {
       headers: headers,
       payload: {
         'assessmentRunArn': assessmentRunArn,
-        if (stopAction != null) 'stopAction': stopAction.toValue(),
+        if (stopAction != null) 'stopAction': stopAction.value,
       },
     );
   }
@@ -1475,7 +1475,7 @@ class Inspector {
       // TODO queryParams
       headers: headers,
       payload: {
-        'event': event.toValue(),
+        'event': event.value,
         'resourceArn': resourceArn,
         'topicArn': topicArn,
       },
@@ -1516,7 +1516,7 @@ class Inspector {
       // TODO queryParams
       headers: headers,
       payload: {
-        'event': event.toValue(),
+        'event': event.value,
         'resourceArn': resourceArn,
         'topicArn': topicArn,
       },
@@ -1613,91 +1613,44 @@ class AgentFilter {
     final agentHealthCodes = this.agentHealthCodes;
     final agentHealths = this.agentHealths;
     return {
-      'agentHealthCodes': agentHealthCodes.map((e) => e.toValue()).toList(),
-      'agentHealths': agentHealths.map((e) => e.toValue()).toList(),
+      'agentHealthCodes': agentHealthCodes.map((e) => e.value).toList(),
+      'agentHealths': agentHealths.map((e) => e.value).toList(),
     };
   }
 }
 
 enum AgentHealth {
-  healthy,
-  unhealthy,
-  unknown,
-}
+  healthy('HEALTHY'),
+  unhealthy('UNHEALTHY'),
+  unknown('UNKNOWN'),
+  ;
 
-extension AgentHealthValueExtension on AgentHealth {
-  String toValue() {
-    switch (this) {
-      case AgentHealth.healthy:
-        return 'HEALTHY';
-      case AgentHealth.unhealthy:
-        return 'UNHEALTHY';
-      case AgentHealth.unknown:
-        return 'UNKNOWN';
-    }
-  }
-}
+  final String value;
 
-extension AgentHealthFromString on String {
-  AgentHealth toAgentHealth() {
-    switch (this) {
-      case 'HEALTHY':
-        return AgentHealth.healthy;
-      case 'UNHEALTHY':
-        return AgentHealth.unhealthy;
-      case 'UNKNOWN':
-        return AgentHealth.unknown;
-    }
-    throw Exception('$this is not known in enum AgentHealth');
-  }
+  const AgentHealth(this.value);
+
+  static AgentHealth fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AgentHealth'));
 }
 
 enum AgentHealthCode {
-  idle,
-  running,
-  shutdown,
-  unhealthy,
-  throttled,
-  unknown,
-}
+  idle('IDLE'),
+  running('RUNNING'),
+  shutdown('SHUTDOWN'),
+  unhealthy('UNHEALTHY'),
+  throttled('THROTTLED'),
+  unknown('UNKNOWN'),
+  ;
 
-extension AgentHealthCodeValueExtension on AgentHealthCode {
-  String toValue() {
-    switch (this) {
-      case AgentHealthCode.idle:
-        return 'IDLE';
-      case AgentHealthCode.running:
-        return 'RUNNING';
-      case AgentHealthCode.shutdown:
-        return 'SHUTDOWN';
-      case AgentHealthCode.unhealthy:
-        return 'UNHEALTHY';
-      case AgentHealthCode.throttled:
-        return 'THROTTLED';
-      case AgentHealthCode.unknown:
-        return 'UNKNOWN';
-    }
-  }
-}
+  final String value;
 
-extension AgentHealthCodeFromString on String {
-  AgentHealthCode toAgentHealthCode() {
-    switch (this) {
-      case 'IDLE':
-        return AgentHealthCode.idle;
-      case 'RUNNING':
-        return AgentHealthCode.running;
-      case 'SHUTDOWN':
-        return AgentHealthCode.shutdown;
-      case 'UNHEALTHY':
-        return AgentHealthCode.unhealthy;
-      case 'THROTTLED':
-        return AgentHealthCode.throttled;
-      case 'UNKNOWN':
-        return AgentHealthCode.unknown;
-    }
-    throw Exception('$this is not known in enum AgentHealthCode');
-  }
+  const AgentHealthCode(this.value);
+
+  static AgentHealthCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AgentHealthCode'));
 }
 
 /// Used as a response element in the <a>PreviewAgents</a> action.
@@ -1744,7 +1697,8 @@ class AgentPreview {
   factory AgentPreview.fromJson(Map<String, dynamic> json) {
     return AgentPreview(
       agentId: json['agentId'] as String,
-      agentHealth: (json['agentHealth'] as String?)?.toAgentHealth(),
+      agentHealth:
+          (json['agentHealth'] as String?)?.let(AgentHealth.fromString),
       agentVersion: json['agentVersion'] as String?,
       autoScalingGroup: json['autoScalingGroup'] as String?,
       hostname: json['hostname'] as String?,
@@ -1765,7 +1719,7 @@ class AgentPreview {
     final operatingSystem = this.operatingSystem;
     return {
       'agentId': agentId,
-      if (agentHealth != null) 'agentHealth': agentHealth.toValue(),
+      if (agentHealth != null) 'agentHealth': agentHealth.value,
       if (agentVersion != null) 'agentVersion': agentVersion,
       if (autoScalingGroup != null) 'autoScalingGroup': autoScalingGroup,
       if (hostname != null) 'hostname': hostname,
@@ -1856,7 +1810,7 @@ class AssessmentRun {
       dataCollected: json['dataCollected'] as bool,
       durationInSeconds: json['durationInSeconds'] as int,
       findingCounts: (json['findingCounts'] as Map<String, dynamic>)
-          .map((k, e) => MapEntry(k.toSeverity(), e as int)),
+          .map((k, e) => MapEntry(Severity.fromString(k), e as int)),
       name: json['name'] as String,
       notifications: (json['notifications'] as List)
           .whereNotNull()
@@ -1867,7 +1821,7 @@ class AssessmentRun {
           .whereNotNull()
           .map((e) => e as String)
           .toList(),
-      state: (json['state'] as String).toAssessmentRunState(),
+      state: AssessmentRunState.fromString((json['state'] as String)),
       stateChangedAt:
           nonNullableTimeStampFromJson(json['stateChangedAt'] as Object),
       stateChanges: (json['stateChanges'] as List)
@@ -1906,11 +1860,11 @@ class AssessmentRun {
       'createdAt': unixTimestampToJson(createdAt),
       'dataCollected': dataCollected,
       'durationInSeconds': durationInSeconds,
-      'findingCounts': findingCounts.map((k, e) => MapEntry(k.toValue(), e)),
+      'findingCounts': findingCounts.map((k, e) => MapEntry(k.value, e)),
       'name': name,
       'notifications': notifications,
       'rulesPackageArns': rulesPackageArns,
-      'state': state.toValue(),
+      'state': state.value,
       'stateChangedAt': unixTimestampToJson(stateChangedAt),
       'stateChanges': stateChanges,
       'userAttributesForFindings': userAttributesForFindings,
@@ -1958,8 +1912,9 @@ class AssessmentRunAgent {
 
   factory AssessmentRunAgent.fromJson(Map<String, dynamic> json) {
     return AssessmentRunAgent(
-      agentHealth: (json['agentHealth'] as String).toAgentHealth(),
-      agentHealthCode: (json['agentHealthCode'] as String).toAgentHealthCode(),
+      agentHealth: AgentHealth.fromString((json['agentHealth'] as String)),
+      agentHealthCode:
+          AgentHealthCode.fromString((json['agentHealthCode'] as String)),
       agentId: json['agentId'] as String,
       assessmentRunArn: json['assessmentRunArn'] as String,
       telemetryMetadata: (json['telemetryMetadata'] as List)
@@ -1980,8 +1935,8 @@ class AssessmentRunAgent {
     final agentHealthDetails = this.agentHealthDetails;
     final autoScalingGroup = this.autoScalingGroup;
     return {
-      'agentHealth': agentHealth.toValue(),
-      'agentHealthCode': agentHealthCode.toValue(),
+      'agentHealth': agentHealth.value,
+      'agentHealthCode': agentHealthCode.value,
       'agentId': agentId,
       'assessmentRunArn': assessmentRunArn,
       'telemetryMetadata': telemetryMetadata,
@@ -2059,7 +2014,7 @@ class AssessmentRunFilter {
       if (startTimeRange != null) 'startTimeRange': startTimeRange,
       if (stateChangeTimeRange != null)
         'stateChangeTimeRange': stateChangeTimeRange,
-      if (states != null) 'states': states.map((e) => e.toValue()).toList(),
+      if (states != null) 'states': states.map((e) => e.value).toList(),
     };
   }
 }
@@ -2098,10 +2053,10 @@ class AssessmentRunNotification {
     return AssessmentRunNotification(
       date: nonNullableTimeStampFromJson(json['date'] as Object),
       error: json['error'] as bool,
-      event: (json['event'] as String).toInspectorEvent(),
+      event: InspectorEvent.fromString((json['event'] as String)),
       message: json['message'] as String?,
       snsPublishStatusCode: (json['snsPublishStatusCode'] as String?)
-          ?.toAssessmentRunNotificationSnsStatusCode(),
+          ?.let(AssessmentRunNotificationSnsStatusCode.fromString),
       snsTopicArn: json['snsTopicArn'] as String?,
     );
   }
@@ -2116,137 +2071,56 @@ class AssessmentRunNotification {
     return {
       'date': unixTimestampToJson(date),
       'error': error,
-      'event': event.toValue(),
+      'event': event.value,
       if (message != null) 'message': message,
       if (snsPublishStatusCode != null)
-        'snsPublishStatusCode': snsPublishStatusCode.toValue(),
+        'snsPublishStatusCode': snsPublishStatusCode.value,
       if (snsTopicArn != null) 'snsTopicArn': snsTopicArn,
     };
   }
 }
 
 enum AssessmentRunNotificationSnsStatusCode {
-  success,
-  topicDoesNotExist,
-  accessDenied,
-  internalError,
-}
+  success('SUCCESS'),
+  topicDoesNotExist('TOPIC_DOES_NOT_EXIST'),
+  accessDenied('ACCESS_DENIED'),
+  internalError('INTERNAL_ERROR'),
+  ;
 
-extension AssessmentRunNotificationSnsStatusCodeValueExtension
-    on AssessmentRunNotificationSnsStatusCode {
-  String toValue() {
-    switch (this) {
-      case AssessmentRunNotificationSnsStatusCode.success:
-        return 'SUCCESS';
-      case AssessmentRunNotificationSnsStatusCode.topicDoesNotExist:
-        return 'TOPIC_DOES_NOT_EXIST';
-      case AssessmentRunNotificationSnsStatusCode.accessDenied:
-        return 'ACCESS_DENIED';
-      case AssessmentRunNotificationSnsStatusCode.internalError:
-        return 'INTERNAL_ERROR';
-    }
-  }
-}
+  final String value;
 
-extension AssessmentRunNotificationSnsStatusCodeFromString on String {
-  AssessmentRunNotificationSnsStatusCode
-      toAssessmentRunNotificationSnsStatusCode() {
-    switch (this) {
-      case 'SUCCESS':
-        return AssessmentRunNotificationSnsStatusCode.success;
-      case 'TOPIC_DOES_NOT_EXIST':
-        return AssessmentRunNotificationSnsStatusCode.topicDoesNotExist;
-      case 'ACCESS_DENIED':
-        return AssessmentRunNotificationSnsStatusCode.accessDenied;
-      case 'INTERNAL_ERROR':
-        return AssessmentRunNotificationSnsStatusCode.internalError;
-    }
-    throw Exception(
-        '$this is not known in enum AssessmentRunNotificationSnsStatusCode');
-  }
+  const AssessmentRunNotificationSnsStatusCode(this.value);
+
+  static AssessmentRunNotificationSnsStatusCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AssessmentRunNotificationSnsStatusCode'));
 }
 
 enum AssessmentRunState {
-  created,
-  startDataCollectionPending,
-  startDataCollectionInProgress,
-  collectingData,
-  stopDataCollectionPending,
-  dataCollected,
-  startEvaluatingRulesPending,
-  evaluatingRules,
-  failed,
-  error,
-  completed,
-  completedWithErrors,
-  canceled,
-}
+  created('CREATED'),
+  startDataCollectionPending('START_DATA_COLLECTION_PENDING'),
+  startDataCollectionInProgress('START_DATA_COLLECTION_IN_PROGRESS'),
+  collectingData('COLLECTING_DATA'),
+  stopDataCollectionPending('STOP_DATA_COLLECTION_PENDING'),
+  dataCollected('DATA_COLLECTED'),
+  startEvaluatingRulesPending('START_EVALUATING_RULES_PENDING'),
+  evaluatingRules('EVALUATING_RULES'),
+  failed('FAILED'),
+  error('ERROR'),
+  completed('COMPLETED'),
+  completedWithErrors('COMPLETED_WITH_ERRORS'),
+  canceled('CANCELED'),
+  ;
 
-extension AssessmentRunStateValueExtension on AssessmentRunState {
-  String toValue() {
-    switch (this) {
-      case AssessmentRunState.created:
-        return 'CREATED';
-      case AssessmentRunState.startDataCollectionPending:
-        return 'START_DATA_COLLECTION_PENDING';
-      case AssessmentRunState.startDataCollectionInProgress:
-        return 'START_DATA_COLLECTION_IN_PROGRESS';
-      case AssessmentRunState.collectingData:
-        return 'COLLECTING_DATA';
-      case AssessmentRunState.stopDataCollectionPending:
-        return 'STOP_DATA_COLLECTION_PENDING';
-      case AssessmentRunState.dataCollected:
-        return 'DATA_COLLECTED';
-      case AssessmentRunState.startEvaluatingRulesPending:
-        return 'START_EVALUATING_RULES_PENDING';
-      case AssessmentRunState.evaluatingRules:
-        return 'EVALUATING_RULES';
-      case AssessmentRunState.failed:
-        return 'FAILED';
-      case AssessmentRunState.error:
-        return 'ERROR';
-      case AssessmentRunState.completed:
-        return 'COMPLETED';
-      case AssessmentRunState.completedWithErrors:
-        return 'COMPLETED_WITH_ERRORS';
-      case AssessmentRunState.canceled:
-        return 'CANCELED';
-    }
-  }
-}
+  final String value;
 
-extension AssessmentRunStateFromString on String {
-  AssessmentRunState toAssessmentRunState() {
-    switch (this) {
-      case 'CREATED':
-        return AssessmentRunState.created;
-      case 'START_DATA_COLLECTION_PENDING':
-        return AssessmentRunState.startDataCollectionPending;
-      case 'START_DATA_COLLECTION_IN_PROGRESS':
-        return AssessmentRunState.startDataCollectionInProgress;
-      case 'COLLECTING_DATA':
-        return AssessmentRunState.collectingData;
-      case 'STOP_DATA_COLLECTION_PENDING':
-        return AssessmentRunState.stopDataCollectionPending;
-      case 'DATA_COLLECTED':
-        return AssessmentRunState.dataCollected;
-      case 'START_EVALUATING_RULES_PENDING':
-        return AssessmentRunState.startEvaluatingRulesPending;
-      case 'EVALUATING_RULES':
-        return AssessmentRunState.evaluatingRules;
-      case 'FAILED':
-        return AssessmentRunState.failed;
-      case 'ERROR':
-        return AssessmentRunState.error;
-      case 'COMPLETED':
-        return AssessmentRunState.completed;
-      case 'COMPLETED_WITH_ERRORS':
-        return AssessmentRunState.completedWithErrors;
-      case 'CANCELED':
-        return AssessmentRunState.canceled;
-    }
-    throw Exception('$this is not known in enum AssessmentRunState');
-  }
+  const AssessmentRunState(this.value);
+
+  static AssessmentRunState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AssessmentRunState'));
 }
 
 /// Used as one of the elements of the <a>AssessmentRun</a> data type.
@@ -2264,7 +2138,7 @@ class AssessmentRunStateChange {
 
   factory AssessmentRunStateChange.fromJson(Map<String, dynamic> json) {
     return AssessmentRunStateChange(
-      state: (json['state'] as String).toAssessmentRunState(),
+      state: AssessmentRunState.fromString((json['state'] as String)),
       stateChangedAt:
           nonNullableTimeStampFromJson(json['stateChangedAt'] as Object),
     );
@@ -2274,7 +2148,7 @@ class AssessmentRunStateChange {
     final state = this.state;
     final stateChangedAt = this.stateChangedAt;
     return {
-      'state': state.toValue(),
+      'state': state.value,
       'stateChangedAt': unixTimestampToJson(stateChangedAt),
     };
   }
@@ -2573,26 +2447,16 @@ class AssetAttributes {
 }
 
 enum AssetType {
-  ec2Instance,
-}
+  ec2Instance('ec2-instance'),
+  ;
 
-extension AssetTypeValueExtension on AssetType {
-  String toValue() {
-    switch (this) {
-      case AssetType.ec2Instance:
-        return 'ec2-instance';
-    }
-  }
-}
+  final String value;
 
-extension AssetTypeFromString on String {
-  AssetType toAssetType() {
-    switch (this) {
-      case 'ec2-instance':
-        return AssetType.ec2Instance;
-    }
-    throw Exception('$this is not known in enum AssetType');
-  }
+  const AssetType(this.value);
+
+  static AssetType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AssetType'));
 }
 
 /// This data type is used as a request parameter in the
@@ -3034,7 +2898,7 @@ class EventSubscription {
 
   factory EventSubscription.fromJson(Map<String, dynamic> json) {
     return EventSubscription(
-      event: (json['event'] as String).toInspectorEvent(),
+      event: InspectorEvent.fromString((json['event'] as String)),
       subscribedAt:
           nonNullableTimeStampFromJson(json['subscribedAt'] as Object),
     );
@@ -3044,7 +2908,7 @@ class EventSubscription {
     final event = this.event;
     final subscribedAt = this.subscribedAt;
     return {
-      'event': event.toValue(),
+      'event': event.value,
       'subscribedAt': unixTimestampToJson(subscribedAt),
     };
   }
@@ -3188,7 +3052,8 @@ class FailedItemDetails {
 
   factory FailedItemDetails.fromJson(Map<String, dynamic> json) {
     return FailedItemDetails(
-      failureCode: (json['failureCode'] as String).toFailedItemErrorCode(),
+      failureCode:
+          FailedItemErrorCode.fromString((json['failureCode'] as String)),
       retryable: json['retryable'] as bool,
     );
   }
@@ -3197,58 +3062,29 @@ class FailedItemDetails {
     final failureCode = this.failureCode;
     final retryable = this.retryable;
     return {
-      'failureCode': failureCode.toValue(),
+      'failureCode': failureCode.value,
       'retryable': retryable,
     };
   }
 }
 
 enum FailedItemErrorCode {
-  invalidArn,
-  duplicateArn,
-  itemDoesNotExist,
-  accessDenied,
-  limitExceeded,
-  internalError,
-}
+  invalidArn('INVALID_ARN'),
+  duplicateArn('DUPLICATE_ARN'),
+  itemDoesNotExist('ITEM_DOES_NOT_EXIST'),
+  accessDenied('ACCESS_DENIED'),
+  limitExceeded('LIMIT_EXCEEDED'),
+  internalError('INTERNAL_ERROR'),
+  ;
 
-extension FailedItemErrorCodeValueExtension on FailedItemErrorCode {
-  String toValue() {
-    switch (this) {
-      case FailedItemErrorCode.invalidArn:
-        return 'INVALID_ARN';
-      case FailedItemErrorCode.duplicateArn:
-        return 'DUPLICATE_ARN';
-      case FailedItemErrorCode.itemDoesNotExist:
-        return 'ITEM_DOES_NOT_EXIST';
-      case FailedItemErrorCode.accessDenied:
-        return 'ACCESS_DENIED';
-      case FailedItemErrorCode.limitExceeded:
-        return 'LIMIT_EXCEEDED';
-      case FailedItemErrorCode.internalError:
-        return 'INTERNAL_ERROR';
-    }
-  }
-}
+  final String value;
 
-extension FailedItemErrorCodeFromString on String {
-  FailedItemErrorCode toFailedItemErrorCode() {
-    switch (this) {
-      case 'INVALID_ARN':
-        return FailedItemErrorCode.invalidArn;
-      case 'DUPLICATE_ARN':
-        return FailedItemErrorCode.duplicateArn;
-      case 'ITEM_DOES_NOT_EXIST':
-        return FailedItemErrorCode.itemDoesNotExist;
-      case 'ACCESS_DENIED':
-        return FailedItemErrorCode.accessDenied;
-      case 'LIMIT_EXCEEDED':
-        return FailedItemErrorCode.limitExceeded;
-      case 'INTERNAL_ERROR':
-        return FailedItemErrorCode.internalError;
-    }
-    throw Exception('$this is not known in enum FailedItemErrorCode');
-  }
+  const FailedItemErrorCode(this.value);
+
+  static FailedItemErrorCode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum FailedItemErrorCode'));
 }
 
 /// Contains information about an Amazon Inspector finding. This data type is
@@ -3347,7 +3183,7 @@ class Finding {
           ? AssetAttributes.fromJson(
               json['assetAttributes'] as Map<String, dynamic>)
           : null,
-      assetType: (json['assetType'] as String?)?.toAssetType(),
+      assetType: (json['assetType'] as String?)?.let(AssetType.fromString),
       confidence: json['confidence'] as int?,
       description: json['description'] as String?,
       id: json['id'] as String?,
@@ -3360,7 +3196,7 @@ class Finding {
           ? InspectorServiceAttributes.fromJson(
               json['serviceAttributes'] as Map<String, dynamic>)
           : null,
-      severity: (json['severity'] as String?)?.toSeverity(),
+      severity: (json['severity'] as String?)?.let(Severity.fromString),
       title: json['title'] as String?,
     );
   }
@@ -3391,7 +3227,7 @@ class Finding {
       'updatedAt': unixTimestampToJson(updatedAt),
       'userAttributes': userAttributes,
       if (assetAttributes != null) 'assetAttributes': assetAttributes,
-      if (assetType != null) 'assetType': assetType.toValue(),
+      if (assetType != null) 'assetType': assetType.value,
       if (confidence != null) 'confidence': confidence,
       if (description != null) 'description': description,
       if (id != null) 'id': id,
@@ -3402,7 +3238,7 @@ class Finding {
       if (schemaVersion != null) 'schemaVersion': schemaVersion,
       if (service != null) 'service': service,
       if (serviceAttributes != null) 'serviceAttributes': serviceAttributes,
-      if (severity != null) 'severity': severity.toValue(),
+      if (severity != null) 'severity': severity.value,
       if (title != null) 'title': title,
     };
   }
@@ -3477,7 +3313,7 @@ class FindingFilter {
       if (ruleNames != null) 'ruleNames': ruleNames,
       if (rulesPackageArns != null) 'rulesPackageArns': rulesPackageArns,
       if (severities != null)
-        'severities': severities.map((e) => e.toValue()).toList(),
+        'severities': severities.map((e) => e.value).toList(),
       if (userAttributes != null) 'userAttributes': userAttributes,
     };
   }
@@ -3498,7 +3334,7 @@ class GetAssessmentReportResponse {
 
   factory GetAssessmentReportResponse.fromJson(Map<String, dynamic> json) {
     return GetAssessmentReportResponse(
-      status: (json['status'] as String).toReportStatus(),
+      status: ReportStatus.fromString((json['status'] as String)),
       url: json['url'] as String?,
     );
   }
@@ -3507,7 +3343,7 @@ class GetAssessmentReportResponse {
     final status = this.status;
     final url = this.url;
     return {
-      'status': status.toValue(),
+      'status': status.value,
       if (url != null) 'url': url,
     };
   }
@@ -3534,7 +3370,8 @@ class GetExclusionsPreviewResponse {
 
   factory GetExclusionsPreviewResponse.fromJson(Map<String, dynamic> json) {
     return GetExclusionsPreviewResponse(
-      previewStatus: (json['previewStatus'] as String).toPreviewStatus(),
+      previewStatus:
+          PreviewStatus.fromString((json['previewStatus'] as String)),
       exclusionPreviews: (json['exclusionPreviews'] as List?)
           ?.whereNotNull()
           .map((e) => ExclusionPreview.fromJson(e as Map<String, dynamic>))
@@ -3548,7 +3385,7 @@ class GetExclusionsPreviewResponse {
     final exclusionPreviews = this.exclusionPreviews;
     final nextToken = this.nextToken;
     return {
-      'previewStatus': previewStatus.toValue(),
+      'previewStatus': previewStatus.value,
       if (exclusionPreviews != null) 'exclusionPreviews': exclusionPreviews,
       if (nextToken != null) 'nextToken': nextToken,
     };
@@ -3581,46 +3418,21 @@ class GetTelemetryMetadataResponse {
 }
 
 enum InspectorEvent {
-  assessmentRunStarted,
-  assessmentRunCompleted,
-  assessmentRunStateChanged,
-  findingReported,
-  other,
-}
+  assessmentRunStarted('ASSESSMENT_RUN_STARTED'),
+  assessmentRunCompleted('ASSESSMENT_RUN_COMPLETED'),
+  assessmentRunStateChanged('ASSESSMENT_RUN_STATE_CHANGED'),
+  findingReported('FINDING_REPORTED'),
+  other('OTHER'),
+  ;
 
-extension InspectorEventValueExtension on InspectorEvent {
-  String toValue() {
-    switch (this) {
-      case InspectorEvent.assessmentRunStarted:
-        return 'ASSESSMENT_RUN_STARTED';
-      case InspectorEvent.assessmentRunCompleted:
-        return 'ASSESSMENT_RUN_COMPLETED';
-      case InspectorEvent.assessmentRunStateChanged:
-        return 'ASSESSMENT_RUN_STATE_CHANGED';
-      case InspectorEvent.findingReported:
-        return 'FINDING_REPORTED';
-      case InspectorEvent.other:
-        return 'OTHER';
-    }
-  }
-}
+  final String value;
 
-extension InspectorEventFromString on String {
-  InspectorEvent toInspectorEvent() {
-    switch (this) {
-      case 'ASSESSMENT_RUN_STARTED':
-        return InspectorEvent.assessmentRunStarted;
-      case 'ASSESSMENT_RUN_COMPLETED':
-        return InspectorEvent.assessmentRunCompleted;
-      case 'ASSESSMENT_RUN_STATE_CHANGED':
-        return InspectorEvent.assessmentRunStateChanged;
-      case 'FINDING_REPORTED':
-        return InspectorEvent.findingReported;
-      case 'OTHER':
-        return InspectorEvent.other;
-    }
-    throw Exception('$this is not known in enum InspectorEvent');
-  }
+  const InspectorEvent(this.value);
+
+  static InspectorEvent fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum InspectorEvent'));
 }
 
 /// This data type is used in the <a>Finding</a> data type.
@@ -3969,26 +3781,16 @@ class ListTagsForResourceResponse {
 }
 
 enum Locale {
-  enUs,
-}
+  enUs('EN_US'),
+  ;
 
-extension LocaleValueExtension on Locale {
-  String toValue() {
-    switch (this) {
-      case Locale.enUs:
-        return 'EN_US';
-    }
-  }
-}
+  final String value;
 
-extension LocaleFromString on String {
-  Locale toLocale() {
-    switch (this) {
-      case 'EN_US':
-        return Locale.enUs;
-    }
-    throw Exception('$this is not known in enum Locale');
-  }
+  const Locale(this.value);
+
+  static Locale fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Locale'));
 }
 
 /// Contains information about the network interfaces interacting with an EC2
@@ -4126,31 +3928,18 @@ class PreviewAgentsResponse {
 }
 
 enum PreviewStatus {
-  workInProgress,
-  completed,
-}
+  workInProgress('WORK_IN_PROGRESS'),
+  completed('COMPLETED'),
+  ;
 
-extension PreviewStatusValueExtension on PreviewStatus {
-  String toValue() {
-    switch (this) {
-      case PreviewStatus.workInProgress:
-        return 'WORK_IN_PROGRESS';
-      case PreviewStatus.completed:
-        return 'COMPLETED';
-    }
-  }
-}
+  final String value;
 
-extension PreviewStatusFromString on String {
-  PreviewStatus toPreviewStatus() {
-    switch (this) {
-      case 'WORK_IN_PROGRESS':
-        return PreviewStatus.workInProgress;
-      case 'COMPLETED':
-        return PreviewStatus.completed;
-    }
-    throw Exception('$this is not known in enum PreviewStatus');
-  }
+  const PreviewStatus(this.value);
+
+  static PreviewStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PreviewStatus'));
 }
 
 /// Contains information about a private IP address associated with a network
@@ -4211,92 +4000,48 @@ class RemoveAttributesFromFindingsResponse {
 }
 
 enum ReportFileFormat {
-  html,
-  pdf,
-}
+  html('HTML'),
+  pdf('PDF'),
+  ;
 
-extension ReportFileFormatValueExtension on ReportFileFormat {
-  String toValue() {
-    switch (this) {
-      case ReportFileFormat.html:
-        return 'HTML';
-      case ReportFileFormat.pdf:
-        return 'PDF';
-    }
-  }
-}
+  final String value;
 
-extension ReportFileFormatFromString on String {
-  ReportFileFormat toReportFileFormat() {
-    switch (this) {
-      case 'HTML':
-        return ReportFileFormat.html;
-      case 'PDF':
-        return ReportFileFormat.pdf;
-    }
-    throw Exception('$this is not known in enum ReportFileFormat');
-  }
+  const ReportFileFormat(this.value);
+
+  static ReportFileFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ReportFileFormat'));
 }
 
 enum ReportStatus {
-  workInProgress,
-  failed,
-  completed,
-}
+  workInProgress('WORK_IN_PROGRESS'),
+  failed('FAILED'),
+  completed('COMPLETED'),
+  ;
 
-extension ReportStatusValueExtension on ReportStatus {
-  String toValue() {
-    switch (this) {
-      case ReportStatus.workInProgress:
-        return 'WORK_IN_PROGRESS';
-      case ReportStatus.failed:
-        return 'FAILED';
-      case ReportStatus.completed:
-        return 'COMPLETED';
-    }
-  }
-}
+  final String value;
 
-extension ReportStatusFromString on String {
-  ReportStatus toReportStatus() {
-    switch (this) {
-      case 'WORK_IN_PROGRESS':
-        return ReportStatus.workInProgress;
-      case 'FAILED':
-        return ReportStatus.failed;
-      case 'COMPLETED':
-        return ReportStatus.completed;
-    }
-    throw Exception('$this is not known in enum ReportStatus');
-  }
+  const ReportStatus(this.value);
+
+  static ReportStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ReportStatus'));
 }
 
 enum ReportType {
-  finding,
-  full,
-}
+  finding('FINDING'),
+  full('FULL'),
+  ;
 
-extension ReportTypeValueExtension on ReportType {
-  String toValue() {
-    switch (this) {
-      case ReportType.finding:
-        return 'FINDING';
-      case ReportType.full:
-        return 'FULL';
-    }
-  }
-}
+  final String value;
 
-extension ReportTypeFromString on String {
-  ReportType toReportType() {
-    switch (this) {
-      case 'FINDING':
-        return ReportType.finding;
-      case 'FULL':
-        return ReportType.full;
-    }
-    throw Exception('$this is not known in enum ReportType');
-  }
+  const ReportType(this.value);
+
+  static ReportType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ReportType'));
 }
 
 /// Contains information about a resource group. The resource group defines a
@@ -4442,7 +4187,7 @@ class Scope {
 
   factory Scope.fromJson(Map<String, dynamic> json) {
     return Scope(
-      key: (json['key'] as String?)?.toScopeType(),
+      key: (json['key'] as String?)?.let(ScopeType.fromString),
       value: json['value'] as String?,
     );
   }
@@ -4451,38 +4196,24 @@ class Scope {
     final key = this.key;
     final value = this.value;
     return {
-      if (key != null) 'key': key.toValue(),
+      if (key != null) 'key': key.value,
       if (value != null) 'value': value,
     };
   }
 }
 
 enum ScopeType {
-  instanceId,
-  rulesPackageArn,
-}
+  instanceId('INSTANCE_ID'),
+  rulesPackageArn('RULES_PACKAGE_ARN'),
+  ;
 
-extension ScopeTypeValueExtension on ScopeType {
-  String toValue() {
-    switch (this) {
-      case ScopeType.instanceId:
-        return 'INSTANCE_ID';
-      case ScopeType.rulesPackageArn:
-        return 'RULES_PACKAGE_ARN';
-    }
-  }
-}
+  final String value;
 
-extension ScopeTypeFromString on String {
-  ScopeType toScopeType() {
-    switch (this) {
-      case 'INSTANCE_ID':
-        return ScopeType.instanceId;
-      case 'RULES_PACKAGE_ARN':
-        return ScopeType.rulesPackageArn;
-    }
-    throw Exception('$this is not known in enum ScopeType');
-  }
+  const ScopeType(this.value);
+
+  static ScopeType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ScopeType'));
 }
 
 /// Contains information about a security group associated with a network
@@ -4518,46 +4249,20 @@ class SecurityGroup {
 }
 
 enum Severity {
-  low,
-  medium,
-  high,
-  informational,
-  undefined,
-}
+  low('Low'),
+  medium('Medium'),
+  high('High'),
+  informational('Informational'),
+  undefined('Undefined'),
+  ;
 
-extension SeverityValueExtension on Severity {
-  String toValue() {
-    switch (this) {
-      case Severity.low:
-        return 'Low';
-      case Severity.medium:
-        return 'Medium';
-      case Severity.high:
-        return 'High';
-      case Severity.informational:
-        return 'Informational';
-      case Severity.undefined:
-        return 'Undefined';
-    }
-  }
-}
+  final String value;
 
-extension SeverityFromString on String {
-  Severity toSeverity() {
-    switch (this) {
-      case 'Low':
-        return Severity.low;
-      case 'Medium':
-        return Severity.medium;
-      case 'High':
-        return Severity.high;
-      case 'Informational':
-        return Severity.informational;
-      case 'Undefined':
-        return Severity.undefined;
-    }
-    throw Exception('$this is not known in enum Severity');
-  }
+  const Severity(this.value);
+
+  static Severity fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Severity'));
 }
 
 class StartAssessmentRunResponse {
@@ -4583,31 +4288,17 @@ class StartAssessmentRunResponse {
 }
 
 enum StopAction {
-  startEvaluation,
-  skipEvaluation,
-}
+  startEvaluation('START_EVALUATION'),
+  skipEvaluation('SKIP_EVALUATION'),
+  ;
 
-extension StopActionValueExtension on StopAction {
-  String toValue() {
-    switch (this) {
-      case StopAction.startEvaluation:
-        return 'START_EVALUATION';
-      case StopAction.skipEvaluation:
-        return 'SKIP_EVALUATION';
-    }
-  }
-}
+  final String value;
 
-extension StopActionFromString on String {
-  StopAction toStopAction() {
-    switch (this) {
-      case 'START_EVALUATION':
-        return StopAction.startEvaluation;
-      case 'SKIP_EVALUATION':
-        return StopAction.skipEvaluation;
-    }
-    throw Exception('$this is not known in enum StopAction');
-  }
+  const StopAction(this.value);
+
+  static StopAction fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum StopAction'));
 }
 
 /// This data type is used as a response element in the

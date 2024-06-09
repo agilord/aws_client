@@ -106,7 +106,7 @@ class Account {
     String? accountId,
   }) async {
     final $payload = <String, dynamic>{
-      'AlternateContactType': alternateContactType.toValue(),
+      'AlternateContactType': alternateContactType.value,
       if (accountId != null) 'AccountId': accountId,
     };
     await _protocol.send(
@@ -289,7 +289,7 @@ class Account {
     String? accountId,
   }) async {
     final $payload = <String, dynamic>{
-      'AlternateContactType': alternateContactType.toValue(),
+      'AlternateContactType': alternateContactType.value,
       if (accountId != null) 'AccountId': accountId,
     };
     final response = await _protocol.send(
@@ -485,7 +485,7 @@ class Account {
       if (nextToken != null) 'NextToken': nextToken,
       if (regionOptStatusContains != null)
         'RegionOptStatusContains':
-            regionOptStatusContains.map((e) => e.toValue()).toList(),
+            regionOptStatusContains.map((e) => e.value).toList(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -568,7 +568,7 @@ class Account {
     String? accountId,
   }) async {
     final $payload = <String, dynamic>{
-      'AlternateContactType': alternateContactType.toValue(),
+      'AlternateContactType': alternateContactType.value,
       'EmailAddress': emailAddress,
       'Name': name,
       'PhoneNumber': phoneNumber,
@@ -669,8 +669,8 @@ class AlternateContact {
 
   factory AlternateContact.fromJson(Map<String, dynamic> json) {
     return AlternateContact(
-      alternateContactType:
-          (json['AlternateContactType'] as String?)?.toAlternateContactType(),
+      alternateContactType: (json['AlternateContactType'] as String?)
+          ?.let(AlternateContactType.fromString),
       emailAddress: json['EmailAddress'] as String?,
       name: json['Name'] as String?,
       phoneNumber: json['PhoneNumber'] as String?,
@@ -686,7 +686,7 @@ class AlternateContact {
     final title = this.title;
     return {
       if (alternateContactType != null)
-        'AlternateContactType': alternateContactType.toValue(),
+        'AlternateContactType': alternateContactType.value,
       if (emailAddress != null) 'EmailAddress': emailAddress,
       if (name != null) 'Name': name,
       if (phoneNumber != null) 'PhoneNumber': phoneNumber,
@@ -696,36 +696,19 @@ class AlternateContact {
 }
 
 enum AlternateContactType {
-  billing,
-  operations,
-  security,
-}
+  billing('BILLING'),
+  operations('OPERATIONS'),
+  security('SECURITY'),
+  ;
 
-extension AlternateContactTypeValueExtension on AlternateContactType {
-  String toValue() {
-    switch (this) {
-      case AlternateContactType.billing:
-        return 'BILLING';
-      case AlternateContactType.operations:
-        return 'OPERATIONS';
-      case AlternateContactType.security:
-        return 'SECURITY';
-    }
-  }
-}
+  final String value;
 
-extension AlternateContactTypeFromString on String {
-  AlternateContactType toAlternateContactType() {
-    switch (this) {
-      case 'BILLING':
-        return AlternateContactType.billing;
-      case 'OPERATIONS':
-        return AlternateContactType.operations;
-      case 'SECURITY':
-        return AlternateContactType.security;
-    }
-    throw Exception('$this is not known in enum AlternateContactType');
-  }
+  const AlternateContactType(this.value);
+
+  static AlternateContactType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AlternateContactType'));
 }
 
 /// Contains the details of the primary contact information associated with an
@@ -901,7 +884,7 @@ class GetRegionOptStatusResponse {
     return GetRegionOptStatusResponse(
       regionName: json['RegionName'] as String?,
       regionOptStatus:
-          (json['RegionOptStatus'] as String?)?.toRegionOptStatus(),
+          (json['RegionOptStatus'] as String?)?.let(RegionOptStatus.fromString),
     );
   }
 
@@ -910,7 +893,7 @@ class GetRegionOptStatusResponse {
     final regionOptStatus = this.regionOptStatus;
     return {
       if (regionName != null) 'RegionName': regionName,
-      if (regionOptStatus != null) 'RegionOptStatus': regionOptStatus.toValue(),
+      if (regionOptStatus != null) 'RegionOptStatus': regionOptStatus.value,
     };
   }
 }
@@ -970,7 +953,7 @@ class Region {
     return Region(
       regionName: json['RegionName'] as String?,
       regionOptStatus:
-          (json['RegionOptStatus'] as String?)?.toRegionOptStatus(),
+          (json['RegionOptStatus'] as String?)?.let(RegionOptStatus.fromString),
     );
   }
 
@@ -979,52 +962,27 @@ class Region {
     final regionOptStatus = this.regionOptStatus;
     return {
       if (regionName != null) 'RegionName': regionName,
-      if (regionOptStatus != null) 'RegionOptStatus': regionOptStatus.toValue(),
+      if (regionOptStatus != null) 'RegionOptStatus': regionOptStatus.value,
     };
   }
 }
 
 enum RegionOptStatus {
-  enabled,
-  enabling,
-  disabling,
-  disabled,
-  enabledByDefault,
-}
+  enabled('ENABLED'),
+  enabling('ENABLING'),
+  disabling('DISABLING'),
+  disabled('DISABLED'),
+  enabledByDefault('ENABLED_BY_DEFAULT'),
+  ;
 
-extension RegionOptStatusValueExtension on RegionOptStatus {
-  String toValue() {
-    switch (this) {
-      case RegionOptStatus.enabled:
-        return 'ENABLED';
-      case RegionOptStatus.enabling:
-        return 'ENABLING';
-      case RegionOptStatus.disabling:
-        return 'DISABLING';
-      case RegionOptStatus.disabled:
-        return 'DISABLED';
-      case RegionOptStatus.enabledByDefault:
-        return 'ENABLED_BY_DEFAULT';
-    }
-  }
-}
+  final String value;
 
-extension RegionOptStatusFromString on String {
-  RegionOptStatus toRegionOptStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return RegionOptStatus.enabled;
-      case 'ENABLING':
-        return RegionOptStatus.enabling;
-      case 'DISABLING':
-        return RegionOptStatus.disabling;
-      case 'DISABLED':
-        return RegionOptStatus.disabled;
-      case 'ENABLED_BY_DEFAULT':
-        return RegionOptStatus.enabledByDefault;
-    }
-    throw Exception('$this is not known in enum RegionOptStatus');
-  }
+  const RegionOptStatus(this.value);
+
+  static RegionOptStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RegionOptStatus'));
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

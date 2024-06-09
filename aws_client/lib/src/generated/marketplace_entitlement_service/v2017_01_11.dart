@@ -102,7 +102,7 @@ class MarketplaceEntitlement {
       payload: {
         'ProductCode': productCode,
         if (filter != null)
-          'Filter': filter.map((k, e) => MapEntry(k.toValue(), e)),
+          'Filter': filter.map((k, e) => MapEntry(k.value, e)),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -228,31 +228,18 @@ class EntitlementValue {
 }
 
 enum GetEntitlementFilterName {
-  customerIdentifier,
-  dimension,
-}
+  customerIdentifier('CUSTOMER_IDENTIFIER'),
+  dimension('DIMENSION'),
+  ;
 
-extension GetEntitlementFilterNameValueExtension on GetEntitlementFilterName {
-  String toValue() {
-    switch (this) {
-      case GetEntitlementFilterName.customerIdentifier:
-        return 'CUSTOMER_IDENTIFIER';
-      case GetEntitlementFilterName.dimension:
-        return 'DIMENSION';
-    }
-  }
-}
+  final String value;
 
-extension GetEntitlementFilterNameFromString on String {
-  GetEntitlementFilterName toGetEntitlementFilterName() {
-    switch (this) {
-      case 'CUSTOMER_IDENTIFIER':
-        return GetEntitlementFilterName.customerIdentifier;
-      case 'DIMENSION':
-        return GetEntitlementFilterName.dimension;
-    }
-    throw Exception('$this is not known in enum GetEntitlementFilterName');
-  }
+  const GetEntitlementFilterName(this.value);
+
+  static GetEntitlementFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GetEntitlementFilterName'));
 }
 
 /// The GetEntitlementsRequest contains results from the GetEntitlements

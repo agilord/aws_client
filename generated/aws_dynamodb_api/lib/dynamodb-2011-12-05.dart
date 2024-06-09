@@ -212,7 +212,7 @@ class DynamoDB {
         'Key': key,
         'TableName': tableName,
         if (expected != null) 'Expected': expected,
-        if (returnValues != null) 'ReturnValues': returnValues.toValue(),
+        if (returnValues != null) 'ReturnValues': returnValues.value,
       },
     );
 
@@ -415,7 +415,7 @@ class DynamoDB {
         'Item': item,
         'TableName': tableName,
         if (expected != null) 'Expected': expected,
-        if (returnValues != null) 'ReturnValues': returnValues.toValue(),
+        if (returnValues != null) 'ReturnValues': returnValues.value,
       },
     );
 
@@ -638,7 +638,7 @@ class DynamoDB {
         'Key': key,
         'TableName': tableName,
         if (expected != null) 'Expected': expected,
-        if (returnValues != null) 'ReturnValues': returnValues.toValue(),
+        if (returnValues != null) 'ReturnValues': returnValues.value,
       },
     );
 
@@ -691,36 +691,19 @@ class DynamoDB {
 /// If a set of values is specified, then the values in the specified set are
 /// removed from the old set.
 enum AttributeAction {
-  add,
-  put,
-  delete,
-}
+  add('ADD'),
+  put('PUT'),
+  delete('DELETE'),
+  ;
 
-extension AttributeActionValueExtension on AttributeAction {
-  String toValue() {
-    switch (this) {
-      case AttributeAction.add:
-        return 'ADD';
-      case AttributeAction.put:
-        return 'PUT';
-      case AttributeAction.delete:
-        return 'DELETE';
-    }
-  }
-}
+  final String value;
 
-extension AttributeActionFromString on String {
-  AttributeAction toAttributeAction() {
-    switch (this) {
-      case 'ADD':
-        return AttributeAction.add;
-      case 'PUT':
-        return AttributeAction.put;
-      case 'DELETE':
-        return AttributeAction.delete;
-    }
-    throw Exception('$this is not known in enum AttributeAction');
-  }
+  const AttributeAction(this.value);
+
+  static AttributeAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AttributeAction'));
 }
 
 /// AttributeValue can be <code>String</code>, <code>Number</code>,
@@ -810,7 +793,7 @@ class AttributeValueUpdate {
     final action = this.action;
     final value = this.value;
     return {
-      if (action != null) 'Action': action.toValue(),
+      if (action != null) 'Action': action.value,
       if (value != null) 'Value': value,
     };
   }
@@ -934,86 +917,29 @@ class BatchWriteResponse {
 /// Query operations support a subset of the available comparison operators: EQ,
 /// LE, LT, GE, GT, BETWEEN, and BEGINS_WITH.
 enum ComparisonOperator {
-  eq,
-  ne,
-  $in,
-  le,
-  lt,
-  ge,
-  gt,
-  between,
-  notNull,
-  $null,
-  contains,
-  notContains,
-  beginsWith,
-}
+  eq('EQ'),
+  ne('NE'),
+  $in('IN'),
+  le('LE'),
+  lt('LT'),
+  ge('GE'),
+  gt('GT'),
+  between('BETWEEN'),
+  notNull('NOT_NULL'),
+  $null('NULL'),
+  contains('CONTAINS'),
+  notContains('NOT_CONTAINS'),
+  beginsWith('BEGINS_WITH'),
+  ;
 
-extension ComparisonOperatorValueExtension on ComparisonOperator {
-  String toValue() {
-    switch (this) {
-      case ComparisonOperator.eq:
-        return 'EQ';
-      case ComparisonOperator.ne:
-        return 'NE';
-      case ComparisonOperator.$in:
-        return 'IN';
-      case ComparisonOperator.le:
-        return 'LE';
-      case ComparisonOperator.lt:
-        return 'LT';
-      case ComparisonOperator.ge:
-        return 'GE';
-      case ComparisonOperator.gt:
-        return 'GT';
-      case ComparisonOperator.between:
-        return 'BETWEEN';
-      case ComparisonOperator.notNull:
-        return 'NOT_NULL';
-      case ComparisonOperator.$null:
-        return 'NULL';
-      case ComparisonOperator.contains:
-        return 'CONTAINS';
-      case ComparisonOperator.notContains:
-        return 'NOT_CONTAINS';
-      case ComparisonOperator.beginsWith:
-        return 'BEGINS_WITH';
-    }
-  }
-}
+  final String value;
 
-extension ComparisonOperatorFromString on String {
-  ComparisonOperator toComparisonOperator() {
-    switch (this) {
-      case 'EQ':
-        return ComparisonOperator.eq;
-      case 'NE':
-        return ComparisonOperator.ne;
-      case 'IN':
-        return ComparisonOperator.$in;
-      case 'LE':
-        return ComparisonOperator.le;
-      case 'LT':
-        return ComparisonOperator.lt;
-      case 'GE':
-        return ComparisonOperator.ge;
-      case 'GT':
-        return ComparisonOperator.gt;
-      case 'BETWEEN':
-        return ComparisonOperator.between;
-      case 'NOT_NULL':
-        return ComparisonOperator.notNull;
-      case 'NULL':
-        return ComparisonOperator.$null;
-      case 'CONTAINS':
-        return ComparisonOperator.contains;
-      case 'NOT_CONTAINS':
-        return ComparisonOperator.notContains;
-      case 'BEGINS_WITH':
-        return ComparisonOperator.beginsWith;
-    }
-    throw Exception('$this is not known in enum ComparisonOperator');
-  }
+  const ComparisonOperator(this.value);
+
+  static ComparisonOperator fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ComparisonOperator'));
 }
 
 class Condition {
@@ -1029,7 +955,7 @@ class Condition {
     final comparisonOperator = this.comparisonOperator;
     final attributeValueList = this.attributeValueList;
     return {
-      'ComparisonOperator': comparisonOperator.toValue(),
+      'ComparisonOperator': comparisonOperator.value,
       if (attributeValueList != null) 'AttributeValueList': attributeValueList,
     };
   }
@@ -1281,7 +1207,8 @@ class KeySchemaElement {
   factory KeySchemaElement.fromJson(Map<String, dynamic> json) {
     return KeySchemaElement(
       attributeName: json['AttributeName'] as String,
-      attributeType: (json['AttributeType'] as String).toScalarAttributeType(),
+      attributeType:
+          ScalarAttributeType.fromString((json['AttributeType'] as String)),
     );
   }
 
@@ -1290,7 +1217,7 @@ class KeySchemaElement {
     final attributeType = this.attributeType;
     return {
       'AttributeName': attributeName,
-      'AttributeType': attributeType.toValue(),
+      'AttributeType': attributeType.value,
     };
   }
 }
@@ -1518,79 +1445,36 @@ class QueryOutput {
 /// only, as they are after the operation.</li>
 /// </ul>
 enum ReturnValue {
-  none,
-  allOld,
-  updatedOld,
-  allNew,
-  updatedNew,
-}
+  none('NONE'),
+  allOld('ALL_OLD'),
+  updatedOld('UPDATED_OLD'),
+  allNew('ALL_NEW'),
+  updatedNew('UPDATED_NEW'),
+  ;
 
-extension ReturnValueValueExtension on ReturnValue {
-  String toValue() {
-    switch (this) {
-      case ReturnValue.none:
-        return 'NONE';
-      case ReturnValue.allOld:
-        return 'ALL_OLD';
-      case ReturnValue.updatedOld:
-        return 'UPDATED_OLD';
-      case ReturnValue.allNew:
-        return 'ALL_NEW';
-      case ReturnValue.updatedNew:
-        return 'UPDATED_NEW';
-    }
-  }
-}
+  final String value;
 
-extension ReturnValueFromString on String {
-  ReturnValue toReturnValue() {
-    switch (this) {
-      case 'NONE':
-        return ReturnValue.none;
-      case 'ALL_OLD':
-        return ReturnValue.allOld;
-      case 'UPDATED_OLD':
-        return ReturnValue.updatedOld;
-      case 'ALL_NEW':
-        return ReturnValue.allNew;
-      case 'UPDATED_NEW':
-        return ReturnValue.updatedNew;
-    }
-    throw Exception('$this is not known in enum ReturnValue');
-  }
+  const ReturnValue(this.value);
+
+  static ReturnValue fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ReturnValue'));
 }
 
 enum ScalarAttributeType {
-  s,
-  n,
-  b,
-}
+  s('S'),
+  n('N'),
+  b('B'),
+  ;
 
-extension ScalarAttributeTypeValueExtension on ScalarAttributeType {
-  String toValue() {
-    switch (this) {
-      case ScalarAttributeType.s:
-        return 'S';
-      case ScalarAttributeType.n:
-        return 'N';
-      case ScalarAttributeType.b:
-        return 'B';
-    }
-  }
-}
+  final String value;
 
-extension ScalarAttributeTypeFromString on String {
-  ScalarAttributeType toScalarAttributeType() {
-    switch (this) {
-      case 'S':
-        return ScalarAttributeType.s;
-      case 'N':
-        return ScalarAttributeType.n;
-      case 'B':
-        return ScalarAttributeType.b;
-    }
-    throw Exception('$this is not known in enum ScalarAttributeType');
-  }
+  const ScalarAttributeType(this.value);
+
+  static ScalarAttributeType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ScalarAttributeType'));
 }
 
 class ScanOutput {
@@ -1670,47 +1554,26 @@ class TableDescription {
           : null,
       tableName: json['TableName'] as String?,
       tableSizeBytes: json['TableSizeBytes'] as int?,
-      tableStatus: (json['TableStatus'] as String?)?.toTableStatus(),
+      tableStatus:
+          (json['TableStatus'] as String?)?.let(TableStatus.fromString),
     );
   }
 }
 
 enum TableStatus {
-  creating,
-  updating,
-  deleting,
-  active,
-}
+  creating('CREATING'),
+  updating('UPDATING'),
+  deleting('DELETING'),
+  active('ACTIVE'),
+  ;
 
-extension TableStatusValueExtension on TableStatus {
-  String toValue() {
-    switch (this) {
-      case TableStatus.creating:
-        return 'CREATING';
-      case TableStatus.updating:
-        return 'UPDATING';
-      case TableStatus.deleting:
-        return 'DELETING';
-      case TableStatus.active:
-        return 'ACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension TableStatusFromString on String {
-  TableStatus toTableStatus() {
-    switch (this) {
-      case 'CREATING':
-        return TableStatus.creating;
-      case 'UPDATING':
-        return TableStatus.updating;
-      case 'DELETING':
-        return TableStatus.deleting;
-      case 'ACTIVE':
-        return TableStatus.active;
-    }
-    throw Exception('$this is not known in enum TableStatus');
-  }
+  const TableStatus(this.value);
+
+  static TableStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TableStatus'));
 }
 
 class UpdateItemOutput {

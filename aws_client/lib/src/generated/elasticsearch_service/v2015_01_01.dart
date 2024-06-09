@@ -348,7 +348,7 @@ class Elasticsearch {
         'EncryptionAtRestOptions': encryptionAtRestOptions,
       if (logPublishingOptions != null)
         'LogPublishingOptions':
-            logPublishingOptions.map((k, e) => MapEntry(k.toValue(), e)),
+            logPublishingOptions.map((k, e) => MapEntry(k.value, e)),
       if (nodeToNodeEncryptionOptions != null)
         'NodeToNodeEncryptionOptions': nodeToNodeEncryptionOptions,
       if (snapshotOptions != null) 'SnapshotOptions': snapshotOptions,
@@ -435,7 +435,7 @@ class Elasticsearch {
     final $payload = <String, dynamic>{
       'PackageName': packageName,
       'PackageSource': packageSource,
-      'PackageType': packageType.toValue(),
+      'PackageType': packageType.value,
       if (packageDescription != null) 'PackageDescription': packageDescription,
     };
     final response = await _protocol.send(
@@ -795,7 +795,7 @@ class Elasticsearch {
       payload: null,
       method: 'GET',
       requestUri:
-          '/2015-01-01/es/instanceTypeLimits/${Uri.encodeComponent(elasticsearchVersion)}/${Uri.encodeComponent(instanceType.toValue())}',
+          '/2015-01-01/es/instanceTypeLimits/${Uri.encodeComponent(elasticsearchVersion)}/${Uri.encodeComponent(instanceType.value)}',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
@@ -1236,7 +1236,7 @@ class Elasticsearch {
     EngineType? engineType,
   }) async {
     final $query = <String, List<String>>{
-      if (engineType != null) 'engineType': [engineType.toValue()],
+      if (engineType != null) 'engineType': [engineType.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1796,7 +1796,7 @@ class Elasticsearch {
         'EncryptionAtRestOptions': encryptionAtRestOptions,
       if (logPublishingOptions != null)
         'LogPublishingOptions':
-            logPublishingOptions.map((k, e) => MapEntry(k.toValue(), e)),
+            logPublishingOptions.map((k, e) => MapEntry(k.value, e)),
       if (nodeToNodeEncryptionOptions != null)
         'NodeToNodeEncryptionOptions': nodeToNodeEncryptionOptions,
       if (snapshotOptions != null) 'SnapshotOptions': snapshotOptions,
@@ -2292,7 +2292,8 @@ class AuthorizedPrincipal {
   factory AuthorizedPrincipal.fromJson(Map<String, dynamic> json) {
     return AuthorizedPrincipal(
       principal: json['Principal'] as String?,
-      principalType: (json['PrincipalType'] as String?)?.toPrincipalType(),
+      principalType:
+          (json['PrincipalType'] as String?)?.let(PrincipalType.fromString),
     );
   }
 
@@ -2301,7 +2302,7 @@ class AuthorizedPrincipal {
     final principalType = this.principalType;
     return {
       if (principal != null) 'Principal': principal,
-      if (principalType != null) 'PrincipalType': principalType.toValue(),
+      if (principalType != null) 'PrincipalType': principalType.value,
     };
   }
 }
@@ -2327,7 +2328,8 @@ class AutoTune {
           ? AutoTuneDetails.fromJson(
               json['AutoTuneDetails'] as Map<String, dynamic>)
           : null,
-      autoTuneType: (json['AutoTuneType'] as String?)?.toAutoTuneType(),
+      autoTuneType:
+          (json['AutoTuneType'] as String?)?.let(AutoTuneType.fromString),
     );
   }
 
@@ -2336,38 +2338,25 @@ class AutoTune {
     final autoTuneType = this.autoTuneType;
     return {
       if (autoTuneDetails != null) 'AutoTuneDetails': autoTuneDetails,
-      if (autoTuneType != null) 'AutoTuneType': autoTuneType.toValue(),
+      if (autoTuneType != null) 'AutoTuneType': autoTuneType.value,
     };
   }
 }
 
 /// Specifies the Auto-Tune desired state. Valid values are ENABLED, DISABLED.
 enum AutoTuneDesiredState {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension AutoTuneDesiredStateValueExtension on AutoTuneDesiredState {
-  String toValue() {
-    switch (this) {
-      case AutoTuneDesiredState.enabled:
-        return 'ENABLED';
-      case AutoTuneDesiredState.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension AutoTuneDesiredStateFromString on String {
-  AutoTuneDesiredState toAutoTuneDesiredState() {
-    switch (this) {
-      case 'ENABLED':
-        return AutoTuneDesiredState.enabled;
-      case 'DISABLED':
-        return AutoTuneDesiredState.disabled;
-    }
-    throw Exception('$this is not known in enum AutoTuneDesiredState');
-  }
+  const AutoTuneDesiredState(this.value);
+
+  static AutoTuneDesiredState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AutoTuneDesiredState'));
 }
 
 /// Specifies details of the Auto-Tune action. See the <a
@@ -2470,14 +2459,15 @@ class AutoTuneOptions {
 
   factory AutoTuneOptions.fromJson(Map<String, dynamic> json) {
     return AutoTuneOptions(
-      desiredState: (json['DesiredState'] as String?)?.toAutoTuneDesiredState(),
+      desiredState: (json['DesiredState'] as String?)
+          ?.let(AutoTuneDesiredState.fromString),
       maintenanceSchedules: (json['MaintenanceSchedules'] as List?)
           ?.whereNotNull()
           .map((e) =>
               AutoTuneMaintenanceSchedule.fromJson(e as Map<String, dynamic>))
           .toList(),
-      rollbackOnDisable:
-          (json['RollbackOnDisable'] as String?)?.toRollbackOnDisable(),
+      rollbackOnDisable: (json['RollbackOnDisable'] as String?)
+          ?.let(RollbackOnDisable.fromString),
     );
   }
 
@@ -2486,11 +2476,11 @@ class AutoTuneOptions {
     final maintenanceSchedules = this.maintenanceSchedules;
     final rollbackOnDisable = this.rollbackOnDisable;
     return {
-      if (desiredState != null) 'DesiredState': desiredState.toValue(),
+      if (desiredState != null) 'DesiredState': desiredState.value,
       if (maintenanceSchedules != null)
         'MaintenanceSchedules': maintenanceSchedules,
       if (rollbackOnDisable != null)
-        'RollbackOnDisable': rollbackOnDisable.toValue(),
+        'RollbackOnDisable': rollbackOnDisable.value,
     };
   }
 }
@@ -2515,7 +2505,7 @@ class AutoTuneOptionsInput {
     final desiredState = this.desiredState;
     final maintenanceSchedules = this.maintenanceSchedules;
     return {
-      if (desiredState != null) 'DesiredState': desiredState.toValue(),
+      if (desiredState != null) 'DesiredState': desiredState.value,
       if (maintenanceSchedules != null)
         'MaintenanceSchedules': maintenanceSchedules,
     };
@@ -2539,7 +2529,7 @@ class AutoTuneOptionsOutput {
   factory AutoTuneOptionsOutput.fromJson(Map<String, dynamic> json) {
     return AutoTuneOptionsOutput(
       errorMessage: json['ErrorMessage'] as String?,
-      state: (json['State'] as String?)?.toAutoTuneState(),
+      state: (json['State'] as String?)?.let(AutoTuneState.fromString),
     );
   }
 
@@ -2548,7 +2538,7 @@ class AutoTuneOptionsOutput {
     final state = this.state;
     return {
       if (errorMessage != null) 'ErrorMessage': errorMessage,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
     };
   }
 }
@@ -2594,66 +2584,25 @@ class AutoTuneOptionsStatus {
 /// href="https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/auto-tune.html"
 /// target="_blank">Developer Guide</a>.
 enum AutoTuneState {
-  enabled,
-  disabled,
-  enableInProgress,
-  disableInProgress,
-  disabledAndRollbackScheduled,
-  disabledAndRollbackInProgress,
-  disabledAndRollbackComplete,
-  disabledAndRollbackError,
-  error,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  enableInProgress('ENABLE_IN_PROGRESS'),
+  disableInProgress('DISABLE_IN_PROGRESS'),
+  disabledAndRollbackScheduled('DISABLED_AND_ROLLBACK_SCHEDULED'),
+  disabledAndRollbackInProgress('DISABLED_AND_ROLLBACK_IN_PROGRESS'),
+  disabledAndRollbackComplete('DISABLED_AND_ROLLBACK_COMPLETE'),
+  disabledAndRollbackError('DISABLED_AND_ROLLBACK_ERROR'),
+  error('ERROR'),
+  ;
 
-extension AutoTuneStateValueExtension on AutoTuneState {
-  String toValue() {
-    switch (this) {
-      case AutoTuneState.enabled:
-        return 'ENABLED';
-      case AutoTuneState.disabled:
-        return 'DISABLED';
-      case AutoTuneState.enableInProgress:
-        return 'ENABLE_IN_PROGRESS';
-      case AutoTuneState.disableInProgress:
-        return 'DISABLE_IN_PROGRESS';
-      case AutoTuneState.disabledAndRollbackScheduled:
-        return 'DISABLED_AND_ROLLBACK_SCHEDULED';
-      case AutoTuneState.disabledAndRollbackInProgress:
-        return 'DISABLED_AND_ROLLBACK_IN_PROGRESS';
-      case AutoTuneState.disabledAndRollbackComplete:
-        return 'DISABLED_AND_ROLLBACK_COMPLETE';
-      case AutoTuneState.disabledAndRollbackError:
-        return 'DISABLED_AND_ROLLBACK_ERROR';
-      case AutoTuneState.error:
-        return 'ERROR';
-    }
-  }
-}
+  final String value;
 
-extension AutoTuneStateFromString on String {
-  AutoTuneState toAutoTuneState() {
-    switch (this) {
-      case 'ENABLED':
-        return AutoTuneState.enabled;
-      case 'DISABLED':
-        return AutoTuneState.disabled;
-      case 'ENABLE_IN_PROGRESS':
-        return AutoTuneState.enableInProgress;
-      case 'DISABLE_IN_PROGRESS':
-        return AutoTuneState.disableInProgress;
-      case 'DISABLED_AND_ROLLBACK_SCHEDULED':
-        return AutoTuneState.disabledAndRollbackScheduled;
-      case 'DISABLED_AND_ROLLBACK_IN_PROGRESS':
-        return AutoTuneState.disabledAndRollbackInProgress;
-      case 'DISABLED_AND_ROLLBACK_COMPLETE':
-        return AutoTuneState.disabledAndRollbackComplete;
-      case 'DISABLED_AND_ROLLBACK_ERROR':
-        return AutoTuneState.disabledAndRollbackError;
-      case 'ERROR':
-        return AutoTuneState.error;
-    }
-    throw Exception('$this is not known in enum AutoTuneState');
-  }
+  const AutoTuneState(this.value);
+
+  static AutoTuneState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AutoTuneState'));
 }
 
 /// Provides the current status of the Auto-Tune options.
@@ -2690,7 +2639,7 @@ class AutoTuneStatus {
     return AutoTuneStatus(
       creationDate:
           nonNullableTimeStampFromJson(json['CreationDate'] as Object),
-      state: (json['State'] as String).toAutoTuneState(),
+      state: AutoTuneState.fromString((json['State'] as String)),
       updateDate: nonNullableTimeStampFromJson(json['UpdateDate'] as Object),
       errorMessage: json['ErrorMessage'] as String?,
       pendingDeletion: json['PendingDeletion'] as bool?,
@@ -2707,7 +2656,7 @@ class AutoTuneStatus {
     final updateVersion = this.updateVersion;
     return {
       'CreationDate': unixTimestampToJson(creationDate),
-      'State': state.toValue(),
+      'State': state.value,
       'UpdateDate': unixTimestampToJson(updateDate),
       if (errorMessage != null) 'ErrorMessage': errorMessage,
       if (pendingDeletion != null) 'PendingDeletion': pendingDeletion,
@@ -2718,26 +2667,17 @@ class AutoTuneStatus {
 
 /// Specifies Auto-Tune type. Valid value is SCHEDULED_ACTION.
 enum AutoTuneType {
-  scheduledAction,
-}
+  scheduledAction('SCHEDULED_ACTION'),
+  ;
 
-extension AutoTuneTypeValueExtension on AutoTuneType {
-  String toValue() {
-    switch (this) {
-      case AutoTuneType.scheduledAction:
-        return 'SCHEDULED_ACTION';
-    }
-  }
-}
+  final String value;
 
-extension AutoTuneTypeFromString on String {
-  AutoTuneType toAutoTuneType() {
-    switch (this) {
-      case 'SCHEDULED_ACTION':
-        return AutoTuneType.scheduledAction;
-    }
-    throw Exception('$this is not known in enum AutoTuneType');
-  }
+  const AutoTuneType(this.value);
+
+  static AutoTuneType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AutoTuneType'));
 }
 
 /// Contains the details of the cancelled domain config change.
@@ -2889,9 +2829,10 @@ class ChangeProgressDetails {
   factory ChangeProgressDetails.fromJson(Map<String, dynamic> json) {
     return ChangeProgressDetails(
       changeId: json['ChangeId'] as String?,
-      configChangeStatus:
-          (json['ConfigChangeStatus'] as String?)?.toConfigChangeStatus(),
-      initiatedBy: (json['InitiatedBy'] as String?)?.toInitiatedBy(),
+      configChangeStatus: (json['ConfigChangeStatus'] as String?)
+          ?.let(ConfigChangeStatus.fromString),
+      initiatedBy:
+          (json['InitiatedBy'] as String?)?.let(InitiatedBy.fromString),
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       message: json['Message'] as String?,
       startTime: timeStampFromJson(json['StartTime']),
@@ -2908,8 +2849,8 @@ class ChangeProgressDetails {
     return {
       if (changeId != null) 'ChangeId': changeId,
       if (configChangeStatus != null)
-        'ConfigChangeStatus': configChangeStatus.toValue(),
-      if (initiatedBy != null) 'InitiatedBy': initiatedBy.toValue(),
+        'ConfigChangeStatus': configChangeStatus.value,
+      if (initiatedBy != null) 'InitiatedBy': initiatedBy.value,
       if (lastUpdatedTime != null)
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       if (message != null) 'Message': message,
@@ -3024,16 +2965,17 @@ class ChangeProgressStatusDetails {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      configChangeStatus:
-          (json['ConfigChangeStatus'] as String?)?.toConfigChangeStatus(),
-      initiatedBy: (json['InitiatedBy'] as String?)?.toInitiatedBy(),
+      configChangeStatus: (json['ConfigChangeStatus'] as String?)
+          ?.let(ConfigChangeStatus.fromString),
+      initiatedBy:
+          (json['InitiatedBy'] as String?)?.let(InitiatedBy.fromString),
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       pendingProperties: (json['PendingProperties'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
       startTime: timeStampFromJson(json['StartTime']),
-      status: (json['Status'] as String?)?.toOverallChangeStatus(),
+      status: (json['Status'] as String?)?.let(OverallChangeStatus.fromString),
       totalNumberOfStages: json['TotalNumberOfStages'] as int?,
     );
   }
@@ -3056,13 +2998,13 @@ class ChangeProgressStatusDetails {
       if (completedProperties != null)
         'CompletedProperties': completedProperties,
       if (configChangeStatus != null)
-        'ConfigChangeStatus': configChangeStatus.toValue(),
-      if (initiatedBy != null) 'InitiatedBy': initiatedBy.toValue(),
+        'ConfigChangeStatus': configChangeStatus.value,
+      if (initiatedBy != null) 'InitiatedBy': initiatedBy.value,
       if (lastUpdatedTime != null)
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       if (pendingProperties != null) 'PendingProperties': pendingProperties,
       if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (totalNumberOfStages != null)
         'TotalNumberOfStages': totalNumberOfStages,
     };
@@ -3205,61 +3147,24 @@ class CompatibleVersionsMap {
 }
 
 enum ConfigChangeStatus {
-  pending,
-  initializing,
-  validating,
-  validationFailed,
-  applyingChanges,
-  completed,
-  pendingUserInput,
-  cancelled,
-}
+  pending('Pending'),
+  initializing('Initializing'),
+  validating('Validating'),
+  validationFailed('ValidationFailed'),
+  applyingChanges('ApplyingChanges'),
+  completed('Completed'),
+  pendingUserInput('PendingUserInput'),
+  cancelled('Cancelled'),
+  ;
 
-extension ConfigChangeStatusValueExtension on ConfigChangeStatus {
-  String toValue() {
-    switch (this) {
-      case ConfigChangeStatus.pending:
-        return 'Pending';
-      case ConfigChangeStatus.initializing:
-        return 'Initializing';
-      case ConfigChangeStatus.validating:
-        return 'Validating';
-      case ConfigChangeStatus.validationFailed:
-        return 'ValidationFailed';
-      case ConfigChangeStatus.applyingChanges:
-        return 'ApplyingChanges';
-      case ConfigChangeStatus.completed:
-        return 'Completed';
-      case ConfigChangeStatus.pendingUserInput:
-        return 'PendingUserInput';
-      case ConfigChangeStatus.cancelled:
-        return 'Cancelled';
-    }
-  }
-}
+  final String value;
 
-extension ConfigChangeStatusFromString on String {
-  ConfigChangeStatus toConfigChangeStatus() {
-    switch (this) {
-      case 'Pending':
-        return ConfigChangeStatus.pending;
-      case 'Initializing':
-        return ConfigChangeStatus.initializing;
-      case 'Validating':
-        return ConfigChangeStatus.validating;
-      case 'ValidationFailed':
-        return ConfigChangeStatus.validationFailed;
-      case 'ApplyingChanges':
-        return ConfigChangeStatus.applyingChanges;
-      case 'Completed':
-        return ConfigChangeStatus.completed;
-      case 'PendingUserInput':
-        return ConfigChangeStatus.pendingUserInput;
-      case 'Cancelled':
-        return ConfigChangeStatus.cancelled;
-    }
-    throw Exception('$this is not known in enum ConfigChangeStatus');
-  }
+  const ConfigChangeStatus(this.value);
+
+  static ConfigChangeStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ConfigChangeStatus'));
 }
 
 /// The result of a <code>CreateElasticsearchDomain</code> operation. Contains
@@ -3560,46 +3465,21 @@ class DeleteVpcEndpointResponse {
 }
 
 enum DeploymentStatus {
-  pendingUpdate,
-  inProgress,
-  completed,
-  notEligible,
-  eligible,
-}
+  pendingUpdate('PENDING_UPDATE'),
+  inProgress('IN_PROGRESS'),
+  completed('COMPLETED'),
+  notEligible('NOT_ELIGIBLE'),
+  eligible('ELIGIBLE'),
+  ;
 
-extension DeploymentStatusValueExtension on DeploymentStatus {
-  String toValue() {
-    switch (this) {
-      case DeploymentStatus.pendingUpdate:
-        return 'PENDING_UPDATE';
-      case DeploymentStatus.inProgress:
-        return 'IN_PROGRESS';
-      case DeploymentStatus.completed:
-        return 'COMPLETED';
-      case DeploymentStatus.notEligible:
-        return 'NOT_ELIGIBLE';
-      case DeploymentStatus.eligible:
-        return 'ELIGIBLE';
-    }
-  }
-}
+  final String value;
 
-extension DeploymentStatusFromString on String {
-  DeploymentStatus toDeploymentStatus() {
-    switch (this) {
-      case 'PENDING_UPDATE':
-        return DeploymentStatus.pendingUpdate;
-      case 'IN_PROGRESS':
-        return DeploymentStatus.inProgress;
-      case 'COMPLETED':
-        return DeploymentStatus.completed;
-      case 'NOT_ELIGIBLE':
-        return DeploymentStatus.notEligible;
-      case 'ELIGIBLE':
-        return DeploymentStatus.eligible;
-    }
-    throw Exception('$this is not known in enum DeploymentStatus');
-  }
+  const DeploymentStatus(this.value);
+
+  static DeploymentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DeploymentStatus'));
 }
 
 /// The result of <code>DescribeDomainAutoTunes</code> request. See the <a
@@ -3881,44 +3761,26 @@ class DescribePackagesFilter {
     final name = this.name;
     final value = this.value;
     return {
-      if (name != null) 'Name': name.toValue(),
+      if (name != null) 'Name': name.value,
       if (value != null) 'Value': value,
     };
   }
 }
 
 enum DescribePackagesFilterName {
-  packageID,
-  packageName,
-  packageStatus,
-}
+  packageID('PackageID'),
+  packageName('PackageName'),
+  packageStatus('PackageStatus'),
+  ;
 
-extension DescribePackagesFilterNameValueExtension
-    on DescribePackagesFilterName {
-  String toValue() {
-    switch (this) {
-      case DescribePackagesFilterName.packageID:
-        return 'PackageID';
-      case DescribePackagesFilterName.packageName:
-        return 'PackageName';
-      case DescribePackagesFilterName.packageStatus:
-        return 'PackageStatus';
-    }
-  }
-}
+  final String value;
 
-extension DescribePackagesFilterNameFromString on String {
-  DescribePackagesFilterName toDescribePackagesFilterName() {
-    switch (this) {
-      case 'PackageID':
-        return DescribePackagesFilterName.packageID;
-      case 'PackageName':
-        return DescribePackagesFilterName.packageName;
-      case 'PackageStatus':
-        return DescribePackagesFilterName.packageStatus;
-    }
-    throw Exception('$this is not known in enum DescribePackagesFilterName');
-  }
+  const DescribePackagesFilterName(this.value);
+
+  static DescribePackagesFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DescribePackagesFilterName'));
 }
 
 /// Container for response returned by <code> <a>DescribePackages</a> </code>
@@ -4145,8 +4007,8 @@ class DomainEndpointOptions {
           json['CustomEndpointCertificateArn'] as String?,
       customEndpointEnabled: json['CustomEndpointEnabled'] as bool?,
       enforceHTTPS: json['EnforceHTTPS'] as bool?,
-      tLSSecurityPolicy:
-          (json['TLSSecurityPolicy'] as String?)?.toTLSSecurityPolicy(),
+      tLSSecurityPolicy: (json['TLSSecurityPolicy'] as String?)
+          ?.let(TLSSecurityPolicy.fromString),
     );
   }
 
@@ -4164,7 +4026,7 @@ class DomainEndpointOptions {
         'CustomEndpointEnabled': customEndpointEnabled,
       if (enforceHTTPS != null) 'EnforceHTTPS': enforceHTTPS,
       if (tLSSecurityPolicy != null)
-        'TLSSecurityPolicy': tLSSecurityPolicy.toValue(),
+        'TLSSecurityPolicy': tLSSecurityPolicy.value,
     };
   }
 }
@@ -4216,7 +4078,7 @@ class DomainInfo {
   factory DomainInfo.fromJson(Map<String, dynamic> json) {
     return DomainInfo(
       domainName: json['DomainName'] as String?,
-      engineType: (json['EngineType'] as String?)?.toEngineType(),
+      engineType: (json['EngineType'] as String?)?.let(EngineType.fromString),
     );
   }
 
@@ -4225,7 +4087,7 @@ class DomainInfo {
     final engineType = this.engineType;
     return {
       if (domainName != null) 'DomainName': domainName,
-      if (engineType != null) 'EngineType': engineType.toValue(),
+      if (engineType != null) 'EngineType': engineType.value,
     };
   }
 }
@@ -4305,15 +4167,16 @@ class DomainPackageDetails {
   factory DomainPackageDetails.fromJson(Map<String, dynamic> json) {
     return DomainPackageDetails(
       domainName: json['DomainName'] as String?,
-      domainPackageStatus:
-          (json['DomainPackageStatus'] as String?)?.toDomainPackageStatus(),
+      domainPackageStatus: (json['DomainPackageStatus'] as String?)
+          ?.let(DomainPackageStatus.fromString),
       errorDetails: json['ErrorDetails'] != null
           ? ErrorDetails.fromJson(json['ErrorDetails'] as Map<String, dynamic>)
           : null,
       lastUpdated: timeStampFromJson(json['LastUpdated']),
       packageID: json['PackageID'] as String?,
       packageName: json['PackageName'] as String?,
-      packageType: (json['PackageType'] as String?)?.toPackageType(),
+      packageType:
+          (json['PackageType'] as String?)?.let(PackageType.fromString),
       packageVersion: json['PackageVersion'] as String?,
       referencePath: json['ReferencePath'] as String?,
     );
@@ -4332,12 +4195,12 @@ class DomainPackageDetails {
     return {
       if (domainName != null) 'DomainName': domainName,
       if (domainPackageStatus != null)
-        'DomainPackageStatus': domainPackageStatus.toValue(),
+        'DomainPackageStatus': domainPackageStatus.value,
       if (errorDetails != null) 'ErrorDetails': errorDetails,
       if (lastUpdated != null) 'LastUpdated': unixTimestampToJson(lastUpdated),
       if (packageID != null) 'PackageID': packageID,
       if (packageName != null) 'PackageName': packageName,
-      if (packageType != null) 'PackageType': packageType.toValue(),
+      if (packageType != null) 'PackageType': packageType.value,
       if (packageVersion != null) 'PackageVersion': packageVersion,
       if (referencePath != null) 'ReferencePath': referencePath,
     };
@@ -4345,100 +4208,41 @@ class DomainPackageDetails {
 }
 
 enum DomainPackageStatus {
-  associating,
-  associationFailed,
-  active,
-  dissociating,
-  dissociationFailed,
-}
+  associating('ASSOCIATING'),
+  associationFailed('ASSOCIATION_FAILED'),
+  active('ACTIVE'),
+  dissociating('DISSOCIATING'),
+  dissociationFailed('DISSOCIATION_FAILED'),
+  ;
 
-extension DomainPackageStatusValueExtension on DomainPackageStatus {
-  String toValue() {
-    switch (this) {
-      case DomainPackageStatus.associating:
-        return 'ASSOCIATING';
-      case DomainPackageStatus.associationFailed:
-        return 'ASSOCIATION_FAILED';
-      case DomainPackageStatus.active:
-        return 'ACTIVE';
-      case DomainPackageStatus.dissociating:
-        return 'DISSOCIATING';
-      case DomainPackageStatus.dissociationFailed:
-        return 'DISSOCIATION_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension DomainPackageStatusFromString on String {
-  DomainPackageStatus toDomainPackageStatus() {
-    switch (this) {
-      case 'ASSOCIATING':
-        return DomainPackageStatus.associating;
-      case 'ASSOCIATION_FAILED':
-        return DomainPackageStatus.associationFailed;
-      case 'ACTIVE':
-        return DomainPackageStatus.active;
-      case 'DISSOCIATING':
-        return DomainPackageStatus.dissociating;
-      case 'DISSOCIATION_FAILED':
-        return DomainPackageStatus.dissociationFailed;
-    }
-    throw Exception('$this is not known in enum DomainPackageStatus');
-  }
+  const DomainPackageStatus(this.value);
+
+  static DomainPackageStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DomainPackageStatus'));
 }
 
 enum DomainProcessingStatusType {
-  creating,
-  active,
-  modifying,
-  upgradingEngineVersion,
-  updatingServiceSoftware,
-  isolated,
-  deleting,
-}
+  creating('Creating'),
+  active('Active'),
+  modifying('Modifying'),
+  upgradingEngineVersion('UpgradingEngineVersion'),
+  updatingServiceSoftware('UpdatingServiceSoftware'),
+  isolated('Isolated'),
+  deleting('Deleting'),
+  ;
 
-extension DomainProcessingStatusTypeValueExtension
-    on DomainProcessingStatusType {
-  String toValue() {
-    switch (this) {
-      case DomainProcessingStatusType.creating:
-        return 'Creating';
-      case DomainProcessingStatusType.active:
-        return 'Active';
-      case DomainProcessingStatusType.modifying:
-        return 'Modifying';
-      case DomainProcessingStatusType.upgradingEngineVersion:
-        return 'UpgradingEngineVersion';
-      case DomainProcessingStatusType.updatingServiceSoftware:
-        return 'UpdatingServiceSoftware';
-      case DomainProcessingStatusType.isolated:
-        return 'Isolated';
-      case DomainProcessingStatusType.deleting:
-        return 'Deleting';
-    }
-  }
-}
+  final String value;
 
-extension DomainProcessingStatusTypeFromString on String {
-  DomainProcessingStatusType toDomainProcessingStatusType() {
-    switch (this) {
-      case 'Creating':
-        return DomainProcessingStatusType.creating;
-      case 'Active':
-        return DomainProcessingStatusType.active;
-      case 'Modifying':
-        return DomainProcessingStatusType.modifying;
-      case 'UpgradingEngineVersion':
-        return DomainProcessingStatusType.upgradingEngineVersion;
-      case 'UpdatingServiceSoftware':
-        return DomainProcessingStatusType.updatingServiceSoftware;
-      case 'Isolated':
-        return DomainProcessingStatusType.isolated;
-      case 'Deleting':
-        return DomainProcessingStatusType.deleting;
-    }
-    throw Exception('$this is not known in enum DomainProcessingStatusType');
-  }
+  const DomainProcessingStatusType(this.value);
+
+  static DomainProcessingStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DomainProcessingStatusType'));
 }
 
 class DryRunResults {
@@ -4500,7 +4304,7 @@ class Duration {
 
   factory Duration.fromJson(Map<String, dynamic> json) {
     return Duration(
-      unit: (json['Unit'] as String?)?.toTimeUnit(),
+      unit: (json['Unit'] as String?)?.let(TimeUnit.fromString),
       value: json['Value'] as int?,
     );
   }
@@ -4509,7 +4313,7 @@ class Duration {
     final unit = this.unit;
     final value = this.value;
     return {
-      if (unit != null) 'Unit': unit.toValue(),
+      if (unit != null) 'Unit': unit.value,
       if (value != null) 'Value': value,
     };
   }
@@ -4549,7 +4353,7 @@ class EBSOptions {
       iops: json['Iops'] as int?,
       throughput: json['Throughput'] as int?,
       volumeSize: json['VolumeSize'] as int?,
-      volumeType: (json['VolumeType'] as String?)?.toVolumeType(),
+      volumeType: (json['VolumeType'] as String?)?.let(VolumeType.fromString),
     );
   }
 
@@ -4564,7 +4368,7 @@ class EBSOptions {
       if (iops != null) 'Iops': iops,
       if (throughput != null) 'Throughput': throughput,
       if (volumeSize != null) 'VolumeSize': volumeSize,
-      if (volumeType != null) 'VolumeType': volumeType.toValue(),
+      if (volumeType != null) 'VolumeType': volumeType.value,
     };
   }
 }
@@ -4601,340 +4405,89 @@ class EBSOptionsStatus {
 }
 
 enum ESPartitionInstanceType {
-  m3MediumElasticsearch,
-  m3LargeElasticsearch,
-  m3XlargeElasticsearch,
-  m3_2xlargeElasticsearch,
-  m4LargeElasticsearch,
-  m4XlargeElasticsearch,
-  m4_2xlargeElasticsearch,
-  m4_4xlargeElasticsearch,
-  m4_10xlargeElasticsearch,
-  m5LargeElasticsearch,
-  m5XlargeElasticsearch,
-  m5_2xlargeElasticsearch,
-  m5_4xlargeElasticsearch,
-  m5_12xlargeElasticsearch,
-  r5LargeElasticsearch,
-  r5XlargeElasticsearch,
-  r5_2xlargeElasticsearch,
-  r5_4xlargeElasticsearch,
-  r5_12xlargeElasticsearch,
-  c5LargeElasticsearch,
-  c5XlargeElasticsearch,
-  c5_2xlargeElasticsearch,
-  c5_4xlargeElasticsearch,
-  c5_9xlargeElasticsearch,
-  c5_18xlargeElasticsearch,
-  ultrawarm1MediumElasticsearch,
-  ultrawarm1LargeElasticsearch,
-  t2MicroElasticsearch,
-  t2SmallElasticsearch,
-  t2MediumElasticsearch,
-  r3LargeElasticsearch,
-  r3XlargeElasticsearch,
-  r3_2xlargeElasticsearch,
-  r3_4xlargeElasticsearch,
-  r3_8xlargeElasticsearch,
-  i2XlargeElasticsearch,
-  i2_2xlargeElasticsearch,
-  d2XlargeElasticsearch,
-  d2_2xlargeElasticsearch,
-  d2_4xlargeElasticsearch,
-  d2_8xlargeElasticsearch,
-  c4LargeElasticsearch,
-  c4XlargeElasticsearch,
-  c4_2xlargeElasticsearch,
-  c4_4xlargeElasticsearch,
-  c4_8xlargeElasticsearch,
-  r4LargeElasticsearch,
-  r4XlargeElasticsearch,
-  r4_2xlargeElasticsearch,
-  r4_4xlargeElasticsearch,
-  r4_8xlargeElasticsearch,
-  r4_16xlargeElasticsearch,
-  i3LargeElasticsearch,
-  i3XlargeElasticsearch,
-  i3_2xlargeElasticsearch,
-  i3_4xlargeElasticsearch,
-  i3_8xlargeElasticsearch,
-  i3_16xlargeElasticsearch,
-}
+  m3MediumElasticsearch('m3.medium.elasticsearch'),
+  m3LargeElasticsearch('m3.large.elasticsearch'),
+  m3XlargeElasticsearch('m3.xlarge.elasticsearch'),
+  m3_2xlargeElasticsearch('m3.2xlarge.elasticsearch'),
+  m4LargeElasticsearch('m4.large.elasticsearch'),
+  m4XlargeElasticsearch('m4.xlarge.elasticsearch'),
+  m4_2xlargeElasticsearch('m4.2xlarge.elasticsearch'),
+  m4_4xlargeElasticsearch('m4.4xlarge.elasticsearch'),
+  m4_10xlargeElasticsearch('m4.10xlarge.elasticsearch'),
+  m5LargeElasticsearch('m5.large.elasticsearch'),
+  m5XlargeElasticsearch('m5.xlarge.elasticsearch'),
+  m5_2xlargeElasticsearch('m5.2xlarge.elasticsearch'),
+  m5_4xlargeElasticsearch('m5.4xlarge.elasticsearch'),
+  m5_12xlargeElasticsearch('m5.12xlarge.elasticsearch'),
+  r5LargeElasticsearch('r5.large.elasticsearch'),
+  r5XlargeElasticsearch('r5.xlarge.elasticsearch'),
+  r5_2xlargeElasticsearch('r5.2xlarge.elasticsearch'),
+  r5_4xlargeElasticsearch('r5.4xlarge.elasticsearch'),
+  r5_12xlargeElasticsearch('r5.12xlarge.elasticsearch'),
+  c5LargeElasticsearch('c5.large.elasticsearch'),
+  c5XlargeElasticsearch('c5.xlarge.elasticsearch'),
+  c5_2xlargeElasticsearch('c5.2xlarge.elasticsearch'),
+  c5_4xlargeElasticsearch('c5.4xlarge.elasticsearch'),
+  c5_9xlargeElasticsearch('c5.9xlarge.elasticsearch'),
+  c5_18xlargeElasticsearch('c5.18xlarge.elasticsearch'),
+  ultrawarm1MediumElasticsearch('ultrawarm1.medium.elasticsearch'),
+  ultrawarm1LargeElasticsearch('ultrawarm1.large.elasticsearch'),
+  t2MicroElasticsearch('t2.micro.elasticsearch'),
+  t2SmallElasticsearch('t2.small.elasticsearch'),
+  t2MediumElasticsearch('t2.medium.elasticsearch'),
+  r3LargeElasticsearch('r3.large.elasticsearch'),
+  r3XlargeElasticsearch('r3.xlarge.elasticsearch'),
+  r3_2xlargeElasticsearch('r3.2xlarge.elasticsearch'),
+  r3_4xlargeElasticsearch('r3.4xlarge.elasticsearch'),
+  r3_8xlargeElasticsearch('r3.8xlarge.elasticsearch'),
+  i2XlargeElasticsearch('i2.xlarge.elasticsearch'),
+  i2_2xlargeElasticsearch('i2.2xlarge.elasticsearch'),
+  d2XlargeElasticsearch('d2.xlarge.elasticsearch'),
+  d2_2xlargeElasticsearch('d2.2xlarge.elasticsearch'),
+  d2_4xlargeElasticsearch('d2.4xlarge.elasticsearch'),
+  d2_8xlargeElasticsearch('d2.8xlarge.elasticsearch'),
+  c4LargeElasticsearch('c4.large.elasticsearch'),
+  c4XlargeElasticsearch('c4.xlarge.elasticsearch'),
+  c4_2xlargeElasticsearch('c4.2xlarge.elasticsearch'),
+  c4_4xlargeElasticsearch('c4.4xlarge.elasticsearch'),
+  c4_8xlargeElasticsearch('c4.8xlarge.elasticsearch'),
+  r4LargeElasticsearch('r4.large.elasticsearch'),
+  r4XlargeElasticsearch('r4.xlarge.elasticsearch'),
+  r4_2xlargeElasticsearch('r4.2xlarge.elasticsearch'),
+  r4_4xlargeElasticsearch('r4.4xlarge.elasticsearch'),
+  r4_8xlargeElasticsearch('r4.8xlarge.elasticsearch'),
+  r4_16xlargeElasticsearch('r4.16xlarge.elasticsearch'),
+  i3LargeElasticsearch('i3.large.elasticsearch'),
+  i3XlargeElasticsearch('i3.xlarge.elasticsearch'),
+  i3_2xlargeElasticsearch('i3.2xlarge.elasticsearch'),
+  i3_4xlargeElasticsearch('i3.4xlarge.elasticsearch'),
+  i3_8xlargeElasticsearch('i3.8xlarge.elasticsearch'),
+  i3_16xlargeElasticsearch('i3.16xlarge.elasticsearch'),
+  ;
 
-extension ESPartitionInstanceTypeValueExtension on ESPartitionInstanceType {
-  String toValue() {
-    switch (this) {
-      case ESPartitionInstanceType.m3MediumElasticsearch:
-        return 'm3.medium.elasticsearch';
-      case ESPartitionInstanceType.m3LargeElasticsearch:
-        return 'm3.large.elasticsearch';
-      case ESPartitionInstanceType.m3XlargeElasticsearch:
-        return 'm3.xlarge.elasticsearch';
-      case ESPartitionInstanceType.m3_2xlargeElasticsearch:
-        return 'm3.2xlarge.elasticsearch';
-      case ESPartitionInstanceType.m4LargeElasticsearch:
-        return 'm4.large.elasticsearch';
-      case ESPartitionInstanceType.m4XlargeElasticsearch:
-        return 'm4.xlarge.elasticsearch';
-      case ESPartitionInstanceType.m4_2xlargeElasticsearch:
-        return 'm4.2xlarge.elasticsearch';
-      case ESPartitionInstanceType.m4_4xlargeElasticsearch:
-        return 'm4.4xlarge.elasticsearch';
-      case ESPartitionInstanceType.m4_10xlargeElasticsearch:
-        return 'm4.10xlarge.elasticsearch';
-      case ESPartitionInstanceType.m5LargeElasticsearch:
-        return 'm5.large.elasticsearch';
-      case ESPartitionInstanceType.m5XlargeElasticsearch:
-        return 'm5.xlarge.elasticsearch';
-      case ESPartitionInstanceType.m5_2xlargeElasticsearch:
-        return 'm5.2xlarge.elasticsearch';
-      case ESPartitionInstanceType.m5_4xlargeElasticsearch:
-        return 'm5.4xlarge.elasticsearch';
-      case ESPartitionInstanceType.m5_12xlargeElasticsearch:
-        return 'm5.12xlarge.elasticsearch';
-      case ESPartitionInstanceType.r5LargeElasticsearch:
-        return 'r5.large.elasticsearch';
-      case ESPartitionInstanceType.r5XlargeElasticsearch:
-        return 'r5.xlarge.elasticsearch';
-      case ESPartitionInstanceType.r5_2xlargeElasticsearch:
-        return 'r5.2xlarge.elasticsearch';
-      case ESPartitionInstanceType.r5_4xlargeElasticsearch:
-        return 'r5.4xlarge.elasticsearch';
-      case ESPartitionInstanceType.r5_12xlargeElasticsearch:
-        return 'r5.12xlarge.elasticsearch';
-      case ESPartitionInstanceType.c5LargeElasticsearch:
-        return 'c5.large.elasticsearch';
-      case ESPartitionInstanceType.c5XlargeElasticsearch:
-        return 'c5.xlarge.elasticsearch';
-      case ESPartitionInstanceType.c5_2xlargeElasticsearch:
-        return 'c5.2xlarge.elasticsearch';
-      case ESPartitionInstanceType.c5_4xlargeElasticsearch:
-        return 'c5.4xlarge.elasticsearch';
-      case ESPartitionInstanceType.c5_9xlargeElasticsearch:
-        return 'c5.9xlarge.elasticsearch';
-      case ESPartitionInstanceType.c5_18xlargeElasticsearch:
-        return 'c5.18xlarge.elasticsearch';
-      case ESPartitionInstanceType.ultrawarm1MediumElasticsearch:
-        return 'ultrawarm1.medium.elasticsearch';
-      case ESPartitionInstanceType.ultrawarm1LargeElasticsearch:
-        return 'ultrawarm1.large.elasticsearch';
-      case ESPartitionInstanceType.t2MicroElasticsearch:
-        return 't2.micro.elasticsearch';
-      case ESPartitionInstanceType.t2SmallElasticsearch:
-        return 't2.small.elasticsearch';
-      case ESPartitionInstanceType.t2MediumElasticsearch:
-        return 't2.medium.elasticsearch';
-      case ESPartitionInstanceType.r3LargeElasticsearch:
-        return 'r3.large.elasticsearch';
-      case ESPartitionInstanceType.r3XlargeElasticsearch:
-        return 'r3.xlarge.elasticsearch';
-      case ESPartitionInstanceType.r3_2xlargeElasticsearch:
-        return 'r3.2xlarge.elasticsearch';
-      case ESPartitionInstanceType.r3_4xlargeElasticsearch:
-        return 'r3.4xlarge.elasticsearch';
-      case ESPartitionInstanceType.r3_8xlargeElasticsearch:
-        return 'r3.8xlarge.elasticsearch';
-      case ESPartitionInstanceType.i2XlargeElasticsearch:
-        return 'i2.xlarge.elasticsearch';
-      case ESPartitionInstanceType.i2_2xlargeElasticsearch:
-        return 'i2.2xlarge.elasticsearch';
-      case ESPartitionInstanceType.d2XlargeElasticsearch:
-        return 'd2.xlarge.elasticsearch';
-      case ESPartitionInstanceType.d2_2xlargeElasticsearch:
-        return 'd2.2xlarge.elasticsearch';
-      case ESPartitionInstanceType.d2_4xlargeElasticsearch:
-        return 'd2.4xlarge.elasticsearch';
-      case ESPartitionInstanceType.d2_8xlargeElasticsearch:
-        return 'd2.8xlarge.elasticsearch';
-      case ESPartitionInstanceType.c4LargeElasticsearch:
-        return 'c4.large.elasticsearch';
-      case ESPartitionInstanceType.c4XlargeElasticsearch:
-        return 'c4.xlarge.elasticsearch';
-      case ESPartitionInstanceType.c4_2xlargeElasticsearch:
-        return 'c4.2xlarge.elasticsearch';
-      case ESPartitionInstanceType.c4_4xlargeElasticsearch:
-        return 'c4.4xlarge.elasticsearch';
-      case ESPartitionInstanceType.c4_8xlargeElasticsearch:
-        return 'c4.8xlarge.elasticsearch';
-      case ESPartitionInstanceType.r4LargeElasticsearch:
-        return 'r4.large.elasticsearch';
-      case ESPartitionInstanceType.r4XlargeElasticsearch:
-        return 'r4.xlarge.elasticsearch';
-      case ESPartitionInstanceType.r4_2xlargeElasticsearch:
-        return 'r4.2xlarge.elasticsearch';
-      case ESPartitionInstanceType.r4_4xlargeElasticsearch:
-        return 'r4.4xlarge.elasticsearch';
-      case ESPartitionInstanceType.r4_8xlargeElasticsearch:
-        return 'r4.8xlarge.elasticsearch';
-      case ESPartitionInstanceType.r4_16xlargeElasticsearch:
-        return 'r4.16xlarge.elasticsearch';
-      case ESPartitionInstanceType.i3LargeElasticsearch:
-        return 'i3.large.elasticsearch';
-      case ESPartitionInstanceType.i3XlargeElasticsearch:
-        return 'i3.xlarge.elasticsearch';
-      case ESPartitionInstanceType.i3_2xlargeElasticsearch:
-        return 'i3.2xlarge.elasticsearch';
-      case ESPartitionInstanceType.i3_4xlargeElasticsearch:
-        return 'i3.4xlarge.elasticsearch';
-      case ESPartitionInstanceType.i3_8xlargeElasticsearch:
-        return 'i3.8xlarge.elasticsearch';
-      case ESPartitionInstanceType.i3_16xlargeElasticsearch:
-        return 'i3.16xlarge.elasticsearch';
-    }
-  }
-}
+  final String value;
 
-extension ESPartitionInstanceTypeFromString on String {
-  ESPartitionInstanceType toESPartitionInstanceType() {
-    switch (this) {
-      case 'm3.medium.elasticsearch':
-        return ESPartitionInstanceType.m3MediumElasticsearch;
-      case 'm3.large.elasticsearch':
-        return ESPartitionInstanceType.m3LargeElasticsearch;
-      case 'm3.xlarge.elasticsearch':
-        return ESPartitionInstanceType.m3XlargeElasticsearch;
-      case 'm3.2xlarge.elasticsearch':
-        return ESPartitionInstanceType.m3_2xlargeElasticsearch;
-      case 'm4.large.elasticsearch':
-        return ESPartitionInstanceType.m4LargeElasticsearch;
-      case 'm4.xlarge.elasticsearch':
-        return ESPartitionInstanceType.m4XlargeElasticsearch;
-      case 'm4.2xlarge.elasticsearch':
-        return ESPartitionInstanceType.m4_2xlargeElasticsearch;
-      case 'm4.4xlarge.elasticsearch':
-        return ESPartitionInstanceType.m4_4xlargeElasticsearch;
-      case 'm4.10xlarge.elasticsearch':
-        return ESPartitionInstanceType.m4_10xlargeElasticsearch;
-      case 'm5.large.elasticsearch':
-        return ESPartitionInstanceType.m5LargeElasticsearch;
-      case 'm5.xlarge.elasticsearch':
-        return ESPartitionInstanceType.m5XlargeElasticsearch;
-      case 'm5.2xlarge.elasticsearch':
-        return ESPartitionInstanceType.m5_2xlargeElasticsearch;
-      case 'm5.4xlarge.elasticsearch':
-        return ESPartitionInstanceType.m5_4xlargeElasticsearch;
-      case 'm5.12xlarge.elasticsearch':
-        return ESPartitionInstanceType.m5_12xlargeElasticsearch;
-      case 'r5.large.elasticsearch':
-        return ESPartitionInstanceType.r5LargeElasticsearch;
-      case 'r5.xlarge.elasticsearch':
-        return ESPartitionInstanceType.r5XlargeElasticsearch;
-      case 'r5.2xlarge.elasticsearch':
-        return ESPartitionInstanceType.r5_2xlargeElasticsearch;
-      case 'r5.4xlarge.elasticsearch':
-        return ESPartitionInstanceType.r5_4xlargeElasticsearch;
-      case 'r5.12xlarge.elasticsearch':
-        return ESPartitionInstanceType.r5_12xlargeElasticsearch;
-      case 'c5.large.elasticsearch':
-        return ESPartitionInstanceType.c5LargeElasticsearch;
-      case 'c5.xlarge.elasticsearch':
-        return ESPartitionInstanceType.c5XlargeElasticsearch;
-      case 'c5.2xlarge.elasticsearch':
-        return ESPartitionInstanceType.c5_2xlargeElasticsearch;
-      case 'c5.4xlarge.elasticsearch':
-        return ESPartitionInstanceType.c5_4xlargeElasticsearch;
-      case 'c5.9xlarge.elasticsearch':
-        return ESPartitionInstanceType.c5_9xlargeElasticsearch;
-      case 'c5.18xlarge.elasticsearch':
-        return ESPartitionInstanceType.c5_18xlargeElasticsearch;
-      case 'ultrawarm1.medium.elasticsearch':
-        return ESPartitionInstanceType.ultrawarm1MediumElasticsearch;
-      case 'ultrawarm1.large.elasticsearch':
-        return ESPartitionInstanceType.ultrawarm1LargeElasticsearch;
-      case 't2.micro.elasticsearch':
-        return ESPartitionInstanceType.t2MicroElasticsearch;
-      case 't2.small.elasticsearch':
-        return ESPartitionInstanceType.t2SmallElasticsearch;
-      case 't2.medium.elasticsearch':
-        return ESPartitionInstanceType.t2MediumElasticsearch;
-      case 'r3.large.elasticsearch':
-        return ESPartitionInstanceType.r3LargeElasticsearch;
-      case 'r3.xlarge.elasticsearch':
-        return ESPartitionInstanceType.r3XlargeElasticsearch;
-      case 'r3.2xlarge.elasticsearch':
-        return ESPartitionInstanceType.r3_2xlargeElasticsearch;
-      case 'r3.4xlarge.elasticsearch':
-        return ESPartitionInstanceType.r3_4xlargeElasticsearch;
-      case 'r3.8xlarge.elasticsearch':
-        return ESPartitionInstanceType.r3_8xlargeElasticsearch;
-      case 'i2.xlarge.elasticsearch':
-        return ESPartitionInstanceType.i2XlargeElasticsearch;
-      case 'i2.2xlarge.elasticsearch':
-        return ESPartitionInstanceType.i2_2xlargeElasticsearch;
-      case 'd2.xlarge.elasticsearch':
-        return ESPartitionInstanceType.d2XlargeElasticsearch;
-      case 'd2.2xlarge.elasticsearch':
-        return ESPartitionInstanceType.d2_2xlargeElasticsearch;
-      case 'd2.4xlarge.elasticsearch':
-        return ESPartitionInstanceType.d2_4xlargeElasticsearch;
-      case 'd2.8xlarge.elasticsearch':
-        return ESPartitionInstanceType.d2_8xlargeElasticsearch;
-      case 'c4.large.elasticsearch':
-        return ESPartitionInstanceType.c4LargeElasticsearch;
-      case 'c4.xlarge.elasticsearch':
-        return ESPartitionInstanceType.c4XlargeElasticsearch;
-      case 'c4.2xlarge.elasticsearch':
-        return ESPartitionInstanceType.c4_2xlargeElasticsearch;
-      case 'c4.4xlarge.elasticsearch':
-        return ESPartitionInstanceType.c4_4xlargeElasticsearch;
-      case 'c4.8xlarge.elasticsearch':
-        return ESPartitionInstanceType.c4_8xlargeElasticsearch;
-      case 'r4.large.elasticsearch':
-        return ESPartitionInstanceType.r4LargeElasticsearch;
-      case 'r4.xlarge.elasticsearch':
-        return ESPartitionInstanceType.r4XlargeElasticsearch;
-      case 'r4.2xlarge.elasticsearch':
-        return ESPartitionInstanceType.r4_2xlargeElasticsearch;
-      case 'r4.4xlarge.elasticsearch':
-        return ESPartitionInstanceType.r4_4xlargeElasticsearch;
-      case 'r4.8xlarge.elasticsearch':
-        return ESPartitionInstanceType.r4_8xlargeElasticsearch;
-      case 'r4.16xlarge.elasticsearch':
-        return ESPartitionInstanceType.r4_16xlargeElasticsearch;
-      case 'i3.large.elasticsearch':
-        return ESPartitionInstanceType.i3LargeElasticsearch;
-      case 'i3.xlarge.elasticsearch':
-        return ESPartitionInstanceType.i3XlargeElasticsearch;
-      case 'i3.2xlarge.elasticsearch':
-        return ESPartitionInstanceType.i3_2xlargeElasticsearch;
-      case 'i3.4xlarge.elasticsearch':
-        return ESPartitionInstanceType.i3_4xlargeElasticsearch;
-      case 'i3.8xlarge.elasticsearch':
-        return ESPartitionInstanceType.i3_8xlargeElasticsearch;
-      case 'i3.16xlarge.elasticsearch':
-        return ESPartitionInstanceType.i3_16xlargeElasticsearch;
-    }
-    throw Exception('$this is not known in enum ESPartitionInstanceType');
-  }
+  const ESPartitionInstanceType(this.value);
+
+  static ESPartitionInstanceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ESPartitionInstanceType'));
 }
 
 enum ESWarmPartitionInstanceType {
-  ultrawarm1MediumElasticsearch,
-  ultrawarm1LargeElasticsearch,
-}
+  ultrawarm1MediumElasticsearch('ultrawarm1.medium.elasticsearch'),
+  ultrawarm1LargeElasticsearch('ultrawarm1.large.elasticsearch'),
+  ;
 
-extension ESWarmPartitionInstanceTypeValueExtension
-    on ESWarmPartitionInstanceType {
-  String toValue() {
-    switch (this) {
-      case ESWarmPartitionInstanceType.ultrawarm1MediumElasticsearch:
-        return 'ultrawarm1.medium.elasticsearch';
-      case ESWarmPartitionInstanceType.ultrawarm1LargeElasticsearch:
-        return 'ultrawarm1.large.elasticsearch';
-    }
-  }
-}
+  final String value;
 
-extension ESWarmPartitionInstanceTypeFromString on String {
-  ESWarmPartitionInstanceType toESWarmPartitionInstanceType() {
-    switch (this) {
-      case 'ultrawarm1.medium.elasticsearch':
-        return ESWarmPartitionInstanceType.ultrawarm1MediumElasticsearch;
-      case 'ultrawarm1.large.elasticsearch':
-        return ESWarmPartitionInstanceType.ultrawarm1LargeElasticsearch;
-    }
-    throw Exception('$this is not known in enum ESWarmPartitionInstanceType');
-  }
+  const ESWarmPartitionInstanceType(this.value);
+
+  static ESWarmPartitionInstanceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ESWarmPartitionInstanceType'));
 }
 
 /// Specifies the configuration for the domain cluster, such as the type and
@@ -5004,14 +4557,15 @@ class ElasticsearchClusterConfig {
           : null,
       dedicatedMasterCount: json['DedicatedMasterCount'] as int?,
       dedicatedMasterEnabled: json['DedicatedMasterEnabled'] as bool?,
-      dedicatedMasterType:
-          (json['DedicatedMasterType'] as String?)?.toESPartitionInstanceType(),
+      dedicatedMasterType: (json['DedicatedMasterType'] as String?)
+          ?.let(ESPartitionInstanceType.fromString),
       instanceCount: json['InstanceCount'] as int?,
-      instanceType:
-          (json['InstanceType'] as String?)?.toESPartitionInstanceType(),
+      instanceType: (json['InstanceType'] as String?)
+          ?.let(ESPartitionInstanceType.fromString),
       warmCount: json['WarmCount'] as int?,
       warmEnabled: json['WarmEnabled'] as bool?,
-      warmType: (json['WarmType'] as String?)?.toESWarmPartitionInstanceType(),
+      warmType: (json['WarmType'] as String?)
+          ?.let(ESWarmPartitionInstanceType.fromString),
       zoneAwarenessConfig: json['ZoneAwarenessConfig'] != null
           ? ZoneAwarenessConfig.fromJson(
               json['ZoneAwarenessConfig'] as Map<String, dynamic>)
@@ -5039,12 +4593,12 @@ class ElasticsearchClusterConfig {
       if (dedicatedMasterEnabled != null)
         'DedicatedMasterEnabled': dedicatedMasterEnabled,
       if (dedicatedMasterType != null)
-        'DedicatedMasterType': dedicatedMasterType.toValue(),
+        'DedicatedMasterType': dedicatedMasterType.value,
       if (instanceCount != null) 'InstanceCount': instanceCount,
-      if (instanceType != null) 'InstanceType': instanceType.toValue(),
+      if (instanceType != null) 'InstanceType': instanceType.value,
       if (warmCount != null) 'WarmCount': warmCount,
       if (warmEnabled != null) 'WarmEnabled': warmEnabled,
-      if (warmType != null) 'WarmType': warmType.toValue(),
+      if (warmType != null) 'WarmType': warmType.value,
       if (zoneAwarenessConfig != null)
         'ZoneAwarenessConfig': zoneAwarenessConfig,
       if (zoneAwarenessEnabled != null)
@@ -5452,7 +5006,7 @@ class ElasticsearchDomainStatus {
               json['DomainEndpointOptions'] as Map<String, dynamic>)
           : null,
       domainProcessingStatus: (json['DomainProcessingStatus'] as String?)
-          ?.toDomainProcessingStatusType(),
+          ?.let(DomainProcessingStatusType.fromString),
       eBSOptions: json['EBSOptions'] != null
           ? EBSOptions.fromJson(json['EBSOptions'] as Map<String, dynamic>)
           : null,
@@ -5466,7 +5020,7 @@ class ElasticsearchDomainStatus {
           ?.map((k, e) => MapEntry(k, e as String)),
       logPublishingOptions:
           (json['LogPublishingOptions'] as Map<String, dynamic>?)?.map((k, e) =>
-              MapEntry(k.toLogType(),
+              MapEntry(LogType.fromString(k),
                   LogPublishingOption.fromJson(e as Map<String, dynamic>))),
       modifyingProperties: (json['ModifyingProperties'] as List?)
           ?.whereNotNull()
@@ -5538,7 +5092,7 @@ class ElasticsearchDomainStatus {
       if (domainEndpointOptions != null)
         'DomainEndpointOptions': domainEndpointOptions,
       if (domainProcessingStatus != null)
-        'DomainProcessingStatus': domainProcessingStatus.toValue(),
+        'DomainProcessingStatus': domainProcessingStatus.value,
       if (eBSOptions != null) 'EBSOptions': eBSOptions,
       if (elasticsearchVersion != null)
         'ElasticsearchVersion': elasticsearchVersion,
@@ -5548,7 +5102,7 @@ class ElasticsearchDomainStatus {
       if (endpoints != null) 'Endpoints': endpoints,
       if (logPublishingOptions != null)
         'LogPublishingOptions':
-            logPublishingOptions.map((k, e) => MapEntry(k.toValue(), e)),
+            logPublishingOptions.map((k, e) => MapEntry(k.value, e)),
       if (modifyingProperties != null)
         'ModifyingProperties': modifyingProperties,
       if (nodeToNodeEncryptionOptions != null)
@@ -5660,31 +5214,17 @@ class EncryptionAtRestOptionsStatus {
 }
 
 enum EngineType {
-  openSearch,
-  elasticsearch,
-}
+  openSearch('OpenSearch'),
+  elasticsearch('Elasticsearch'),
+  ;
 
-extension EngineTypeValueExtension on EngineType {
-  String toValue() {
-    switch (this) {
-      case EngineType.openSearch:
-        return 'OpenSearch';
-      case EngineType.elasticsearch:
-        return 'Elasticsearch';
-    }
-  }
-}
+  final String value;
 
-extension EngineTypeFromString on String {
-  EngineType toEngineType() {
-    switch (this) {
-      case 'OpenSearch':
-        return EngineType.openSearch;
-      case 'Elasticsearch':
-        return EngineType.elasticsearch;
-    }
-    throw Exception('$this is not known in enum EngineType');
-  }
+  const EngineType(this.value);
+
+  static EngineType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum EngineType'));
 }
 
 class ErrorDetails {
@@ -5881,9 +5421,11 @@ class GetUpgradeStatusResponse {
 
   factory GetUpgradeStatusResponse.fromJson(Map<String, dynamic> json) {
     return GetUpgradeStatusResponse(
-      stepStatus: (json['StepStatus'] as String?)?.toUpgradeStatus(),
+      stepStatus:
+          (json['StepStatus'] as String?)?.let(UpgradeStatus.fromString),
       upgradeName: json['UpgradeName'] as String?,
-      upgradeStep: (json['UpgradeStep'] as String?)?.toUpgradeStep(),
+      upgradeStep:
+          (json['UpgradeStep'] as String?)?.let(UpgradeStep.fromString),
     );
   }
 
@@ -5892,9 +5434,9 @@ class GetUpgradeStatusResponse {
     final upgradeName = this.upgradeName;
     final upgradeStep = this.upgradeStep;
     return {
-      if (stepStatus != null) 'StepStatus': stepStatus.toValue(),
+      if (stepStatus != null) 'StepStatus': stepStatus.value,
       if (upgradeName != null) 'UpgradeName': upgradeName,
-      if (upgradeStep != null) 'UpgradeStep': upgradeStep.toValue(),
+      if (upgradeStep != null) 'UpgradeStep': upgradeStep.value,
     };
   }
 }
@@ -5989,7 +5531,7 @@ class InboundCrossClusterSearchConnectionStatus {
     return InboundCrossClusterSearchConnectionStatus(
       message: json['Message'] as String?,
       statusCode: (json['StatusCode'] as String?)
-          ?.toInboundCrossClusterSearchConnectionStatusCode(),
+          ?.let(InboundCrossClusterSearchConnectionStatusCode.fromString),
     );
   }
 
@@ -5998,88 +5540,43 @@ class InboundCrossClusterSearchConnectionStatus {
     final statusCode = this.statusCode;
     return {
       if (message != null) 'Message': message,
-      if (statusCode != null) 'StatusCode': statusCode.toValue(),
+      if (statusCode != null) 'StatusCode': statusCode.value,
     };
   }
 }
 
 enum InboundCrossClusterSearchConnectionStatusCode {
-  pendingAcceptance,
-  approved,
-  rejecting,
-  rejected,
-  deleting,
-  deleted,
-}
+  pendingAcceptance('PENDING_ACCEPTANCE'),
+  approved('APPROVED'),
+  rejecting('REJECTING'),
+  rejected('REJECTED'),
+  deleting('DELETING'),
+  deleted('DELETED'),
+  ;
 
-extension InboundCrossClusterSearchConnectionStatusCodeValueExtension
-    on InboundCrossClusterSearchConnectionStatusCode {
-  String toValue() {
-    switch (this) {
-      case InboundCrossClusterSearchConnectionStatusCode.pendingAcceptance:
-        return 'PENDING_ACCEPTANCE';
-      case InboundCrossClusterSearchConnectionStatusCode.approved:
-        return 'APPROVED';
-      case InboundCrossClusterSearchConnectionStatusCode.rejecting:
-        return 'REJECTING';
-      case InboundCrossClusterSearchConnectionStatusCode.rejected:
-        return 'REJECTED';
-      case InboundCrossClusterSearchConnectionStatusCode.deleting:
-        return 'DELETING';
-      case InboundCrossClusterSearchConnectionStatusCode.deleted:
-        return 'DELETED';
-    }
-  }
-}
+  final String value;
 
-extension InboundCrossClusterSearchConnectionStatusCodeFromString on String {
-  InboundCrossClusterSearchConnectionStatusCode
-      toInboundCrossClusterSearchConnectionStatusCode() {
-    switch (this) {
-      case 'PENDING_ACCEPTANCE':
-        return InboundCrossClusterSearchConnectionStatusCode.pendingAcceptance;
-      case 'APPROVED':
-        return InboundCrossClusterSearchConnectionStatusCode.approved;
-      case 'REJECTING':
-        return InboundCrossClusterSearchConnectionStatusCode.rejecting;
-      case 'REJECTED':
-        return InboundCrossClusterSearchConnectionStatusCode.rejected;
-      case 'DELETING':
-        return InboundCrossClusterSearchConnectionStatusCode.deleting;
-      case 'DELETED':
-        return InboundCrossClusterSearchConnectionStatusCode.deleted;
-    }
-    throw Exception(
-        '$this is not known in enum InboundCrossClusterSearchConnectionStatusCode');
-  }
+  const InboundCrossClusterSearchConnectionStatusCode(this.value);
+
+  static InboundCrossClusterSearchConnectionStatusCode fromString(
+          String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum InboundCrossClusterSearchConnectionStatusCode'));
 }
 
 enum InitiatedBy {
-  customer,
-  service,
-}
+  customer('CUSTOMER'),
+  service('SERVICE'),
+  ;
 
-extension InitiatedByValueExtension on InitiatedBy {
-  String toValue() {
-    switch (this) {
-      case InitiatedBy.customer:
-        return 'CUSTOMER';
-      case InitiatedBy.service:
-        return 'SERVICE';
-    }
-  }
-}
+  final String value;
 
-extension InitiatedByFromString on String {
-  InitiatedBy toInitiatedBy() {
-    switch (this) {
-      case 'CUSTOMER':
-        return InitiatedBy.customer;
-      case 'SERVICE':
-        return InitiatedBy.service;
-    }
-    throw Exception('$this is not known in enum InitiatedBy');
-  }
+  const InitiatedBy(this.value);
+
+  static InitiatedBy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum InitiatedBy'));
 }
 
 /// InstanceCountLimits represents the limits on number of instances that be
@@ -6269,7 +5766,7 @@ class ListElasticsearchInstanceTypesResponse {
     return ListElasticsearchInstanceTypesResponse(
       elasticsearchInstanceTypes: (json['ElasticsearchInstanceTypes'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toESPartitionInstanceType())
+          .map((e) => ESPartitionInstanceType.fromString((e as String)))
           .toList(),
       nextToken: json['NextToken'] as String?,
     );
@@ -6281,7 +5778,7 @@ class ListElasticsearchInstanceTypesResponse {
     return {
       if (elasticsearchInstanceTypes != null)
         'ElasticsearchInstanceTypes':
-            elasticsearchInstanceTypes.map((e) => e.toValue()).toList(),
+            elasticsearchInstanceTypes.map((e) => e.value).toList(),
       if (nextToken != null) 'NextToken': nextToken,
     };
   }
@@ -6546,7 +6043,7 @@ class LogPublishingOptionsStatus {
   factory LogPublishingOptionsStatus.fromJson(Map<String, dynamic> json) {
     return LogPublishingOptionsStatus(
       options: (json['Options'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(k.toLogType(),
+          MapEntry(LogType.fromString(k),
               LogPublishingOption.fromJson(e as Map<String, dynamic>))),
       status: json['Status'] != null
           ? OptionStatus.fromJson(json['Status'] as Map<String, dynamic>)
@@ -6559,7 +6056,7 @@ class LogPublishingOptionsStatus {
     final status = this.status;
     return {
       if (options != null)
-        'Options': options.map((k, e) => MapEntry(k.toValue(), e)),
+        'Options': options.map((k, e) => MapEntry(k.value, e)),
       if (status != null) 'Status': status,
     };
   }
@@ -6578,41 +6075,19 @@ class LogPublishingOptionsStatus {
 /// the domain.</li>
 /// </ul>
 enum LogType {
-  indexSlowLogs,
-  searchSlowLogs,
-  esApplicationLogs,
-  auditLogs,
-}
+  indexSlowLogs('INDEX_SLOW_LOGS'),
+  searchSlowLogs('SEARCH_SLOW_LOGS'),
+  esApplicationLogs('ES_APPLICATION_LOGS'),
+  auditLogs('AUDIT_LOGS'),
+  ;
 
-extension LogTypeValueExtension on LogType {
-  String toValue() {
-    switch (this) {
-      case LogType.indexSlowLogs:
-        return 'INDEX_SLOW_LOGS';
-      case LogType.searchSlowLogs:
-        return 'SEARCH_SLOW_LOGS';
-      case LogType.esApplicationLogs:
-        return 'ES_APPLICATION_LOGS';
-      case LogType.auditLogs:
-        return 'AUDIT_LOGS';
-    }
-  }
-}
+  final String value;
 
-extension LogTypeFromString on String {
-  LogType toLogType() {
-    switch (this) {
-      case 'INDEX_SLOW_LOGS':
-        return LogType.indexSlowLogs;
-      case 'SEARCH_SLOW_LOGS':
-        return LogType.searchSlowLogs;
-      case 'ES_APPLICATION_LOGS':
-        return LogType.esApplicationLogs;
-      case 'AUDIT_LOGS':
-        return LogType.auditLogs;
-    }
-    throw Exception('$this is not known in enum LogType');
-  }
+  const LogType(this.value);
+
+  static LogType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum LogType'));
 }
 
 /// Credentials for the master user: username and password, ARN, or both.
@@ -6681,7 +6156,8 @@ class ModifyingProperties {
       activeValue: json['ActiveValue'] as String?,
       name: json['Name'] as String?,
       pendingValue: json['PendingValue'] as String?,
-      valueType: (json['ValueType'] as String?)?.toPropertyValueType(),
+      valueType:
+          (json['ValueType'] as String?)?.let(PropertyValueType.fromString),
     );
   }
 
@@ -6694,7 +6170,7 @@ class ModifyingProperties {
       if (activeValue != null) 'ActiveValue': activeValue,
       if (name != null) 'Name': name,
       if (pendingValue != null) 'PendingValue': pendingValue,
-      if (valueType != null) 'ValueType': valueType.toValue(),
+      if (valueType != null) 'ValueType': valueType.value,
     };
   }
 }
@@ -6765,36 +6241,18 @@ class NodeToNodeEncryptionOptionsStatus {
 /// Elasticsearch domain.</li>
 /// </ul>
 enum OptionState {
-  requiresIndexDocuments,
-  processing,
-  active,
-}
+  requiresIndexDocuments('RequiresIndexDocuments'),
+  processing('Processing'),
+  active('Active'),
+  ;
 
-extension OptionStateValueExtension on OptionState {
-  String toValue() {
-    switch (this) {
-      case OptionState.requiresIndexDocuments:
-        return 'RequiresIndexDocuments';
-      case OptionState.processing:
-        return 'Processing';
-      case OptionState.active:
-        return 'Active';
-    }
-  }
-}
+  final String value;
 
-extension OptionStateFromString on String {
-  OptionState toOptionState() {
-    switch (this) {
-      case 'RequiresIndexDocuments':
-        return OptionState.requiresIndexDocuments;
-      case 'Processing':
-        return OptionState.processing;
-      case 'Active':
-        return OptionState.active;
-    }
-    throw Exception('$this is not known in enum OptionState');
-  }
+  const OptionState(this.value);
+
+  static OptionState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum OptionState'));
 }
 
 /// Provides the current status of the entity.
@@ -6826,7 +6284,7 @@ class OptionStatus {
     return OptionStatus(
       creationDate:
           nonNullableTimeStampFromJson(json['CreationDate'] as Object),
-      state: (json['State'] as String).toOptionState(),
+      state: OptionState.fromString((json['State'] as String)),
       updateDate: nonNullableTimeStampFromJson(json['UpdateDate'] as Object),
       pendingDeletion: json['PendingDeletion'] as bool?,
       updateVersion: json['UpdateVersion'] as int?,
@@ -6841,7 +6299,7 @@ class OptionStatus {
     final updateVersion = this.updateVersion;
     return {
       'CreationDate': unixTimestampToJson(creationDate),
-      'State': state.toValue(),
+      'State': state.value,
       'UpdateDate': unixTimestampToJson(updateDate),
       if (pendingDeletion != null) 'PendingDeletion': pendingDeletion,
       if (updateVersion != null) 'UpdateVersion': updateVersion,
@@ -6950,7 +6408,7 @@ class OutboundCrossClusterSearchConnectionStatus {
     return OutboundCrossClusterSearchConnectionStatus(
       message: json['Message'] as String?,
       statusCode: (json['StatusCode'] as String?)
-          ?.toOutboundCrossClusterSearchConnectionStatusCode(),
+          ?.let(OutboundCrossClusterSearchConnectionStatusCode.fromString),
     );
   }
 
@@ -6959,109 +6417,49 @@ class OutboundCrossClusterSearchConnectionStatus {
     final statusCode = this.statusCode;
     return {
       if (message != null) 'Message': message,
-      if (statusCode != null) 'StatusCode': statusCode.toValue(),
+      if (statusCode != null) 'StatusCode': statusCode.value,
     };
   }
 }
 
 enum OutboundCrossClusterSearchConnectionStatusCode {
-  pendingAcceptance,
-  validating,
-  validationFailed,
-  provisioning,
-  active,
-  rejected,
-  deleting,
-  deleted,
-}
+  pendingAcceptance('PENDING_ACCEPTANCE'),
+  validating('VALIDATING'),
+  validationFailed('VALIDATION_FAILED'),
+  provisioning('PROVISIONING'),
+  active('ACTIVE'),
+  rejected('REJECTED'),
+  deleting('DELETING'),
+  deleted('DELETED'),
+  ;
 
-extension OutboundCrossClusterSearchConnectionStatusCodeValueExtension
-    on OutboundCrossClusterSearchConnectionStatusCode {
-  String toValue() {
-    switch (this) {
-      case OutboundCrossClusterSearchConnectionStatusCode.pendingAcceptance:
-        return 'PENDING_ACCEPTANCE';
-      case OutboundCrossClusterSearchConnectionStatusCode.validating:
-        return 'VALIDATING';
-      case OutboundCrossClusterSearchConnectionStatusCode.validationFailed:
-        return 'VALIDATION_FAILED';
-      case OutboundCrossClusterSearchConnectionStatusCode.provisioning:
-        return 'PROVISIONING';
-      case OutboundCrossClusterSearchConnectionStatusCode.active:
-        return 'ACTIVE';
-      case OutboundCrossClusterSearchConnectionStatusCode.rejected:
-        return 'REJECTED';
-      case OutboundCrossClusterSearchConnectionStatusCode.deleting:
-        return 'DELETING';
-      case OutboundCrossClusterSearchConnectionStatusCode.deleted:
-        return 'DELETED';
-    }
-  }
-}
+  final String value;
 
-extension OutboundCrossClusterSearchConnectionStatusCodeFromString on String {
-  OutboundCrossClusterSearchConnectionStatusCode
-      toOutboundCrossClusterSearchConnectionStatusCode() {
-    switch (this) {
-      case 'PENDING_ACCEPTANCE':
-        return OutboundCrossClusterSearchConnectionStatusCode.pendingAcceptance;
-      case 'VALIDATING':
-        return OutboundCrossClusterSearchConnectionStatusCode.validating;
-      case 'VALIDATION_FAILED':
-        return OutboundCrossClusterSearchConnectionStatusCode.validationFailed;
-      case 'PROVISIONING':
-        return OutboundCrossClusterSearchConnectionStatusCode.provisioning;
-      case 'ACTIVE':
-        return OutboundCrossClusterSearchConnectionStatusCode.active;
-      case 'REJECTED':
-        return OutboundCrossClusterSearchConnectionStatusCode.rejected;
-      case 'DELETING':
-        return OutboundCrossClusterSearchConnectionStatusCode.deleting;
-      case 'DELETED':
-        return OutboundCrossClusterSearchConnectionStatusCode.deleted;
-    }
-    throw Exception(
-        '$this is not known in enum OutboundCrossClusterSearchConnectionStatusCode');
-  }
+  const OutboundCrossClusterSearchConnectionStatusCode(this.value);
+
+  static OutboundCrossClusterSearchConnectionStatusCode fromString(
+          String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum OutboundCrossClusterSearchConnectionStatusCode'));
 }
 
 /// The overall status value of the domain configuration change.
 enum OverallChangeStatus {
-  pending,
-  processing,
-  completed,
-  failed,
-}
+  pending('PENDING'),
+  processing('PROCESSING'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  ;
 
-extension OverallChangeStatusValueExtension on OverallChangeStatus {
-  String toValue() {
-    switch (this) {
-      case OverallChangeStatus.pending:
-        return 'PENDING';
-      case OverallChangeStatus.processing:
-        return 'PROCESSING';
-      case OverallChangeStatus.completed:
-        return 'COMPLETED';
-      case OverallChangeStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension OverallChangeStatusFromString on String {
-  OverallChangeStatus toOverallChangeStatus() {
-    switch (this) {
-      case 'PENDING':
-        return OverallChangeStatus.pending;
-      case 'PROCESSING':
-        return OverallChangeStatus.processing;
-      case 'COMPLETED':
-        return OverallChangeStatus.completed;
-      case 'FAILED':
-        return OverallChangeStatus.failed;
-    }
-    throw Exception('$this is not known in enum OverallChangeStatus');
-  }
+  const OverallChangeStatus(this.value);
+
+  static OverallChangeStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum OverallChangeStatus'));
 }
 
 /// Basic information about a package.
@@ -7114,8 +6512,10 @@ class PackageDetails {
       packageDescription: json['PackageDescription'] as String?,
       packageID: json['PackageID'] as String?,
       packageName: json['PackageName'] as String?,
-      packageStatus: (json['PackageStatus'] as String?)?.toPackageStatus(),
-      packageType: (json['PackageType'] as String?)?.toPackageType(),
+      packageStatus:
+          (json['PackageStatus'] as String?)?.let(PackageStatus.fromString),
+      packageType:
+          (json['PackageType'] as String?)?.let(PackageType.fromString),
     );
   }
 
@@ -7139,8 +6539,8 @@ class PackageDetails {
       if (packageDescription != null) 'PackageDescription': packageDescription,
       if (packageID != null) 'PackageID': packageID,
       if (packageName != null) 'PackageName': packageName,
-      if (packageStatus != null) 'PackageStatus': packageStatus.toValue(),
-      if (packageType != null) 'PackageType': packageType.toValue(),
+      if (packageStatus != null) 'PackageStatus': packageStatus.value,
+      if (packageType != null) 'PackageType': packageType.value,
     };
   }
 }
@@ -7170,84 +6570,37 @@ class PackageSource {
 }
 
 enum PackageStatus {
-  copying,
-  copyFailed,
-  validating,
-  validationFailed,
-  available,
-  deleting,
-  deleted,
-  deleteFailed,
-}
+  copying('COPYING'),
+  copyFailed('COPY_FAILED'),
+  validating('VALIDATING'),
+  validationFailed('VALIDATION_FAILED'),
+  available('AVAILABLE'),
+  deleting('DELETING'),
+  deleted('DELETED'),
+  deleteFailed('DELETE_FAILED'),
+  ;
 
-extension PackageStatusValueExtension on PackageStatus {
-  String toValue() {
-    switch (this) {
-      case PackageStatus.copying:
-        return 'COPYING';
-      case PackageStatus.copyFailed:
-        return 'COPY_FAILED';
-      case PackageStatus.validating:
-        return 'VALIDATING';
-      case PackageStatus.validationFailed:
-        return 'VALIDATION_FAILED';
-      case PackageStatus.available:
-        return 'AVAILABLE';
-      case PackageStatus.deleting:
-        return 'DELETING';
-      case PackageStatus.deleted:
-        return 'DELETED';
-      case PackageStatus.deleteFailed:
-        return 'DELETE_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension PackageStatusFromString on String {
-  PackageStatus toPackageStatus() {
-    switch (this) {
-      case 'COPYING':
-        return PackageStatus.copying;
-      case 'COPY_FAILED':
-        return PackageStatus.copyFailed;
-      case 'VALIDATING':
-        return PackageStatus.validating;
-      case 'VALIDATION_FAILED':
-        return PackageStatus.validationFailed;
-      case 'AVAILABLE':
-        return PackageStatus.available;
-      case 'DELETING':
-        return PackageStatus.deleting;
-      case 'DELETED':
-        return PackageStatus.deleted;
-      case 'DELETE_FAILED':
-        return PackageStatus.deleteFailed;
-    }
-    throw Exception('$this is not known in enum PackageStatus');
-  }
+  const PackageStatus(this.value);
+
+  static PackageStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PackageStatus'));
 }
 
 enum PackageType {
-  txtDictionary,
-}
+  txtDictionary('TXT-DICTIONARY'),
+  ;
 
-extension PackageTypeValueExtension on PackageType {
-  String toValue() {
-    switch (this) {
-      case PackageType.txtDictionary:
-        return 'TXT-DICTIONARY';
-    }
-  }
-}
+  final String value;
 
-extension PackageTypeFromString on String {
-  PackageType toPackageType() {
-    switch (this) {
-      case 'TXT-DICTIONARY':
-        return PackageType.txtDictionary;
-    }
-    throw Exception('$this is not known in enum PackageType');
-  }
+  const PackageType(this.value);
+
+  static PackageType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum PackageType'));
 }
 
 /// Details of a package version.
@@ -7293,59 +6646,33 @@ class PackageVersionHistory {
 /// <li>AWS_SERVICE: Indicates the the account is owned by an AWS service.</li>
 /// </ul>
 enum PrincipalType {
-  awsAccount,
-  awsService,
-}
+  awsAccount('AWS_ACCOUNT'),
+  awsService('AWS_SERVICE'),
+  ;
 
-extension PrincipalTypeValueExtension on PrincipalType {
-  String toValue() {
-    switch (this) {
-      case PrincipalType.awsAccount:
-        return 'AWS_ACCOUNT';
-      case PrincipalType.awsService:
-        return 'AWS_SERVICE';
-    }
-  }
-}
+  final String value;
 
-extension PrincipalTypeFromString on String {
-  PrincipalType toPrincipalType() {
-    switch (this) {
-      case 'AWS_ACCOUNT':
-        return PrincipalType.awsAccount;
-      case 'AWS_SERVICE':
-        return PrincipalType.awsService;
-    }
-    throw Exception('$this is not known in enum PrincipalType');
-  }
+  const PrincipalType(this.value);
+
+  static PrincipalType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PrincipalType'));
 }
 
 enum PropertyValueType {
-  plainText,
-  stringifiedJson,
-}
+  plainText('PLAIN_TEXT'),
+  stringifiedJson('STRINGIFIED_JSON'),
+  ;
 
-extension PropertyValueTypeValueExtension on PropertyValueType {
-  String toValue() {
-    switch (this) {
-      case PropertyValueType.plainText:
-        return 'PLAIN_TEXT';
-      case PropertyValueType.stringifiedJson:
-        return 'STRINGIFIED_JSON';
-    }
-  }
-}
+  final String value;
 
-extension PropertyValueTypeFromString on String {
-  PropertyValueType toPropertyValueType() {
-    switch (this) {
-      case 'PLAIN_TEXT':
-        return PropertyValueType.plainText;
-      case 'STRINGIFIED_JSON':
-        return PropertyValueType.stringifiedJson;
-    }
-    throw Exception('$this is not known in enum PropertyValueType');
-  }
+  const PropertyValueType(this.value);
+
+  static PropertyValueType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PropertyValueType'));
 }
 
 /// Represents the output of a
@@ -7515,10 +6842,10 @@ class ReservedElasticsearchInstance {
       duration: json['Duration'] as int?,
       elasticsearchInstanceCount: json['ElasticsearchInstanceCount'] as int?,
       elasticsearchInstanceType: (json['ElasticsearchInstanceType'] as String?)
-          ?.toESPartitionInstanceType(),
+          ?.let(ESPartitionInstanceType.fromString),
       fixedPrice: json['FixedPrice'] as double?,
       paymentOption: (json['PaymentOption'] as String?)
-          ?.toReservedElasticsearchInstancePaymentOption(),
+          ?.let(ReservedElasticsearchInstancePaymentOption.fromString),
       recurringCharges: (json['RecurringCharges'] as List?)
           ?.whereNotNull()
           .map((e) => RecurringCharge.fromJson(e as Map<String, dynamic>))
@@ -7556,9 +6883,9 @@ class ReservedElasticsearchInstance {
       if (elasticsearchInstanceCount != null)
         'ElasticsearchInstanceCount': elasticsearchInstanceCount,
       if (elasticsearchInstanceType != null)
-        'ElasticsearchInstanceType': elasticsearchInstanceType.toValue(),
+        'ElasticsearchInstanceType': elasticsearchInstanceType.value,
       if (fixedPrice != null) 'FixedPrice': fixedPrice,
-      if (paymentOption != null) 'PaymentOption': paymentOption.toValue(),
+      if (paymentOption != null) 'PaymentOption': paymentOption.value,
       if (recurringCharges != null) 'RecurringCharges': recurringCharges,
       if (reservationName != null) 'ReservationName': reservationName,
       if (reservedElasticsearchInstanceId != null)
@@ -7620,10 +6947,10 @@ class ReservedElasticsearchInstanceOffering {
       currencyCode: json['CurrencyCode'] as String?,
       duration: json['Duration'] as int?,
       elasticsearchInstanceType: (json['ElasticsearchInstanceType'] as String?)
-          ?.toESPartitionInstanceType(),
+          ?.let(ESPartitionInstanceType.fromString),
       fixedPrice: json['FixedPrice'] as double?,
       paymentOption: (json['PaymentOption'] as String?)
-          ?.toReservedElasticsearchInstancePaymentOption(),
+          ?.let(ReservedElasticsearchInstancePaymentOption.fromString),
       recurringCharges: (json['RecurringCharges'] as List?)
           ?.whereNotNull()
           .map((e) => RecurringCharge.fromJson(e as Map<String, dynamic>))
@@ -7648,9 +6975,9 @@ class ReservedElasticsearchInstanceOffering {
       if (currencyCode != null) 'CurrencyCode': currencyCode,
       if (duration != null) 'Duration': duration,
       if (elasticsearchInstanceType != null)
-        'ElasticsearchInstanceType': elasticsearchInstanceType.toValue(),
+        'ElasticsearchInstanceType': elasticsearchInstanceType.value,
       if (fixedPrice != null) 'FixedPrice': fixedPrice,
-      if (paymentOption != null) 'PaymentOption': paymentOption.toValue(),
+      if (paymentOption != null) 'PaymentOption': paymentOption.value,
       if (recurringCharges != null) 'RecurringCharges': recurringCharges,
       if (reservedElasticsearchInstanceOfferingId != null)
         'ReservedElasticsearchInstanceOfferingId':
@@ -7661,39 +6988,19 @@ class ReservedElasticsearchInstanceOffering {
 }
 
 enum ReservedElasticsearchInstancePaymentOption {
-  allUpfront,
-  partialUpfront,
-  noUpfront,
-}
+  allUpfront('ALL_UPFRONT'),
+  partialUpfront('PARTIAL_UPFRONT'),
+  noUpfront('NO_UPFRONT'),
+  ;
 
-extension ReservedElasticsearchInstancePaymentOptionValueExtension
-    on ReservedElasticsearchInstancePaymentOption {
-  String toValue() {
-    switch (this) {
-      case ReservedElasticsearchInstancePaymentOption.allUpfront:
-        return 'ALL_UPFRONT';
-      case ReservedElasticsearchInstancePaymentOption.partialUpfront:
-        return 'PARTIAL_UPFRONT';
-      case ReservedElasticsearchInstancePaymentOption.noUpfront:
-        return 'NO_UPFRONT';
-    }
-  }
-}
+  final String value;
 
-extension ReservedElasticsearchInstancePaymentOptionFromString on String {
-  ReservedElasticsearchInstancePaymentOption
-      toReservedElasticsearchInstancePaymentOption() {
-    switch (this) {
-      case 'ALL_UPFRONT':
-        return ReservedElasticsearchInstancePaymentOption.allUpfront;
-      case 'PARTIAL_UPFRONT':
-        return ReservedElasticsearchInstancePaymentOption.partialUpfront;
-      case 'NO_UPFRONT':
-        return ReservedElasticsearchInstancePaymentOption.noUpfront;
-    }
-    throw Exception(
-        '$this is not known in enum ReservedElasticsearchInstancePaymentOption');
-  }
+  const ReservedElasticsearchInstancePaymentOption(this.value);
+
+  static ReservedElasticsearchInstancePaymentOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ReservedElasticsearchInstancePaymentOption'));
 }
 
 /// Container for response parameters to the
@@ -7714,31 +7021,18 @@ class RevokeVpcEndpointAccessResponse {
 /// Specifies the rollback state while disabling Auto-Tune for the domain. Valid
 /// values are NO_ROLLBACK, DEFAULT_ROLLBACK.
 enum RollbackOnDisable {
-  noRollback,
-  defaultRollback,
-}
+  noRollback('NO_ROLLBACK'),
+  defaultRollback('DEFAULT_ROLLBACK'),
+  ;
 
-extension RollbackOnDisableValueExtension on RollbackOnDisable {
-  String toValue() {
-    switch (this) {
-      case RollbackOnDisable.noRollback:
-        return 'NO_ROLLBACK';
-      case RollbackOnDisable.defaultRollback:
-        return 'DEFAULT_ROLLBACK';
-    }
-  }
-}
+  final String value;
 
-extension RollbackOnDisableFromString on String {
-  RollbackOnDisable toRollbackOnDisable() {
-    switch (this) {
-      case 'NO_ROLLBACK':
-        return RollbackOnDisable.noRollback;
-      case 'DEFAULT_ROLLBACK':
-        return RollbackOnDisable.defaultRollback;
-    }
-    throw Exception('$this is not known in enum RollbackOnDisable');
-  }
+  const RollbackOnDisable(this.value);
+
+  static RollbackOnDisable fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RollbackOnDisable'));
 }
 
 /// Specifies the SAML Identity Provider's information.
@@ -7884,32 +7178,18 @@ class SAMLOptionsOutput {
 /// Specifies Auto-Tune action type. Valid values are JVM_HEAP_SIZE_TUNING and
 /// JVM_YOUNG_GEN_TUNING.
 enum ScheduledAutoTuneActionType {
-  jvmHeapSizeTuning,
-  jvmYoungGenTuning,
-}
+  jvmHeapSizeTuning('JVM_HEAP_SIZE_TUNING'),
+  jvmYoungGenTuning('JVM_YOUNG_GEN_TUNING'),
+  ;
 
-extension ScheduledAutoTuneActionTypeValueExtension
-    on ScheduledAutoTuneActionType {
-  String toValue() {
-    switch (this) {
-      case ScheduledAutoTuneActionType.jvmHeapSizeTuning:
-        return 'JVM_HEAP_SIZE_TUNING';
-      case ScheduledAutoTuneActionType.jvmYoungGenTuning:
-        return 'JVM_YOUNG_GEN_TUNING';
-    }
-  }
-}
+  final String value;
 
-extension ScheduledAutoTuneActionTypeFromString on String {
-  ScheduledAutoTuneActionType toScheduledAutoTuneActionType() {
-    switch (this) {
-      case 'JVM_HEAP_SIZE_TUNING':
-        return ScheduledAutoTuneActionType.jvmHeapSizeTuning;
-      case 'JVM_YOUNG_GEN_TUNING':
-        return ScheduledAutoTuneActionType.jvmYoungGenTuning;
-    }
-    throw Exception('$this is not known in enum ScheduledAutoTuneActionType');
-  }
+  const ScheduledAutoTuneActionType(this.value);
+
+  static ScheduledAutoTuneActionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ScheduledAutoTuneActionType'));
 }
 
 /// Specifies details of the scheduled Auto-Tune action. See the <a
@@ -7939,11 +7219,11 @@ class ScheduledAutoTuneDetails {
   factory ScheduledAutoTuneDetails.fromJson(Map<String, dynamic> json) {
     return ScheduledAutoTuneDetails(
       action: json['Action'] as String?,
-      actionType:
-          (json['ActionType'] as String?)?.toScheduledAutoTuneActionType(),
+      actionType: (json['ActionType'] as String?)
+          ?.let(ScheduledAutoTuneActionType.fromString),
       date: timeStampFromJson(json['Date']),
-      severity:
-          (json['Severity'] as String?)?.toScheduledAutoTuneSeverityType(),
+      severity: (json['Severity'] as String?)
+          ?.let(ScheduledAutoTuneSeverityType.fromString),
     );
   }
 
@@ -7954,46 +7234,28 @@ class ScheduledAutoTuneDetails {
     final severity = this.severity;
     return {
       if (action != null) 'Action': action,
-      if (actionType != null) 'ActionType': actionType.toValue(),
+      if (actionType != null) 'ActionType': actionType.value,
       if (date != null) 'Date': unixTimestampToJson(date),
-      if (severity != null) 'Severity': severity.toValue(),
+      if (severity != null) 'Severity': severity.value,
     };
   }
 }
 
 /// Specifies Auto-Tune action severity. Valid values are LOW, MEDIUM and HIGH.
 enum ScheduledAutoTuneSeverityType {
-  low,
-  medium,
-  high,
-}
+  low('LOW'),
+  medium('MEDIUM'),
+  high('HIGH'),
+  ;
 
-extension ScheduledAutoTuneSeverityTypeValueExtension
-    on ScheduledAutoTuneSeverityType {
-  String toValue() {
-    switch (this) {
-      case ScheduledAutoTuneSeverityType.low:
-        return 'LOW';
-      case ScheduledAutoTuneSeverityType.medium:
-        return 'MEDIUM';
-      case ScheduledAutoTuneSeverityType.high:
-        return 'HIGH';
-    }
-  }
-}
+  final String value;
 
-extension ScheduledAutoTuneSeverityTypeFromString on String {
-  ScheduledAutoTuneSeverityType toScheduledAutoTuneSeverityType() {
-    switch (this) {
-      case 'LOW':
-        return ScheduledAutoTuneSeverityType.low;
-      case 'MEDIUM':
-        return ScheduledAutoTuneSeverityType.medium;
-      case 'HIGH':
-        return ScheduledAutoTuneSeverityType.high;
-    }
-    throw Exception('$this is not known in enum ScheduledAutoTuneSeverityType');
-  }
+  const ScheduledAutoTuneSeverityType(this.value);
+
+  static ScheduledAutoTuneSeverityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ScheduledAutoTuneSeverityType'));
 }
 
 /// The current options of an Elasticsearch domain service software options.
@@ -8053,7 +7315,8 @@ class ServiceSoftwareOptions {
       newVersion: json['NewVersion'] as String?,
       optionalDeployment: json['OptionalDeployment'] as bool?,
       updateAvailable: json['UpdateAvailable'] as bool?,
-      updateStatus: (json['UpdateStatus'] as String?)?.toDeploymentStatus(),
+      updateStatus:
+          (json['UpdateStatus'] as String?)?.let(DeploymentStatus.fromString),
     );
   }
 
@@ -8075,7 +7338,7 @@ class ServiceSoftwareOptions {
       if (newVersion != null) 'NewVersion': newVersion,
       if (optionalDeployment != null) 'OptionalDeployment': optionalDeployment,
       if (updateAvailable != null) 'UpdateAvailable': updateAvailable,
-      if (updateStatus != null) 'UpdateStatus': updateStatus.toValue(),
+      if (updateStatus != null) 'UpdateStatus': updateStatus.value,
     };
   }
 }
@@ -8254,36 +7517,19 @@ class StorageTypeLimit {
 }
 
 enum TLSSecurityPolicy {
-  policyMinTls_1_0_2019_07,
-  policyMinTls_1_2_2019_07,
-  policyMinTls_1_2Pfs_2023_10,
-}
+  policyMinTls_1_0_2019_07('Policy-Min-TLS-1-0-2019-07'),
+  policyMinTls_1_2_2019_07('Policy-Min-TLS-1-2-2019-07'),
+  policyMinTls_1_2Pfs_2023_10('Policy-Min-TLS-1-2-PFS-2023-10'),
+  ;
 
-extension TLSSecurityPolicyValueExtension on TLSSecurityPolicy {
-  String toValue() {
-    switch (this) {
-      case TLSSecurityPolicy.policyMinTls_1_0_2019_07:
-        return 'Policy-Min-TLS-1-0-2019-07';
-      case TLSSecurityPolicy.policyMinTls_1_2_2019_07:
-        return 'Policy-Min-TLS-1-2-2019-07';
-      case TLSSecurityPolicy.policyMinTls_1_2Pfs_2023_10:
-        return 'Policy-Min-TLS-1-2-PFS-2023-10';
-    }
-  }
-}
+  final String value;
 
-extension TLSSecurityPolicyFromString on String {
-  TLSSecurityPolicy toTLSSecurityPolicy() {
-    switch (this) {
-      case 'Policy-Min-TLS-1-0-2019-07':
-        return TLSSecurityPolicy.policyMinTls_1_0_2019_07;
-      case 'Policy-Min-TLS-1-2-2019-07':
-        return TLSSecurityPolicy.policyMinTls_1_2_2019_07;
-      case 'Policy-Min-TLS-1-2-PFS-2023-10':
-        return TLSSecurityPolicy.policyMinTls_1_2Pfs_2023_10;
-    }
-    throw Exception('$this is not known in enum TLSSecurityPolicy');
-  }
+  const TLSSecurityPolicy(this.value);
+
+  static TLSSecurityPolicy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TLSSecurityPolicy'));
 }
 
 /// Specifies a key value pair for a resource tag.
@@ -8325,26 +7571,16 @@ class Tag {
 /// href="https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/auto-tune.html"
 /// target="_blank">Developer Guide</a> for more information.
 enum TimeUnit {
-  hours,
-}
+  hours('HOURS'),
+  ;
 
-extension TimeUnitValueExtension on TimeUnit {
-  String toValue() {
-    switch (this) {
-      case TimeUnit.hours:
-        return 'HOURS';
-    }
-  }
-}
+  final String value;
 
-extension TimeUnitFromString on String {
-  TimeUnit toTimeUnit() {
-    switch (this) {
-      case 'HOURS':
-        return TimeUnit.hours;
-    }
-    throw Exception('$this is not known in enum TimeUnit');
-  }
+  const TimeUnit(this.value);
+
+  static TimeUnit fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TimeUnit'));
 }
 
 /// The result of an <code>UpdateElasticsearchDomain</code> request. Contains
@@ -8521,7 +7757,8 @@ class UpgradeHistory {
           .map((e) => UpgradeStepItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       upgradeName: json['UpgradeName'] as String?,
-      upgradeStatus: (json['UpgradeStatus'] as String?)?.toUpgradeStatus(),
+      upgradeStatus:
+          (json['UpgradeStatus'] as String?)?.let(UpgradeStatus.fromString),
     );
   }
 
@@ -8535,80 +7772,41 @@ class UpgradeHistory {
         'StartTimestamp': unixTimestampToJson(startTimestamp),
       if (stepsList != null) 'StepsList': stepsList,
       if (upgradeName != null) 'UpgradeName': upgradeName,
-      if (upgradeStatus != null) 'UpgradeStatus': upgradeStatus.toValue(),
+      if (upgradeStatus != null) 'UpgradeStatus': upgradeStatus.value,
     };
   }
 }
 
 enum UpgradeStatus {
-  inProgress,
-  succeeded,
-  succeededWithIssues,
-  failed,
-}
+  inProgress('IN_PROGRESS'),
+  succeeded('SUCCEEDED'),
+  succeededWithIssues('SUCCEEDED_WITH_ISSUES'),
+  failed('FAILED'),
+  ;
 
-extension UpgradeStatusValueExtension on UpgradeStatus {
-  String toValue() {
-    switch (this) {
-      case UpgradeStatus.inProgress:
-        return 'IN_PROGRESS';
-      case UpgradeStatus.succeeded:
-        return 'SUCCEEDED';
-      case UpgradeStatus.succeededWithIssues:
-        return 'SUCCEEDED_WITH_ISSUES';
-      case UpgradeStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension UpgradeStatusFromString on String {
-  UpgradeStatus toUpgradeStatus() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return UpgradeStatus.inProgress;
-      case 'SUCCEEDED':
-        return UpgradeStatus.succeeded;
-      case 'SUCCEEDED_WITH_ISSUES':
-        return UpgradeStatus.succeededWithIssues;
-      case 'FAILED':
-        return UpgradeStatus.failed;
-    }
-    throw Exception('$this is not known in enum UpgradeStatus');
-  }
+  const UpgradeStatus(this.value);
+
+  static UpgradeStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum UpgradeStatus'));
 }
 
 enum UpgradeStep {
-  preUpgradeCheck,
-  snapshot,
-  upgrade,
-}
+  preUpgradeCheck('PRE_UPGRADE_CHECK'),
+  snapshot('SNAPSHOT'),
+  upgrade('UPGRADE'),
+  ;
 
-extension UpgradeStepValueExtension on UpgradeStep {
-  String toValue() {
-    switch (this) {
-      case UpgradeStep.preUpgradeCheck:
-        return 'PRE_UPGRADE_CHECK';
-      case UpgradeStep.snapshot:
-        return 'SNAPSHOT';
-      case UpgradeStep.upgrade:
-        return 'UPGRADE';
-    }
-  }
-}
+  final String value;
 
-extension UpgradeStepFromString on String {
-  UpgradeStep toUpgradeStep() {
-    switch (this) {
-      case 'PRE_UPGRADE_CHECK':
-        return UpgradeStep.preUpgradeCheck;
-      case 'SNAPSHOT':
-        return UpgradeStep.snapshot;
-      case 'UPGRADE':
-        return UpgradeStep.upgrade;
-    }
-    throw Exception('$this is not known in enum UpgradeStep');
-  }
+  const UpgradeStep(this.value);
+
+  static UpgradeStep fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum UpgradeStep'));
 }
 
 /// Represents a single step of the Upgrade or Upgrade Eligibility Check
@@ -8655,9 +7853,10 @@ class UpgradeStepItem {
           .map((e) => e as String)
           .toList(),
       progressPercent: json['ProgressPercent'] as double?,
-      upgradeStep: (json['UpgradeStep'] as String?)?.toUpgradeStep(),
+      upgradeStep:
+          (json['UpgradeStep'] as String?)?.let(UpgradeStep.fromString),
       upgradeStepStatus:
-          (json['UpgradeStepStatus'] as String?)?.toUpgradeStatus(),
+          (json['UpgradeStepStatus'] as String?)?.let(UpgradeStatus.fromString),
     );
   }
 
@@ -8669,9 +7868,9 @@ class UpgradeStepItem {
     return {
       if (issues != null) 'Issues': issues,
       if (progressPercent != null) 'ProgressPercent': progressPercent,
-      if (upgradeStep != null) 'UpgradeStep': upgradeStep.toValue(),
+      if (upgradeStep != null) 'UpgradeStep': upgradeStep.value,
       if (upgradeStepStatus != null)
-        'UpgradeStepStatus': upgradeStepStatus.toValue(),
+        'UpgradeStepStatus': upgradeStepStatus.value,
     };
   }
 }
@@ -8795,41 +7994,19 @@ class VPCOptions {
 /// href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-createupdatedomains.html#es-createdomain-configure-ebs"
 /// target="_blank">Configuring EBS-based Storage</a>for more information.
 enum VolumeType {
-  standard,
-  gp2,
-  io1,
-  gp3,
-}
+  standard('standard'),
+  gp2('gp2'),
+  io1('io1'),
+  gp3('gp3'),
+  ;
 
-extension VolumeTypeValueExtension on VolumeType {
-  String toValue() {
-    switch (this) {
-      case VolumeType.standard:
-        return 'standard';
-      case VolumeType.gp2:
-        return 'gp2';
-      case VolumeType.io1:
-        return 'io1';
-      case VolumeType.gp3:
-        return 'gp3';
-    }
-  }
-}
+  final String value;
 
-extension VolumeTypeFromString on String {
-  VolumeType toVolumeType() {
-    switch (this) {
-      case 'standard':
-        return VolumeType.standard;
-      case 'gp2':
-        return VolumeType.gp2;
-      case 'io1':
-        return VolumeType.io1;
-      case 'gp3':
-        return VolumeType.gp3;
-    }
-    throw Exception('$this is not known in enum VolumeType');
-  }
+  const VolumeType(this.value);
+
+  static VolumeType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum VolumeType'));
 }
 
 /// The connection endpoint for connecting to an Amazon OpenSearch Service
@@ -8867,7 +8044,7 @@ class VpcEndpoint {
     return VpcEndpoint(
       domainArn: json['DomainArn'] as String?,
       endpoint: json['Endpoint'] as String?,
-      status: (json['Status'] as String?)?.toVpcEndpointStatus(),
+      status: (json['Status'] as String?)?.let(VpcEndpointStatus.fromString),
       vpcEndpointId: json['VpcEndpointId'] as String?,
       vpcEndpointOwner: json['VpcEndpointOwner'] as String?,
       vpcOptions: json['VpcOptions'] != null
@@ -8886,7 +8063,7 @@ class VpcEndpoint {
     return {
       if (domainArn != null) 'DomainArn': domainArn,
       if (endpoint != null) 'Endpoint': endpoint,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (vpcEndpointId != null) 'VpcEndpointId': vpcEndpointId,
       if (vpcEndpointOwner != null) 'VpcEndpointOwner': vpcEndpointOwner,
       if (vpcOptions != null) 'VpcOptions': vpcOptions,
@@ -8914,7 +8091,8 @@ class VpcEndpointError {
 
   factory VpcEndpointError.fromJson(Map<String, dynamic> json) {
     return VpcEndpointError(
-      errorCode: (json['ErrorCode'] as String?)?.toVpcEndpointErrorCode(),
+      errorCode:
+          (json['ErrorCode'] as String?)?.let(VpcEndpointErrorCode.fromString),
       errorMessage: json['ErrorMessage'] as String?,
       vpcEndpointId: json['VpcEndpointId'] as String?,
     );
@@ -8925,7 +8103,7 @@ class VpcEndpointError {
     final errorMessage = this.errorMessage;
     final vpcEndpointId = this.vpcEndpointId;
     return {
-      if (errorCode != null) 'ErrorCode': errorCode.toValue(),
+      if (errorCode != null) 'ErrorCode': errorCode.value,
       if (errorMessage != null) 'ErrorMessage': errorMessage,
       if (vpcEndpointId != null) 'VpcEndpointId': vpcEndpointId,
     };
@@ -8941,31 +8119,18 @@ class VpcEndpointError {
 /// internal server error.</li>
 /// </ul>
 enum VpcEndpointErrorCode {
-  endpointNotFound,
-  serverError,
-}
+  endpointNotFound('ENDPOINT_NOT_FOUND'),
+  serverError('SERVER_ERROR'),
+  ;
 
-extension VpcEndpointErrorCodeValueExtension on VpcEndpointErrorCode {
-  String toValue() {
-    switch (this) {
-      case VpcEndpointErrorCode.endpointNotFound:
-        return 'ENDPOINT_NOT_FOUND';
-      case VpcEndpointErrorCode.serverError:
-        return 'SERVER_ERROR';
-    }
-  }
-}
+  final String value;
 
-extension VpcEndpointErrorCodeFromString on String {
-  VpcEndpointErrorCode toVpcEndpointErrorCode() {
-    switch (this) {
-      case 'ENDPOINT_NOT_FOUND':
-        return VpcEndpointErrorCode.endpointNotFound;
-      case 'SERVER_ERROR':
-        return VpcEndpointErrorCode.serverError;
-    }
-    throw Exception('$this is not known in enum VpcEndpointErrorCode');
-  }
+  const VpcEndpointErrorCode(this.value);
+
+  static VpcEndpointErrorCode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum VpcEndpointErrorCode'));
 }
 
 /// Specifies the current status of the VPC endpoint:
@@ -8982,56 +8147,23 @@ extension VpcEndpointErrorCodeFromString on String {
 /// <li>DELETE_FAILED: Indicates that the VPC endpoint deletion failed.</li>
 /// </ul>
 enum VpcEndpointStatus {
-  creating,
-  createFailed,
-  active,
-  updating,
-  updateFailed,
-  deleting,
-  deleteFailed,
-}
+  creating('CREATING'),
+  createFailed('CREATE_FAILED'),
+  active('ACTIVE'),
+  updating('UPDATING'),
+  updateFailed('UPDATE_FAILED'),
+  deleting('DELETING'),
+  deleteFailed('DELETE_FAILED'),
+  ;
 
-extension VpcEndpointStatusValueExtension on VpcEndpointStatus {
-  String toValue() {
-    switch (this) {
-      case VpcEndpointStatus.creating:
-        return 'CREATING';
-      case VpcEndpointStatus.createFailed:
-        return 'CREATE_FAILED';
-      case VpcEndpointStatus.active:
-        return 'ACTIVE';
-      case VpcEndpointStatus.updating:
-        return 'UPDATING';
-      case VpcEndpointStatus.updateFailed:
-        return 'UPDATE_FAILED';
-      case VpcEndpointStatus.deleting:
-        return 'DELETING';
-      case VpcEndpointStatus.deleteFailed:
-        return 'DELETE_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension VpcEndpointStatusFromString on String {
-  VpcEndpointStatus toVpcEndpointStatus() {
-    switch (this) {
-      case 'CREATING':
-        return VpcEndpointStatus.creating;
-      case 'CREATE_FAILED':
-        return VpcEndpointStatus.createFailed;
-      case 'ACTIVE':
-        return VpcEndpointStatus.active;
-      case 'UPDATING':
-        return VpcEndpointStatus.updating;
-      case 'UPDATE_FAILED':
-        return VpcEndpointStatus.updateFailed;
-      case 'DELETING':
-        return VpcEndpointStatus.deleting;
-      case 'DELETE_FAILED':
-        return VpcEndpointStatus.deleteFailed;
-    }
-    throw Exception('$this is not known in enum VpcEndpointStatus');
-  }
+  const VpcEndpointStatus(this.value);
+
+  static VpcEndpointStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum VpcEndpointStatus'));
 }
 
 /// Summary information for an Amazon OpenSearch Service-managed VPC endpoint.
@@ -9058,7 +8190,7 @@ class VpcEndpointSummary {
   factory VpcEndpointSummary.fromJson(Map<String, dynamic> json) {
     return VpcEndpointSummary(
       domainArn: json['DomainArn'] as String?,
-      status: (json['Status'] as String?)?.toVpcEndpointStatus(),
+      status: (json['Status'] as String?)?.let(VpcEndpointStatus.fromString),
       vpcEndpointId: json['VpcEndpointId'] as String?,
       vpcEndpointOwner: json['VpcEndpointOwner'] as String?,
     );
@@ -9071,7 +8203,7 @@ class VpcEndpointSummary {
     final vpcEndpointOwner = this.vpcEndpointOwner;
     return {
       if (domainArn != null) 'DomainArn': domainArn,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (vpcEndpointId != null) 'VpcEndpointId': vpcEndpointId,
       if (vpcEndpointOwner != null) 'VpcEndpointOwner': vpcEndpointOwner,
     };

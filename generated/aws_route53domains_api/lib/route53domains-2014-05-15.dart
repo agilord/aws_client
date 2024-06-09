@@ -894,12 +894,12 @@ class Route53Domains {
       payload: {
         if (marker != null) 'Marker': marker,
         if (maxItems != null) 'MaxItems': maxItems,
-        if (sortBy != null) 'SortBy': sortBy.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
-        if (status != null) 'Status': status.map((e) => e.toValue()).toList(),
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
+        if (status != null) 'Status': status.map((e) => e.value).toList(),
         if (submittedSince != null)
           'SubmittedSince': unixTimestampToJson(submittedSince),
-        if (type != null) 'Type': type.map((e) => e.toValue()).toList(),
+        if (type != null) 'Type': type.map((e) => e.value).toList(),
       },
     );
 
@@ -2173,7 +2173,7 @@ class BillingRecord {
       billDate: timeStampFromJson(json['BillDate']),
       domainName: json['DomainName'] as String?,
       invoiceId: json['InvoiceId'] as String?,
-      operation: (json['Operation'] as String?)?.toOperationType(),
+      operation: (json['Operation'] as String?)?.let(OperationType.fromString),
       price: json['Price'] as double?,
     );
   }
@@ -2242,7 +2242,8 @@ class CheckDomainAvailabilityResponse {
 
   factory CheckDomainAvailabilityResponse.fromJson(Map<String, dynamic> json) {
     return CheckDomainAvailabilityResponse(
-      availability: (json['Availability'] as String?)?.toDomainAvailability(),
+      availability:
+          (json['Availability'] as String?)?.let(DomainAvailability.fromString),
     );
   }
 }
@@ -2391,8 +2392,10 @@ class ContactDetail {
       addressLine1: json['AddressLine1'] as String?,
       addressLine2: json['AddressLine2'] as String?,
       city: json['City'] as String?,
-      contactType: (json['ContactType'] as String?)?.toContactType(),
-      countryCode: (json['CountryCode'] as String?)?.toCountryCode(),
+      contactType:
+          (json['ContactType'] as String?)?.let(ContactType.fromString),
+      countryCode:
+          (json['CountryCode'] as String?)?.let(CountryCode.fromString),
       email: json['Email'] as String?,
       extraParams: (json['ExtraParams'] as List?)
           ?.whereNotNull()
@@ -2427,8 +2430,8 @@ class ContactDetail {
       if (addressLine1 != null) 'AddressLine1': addressLine1,
       if (addressLine2 != null) 'AddressLine2': addressLine2,
       if (city != null) 'City': city,
-      if (contactType != null) 'ContactType': contactType.toValue(),
-      if (countryCode != null) 'CountryCode': countryCode.toValue(),
+      if (contactType != null) 'ContactType': contactType.value,
+      if (countryCode != null) 'CountryCode': countryCode.value,
       if (email != null) 'Email': email,
       if (extraParams != null) 'ExtraParams': extraParams,
       if (fax != null) 'Fax': fax,
@@ -2443,1319 +2446,283 @@ class ContactDetail {
 }
 
 enum ContactType {
-  person,
-  company,
-  association,
-  publicBody,
-  reseller,
-}
+  person('PERSON'),
+  company('COMPANY'),
+  association('ASSOCIATION'),
+  publicBody('PUBLIC_BODY'),
+  reseller('RESELLER'),
+  ;
 
-extension ContactTypeValueExtension on ContactType {
-  String toValue() {
-    switch (this) {
-      case ContactType.person:
-        return 'PERSON';
-      case ContactType.company:
-        return 'COMPANY';
-      case ContactType.association:
-        return 'ASSOCIATION';
-      case ContactType.publicBody:
-        return 'PUBLIC_BODY';
-      case ContactType.reseller:
-        return 'RESELLER';
-    }
-  }
-}
+  final String value;
 
-extension ContactTypeFromString on String {
-  ContactType toContactType() {
-    switch (this) {
-      case 'PERSON':
-        return ContactType.person;
-      case 'COMPANY':
-        return ContactType.company;
-      case 'ASSOCIATION':
-        return ContactType.association;
-      case 'PUBLIC_BODY':
-        return ContactType.publicBody;
-      case 'RESELLER':
-        return ContactType.reseller;
-    }
-    throw Exception('$this is not known in enum ContactType');
-  }
+  const ContactType(this.value);
+
+  static ContactType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ContactType'));
 }
 
 enum CountryCode {
-  ac,
-  ad,
-  ae,
-  af,
-  ag,
-  ai,
-  al,
-  am,
-  an,
-  ao,
-  aq,
-  ar,
-  as,
-  at,
-  au,
-  aw,
-  ax,
-  az,
-  ba,
-  bb,
-  bd,
-  be,
-  bf,
-  bg,
-  bh,
-  bi,
-  bj,
-  bl,
-  bm,
-  bn,
-  bo,
-  bq,
-  br,
-  bs,
-  bt,
-  bv,
-  bw,
-  by,
-  bz,
-  ca,
-  cc,
-  cd,
-  cf,
-  cg,
-  ch,
-  ci,
-  ck,
-  cl,
-  cm,
-  cn,
-  co,
-  cr,
-  cu,
-  cv,
-  cw,
-  cx,
-  cy,
-  cz,
-  de,
-  dj,
-  dk,
-  dm,
-  $do,
-  dz,
-  ec,
-  ee,
-  eg,
-  eh,
-  er,
-  es,
-  et,
-  fi,
-  fj,
-  fk,
-  fm,
-  fo,
-  fr,
-  ga,
-  gb,
-  gd,
-  ge,
-  gf,
-  gg,
-  gh,
-  gi,
-  gl,
-  gm,
-  gn,
-  gp,
-  gq,
-  gr,
-  gs,
-  gt,
-  gu,
-  gw,
-  gy,
-  hk,
-  hm,
-  hn,
-  hr,
-  ht,
-  hu,
-  id,
-  ie,
-  il,
-  im,
-  $in,
-  io,
-  iq,
-  ir,
-  $is,
-  it,
-  je,
-  jm,
-  jo,
-  jp,
-  ke,
-  kg,
-  kh,
-  ki,
-  km,
-  kn,
-  kp,
-  kr,
-  kw,
-  ky,
-  kz,
-  la,
-  lb,
-  lc,
-  li,
-  lk,
-  lr,
-  ls,
-  lt,
-  lu,
-  lv,
-  ly,
-  ma,
-  mc,
-  md,
-  me,
-  mf,
-  mg,
-  mh,
-  mk,
-  ml,
-  mm,
-  mn,
-  mo,
-  mp,
-  mq,
-  mr,
-  ms,
-  mt,
-  mu,
-  mv,
-  mw,
-  mx,
-  my,
-  mz,
-  na,
-  nc,
-  ne,
-  nf,
-  ng,
-  ni,
-  nl,
-  no,
-  np,
-  nr,
-  nu,
-  nz,
-  om,
-  pa,
-  pe,
-  pf,
-  pg,
-  ph,
-  pk,
-  pl,
-  pm,
-  pn,
-  pr,
-  ps,
-  pt,
-  pw,
-  py,
-  qa,
-  re,
-  ro,
-  rs,
-  ru,
-  rw,
-  sa,
-  sb,
-  sc,
-  sd,
-  se,
-  sg,
-  sh,
-  si,
-  sj,
-  sk,
-  sl,
-  sm,
-  sn,
-  so,
-  sr,
-  ss,
-  st,
-  sv,
-  sx,
-  sy,
-  sz,
-  tc,
-  td,
-  tf,
-  tg,
-  th,
-  tj,
-  tk,
-  tl,
-  tm,
-  tn,
-  to,
-  tp,
-  tr,
-  tt,
-  tv,
-  tw,
-  tz,
-  ua,
-  ug,
-  us,
-  uy,
-  uz,
-  va,
-  vc,
-  ve,
-  vg,
-  vi,
-  vn,
-  vu,
-  wf,
-  ws,
-  ye,
-  yt,
-  za,
-  zm,
-  zw,
-}
+  ac('AC'),
+  ad('AD'),
+  ae('AE'),
+  af('AF'),
+  ag('AG'),
+  ai('AI'),
+  al('AL'),
+  am('AM'),
+  an('AN'),
+  ao('AO'),
+  aq('AQ'),
+  ar('AR'),
+  as('AS'),
+  at('AT'),
+  au('AU'),
+  aw('AW'),
+  ax('AX'),
+  az('AZ'),
+  ba('BA'),
+  bb('BB'),
+  bd('BD'),
+  be('BE'),
+  bf('BF'),
+  bg('BG'),
+  bh('BH'),
+  bi('BI'),
+  bj('BJ'),
+  bl('BL'),
+  bm('BM'),
+  bn('BN'),
+  bo('BO'),
+  bq('BQ'),
+  br('BR'),
+  bs('BS'),
+  bt('BT'),
+  bv('BV'),
+  bw('BW'),
+  by('BY'),
+  bz('BZ'),
+  ca('CA'),
+  cc('CC'),
+  cd('CD'),
+  cf('CF'),
+  cg('CG'),
+  ch('CH'),
+  ci('CI'),
+  ck('CK'),
+  cl('CL'),
+  cm('CM'),
+  cn('CN'),
+  co('CO'),
+  cr('CR'),
+  cu('CU'),
+  cv('CV'),
+  cw('CW'),
+  cx('CX'),
+  cy('CY'),
+  cz('CZ'),
+  de('DE'),
+  dj('DJ'),
+  dk('DK'),
+  dm('DM'),
+  $do('DO'),
+  dz('DZ'),
+  ec('EC'),
+  ee('EE'),
+  eg('EG'),
+  eh('EH'),
+  er('ER'),
+  es('ES'),
+  et('ET'),
+  fi('FI'),
+  fj('FJ'),
+  fk('FK'),
+  fm('FM'),
+  fo('FO'),
+  fr('FR'),
+  ga('GA'),
+  gb('GB'),
+  gd('GD'),
+  ge('GE'),
+  gf('GF'),
+  gg('GG'),
+  gh('GH'),
+  gi('GI'),
+  gl('GL'),
+  gm('GM'),
+  gn('GN'),
+  gp('GP'),
+  gq('GQ'),
+  gr('GR'),
+  gs('GS'),
+  gt('GT'),
+  gu('GU'),
+  gw('GW'),
+  gy('GY'),
+  hk('HK'),
+  hm('HM'),
+  hn('HN'),
+  hr('HR'),
+  ht('HT'),
+  hu('HU'),
+  id('ID'),
+  ie('IE'),
+  il('IL'),
+  im('IM'),
+  $in('IN'),
+  io('IO'),
+  iq('IQ'),
+  ir('IR'),
+  $is('IS'),
+  it('IT'),
+  je('JE'),
+  jm('JM'),
+  jo('JO'),
+  jp('JP'),
+  ke('KE'),
+  kg('KG'),
+  kh('KH'),
+  ki('KI'),
+  km('KM'),
+  kn('KN'),
+  kp('KP'),
+  kr('KR'),
+  kw('KW'),
+  ky('KY'),
+  kz('KZ'),
+  la('LA'),
+  lb('LB'),
+  lc('LC'),
+  li('LI'),
+  lk('LK'),
+  lr('LR'),
+  ls('LS'),
+  lt('LT'),
+  lu('LU'),
+  lv('LV'),
+  ly('LY'),
+  ma('MA'),
+  mc('MC'),
+  md('MD'),
+  me('ME'),
+  mf('MF'),
+  mg('MG'),
+  mh('MH'),
+  mk('MK'),
+  ml('ML'),
+  mm('MM'),
+  mn('MN'),
+  mo('MO'),
+  mp('MP'),
+  mq('MQ'),
+  mr('MR'),
+  ms('MS'),
+  mt('MT'),
+  mu('MU'),
+  mv('MV'),
+  mw('MW'),
+  mx('MX'),
+  my('MY'),
+  mz('MZ'),
+  na('NA'),
+  nc('NC'),
+  ne('NE'),
+  nf('NF'),
+  ng('NG'),
+  ni('NI'),
+  nl('NL'),
+  no('NO'),
+  np('NP'),
+  nr('NR'),
+  nu('NU'),
+  nz('NZ'),
+  om('OM'),
+  pa('PA'),
+  pe('PE'),
+  pf('PF'),
+  pg('PG'),
+  ph('PH'),
+  pk('PK'),
+  pl('PL'),
+  pm('PM'),
+  pn('PN'),
+  pr('PR'),
+  ps('PS'),
+  pt('PT'),
+  pw('PW'),
+  py('PY'),
+  qa('QA'),
+  re('RE'),
+  ro('RO'),
+  rs('RS'),
+  ru('RU'),
+  rw('RW'),
+  sa('SA'),
+  sb('SB'),
+  sc('SC'),
+  sd('SD'),
+  se('SE'),
+  sg('SG'),
+  sh('SH'),
+  si('SI'),
+  sj('SJ'),
+  sk('SK'),
+  sl('SL'),
+  sm('SM'),
+  sn('SN'),
+  so('SO'),
+  sr('SR'),
+  ss('SS'),
+  st('ST'),
+  sv('SV'),
+  sx('SX'),
+  sy('SY'),
+  sz('SZ'),
+  tc('TC'),
+  td('TD'),
+  tf('TF'),
+  tg('TG'),
+  th('TH'),
+  tj('TJ'),
+  tk('TK'),
+  tl('TL'),
+  tm('TM'),
+  tn('TN'),
+  to('TO'),
+  tp('TP'),
+  tr('TR'),
+  tt('TT'),
+  tv('TV'),
+  tw('TW'),
+  tz('TZ'),
+  ua('UA'),
+  ug('UG'),
+  us('US'),
+  uy('UY'),
+  uz('UZ'),
+  va('VA'),
+  vc('VC'),
+  ve('VE'),
+  vg('VG'),
+  vi('VI'),
+  vn('VN'),
+  vu('VU'),
+  wf('WF'),
+  ws('WS'),
+  ye('YE'),
+  yt('YT'),
+  za('ZA'),
+  zm('ZM'),
+  zw('ZW'),
+  ;
 
-extension CountryCodeValueExtension on CountryCode {
-  String toValue() {
-    switch (this) {
-      case CountryCode.ac:
-        return 'AC';
-      case CountryCode.ad:
-        return 'AD';
-      case CountryCode.ae:
-        return 'AE';
-      case CountryCode.af:
-        return 'AF';
-      case CountryCode.ag:
-        return 'AG';
-      case CountryCode.ai:
-        return 'AI';
-      case CountryCode.al:
-        return 'AL';
-      case CountryCode.am:
-        return 'AM';
-      case CountryCode.an:
-        return 'AN';
-      case CountryCode.ao:
-        return 'AO';
-      case CountryCode.aq:
-        return 'AQ';
-      case CountryCode.ar:
-        return 'AR';
-      case CountryCode.as:
-        return 'AS';
-      case CountryCode.at:
-        return 'AT';
-      case CountryCode.au:
-        return 'AU';
-      case CountryCode.aw:
-        return 'AW';
-      case CountryCode.ax:
-        return 'AX';
-      case CountryCode.az:
-        return 'AZ';
-      case CountryCode.ba:
-        return 'BA';
-      case CountryCode.bb:
-        return 'BB';
-      case CountryCode.bd:
-        return 'BD';
-      case CountryCode.be:
-        return 'BE';
-      case CountryCode.bf:
-        return 'BF';
-      case CountryCode.bg:
-        return 'BG';
-      case CountryCode.bh:
-        return 'BH';
-      case CountryCode.bi:
-        return 'BI';
-      case CountryCode.bj:
-        return 'BJ';
-      case CountryCode.bl:
-        return 'BL';
-      case CountryCode.bm:
-        return 'BM';
-      case CountryCode.bn:
-        return 'BN';
-      case CountryCode.bo:
-        return 'BO';
-      case CountryCode.bq:
-        return 'BQ';
-      case CountryCode.br:
-        return 'BR';
-      case CountryCode.bs:
-        return 'BS';
-      case CountryCode.bt:
-        return 'BT';
-      case CountryCode.bv:
-        return 'BV';
-      case CountryCode.bw:
-        return 'BW';
-      case CountryCode.by:
-        return 'BY';
-      case CountryCode.bz:
-        return 'BZ';
-      case CountryCode.ca:
-        return 'CA';
-      case CountryCode.cc:
-        return 'CC';
-      case CountryCode.cd:
-        return 'CD';
-      case CountryCode.cf:
-        return 'CF';
-      case CountryCode.cg:
-        return 'CG';
-      case CountryCode.ch:
-        return 'CH';
-      case CountryCode.ci:
-        return 'CI';
-      case CountryCode.ck:
-        return 'CK';
-      case CountryCode.cl:
-        return 'CL';
-      case CountryCode.cm:
-        return 'CM';
-      case CountryCode.cn:
-        return 'CN';
-      case CountryCode.co:
-        return 'CO';
-      case CountryCode.cr:
-        return 'CR';
-      case CountryCode.cu:
-        return 'CU';
-      case CountryCode.cv:
-        return 'CV';
-      case CountryCode.cw:
-        return 'CW';
-      case CountryCode.cx:
-        return 'CX';
-      case CountryCode.cy:
-        return 'CY';
-      case CountryCode.cz:
-        return 'CZ';
-      case CountryCode.de:
-        return 'DE';
-      case CountryCode.dj:
-        return 'DJ';
-      case CountryCode.dk:
-        return 'DK';
-      case CountryCode.dm:
-        return 'DM';
-      case CountryCode.$do:
-        return 'DO';
-      case CountryCode.dz:
-        return 'DZ';
-      case CountryCode.ec:
-        return 'EC';
-      case CountryCode.ee:
-        return 'EE';
-      case CountryCode.eg:
-        return 'EG';
-      case CountryCode.eh:
-        return 'EH';
-      case CountryCode.er:
-        return 'ER';
-      case CountryCode.es:
-        return 'ES';
-      case CountryCode.et:
-        return 'ET';
-      case CountryCode.fi:
-        return 'FI';
-      case CountryCode.fj:
-        return 'FJ';
-      case CountryCode.fk:
-        return 'FK';
-      case CountryCode.fm:
-        return 'FM';
-      case CountryCode.fo:
-        return 'FO';
-      case CountryCode.fr:
-        return 'FR';
-      case CountryCode.ga:
-        return 'GA';
-      case CountryCode.gb:
-        return 'GB';
-      case CountryCode.gd:
-        return 'GD';
-      case CountryCode.ge:
-        return 'GE';
-      case CountryCode.gf:
-        return 'GF';
-      case CountryCode.gg:
-        return 'GG';
-      case CountryCode.gh:
-        return 'GH';
-      case CountryCode.gi:
-        return 'GI';
-      case CountryCode.gl:
-        return 'GL';
-      case CountryCode.gm:
-        return 'GM';
-      case CountryCode.gn:
-        return 'GN';
-      case CountryCode.gp:
-        return 'GP';
-      case CountryCode.gq:
-        return 'GQ';
-      case CountryCode.gr:
-        return 'GR';
-      case CountryCode.gs:
-        return 'GS';
-      case CountryCode.gt:
-        return 'GT';
-      case CountryCode.gu:
-        return 'GU';
-      case CountryCode.gw:
-        return 'GW';
-      case CountryCode.gy:
-        return 'GY';
-      case CountryCode.hk:
-        return 'HK';
-      case CountryCode.hm:
-        return 'HM';
-      case CountryCode.hn:
-        return 'HN';
-      case CountryCode.hr:
-        return 'HR';
-      case CountryCode.ht:
-        return 'HT';
-      case CountryCode.hu:
-        return 'HU';
-      case CountryCode.id:
-        return 'ID';
-      case CountryCode.ie:
-        return 'IE';
-      case CountryCode.il:
-        return 'IL';
-      case CountryCode.im:
-        return 'IM';
-      case CountryCode.$in:
-        return 'IN';
-      case CountryCode.io:
-        return 'IO';
-      case CountryCode.iq:
-        return 'IQ';
-      case CountryCode.ir:
-        return 'IR';
-      case CountryCode.$is:
-        return 'IS';
-      case CountryCode.it:
-        return 'IT';
-      case CountryCode.je:
-        return 'JE';
-      case CountryCode.jm:
-        return 'JM';
-      case CountryCode.jo:
-        return 'JO';
-      case CountryCode.jp:
-        return 'JP';
-      case CountryCode.ke:
-        return 'KE';
-      case CountryCode.kg:
-        return 'KG';
-      case CountryCode.kh:
-        return 'KH';
-      case CountryCode.ki:
-        return 'KI';
-      case CountryCode.km:
-        return 'KM';
-      case CountryCode.kn:
-        return 'KN';
-      case CountryCode.kp:
-        return 'KP';
-      case CountryCode.kr:
-        return 'KR';
-      case CountryCode.kw:
-        return 'KW';
-      case CountryCode.ky:
-        return 'KY';
-      case CountryCode.kz:
-        return 'KZ';
-      case CountryCode.la:
-        return 'LA';
-      case CountryCode.lb:
-        return 'LB';
-      case CountryCode.lc:
-        return 'LC';
-      case CountryCode.li:
-        return 'LI';
-      case CountryCode.lk:
-        return 'LK';
-      case CountryCode.lr:
-        return 'LR';
-      case CountryCode.ls:
-        return 'LS';
-      case CountryCode.lt:
-        return 'LT';
-      case CountryCode.lu:
-        return 'LU';
-      case CountryCode.lv:
-        return 'LV';
-      case CountryCode.ly:
-        return 'LY';
-      case CountryCode.ma:
-        return 'MA';
-      case CountryCode.mc:
-        return 'MC';
-      case CountryCode.md:
-        return 'MD';
-      case CountryCode.me:
-        return 'ME';
-      case CountryCode.mf:
-        return 'MF';
-      case CountryCode.mg:
-        return 'MG';
-      case CountryCode.mh:
-        return 'MH';
-      case CountryCode.mk:
-        return 'MK';
-      case CountryCode.ml:
-        return 'ML';
-      case CountryCode.mm:
-        return 'MM';
-      case CountryCode.mn:
-        return 'MN';
-      case CountryCode.mo:
-        return 'MO';
-      case CountryCode.mp:
-        return 'MP';
-      case CountryCode.mq:
-        return 'MQ';
-      case CountryCode.mr:
-        return 'MR';
-      case CountryCode.ms:
-        return 'MS';
-      case CountryCode.mt:
-        return 'MT';
-      case CountryCode.mu:
-        return 'MU';
-      case CountryCode.mv:
-        return 'MV';
-      case CountryCode.mw:
-        return 'MW';
-      case CountryCode.mx:
-        return 'MX';
-      case CountryCode.my:
-        return 'MY';
-      case CountryCode.mz:
-        return 'MZ';
-      case CountryCode.na:
-        return 'NA';
-      case CountryCode.nc:
-        return 'NC';
-      case CountryCode.ne:
-        return 'NE';
-      case CountryCode.nf:
-        return 'NF';
-      case CountryCode.ng:
-        return 'NG';
-      case CountryCode.ni:
-        return 'NI';
-      case CountryCode.nl:
-        return 'NL';
-      case CountryCode.no:
-        return 'NO';
-      case CountryCode.np:
-        return 'NP';
-      case CountryCode.nr:
-        return 'NR';
-      case CountryCode.nu:
-        return 'NU';
-      case CountryCode.nz:
-        return 'NZ';
-      case CountryCode.om:
-        return 'OM';
-      case CountryCode.pa:
-        return 'PA';
-      case CountryCode.pe:
-        return 'PE';
-      case CountryCode.pf:
-        return 'PF';
-      case CountryCode.pg:
-        return 'PG';
-      case CountryCode.ph:
-        return 'PH';
-      case CountryCode.pk:
-        return 'PK';
-      case CountryCode.pl:
-        return 'PL';
-      case CountryCode.pm:
-        return 'PM';
-      case CountryCode.pn:
-        return 'PN';
-      case CountryCode.pr:
-        return 'PR';
-      case CountryCode.ps:
-        return 'PS';
-      case CountryCode.pt:
-        return 'PT';
-      case CountryCode.pw:
-        return 'PW';
-      case CountryCode.py:
-        return 'PY';
-      case CountryCode.qa:
-        return 'QA';
-      case CountryCode.re:
-        return 'RE';
-      case CountryCode.ro:
-        return 'RO';
-      case CountryCode.rs:
-        return 'RS';
-      case CountryCode.ru:
-        return 'RU';
-      case CountryCode.rw:
-        return 'RW';
-      case CountryCode.sa:
-        return 'SA';
-      case CountryCode.sb:
-        return 'SB';
-      case CountryCode.sc:
-        return 'SC';
-      case CountryCode.sd:
-        return 'SD';
-      case CountryCode.se:
-        return 'SE';
-      case CountryCode.sg:
-        return 'SG';
-      case CountryCode.sh:
-        return 'SH';
-      case CountryCode.si:
-        return 'SI';
-      case CountryCode.sj:
-        return 'SJ';
-      case CountryCode.sk:
-        return 'SK';
-      case CountryCode.sl:
-        return 'SL';
-      case CountryCode.sm:
-        return 'SM';
-      case CountryCode.sn:
-        return 'SN';
-      case CountryCode.so:
-        return 'SO';
-      case CountryCode.sr:
-        return 'SR';
-      case CountryCode.ss:
-        return 'SS';
-      case CountryCode.st:
-        return 'ST';
-      case CountryCode.sv:
-        return 'SV';
-      case CountryCode.sx:
-        return 'SX';
-      case CountryCode.sy:
-        return 'SY';
-      case CountryCode.sz:
-        return 'SZ';
-      case CountryCode.tc:
-        return 'TC';
-      case CountryCode.td:
-        return 'TD';
-      case CountryCode.tf:
-        return 'TF';
-      case CountryCode.tg:
-        return 'TG';
-      case CountryCode.th:
-        return 'TH';
-      case CountryCode.tj:
-        return 'TJ';
-      case CountryCode.tk:
-        return 'TK';
-      case CountryCode.tl:
-        return 'TL';
-      case CountryCode.tm:
-        return 'TM';
-      case CountryCode.tn:
-        return 'TN';
-      case CountryCode.to:
-        return 'TO';
-      case CountryCode.tp:
-        return 'TP';
-      case CountryCode.tr:
-        return 'TR';
-      case CountryCode.tt:
-        return 'TT';
-      case CountryCode.tv:
-        return 'TV';
-      case CountryCode.tw:
-        return 'TW';
-      case CountryCode.tz:
-        return 'TZ';
-      case CountryCode.ua:
-        return 'UA';
-      case CountryCode.ug:
-        return 'UG';
-      case CountryCode.us:
-        return 'US';
-      case CountryCode.uy:
-        return 'UY';
-      case CountryCode.uz:
-        return 'UZ';
-      case CountryCode.va:
-        return 'VA';
-      case CountryCode.vc:
-        return 'VC';
-      case CountryCode.ve:
-        return 'VE';
-      case CountryCode.vg:
-        return 'VG';
-      case CountryCode.vi:
-        return 'VI';
-      case CountryCode.vn:
-        return 'VN';
-      case CountryCode.vu:
-        return 'VU';
-      case CountryCode.wf:
-        return 'WF';
-      case CountryCode.ws:
-        return 'WS';
-      case CountryCode.ye:
-        return 'YE';
-      case CountryCode.yt:
-        return 'YT';
-      case CountryCode.za:
-        return 'ZA';
-      case CountryCode.zm:
-        return 'ZM';
-      case CountryCode.zw:
-        return 'ZW';
-    }
-  }
-}
+  final String value;
 
-extension CountryCodeFromString on String {
-  CountryCode toCountryCode() {
-    switch (this) {
-      case 'AC':
-        return CountryCode.ac;
-      case 'AD':
-        return CountryCode.ad;
-      case 'AE':
-        return CountryCode.ae;
-      case 'AF':
-        return CountryCode.af;
-      case 'AG':
-        return CountryCode.ag;
-      case 'AI':
-        return CountryCode.ai;
-      case 'AL':
-        return CountryCode.al;
-      case 'AM':
-        return CountryCode.am;
-      case 'AN':
-        return CountryCode.an;
-      case 'AO':
-        return CountryCode.ao;
-      case 'AQ':
-        return CountryCode.aq;
-      case 'AR':
-        return CountryCode.ar;
-      case 'AS':
-        return CountryCode.as;
-      case 'AT':
-        return CountryCode.at;
-      case 'AU':
-        return CountryCode.au;
-      case 'AW':
-        return CountryCode.aw;
-      case 'AX':
-        return CountryCode.ax;
-      case 'AZ':
-        return CountryCode.az;
-      case 'BA':
-        return CountryCode.ba;
-      case 'BB':
-        return CountryCode.bb;
-      case 'BD':
-        return CountryCode.bd;
-      case 'BE':
-        return CountryCode.be;
-      case 'BF':
-        return CountryCode.bf;
-      case 'BG':
-        return CountryCode.bg;
-      case 'BH':
-        return CountryCode.bh;
-      case 'BI':
-        return CountryCode.bi;
-      case 'BJ':
-        return CountryCode.bj;
-      case 'BL':
-        return CountryCode.bl;
-      case 'BM':
-        return CountryCode.bm;
-      case 'BN':
-        return CountryCode.bn;
-      case 'BO':
-        return CountryCode.bo;
-      case 'BQ':
-        return CountryCode.bq;
-      case 'BR':
-        return CountryCode.br;
-      case 'BS':
-        return CountryCode.bs;
-      case 'BT':
-        return CountryCode.bt;
-      case 'BV':
-        return CountryCode.bv;
-      case 'BW':
-        return CountryCode.bw;
-      case 'BY':
-        return CountryCode.by;
-      case 'BZ':
-        return CountryCode.bz;
-      case 'CA':
-        return CountryCode.ca;
-      case 'CC':
-        return CountryCode.cc;
-      case 'CD':
-        return CountryCode.cd;
-      case 'CF':
-        return CountryCode.cf;
-      case 'CG':
-        return CountryCode.cg;
-      case 'CH':
-        return CountryCode.ch;
-      case 'CI':
-        return CountryCode.ci;
-      case 'CK':
-        return CountryCode.ck;
-      case 'CL':
-        return CountryCode.cl;
-      case 'CM':
-        return CountryCode.cm;
-      case 'CN':
-        return CountryCode.cn;
-      case 'CO':
-        return CountryCode.co;
-      case 'CR':
-        return CountryCode.cr;
-      case 'CU':
-        return CountryCode.cu;
-      case 'CV':
-        return CountryCode.cv;
-      case 'CW':
-        return CountryCode.cw;
-      case 'CX':
-        return CountryCode.cx;
-      case 'CY':
-        return CountryCode.cy;
-      case 'CZ':
-        return CountryCode.cz;
-      case 'DE':
-        return CountryCode.de;
-      case 'DJ':
-        return CountryCode.dj;
-      case 'DK':
-        return CountryCode.dk;
-      case 'DM':
-        return CountryCode.dm;
-      case 'DO':
-        return CountryCode.$do;
-      case 'DZ':
-        return CountryCode.dz;
-      case 'EC':
-        return CountryCode.ec;
-      case 'EE':
-        return CountryCode.ee;
-      case 'EG':
-        return CountryCode.eg;
-      case 'EH':
-        return CountryCode.eh;
-      case 'ER':
-        return CountryCode.er;
-      case 'ES':
-        return CountryCode.es;
-      case 'ET':
-        return CountryCode.et;
-      case 'FI':
-        return CountryCode.fi;
-      case 'FJ':
-        return CountryCode.fj;
-      case 'FK':
-        return CountryCode.fk;
-      case 'FM':
-        return CountryCode.fm;
-      case 'FO':
-        return CountryCode.fo;
-      case 'FR':
-        return CountryCode.fr;
-      case 'GA':
-        return CountryCode.ga;
-      case 'GB':
-        return CountryCode.gb;
-      case 'GD':
-        return CountryCode.gd;
-      case 'GE':
-        return CountryCode.ge;
-      case 'GF':
-        return CountryCode.gf;
-      case 'GG':
-        return CountryCode.gg;
-      case 'GH':
-        return CountryCode.gh;
-      case 'GI':
-        return CountryCode.gi;
-      case 'GL':
-        return CountryCode.gl;
-      case 'GM':
-        return CountryCode.gm;
-      case 'GN':
-        return CountryCode.gn;
-      case 'GP':
-        return CountryCode.gp;
-      case 'GQ':
-        return CountryCode.gq;
-      case 'GR':
-        return CountryCode.gr;
-      case 'GS':
-        return CountryCode.gs;
-      case 'GT':
-        return CountryCode.gt;
-      case 'GU':
-        return CountryCode.gu;
-      case 'GW':
-        return CountryCode.gw;
-      case 'GY':
-        return CountryCode.gy;
-      case 'HK':
-        return CountryCode.hk;
-      case 'HM':
-        return CountryCode.hm;
-      case 'HN':
-        return CountryCode.hn;
-      case 'HR':
-        return CountryCode.hr;
-      case 'HT':
-        return CountryCode.ht;
-      case 'HU':
-        return CountryCode.hu;
-      case 'ID':
-        return CountryCode.id;
-      case 'IE':
-        return CountryCode.ie;
-      case 'IL':
-        return CountryCode.il;
-      case 'IM':
-        return CountryCode.im;
-      case 'IN':
-        return CountryCode.$in;
-      case 'IO':
-        return CountryCode.io;
-      case 'IQ':
-        return CountryCode.iq;
-      case 'IR':
-        return CountryCode.ir;
-      case 'IS':
-        return CountryCode.$is;
-      case 'IT':
-        return CountryCode.it;
-      case 'JE':
-        return CountryCode.je;
-      case 'JM':
-        return CountryCode.jm;
-      case 'JO':
-        return CountryCode.jo;
-      case 'JP':
-        return CountryCode.jp;
-      case 'KE':
-        return CountryCode.ke;
-      case 'KG':
-        return CountryCode.kg;
-      case 'KH':
-        return CountryCode.kh;
-      case 'KI':
-        return CountryCode.ki;
-      case 'KM':
-        return CountryCode.km;
-      case 'KN':
-        return CountryCode.kn;
-      case 'KP':
-        return CountryCode.kp;
-      case 'KR':
-        return CountryCode.kr;
-      case 'KW':
-        return CountryCode.kw;
-      case 'KY':
-        return CountryCode.ky;
-      case 'KZ':
-        return CountryCode.kz;
-      case 'LA':
-        return CountryCode.la;
-      case 'LB':
-        return CountryCode.lb;
-      case 'LC':
-        return CountryCode.lc;
-      case 'LI':
-        return CountryCode.li;
-      case 'LK':
-        return CountryCode.lk;
-      case 'LR':
-        return CountryCode.lr;
-      case 'LS':
-        return CountryCode.ls;
-      case 'LT':
-        return CountryCode.lt;
-      case 'LU':
-        return CountryCode.lu;
-      case 'LV':
-        return CountryCode.lv;
-      case 'LY':
-        return CountryCode.ly;
-      case 'MA':
-        return CountryCode.ma;
-      case 'MC':
-        return CountryCode.mc;
-      case 'MD':
-        return CountryCode.md;
-      case 'ME':
-        return CountryCode.me;
-      case 'MF':
-        return CountryCode.mf;
-      case 'MG':
-        return CountryCode.mg;
-      case 'MH':
-        return CountryCode.mh;
-      case 'MK':
-        return CountryCode.mk;
-      case 'ML':
-        return CountryCode.ml;
-      case 'MM':
-        return CountryCode.mm;
-      case 'MN':
-        return CountryCode.mn;
-      case 'MO':
-        return CountryCode.mo;
-      case 'MP':
-        return CountryCode.mp;
-      case 'MQ':
-        return CountryCode.mq;
-      case 'MR':
-        return CountryCode.mr;
-      case 'MS':
-        return CountryCode.ms;
-      case 'MT':
-        return CountryCode.mt;
-      case 'MU':
-        return CountryCode.mu;
-      case 'MV':
-        return CountryCode.mv;
-      case 'MW':
-        return CountryCode.mw;
-      case 'MX':
-        return CountryCode.mx;
-      case 'MY':
-        return CountryCode.my;
-      case 'MZ':
-        return CountryCode.mz;
-      case 'NA':
-        return CountryCode.na;
-      case 'NC':
-        return CountryCode.nc;
-      case 'NE':
-        return CountryCode.ne;
-      case 'NF':
-        return CountryCode.nf;
-      case 'NG':
-        return CountryCode.ng;
-      case 'NI':
-        return CountryCode.ni;
-      case 'NL':
-        return CountryCode.nl;
-      case 'NO':
-        return CountryCode.no;
-      case 'NP':
-        return CountryCode.np;
-      case 'NR':
-        return CountryCode.nr;
-      case 'NU':
-        return CountryCode.nu;
-      case 'NZ':
-        return CountryCode.nz;
-      case 'OM':
-        return CountryCode.om;
-      case 'PA':
-        return CountryCode.pa;
-      case 'PE':
-        return CountryCode.pe;
-      case 'PF':
-        return CountryCode.pf;
-      case 'PG':
-        return CountryCode.pg;
-      case 'PH':
-        return CountryCode.ph;
-      case 'PK':
-        return CountryCode.pk;
-      case 'PL':
-        return CountryCode.pl;
-      case 'PM':
-        return CountryCode.pm;
-      case 'PN':
-        return CountryCode.pn;
-      case 'PR':
-        return CountryCode.pr;
-      case 'PS':
-        return CountryCode.ps;
-      case 'PT':
-        return CountryCode.pt;
-      case 'PW':
-        return CountryCode.pw;
-      case 'PY':
-        return CountryCode.py;
-      case 'QA':
-        return CountryCode.qa;
-      case 'RE':
-        return CountryCode.re;
-      case 'RO':
-        return CountryCode.ro;
-      case 'RS':
-        return CountryCode.rs;
-      case 'RU':
-        return CountryCode.ru;
-      case 'RW':
-        return CountryCode.rw;
-      case 'SA':
-        return CountryCode.sa;
-      case 'SB':
-        return CountryCode.sb;
-      case 'SC':
-        return CountryCode.sc;
-      case 'SD':
-        return CountryCode.sd;
-      case 'SE':
-        return CountryCode.se;
-      case 'SG':
-        return CountryCode.sg;
-      case 'SH':
-        return CountryCode.sh;
-      case 'SI':
-        return CountryCode.si;
-      case 'SJ':
-        return CountryCode.sj;
-      case 'SK':
-        return CountryCode.sk;
-      case 'SL':
-        return CountryCode.sl;
-      case 'SM':
-        return CountryCode.sm;
-      case 'SN':
-        return CountryCode.sn;
-      case 'SO':
-        return CountryCode.so;
-      case 'SR':
-        return CountryCode.sr;
-      case 'SS':
-        return CountryCode.ss;
-      case 'ST':
-        return CountryCode.st;
-      case 'SV':
-        return CountryCode.sv;
-      case 'SX':
-        return CountryCode.sx;
-      case 'SY':
-        return CountryCode.sy;
-      case 'SZ':
-        return CountryCode.sz;
-      case 'TC':
-        return CountryCode.tc;
-      case 'TD':
-        return CountryCode.td;
-      case 'TF':
-        return CountryCode.tf;
-      case 'TG':
-        return CountryCode.tg;
-      case 'TH':
-        return CountryCode.th;
-      case 'TJ':
-        return CountryCode.tj;
-      case 'TK':
-        return CountryCode.tk;
-      case 'TL':
-        return CountryCode.tl;
-      case 'TM':
-        return CountryCode.tm;
-      case 'TN':
-        return CountryCode.tn;
-      case 'TO':
-        return CountryCode.to;
-      case 'TP':
-        return CountryCode.tp;
-      case 'TR':
-        return CountryCode.tr;
-      case 'TT':
-        return CountryCode.tt;
-      case 'TV':
-        return CountryCode.tv;
-      case 'TW':
-        return CountryCode.tw;
-      case 'TZ':
-        return CountryCode.tz;
-      case 'UA':
-        return CountryCode.ua;
-      case 'UG':
-        return CountryCode.ug;
-      case 'US':
-        return CountryCode.us;
-      case 'UY':
-        return CountryCode.uy;
-      case 'UZ':
-        return CountryCode.uz;
-      case 'VA':
-        return CountryCode.va;
-      case 'VC':
-        return CountryCode.vc;
-      case 'VE':
-        return CountryCode.ve;
-      case 'VG':
-        return CountryCode.vg;
-      case 'VI':
-        return CountryCode.vi;
-      case 'VN':
-        return CountryCode.vn;
-      case 'VU':
-        return CountryCode.vu;
-      case 'WF':
-        return CountryCode.wf;
-      case 'WS':
-        return CountryCode.ws;
-      case 'YE':
-        return CountryCode.ye;
-      case 'YT':
-        return CountryCode.yt;
-      case 'ZA':
-        return CountryCode.za;
-      case 'ZM':
-        return CountryCode.zm;
-      case 'ZW':
-        return CountryCode.zw;
-    }
-    throw Exception('$this is not known in enum CountryCode');
-  }
+  const CountryCode(this.value);
+
+  static CountryCode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum CountryCode'));
 }
 
 class DeleteDomainResponse {
@@ -3943,71 +2910,26 @@ class DnssecSigningAttributes {
 }
 
 enum DomainAvailability {
-  available,
-  availableReserved,
-  availablePreorder,
-  unavailable,
-  unavailablePremium,
-  unavailableRestricted,
-  reserved,
-  dontKnow,
-  invalidNameForTld,
-  pending,
-}
+  available('AVAILABLE'),
+  availableReserved('AVAILABLE_RESERVED'),
+  availablePreorder('AVAILABLE_PREORDER'),
+  unavailable('UNAVAILABLE'),
+  unavailablePremium('UNAVAILABLE_PREMIUM'),
+  unavailableRestricted('UNAVAILABLE_RESTRICTED'),
+  reserved('RESERVED'),
+  dontKnow('DONT_KNOW'),
+  invalidNameForTld('INVALID_NAME_FOR_TLD'),
+  pending('PENDING'),
+  ;
 
-extension DomainAvailabilityValueExtension on DomainAvailability {
-  String toValue() {
-    switch (this) {
-      case DomainAvailability.available:
-        return 'AVAILABLE';
-      case DomainAvailability.availableReserved:
-        return 'AVAILABLE_RESERVED';
-      case DomainAvailability.availablePreorder:
-        return 'AVAILABLE_PREORDER';
-      case DomainAvailability.unavailable:
-        return 'UNAVAILABLE';
-      case DomainAvailability.unavailablePremium:
-        return 'UNAVAILABLE_PREMIUM';
-      case DomainAvailability.unavailableRestricted:
-        return 'UNAVAILABLE_RESTRICTED';
-      case DomainAvailability.reserved:
-        return 'RESERVED';
-      case DomainAvailability.dontKnow:
-        return 'DONT_KNOW';
-      case DomainAvailability.invalidNameForTld:
-        return 'INVALID_NAME_FOR_TLD';
-      case DomainAvailability.pending:
-        return 'PENDING';
-    }
-  }
-}
+  final String value;
 
-extension DomainAvailabilityFromString on String {
-  DomainAvailability toDomainAvailability() {
-    switch (this) {
-      case 'AVAILABLE':
-        return DomainAvailability.available;
-      case 'AVAILABLE_RESERVED':
-        return DomainAvailability.availableReserved;
-      case 'AVAILABLE_PREORDER':
-        return DomainAvailability.availablePreorder;
-      case 'UNAVAILABLE':
-        return DomainAvailability.unavailable;
-      case 'UNAVAILABLE_PREMIUM':
-        return DomainAvailability.unavailablePremium;
-      case 'UNAVAILABLE_RESTRICTED':
-        return DomainAvailability.unavailableRestricted;
-      case 'RESERVED':
-        return DomainAvailability.reserved;
-      case 'DONT_KNOW':
-        return DomainAvailability.dontKnow;
-      case 'INVALID_NAME_FOR_TLD':
-        return DomainAvailability.invalidNameForTld;
-      case 'PENDING':
-        return DomainAvailability.pending;
-    }
-    throw Exception('$this is not known in enum DomainAvailability');
-  }
+  const DomainAvailability(this.value);
+
+  static DomainAvailability fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DomainAvailability'));
 }
 
 /// Information about the domain price associated with a TLD.
@@ -4160,7 +3082,8 @@ class DomainTransferability {
 
   factory DomainTransferability.fromJson(Map<String, dynamic> json) {
     return DomainTransferability(
-      transferable: (json['Transferable'] as String?)?.toTransferable(),
+      transferable:
+          (json['Transferable'] as String?)?.let(Transferable.fromString),
     );
   }
 }
@@ -4759,7 +3682,7 @@ class ExtraParam {
 
   factory ExtraParam.fromJson(Map<String, dynamic> json) {
     return ExtraParam(
-      name: (json['Name'] as String).toExtraParamName(),
+      name: ExtraParamName.fromString((json['Name'] as String)),
       value: json['Value'] as String,
     );
   }
@@ -4768,183 +3691,54 @@ class ExtraParam {
     final name = this.name;
     final value = this.value;
     return {
-      'Name': name.toValue(),
+      'Name': name.value,
       'Value': value,
     };
   }
 }
 
 enum ExtraParamName {
-  dunsNumber,
-  brandNumber,
-  birthDepartment,
-  birthDateInYyyyMmDd,
-  birthCountry,
-  birthCity,
-  documentNumber,
-  auIdNumber,
-  auIdType,
-  caLegalType,
-  caBusinessEntityType,
-  caLegalRepresentative,
-  caLegalRepresentativeCapacity,
-  esIdentification,
-  esIdentificationType,
-  esLegalForm,
-  fiBusinessNumber,
-  fiIdNumber,
-  fiNationality,
-  fiOrganizationType,
-  itNationality,
-  itPin,
-  itRegistrantEntityType,
-  ruPassportData,
-  seIdNumber,
-  sgIdNumber,
-  vatNumber,
-  ukContactType,
-  ukCompanyNumber,
-  euCountryOfCitizenship,
-  auPriorityToken,
-}
+  dunsNumber('DUNS_NUMBER'),
+  brandNumber('BRAND_NUMBER'),
+  birthDepartment('BIRTH_DEPARTMENT'),
+  birthDateInYyyyMmDd('BIRTH_DATE_IN_YYYY_MM_DD'),
+  birthCountry('BIRTH_COUNTRY'),
+  birthCity('BIRTH_CITY'),
+  documentNumber('DOCUMENT_NUMBER'),
+  auIdNumber('AU_ID_NUMBER'),
+  auIdType('AU_ID_TYPE'),
+  caLegalType('CA_LEGAL_TYPE'),
+  caBusinessEntityType('CA_BUSINESS_ENTITY_TYPE'),
+  caLegalRepresentative('CA_LEGAL_REPRESENTATIVE'),
+  caLegalRepresentativeCapacity('CA_LEGAL_REPRESENTATIVE_CAPACITY'),
+  esIdentification('ES_IDENTIFICATION'),
+  esIdentificationType('ES_IDENTIFICATION_TYPE'),
+  esLegalForm('ES_LEGAL_FORM'),
+  fiBusinessNumber('FI_BUSINESS_NUMBER'),
+  fiIdNumber('FI_ID_NUMBER'),
+  fiNationality('FI_NATIONALITY'),
+  fiOrganizationType('FI_ORGANIZATION_TYPE'),
+  itNationality('IT_NATIONALITY'),
+  itPin('IT_PIN'),
+  itRegistrantEntityType('IT_REGISTRANT_ENTITY_TYPE'),
+  ruPassportData('RU_PASSPORT_DATA'),
+  seIdNumber('SE_ID_NUMBER'),
+  sgIdNumber('SG_ID_NUMBER'),
+  vatNumber('VAT_NUMBER'),
+  ukContactType('UK_CONTACT_TYPE'),
+  ukCompanyNumber('UK_COMPANY_NUMBER'),
+  euCountryOfCitizenship('EU_COUNTRY_OF_CITIZENSHIP'),
+  auPriorityToken('AU_PRIORITY_TOKEN'),
+  ;
 
-extension ExtraParamNameValueExtension on ExtraParamName {
-  String toValue() {
-    switch (this) {
-      case ExtraParamName.dunsNumber:
-        return 'DUNS_NUMBER';
-      case ExtraParamName.brandNumber:
-        return 'BRAND_NUMBER';
-      case ExtraParamName.birthDepartment:
-        return 'BIRTH_DEPARTMENT';
-      case ExtraParamName.birthDateInYyyyMmDd:
-        return 'BIRTH_DATE_IN_YYYY_MM_DD';
-      case ExtraParamName.birthCountry:
-        return 'BIRTH_COUNTRY';
-      case ExtraParamName.birthCity:
-        return 'BIRTH_CITY';
-      case ExtraParamName.documentNumber:
-        return 'DOCUMENT_NUMBER';
-      case ExtraParamName.auIdNumber:
-        return 'AU_ID_NUMBER';
-      case ExtraParamName.auIdType:
-        return 'AU_ID_TYPE';
-      case ExtraParamName.caLegalType:
-        return 'CA_LEGAL_TYPE';
-      case ExtraParamName.caBusinessEntityType:
-        return 'CA_BUSINESS_ENTITY_TYPE';
-      case ExtraParamName.caLegalRepresentative:
-        return 'CA_LEGAL_REPRESENTATIVE';
-      case ExtraParamName.caLegalRepresentativeCapacity:
-        return 'CA_LEGAL_REPRESENTATIVE_CAPACITY';
-      case ExtraParamName.esIdentification:
-        return 'ES_IDENTIFICATION';
-      case ExtraParamName.esIdentificationType:
-        return 'ES_IDENTIFICATION_TYPE';
-      case ExtraParamName.esLegalForm:
-        return 'ES_LEGAL_FORM';
-      case ExtraParamName.fiBusinessNumber:
-        return 'FI_BUSINESS_NUMBER';
-      case ExtraParamName.fiIdNumber:
-        return 'FI_ID_NUMBER';
-      case ExtraParamName.fiNationality:
-        return 'FI_NATIONALITY';
-      case ExtraParamName.fiOrganizationType:
-        return 'FI_ORGANIZATION_TYPE';
-      case ExtraParamName.itNationality:
-        return 'IT_NATIONALITY';
-      case ExtraParamName.itPin:
-        return 'IT_PIN';
-      case ExtraParamName.itRegistrantEntityType:
-        return 'IT_REGISTRANT_ENTITY_TYPE';
-      case ExtraParamName.ruPassportData:
-        return 'RU_PASSPORT_DATA';
-      case ExtraParamName.seIdNumber:
-        return 'SE_ID_NUMBER';
-      case ExtraParamName.sgIdNumber:
-        return 'SG_ID_NUMBER';
-      case ExtraParamName.vatNumber:
-        return 'VAT_NUMBER';
-      case ExtraParamName.ukContactType:
-        return 'UK_CONTACT_TYPE';
-      case ExtraParamName.ukCompanyNumber:
-        return 'UK_COMPANY_NUMBER';
-      case ExtraParamName.euCountryOfCitizenship:
-        return 'EU_COUNTRY_OF_CITIZENSHIP';
-      case ExtraParamName.auPriorityToken:
-        return 'AU_PRIORITY_TOKEN';
-    }
-  }
-}
+  final String value;
 
-extension ExtraParamNameFromString on String {
-  ExtraParamName toExtraParamName() {
-    switch (this) {
-      case 'DUNS_NUMBER':
-        return ExtraParamName.dunsNumber;
-      case 'BRAND_NUMBER':
-        return ExtraParamName.brandNumber;
-      case 'BIRTH_DEPARTMENT':
-        return ExtraParamName.birthDepartment;
-      case 'BIRTH_DATE_IN_YYYY_MM_DD':
-        return ExtraParamName.birthDateInYyyyMmDd;
-      case 'BIRTH_COUNTRY':
-        return ExtraParamName.birthCountry;
-      case 'BIRTH_CITY':
-        return ExtraParamName.birthCity;
-      case 'DOCUMENT_NUMBER':
-        return ExtraParamName.documentNumber;
-      case 'AU_ID_NUMBER':
-        return ExtraParamName.auIdNumber;
-      case 'AU_ID_TYPE':
-        return ExtraParamName.auIdType;
-      case 'CA_LEGAL_TYPE':
-        return ExtraParamName.caLegalType;
-      case 'CA_BUSINESS_ENTITY_TYPE':
-        return ExtraParamName.caBusinessEntityType;
-      case 'CA_LEGAL_REPRESENTATIVE':
-        return ExtraParamName.caLegalRepresentative;
-      case 'CA_LEGAL_REPRESENTATIVE_CAPACITY':
-        return ExtraParamName.caLegalRepresentativeCapacity;
-      case 'ES_IDENTIFICATION':
-        return ExtraParamName.esIdentification;
-      case 'ES_IDENTIFICATION_TYPE':
-        return ExtraParamName.esIdentificationType;
-      case 'ES_LEGAL_FORM':
-        return ExtraParamName.esLegalForm;
-      case 'FI_BUSINESS_NUMBER':
-        return ExtraParamName.fiBusinessNumber;
-      case 'FI_ID_NUMBER':
-        return ExtraParamName.fiIdNumber;
-      case 'FI_NATIONALITY':
-        return ExtraParamName.fiNationality;
-      case 'FI_ORGANIZATION_TYPE':
-        return ExtraParamName.fiOrganizationType;
-      case 'IT_NATIONALITY':
-        return ExtraParamName.itNationality;
-      case 'IT_PIN':
-        return ExtraParamName.itPin;
-      case 'IT_REGISTRANT_ENTITY_TYPE':
-        return ExtraParamName.itRegistrantEntityType;
-      case 'RU_PASSPORT_DATA':
-        return ExtraParamName.ruPassportData;
-      case 'SE_ID_NUMBER':
-        return ExtraParamName.seIdNumber;
-      case 'SG_ID_NUMBER':
-        return ExtraParamName.sgIdNumber;
-      case 'VAT_NUMBER':
-        return ExtraParamName.vatNumber;
-      case 'UK_CONTACT_TYPE':
-        return ExtraParamName.ukContactType;
-      case 'UK_COMPANY_NUMBER':
-        return ExtraParamName.ukCompanyNumber;
-      case 'EU_COUNTRY_OF_CITIZENSHIP':
-        return ExtraParamName.euCountryOfCitizenship;
-      case 'AU_PRIORITY_TOKEN':
-        return ExtraParamName.auPriorityToken;
-    }
-    throw Exception('$this is not known in enum ExtraParamName');
-  }
+  const ExtraParamName(this.value);
+
+  static ExtraParamName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ExtraParamName'));
 }
 
 /// Information for the filtering of a list of domains returned by <a
@@ -4983,8 +3777,8 @@ class FilterCondition {
     final operator = this.operator;
     final values = this.values;
     return {
-      'Name': name.toValue(),
-      'Operator': operator.toValue(),
+      'Name': name.value,
+      'Operator': operator.value,
       'Values': values,
     };
   }
@@ -5013,7 +3807,7 @@ class GetContactReachabilityStatusResponse {
       Map<String, dynamic> json) {
     return GetContactReachabilityStatusResponse(
       domainName: json['domainName'] as String?,
-      status: (json['status'] as String?)?.toReachabilityStatus(),
+      status: (json['status'] as String?)?.let(ReachabilityStatus.fromString),
     );
   }
 }
@@ -5296,40 +4090,27 @@ class GetOperationDetailResponse {
       lastUpdatedDate: timeStampFromJson(json['LastUpdatedDate']),
       message: json['Message'] as String?,
       operationId: json['OperationId'] as String?,
-      status: (json['Status'] as String?)?.toOperationStatus(),
-      statusFlag: (json['StatusFlag'] as String?)?.toStatusFlag(),
+      status: (json['Status'] as String?)?.let(OperationStatus.fromString),
+      statusFlag: (json['StatusFlag'] as String?)?.let(StatusFlag.fromString),
       submittedDate: timeStampFromJson(json['SubmittedDate']),
-      type: (json['Type'] as String?)?.toOperationType(),
+      type: (json['Type'] as String?)?.let(OperationType.fromString),
     );
   }
 }
 
 enum ListDomainsAttributeName {
-  domainName,
-  expiry,
-}
+  domainName('DomainName'),
+  expiry('Expiry'),
+  ;
 
-extension ListDomainsAttributeNameValueExtension on ListDomainsAttributeName {
-  String toValue() {
-    switch (this) {
-      case ListDomainsAttributeName.domainName:
-        return 'DomainName';
-      case ListDomainsAttributeName.expiry:
-        return 'Expiry';
-    }
-  }
-}
+  final String value;
 
-extension ListDomainsAttributeNameFromString on String {
-  ListDomainsAttributeName toListDomainsAttributeName() {
-    switch (this) {
-      case 'DomainName':
-        return ListDomainsAttributeName.domainName;
-      case 'Expiry':
-        return ListDomainsAttributeName.expiry;
-    }
-    throw Exception('$this is not known in enum ListDomainsAttributeName');
-  }
+  const ListDomainsAttributeName(this.value);
+
+  static ListDomainsAttributeName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ListDomainsAttributeName'));
 }
 
 /// The ListDomains response includes the following elements.
@@ -5385,28 +4166,17 @@ class ListOperationsResponse {
 }
 
 enum ListOperationsSortAttributeName {
-  submittedDate,
-}
+  submittedDate('SubmittedDate'),
+  ;
 
-extension ListOperationsSortAttributeNameValueExtension
-    on ListOperationsSortAttributeName {
-  String toValue() {
-    switch (this) {
-      case ListOperationsSortAttributeName.submittedDate:
-        return 'SubmittedDate';
-    }
-  }
-}
+  final String value;
 
-extension ListOperationsSortAttributeNameFromString on String {
-  ListOperationsSortAttributeName toListOperationsSortAttributeName() {
-    switch (this) {
-      case 'SubmittedDate':
-        return ListOperationsSortAttributeName.submittedDate;
-    }
-    throw Exception(
-        '$this is not known in enum ListOperationsSortAttributeName');
-  }
+  const ListOperationsSortAttributeName(this.value);
+
+  static ListOperationsSortAttributeName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ListOperationsSortAttributeName'));
 }
 
 class ListPricesResponse {
@@ -5498,46 +4268,21 @@ class Nameserver {
 }
 
 enum OperationStatus {
-  submitted,
-  inProgress,
-  error,
-  successful,
-  failed,
-}
+  submitted('SUBMITTED'),
+  inProgress('IN_PROGRESS'),
+  error('ERROR'),
+  successful('SUCCESSFUL'),
+  failed('FAILED'),
+  ;
 
-extension OperationStatusValueExtension on OperationStatus {
-  String toValue() {
-    switch (this) {
-      case OperationStatus.submitted:
-        return 'SUBMITTED';
-      case OperationStatus.inProgress:
-        return 'IN_PROGRESS';
-      case OperationStatus.error:
-        return 'ERROR';
-      case OperationStatus.successful:
-        return 'SUCCESSFUL';
-      case OperationStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension OperationStatusFromString on String {
-  OperationStatus toOperationStatus() {
-    switch (this) {
-      case 'SUBMITTED':
-        return OperationStatus.submitted;
-      case 'IN_PROGRESS':
-        return OperationStatus.inProgress;
-      case 'ERROR':
-        return OperationStatus.error;
-      case 'SUCCESSFUL':
-        return OperationStatus.successful;
-      case 'FAILED':
-        return OperationStatus.failed;
-    }
-    throw Exception('$this is not known in enum OperationStatus');
-  }
+  const OperationStatus(this.value);
+
+  static OperationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OperationStatus'));
 }
 
 /// OperationSummary includes the following elements.
@@ -5611,163 +4356,60 @@ class OperationSummary {
       lastUpdatedDate: timeStampFromJson(json['LastUpdatedDate']),
       message: json['Message'] as String?,
       operationId: json['OperationId'] as String?,
-      status: (json['Status'] as String?)?.toOperationStatus(),
-      statusFlag: (json['StatusFlag'] as String?)?.toStatusFlag(),
+      status: (json['Status'] as String?)?.let(OperationStatus.fromString),
+      statusFlag: (json['StatusFlag'] as String?)?.let(StatusFlag.fromString),
       submittedDate: timeStampFromJson(json['SubmittedDate']),
-      type: (json['Type'] as String?)?.toOperationType(),
+      type: (json['Type'] as String?)?.let(OperationType.fromString),
     );
   }
 }
 
 enum OperationType {
-  registerDomain,
-  deleteDomain,
-  transferInDomain,
-  updateDomainContact,
-  updateNameserver,
-  changePrivacyProtection,
-  domainLock,
-  enableAutorenew,
-  disableAutorenew,
-  addDnssec,
-  removeDnssec,
-  expireDomain,
-  transferOutDomain,
-  changeDomainOwner,
-  renewDomain,
-  pushDomain,
-  internalTransferOutDomain,
-  internalTransferInDomain,
-  releaseToGandi,
-  transferOnRenew,
-}
+  registerDomain('REGISTER_DOMAIN'),
+  deleteDomain('DELETE_DOMAIN'),
+  transferInDomain('TRANSFER_IN_DOMAIN'),
+  updateDomainContact('UPDATE_DOMAIN_CONTACT'),
+  updateNameserver('UPDATE_NAMESERVER'),
+  changePrivacyProtection('CHANGE_PRIVACY_PROTECTION'),
+  domainLock('DOMAIN_LOCK'),
+  enableAutorenew('ENABLE_AUTORENEW'),
+  disableAutorenew('DISABLE_AUTORENEW'),
+  addDnssec('ADD_DNSSEC'),
+  removeDnssec('REMOVE_DNSSEC'),
+  expireDomain('EXPIRE_DOMAIN'),
+  transferOutDomain('TRANSFER_OUT_DOMAIN'),
+  changeDomainOwner('CHANGE_DOMAIN_OWNER'),
+  renewDomain('RENEW_DOMAIN'),
+  pushDomain('PUSH_DOMAIN'),
+  internalTransferOutDomain('INTERNAL_TRANSFER_OUT_DOMAIN'),
+  internalTransferInDomain('INTERNAL_TRANSFER_IN_DOMAIN'),
+  releaseToGandi('RELEASE_TO_GANDI'),
+  transferOnRenew('TRANSFER_ON_RENEW'),
+  ;
 
-extension OperationTypeValueExtension on OperationType {
-  String toValue() {
-    switch (this) {
-      case OperationType.registerDomain:
-        return 'REGISTER_DOMAIN';
-      case OperationType.deleteDomain:
-        return 'DELETE_DOMAIN';
-      case OperationType.transferInDomain:
-        return 'TRANSFER_IN_DOMAIN';
-      case OperationType.updateDomainContact:
-        return 'UPDATE_DOMAIN_CONTACT';
-      case OperationType.updateNameserver:
-        return 'UPDATE_NAMESERVER';
-      case OperationType.changePrivacyProtection:
-        return 'CHANGE_PRIVACY_PROTECTION';
-      case OperationType.domainLock:
-        return 'DOMAIN_LOCK';
-      case OperationType.enableAutorenew:
-        return 'ENABLE_AUTORENEW';
-      case OperationType.disableAutorenew:
-        return 'DISABLE_AUTORENEW';
-      case OperationType.addDnssec:
-        return 'ADD_DNSSEC';
-      case OperationType.removeDnssec:
-        return 'REMOVE_DNSSEC';
-      case OperationType.expireDomain:
-        return 'EXPIRE_DOMAIN';
-      case OperationType.transferOutDomain:
-        return 'TRANSFER_OUT_DOMAIN';
-      case OperationType.changeDomainOwner:
-        return 'CHANGE_DOMAIN_OWNER';
-      case OperationType.renewDomain:
-        return 'RENEW_DOMAIN';
-      case OperationType.pushDomain:
-        return 'PUSH_DOMAIN';
-      case OperationType.internalTransferOutDomain:
-        return 'INTERNAL_TRANSFER_OUT_DOMAIN';
-      case OperationType.internalTransferInDomain:
-        return 'INTERNAL_TRANSFER_IN_DOMAIN';
-      case OperationType.releaseToGandi:
-        return 'RELEASE_TO_GANDI';
-      case OperationType.transferOnRenew:
-        return 'TRANSFER_ON_RENEW';
-    }
-  }
-}
+  final String value;
 
-extension OperationTypeFromString on String {
-  OperationType toOperationType() {
-    switch (this) {
-      case 'REGISTER_DOMAIN':
-        return OperationType.registerDomain;
-      case 'DELETE_DOMAIN':
-        return OperationType.deleteDomain;
-      case 'TRANSFER_IN_DOMAIN':
-        return OperationType.transferInDomain;
-      case 'UPDATE_DOMAIN_CONTACT':
-        return OperationType.updateDomainContact;
-      case 'UPDATE_NAMESERVER':
-        return OperationType.updateNameserver;
-      case 'CHANGE_PRIVACY_PROTECTION':
-        return OperationType.changePrivacyProtection;
-      case 'DOMAIN_LOCK':
-        return OperationType.domainLock;
-      case 'ENABLE_AUTORENEW':
-        return OperationType.enableAutorenew;
-      case 'DISABLE_AUTORENEW':
-        return OperationType.disableAutorenew;
-      case 'ADD_DNSSEC':
-        return OperationType.addDnssec;
-      case 'REMOVE_DNSSEC':
-        return OperationType.removeDnssec;
-      case 'EXPIRE_DOMAIN':
-        return OperationType.expireDomain;
-      case 'TRANSFER_OUT_DOMAIN':
-        return OperationType.transferOutDomain;
-      case 'CHANGE_DOMAIN_OWNER':
-        return OperationType.changeDomainOwner;
-      case 'RENEW_DOMAIN':
-        return OperationType.renewDomain;
-      case 'PUSH_DOMAIN':
-        return OperationType.pushDomain;
-      case 'INTERNAL_TRANSFER_OUT_DOMAIN':
-        return OperationType.internalTransferOutDomain;
-      case 'INTERNAL_TRANSFER_IN_DOMAIN':
-        return OperationType.internalTransferInDomain;
-      case 'RELEASE_TO_GANDI':
-        return OperationType.releaseToGandi;
-      case 'TRANSFER_ON_RENEW':
-        return OperationType.transferOnRenew;
-    }
-    throw Exception('$this is not known in enum OperationType');
-  }
+  const OperationType(this.value);
+
+  static OperationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OperationType'));
 }
 
 enum Operator {
-  le,
-  ge,
-  beginsWith,
-}
+  le('LE'),
+  ge('GE'),
+  beginsWith('BEGINS_WITH'),
+  ;
 
-extension OperatorValueExtension on Operator {
-  String toValue() {
-    switch (this) {
-      case Operator.le:
-        return 'LE';
-      case Operator.ge:
-        return 'GE';
-      case Operator.beginsWith:
-        return 'BEGINS_WITH';
-    }
-  }
-}
+  final String value;
 
-extension OperatorFromString on String {
-  Operator toOperator() {
-    switch (this) {
-      case 'LE':
-        return Operator.le;
-      case 'GE':
-        return Operator.ge;
-      case 'BEGINS_WITH':
-        return Operator.beginsWith;
-    }
-    throw Exception('$this is not known in enum Operator');
-  }
+  const Operator(this.value);
+
+  static Operator fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Operator'));
 }
 
 /// Currency-specific price information.
@@ -5792,36 +4434,19 @@ class PriceWithCurrency {
 }
 
 enum ReachabilityStatus {
-  pending,
-  done,
-  expired,
-}
+  pending('PENDING'),
+  done('DONE'),
+  expired('EXPIRED'),
+  ;
 
-extension ReachabilityStatusValueExtension on ReachabilityStatus {
-  String toValue() {
-    switch (this) {
-      case ReachabilityStatus.pending:
-        return 'PENDING';
-      case ReachabilityStatus.done:
-        return 'DONE';
-      case ReachabilityStatus.expired:
-        return 'EXPIRED';
-    }
-  }
-}
+  final String value;
 
-extension ReachabilityStatusFromString on String {
-  ReachabilityStatus toReachabilityStatus() {
-    switch (this) {
-      case 'PENDING':
-        return ReachabilityStatus.pending;
-      case 'DONE':
-        return ReachabilityStatus.done;
-      case 'EXPIRED':
-        return ReachabilityStatus.expired;
-    }
-    throw Exception('$this is not known in enum ReachabilityStatus');
-  }
+  const ReachabilityStatus(this.value);
+
+  static ReachabilityStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ReachabilityStatus'));
 }
 
 /// The RegisterDomain response includes the following element.
@@ -5948,81 +4573,41 @@ class SortCondition {
     final name = this.name;
     final sortOrder = this.sortOrder;
     return {
-      'Name': name.toValue(),
-      'SortOrder': sortOrder.toValue(),
+      'Name': name.value,
+      'SortOrder': sortOrder.value,
     };
   }
 }
 
 enum SortOrder {
-  asc,
-  desc,
-}
+  asc('ASC'),
+  desc('DESC'),
+  ;
 
-extension SortOrderValueExtension on SortOrder {
-  String toValue() {
-    switch (this) {
-      case SortOrder.asc:
-        return 'ASC';
-      case SortOrder.desc:
-        return 'DESC';
-    }
-  }
-}
+  final String value;
 
-extension SortOrderFromString on String {
-  SortOrder toSortOrder() {
-    switch (this) {
-      case 'ASC':
-        return SortOrder.asc;
-      case 'DESC':
-        return SortOrder.desc;
-    }
-    throw Exception('$this is not known in enum SortOrder');
-  }
+  const SortOrder(this.value);
+
+  static SortOrder fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SortOrder'));
 }
 
 enum StatusFlag {
-  pendingAcceptance,
-  pendingCustomerAction,
-  pendingAuthorization,
-  pendingPaymentVerification,
-  pendingSupportCase,
-}
+  pendingAcceptance('PENDING_ACCEPTANCE'),
+  pendingCustomerAction('PENDING_CUSTOMER_ACTION'),
+  pendingAuthorization('PENDING_AUTHORIZATION'),
+  pendingPaymentVerification('PENDING_PAYMENT_VERIFICATION'),
+  pendingSupportCase('PENDING_SUPPORT_CASE'),
+  ;
 
-extension StatusFlagValueExtension on StatusFlag {
-  String toValue() {
-    switch (this) {
-      case StatusFlag.pendingAcceptance:
-        return 'PENDING_ACCEPTANCE';
-      case StatusFlag.pendingCustomerAction:
-        return 'PENDING_CUSTOMER_ACTION';
-      case StatusFlag.pendingAuthorization:
-        return 'PENDING_AUTHORIZATION';
-      case StatusFlag.pendingPaymentVerification:
-        return 'PENDING_PAYMENT_VERIFICATION';
-      case StatusFlag.pendingSupportCase:
-        return 'PENDING_SUPPORT_CASE';
-    }
-  }
-}
+  final String value;
 
-extension StatusFlagFromString on String {
-  StatusFlag toStatusFlag() {
-    switch (this) {
-      case 'PENDING_ACCEPTANCE':
-        return StatusFlag.pendingAcceptance;
-      case 'PENDING_CUSTOMER_ACTION':
-        return StatusFlag.pendingCustomerAction;
-      case 'PENDING_AUTHORIZATION':
-        return StatusFlag.pendingAuthorization;
-      case 'PENDING_PAYMENT_VERIFICATION':
-        return StatusFlag.pendingPaymentVerification;
-      case 'PENDING_SUPPORT_CASE':
-        return StatusFlag.pendingSupportCase;
-    }
-    throw Exception('$this is not known in enum StatusFlag');
-  }
+  const StatusFlag(this.value);
+
+  static StatusFlag fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum StatusFlag'));
 }
 
 /// Each tag includes the following elements.
@@ -6131,51 +4716,22 @@ class TransferDomainToAnotherAwsAccountResponse {
 /// Premium domain transfer is not supported.
 /// </dd> </dl>
 enum Transferable {
-  transferable,
-  untransferable,
-  dontKnow,
-  domainInOwnAccount,
-  domainInAnotherAccount,
-  premiumDomain,
-}
+  transferable('TRANSFERABLE'),
+  untransferable('UNTRANSFERABLE'),
+  dontKnow('DONT_KNOW'),
+  domainInOwnAccount('DOMAIN_IN_OWN_ACCOUNT'),
+  domainInAnotherAccount('DOMAIN_IN_ANOTHER_ACCOUNT'),
+  premiumDomain('PREMIUM_DOMAIN'),
+  ;
 
-extension TransferableValueExtension on Transferable {
-  String toValue() {
-    switch (this) {
-      case Transferable.transferable:
-        return 'TRANSFERABLE';
-      case Transferable.untransferable:
-        return 'UNTRANSFERABLE';
-      case Transferable.dontKnow:
-        return 'DONT_KNOW';
-      case Transferable.domainInOwnAccount:
-        return 'DOMAIN_IN_OWN_ACCOUNT';
-      case Transferable.domainInAnotherAccount:
-        return 'DOMAIN_IN_ANOTHER_ACCOUNT';
-      case Transferable.premiumDomain:
-        return 'PREMIUM_DOMAIN';
-    }
-  }
-}
+  final String value;
 
-extension TransferableFromString on String {
-  Transferable toTransferable() {
-    switch (this) {
-      case 'TRANSFERABLE':
-        return Transferable.transferable;
-      case 'UNTRANSFERABLE':
-        return Transferable.untransferable;
-      case 'DONT_KNOW':
-        return Transferable.dontKnow;
-      case 'DOMAIN_IN_OWN_ACCOUNT':
-        return Transferable.domainInOwnAccount;
-      case 'DOMAIN_IN_ANOTHER_ACCOUNT':
-        return Transferable.domainInAnotherAccount;
-      case 'PREMIUM_DOMAIN':
-        return Transferable.premiumDomain;
-    }
-    throw Exception('$this is not known in enum Transferable');
-  }
+  const Transferable(this.value);
+
+  static Transferable fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum Transferable'));
 }
 
 /// The UpdateDomainContactPrivacy response includes the following element.

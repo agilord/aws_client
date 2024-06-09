@@ -170,7 +170,7 @@ class ApplicationInsights {
         if (autoConfigEnabled != null) 'AutoConfigEnabled': autoConfigEnabled,
         if (autoCreate != null) 'AutoCreate': autoCreate,
         if (cWEMonitorEnabled != null) 'CWEMonitorEnabled': cWEMonitorEnabled,
-        if (groupingType != null) 'GroupingType': groupingType.toValue(),
+        if (groupingType != null) 'GroupingType': groupingType.value,
         if (opsCenterEnabled != null) 'OpsCenterEnabled': opsCenterEnabled,
         if (opsItemSNSTopicArn != null)
           'OpsItemSNSTopicArn': opsItemSNSTopicArn,
@@ -540,9 +540,9 @@ class ApplicationInsights {
       payload: {
         'ComponentName': componentName,
         'ResourceGroupName': resourceGroupName,
-        'Tier': tier.toValue(),
+        'Tier': tier.value,
         if (recommendationType != null)
-          'RecommendationType': recommendationType.toValue(),
+          'RecommendationType': recommendationType.value,
         if (workloadName != null) 'WorkloadName': workloadName,
       },
     );
@@ -923,7 +923,7 @@ class ApplicationInsights {
       payload: {
         if (accountId != null) 'AccountId': accountId,
         if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
-        if (eventStatus != null) 'EventStatus': eventStatus.toValue(),
+        if (eventStatus != null) 'EventStatus': eventStatus.value,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (resourceGroupName != null) 'ResourceGroupName': resourceGroupName,
@@ -1112,7 +1112,7 @@ class ApplicationInsights {
         if (nextToken != null) 'NextToken': nextToken,
         if (resourceGroupName != null) 'ResourceGroupName': resourceGroupName,
         if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-        if (visibility != null) 'Visibility': visibility.toValue(),
+        if (visibility != null) 'Visibility': visibility.value,
       },
     );
 
@@ -1502,7 +1502,7 @@ class ApplicationInsights {
         if (componentConfiguration != null)
           'ComponentConfiguration': componentConfiguration,
         if (monitor != null) 'Monitor': monitor,
-        if (tier != null) 'Tier': tier.toValue(),
+        if (tier != null) 'Tier': tier.value,
       },
     );
   }
@@ -1605,8 +1605,8 @@ class ApplicationInsights {
       headers: headers,
       payload: {
         'ProblemId': problemId,
-        if (updateStatus != null) 'UpdateStatus': updateStatus.toValue(),
-        if (visibility != null) 'Visibility': visibility.toValue(),
+        if (updateStatus != null) 'UpdateStatus': updateStatus.value,
+        if (visibility != null) 'Visibility': visibility.value,
       },
     );
   }
@@ -1724,13 +1724,13 @@ class ApplicationComponent {
       componentRemarks: json['ComponentRemarks'] as String?,
       detectedWorkload: (json['DetectedWorkload'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(
-              k.toTier(),
+              Tier.fromString(k),
               (e as Map<String, dynamic>)
                   .map((k, e) => MapEntry(k, e as String)))),
       monitor: json['Monitor'] as bool?,
-      osType: (json['OsType'] as String?)?.toOsType(),
+      osType: (json['OsType'] as String?)?.let(OsType.fromString),
       resourceType: json['ResourceType'] as String?,
-      tier: (json['Tier'] as String?)?.toTier(),
+      tier: (json['Tier'] as String?)?.let(Tier.fromString),
     );
   }
 }
@@ -1801,7 +1801,8 @@ class ApplicationInfo {
       attachMissingPermission: json['AttachMissingPermission'] as bool?,
       autoConfigEnabled: json['AutoConfigEnabled'] as bool?,
       cWEMonitorEnabled: json['CWEMonitorEnabled'] as bool?,
-      discoveryType: (json['DiscoveryType'] as String?)?.toDiscoveryType(),
+      discoveryType:
+          (json['DiscoveryType'] as String?)?.let(DiscoveryType.fromString),
       lifeCycle: json['LifeCycle'] as String?,
       opsCenterEnabled: json['OpsCenterEnabled'] as bool?,
       opsItemSNSTopicArn: json['OpsItemSNSTopicArn'] as String?,
@@ -1812,41 +1813,20 @@ class ApplicationInfo {
 }
 
 enum CloudWatchEventSource {
-  ec2,
-  codeDeploy,
-  health,
-  rds,
-}
+  ec2('EC2'),
+  codeDeploy('CODE_DEPLOY'),
+  health('HEALTH'),
+  rds('RDS'),
+  ;
 
-extension CloudWatchEventSourceValueExtension on CloudWatchEventSource {
-  String toValue() {
-    switch (this) {
-      case CloudWatchEventSource.ec2:
-        return 'EC2';
-      case CloudWatchEventSource.codeDeploy:
-        return 'CODE_DEPLOY';
-      case CloudWatchEventSource.health:
-        return 'HEALTH';
-      case CloudWatchEventSource.rds:
-        return 'RDS';
-    }
-  }
-}
+  final String value;
 
-extension CloudWatchEventSourceFromString on String {
-  CloudWatchEventSource toCloudWatchEventSource() {
-    switch (this) {
-      case 'EC2':
-        return CloudWatchEventSource.ec2;
-      case 'CODE_DEPLOY':
-        return CloudWatchEventSource.codeDeploy;
-      case 'HEALTH':
-        return CloudWatchEventSource.health;
-      case 'RDS':
-        return CloudWatchEventSource.rds;
-    }
-    throw Exception('$this is not known in enum CloudWatchEventSource');
-  }
+  const CloudWatchEventSource(this.value);
+
+  static CloudWatchEventSource fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum CloudWatchEventSource'));
 }
 
 /// The event information.
@@ -1896,9 +1876,9 @@ class ConfigurationEvent {
       eventDetail: json['EventDetail'] as String?,
       eventResourceName: json['EventResourceName'] as String?,
       eventResourceType: (json['EventResourceType'] as String?)
-          ?.toConfigurationEventResourceType(),
-      eventStatus:
-          (json['EventStatus'] as String?)?.toConfigurationEventStatus(),
+          ?.let(ConfigurationEventResourceType.fromString),
+      eventStatus: (json['EventStatus'] as String?)
+          ?.let(ConfigurationEventStatus.fromString),
       eventTime: timeStampFromJson(json['EventTime']),
       monitoredResourceARN: json['MonitoredResourceARN'] as String?,
       resourceGroupName: json['ResourceGroupName'] as String?,
@@ -1907,76 +1887,36 @@ class ConfigurationEvent {
 }
 
 enum ConfigurationEventResourceType {
-  cloudwatchAlarm,
-  cloudwatchLog,
-  cloudformation,
-  ssmAssociation,
-}
+  cloudwatchAlarm('CLOUDWATCH_ALARM'),
+  cloudwatchLog('CLOUDWATCH_LOG'),
+  cloudformation('CLOUDFORMATION'),
+  ssmAssociation('SSM_ASSOCIATION'),
+  ;
 
-extension ConfigurationEventResourceTypeValueExtension
-    on ConfigurationEventResourceType {
-  String toValue() {
-    switch (this) {
-      case ConfigurationEventResourceType.cloudwatchAlarm:
-        return 'CLOUDWATCH_ALARM';
-      case ConfigurationEventResourceType.cloudwatchLog:
-        return 'CLOUDWATCH_LOG';
-      case ConfigurationEventResourceType.cloudformation:
-        return 'CLOUDFORMATION';
-      case ConfigurationEventResourceType.ssmAssociation:
-        return 'SSM_ASSOCIATION';
-    }
-  }
-}
+  final String value;
 
-extension ConfigurationEventResourceTypeFromString on String {
-  ConfigurationEventResourceType toConfigurationEventResourceType() {
-    switch (this) {
-      case 'CLOUDWATCH_ALARM':
-        return ConfigurationEventResourceType.cloudwatchAlarm;
-      case 'CLOUDWATCH_LOG':
-        return ConfigurationEventResourceType.cloudwatchLog;
-      case 'CLOUDFORMATION':
-        return ConfigurationEventResourceType.cloudformation;
-      case 'SSM_ASSOCIATION':
-        return ConfigurationEventResourceType.ssmAssociation;
-    }
-    throw Exception(
-        '$this is not known in enum ConfigurationEventResourceType');
-  }
+  const ConfigurationEventResourceType(this.value);
+
+  static ConfigurationEventResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ConfigurationEventResourceType'));
 }
 
 enum ConfigurationEventStatus {
-  info,
-  warn,
-  error,
-}
+  info('INFO'),
+  warn('WARN'),
+  error('ERROR'),
+  ;
 
-extension ConfigurationEventStatusValueExtension on ConfigurationEventStatus {
-  String toValue() {
-    switch (this) {
-      case ConfigurationEventStatus.info:
-        return 'INFO';
-      case ConfigurationEventStatus.warn:
-        return 'WARN';
-      case ConfigurationEventStatus.error:
-        return 'ERROR';
-    }
-  }
-}
+  final String value;
 
-extension ConfigurationEventStatusFromString on String {
-  ConfigurationEventStatus toConfigurationEventStatus() {
-    switch (this) {
-      case 'INFO':
-        return ConfigurationEventStatus.info;
-      case 'WARN':
-        return ConfigurationEventStatus.warn;
-      case 'ERROR':
-        return ConfigurationEventStatus.error;
-    }
-    throw Exception('$this is not known in enum ConfigurationEventStatus');
-  }
+  const ConfigurationEventStatus(this.value);
+
+  static ConfigurationEventStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ConfigurationEventStatus'));
 }
 
 class CreateApplicationResponse {
@@ -2110,7 +2050,7 @@ class DescribeComponentConfigurationResponse {
     return DescribeComponentConfigurationResponse(
       componentConfiguration: json['ComponentConfiguration'] as String?,
       monitor: json['Monitor'] as bool?,
-      tier: (json['Tier'] as String?)?.toTier(),
+      tier: (json['Tier'] as String?)?.let(Tier.fromString),
     );
   }
 }
@@ -2251,110 +2191,61 @@ class DescribeWorkloadResponse {
 }
 
 enum DiscoveryType {
-  resourceGroupBased,
-  accountBased,
-}
+  resourceGroupBased('RESOURCE_GROUP_BASED'),
+  accountBased('ACCOUNT_BASED'),
+  ;
 
-extension DiscoveryTypeValueExtension on DiscoveryType {
-  String toValue() {
-    switch (this) {
-      case DiscoveryType.resourceGroupBased:
-        return 'RESOURCE_GROUP_BASED';
-      case DiscoveryType.accountBased:
-        return 'ACCOUNT_BASED';
-    }
-  }
-}
+  final String value;
 
-extension DiscoveryTypeFromString on String {
-  DiscoveryType toDiscoveryType() {
-    switch (this) {
-      case 'RESOURCE_GROUP_BASED':
-        return DiscoveryType.resourceGroupBased;
-      case 'ACCOUNT_BASED':
-        return DiscoveryType.accountBased;
-    }
-    throw Exception('$this is not known in enum DiscoveryType');
-  }
+  const DiscoveryType(this.value);
+
+  static DiscoveryType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DiscoveryType'));
 }
 
 enum FeedbackKey {
-  insightsFeedback,
-}
+  insightsFeedback('INSIGHTS_FEEDBACK'),
+  ;
 
-extension FeedbackKeyValueExtension on FeedbackKey {
-  String toValue() {
-    switch (this) {
-      case FeedbackKey.insightsFeedback:
-        return 'INSIGHTS_FEEDBACK';
-    }
-  }
-}
+  final String value;
 
-extension FeedbackKeyFromString on String {
-  FeedbackKey toFeedbackKey() {
-    switch (this) {
-      case 'INSIGHTS_FEEDBACK':
-        return FeedbackKey.insightsFeedback;
-    }
-    throw Exception('$this is not known in enum FeedbackKey');
-  }
+  const FeedbackKey(this.value);
+
+  static FeedbackKey fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum FeedbackKey'));
 }
 
 enum FeedbackValue {
-  notSpecified,
-  useful,
-  notUseful,
-}
+  notSpecified('NOT_SPECIFIED'),
+  useful('USEFUL'),
+  notUseful('NOT_USEFUL'),
+  ;
 
-extension FeedbackValueValueExtension on FeedbackValue {
-  String toValue() {
-    switch (this) {
-      case FeedbackValue.notSpecified:
-        return 'NOT_SPECIFIED';
-      case FeedbackValue.useful:
-        return 'USEFUL';
-      case FeedbackValue.notUseful:
-        return 'NOT_USEFUL';
-    }
-  }
-}
+  final String value;
 
-extension FeedbackValueFromString on String {
-  FeedbackValue toFeedbackValue() {
-    switch (this) {
-      case 'NOT_SPECIFIED':
-        return FeedbackValue.notSpecified;
-      case 'USEFUL':
-        return FeedbackValue.useful;
-      case 'NOT_USEFUL':
-        return FeedbackValue.notUseful;
-    }
-    throw Exception('$this is not known in enum FeedbackValue');
-  }
+  const FeedbackValue(this.value);
+
+  static FeedbackValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FeedbackValue'));
 }
 
 enum GroupingType {
-  accountBased,
-}
+  accountBased('ACCOUNT_BASED'),
+  ;
 
-extension GroupingTypeValueExtension on GroupingType {
-  String toValue() {
-    switch (this) {
-      case GroupingType.accountBased:
-        return 'ACCOUNT_BASED';
-    }
-  }
-}
+  final String value;
 
-extension GroupingTypeFromString on String {
-  GroupingType toGroupingType() {
-    switch (this) {
-      case 'ACCOUNT_BASED':
-        return GroupingType.accountBased;
-    }
-    throw Exception('$this is not known in enum GroupingType');
-  }
+  const GroupingType(this.value);
+
+  static GroupingType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum GroupingType'));
 }
 
 class ListApplicationsResponse {
@@ -2578,36 +2469,18 @@ class ListWorkloadsResponse {
 }
 
 enum LogFilter {
-  error,
-  warn,
-  info,
-}
+  error('ERROR'),
+  warn('WARN'),
+  info('INFO'),
+  ;
 
-extension LogFilterValueExtension on LogFilter {
-  String toValue() {
-    switch (this) {
-      case LogFilter.error:
-        return 'ERROR';
-      case LogFilter.warn:
-        return 'WARN';
-      case LogFilter.info:
-        return 'INFO';
-    }
-  }
-}
+  final String value;
 
-extension LogFilterFromString on String {
-  LogFilter toLogFilter() {
-    switch (this) {
-      case 'ERROR':
-        return LogFilter.error;
-      case 'WARN':
-        return LogFilter.warn;
-      case 'INFO':
-        return LogFilter.info;
-    }
-    throw Exception('$this is not known in enum LogFilter');
-  }
+  const LogFilter(this.value);
+
+  static LogFilter fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum LogFilter'));
 }
 
 /// An object that defines the log patterns that belongs to a
@@ -2859,8 +2732,8 @@ class Observation {
     return Observation(
       cloudWatchEventDetailType: json['CloudWatchEventDetailType'] as String?,
       cloudWatchEventId: json['CloudWatchEventId'] as String?,
-      cloudWatchEventSource:
-          (json['CloudWatchEventSource'] as String?)?.toCloudWatchEventSource(),
+      cloudWatchEventSource: (json['CloudWatchEventSource'] as String?)
+          ?.let(CloudWatchEventSource.fromString),
       codeDeployApplication: json['CodeDeployApplication'] as String?,
       codeDeployDeploymentGroup: json['CodeDeployDeploymentGroup'] as String?,
       codeDeployDeploymentId: json['CodeDeployDeploymentId'] as String?,
@@ -2879,7 +2752,7 @@ class Observation {
       healthService: json['HealthService'] as String?,
       id: json['Id'] as String?,
       lineTime: timeStampFromJson(json['LineTime']),
-      logFilter: (json['LogFilter'] as String?)?.toLogFilter(),
+      logFilter: (json['LogFilter'] as String?)?.let(LogFilter.fromString),
       logGroup: json['LogGroup'] as String?,
       logText: json['LogText'] as String?,
       metricName: json['MetricName'] as String?,
@@ -2908,31 +2781,17 @@ class Observation {
 }
 
 enum OsType {
-  windows,
-  linux,
-}
+  windows('WINDOWS'),
+  linux('LINUX'),
+  ;
 
-extension OsTypeValueExtension on OsType {
-  String toValue() {
-    switch (this) {
-      case OsType.windows:
-        return 'WINDOWS';
-      case OsType.linux:
-        return 'LINUX';
-    }
-  }
-}
+  final String value;
 
-extension OsTypeFromString on String {
-  OsType toOsType() {
-    switch (this) {
-      case 'WINDOWS':
-        return OsType.windows;
-      case 'LINUX':
-        return OsType.linux;
-    }
-    throw Exception('$this is not known in enum OsType');
-  }
+  const OsType(this.value);
+
+  static OsType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum OsType'));
 }
 
 /// Describes a problem that is detected by correlating observations.
@@ -3012,54 +2871,39 @@ class Problem {
       affectedResource: json['AffectedResource'] as String?,
       endTime: timeStampFromJson(json['EndTime']),
       feedback: (json['Feedback'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(k.toFeedbackKey(), (e as String).toFeedbackValue())),
+          MapEntry(FeedbackKey.fromString(k),
+              FeedbackValue.fromString((e as String)))),
       id: json['Id'] as String?,
       insights: json['Insights'] as String?,
       lastRecurrenceTime: timeStampFromJson(json['LastRecurrenceTime']),
       recurringCount: json['RecurringCount'] as int?,
-      resolutionMethod:
-          (json['ResolutionMethod'] as String?)?.toResolutionMethod(),
+      resolutionMethod: (json['ResolutionMethod'] as String?)
+          ?.let(ResolutionMethod.fromString),
       resourceGroupName: json['ResourceGroupName'] as String?,
-      severityLevel: (json['SeverityLevel'] as String?)?.toSeverityLevel(),
+      severityLevel:
+          (json['SeverityLevel'] as String?)?.let(SeverityLevel.fromString),
       startTime: timeStampFromJson(json['StartTime']),
-      status: (json['Status'] as String?)?.toStatus(),
+      status: (json['Status'] as String?)?.let(Status.fromString),
       title: json['Title'] as String?,
-      visibility: (json['Visibility'] as String?)?.toVisibility(),
+      visibility: (json['Visibility'] as String?)?.let(Visibility.fromString),
     );
   }
 }
 
 enum RecommendationType {
-  infraOnly,
-  workloadOnly,
-  all,
-}
+  infraOnly('INFRA_ONLY'),
+  workloadOnly('WORKLOAD_ONLY'),
+  all('ALL'),
+  ;
 
-extension RecommendationTypeValueExtension on RecommendationType {
-  String toValue() {
-    switch (this) {
-      case RecommendationType.infraOnly:
-        return 'INFRA_ONLY';
-      case RecommendationType.workloadOnly:
-        return 'WORKLOAD_ONLY';
-      case RecommendationType.all:
-        return 'ALL';
-    }
-  }
-}
+  final String value;
 
-extension RecommendationTypeFromString on String {
-  RecommendationType toRecommendationType() {
-    switch (this) {
-      case 'INFRA_ONLY':
-        return RecommendationType.infraOnly;
-      case 'WORKLOAD_ONLY':
-        return RecommendationType.workloadOnly;
-      case 'ALL':
-        return RecommendationType.all;
-    }
-    throw Exception('$this is not known in enum RecommendationType');
-  }
+  const RecommendationType(this.value);
+
+  static RecommendationType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RecommendationType'));
 }
 
 /// Describes observations related to the problem.
@@ -3090,117 +2934,53 @@ class RemoveWorkloadResponse {
 }
 
 enum ResolutionMethod {
-  manual,
-  automatic,
-  unresolved,
-}
+  manual('MANUAL'),
+  automatic('AUTOMATIC'),
+  unresolved('UNRESOLVED'),
+  ;
 
-extension ResolutionMethodValueExtension on ResolutionMethod {
-  String toValue() {
-    switch (this) {
-      case ResolutionMethod.manual:
-        return 'MANUAL';
-      case ResolutionMethod.automatic:
-        return 'AUTOMATIC';
-      case ResolutionMethod.unresolved:
-        return 'UNRESOLVED';
-    }
-  }
-}
+  final String value;
 
-extension ResolutionMethodFromString on String {
-  ResolutionMethod toResolutionMethod() {
-    switch (this) {
-      case 'MANUAL':
-        return ResolutionMethod.manual;
-      case 'AUTOMATIC':
-        return ResolutionMethod.automatic;
-      case 'UNRESOLVED':
-        return ResolutionMethod.unresolved;
-    }
-    throw Exception('$this is not known in enum ResolutionMethod');
-  }
+  const ResolutionMethod(this.value);
+
+  static ResolutionMethod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResolutionMethod'));
 }
 
 enum SeverityLevel {
-  informative,
-  low,
-  medium,
-  high,
-}
+  informative('Informative'),
+  low('Low'),
+  medium('Medium'),
+  high('High'),
+  ;
 
-extension SeverityLevelValueExtension on SeverityLevel {
-  String toValue() {
-    switch (this) {
-      case SeverityLevel.informative:
-        return 'Informative';
-      case SeverityLevel.low:
-        return 'Low';
-      case SeverityLevel.medium:
-        return 'Medium';
-      case SeverityLevel.high:
-        return 'High';
-    }
-  }
-}
+  final String value;
 
-extension SeverityLevelFromString on String {
-  SeverityLevel toSeverityLevel() {
-    switch (this) {
-      case 'Informative':
-        return SeverityLevel.informative;
-      case 'Low':
-        return SeverityLevel.low;
-      case 'Medium':
-        return SeverityLevel.medium;
-      case 'High':
-        return SeverityLevel.high;
-    }
-    throw Exception('$this is not known in enum SeverityLevel');
-  }
+  const SeverityLevel(this.value);
+
+  static SeverityLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SeverityLevel'));
 }
 
 enum Status {
-  ignore,
-  resolved,
-  pending,
-  recurring,
-  recovering,
-}
+  ignore('IGNORE'),
+  resolved('RESOLVED'),
+  pending('PENDING'),
+  recurring('RECURRING'),
+  recovering('RECOVERING'),
+  ;
 
-extension StatusValueExtension on Status {
-  String toValue() {
-    switch (this) {
-      case Status.ignore:
-        return 'IGNORE';
-      case Status.resolved:
-        return 'RESOLVED';
-      case Status.pending:
-        return 'PENDING';
-      case Status.recurring:
-        return 'RECURRING';
-      case Status.recovering:
-        return 'RECOVERING';
-    }
-  }
-}
+  final String value;
 
-extension StatusFromString on String {
-  Status toStatus() {
-    switch (this) {
-      case 'IGNORE':
-        return Status.ignore;
-      case 'RESOLVED':
-        return Status.resolved;
-      case 'PENDING':
-        return Status.pending;
-      case 'RECURRING':
-        return Status.recurring;
-      case 'RECOVERING':
-        return Status.recovering;
-    }
-    throw Exception('$this is not known in enum Status');
-  }
+  const Status(this.value);
+
+  static Status fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Status'));
 }
 
 /// An object that defines the tags associated with an application. A <i>tag</i>
@@ -3273,126 +3053,36 @@ class TagResourceResponse {
 }
 
 enum Tier {
-  custom,
-  $default,
-  dotNetCore,
-  dotNetWorker,
-  dotNetWebTier,
-  dotNetWeb,
-  sqlServer,
-  sqlServerAlwaysonAvailabilityGroup,
-  mysql,
-  postgresql,
-  javaJmx,
-  oracle,
-  sapHanaMultiNode,
-  sapHanaSingleNode,
-  sapHanaHighAvailability,
-  sqlServerFailoverClusterInstance,
-  sharepoint,
-  activeDirectory,
-  sapNetweaverStandard,
-  sapNetweaverDistributed,
-  sapNetweaverHighAvailability,
-}
+  custom('CUSTOM'),
+  $default('DEFAULT'),
+  dotNetCore('DOT_NET_CORE'),
+  dotNetWorker('DOT_NET_WORKER'),
+  dotNetWebTier('DOT_NET_WEB_TIER'),
+  dotNetWeb('DOT_NET_WEB'),
+  sqlServer('SQL_SERVER'),
+  sqlServerAlwaysonAvailabilityGroup('SQL_SERVER_ALWAYSON_AVAILABILITY_GROUP'),
+  mysql('MYSQL'),
+  postgresql('POSTGRESQL'),
+  javaJmx('JAVA_JMX'),
+  oracle('ORACLE'),
+  sapHanaMultiNode('SAP_HANA_MULTI_NODE'),
+  sapHanaSingleNode('SAP_HANA_SINGLE_NODE'),
+  sapHanaHighAvailability('SAP_HANA_HIGH_AVAILABILITY'),
+  sqlServerFailoverClusterInstance('SQL_SERVER_FAILOVER_CLUSTER_INSTANCE'),
+  sharepoint('SHAREPOINT'),
+  activeDirectory('ACTIVE_DIRECTORY'),
+  sapNetweaverStandard('SAP_NETWEAVER_STANDARD'),
+  sapNetweaverDistributed('SAP_NETWEAVER_DISTRIBUTED'),
+  sapNetweaverHighAvailability('SAP_NETWEAVER_HIGH_AVAILABILITY'),
+  ;
 
-extension TierValueExtension on Tier {
-  String toValue() {
-    switch (this) {
-      case Tier.custom:
-        return 'CUSTOM';
-      case Tier.$default:
-        return 'DEFAULT';
-      case Tier.dotNetCore:
-        return 'DOT_NET_CORE';
-      case Tier.dotNetWorker:
-        return 'DOT_NET_WORKER';
-      case Tier.dotNetWebTier:
-        return 'DOT_NET_WEB_TIER';
-      case Tier.dotNetWeb:
-        return 'DOT_NET_WEB';
-      case Tier.sqlServer:
-        return 'SQL_SERVER';
-      case Tier.sqlServerAlwaysonAvailabilityGroup:
-        return 'SQL_SERVER_ALWAYSON_AVAILABILITY_GROUP';
-      case Tier.mysql:
-        return 'MYSQL';
-      case Tier.postgresql:
-        return 'POSTGRESQL';
-      case Tier.javaJmx:
-        return 'JAVA_JMX';
-      case Tier.oracle:
-        return 'ORACLE';
-      case Tier.sapHanaMultiNode:
-        return 'SAP_HANA_MULTI_NODE';
-      case Tier.sapHanaSingleNode:
-        return 'SAP_HANA_SINGLE_NODE';
-      case Tier.sapHanaHighAvailability:
-        return 'SAP_HANA_HIGH_AVAILABILITY';
-      case Tier.sqlServerFailoverClusterInstance:
-        return 'SQL_SERVER_FAILOVER_CLUSTER_INSTANCE';
-      case Tier.sharepoint:
-        return 'SHAREPOINT';
-      case Tier.activeDirectory:
-        return 'ACTIVE_DIRECTORY';
-      case Tier.sapNetweaverStandard:
-        return 'SAP_NETWEAVER_STANDARD';
-      case Tier.sapNetweaverDistributed:
-        return 'SAP_NETWEAVER_DISTRIBUTED';
-      case Tier.sapNetweaverHighAvailability:
-        return 'SAP_NETWEAVER_HIGH_AVAILABILITY';
-    }
-  }
-}
+  final String value;
 
-extension TierFromString on String {
-  Tier toTier() {
-    switch (this) {
-      case 'CUSTOM':
-        return Tier.custom;
-      case 'DEFAULT':
-        return Tier.$default;
-      case 'DOT_NET_CORE':
-        return Tier.dotNetCore;
-      case 'DOT_NET_WORKER':
-        return Tier.dotNetWorker;
-      case 'DOT_NET_WEB_TIER':
-        return Tier.dotNetWebTier;
-      case 'DOT_NET_WEB':
-        return Tier.dotNetWeb;
-      case 'SQL_SERVER':
-        return Tier.sqlServer;
-      case 'SQL_SERVER_ALWAYSON_AVAILABILITY_GROUP':
-        return Tier.sqlServerAlwaysonAvailabilityGroup;
-      case 'MYSQL':
-        return Tier.mysql;
-      case 'POSTGRESQL':
-        return Tier.postgresql;
-      case 'JAVA_JMX':
-        return Tier.javaJmx;
-      case 'ORACLE':
-        return Tier.oracle;
-      case 'SAP_HANA_MULTI_NODE':
-        return Tier.sapHanaMultiNode;
-      case 'SAP_HANA_SINGLE_NODE':
-        return Tier.sapHanaSingleNode;
-      case 'SAP_HANA_HIGH_AVAILABILITY':
-        return Tier.sapHanaHighAvailability;
-      case 'SQL_SERVER_FAILOVER_CLUSTER_INSTANCE':
-        return Tier.sqlServerFailoverClusterInstance;
-      case 'SHAREPOINT':
-        return Tier.sharepoint;
-      case 'ACTIVE_DIRECTORY':
-        return Tier.activeDirectory;
-      case 'SAP_NETWEAVER_STANDARD':
-        return Tier.sapNetweaverStandard;
-      case 'SAP_NETWEAVER_DISTRIBUTED':
-        return Tier.sapNetweaverDistributed;
-      case 'SAP_NETWEAVER_HIGH_AVAILABILITY':
-        return Tier.sapNetweaverHighAvailability;
-    }
-    throw Exception('$this is not known in enum Tier');
-  }
+  const Tier(this.value);
+
+  static Tier fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Tier'));
 }
 
 class UntagResourceResponse {
@@ -3469,26 +3159,17 @@ class UpdateProblemResponse {
 }
 
 enum UpdateStatus {
-  resolved,
-}
+  resolved('RESOLVED'),
+  ;
 
-extension UpdateStatusValueExtension on UpdateStatus {
-  String toValue() {
-    switch (this) {
-      case UpdateStatus.resolved:
-        return 'RESOLVED';
-    }
-  }
-}
+  final String value;
 
-extension UpdateStatusFromString on String {
-  UpdateStatus toUpdateStatus() {
-    switch (this) {
-      case 'RESOLVED':
-        return UpdateStatus.resolved;
-    }
-    throw Exception('$this is not known in enum UpdateStatus');
-  }
+  const UpdateStatus(this.value);
+
+  static UpdateStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum UpdateStatus'));
 }
 
 class UpdateWorkloadResponse {
@@ -3516,31 +3197,17 @@ class UpdateWorkloadResponse {
 }
 
 enum Visibility {
-  ignored,
-  visible,
-}
+  ignored('IGNORED'),
+  visible('VISIBLE'),
+  ;
 
-extension VisibilityValueExtension on Visibility {
-  String toValue() {
-    switch (this) {
-      case Visibility.ignored:
-        return 'IGNORED';
-      case Visibility.visible:
-        return 'VISIBLE';
-    }
-  }
-}
+  final String value;
 
-extension VisibilityFromString on String {
-  Visibility toVisibility() {
-    switch (this) {
-      case 'IGNORED':
-        return Visibility.ignored;
-      case 'VISIBLE':
-        return Visibility.visible;
-    }
-    throw Exception('$this is not known in enum Visibility');
-  }
+  const Visibility(this.value);
+
+  static Visibility fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Visibility'));
 }
 
 /// Describes the workloads on a component.
@@ -3572,7 +3239,7 @@ class Workload {
   factory Workload.fromJson(Map<String, dynamic> json) {
     return Workload(
       componentName: json['ComponentName'] as String?,
-      tier: (json['Tier'] as String?)?.toTier(),
+      tier: (json['Tier'] as String?)?.let(Tier.fromString),
       workloadId: json['WorkloadId'] as String?,
       workloadName: json['WorkloadName'] as String?,
       workloadRemarks: json['WorkloadRemarks'] as String?,
@@ -3600,7 +3267,7 @@ class WorkloadConfiguration {
   factory WorkloadConfiguration.fromJson(Map<String, dynamic> json) {
     return WorkloadConfiguration(
       configuration: json['Configuration'] as String?,
-      tier: (json['Tier'] as String?)?.toTier(),
+      tier: (json['Tier'] as String?)?.let(Tier.fromString),
       workloadName: json['WorkloadName'] as String?,
     );
   }
@@ -3611,7 +3278,7 @@ class WorkloadConfiguration {
     final workloadName = this.workloadName;
     return {
       if (configuration != null) 'Configuration': configuration,
-      if (tier != null) 'Tier': tier.toValue(),
+      if (tier != null) 'Tier': tier.value,
       if (workloadName != null) 'WorkloadName': workloadName,
     };
   }

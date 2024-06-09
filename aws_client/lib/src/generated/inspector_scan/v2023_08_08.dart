@@ -71,7 +71,7 @@ class InspectorScan {
   }) async {
     final $payload = <String, dynamic>{
       'sbom': sbom,
-      if (outputFormat != null) 'outputFormat': outputFormat.toValue(),
+      if (outputFormat != null) 'outputFormat': outputFormat.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -84,31 +84,18 @@ class InspectorScan {
 }
 
 enum OutputFormat {
-  cycloneDx_1_5,
-  inspector,
-}
+  cycloneDx_1_5('CYCLONE_DX_1_5'),
+  inspector('INSPECTOR'),
+  ;
 
-extension OutputFormatValueExtension on OutputFormat {
-  String toValue() {
-    switch (this) {
-      case OutputFormat.cycloneDx_1_5:
-        return 'CYCLONE_DX_1_5';
-      case OutputFormat.inspector:
-        return 'INSPECTOR';
-    }
-  }
-}
+  final String value;
 
-extension OutputFormatFromString on String {
-  OutputFormat toOutputFormat() {
-    switch (this) {
-      case 'CYCLONE_DX_1_5':
-        return OutputFormat.cycloneDx_1_5;
-      case 'INSPECTOR':
-        return OutputFormat.inspector;
-    }
-    throw Exception('$this is not known in enum OutputFormat');
-  }
+  const OutputFormat(this.value);
+
+  static OutputFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OutputFormat'));
 }
 
 class Sbom {

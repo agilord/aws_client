@@ -1724,64 +1724,34 @@ class CanaryRunConfigOutput {
 }
 
 enum CanaryRunState {
-  running,
-  passed,
-  failed,
-}
+  running('RUNNING'),
+  passed('PASSED'),
+  failed('FAILED'),
+  ;
 
-extension CanaryRunStateValueExtension on CanaryRunState {
-  String toValue() {
-    switch (this) {
-      case CanaryRunState.running:
-        return 'RUNNING';
-      case CanaryRunState.passed:
-        return 'PASSED';
-      case CanaryRunState.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension CanaryRunStateFromString on String {
-  CanaryRunState toCanaryRunState() {
-    switch (this) {
-      case 'RUNNING':
-        return CanaryRunState.running;
-      case 'PASSED':
-        return CanaryRunState.passed;
-      case 'FAILED':
-        return CanaryRunState.failed;
-    }
-    throw Exception('$this is not known in enum CanaryRunState');
-  }
+  const CanaryRunState(this.value);
+
+  static CanaryRunState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CanaryRunState'));
 }
 
 enum CanaryRunStateReasonCode {
-  canaryFailure,
-  executionFailure,
-}
+  canaryFailure('CANARY_FAILURE'),
+  executionFailure('EXECUTION_FAILURE'),
+  ;
 
-extension CanaryRunStateReasonCodeValueExtension on CanaryRunStateReasonCode {
-  String toValue() {
-    switch (this) {
-      case CanaryRunStateReasonCode.canaryFailure:
-        return 'CANARY_FAILURE';
-      case CanaryRunStateReasonCode.executionFailure:
-        return 'EXECUTION_FAILURE';
-    }
-  }
-}
+  final String value;
 
-extension CanaryRunStateReasonCodeFromString on String {
-  CanaryRunStateReasonCode toCanaryRunStateReasonCode() {
-    switch (this) {
-      case 'CANARY_FAILURE':
-        return CanaryRunStateReasonCode.canaryFailure;
-      case 'EXECUTION_FAILURE':
-        return CanaryRunStateReasonCode.executionFailure;
-    }
-    throw Exception('$this is not known in enum CanaryRunStateReasonCode');
-  }
+  const CanaryRunStateReasonCode(this.value);
+
+  static CanaryRunStateReasonCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CanaryRunStateReasonCode'));
 }
 
 /// This structure contains the status information about a canary run.
@@ -1805,10 +1775,10 @@ class CanaryRunStatus {
 
   factory CanaryRunStatus.fromJson(Map<String, dynamic> json) {
     return CanaryRunStatus(
-      state: (json['State'] as String?)?.toCanaryRunState(),
+      state: (json['State'] as String?)?.let(CanaryRunState.fromString),
       stateReason: json['StateReason'] as String?,
-      stateReasonCode:
-          (json['StateReasonCode'] as String?)?.toCanaryRunStateReasonCode(),
+      stateReasonCode: (json['StateReasonCode'] as String?)
+          ?.let(CanaryRunStateReasonCode.fromString),
     );
   }
 
@@ -1817,9 +1787,9 @@ class CanaryRunStatus {
     final stateReason = this.stateReason;
     final stateReasonCode = this.stateReasonCode;
     return {
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (stateReason != null) 'StateReason': stateReason,
-      if (stateReasonCode != null) 'StateReasonCode': stateReasonCode.toValue(),
+      if (stateReasonCode != null) 'StateReasonCode': stateReasonCode.value,
     };
   }
 }
@@ -1952,144 +1922,49 @@ class CanaryScheduleOutput {
 }
 
 enum CanaryState {
-  creating,
-  ready,
-  starting,
-  running,
-  updating,
-  stopping,
-  stopped,
-  error,
-  deleting,
-}
+  creating('CREATING'),
+  ready('READY'),
+  starting('STARTING'),
+  running('RUNNING'),
+  updating('UPDATING'),
+  stopping('STOPPING'),
+  stopped('STOPPED'),
+  error('ERROR'),
+  deleting('DELETING'),
+  ;
 
-extension CanaryStateValueExtension on CanaryState {
-  String toValue() {
-    switch (this) {
-      case CanaryState.creating:
-        return 'CREATING';
-      case CanaryState.ready:
-        return 'READY';
-      case CanaryState.starting:
-        return 'STARTING';
-      case CanaryState.running:
-        return 'RUNNING';
-      case CanaryState.updating:
-        return 'UPDATING';
-      case CanaryState.stopping:
-        return 'STOPPING';
-      case CanaryState.stopped:
-        return 'STOPPED';
-      case CanaryState.error:
-        return 'ERROR';
-      case CanaryState.deleting:
-        return 'DELETING';
-    }
-  }
-}
+  final String value;
 
-extension CanaryStateFromString on String {
-  CanaryState toCanaryState() {
-    switch (this) {
-      case 'CREATING':
-        return CanaryState.creating;
-      case 'READY':
-        return CanaryState.ready;
-      case 'STARTING':
-        return CanaryState.starting;
-      case 'RUNNING':
-        return CanaryState.running;
-      case 'UPDATING':
-        return CanaryState.updating;
-      case 'STOPPING':
-        return CanaryState.stopping;
-      case 'STOPPED':
-        return CanaryState.stopped;
-      case 'ERROR':
-        return CanaryState.error;
-      case 'DELETING':
-        return CanaryState.deleting;
-    }
-    throw Exception('$this is not known in enum CanaryState');
-  }
+  const CanaryState(this.value);
+
+  static CanaryState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum CanaryState'));
 }
 
 enum CanaryStateReasonCode {
-  invalidPermissions,
-  createPending,
-  createInProgress,
-  createFailed,
-  updatePending,
-  updateInProgress,
-  updateComplete,
-  rollbackComplete,
-  rollbackFailed,
-  deleteInProgress,
-  deleteFailed,
-  syncDeleteInProgress,
-}
+  invalidPermissions('INVALID_PERMISSIONS'),
+  createPending('CREATE_PENDING'),
+  createInProgress('CREATE_IN_PROGRESS'),
+  createFailed('CREATE_FAILED'),
+  updatePending('UPDATE_PENDING'),
+  updateInProgress('UPDATE_IN_PROGRESS'),
+  updateComplete('UPDATE_COMPLETE'),
+  rollbackComplete('ROLLBACK_COMPLETE'),
+  rollbackFailed('ROLLBACK_FAILED'),
+  deleteInProgress('DELETE_IN_PROGRESS'),
+  deleteFailed('DELETE_FAILED'),
+  syncDeleteInProgress('SYNC_DELETE_IN_PROGRESS'),
+  ;
 
-extension CanaryStateReasonCodeValueExtension on CanaryStateReasonCode {
-  String toValue() {
-    switch (this) {
-      case CanaryStateReasonCode.invalidPermissions:
-        return 'INVALID_PERMISSIONS';
-      case CanaryStateReasonCode.createPending:
-        return 'CREATE_PENDING';
-      case CanaryStateReasonCode.createInProgress:
-        return 'CREATE_IN_PROGRESS';
-      case CanaryStateReasonCode.createFailed:
-        return 'CREATE_FAILED';
-      case CanaryStateReasonCode.updatePending:
-        return 'UPDATE_PENDING';
-      case CanaryStateReasonCode.updateInProgress:
-        return 'UPDATE_IN_PROGRESS';
-      case CanaryStateReasonCode.updateComplete:
-        return 'UPDATE_COMPLETE';
-      case CanaryStateReasonCode.rollbackComplete:
-        return 'ROLLBACK_COMPLETE';
-      case CanaryStateReasonCode.rollbackFailed:
-        return 'ROLLBACK_FAILED';
-      case CanaryStateReasonCode.deleteInProgress:
-        return 'DELETE_IN_PROGRESS';
-      case CanaryStateReasonCode.deleteFailed:
-        return 'DELETE_FAILED';
-      case CanaryStateReasonCode.syncDeleteInProgress:
-        return 'SYNC_DELETE_IN_PROGRESS';
-    }
-  }
-}
+  final String value;
 
-extension CanaryStateReasonCodeFromString on String {
-  CanaryStateReasonCode toCanaryStateReasonCode() {
-    switch (this) {
-      case 'INVALID_PERMISSIONS':
-        return CanaryStateReasonCode.invalidPermissions;
-      case 'CREATE_PENDING':
-        return CanaryStateReasonCode.createPending;
-      case 'CREATE_IN_PROGRESS':
-        return CanaryStateReasonCode.createInProgress;
-      case 'CREATE_FAILED':
-        return CanaryStateReasonCode.createFailed;
-      case 'UPDATE_PENDING':
-        return CanaryStateReasonCode.updatePending;
-      case 'UPDATE_IN_PROGRESS':
-        return CanaryStateReasonCode.updateInProgress;
-      case 'UPDATE_COMPLETE':
-        return CanaryStateReasonCode.updateComplete;
-      case 'ROLLBACK_COMPLETE':
-        return CanaryStateReasonCode.rollbackComplete;
-      case 'ROLLBACK_FAILED':
-        return CanaryStateReasonCode.rollbackFailed;
-      case 'DELETE_IN_PROGRESS':
-        return CanaryStateReasonCode.deleteInProgress;
-      case 'DELETE_FAILED':
-        return CanaryStateReasonCode.deleteFailed;
-      case 'SYNC_DELETE_IN_PROGRESS':
-        return CanaryStateReasonCode.syncDeleteInProgress;
-    }
-    throw Exception('$this is not known in enum CanaryStateReasonCode');
-  }
+  const CanaryStateReasonCode(this.value);
+
+  static CanaryStateReasonCode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum CanaryStateReasonCode'));
 }
 
 /// A structure that contains the current state of the canary.
@@ -2112,10 +1987,10 @@ class CanaryStatus {
 
   factory CanaryStatus.fromJson(Map<String, dynamic> json) {
     return CanaryStatus(
-      state: (json['State'] as String?)?.toCanaryState(),
+      state: (json['State'] as String?)?.let(CanaryState.fromString),
       stateReason: json['StateReason'] as String?,
-      stateReasonCode:
-          (json['StateReasonCode'] as String?)?.toCanaryStateReasonCode(),
+      stateReasonCode: (json['StateReasonCode'] as String?)
+          ?.let(CanaryStateReasonCode.fromString),
     );
   }
 
@@ -2124,9 +1999,9 @@ class CanaryStatus {
     final stateReason = this.stateReason;
     final stateReasonCode = this.stateReasonCode;
     return {
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (stateReason != null) 'StateReason': stateReason,
-      if (stateReasonCode != null) 'StateReasonCode': stateReasonCode.toValue(),
+      if (stateReasonCode != null) 'StateReasonCode': stateReasonCode.value,
     };
   }
 }
@@ -2367,31 +2242,18 @@ class DisassociateResourceResponse {
 }
 
 enum EncryptionMode {
-  sseS3,
-  sseKms,
-}
+  sseS3('SSE_S3'),
+  sseKms('SSE_KMS'),
+  ;
 
-extension EncryptionModeValueExtension on EncryptionMode {
-  String toValue() {
-    switch (this) {
-      case EncryptionMode.sseS3:
-        return 'SSE_S3';
-      case EncryptionMode.sseKms:
-        return 'SSE_KMS';
-    }
-  }
-}
+  final String value;
 
-extension EncryptionModeFromString on String {
-  EncryptionMode toEncryptionMode() {
-    switch (this) {
-      case 'SSE_S3':
-        return EncryptionMode.sseS3;
-      case 'SSE_KMS':
-        return EncryptionMode.sseKms;
-    }
-    throw Exception('$this is not known in enum EncryptionMode');
-  }
+  const EncryptionMode(this.value);
+
+  static EncryptionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EncryptionMode'));
 }
 
 class GetCanaryResponse {
@@ -2780,7 +2642,8 @@ class S3EncryptionConfig {
 
   factory S3EncryptionConfig.fromJson(Map<String, dynamic> json) {
     return S3EncryptionConfig(
-      encryptionMode: (json['EncryptionMode'] as String?)?.toEncryptionMode(),
+      encryptionMode:
+          (json['EncryptionMode'] as String?)?.let(EncryptionMode.fromString),
       kmsKeyArn: json['KmsKeyArn'] as String?,
     );
   }
@@ -2789,7 +2652,7 @@ class S3EncryptionConfig {
     final encryptionMode = this.encryptionMode;
     final kmsKeyArn = this.kmsKeyArn;
     return {
-      if (encryptionMode != null) 'EncryptionMode': encryptionMode.toValue(),
+      if (encryptionMode != null) 'EncryptionMode': encryptionMode.value,
       if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
     };
   }

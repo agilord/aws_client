@@ -211,7 +211,7 @@ class Amplify {
         'environmentVariables': environmentVariables,
       if (iamServiceRoleArn != null) 'iamServiceRoleArn': iamServiceRoleArn,
       if (oauthToken != null) 'oauthToken': oauthToken,
-      if (platform != null) 'platform': platform.toValue(),
+      if (platform != null) 'platform': platform.value,
       if (repository != null) 'repository': repository,
       if (tags != null) 'tags': tags,
     };
@@ -394,7 +394,7 @@ class Amplify {
       if (framework != null) 'framework': framework,
       if (pullRequestEnvironmentName != null)
         'pullRequestEnvironmentName': pullRequestEnvironmentName,
-      if (stage != null) 'stage': stage.toValue(),
+      if (stage != null) 'stage': stage.value,
       if (tags != null) 'tags': tags,
       if (ttl != null) 'ttl': ttl,
     };
@@ -1357,7 +1357,7 @@ class Amplify {
     String? jobReason,
   }) async {
     final $payload = <String, dynamic>{
-      'jobType': jobType.toValue(),
+      'jobType': jobType.value,
       if (commitId != null) 'commitId': commitId,
       if (commitMessage != null) 'commitMessage': commitMessage,
       if (commitTime != null) 'commitTime': unixTimestampToJson(commitTime),
@@ -1608,7 +1608,7 @@ class Amplify {
       if (iamServiceRoleArn != null) 'iamServiceRoleArn': iamServiceRoleArn,
       if (name != null) 'name': name,
       if (oauthToken != null) 'oauthToken': oauthToken,
-      if (platform != null) 'platform': platform.toValue(),
+      if (platform != null) 'platform': platform.value,
       if (repository != null) 'repository': repository,
     };
     final response = await _protocol.send(
@@ -1738,7 +1738,7 @@ class Amplify {
       if (framework != null) 'framework': framework,
       if (pullRequestEnvironmentName != null)
         'pullRequestEnvironmentName': pullRequestEnvironmentName,
-      if (stage != null) 'stage': stage.toValue(),
+      if (stage != null) 'stage': stage.value,
       if (ttl != null) 'ttl': ttl,
     };
     final response = await _protocol.send(
@@ -1981,7 +1981,7 @@ class App {
           (json['environmentVariables'] as Map<String, dynamic>)
               .map((k, e) => MapEntry(k, e as String)),
       name: json['name'] as String,
-      platform: (json['platform'] as String).toPlatform(),
+      platform: Platform.fromString((json['platform'] as String)),
       repository: json['repository'] as String,
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
       autoBranchCreationConfig: json['autoBranchCreationConfig'] != null
@@ -2006,8 +2006,8 @@ class App {
           ? ProductionBranch.fromJson(
               json['productionBranch'] as Map<String, dynamic>)
           : null,
-      repositoryCloneMethod:
-          (json['repositoryCloneMethod'] as String?)?.toRepositoryCloneMethod(),
+      repositoryCloneMethod: (json['repositoryCloneMethod'] as String?)
+          ?.let(RepositoryCloneMethod.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -2099,7 +2099,7 @@ class AutoBranchCreationConfig {
               ?.map((k, e) => MapEntry(k, e as String)),
       framework: json['framework'] as String?,
       pullRequestEnvironmentName: json['pullRequestEnvironmentName'] as String?,
-      stage: (json['stage'] as String?)?.toStage(),
+      stage: (json['stage'] as String?)?.let(Stage.fromString),
     );
   }
 
@@ -2129,7 +2129,7 @@ class AutoBranchCreationConfig {
       if (framework != null) 'framework': framework,
       if (pullRequestEnvironmentName != null)
         'pullRequestEnvironmentName': pullRequestEnvironmentName,
-      if (stage != null) 'stage': stage.toValue(),
+      if (stage != null) 'stage': stage.value,
     };
   }
 }
@@ -2355,7 +2355,7 @@ class Branch {
           (json['environmentVariables'] as Map<String, dynamic>)
               .map((k, e) => MapEntry(k, e as String)),
       framework: json['framework'] as String,
-      stage: (json['stage'] as String).toStage(),
+      stage: Stage.fromString((json['stage'] as String)),
       totalNumberOfJobs: json['totalNumberOfJobs'] as String,
       ttl: json['ttl'] as String,
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
@@ -2416,7 +2416,7 @@ class Certificate {
 
   factory Certificate.fromJson(Map<String, dynamic> json) {
     return Certificate(
-      type: (json['type'] as String).toCertificateType(),
+      type: CertificateType.fromString((json['type'] as String)),
       certificateVerificationDNSRecord:
           json['certificateVerificationDNSRecord'] as String?,
       customCertificateArn: json['customCertificateArn'] as String?,
@@ -2457,7 +2457,7 @@ class CertificateSettings {
     final type = this.type;
     final customCertificateArn = this.customCertificateArn;
     return {
-      'type': type.toValue(),
+      'type': type.value,
       if (customCertificateArn != null)
         'customCertificateArn': customCertificateArn,
     };
@@ -2465,31 +2465,18 @@ class CertificateSettings {
 }
 
 enum CertificateType {
-  amplifyManaged,
-  custom,
-}
+  amplifyManaged('AMPLIFY_MANAGED'),
+  custom('CUSTOM'),
+  ;
 
-extension CertificateTypeValueExtension on CertificateType {
-  String toValue() {
-    switch (this) {
-      case CertificateType.amplifyManaged:
-        return 'AMPLIFY_MANAGED';
-      case CertificateType.custom:
-        return 'CUSTOM';
-    }
-  }
-}
+  final String value;
 
-extension CertificateTypeFromString on String {
-  CertificateType toCertificateType() {
-    switch (this) {
-      case 'AMPLIFY_MANAGED':
-        return CertificateType.amplifyManaged;
-      case 'CUSTOM':
-        return CertificateType.custom;
-    }
-    throw Exception('$this is not known in enum CertificateType');
-  }
+  const CertificateType(this.value);
+
+  static CertificateType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CertificateType'));
 }
 
 class CreateAppResult {
@@ -2842,7 +2829,7 @@ class DomainAssociation {
     return DomainAssociation(
       domainAssociationArn: json['domainAssociationArn'] as String,
       domainName: json['domainName'] as String,
-      domainStatus: (json['domainStatus'] as String).toDomainStatus(),
+      domainStatus: DomainStatus.fromString((json['domainStatus'] as String)),
       enableAutoSubDomain: json['enableAutoSubDomain'] as bool,
       statusReason: json['statusReason'] as String,
       subDomains: (json['subDomains'] as List)
@@ -2860,77 +2847,33 @@ class DomainAssociation {
           : null,
       certificateVerificationDNSRecord:
           json['certificateVerificationDNSRecord'] as String?,
-      updateStatus: (json['updateStatus'] as String?)?.toUpdateStatus(),
+      updateStatus:
+          (json['updateStatus'] as String?)?.let(UpdateStatus.fromString),
     );
   }
 }
 
 enum DomainStatus {
-  pendingVerification,
-  inProgress,
-  available,
-  importingCustomCertificate,
-  pendingDeployment,
-  awaitingAppCname,
-  failed,
-  creating,
-  requestingCertificate,
-  updating,
-}
+  pendingVerification('PENDING_VERIFICATION'),
+  inProgress('IN_PROGRESS'),
+  available('AVAILABLE'),
+  importingCustomCertificate('IMPORTING_CUSTOM_CERTIFICATE'),
+  pendingDeployment('PENDING_DEPLOYMENT'),
+  awaitingAppCname('AWAITING_APP_CNAME'),
+  failed('FAILED'),
+  creating('CREATING'),
+  requestingCertificate('REQUESTING_CERTIFICATE'),
+  updating('UPDATING'),
+  ;
 
-extension DomainStatusValueExtension on DomainStatus {
-  String toValue() {
-    switch (this) {
-      case DomainStatus.pendingVerification:
-        return 'PENDING_VERIFICATION';
-      case DomainStatus.inProgress:
-        return 'IN_PROGRESS';
-      case DomainStatus.available:
-        return 'AVAILABLE';
-      case DomainStatus.importingCustomCertificate:
-        return 'IMPORTING_CUSTOM_CERTIFICATE';
-      case DomainStatus.pendingDeployment:
-        return 'PENDING_DEPLOYMENT';
-      case DomainStatus.awaitingAppCname:
-        return 'AWAITING_APP_CNAME';
-      case DomainStatus.failed:
-        return 'FAILED';
-      case DomainStatus.creating:
-        return 'CREATING';
-      case DomainStatus.requestingCertificate:
-        return 'REQUESTING_CERTIFICATE';
-      case DomainStatus.updating:
-        return 'UPDATING';
-    }
-  }
-}
+  final String value;
 
-extension DomainStatusFromString on String {
-  DomainStatus toDomainStatus() {
-    switch (this) {
-      case 'PENDING_VERIFICATION':
-        return DomainStatus.pendingVerification;
-      case 'IN_PROGRESS':
-        return DomainStatus.inProgress;
-      case 'AVAILABLE':
-        return DomainStatus.available;
-      case 'IMPORTING_CUSTOM_CERTIFICATE':
-        return DomainStatus.importingCustomCertificate;
-      case 'PENDING_DEPLOYMENT':
-        return DomainStatus.pendingDeployment;
-      case 'AWAITING_APP_CNAME':
-        return DomainStatus.awaitingAppCname;
-      case 'FAILED':
-        return DomainStatus.failed;
-      case 'CREATING':
-        return DomainStatus.creating;
-      case 'REQUESTING_CERTIFICATE':
-        return DomainStatus.requestingCertificate;
-      case 'UPDATING':
-        return DomainStatus.updating;
-    }
-    throw Exception('$this is not known in enum DomainStatus');
-  }
+  const DomainStatus(this.value);
+
+  static DomainStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DomainStatus'));
 }
 
 /// The result structure for the generate access logs request.
@@ -3088,56 +3031,22 @@ class Job {
 }
 
 enum JobStatus {
-  pending,
-  provisioning,
-  running,
-  failed,
-  succeed,
-  cancelling,
-  cancelled,
-}
+  pending('PENDING'),
+  provisioning('PROVISIONING'),
+  running('RUNNING'),
+  failed('FAILED'),
+  succeed('SUCCEED'),
+  cancelling('CANCELLING'),
+  cancelled('CANCELLED'),
+  ;
 
-extension JobStatusValueExtension on JobStatus {
-  String toValue() {
-    switch (this) {
-      case JobStatus.pending:
-        return 'PENDING';
-      case JobStatus.provisioning:
-        return 'PROVISIONING';
-      case JobStatus.running:
-        return 'RUNNING';
-      case JobStatus.failed:
-        return 'FAILED';
-      case JobStatus.succeed:
-        return 'SUCCEED';
-      case JobStatus.cancelling:
-        return 'CANCELLING';
-      case JobStatus.cancelled:
-        return 'CANCELLED';
-    }
-  }
-}
+  final String value;
 
-extension JobStatusFromString on String {
-  JobStatus toJobStatus() {
-    switch (this) {
-      case 'PENDING':
-        return JobStatus.pending;
-      case 'PROVISIONING':
-        return JobStatus.provisioning;
-      case 'RUNNING':
-        return JobStatus.running;
-      case 'FAILED':
-        return JobStatus.failed;
-      case 'SUCCEED':
-        return JobStatus.succeed;
-      case 'CANCELLING':
-        return JobStatus.cancelling;
-      case 'CANCELLED':
-        return JobStatus.cancelled;
-    }
-    throw Exception('$this is not known in enum JobStatus');
-  }
+  const JobStatus(this.value);
+
+  static JobStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum JobStatus'));
 }
 
 /// Describes the summary for an execution job for an Amplify app.
@@ -3192,50 +3101,28 @@ class JobSummary {
       commitTime: nonNullableTimeStampFromJson(json['commitTime'] as Object),
       jobArn: json['jobArn'] as String,
       jobId: json['jobId'] as String,
-      jobType: (json['jobType'] as String).toJobType(),
+      jobType: JobType.fromString((json['jobType'] as String)),
       startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
-      status: (json['status'] as String).toJobStatus(),
+      status: JobStatus.fromString((json['status'] as String)),
       endTime: timeStampFromJson(json['endTime']),
     );
   }
 }
 
 enum JobType {
-  release,
-  retry,
-  manual,
-  webHook,
-}
+  release('RELEASE'),
+  retry('RETRY'),
+  manual('MANUAL'),
+  webHook('WEB_HOOK'),
+  ;
 
-extension JobTypeValueExtension on JobType {
-  String toValue() {
-    switch (this) {
-      case JobType.release:
-        return 'RELEASE';
-      case JobType.retry:
-        return 'RETRY';
-      case JobType.manual:
-        return 'MANUAL';
-      case JobType.webHook:
-        return 'WEB_HOOK';
-    }
-  }
-}
+  final String value;
 
-extension JobTypeFromString on String {
-  JobType toJobType() {
-    switch (this) {
-      case 'RELEASE':
-        return JobType.release;
-      case 'RETRY':
-        return JobType.retry;
-      case 'MANUAL':
-        return JobType.manual;
-      case 'WEB_HOOK':
-        return JobType.webHook;
-    }
-    throw Exception('$this is not known in enum JobType');
-  }
+  const JobType(this.value);
+
+  static JobType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum JobType'));
 }
 
 /// The result structure for an Amplify app list request.
@@ -3432,36 +3319,18 @@ class ListWebhooksResult {
 }
 
 enum Platform {
-  web,
-  webDynamic,
-  webCompute,
-}
+  web('WEB'),
+  webDynamic('WEB_DYNAMIC'),
+  webCompute('WEB_COMPUTE'),
+  ;
 
-extension PlatformValueExtension on Platform {
-  String toValue() {
-    switch (this) {
-      case Platform.web:
-        return 'WEB';
-      case Platform.webDynamic:
-        return 'WEB_DYNAMIC';
-      case Platform.webCompute:
-        return 'WEB_COMPUTE';
-    }
-  }
-}
+  final String value;
 
-extension PlatformFromString on String {
-  Platform toPlatform() {
-    switch (this) {
-      case 'WEB':
-        return Platform.web;
-      case 'WEB_DYNAMIC':
-        return Platform.webDynamic;
-      case 'WEB_COMPUTE':
-        return Platform.webCompute;
-    }
-    throw Exception('$this is not known in enum Platform');
-  }
+  const Platform(this.value);
+
+  static Platform fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Platform'));
 }
 
 /// Describes the information about a production branch for an Amplify app.
@@ -3496,79 +3365,36 @@ class ProductionBranch {
 }
 
 enum RepositoryCloneMethod {
-  ssh,
-  token,
-  sigv4,
-}
+  ssh('SSH'),
+  token('TOKEN'),
+  sigv4('SIGV4'),
+  ;
 
-extension RepositoryCloneMethodValueExtension on RepositoryCloneMethod {
-  String toValue() {
-    switch (this) {
-      case RepositoryCloneMethod.ssh:
-        return 'SSH';
-      case RepositoryCloneMethod.token:
-        return 'TOKEN';
-      case RepositoryCloneMethod.sigv4:
-        return 'SIGV4';
-    }
-  }
-}
+  final String value;
 
-extension RepositoryCloneMethodFromString on String {
-  RepositoryCloneMethod toRepositoryCloneMethod() {
-    switch (this) {
-      case 'SSH':
-        return RepositoryCloneMethod.ssh;
-      case 'TOKEN':
-        return RepositoryCloneMethod.token;
-      case 'SIGV4':
-        return RepositoryCloneMethod.sigv4;
-    }
-    throw Exception('$this is not known in enum RepositoryCloneMethod');
-  }
+  const RepositoryCloneMethod(this.value);
+
+  static RepositoryCloneMethod fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RepositoryCloneMethod'));
 }
 
 enum Stage {
-  production,
-  beta,
-  development,
-  experimental,
-  pullRequest,
-}
+  production('PRODUCTION'),
+  beta('BETA'),
+  development('DEVELOPMENT'),
+  experimental('EXPERIMENTAL'),
+  pullRequest('PULL_REQUEST'),
+  ;
 
-extension StageValueExtension on Stage {
-  String toValue() {
-    switch (this) {
-      case Stage.production:
-        return 'PRODUCTION';
-      case Stage.beta:
-        return 'BETA';
-      case Stage.development:
-        return 'DEVELOPMENT';
-      case Stage.experimental:
-        return 'EXPERIMENTAL';
-      case Stage.pullRequest:
-        return 'PULL_REQUEST';
-    }
-  }
-}
+  final String value;
 
-extension StageFromString on String {
-  Stage toStage() {
-    switch (this) {
-      case 'PRODUCTION':
-        return Stage.production;
-      case 'BETA':
-        return Stage.beta;
-      case 'DEVELOPMENT':
-        return Stage.development;
-      case 'EXPERIMENTAL':
-        return Stage.experimental;
-      case 'PULL_REQUEST':
-        return Stage.pullRequest;
-    }
-    throw Exception('$this is not known in enum Stage');
-  }
+  const Stage(this.value);
+
+  static Stage fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Stage'));
 }
 
 /// The result structure for the start a deployment request.
@@ -3659,7 +3485,7 @@ class Step {
     return Step(
       endTime: nonNullableTimeStampFromJson(json['endTime'] as Object),
       startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
-      status: (json['status'] as String).toJobStatus(),
+      status: JobStatus.fromString((json['status'] as String)),
       stepName: json['stepName'] as String,
       artifactsUrl: json['artifactsUrl'] as String?,
       context: json['context'] as String?,
@@ -3817,56 +3643,23 @@ class UpdateDomainAssociationResult {
 }
 
 enum UpdateStatus {
-  requestingCertificate,
-  pendingVerification,
-  importingCustomCertificate,
-  pendingDeployment,
-  awaitingAppCname,
-  updateComplete,
-  updateFailed,
-}
+  requestingCertificate('REQUESTING_CERTIFICATE'),
+  pendingVerification('PENDING_VERIFICATION'),
+  importingCustomCertificate('IMPORTING_CUSTOM_CERTIFICATE'),
+  pendingDeployment('PENDING_DEPLOYMENT'),
+  awaitingAppCname('AWAITING_APP_CNAME'),
+  updateComplete('UPDATE_COMPLETE'),
+  updateFailed('UPDATE_FAILED'),
+  ;
 
-extension UpdateStatusValueExtension on UpdateStatus {
-  String toValue() {
-    switch (this) {
-      case UpdateStatus.requestingCertificate:
-        return 'REQUESTING_CERTIFICATE';
-      case UpdateStatus.pendingVerification:
-        return 'PENDING_VERIFICATION';
-      case UpdateStatus.importingCustomCertificate:
-        return 'IMPORTING_CUSTOM_CERTIFICATE';
-      case UpdateStatus.pendingDeployment:
-        return 'PENDING_DEPLOYMENT';
-      case UpdateStatus.awaitingAppCname:
-        return 'AWAITING_APP_CNAME';
-      case UpdateStatus.updateComplete:
-        return 'UPDATE_COMPLETE';
-      case UpdateStatus.updateFailed:
-        return 'UPDATE_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension UpdateStatusFromString on String {
-  UpdateStatus toUpdateStatus() {
-    switch (this) {
-      case 'REQUESTING_CERTIFICATE':
-        return UpdateStatus.requestingCertificate;
-      case 'PENDING_VERIFICATION':
-        return UpdateStatus.pendingVerification;
-      case 'IMPORTING_CUSTOM_CERTIFICATE':
-        return UpdateStatus.importingCustomCertificate;
-      case 'PENDING_DEPLOYMENT':
-        return UpdateStatus.pendingDeployment;
-      case 'AWAITING_APP_CNAME':
-        return UpdateStatus.awaitingAppCname;
-      case 'UPDATE_COMPLETE':
-        return UpdateStatus.updateComplete;
-      case 'UPDATE_FAILED':
-        return UpdateStatus.updateFailed;
-    }
-    throw Exception('$this is not known in enum UpdateStatus');
-  }
+  const UpdateStatus(this.value);
+
+  static UpdateStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum UpdateStatus'));
 }
 
 /// The result structure for the update webhook request.

@@ -635,7 +635,8 @@ class ChangeProgressStage {
       description: json['Description'] as String?,
       lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
       name: json['Name'] as String?,
-      status: (json['Status'] as String?)?.toChangeProgressStageStatuses(),
+      status: (json['Status'] as String?)
+          ?.let(ChangeProgressStageStatuses.fromString),
     );
   }
 
@@ -649,48 +650,26 @@ class ChangeProgressStage {
       if (lastUpdatedAt != null)
         'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
       if (name != null) 'Name': name,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
 
 enum ChangeProgressStageStatuses {
-  pending,
-  inProgress,
-  completed,
-  failed,
-}
+  pending('PENDING'),
+  inProgress('IN_PROGRESS'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  ;
 
-extension ChangeProgressStageStatusesValueExtension
-    on ChangeProgressStageStatuses {
-  String toValue() {
-    switch (this) {
-      case ChangeProgressStageStatuses.pending:
-        return 'PENDING';
-      case ChangeProgressStageStatuses.inProgress:
-        return 'IN_PROGRESS';
-      case ChangeProgressStageStatuses.completed:
-        return 'COMPLETED';
-      case ChangeProgressStageStatuses.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ChangeProgressStageStatusesFromString on String {
-  ChangeProgressStageStatuses toChangeProgressStageStatuses() {
-    switch (this) {
-      case 'PENDING':
-        return ChangeProgressStageStatuses.pending;
-      case 'IN_PROGRESS':
-        return ChangeProgressStageStatuses.inProgress;
-      case 'COMPLETED':
-        return ChangeProgressStageStatuses.completed;
-      case 'FAILED':
-        return ChangeProgressStageStatuses.failed;
-    }
-    throw Exception('$this is not known in enum ChangeProgressStageStatuses');
-  }
+  const ChangeProgressStageStatuses(this.value);
+
+  static ChangeProgressStageStatuses fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ChangeProgressStageStatuses'));
 }
 
 /// The progress details of a pipeline configuration change.
@@ -722,7 +701,8 @@ class ChangeProgressStatus {
           .map((e) => ChangeProgressStage.fromJson(e as Map<String, dynamic>))
           .toList(),
       startTime: timeStampFromJson(json['StartTime']),
-      status: (json['Status'] as String?)?.toChangeProgressStatuses(),
+      status:
+          (json['Status'] as String?)?.let(ChangeProgressStatuses.fromString),
       totalNumberOfStages: json['TotalNumberOfStages'] as int?,
     );
   }
@@ -736,7 +716,7 @@ class ChangeProgressStatus {
       if (changeProgressStages != null)
         'ChangeProgressStages': changeProgressStages,
       if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (totalNumberOfStages != null)
         'TotalNumberOfStages': totalNumberOfStages,
     };
@@ -744,41 +724,20 @@ class ChangeProgressStatus {
 }
 
 enum ChangeProgressStatuses {
-  pending,
-  inProgress,
-  completed,
-  failed,
-}
+  pending('PENDING'),
+  inProgress('IN_PROGRESS'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  ;
 
-extension ChangeProgressStatusesValueExtension on ChangeProgressStatuses {
-  String toValue() {
-    switch (this) {
-      case ChangeProgressStatuses.pending:
-        return 'PENDING';
-      case ChangeProgressStatuses.inProgress:
-        return 'IN_PROGRESS';
-      case ChangeProgressStatuses.completed:
-        return 'COMPLETED';
-      case ChangeProgressStatuses.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ChangeProgressStatusesFromString on String {
-  ChangeProgressStatuses toChangeProgressStatuses() {
-    switch (this) {
-      case 'PENDING':
-        return ChangeProgressStatuses.pending;
-      case 'IN_PROGRESS':
-        return ChangeProgressStatuses.inProgress;
-      case 'COMPLETED':
-        return ChangeProgressStatuses.completed;
-      case 'FAILED':
-        return ChangeProgressStatuses.failed;
-    }
-    throw Exception('$this is not known in enum ChangeProgressStatuses');
-  }
+  const ChangeProgressStatuses(this.value);
+
+  static ChangeProgressStatuses fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ChangeProgressStatuses'));
 }
 
 /// The destination for OpenSearch Ingestion logs sent to Amazon CloudWatch.
@@ -1177,7 +1136,7 @@ class Pipeline {
           ?.whereNotNull()
           .map((e) => ServiceVpcEndpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
-      status: (json['Status'] as String?)?.toPipelineStatus(),
+      status: (json['Status'] as String?)?.let(PipelineStatus.fromString),
       statusReason: json['StatusReason'] != null
           ? PipelineStatusReason.fromJson(
               json['StatusReason'] as Map<String, dynamic>)
@@ -1230,7 +1189,7 @@ class Pipeline {
       if (pipelineName != null) 'PipelineName': pipelineName,
       if (serviceVpcEndpoints != null)
         'ServiceVpcEndpoints': serviceVpcEndpoints,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusReason != null) 'StatusReason': statusReason,
       if (tags != null) 'Tags': tags,
       if (vpcEndpoints != null) 'VpcEndpoints': vpcEndpoints,
@@ -1379,71 +1338,26 @@ class PipelineDestination {
 }
 
 enum PipelineStatus {
-  creating,
-  active,
-  updating,
-  deleting,
-  createFailed,
-  updateFailed,
-  starting,
-  startFailed,
-  stopping,
-  stopped,
-}
+  creating('CREATING'),
+  active('ACTIVE'),
+  updating('UPDATING'),
+  deleting('DELETING'),
+  createFailed('CREATE_FAILED'),
+  updateFailed('UPDATE_FAILED'),
+  starting('STARTING'),
+  startFailed('START_FAILED'),
+  stopping('STOPPING'),
+  stopped('STOPPED'),
+  ;
 
-extension PipelineStatusValueExtension on PipelineStatus {
-  String toValue() {
-    switch (this) {
-      case PipelineStatus.creating:
-        return 'CREATING';
-      case PipelineStatus.active:
-        return 'ACTIVE';
-      case PipelineStatus.updating:
-        return 'UPDATING';
-      case PipelineStatus.deleting:
-        return 'DELETING';
-      case PipelineStatus.createFailed:
-        return 'CREATE_FAILED';
-      case PipelineStatus.updateFailed:
-        return 'UPDATE_FAILED';
-      case PipelineStatus.starting:
-        return 'STARTING';
-      case PipelineStatus.startFailed:
-        return 'START_FAILED';
-      case PipelineStatus.stopping:
-        return 'STOPPING';
-      case PipelineStatus.stopped:
-        return 'STOPPED';
-    }
-  }
-}
+  final String value;
 
-extension PipelineStatusFromString on String {
-  PipelineStatus toPipelineStatus() {
-    switch (this) {
-      case 'CREATING':
-        return PipelineStatus.creating;
-      case 'ACTIVE':
-        return PipelineStatus.active;
-      case 'UPDATING':
-        return PipelineStatus.updating;
-      case 'DELETING':
-        return PipelineStatus.deleting;
-      case 'CREATE_FAILED':
-        return PipelineStatus.createFailed;
-      case 'UPDATE_FAILED':
-        return PipelineStatus.updateFailed;
-      case 'STARTING':
-        return PipelineStatus.starting;
-      case 'START_FAILED':
-        return PipelineStatus.startFailed;
-      case 'STOPPING':
-        return PipelineStatus.stopping;
-      case 'STOPPED':
-        return PipelineStatus.stopped;
-    }
-    throw Exception('$this is not known in enum PipelineStatus');
-  }
+  const PipelineStatus(this.value);
+
+  static PipelineStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PipelineStatus'));
 }
 
 /// Information about a pipeline's current status.
@@ -1524,7 +1438,7 @@ class PipelineSummary {
       minUnits: json['MinUnits'] as int?,
       pipelineArn: json['PipelineArn'] as String?,
       pipelineName: json['PipelineName'] as String?,
-      status: (json['Status'] as String?)?.toPipelineStatus(),
+      status: (json['Status'] as String?)?.let(PipelineStatus.fromString),
       statusReason: json['StatusReason'] != null
           ? PipelineStatusReason.fromJson(
               json['StatusReason'] as Map<String, dynamic>)
@@ -1556,7 +1470,7 @@ class PipelineSummary {
       if (minUnits != null) 'MinUnits': minUnits,
       if (pipelineArn != null) 'PipelineArn': pipelineArn,
       if (pipelineName != null) 'PipelineName': pipelineName,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusReason != null) 'StatusReason': statusReason,
       if (tags != null) 'Tags': tags,
     };
@@ -1579,7 +1493,8 @@ class ServiceVpcEndpoint {
 
   factory ServiceVpcEndpoint.fromJson(Map<String, dynamic> json) {
     return ServiceVpcEndpoint(
-      serviceName: (json['ServiceName'] as String?)?.toVpcEndpointServiceName(),
+      serviceName: (json['ServiceName'] as String?)
+          ?.let(VpcEndpointServiceName.fromString),
       vpcEndpointId: json['VpcEndpointId'] as String?,
     );
   }
@@ -1588,7 +1503,7 @@ class ServiceVpcEndpoint {
     final serviceName = this.serviceName;
     final vpcEndpointId = this.vpcEndpointId;
     return {
-      if (serviceName != null) 'ServiceName': serviceName.toValue(),
+      if (serviceName != null) 'ServiceName': serviceName.value,
       if (vpcEndpointId != null) 'VpcEndpointId': vpcEndpointId,
     };
   }
@@ -1851,26 +1766,17 @@ class VpcEndpoint {
 }
 
 enum VpcEndpointServiceName {
-  opensearchServerless,
-}
+  opensearchServerless('OPENSEARCH_SERVERLESS'),
+  ;
 
-extension VpcEndpointServiceNameValueExtension on VpcEndpointServiceName {
-  String toValue() {
-    switch (this) {
-      case VpcEndpointServiceName.opensearchServerless:
-        return 'OPENSEARCH_SERVERLESS';
-    }
-  }
-}
+  final String value;
 
-extension VpcEndpointServiceNameFromString on String {
-  VpcEndpointServiceName toVpcEndpointServiceName() {
-    switch (this) {
-      case 'OPENSEARCH_SERVERLESS':
-        return VpcEndpointServiceName.opensearchServerless;
-    }
-    throw Exception('$this is not known in enum VpcEndpointServiceName');
-  }
+  const VpcEndpointServiceName(this.value);
+
+  static VpcEndpointServiceName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum VpcEndpointServiceName'));
 }
 
 /// Options that specify the subnets and security groups for an OpenSearch

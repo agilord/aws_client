@@ -845,7 +845,8 @@ class Backup {
   factory Backup.fromJson(Map<String, dynamic> json) {
     return Backup(
       backupId: json['BackupId'] as String,
-      backupState: (json['BackupState'] as String?)?.toBackupState(),
+      backupState:
+          (json['BackupState'] as String?)?.let(BackupState.fromString),
       clusterId: json['ClusterId'] as String?,
       copyTimestamp: timeStampFromJson(json['CopyTimestamp']),
       createTimestamp: timeStampFromJson(json['CreateTimestamp']),
@@ -875,7 +876,7 @@ class Backup {
     final tagList = this.tagList;
     return {
       'BackupId': backupId,
-      if (backupState != null) 'BackupState': backupState.toValue(),
+      if (backupState != null) 'BackupState': backupState.value,
       if (clusterId != null) 'ClusterId': clusterId,
       if (copyTimestamp != null)
         'CopyTimestamp': unixTimestampToJson(copyTimestamp),
@@ -893,26 +894,17 @@ class Backup {
 }
 
 enum BackupPolicy {
-  $default,
-}
+  $default('DEFAULT'),
+  ;
 
-extension BackupPolicyValueExtension on BackupPolicy {
-  String toValue() {
-    switch (this) {
-      case BackupPolicy.$default:
-        return 'DEFAULT';
-    }
-  }
-}
+  final String value;
 
-extension BackupPolicyFromString on String {
-  BackupPolicy toBackupPolicy() {
-    switch (this) {
-      case 'DEFAULT':
-        return BackupPolicy.$default;
-    }
-    throw Exception('$this is not known in enum BackupPolicy');
-  }
+  const BackupPolicy(this.value);
+
+  static BackupPolicy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum BackupPolicy'));
 }
 
 /// A policy that defines the number of days to retain backups.
@@ -931,7 +923,7 @@ class BackupRetentionPolicy {
 
   factory BackupRetentionPolicy.fromJson(Map<String, dynamic> json) {
     return BackupRetentionPolicy(
-      type: (json['Type'] as String?)?.toBackupRetentionType(),
+      type: (json['Type'] as String?)?.let(BackupRetentionType.fromString),
       value: json['Value'] as String?,
     );
   }
@@ -940,71 +932,40 @@ class BackupRetentionPolicy {
     final type = this.type;
     final value = this.value;
     return {
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
       if (value != null) 'Value': value,
     };
   }
 }
 
 enum BackupRetentionType {
-  days,
-}
+  days('DAYS'),
+  ;
 
-extension BackupRetentionTypeValueExtension on BackupRetentionType {
-  String toValue() {
-    switch (this) {
-      case BackupRetentionType.days:
-        return 'DAYS';
-    }
-  }
-}
+  final String value;
 
-extension BackupRetentionTypeFromString on String {
-  BackupRetentionType toBackupRetentionType() {
-    switch (this) {
-      case 'DAYS':
-        return BackupRetentionType.days;
-    }
-    throw Exception('$this is not known in enum BackupRetentionType');
-  }
+  const BackupRetentionType(this.value);
+
+  static BackupRetentionType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum BackupRetentionType'));
 }
 
 enum BackupState {
-  createInProgress,
-  ready,
-  deleted,
-  pendingDeletion,
-}
+  createInProgress('CREATE_IN_PROGRESS'),
+  ready('READY'),
+  deleted('DELETED'),
+  pendingDeletion('PENDING_DELETION'),
+  ;
 
-extension BackupStateValueExtension on BackupState {
-  String toValue() {
-    switch (this) {
-      case BackupState.createInProgress:
-        return 'CREATE_IN_PROGRESS';
-      case BackupState.ready:
-        return 'READY';
-      case BackupState.deleted:
-        return 'DELETED';
-      case BackupState.pendingDeletion:
-        return 'PENDING_DELETION';
-    }
-  }
-}
+  final String value;
 
-extension BackupStateFromString on String {
-  BackupState toBackupState() {
-    switch (this) {
-      case 'CREATE_IN_PROGRESS':
-        return BackupState.createInProgress;
-      case 'READY':
-        return BackupState.ready;
-      case 'DELETED':
-        return BackupState.deleted;
-      case 'PENDING_DELETION':
-        return BackupState.pendingDeletion;
-    }
-    throw Exception('$this is not known in enum BackupState');
-  }
+  const BackupState(this.value);
+
+  static BackupState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum BackupState'));
 }
 
 /// Contains one or more certificates or a certificate signing request (CSR).
@@ -1134,7 +1095,8 @@ class Cluster {
 
   factory Cluster.fromJson(Map<String, dynamic> json) {
     return Cluster(
-      backupPolicy: (json['BackupPolicy'] as String?)?.toBackupPolicy(),
+      backupPolicy:
+          (json['BackupPolicy'] as String?)?.let(BackupPolicy.fromString),
       backupRetentionPolicy: json['BackupRetentionPolicy'] != null
           ? BackupRetentionPolicy.fromJson(
               json['BackupRetentionPolicy'] as Map<String, dynamic>)
@@ -1152,7 +1114,7 @@ class Cluster {
       preCoPassword: json['PreCoPassword'] as String?,
       securityGroup: json['SecurityGroup'] as String?,
       sourceBackupId: json['SourceBackupId'] as String?,
-      state: (json['State'] as String?)?.toClusterState(),
+      state: (json['State'] as String?)?.let(ClusterState.fromString),
       stateMessage: json['StateMessage'] as String?,
       subnetMapping: (json['SubnetMapping'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -1181,7 +1143,7 @@ class Cluster {
     final tagList = this.tagList;
     final vpcId = this.vpcId;
     return {
-      if (backupPolicy != null) 'BackupPolicy': backupPolicy.toValue(),
+      if (backupPolicy != null) 'BackupPolicy': backupPolicy.value,
       if (backupRetentionPolicy != null)
         'BackupRetentionPolicy': backupRetentionPolicy,
       if (certificates != null) 'Certificates': certificates,
@@ -1193,7 +1155,7 @@ class Cluster {
       if (preCoPassword != null) 'PreCoPassword': preCoPassword,
       if (securityGroup != null) 'SecurityGroup': securityGroup,
       if (sourceBackupId != null) 'SourceBackupId': sourceBackupId,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (stateMessage != null) 'StateMessage': stateMessage,
       if (subnetMapping != null) 'SubnetMapping': subnetMapping,
       if (tagList != null) 'TagList': tagList,
@@ -1203,66 +1165,25 @@ class Cluster {
 }
 
 enum ClusterState {
-  createInProgress,
-  uninitialized,
-  initializeInProgress,
-  initialized,
-  active,
-  updateInProgress,
-  deleteInProgress,
-  deleted,
-  degraded,
-}
+  createInProgress('CREATE_IN_PROGRESS'),
+  uninitialized('UNINITIALIZED'),
+  initializeInProgress('INITIALIZE_IN_PROGRESS'),
+  initialized('INITIALIZED'),
+  active('ACTIVE'),
+  updateInProgress('UPDATE_IN_PROGRESS'),
+  deleteInProgress('DELETE_IN_PROGRESS'),
+  deleted('DELETED'),
+  degraded('DEGRADED'),
+  ;
 
-extension ClusterStateValueExtension on ClusterState {
-  String toValue() {
-    switch (this) {
-      case ClusterState.createInProgress:
-        return 'CREATE_IN_PROGRESS';
-      case ClusterState.uninitialized:
-        return 'UNINITIALIZED';
-      case ClusterState.initializeInProgress:
-        return 'INITIALIZE_IN_PROGRESS';
-      case ClusterState.initialized:
-        return 'INITIALIZED';
-      case ClusterState.active:
-        return 'ACTIVE';
-      case ClusterState.updateInProgress:
-        return 'UPDATE_IN_PROGRESS';
-      case ClusterState.deleteInProgress:
-        return 'DELETE_IN_PROGRESS';
-      case ClusterState.deleted:
-        return 'DELETED';
-      case ClusterState.degraded:
-        return 'DEGRADED';
-    }
-  }
-}
+  final String value;
 
-extension ClusterStateFromString on String {
-  ClusterState toClusterState() {
-    switch (this) {
-      case 'CREATE_IN_PROGRESS':
-        return ClusterState.createInProgress;
-      case 'UNINITIALIZED':
-        return ClusterState.uninitialized;
-      case 'INITIALIZE_IN_PROGRESS':
-        return ClusterState.initializeInProgress;
-      case 'INITIALIZED':
-        return ClusterState.initialized;
-      case 'ACTIVE':
-        return ClusterState.active;
-      case 'UPDATE_IN_PROGRESS':
-        return ClusterState.updateInProgress;
-      case 'DELETE_IN_PROGRESS':
-        return ClusterState.deleteInProgress;
-      case 'DELETED':
-        return ClusterState.deleted;
-      case 'DEGRADED':
-        return ClusterState.degraded;
-    }
-    throw Exception('$this is not known in enum ClusterState');
-  }
+  const ClusterState(this.value);
+
+  static ClusterState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ClusterState'));
 }
 
 class CopyBackupToRegionResponse {
@@ -1577,7 +1498,7 @@ class Hsm {
       clusterId: json['ClusterId'] as String?,
       eniId: json['EniId'] as String?,
       eniIp: json['EniIp'] as String?,
-      state: (json['State'] as String?)?.toHsmState(),
+      state: (json['State'] as String?)?.let(HsmState.fromString),
       stateMessage: json['StateMessage'] as String?,
       subnetId: json['SubnetId'] as String?,
     );
@@ -1598,7 +1519,7 @@ class Hsm {
       if (clusterId != null) 'ClusterId': clusterId,
       if (eniId != null) 'EniId': eniId,
       if (eniIp != null) 'EniIp': eniIp,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (stateMessage != null) 'StateMessage': stateMessage,
       if (subnetId != null) 'SubnetId': subnetId,
     };
@@ -1606,46 +1527,20 @@ class Hsm {
 }
 
 enum HsmState {
-  createInProgress,
-  active,
-  degraded,
-  deleteInProgress,
-  deleted,
-}
+  createInProgress('CREATE_IN_PROGRESS'),
+  active('ACTIVE'),
+  degraded('DEGRADED'),
+  deleteInProgress('DELETE_IN_PROGRESS'),
+  deleted('DELETED'),
+  ;
 
-extension HsmStateValueExtension on HsmState {
-  String toValue() {
-    switch (this) {
-      case HsmState.createInProgress:
-        return 'CREATE_IN_PROGRESS';
-      case HsmState.active:
-        return 'ACTIVE';
-      case HsmState.degraded:
-        return 'DEGRADED';
-      case HsmState.deleteInProgress:
-        return 'DELETE_IN_PROGRESS';
-      case HsmState.deleted:
-        return 'DELETED';
-    }
-  }
-}
+  final String value;
 
-extension HsmStateFromString on String {
-  HsmState toHsmState() {
-    switch (this) {
-      case 'CREATE_IN_PROGRESS':
-        return HsmState.createInProgress;
-      case 'ACTIVE':
-        return HsmState.active;
-      case 'DEGRADED':
-        return HsmState.degraded;
-      case 'DELETE_IN_PROGRESS':
-        return HsmState.deleteInProgress;
-      case 'DELETED':
-        return HsmState.deleted;
-    }
-    throw Exception('$this is not known in enum HsmState');
-  }
+  const HsmState(this.value);
+
+  static HsmState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum HsmState'));
 }
 
 class InitializeClusterResponse {
@@ -1662,7 +1557,7 @@ class InitializeClusterResponse {
 
   factory InitializeClusterResponse.fromJson(Map<String, dynamic> json) {
     return InitializeClusterResponse(
-      state: (json['State'] as String?)?.toClusterState(),
+      state: (json['State'] as String?)?.let(ClusterState.fromString),
       stateMessage: json['StateMessage'] as String?,
     );
   }
@@ -1671,7 +1566,7 @@ class InitializeClusterResponse {
     final state = this.state;
     final stateMessage = this.stateMessage;
     return {
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (stateMessage != null) 'StateMessage': stateMessage,
     };
   }

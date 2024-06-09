@@ -286,7 +286,7 @@ class Sfn {
         if (tags != null) 'tags': tags,
         if (tracingConfiguration != null)
           'tracingConfiguration': tracingConfiguration,
-        if (type != null) 'type': type.toValue(),
+        if (type != null) 'type': type.value,
         if (versionDescription != null)
           'versionDescription': versionDescription,
       },
@@ -1169,9 +1169,9 @@ class Sfn {
         if (mapRunArn != null) 'mapRunArn': mapRunArn,
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
-        if (redriveFilter != null) 'redriveFilter': redriveFilter.toValue(),
+        if (redriveFilter != null) 'redriveFilter': redriveFilter.value,
         if (stateMachineArn != null) 'stateMachineArn': stateMachineArn,
-        if (statusFilter != null) 'statusFilter': statusFilter.toValue(),
+        if (statusFilter != null) 'statusFilter': statusFilter.value,
       },
     );
 
@@ -2319,8 +2319,7 @@ class Sfn {
         'definition': definition,
         'roleArn': roleArn,
         if (input != null) 'input': input,
-        if (inspectionLevel != null)
-          'inspectionLevel': inspectionLevel.toValue(),
+        if (inspectionLevel != null) 'inspectionLevel': inspectionLevel.value,
         if (revealSecrets != null) 'revealSecrets': revealSecrets,
       },
     );
@@ -2699,7 +2698,7 @@ class Sfn {
       headers: headers,
       payload: {
         'definition': definition,
-        if (type != null) 'type': type.toValue(),
+        if (type != null) 'type': type.value,
       },
     );
 
@@ -3462,7 +3461,7 @@ class DescribeExecutionOutput {
       executionArn: json['executionArn'] as String,
       startDate: nonNullableTimeStampFromJson(json['startDate'] as Object),
       stateMachineArn: json['stateMachineArn'] as String,
-      status: (json['status'] as String).toExecutionStatus(),
+      status: ExecutionStatus.fromString((json['status'] as String)),
       cause: json['cause'] as String?,
       error: json['error'] as String?,
       input: json['input'] as String?,
@@ -3479,8 +3478,8 @@ class DescribeExecutionOutput {
           : null,
       redriveCount: json['redriveCount'] as int?,
       redriveDate: timeStampFromJson(json['redriveDate']),
-      redriveStatus:
-          (json['redriveStatus'] as String?)?.toExecutionRedriveStatus(),
+      redriveStatus: (json['redriveStatus'] as String?)
+          ?.let(ExecutionRedriveStatus.fromString),
       redriveStatusReason: json['redriveStatusReason'] as String?,
       stateMachineAliasArn: json['stateMachineAliasArn'] as String?,
       stateMachineVersionArn: json['stateMachineVersionArn'] as String?,
@@ -3514,7 +3513,7 @@ class DescribeExecutionOutput {
       'executionArn': executionArn,
       'startDate': unixTimestampToJson(startDate),
       'stateMachineArn': stateMachineArn,
-      'status': status.toValue(),
+      'status': status.value,
       if (cause != null) 'cause': cause,
       if (error != null) 'error': error,
       if (input != null) 'input': input,
@@ -3525,7 +3524,7 @@ class DescribeExecutionOutput {
       if (outputDetails != null) 'outputDetails': outputDetails,
       if (redriveCount != null) 'redriveCount': redriveCount,
       if (redriveDate != null) 'redriveDate': unixTimestampToJson(redriveDate),
-      if (redriveStatus != null) 'redriveStatus': redriveStatus.toValue(),
+      if (redriveStatus != null) 'redriveStatus': redriveStatus.value,
       if (redriveStatusReason != null)
         'redriveStatusReason': redriveStatusReason,
       if (stateMachineAliasArn != null)
@@ -3612,7 +3611,7 @@ class DescribeMapRunOutput {
       mapRunArn: json['mapRunArn'] as String,
       maxConcurrency: json['maxConcurrency'] as int,
       startDate: nonNullableTimeStampFromJson(json['startDate'] as Object),
-      status: (json['status'] as String).toMapRunStatus(),
+      status: MapRunStatus.fromString((json['status'] as String)),
       toleratedFailureCount: json['toleratedFailureCount'] as int,
       toleratedFailurePercentage: json['toleratedFailurePercentage'] as double,
       redriveCount: json['redriveCount'] as int?,
@@ -3641,7 +3640,7 @@ class DescribeMapRunOutput {
       'mapRunArn': mapRunArn,
       'maxConcurrency': maxConcurrency,
       'startDate': unixTimestampToJson(startDate),
-      'status': status.toValue(),
+      'status': status.value,
       'toleratedFailureCount': toleratedFailureCount,
       'toleratedFailurePercentage': toleratedFailurePercentage,
       if (redriveCount != null) 'redriveCount': redriveCount,
@@ -3926,7 +3925,7 @@ class DescribeStateMachineOutput {
       name: json['name'] as String,
       roleArn: json['roleArn'] as String,
       stateMachineArn: json['stateMachineArn'] as String,
-      type: (json['type'] as String).toStateMachineType(),
+      type: StateMachineType.fromString((json['type'] as String)),
       description: json['description'] as String?,
       label: json['label'] as String?,
       loggingConfiguration: json['loggingConfiguration'] != null
@@ -3934,7 +3933,7 @@ class DescribeStateMachineOutput {
               json['loggingConfiguration'] as Map<String, dynamic>)
           : null,
       revisionId: json['revisionId'] as String?,
-      status: (json['status'] as String?)?.toStateMachineStatus(),
+      status: (json['status'] as String?)?.let(StateMachineStatus.fromString),
       tracingConfiguration: json['tracingConfiguration'] != null
           ? TracingConfiguration.fromJson(
               json['tracingConfiguration'] as Map<String, dynamic>)
@@ -3961,13 +3960,13 @@ class DescribeStateMachineOutput {
       'name': name,
       'roleArn': roleArn,
       'stateMachineArn': stateMachineArn,
-      'type': type.toValue(),
+      'type': type.value,
       if (description != null) 'description': description,
       if (label != null) 'label': label,
       if (loggingConfiguration != null)
         'loggingConfiguration': loggingConfiguration,
       if (revisionId != null) 'revisionId': revisionId,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (tracingConfiguration != null)
         'tracingConfiguration': tracingConfiguration,
     };
@@ -4137,7 +4136,7 @@ class ExecutionListItem {
       name: json['name'] as String,
       startDate: nonNullableTimeStampFromJson(json['startDate'] as Object),
       stateMachineArn: json['stateMachineArn'] as String,
-      status: (json['status'] as String).toExecutionStatus(),
+      status: ExecutionStatus.fromString((json['status'] as String)),
       itemCount: json['itemCount'] as int?,
       mapRunArn: json['mapRunArn'] as String?,
       redriveCount: json['redriveCount'] as int?,
@@ -4166,7 +4165,7 @@ class ExecutionListItem {
       'name': name,
       'startDate': unixTimestampToJson(startDate),
       'stateMachineArn': stateMachineArn,
-      'status': status.toValue(),
+      'status': status.value,
       if (itemCount != null) 'itemCount': itemCount,
       if (mapRunArn != null) 'mapRunArn': mapRunArn,
       if (redriveCount != null) 'redriveCount': redriveCount,
@@ -4181,64 +4180,34 @@ class ExecutionListItem {
 }
 
 enum ExecutionRedriveFilter {
-  redriven,
-  notRedriven,
-}
+  redriven('REDRIVEN'),
+  notRedriven('NOT_REDRIVEN'),
+  ;
 
-extension ExecutionRedriveFilterValueExtension on ExecutionRedriveFilter {
-  String toValue() {
-    switch (this) {
-      case ExecutionRedriveFilter.redriven:
-        return 'REDRIVEN';
-      case ExecutionRedriveFilter.notRedriven:
-        return 'NOT_REDRIVEN';
-    }
-  }
-}
+  final String value;
 
-extension ExecutionRedriveFilterFromString on String {
-  ExecutionRedriveFilter toExecutionRedriveFilter() {
-    switch (this) {
-      case 'REDRIVEN':
-        return ExecutionRedriveFilter.redriven;
-      case 'NOT_REDRIVEN':
-        return ExecutionRedriveFilter.notRedriven;
-    }
-    throw Exception('$this is not known in enum ExecutionRedriveFilter');
-  }
+  const ExecutionRedriveFilter(this.value);
+
+  static ExecutionRedriveFilter fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ExecutionRedriveFilter'));
 }
 
 enum ExecutionRedriveStatus {
-  redrivable,
-  notRedrivable,
-  redrivableByMapRun,
-}
+  redrivable('REDRIVABLE'),
+  notRedrivable('NOT_REDRIVABLE'),
+  redrivableByMapRun('REDRIVABLE_BY_MAP_RUN'),
+  ;
 
-extension ExecutionRedriveStatusValueExtension on ExecutionRedriveStatus {
-  String toValue() {
-    switch (this) {
-      case ExecutionRedriveStatus.redrivable:
-        return 'REDRIVABLE';
-      case ExecutionRedriveStatus.notRedrivable:
-        return 'NOT_REDRIVABLE';
-      case ExecutionRedriveStatus.redrivableByMapRun:
-        return 'REDRIVABLE_BY_MAP_RUN';
-    }
-  }
-}
+  final String value;
 
-extension ExecutionRedriveStatusFromString on String {
-  ExecutionRedriveStatus toExecutionRedriveStatus() {
-    switch (this) {
-      case 'REDRIVABLE':
-        return ExecutionRedriveStatus.redrivable;
-      case 'NOT_REDRIVABLE':
-        return ExecutionRedriveStatus.notRedrivable;
-      case 'REDRIVABLE_BY_MAP_RUN':
-        return ExecutionRedriveStatus.redrivableByMapRun;
-    }
-    throw Exception('$this is not known in enum ExecutionRedriveStatus');
-  }
+  const ExecutionRedriveStatus(this.value);
+
+  static ExecutionRedriveStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ExecutionRedriveStatus'));
 }
 
 /// Contains details about a redriven execution.
@@ -4327,51 +4296,22 @@ class ExecutionStartedEventDetails {
 }
 
 enum ExecutionStatus {
-  running,
-  succeeded,
-  failed,
-  timedOut,
-  aborted,
-  pendingRedrive,
-}
+  running('RUNNING'),
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  timedOut('TIMED_OUT'),
+  aborted('ABORTED'),
+  pendingRedrive('PENDING_REDRIVE'),
+  ;
 
-extension ExecutionStatusValueExtension on ExecutionStatus {
-  String toValue() {
-    switch (this) {
-      case ExecutionStatus.running:
-        return 'RUNNING';
-      case ExecutionStatus.succeeded:
-        return 'SUCCEEDED';
-      case ExecutionStatus.failed:
-        return 'FAILED';
-      case ExecutionStatus.timedOut:
-        return 'TIMED_OUT';
-      case ExecutionStatus.aborted:
-        return 'ABORTED';
-      case ExecutionStatus.pendingRedrive:
-        return 'PENDING_REDRIVE';
-    }
-  }
-}
+  final String value;
 
-extension ExecutionStatusFromString on String {
-  ExecutionStatus toExecutionStatus() {
-    switch (this) {
-      case 'RUNNING':
-        return ExecutionStatus.running;
-      case 'SUCCEEDED':
-        return ExecutionStatus.succeeded;
-      case 'FAILED':
-        return ExecutionStatus.failed;
-      case 'TIMED_OUT':
-        return ExecutionStatus.timedOut;
-      case 'ABORTED':
-        return ExecutionStatus.aborted;
-      case 'PENDING_REDRIVE':
-        return ExecutionStatus.pendingRedrive;
-    }
-    throw Exception('$this is not known in enum ExecutionStatus');
-  }
+  const ExecutionStatus(this.value);
+
+  static ExecutionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ExecutionStatus'));
 }
 
 /// Contains details about the successful termination of the execution.
@@ -4656,7 +4596,7 @@ class HistoryEvent {
     return HistoryEvent(
       id: json['id'] as int,
       timestamp: nonNullableTimeStampFromJson(json['timestamp'] as Object),
-      type: (json['type'] as String).toHistoryEventType(),
+      type: HistoryEventType.fromString((json['type'] as String)),
       activityFailedEventDetails: json['activityFailedEventDetails'] != null
           ? ActivityFailedEventDetails.fromJson(
               json['activityFailedEventDetails'] as Map<String, dynamic>)
@@ -4885,7 +4825,7 @@ class HistoryEvent {
     return {
       'id': id,
       'timestamp': unixTimestampToJson(timestamp),
-      'type': type.toValue(),
+      'type': type.value,
       if (activityFailedEventDetails != null)
         'activityFailedEventDetails': activityFailedEventDetails,
       if (activityScheduleFailedEventDetails != null)
@@ -4994,326 +4934,77 @@ class HistoryEventExecutionDataDetails {
 }
 
 enum HistoryEventType {
-  activityFailed,
-  activityScheduled,
-  activityScheduleFailed,
-  activityStarted,
-  activitySucceeded,
-  activityTimedOut,
-  choiceStateEntered,
-  choiceStateExited,
-  executionAborted,
-  executionFailed,
-  executionStarted,
-  executionSucceeded,
-  executionTimedOut,
-  failStateEntered,
-  lambdaFunctionFailed,
-  lambdaFunctionScheduled,
-  lambdaFunctionScheduleFailed,
-  lambdaFunctionStarted,
-  lambdaFunctionStartFailed,
-  lambdaFunctionSucceeded,
-  lambdaFunctionTimedOut,
-  mapIterationAborted,
-  mapIterationFailed,
-  mapIterationStarted,
-  mapIterationSucceeded,
-  mapStateAborted,
-  mapStateEntered,
-  mapStateExited,
-  mapStateFailed,
-  mapStateStarted,
-  mapStateSucceeded,
-  parallelStateAborted,
-  parallelStateEntered,
-  parallelStateExited,
-  parallelStateFailed,
-  parallelStateStarted,
-  parallelStateSucceeded,
-  passStateEntered,
-  passStateExited,
-  succeedStateEntered,
-  succeedStateExited,
-  taskFailed,
-  taskScheduled,
-  taskStarted,
-  taskStartFailed,
-  taskStateAborted,
-  taskStateEntered,
-  taskStateExited,
-  taskSubmitFailed,
-  taskSubmitted,
-  taskSucceeded,
-  taskTimedOut,
-  waitStateAborted,
-  waitStateEntered,
-  waitStateExited,
-  mapRunAborted,
-  mapRunFailed,
-  mapRunStarted,
-  mapRunSucceeded,
-  executionRedriven,
-  mapRunRedriven,
-}
+  activityFailed('ActivityFailed'),
+  activityScheduled('ActivityScheduled'),
+  activityScheduleFailed('ActivityScheduleFailed'),
+  activityStarted('ActivityStarted'),
+  activitySucceeded('ActivitySucceeded'),
+  activityTimedOut('ActivityTimedOut'),
+  choiceStateEntered('ChoiceStateEntered'),
+  choiceStateExited('ChoiceStateExited'),
+  executionAborted('ExecutionAborted'),
+  executionFailed('ExecutionFailed'),
+  executionStarted('ExecutionStarted'),
+  executionSucceeded('ExecutionSucceeded'),
+  executionTimedOut('ExecutionTimedOut'),
+  failStateEntered('FailStateEntered'),
+  lambdaFunctionFailed('LambdaFunctionFailed'),
+  lambdaFunctionScheduled('LambdaFunctionScheduled'),
+  lambdaFunctionScheduleFailed('LambdaFunctionScheduleFailed'),
+  lambdaFunctionStarted('LambdaFunctionStarted'),
+  lambdaFunctionStartFailed('LambdaFunctionStartFailed'),
+  lambdaFunctionSucceeded('LambdaFunctionSucceeded'),
+  lambdaFunctionTimedOut('LambdaFunctionTimedOut'),
+  mapIterationAborted('MapIterationAborted'),
+  mapIterationFailed('MapIterationFailed'),
+  mapIterationStarted('MapIterationStarted'),
+  mapIterationSucceeded('MapIterationSucceeded'),
+  mapStateAborted('MapStateAborted'),
+  mapStateEntered('MapStateEntered'),
+  mapStateExited('MapStateExited'),
+  mapStateFailed('MapStateFailed'),
+  mapStateStarted('MapStateStarted'),
+  mapStateSucceeded('MapStateSucceeded'),
+  parallelStateAborted('ParallelStateAborted'),
+  parallelStateEntered('ParallelStateEntered'),
+  parallelStateExited('ParallelStateExited'),
+  parallelStateFailed('ParallelStateFailed'),
+  parallelStateStarted('ParallelStateStarted'),
+  parallelStateSucceeded('ParallelStateSucceeded'),
+  passStateEntered('PassStateEntered'),
+  passStateExited('PassStateExited'),
+  succeedStateEntered('SucceedStateEntered'),
+  succeedStateExited('SucceedStateExited'),
+  taskFailed('TaskFailed'),
+  taskScheduled('TaskScheduled'),
+  taskStarted('TaskStarted'),
+  taskStartFailed('TaskStartFailed'),
+  taskStateAborted('TaskStateAborted'),
+  taskStateEntered('TaskStateEntered'),
+  taskStateExited('TaskStateExited'),
+  taskSubmitFailed('TaskSubmitFailed'),
+  taskSubmitted('TaskSubmitted'),
+  taskSucceeded('TaskSucceeded'),
+  taskTimedOut('TaskTimedOut'),
+  waitStateAborted('WaitStateAborted'),
+  waitStateEntered('WaitStateEntered'),
+  waitStateExited('WaitStateExited'),
+  mapRunAborted('MapRunAborted'),
+  mapRunFailed('MapRunFailed'),
+  mapRunStarted('MapRunStarted'),
+  mapRunSucceeded('MapRunSucceeded'),
+  executionRedriven('ExecutionRedriven'),
+  mapRunRedriven('MapRunRedriven'),
+  ;
 
-extension HistoryEventTypeValueExtension on HistoryEventType {
-  String toValue() {
-    switch (this) {
-      case HistoryEventType.activityFailed:
-        return 'ActivityFailed';
-      case HistoryEventType.activityScheduled:
-        return 'ActivityScheduled';
-      case HistoryEventType.activityScheduleFailed:
-        return 'ActivityScheduleFailed';
-      case HistoryEventType.activityStarted:
-        return 'ActivityStarted';
-      case HistoryEventType.activitySucceeded:
-        return 'ActivitySucceeded';
-      case HistoryEventType.activityTimedOut:
-        return 'ActivityTimedOut';
-      case HistoryEventType.choiceStateEntered:
-        return 'ChoiceStateEntered';
-      case HistoryEventType.choiceStateExited:
-        return 'ChoiceStateExited';
-      case HistoryEventType.executionAborted:
-        return 'ExecutionAborted';
-      case HistoryEventType.executionFailed:
-        return 'ExecutionFailed';
-      case HistoryEventType.executionStarted:
-        return 'ExecutionStarted';
-      case HistoryEventType.executionSucceeded:
-        return 'ExecutionSucceeded';
-      case HistoryEventType.executionTimedOut:
-        return 'ExecutionTimedOut';
-      case HistoryEventType.failStateEntered:
-        return 'FailStateEntered';
-      case HistoryEventType.lambdaFunctionFailed:
-        return 'LambdaFunctionFailed';
-      case HistoryEventType.lambdaFunctionScheduled:
-        return 'LambdaFunctionScheduled';
-      case HistoryEventType.lambdaFunctionScheduleFailed:
-        return 'LambdaFunctionScheduleFailed';
-      case HistoryEventType.lambdaFunctionStarted:
-        return 'LambdaFunctionStarted';
-      case HistoryEventType.lambdaFunctionStartFailed:
-        return 'LambdaFunctionStartFailed';
-      case HistoryEventType.lambdaFunctionSucceeded:
-        return 'LambdaFunctionSucceeded';
-      case HistoryEventType.lambdaFunctionTimedOut:
-        return 'LambdaFunctionTimedOut';
-      case HistoryEventType.mapIterationAborted:
-        return 'MapIterationAborted';
-      case HistoryEventType.mapIterationFailed:
-        return 'MapIterationFailed';
-      case HistoryEventType.mapIterationStarted:
-        return 'MapIterationStarted';
-      case HistoryEventType.mapIterationSucceeded:
-        return 'MapIterationSucceeded';
-      case HistoryEventType.mapStateAborted:
-        return 'MapStateAborted';
-      case HistoryEventType.mapStateEntered:
-        return 'MapStateEntered';
-      case HistoryEventType.mapStateExited:
-        return 'MapStateExited';
-      case HistoryEventType.mapStateFailed:
-        return 'MapStateFailed';
-      case HistoryEventType.mapStateStarted:
-        return 'MapStateStarted';
-      case HistoryEventType.mapStateSucceeded:
-        return 'MapStateSucceeded';
-      case HistoryEventType.parallelStateAborted:
-        return 'ParallelStateAborted';
-      case HistoryEventType.parallelStateEntered:
-        return 'ParallelStateEntered';
-      case HistoryEventType.parallelStateExited:
-        return 'ParallelStateExited';
-      case HistoryEventType.parallelStateFailed:
-        return 'ParallelStateFailed';
-      case HistoryEventType.parallelStateStarted:
-        return 'ParallelStateStarted';
-      case HistoryEventType.parallelStateSucceeded:
-        return 'ParallelStateSucceeded';
-      case HistoryEventType.passStateEntered:
-        return 'PassStateEntered';
-      case HistoryEventType.passStateExited:
-        return 'PassStateExited';
-      case HistoryEventType.succeedStateEntered:
-        return 'SucceedStateEntered';
-      case HistoryEventType.succeedStateExited:
-        return 'SucceedStateExited';
-      case HistoryEventType.taskFailed:
-        return 'TaskFailed';
-      case HistoryEventType.taskScheduled:
-        return 'TaskScheduled';
-      case HistoryEventType.taskStarted:
-        return 'TaskStarted';
-      case HistoryEventType.taskStartFailed:
-        return 'TaskStartFailed';
-      case HistoryEventType.taskStateAborted:
-        return 'TaskStateAborted';
-      case HistoryEventType.taskStateEntered:
-        return 'TaskStateEntered';
-      case HistoryEventType.taskStateExited:
-        return 'TaskStateExited';
-      case HistoryEventType.taskSubmitFailed:
-        return 'TaskSubmitFailed';
-      case HistoryEventType.taskSubmitted:
-        return 'TaskSubmitted';
-      case HistoryEventType.taskSucceeded:
-        return 'TaskSucceeded';
-      case HistoryEventType.taskTimedOut:
-        return 'TaskTimedOut';
-      case HistoryEventType.waitStateAborted:
-        return 'WaitStateAborted';
-      case HistoryEventType.waitStateEntered:
-        return 'WaitStateEntered';
-      case HistoryEventType.waitStateExited:
-        return 'WaitStateExited';
-      case HistoryEventType.mapRunAborted:
-        return 'MapRunAborted';
-      case HistoryEventType.mapRunFailed:
-        return 'MapRunFailed';
-      case HistoryEventType.mapRunStarted:
-        return 'MapRunStarted';
-      case HistoryEventType.mapRunSucceeded:
-        return 'MapRunSucceeded';
-      case HistoryEventType.executionRedriven:
-        return 'ExecutionRedriven';
-      case HistoryEventType.mapRunRedriven:
-        return 'MapRunRedriven';
-    }
-  }
-}
+  final String value;
 
-extension HistoryEventTypeFromString on String {
-  HistoryEventType toHistoryEventType() {
-    switch (this) {
-      case 'ActivityFailed':
-        return HistoryEventType.activityFailed;
-      case 'ActivityScheduled':
-        return HistoryEventType.activityScheduled;
-      case 'ActivityScheduleFailed':
-        return HistoryEventType.activityScheduleFailed;
-      case 'ActivityStarted':
-        return HistoryEventType.activityStarted;
-      case 'ActivitySucceeded':
-        return HistoryEventType.activitySucceeded;
-      case 'ActivityTimedOut':
-        return HistoryEventType.activityTimedOut;
-      case 'ChoiceStateEntered':
-        return HistoryEventType.choiceStateEntered;
-      case 'ChoiceStateExited':
-        return HistoryEventType.choiceStateExited;
-      case 'ExecutionAborted':
-        return HistoryEventType.executionAborted;
-      case 'ExecutionFailed':
-        return HistoryEventType.executionFailed;
-      case 'ExecutionStarted':
-        return HistoryEventType.executionStarted;
-      case 'ExecutionSucceeded':
-        return HistoryEventType.executionSucceeded;
-      case 'ExecutionTimedOut':
-        return HistoryEventType.executionTimedOut;
-      case 'FailStateEntered':
-        return HistoryEventType.failStateEntered;
-      case 'LambdaFunctionFailed':
-        return HistoryEventType.lambdaFunctionFailed;
-      case 'LambdaFunctionScheduled':
-        return HistoryEventType.lambdaFunctionScheduled;
-      case 'LambdaFunctionScheduleFailed':
-        return HistoryEventType.lambdaFunctionScheduleFailed;
-      case 'LambdaFunctionStarted':
-        return HistoryEventType.lambdaFunctionStarted;
-      case 'LambdaFunctionStartFailed':
-        return HistoryEventType.lambdaFunctionStartFailed;
-      case 'LambdaFunctionSucceeded':
-        return HistoryEventType.lambdaFunctionSucceeded;
-      case 'LambdaFunctionTimedOut':
-        return HistoryEventType.lambdaFunctionTimedOut;
-      case 'MapIterationAborted':
-        return HistoryEventType.mapIterationAborted;
-      case 'MapIterationFailed':
-        return HistoryEventType.mapIterationFailed;
-      case 'MapIterationStarted':
-        return HistoryEventType.mapIterationStarted;
-      case 'MapIterationSucceeded':
-        return HistoryEventType.mapIterationSucceeded;
-      case 'MapStateAborted':
-        return HistoryEventType.mapStateAborted;
-      case 'MapStateEntered':
-        return HistoryEventType.mapStateEntered;
-      case 'MapStateExited':
-        return HistoryEventType.mapStateExited;
-      case 'MapStateFailed':
-        return HistoryEventType.mapStateFailed;
-      case 'MapStateStarted':
-        return HistoryEventType.mapStateStarted;
-      case 'MapStateSucceeded':
-        return HistoryEventType.mapStateSucceeded;
-      case 'ParallelStateAborted':
-        return HistoryEventType.parallelStateAborted;
-      case 'ParallelStateEntered':
-        return HistoryEventType.parallelStateEntered;
-      case 'ParallelStateExited':
-        return HistoryEventType.parallelStateExited;
-      case 'ParallelStateFailed':
-        return HistoryEventType.parallelStateFailed;
-      case 'ParallelStateStarted':
-        return HistoryEventType.parallelStateStarted;
-      case 'ParallelStateSucceeded':
-        return HistoryEventType.parallelStateSucceeded;
-      case 'PassStateEntered':
-        return HistoryEventType.passStateEntered;
-      case 'PassStateExited':
-        return HistoryEventType.passStateExited;
-      case 'SucceedStateEntered':
-        return HistoryEventType.succeedStateEntered;
-      case 'SucceedStateExited':
-        return HistoryEventType.succeedStateExited;
-      case 'TaskFailed':
-        return HistoryEventType.taskFailed;
-      case 'TaskScheduled':
-        return HistoryEventType.taskScheduled;
-      case 'TaskStarted':
-        return HistoryEventType.taskStarted;
-      case 'TaskStartFailed':
-        return HistoryEventType.taskStartFailed;
-      case 'TaskStateAborted':
-        return HistoryEventType.taskStateAborted;
-      case 'TaskStateEntered':
-        return HistoryEventType.taskStateEntered;
-      case 'TaskStateExited':
-        return HistoryEventType.taskStateExited;
-      case 'TaskSubmitFailed':
-        return HistoryEventType.taskSubmitFailed;
-      case 'TaskSubmitted':
-        return HistoryEventType.taskSubmitted;
-      case 'TaskSucceeded':
-        return HistoryEventType.taskSucceeded;
-      case 'TaskTimedOut':
-        return HistoryEventType.taskTimedOut;
-      case 'WaitStateAborted':
-        return HistoryEventType.waitStateAborted;
-      case 'WaitStateEntered':
-        return HistoryEventType.waitStateEntered;
-      case 'WaitStateExited':
-        return HistoryEventType.waitStateExited;
-      case 'MapRunAborted':
-        return HistoryEventType.mapRunAborted;
-      case 'MapRunFailed':
-        return HistoryEventType.mapRunFailed;
-      case 'MapRunStarted':
-        return HistoryEventType.mapRunStarted;
-      case 'MapRunSucceeded':
-        return HistoryEventType.mapRunSucceeded;
-      case 'ExecutionRedriven':
-        return HistoryEventType.executionRedriven;
-      case 'MapRunRedriven':
-        return HistoryEventType.mapRunRedriven;
-    }
-    throw Exception('$this is not known in enum HistoryEventType');
-  }
+  const HistoryEventType(this.value);
+
+  static HistoryEventType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum HistoryEventType'));
 }
 
 /// Contains additional details about the state's execution, including its input
@@ -5512,36 +5203,19 @@ class InspectionDataResponse {
 }
 
 enum InspectionLevel {
-  info,
-  debug,
-  trace,
-}
+  info('INFO'),
+  debug('DEBUG'),
+  trace('TRACE'),
+  ;
 
-extension InspectionLevelValueExtension on InspectionLevel {
-  String toValue() {
-    switch (this) {
-      case InspectionLevel.info:
-        return 'INFO';
-      case InspectionLevel.debug:
-        return 'DEBUG';
-      case InspectionLevel.trace:
-        return 'TRACE';
-    }
-  }
-}
+  final String value;
 
-extension InspectionLevelFromString on String {
-  InspectionLevel toInspectionLevel() {
-    switch (this) {
-      case 'INFO':
-        return InspectionLevel.info;
-      case 'DEBUG':
-        return InspectionLevel.debug;
-      case 'TRACE':
-        return InspectionLevel.trace;
-    }
-    throw Exception('$this is not known in enum InspectionLevel');
-  }
+  const InspectionLevel(this.value);
+
+  static InspectionLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum InspectionLevel'));
 }
 
 /// Contains details about a Lambda function that failed during an execution.
@@ -6045,41 +5719,19 @@ class LogDestination {
 }
 
 enum LogLevel {
-  all,
-  error,
-  fatal,
-  off,
-}
+  all('ALL'),
+  error('ERROR'),
+  fatal('FATAL'),
+  off('OFF'),
+  ;
 
-extension LogLevelValueExtension on LogLevel {
-  String toValue() {
-    switch (this) {
-      case LogLevel.all:
-        return 'ALL';
-      case LogLevel.error:
-        return 'ERROR';
-      case LogLevel.fatal:
-        return 'FATAL';
-      case LogLevel.off:
-        return 'OFF';
-    }
-  }
-}
+  final String value;
 
-extension LogLevelFromString on String {
-  LogLevel toLogLevel() {
-    switch (this) {
-      case 'ALL':
-        return LogLevel.all;
-      case 'ERROR':
-        return LogLevel.error;
-      case 'FATAL':
-        return LogLevel.fatal;
-      case 'OFF':
-        return LogLevel.off;
-    }
-    throw Exception('$this is not known in enum LogLevel');
-  }
+  const LogLevel(this.value);
+
+  static LogLevel fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum LogLevel'));
 }
 
 /// The <code>LoggingConfiguration</code> data type is used to set CloudWatch
@@ -6110,7 +5762,7 @@ class LoggingConfiguration {
           .map((e) => LogDestination.fromJson(e as Map<String, dynamic>))
           .toList(),
       includeExecutionData: json['includeExecutionData'] as bool?,
-      level: (json['level'] as String?)?.toLogLevel(),
+      level: (json['level'] as String?)?.let(LogLevel.fromString),
     );
   }
 
@@ -6122,7 +5774,7 @@ class LoggingConfiguration {
       if (destinations != null) 'destinations': destinations,
       if (includeExecutionData != null)
         'includeExecutionData': includeExecutionData,
-      if (level != null) 'level': level.toValue(),
+      if (level != null) 'level': level.value,
     };
   }
 }
@@ -6508,41 +6160,20 @@ class MapRunStartedEventDetails {
 }
 
 enum MapRunStatus {
-  running,
-  succeeded,
-  failed,
-  aborted,
-}
+  running('RUNNING'),
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  aborted('ABORTED'),
+  ;
 
-extension MapRunStatusValueExtension on MapRunStatus {
-  String toValue() {
-    switch (this) {
-      case MapRunStatus.running:
-        return 'RUNNING';
-      case MapRunStatus.succeeded:
-        return 'SUCCEEDED';
-      case MapRunStatus.failed:
-        return 'FAILED';
-      case MapRunStatus.aborted:
-        return 'ABORTED';
-    }
-  }
-}
+  final String value;
 
-extension MapRunStatusFromString on String {
-  MapRunStatus toMapRunStatus() {
-    switch (this) {
-      case 'RUNNING':
-        return MapRunStatus.running;
-      case 'SUCCEEDED':
-        return MapRunStatus.succeeded;
-      case 'FAILED':
-        return MapRunStatus.failed;
-      case 'ABORTED':
-        return MapRunStatus.aborted;
-    }
-    throw Exception('$this is not known in enum MapRunStatus');
-  }
+  const MapRunStatus(this.value);
+
+  static MapRunStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MapRunStatus'));
 }
 
 /// Details about a Map state that was started.
@@ -6792,7 +6423,7 @@ class StartSyncExecutionOutput {
     return StartSyncExecutionOutput(
       executionArn: json['executionArn'] as String,
       startDate: nonNullableTimeStampFromJson(json['startDate'] as Object),
-      status: (json['status'] as String).toSyncExecutionStatus(),
+      status: SyncExecutionStatus.fromString((json['status'] as String)),
       stopDate: nonNullableTimeStampFromJson(json['stopDate'] as Object),
       billingDetails: json['billingDetails'] != null
           ? BillingDetails.fromJson(
@@ -6834,7 +6465,7 @@ class StartSyncExecutionOutput {
     return {
       'executionArn': executionArn,
       'startDate': unixTimestampToJson(startDate),
-      'status': status.toValue(),
+      'status': status.value,
       'stopDate': unixTimestampToJson(stopDate),
       if (billingDetails != null) 'billingDetails': billingDetails,
       if (cause != null) 'cause': cause,
@@ -7037,7 +6668,7 @@ class StateMachineListItem {
           nonNullableTimeStampFromJson(json['creationDate'] as Object),
       name: json['name'] as String,
       stateMachineArn: json['stateMachineArn'] as String,
-      type: (json['type'] as String).toStateMachineType(),
+      type: StateMachineType.fromString((json['type'] as String)),
     );
   }
 
@@ -7050,65 +6681,39 @@ class StateMachineListItem {
       'creationDate': unixTimestampToJson(creationDate),
       'name': name,
       'stateMachineArn': stateMachineArn,
-      'type': type.toValue(),
+      'type': type.value,
     };
   }
 }
 
 enum StateMachineStatus {
-  active,
-  deleting,
-}
+  active('ACTIVE'),
+  deleting('DELETING'),
+  ;
 
-extension StateMachineStatusValueExtension on StateMachineStatus {
-  String toValue() {
-    switch (this) {
-      case StateMachineStatus.active:
-        return 'ACTIVE';
-      case StateMachineStatus.deleting:
-        return 'DELETING';
-    }
-  }
-}
+  final String value;
 
-extension StateMachineStatusFromString on String {
-  StateMachineStatus toStateMachineStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return StateMachineStatus.active;
-      case 'DELETING':
-        return StateMachineStatus.deleting;
-    }
-    throw Exception('$this is not known in enum StateMachineStatus');
-  }
+  const StateMachineStatus(this.value);
+
+  static StateMachineStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum StateMachineStatus'));
 }
 
 enum StateMachineType {
-  standard,
-  express,
-}
+  standard('STANDARD'),
+  express('EXPRESS'),
+  ;
 
-extension StateMachineTypeValueExtension on StateMachineType {
-  String toValue() {
-    switch (this) {
-      case StateMachineType.standard:
-        return 'STANDARD';
-      case StateMachineType.express:
-        return 'EXPRESS';
-    }
-  }
-}
+  final String value;
 
-extension StateMachineTypeFromString on String {
-  StateMachineType toStateMachineType() {
-    switch (this) {
-      case 'STANDARD':
-        return StateMachineType.standard;
-      case 'EXPRESS':
-        return StateMachineType.express;
-    }
-    throw Exception('$this is not known in enum StateMachineType');
-  }
+  const StateMachineType(this.value);
+
+  static StateMachineType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum StateMachineType'));
 }
 
 /// Contains details about a specific state machine version.
@@ -7167,36 +6772,19 @@ class StopExecutionOutput {
 }
 
 enum SyncExecutionStatus {
-  succeeded,
-  failed,
-  timedOut,
-}
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  timedOut('TIMED_OUT'),
+  ;
 
-extension SyncExecutionStatusValueExtension on SyncExecutionStatus {
-  String toValue() {
-    switch (this) {
-      case SyncExecutionStatus.succeeded:
-        return 'SUCCEEDED';
-      case SyncExecutionStatus.failed:
-        return 'FAILED';
-      case SyncExecutionStatus.timedOut:
-        return 'TIMED_OUT';
-    }
-  }
-}
+  final String value;
 
-extension SyncExecutionStatusFromString on String {
-  SyncExecutionStatus toSyncExecutionStatus() {
-    switch (this) {
-      case 'SUCCEEDED':
-        return SyncExecutionStatus.succeeded;
-      case 'FAILED':
-        return SyncExecutionStatus.failed;
-      case 'TIMED_OUT':
-        return SyncExecutionStatus.timedOut;
-    }
-    throw Exception('$this is not known in enum SyncExecutionStatus');
-  }
+  const SyncExecutionStatus(this.value);
+
+  static SyncExecutionStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SyncExecutionStatus'));
 }
 
 /// Tags are key-value pairs that can be associated with Step Functions state
@@ -7650,41 +7238,20 @@ class TaskTimedOutEventDetails {
 }
 
 enum TestExecutionStatus {
-  succeeded,
-  failed,
-  retriable,
-  caughtError,
-}
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  retriable('RETRIABLE'),
+  caughtError('CAUGHT_ERROR'),
+  ;
 
-extension TestExecutionStatusValueExtension on TestExecutionStatus {
-  String toValue() {
-    switch (this) {
-      case TestExecutionStatus.succeeded:
-        return 'SUCCEEDED';
-      case TestExecutionStatus.failed:
-        return 'FAILED';
-      case TestExecutionStatus.retriable:
-        return 'RETRIABLE';
-      case TestExecutionStatus.caughtError:
-        return 'CAUGHT_ERROR';
-    }
-  }
-}
+  final String value;
 
-extension TestExecutionStatusFromString on String {
-  TestExecutionStatus toTestExecutionStatus() {
-    switch (this) {
-      case 'SUCCEEDED':
-        return TestExecutionStatus.succeeded;
-      case 'FAILED':
-        return TestExecutionStatus.failed;
-      case 'RETRIABLE':
-        return TestExecutionStatus.retriable;
-      case 'CAUGHT_ERROR':
-        return TestExecutionStatus.caughtError;
-    }
-    throw Exception('$this is not known in enum TestExecutionStatus');
-  }
+  const TestExecutionStatus(this.value);
+
+  static TestExecutionStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TestExecutionStatus'));
 }
 
 class TestStateOutput {
@@ -7732,7 +7299,7 @@ class TestStateOutput {
           : null,
       nextState: json['nextState'] as String?,
       output: json['output'] as String?,
-      status: (json['status'] as String?)?.toTestExecutionStatus(),
+      status: (json['status'] as String?)?.let(TestExecutionStatus.fromString),
     );
   }
 
@@ -7749,7 +7316,7 @@ class TestStateOutput {
       if (inspectionData != null) 'inspectionData': inspectionData,
       if (nextState != null) 'nextState': nextState,
       if (output != null) 'output': output,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -7897,8 +7464,8 @@ class ValidateStateMachineDefinitionDiagnostic {
     return ValidateStateMachineDefinitionDiagnostic(
       code: json['code'] as String,
       message: json['message'] as String,
-      severity: (json['severity'] as String)
-          .toValidateStateMachineDefinitionSeverity(),
+      severity: ValidateStateMachineDefinitionSeverity.fromString(
+          (json['severity'] as String)),
       location: json['location'] as String?,
     );
   }
@@ -7911,7 +7478,7 @@ class ValidateStateMachineDefinitionDiagnostic {
     return {
       'code': code,
       'message': message,
-      'severity': severity.toValue(),
+      'severity': severity.value,
       if (location != null) 'location': location,
     };
   }
@@ -7940,8 +7507,8 @@ class ValidateStateMachineDefinitionOutput {
           .map((e) => ValidateStateMachineDefinitionDiagnostic.fromJson(
               e as Map<String, dynamic>))
           .toList(),
-      result: (json['result'] as String)
-          .toValidateStateMachineDefinitionResultCode(),
+      result: ValidateStateMachineDefinitionResultCode.fromString(
+          (json['result'] as String)),
     );
   }
 
@@ -7950,66 +7517,38 @@ class ValidateStateMachineDefinitionOutput {
     final result = this.result;
     return {
       'diagnostics': diagnostics,
-      'result': result.toValue(),
+      'result': result.value,
     };
   }
 }
 
 enum ValidateStateMachineDefinitionResultCode {
-  ok,
-  fail,
-}
+  ok('OK'),
+  fail('FAIL'),
+  ;
 
-extension ValidateStateMachineDefinitionResultCodeValueExtension
-    on ValidateStateMachineDefinitionResultCode {
-  String toValue() {
-    switch (this) {
-      case ValidateStateMachineDefinitionResultCode.ok:
-        return 'OK';
-      case ValidateStateMachineDefinitionResultCode.fail:
-        return 'FAIL';
-    }
-  }
-}
+  final String value;
 
-extension ValidateStateMachineDefinitionResultCodeFromString on String {
-  ValidateStateMachineDefinitionResultCode
-      toValidateStateMachineDefinitionResultCode() {
-    switch (this) {
-      case 'OK':
-        return ValidateStateMachineDefinitionResultCode.ok;
-      case 'FAIL':
-        return ValidateStateMachineDefinitionResultCode.fail;
-    }
-    throw Exception(
-        '$this is not known in enum ValidateStateMachineDefinitionResultCode');
-  }
+  const ValidateStateMachineDefinitionResultCode(this.value);
+
+  static ValidateStateMachineDefinitionResultCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ValidateStateMachineDefinitionResultCode'));
 }
 
 enum ValidateStateMachineDefinitionSeverity {
-  error,
-}
+  error('ERROR'),
+  ;
 
-extension ValidateStateMachineDefinitionSeverityValueExtension
-    on ValidateStateMachineDefinitionSeverity {
-  String toValue() {
-    switch (this) {
-      case ValidateStateMachineDefinitionSeverity.error:
-        return 'ERROR';
-    }
-  }
-}
+  final String value;
 
-extension ValidateStateMachineDefinitionSeverityFromString on String {
-  ValidateStateMachineDefinitionSeverity
-      toValidateStateMachineDefinitionSeverity() {
-    switch (this) {
-      case 'ERROR':
-        return ValidateStateMachineDefinitionSeverity.error;
-    }
-    throw Exception(
-        '$this is not known in enum ValidateStateMachineDefinitionSeverity');
-  }
+  const ValidateStateMachineDefinitionSeverity(this.value);
+
+  static ValidateStateMachineDefinitionSeverity fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ValidateStateMachineDefinitionSeverity'));
 }
 
 class ActivityDoesNotExist extends _s.GenericAwsException {

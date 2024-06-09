@@ -82,7 +82,7 @@ class KinesisVideo {
   }) async {
     final $payload = <String, dynamic>{
       'ChannelName': channelName,
-      if (channelType != null) 'ChannelType': channelType.toValue(),
+      if (channelType != null) 'ChannelType': channelType.value,
       if (singleMasterConfiguration != null)
         'SingleMasterConfiguration': singleMasterConfiguration,
       if (tags != null) 'Tags': tags,
@@ -612,7 +612,7 @@ class KinesisVideo {
     String? streamName,
   }) async {
     final $payload = <String, dynamic>{
-      'APIName': aPIName.toValue(),
+      'APIName': aPIName.value,
       if (streamARN != null) 'StreamARN': streamARN,
       if (streamName != null) 'StreamName': streamName,
     };
@@ -1183,7 +1183,7 @@ class KinesisVideo {
     final $payload = <String, dynamic>{
       'CurrentVersion': currentVersion,
       'DataRetentionChangeInHours': dataRetentionChangeInHours,
-      'Operation': operation.toValue(),
+      'Operation': operation.value,
       if (streamARN != null) 'StreamARN': streamARN,
       if (streamName != null) 'StreamName': streamName,
     };
@@ -1450,61 +1450,23 @@ class KinesisVideo {
 }
 
 enum APIName {
-  putMedia,
-  getMedia,
-  listFragments,
-  getMediaForFragmentList,
-  getHlsStreamingSessionUrl,
-  getDashStreamingSessionUrl,
-  getClip,
-  getImages,
-}
+  putMedia('PUT_MEDIA'),
+  getMedia('GET_MEDIA'),
+  listFragments('LIST_FRAGMENTS'),
+  getMediaForFragmentList('GET_MEDIA_FOR_FRAGMENT_LIST'),
+  getHlsStreamingSessionUrl('GET_HLS_STREAMING_SESSION_URL'),
+  getDashStreamingSessionUrl('GET_DASH_STREAMING_SESSION_URL'),
+  getClip('GET_CLIP'),
+  getImages('GET_IMAGES'),
+  ;
 
-extension APINameValueExtension on APIName {
-  String toValue() {
-    switch (this) {
-      case APIName.putMedia:
-        return 'PUT_MEDIA';
-      case APIName.getMedia:
-        return 'GET_MEDIA';
-      case APIName.listFragments:
-        return 'LIST_FRAGMENTS';
-      case APIName.getMediaForFragmentList:
-        return 'GET_MEDIA_FOR_FRAGMENT_LIST';
-      case APIName.getHlsStreamingSessionUrl:
-        return 'GET_HLS_STREAMING_SESSION_URL';
-      case APIName.getDashStreamingSessionUrl:
-        return 'GET_DASH_STREAMING_SESSION_URL';
-      case APIName.getClip:
-        return 'GET_CLIP';
-      case APIName.getImages:
-        return 'GET_IMAGES';
-    }
-  }
-}
+  final String value;
 
-extension APINameFromString on String {
-  APIName toAPIName() {
-    switch (this) {
-      case 'PUT_MEDIA':
-        return APIName.putMedia;
-      case 'GET_MEDIA':
-        return APIName.getMedia;
-      case 'LIST_FRAGMENTS':
-        return APIName.listFragments;
-      case 'GET_MEDIA_FOR_FRAGMENT_LIST':
-        return APIName.getMediaForFragmentList;
-      case 'GET_HLS_STREAMING_SESSION_URL':
-        return APIName.getHlsStreamingSessionUrl;
-      case 'GET_DASH_STREAMING_SESSION_URL':
-        return APIName.getDashStreamingSessionUrl;
-      case 'GET_CLIP':
-        return APIName.getClip;
-      case 'GET_IMAGES':
-        return APIName.getImages;
-    }
-    throw Exception('$this is not known in enum APIName');
-  }
+  const APIName(this.value);
+
+  static APIName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum APIName'));
 }
 
 /// A structure that encapsulates a signaling channel's metadata and properties.
@@ -1545,8 +1507,9 @@ class ChannelInfo {
     return ChannelInfo(
       channelARN: json['ChannelARN'] as String?,
       channelName: json['ChannelName'] as String?,
-      channelStatus: (json['ChannelStatus'] as String?)?.toStatus(),
-      channelType: (json['ChannelType'] as String?)?.toChannelType(),
+      channelStatus: (json['ChannelStatus'] as String?)?.let(Status.fromString),
+      channelType:
+          (json['ChannelType'] as String?)?.let(ChannelType.fromString),
       creationTime: timeStampFromJson(json['CreationTime']),
       singleMasterConfiguration: json['SingleMasterConfiguration'] != null
           ? SingleMasterConfiguration.fromJson(
@@ -1567,8 +1530,8 @@ class ChannelInfo {
     return {
       if (channelARN != null) 'ChannelARN': channelARN,
       if (channelName != null) 'ChannelName': channelName,
-      if (channelStatus != null) 'ChannelStatus': channelStatus.toValue(),
-      if (channelType != null) 'ChannelType': channelType.toValue(),
+      if (channelStatus != null) 'ChannelStatus': channelStatus.value,
+      if (channelType != null) 'ChannelType': channelType.value,
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
       if (singleMasterConfiguration != null)
@@ -1601,150 +1564,83 @@ class ChannelNameCondition {
     final comparisonValue = this.comparisonValue;
     return {
       if (comparisonOperator != null)
-        'ComparisonOperator': comparisonOperator.toValue(),
+        'ComparisonOperator': comparisonOperator.value,
       if (comparisonValue != null) 'ComparisonValue': comparisonValue,
     };
   }
 }
 
 enum ChannelProtocol {
-  wss,
-  https,
-  webrtc,
-}
+  wss('WSS'),
+  https('HTTPS'),
+  webrtc('WEBRTC'),
+  ;
 
-extension ChannelProtocolValueExtension on ChannelProtocol {
-  String toValue() {
-    switch (this) {
-      case ChannelProtocol.wss:
-        return 'WSS';
-      case ChannelProtocol.https:
-        return 'HTTPS';
-      case ChannelProtocol.webrtc:
-        return 'WEBRTC';
-    }
-  }
-}
+  final String value;
 
-extension ChannelProtocolFromString on String {
-  ChannelProtocol toChannelProtocol() {
-    switch (this) {
-      case 'WSS':
-        return ChannelProtocol.wss;
-      case 'HTTPS':
-        return ChannelProtocol.https;
-      case 'WEBRTC':
-        return ChannelProtocol.webrtc;
-    }
-    throw Exception('$this is not known in enum ChannelProtocol');
-  }
+  const ChannelProtocol(this.value);
+
+  static ChannelProtocol fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ChannelProtocol'));
 }
 
 enum ChannelRole {
-  master,
-  viewer,
-}
+  master('MASTER'),
+  viewer('VIEWER'),
+  ;
 
-extension ChannelRoleValueExtension on ChannelRole {
-  String toValue() {
-    switch (this) {
-      case ChannelRole.master:
-        return 'MASTER';
-      case ChannelRole.viewer:
-        return 'VIEWER';
-    }
-  }
-}
+  final String value;
 
-extension ChannelRoleFromString on String {
-  ChannelRole toChannelRole() {
-    switch (this) {
-      case 'MASTER':
-        return ChannelRole.master;
-      case 'VIEWER':
-        return ChannelRole.viewer;
-    }
-    throw Exception('$this is not known in enum ChannelRole');
-  }
+  const ChannelRole(this.value);
+
+  static ChannelRole fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ChannelRole'));
 }
 
 enum ChannelType {
-  singleMaster,
-  fullMesh,
-}
+  singleMaster('SINGLE_MASTER'),
+  fullMesh('FULL_MESH'),
+  ;
 
-extension ChannelTypeValueExtension on ChannelType {
-  String toValue() {
-    switch (this) {
-      case ChannelType.singleMaster:
-        return 'SINGLE_MASTER';
-      case ChannelType.fullMesh:
-        return 'FULL_MESH';
-    }
-  }
-}
+  final String value;
 
-extension ChannelTypeFromString on String {
-  ChannelType toChannelType() {
-    switch (this) {
-      case 'SINGLE_MASTER':
-        return ChannelType.singleMaster;
-      case 'FULL_MESH':
-        return ChannelType.fullMesh;
-    }
-    throw Exception('$this is not known in enum ChannelType');
-  }
+  const ChannelType(this.value);
+
+  static ChannelType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ChannelType'));
 }
 
 enum ComparisonOperator {
-  beginsWith,
-}
+  beginsWith('BEGINS_WITH'),
+  ;
 
-extension ComparisonOperatorValueExtension on ComparisonOperator {
-  String toValue() {
-    switch (this) {
-      case ComparisonOperator.beginsWith:
-        return 'BEGINS_WITH';
-    }
-  }
-}
+  final String value;
 
-extension ComparisonOperatorFromString on String {
-  ComparisonOperator toComparisonOperator() {
-    switch (this) {
-      case 'BEGINS_WITH':
-        return ComparisonOperator.beginsWith;
-    }
-    throw Exception('$this is not known in enum ComparisonOperator');
-  }
+  const ComparisonOperator(this.value);
+
+  static ComparisonOperator fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ComparisonOperator'));
 }
 
 enum ConfigurationStatus {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension ConfigurationStatusValueExtension on ConfigurationStatus {
-  String toValue() {
-    switch (this) {
-      case ConfigurationStatus.enabled:
-        return 'ENABLED';
-      case ConfigurationStatus.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension ConfigurationStatusFromString on String {
-  ConfigurationStatus toConfigurationStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return ConfigurationStatus.enabled;
-      case 'DISABLED':
-        return ConfigurationStatus.disabled;
-    }
-    throw Exception('$this is not known in enum ConfigurationStatus');
-  }
+  const ConfigurationStatus(this.value);
+
+  static ConfigurationStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ConfigurationStatus'));
 }
 
 class CreateSignalingChannelOutput {
@@ -1935,7 +1831,7 @@ class DescribeEdgeConfigurationOutput {
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       streamARN: json['StreamARN'] as String?,
       streamName: json['StreamName'] as String?,
-      syncStatus: (json['SyncStatus'] as String?)?.toSyncStatus(),
+      syncStatus: (json['SyncStatus'] as String?)?.let(SyncStatus.fromString),
     );
   }
 
@@ -1959,7 +1855,7 @@ class DescribeEdgeConfigurationOutput {
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       if (streamARN != null) 'StreamARN': streamARN,
       if (streamName != null) 'StreamName': streamName,
-      if (syncStatus != null) 'SyncStatus': syncStatus.toValue(),
+      if (syncStatus != null) 'SyncStatus': syncStatus.value,
     };
   }
 }
@@ -2236,54 +2132,31 @@ class EdgeConfig {
 }
 
 enum Format {
-  jpeg,
-  png,
-}
+  jpeg('JPEG'),
+  png('PNG'),
+  ;
 
-extension FormatValueExtension on Format {
-  String toValue() {
-    switch (this) {
-      case Format.jpeg:
-        return 'JPEG';
-      case Format.png:
-        return 'PNG';
-    }
-  }
-}
+  final String value;
 
-extension FormatFromString on String {
-  Format toFormat() {
-    switch (this) {
-      case 'JPEG':
-        return Format.jpeg;
-      case 'PNG':
-        return Format.png;
-    }
-    throw Exception('$this is not known in enum Format');
-  }
+  const Format(this.value);
+
+  static Format fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Format'));
 }
 
 enum FormatConfigKey {
-  jPEGQuality,
-}
+  jPEGQuality('JPEGQuality'),
+  ;
 
-extension FormatConfigKeyValueExtension on FormatConfigKey {
-  String toValue() {
-    switch (this) {
-      case FormatConfigKey.jPEGQuality:
-        return 'JPEGQuality';
-    }
-  }
-}
+  final String value;
 
-extension FormatConfigKeyFromString on String {
-  FormatConfigKey toFormatConfigKey() {
-    switch (this) {
-      case 'JPEGQuality':
-        return FormatConfigKey.jPEGQuality;
-    }
-    throw Exception('$this is not known in enum FormatConfigKey');
-  }
+  const FormatConfigKey(this.value);
+
+  static FormatConfigKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FormatConfigKey'));
 }
 
 class GetDataEndpointOutput {
@@ -2405,13 +2278,13 @@ class ImageGenerationConfiguration {
     return ImageGenerationConfiguration(
       destinationConfig: ImageGenerationDestinationConfig.fromJson(
           json['DestinationConfig'] as Map<String, dynamic>),
-      format: (json['Format'] as String).toFormat(),
+      format: Format.fromString((json['Format'] as String)),
       imageSelectorType:
-          (json['ImageSelectorType'] as String).toImageSelectorType(),
+          ImageSelectorType.fromString((json['ImageSelectorType'] as String)),
       samplingInterval: json['SamplingInterval'] as int,
-      status: (json['Status'] as String).toConfigurationStatus(),
+      status: ConfigurationStatus.fromString((json['Status'] as String)),
       formatConfig: (json['FormatConfig'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k.toFormatConfigKey(), e as String)),
+          ?.map((k, e) => MapEntry(FormatConfigKey.fromString(k), e as String)),
       heightPixels: json['HeightPixels'] as int?,
       widthPixels: json['WidthPixels'] as int?,
     );
@@ -2428,12 +2301,12 @@ class ImageGenerationConfiguration {
     final widthPixels = this.widthPixels;
     return {
       'DestinationConfig': destinationConfig,
-      'Format': format.toValue(),
-      'ImageSelectorType': imageSelectorType.toValue(),
+      'Format': format.value,
+      'ImageSelectorType': imageSelectorType.value,
       'SamplingInterval': samplingInterval,
-      'Status': status.toValue(),
+      'Status': status.value,
       if (formatConfig != null)
-        'FormatConfig': formatConfig.map((k, e) => MapEntry(k.toValue(), e)),
+        'FormatConfig': formatConfig.map((k, e) => MapEntry(k.value, e)),
       if (heightPixels != null) 'HeightPixels': heightPixels,
       if (widthPixels != null) 'WidthPixels': widthPixels,
     };
@@ -2475,31 +2348,18 @@ class ImageGenerationDestinationConfig {
 }
 
 enum ImageSelectorType {
-  serverTimestamp,
-  producerTimestamp,
-}
+  serverTimestamp('SERVER_TIMESTAMP'),
+  producerTimestamp('PRODUCER_TIMESTAMP'),
+  ;
 
-extension ImageSelectorTypeValueExtension on ImageSelectorType {
-  String toValue() {
-    switch (this) {
-      case ImageSelectorType.serverTimestamp:
-        return 'SERVER_TIMESTAMP';
-      case ImageSelectorType.producerTimestamp:
-        return 'PRODUCER_TIMESTAMP';
-    }
-  }
-}
+  final String value;
 
-extension ImageSelectorTypeFromString on String {
-  ImageSelectorType toImageSelectorType() {
-    switch (this) {
-      case 'SERVER_TIMESTAMP':
-        return ImageSelectorType.serverTimestamp;
-      case 'PRODUCER_TIMESTAMP':
-        return ImageSelectorType.producerTimestamp;
-    }
-    throw Exception('$this is not known in enum ImageSelectorType');
-  }
+  const ImageSelectorType(this.value);
+
+  static ImageSelectorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ImageSelectorType'));
 }
 
 /// The latest status of a stream's edge recording job.
@@ -2529,7 +2389,8 @@ class LastRecorderStatus {
       jobStatusDetails: json['JobStatusDetails'] as String?,
       lastCollectedTime: timeStampFromJson(json['LastCollectedTime']),
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
-      recorderStatus: (json['RecorderStatus'] as String?)?.toRecorderStatus(),
+      recorderStatus:
+          (json['RecorderStatus'] as String?)?.let(RecorderStatus.fromString),
     );
   }
 
@@ -2544,7 +2405,7 @@ class LastRecorderStatus {
         'LastCollectedTime': unixTimestampToJson(lastCollectedTime),
       if (lastUpdatedTime != null)
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
-      if (recorderStatus != null) 'RecorderStatus': recorderStatus.toValue(),
+      if (recorderStatus != null) 'RecorderStatus': recorderStatus.value,
     };
   }
 }
@@ -2576,7 +2437,8 @@ class LastUploaderStatus {
       jobStatusDetails: json['JobStatusDetails'] as String?,
       lastCollectedTime: timeStampFromJson(json['LastCollectedTime']),
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
-      uploaderStatus: (json['UploaderStatus'] as String?)?.toUploaderStatus(),
+      uploaderStatus:
+          (json['UploaderStatus'] as String?)?.let(UploaderStatus.fromString),
     );
   }
 
@@ -2591,7 +2453,7 @@ class LastUploaderStatus {
         'LastCollectedTime': unixTimestampToJson(lastCollectedTime),
       if (lastUpdatedTime != null)
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
-      if (uploaderStatus != null) 'UploaderStatus': uploaderStatus.toValue(),
+      if (uploaderStatus != null) 'UploaderStatus': uploaderStatus.value,
     };
   }
 }
@@ -2638,7 +2500,7 @@ class ListEdgeAgentConfigurationsEdgeConfig {
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       streamARN: json['StreamARN'] as String?,
       streamName: json['StreamName'] as String?,
-      syncStatus: (json['SyncStatus'] as String?)?.toSyncStatus(),
+      syncStatus: (json['SyncStatus'] as String?)?.let(SyncStatus.fromString),
     );
   }
 
@@ -2660,7 +2522,7 @@ class ListEdgeAgentConfigurationsEdgeConfig {
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       if (streamARN != null) 'StreamARN': streamARN,
       if (streamName != null) 'StreamName': streamName,
-      if (syncStatus != null) 'SyncStatus': syncStatus.toValue(),
+      if (syncStatus != null) 'SyncStatus': syncStatus.value,
     };
   }
 }
@@ -2854,8 +2716,8 @@ class LocalSizeConfig {
   factory LocalSizeConfig.fromJson(Map<String, dynamic> json) {
     return LocalSizeConfig(
       maxLocalMediaSizeInMB: json['MaxLocalMediaSizeInMB'] as int?,
-      strategyOnFullSize:
-          (json['StrategyOnFullSize'] as String?)?.toStrategyOnFullSize(),
+      strategyOnFullSize: (json['StrategyOnFullSize'] as String?)
+          ?.let(StrategyOnFullSize.fromString),
     );
   }
 
@@ -2866,7 +2728,7 @@ class LocalSizeConfig {
       if (maxLocalMediaSizeInMB != null)
         'MaxLocalMediaSizeInMB': maxLocalMediaSizeInMB,
       if (strategyOnFullSize != null)
-        'StrategyOnFullSize': strategyOnFullSize.toValue(),
+        'StrategyOnFullSize': strategyOnFullSize.value,
     };
   }
 }
@@ -2927,7 +2789,7 @@ class MediaSourceConfig {
   factory MediaSourceConfig.fromJson(Map<String, dynamic> json) {
     return MediaSourceConfig(
       mediaUriSecretArn: json['MediaUriSecretArn'] as String,
-      mediaUriType: (json['MediaUriType'] as String).toMediaUriType(),
+      mediaUriType: MediaUriType.fromString((json['MediaUriType'] as String)),
     );
   }
 
@@ -2936,7 +2798,7 @@ class MediaSourceConfig {
     final mediaUriType = this.mediaUriType;
     return {
       'MediaUriSecretArn': mediaUriSecretArn,
-      'MediaUriType': mediaUriType.toValue(),
+      'MediaUriType': mediaUriType.value,
     };
   }
 }
@@ -2969,7 +2831,8 @@ class MediaStorageConfiguration {
 
   factory MediaStorageConfiguration.fromJson(Map<String, dynamic> json) {
     return MediaStorageConfiguration(
-      status: (json['Status'] as String).toMediaStorageConfigurationStatus(),
+      status: MediaStorageConfigurationStatus.fromString(
+          (json['Status'] as String)),
       streamARN: json['StreamARN'] as String?,
     );
   }
@@ -2978,68 +2841,40 @@ class MediaStorageConfiguration {
     final status = this.status;
     final streamARN = this.streamARN;
     return {
-      'Status': status.toValue(),
+      'Status': status.value,
       if (streamARN != null) 'StreamARN': streamARN,
     };
   }
 }
 
 enum MediaStorageConfigurationStatus {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension MediaStorageConfigurationStatusValueExtension
-    on MediaStorageConfigurationStatus {
-  String toValue() {
-    switch (this) {
-      case MediaStorageConfigurationStatus.enabled:
-        return 'ENABLED';
-      case MediaStorageConfigurationStatus.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension MediaStorageConfigurationStatusFromString on String {
-  MediaStorageConfigurationStatus toMediaStorageConfigurationStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return MediaStorageConfigurationStatus.enabled;
-      case 'DISABLED':
-        return MediaStorageConfigurationStatus.disabled;
-    }
-    throw Exception(
-        '$this is not known in enum MediaStorageConfigurationStatus');
-  }
+  const MediaStorageConfigurationStatus(this.value);
+
+  static MediaStorageConfigurationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MediaStorageConfigurationStatus'));
 }
 
 enum MediaUriType {
-  rtspUri,
-  fileUri,
-}
+  rtspUri('RTSP_URI'),
+  fileUri('FILE_URI'),
+  ;
 
-extension MediaUriTypeValueExtension on MediaUriType {
-  String toValue() {
-    switch (this) {
-      case MediaUriType.rtspUri:
-        return 'RTSP_URI';
-      case MediaUriType.fileUri:
-        return 'FILE_URI';
-    }
-  }
-}
+  final String value;
 
-extension MediaUriTypeFromString on String {
-  MediaUriType toMediaUriType() {
-    switch (this) {
-      case 'RTSP_URI':
-        return MediaUriType.rtspUri;
-      case 'FILE_URI':
-        return MediaUriType.fileUri;
-    }
-    throw Exception('$this is not known in enum MediaUriType');
-  }
+  const MediaUriType(this.value);
+
+  static MediaUriType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MediaUriType'));
 }
 
 /// The structure that contains the notification information for the KVS images
@@ -3062,7 +2897,7 @@ class NotificationConfiguration {
     return NotificationConfiguration(
       destinationConfig: NotificationDestinationConfig.fromJson(
           json['DestinationConfig'] as Map<String, dynamic>),
-      status: (json['Status'] as String).toConfigurationStatus(),
+      status: ConfigurationStatus.fromString((json['Status'] as String)),
     );
   }
 
@@ -3071,7 +2906,7 @@ class NotificationConfiguration {
     final status = this.status;
     return {
       'DestinationConfig': destinationConfig,
-      'Status': status.toValue(),
+      'Status': status.value,
     };
   }
 }
@@ -3144,36 +2979,19 @@ class RecorderConfig {
 }
 
 enum RecorderStatus {
-  success,
-  userError,
-  systemError,
-}
+  success('SUCCESS'),
+  userError('USER_ERROR'),
+  systemError('SYSTEM_ERROR'),
+  ;
 
-extension RecorderStatusValueExtension on RecorderStatus {
-  String toValue() {
-    switch (this) {
-      case RecorderStatus.success:
-        return 'SUCCESS';
-      case RecorderStatus.userError:
-        return 'USER_ERROR';
-      case RecorderStatus.systemError:
-        return 'SYSTEM_ERROR';
-    }
-  }
-}
+  final String value;
 
-extension RecorderStatusFromString on String {
-  RecorderStatus toRecorderStatus() {
-    switch (this) {
-      case 'SUCCESS':
-        return RecorderStatus.success;
-      case 'USER_ERROR':
-        return RecorderStatus.userError;
-      case 'SYSTEM_ERROR':
-        return RecorderStatus.systemError;
-    }
-    throw Exception('$this is not known in enum RecorderStatus');
-  }
+  const RecorderStatus(this.value);
+
+  static RecorderStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RecorderStatus'));
 }
 
 /// An object that describes the endpoint of the signaling channel returned by
@@ -3197,7 +3015,7 @@ class ResourceEndpointListItem {
 
   factory ResourceEndpointListItem.fromJson(Map<String, dynamic> json) {
     return ResourceEndpointListItem(
-      protocol: (json['Protocol'] as String?)?.toChannelProtocol(),
+      protocol: (json['Protocol'] as String?)?.let(ChannelProtocol.fromString),
       resourceEndpoint: json['ResourceEndpoint'] as String?,
     );
   }
@@ -3206,7 +3024,7 @@ class ResourceEndpointListItem {
     final protocol = this.protocol;
     final resourceEndpoint = this.resourceEndpoint;
     return {
-      if (protocol != null) 'Protocol': protocol.toValue(),
+      if (protocol != null) 'Protocol': protocol.value,
       if (resourceEndpoint != null) 'ResourceEndpoint': resourceEndpoint,
     };
   }
@@ -3292,8 +3110,8 @@ class SingleMasterChannelEndpointConfiguration {
     final role = this.role;
     return {
       if (protocols != null)
-        'Protocols': protocols.map((e) => e.toValue()).toList(),
-      if (role != null) 'Role': role.toValue(),
+        'Protocols': protocols.map((e) => e.value).toList(),
+      if (role != null) 'Role': role.value,
     };
   }
 }
@@ -3371,7 +3189,7 @@ class StartEdgeConfigurationUpdateOutput {
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       streamARN: json['StreamARN'] as String?,
       streamName: json['StreamName'] as String?,
-      syncStatus: (json['SyncStatus'] as String?)?.toSyncStatus(),
+      syncStatus: (json['SyncStatus'] as String?)?.let(SyncStatus.fromString),
     );
   }
 
@@ -3393,75 +3211,40 @@ class StartEdgeConfigurationUpdateOutput {
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       if (streamARN != null) 'StreamARN': streamARN,
       if (streamName != null) 'StreamName': streamName,
-      if (syncStatus != null) 'SyncStatus': syncStatus.toValue(),
+      if (syncStatus != null) 'SyncStatus': syncStatus.value,
     };
   }
 }
 
 enum Status {
-  creating,
-  active,
-  updating,
-  deleting,
-}
+  creating('CREATING'),
+  active('ACTIVE'),
+  updating('UPDATING'),
+  deleting('DELETING'),
+  ;
 
-extension StatusValueExtension on Status {
-  String toValue() {
-    switch (this) {
-      case Status.creating:
-        return 'CREATING';
-      case Status.active:
-        return 'ACTIVE';
-      case Status.updating:
-        return 'UPDATING';
-      case Status.deleting:
-        return 'DELETING';
-    }
-  }
-}
+  final String value;
 
-extension StatusFromString on String {
-  Status toStatus() {
-    switch (this) {
-      case 'CREATING':
-        return Status.creating;
-      case 'ACTIVE':
-        return Status.active;
-      case 'UPDATING':
-        return Status.updating;
-      case 'DELETING':
-        return Status.deleting;
-    }
-    throw Exception('$this is not known in enum Status');
-  }
+  const Status(this.value);
+
+  static Status fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Status'));
 }
 
 enum StrategyOnFullSize {
-  deleteOldestMedia,
-  denyNewMedia,
-}
+  deleteOldestMedia('DELETE_OLDEST_MEDIA'),
+  denyNewMedia('DENY_NEW_MEDIA'),
+  ;
 
-extension StrategyOnFullSizeValueExtension on StrategyOnFullSize {
-  String toValue() {
-    switch (this) {
-      case StrategyOnFullSize.deleteOldestMedia:
-        return 'DELETE_OLDEST_MEDIA';
-      case StrategyOnFullSize.denyNewMedia:
-        return 'DENY_NEW_MEDIA';
-    }
-  }
-}
+  final String value;
 
-extension StrategyOnFullSizeFromString on String {
-  StrategyOnFullSize toStrategyOnFullSize() {
-    switch (this) {
-      case 'DELETE_OLDEST_MEDIA':
-        return StrategyOnFullSize.deleteOldestMedia;
-      case 'DENY_NEW_MEDIA':
-        return StrategyOnFullSize.denyNewMedia;
-    }
-    throw Exception('$this is not known in enum StrategyOnFullSize');
-  }
+  const StrategyOnFullSize(this.value);
+
+  static StrategyOnFullSize fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum StrategyOnFullSize'));
 }
 
 /// An object describing a Kinesis video stream.
@@ -3513,7 +3296,7 @@ class StreamInfo {
       deviceName: json['DeviceName'] as String?,
       kmsKeyId: json['KmsKeyId'] as String?,
       mediaType: json['MediaType'] as String?,
-      status: (json['Status'] as String?)?.toStatus(),
+      status: (json['Status'] as String?)?.let(Status.fromString),
       streamARN: json['StreamARN'] as String?,
       streamName: json['StreamName'] as String?,
       version: json['Version'] as String?,
@@ -3538,7 +3321,7 @@ class StreamInfo {
       if (deviceName != null) 'DeviceName': deviceName,
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
       if (mediaType != null) 'MediaType': mediaType,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (streamARN != null) 'StreamARN': streamARN,
       if (streamName != null) 'StreamName': streamName,
       if (version != null) 'Version': version,
@@ -3570,63 +3353,29 @@ class StreamNameCondition {
     final comparisonValue = this.comparisonValue;
     return {
       if (comparisonOperator != null)
-        'ComparisonOperator': comparisonOperator.toValue(),
+        'ComparisonOperator': comparisonOperator.value,
       if (comparisonValue != null) 'ComparisonValue': comparisonValue,
     };
   }
 }
 
 enum SyncStatus {
-  syncing,
-  acknowledged,
-  inSync,
-  syncFailed,
-  deleting,
-  deleteFailed,
-  deletingAcknowledged,
-}
+  syncing('SYNCING'),
+  acknowledged('ACKNOWLEDGED'),
+  inSync('IN_SYNC'),
+  syncFailed('SYNC_FAILED'),
+  deleting('DELETING'),
+  deleteFailed('DELETE_FAILED'),
+  deletingAcknowledged('DELETING_ACKNOWLEDGED'),
+  ;
 
-extension SyncStatusValueExtension on SyncStatus {
-  String toValue() {
-    switch (this) {
-      case SyncStatus.syncing:
-        return 'SYNCING';
-      case SyncStatus.acknowledged:
-        return 'ACKNOWLEDGED';
-      case SyncStatus.inSync:
-        return 'IN_SYNC';
-      case SyncStatus.syncFailed:
-        return 'SYNC_FAILED';
-      case SyncStatus.deleting:
-        return 'DELETING';
-      case SyncStatus.deleteFailed:
-        return 'DELETE_FAILED';
-      case SyncStatus.deletingAcknowledged:
-        return 'DELETING_ACKNOWLEDGED';
-    }
-  }
-}
+  final String value;
 
-extension SyncStatusFromString on String {
-  SyncStatus toSyncStatus() {
-    switch (this) {
-      case 'SYNCING':
-        return SyncStatus.syncing;
-      case 'ACKNOWLEDGED':
-        return SyncStatus.acknowledged;
-      case 'IN_SYNC':
-        return SyncStatus.inSync;
-      case 'SYNC_FAILED':
-        return SyncStatus.syncFailed;
-      case 'DELETING':
-        return SyncStatus.deleting;
-      case 'DELETE_FAILED':
-        return SyncStatus.deleteFailed;
-      case 'DELETING_ACKNOWLEDGED':
-        return SyncStatus.deletingAcknowledged;
-    }
-    throw Exception('$this is not known in enum SyncStatus');
-  }
+  const SyncStatus(this.value);
+
+  static SyncStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SyncStatus'));
 }
 
 /// A key and value pair that is associated with the specified signaling
@@ -3703,32 +3452,18 @@ class UntagStreamOutput {
 }
 
 enum UpdateDataRetentionOperation {
-  increaseDataRetention,
-  decreaseDataRetention,
-}
+  increaseDataRetention('INCREASE_DATA_RETENTION'),
+  decreaseDataRetention('DECREASE_DATA_RETENTION'),
+  ;
 
-extension UpdateDataRetentionOperationValueExtension
-    on UpdateDataRetentionOperation {
-  String toValue() {
-    switch (this) {
-      case UpdateDataRetentionOperation.increaseDataRetention:
-        return 'INCREASE_DATA_RETENTION';
-      case UpdateDataRetentionOperation.decreaseDataRetention:
-        return 'DECREASE_DATA_RETENTION';
-    }
-  }
-}
+  final String value;
 
-extension UpdateDataRetentionOperationFromString on String {
-  UpdateDataRetentionOperation toUpdateDataRetentionOperation() {
-    switch (this) {
-      case 'INCREASE_DATA_RETENTION':
-        return UpdateDataRetentionOperation.increaseDataRetention;
-      case 'DECREASE_DATA_RETENTION':
-        return UpdateDataRetentionOperation.decreaseDataRetention;
-    }
-    throw Exception('$this is not known in enum UpdateDataRetentionOperation');
-  }
+  const UpdateDataRetentionOperation(this.value);
+
+  static UpdateDataRetentionOperation fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum UpdateDataRetentionOperation'));
 }
 
 class UpdateDataRetentionOutput {
@@ -3841,36 +3576,19 @@ class UploaderConfig {
 }
 
 enum UploaderStatus {
-  success,
-  userError,
-  systemError,
-}
+  success('SUCCESS'),
+  userError('USER_ERROR'),
+  systemError('SYSTEM_ERROR'),
+  ;
 
-extension UploaderStatusValueExtension on UploaderStatus {
-  String toValue() {
-    switch (this) {
-      case UploaderStatus.success:
-        return 'SUCCESS';
-      case UploaderStatus.userError:
-        return 'USER_ERROR';
-      case UploaderStatus.systemError:
-        return 'SYSTEM_ERROR';
-    }
-  }
-}
+  final String value;
 
-extension UploaderStatusFromString on String {
-  UploaderStatus toUploaderStatus() {
-    switch (this) {
-      case 'SUCCESS':
-        return UploaderStatus.success;
-      case 'USER_ERROR':
-        return UploaderStatus.userError;
-      case 'SYSTEM_ERROR':
-        return UploaderStatus.systemError;
-    }
-    throw Exception('$this is not known in enum UploaderStatus');
-  }
+  const UploaderStatus(this.value);
+
+  static UploaderStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum UploaderStatus'));
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

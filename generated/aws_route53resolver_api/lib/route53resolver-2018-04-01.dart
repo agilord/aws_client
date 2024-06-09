@@ -162,7 +162,7 @@ class Route53Resolver {
         'VpcId': vpcId,
         'CreatorRequestId': creatorRequestId ?? _s.generateIdempotencyToken(),
         if (mutationProtection != null)
-          'MutationProtection': mutationProtection.toValue(),
+          'MutationProtection': mutationProtection.value,
         if (tags != null) 'Tags': tags,
       },
     );
@@ -569,21 +569,21 @@ class Route53Resolver {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Action': action.toValue(),
+        'Action': action.value,
         'FirewallDomainListId': firewallDomainListId,
         'FirewallRuleGroupId': firewallRuleGroupId,
         'Name': name,
         'Priority': priority,
         if (blockOverrideDnsType != null)
-          'BlockOverrideDnsType': blockOverrideDnsType.toValue(),
+          'BlockOverrideDnsType': blockOverrideDnsType.value,
         if (blockOverrideDomain != null)
           'BlockOverrideDomain': blockOverrideDomain,
         if (blockOverrideTtl != null) 'BlockOverrideTtl': blockOverrideTtl,
-        if (blockResponse != null) 'BlockResponse': blockResponse.toValue(),
+        if (blockResponse != null) 'BlockResponse': blockResponse.value,
         'CreatorRequestId': creatorRequestId ?? _s.generateIdempotencyToken(),
         if (firewallDomainRedirectionAction != null)
           'FirewallDomainRedirectionAction':
-              firewallDomainRedirectionAction.toValue(),
+              firewallDomainRedirectionAction.value,
         if (qtype != null) 'Qtype': qtype,
       },
     );
@@ -858,7 +858,7 @@ class Route53Resolver {
       headers: headers,
       payload: {
         'CreatorRequestId': creatorRequestId,
-        'Direction': direction.toValue(),
+        'Direction': direction.value,
         'IpAddresses': ipAddresses,
         'SecurityGroupIds': securityGroupIds,
         if (name != null) 'Name': name,
@@ -866,9 +866,9 @@ class Route53Resolver {
         if (preferredInstanceType != null)
           'PreferredInstanceType': preferredInstanceType,
         if (protocols != null)
-          'Protocols': protocols.map((e) => e.toValue()).toList(),
+          'Protocols': protocols.map((e) => e.value).toList(),
         if (resolverEndpointType != null)
-          'ResolverEndpointType': resolverEndpointType.toValue(),
+          'ResolverEndpointType': resolverEndpointType.value,
         if (tags != null) 'Tags': tags,
       },
     );
@@ -1052,7 +1052,7 @@ class Route53Resolver {
       headers: headers,
       payload: {
         'CreatorRequestId': creatorRequestId,
-        'RuleType': ruleType.toValue(),
+        'RuleType': ruleType.value,
         if (domainName != null) 'DomainName': domainName,
         if (name != null) 'Name': name,
         if (resolverEndpointId != null)
@@ -2111,7 +2111,7 @@ class Route53Resolver {
       payload: {
         'DomainFileUrl': domainFileUrl,
         'FirewallDomainListId': firewallDomainListId,
-        'Operation': operation.toValue(),
+        'Operation': operation.value,
       },
     );
 
@@ -2375,7 +2375,7 @@ class Route53Resolver {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (priority != null) 'Priority': priority,
-        if (status != null) 'Status': status.toValue(),
+        if (status != null) 'Status': status.value,
         if (vpcId != null) 'VpcId': vpcId,
       },
     );
@@ -2528,7 +2528,7 @@ class Route53Resolver {
       headers: headers,
       payload: {
         'FirewallRuleGroupId': firewallRuleGroupId,
-        if (action != null) 'Action': action.toValue(),
+        if (action != null) 'Action': action.value,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (priority != null) 'Priority': priority,
@@ -2978,7 +2978,7 @@ class Route53Resolver {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (sortBy != null) 'SortBy': sortBy,
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -3140,7 +3140,7 @@ class Route53Resolver {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (sortBy != null) 'SortBy': sortBy,
-        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
     );
 
@@ -3667,7 +3667,7 @@ class Route53Resolver {
       // TODO queryParams
       headers: headers,
       payload: {
-        'FirewallFailOpen': firewallFailOpen.toValue(),
+        'FirewallFailOpen': firewallFailOpen.value,
         'ResourceId': resourceId,
       },
     );
@@ -3745,7 +3745,7 @@ class Route53Resolver {
       payload: {
         'Domains': domains,
         'FirewallDomainListId': firewallDomainListId,
-        'Operation': operation.toValue(),
+        'Operation': operation.value,
       },
     );
 
@@ -3930,16 +3930,16 @@ class Route53Resolver {
       payload: {
         'FirewallDomainListId': firewallDomainListId,
         'FirewallRuleGroupId': firewallRuleGroupId,
-        if (action != null) 'Action': action.toValue(),
+        if (action != null) 'Action': action.value,
         if (blockOverrideDnsType != null)
-          'BlockOverrideDnsType': blockOverrideDnsType.toValue(),
+          'BlockOverrideDnsType': blockOverrideDnsType.value,
         if (blockOverrideDomain != null)
           'BlockOverrideDomain': blockOverrideDomain,
         if (blockOverrideTtl != null) 'BlockOverrideTtl': blockOverrideTtl,
-        if (blockResponse != null) 'BlockResponse': blockResponse.toValue(),
+        if (blockResponse != null) 'BlockResponse': blockResponse.value,
         if (firewallDomainRedirectionAction != null)
           'FirewallDomainRedirectionAction':
-              firewallDomainRedirectionAction.toValue(),
+              firewallDomainRedirectionAction.value,
         if (name != null) 'Name': name,
         if (priority != null) 'Priority': priority,
         if (qtype != null) 'Qtype': qtype,
@@ -4001,7 +4001,7 @@ class Route53Resolver {
       payload: {
         'FirewallRuleGroupAssociationId': firewallRuleGroupAssociationId,
         if (mutationProtection != null)
-          'MutationProtection': mutationProtection.toValue(),
+          'MutationProtection': mutationProtection.value,
         if (name != null) 'Name': name,
         if (priority != null) 'Priority': priority,
       },
@@ -4111,7 +4111,7 @@ class Route53Resolver {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AutodefinedReverseFlag': autodefinedReverseFlag.toValue(),
+        'AutodefinedReverseFlag': autodefinedReverseFlag.value,
         'ResourceId': resourceId,
       },
     );
@@ -4153,7 +4153,7 @@ class Route53Resolver {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'Validation': validation.toValue(),
+        'Validation': validation.value,
       },
     );
 
@@ -4258,9 +4258,9 @@ class Route53Resolver {
         'ResolverEndpointId': resolverEndpointId,
         if (name != null) 'Name': name,
         if (protocols != null)
-          'Protocols': protocols.map((e) => e.toValue()).toList(),
+          'Protocols': protocols.map((e) => e.value).toList(),
         if (resolverEndpointType != null)
-          'ResolverEndpointType': resolverEndpointType.toValue(),
+          'ResolverEndpointType': resolverEndpointType.value,
         if (updateIpAddresses != null) 'UpdateIpAddresses': updateIpAddresses,
       },
     );
@@ -4311,36 +4311,18 @@ class Route53Resolver {
 }
 
 enum Action {
-  allow,
-  block,
-  alert,
-}
+  allow('ALLOW'),
+  block('BLOCK'),
+  alert('ALERT'),
+  ;
 
-extension ActionValueExtension on Action {
-  String toValue() {
-    switch (this) {
-      case Action.allow:
-        return 'ALLOW';
-      case Action.block:
-        return 'BLOCK';
-      case Action.alert:
-        return 'ALERT';
-    }
-  }
-}
+  final String value;
 
-extension ActionFromString on String {
-  Action toAction() {
-    switch (this) {
-      case 'ALLOW':
-        return Action.allow;
-      case 'BLOCK':
-        return Action.block;
-      case 'ALERT':
-        return Action.alert;
-    }
-    throw Exception('$this is not known in enum Action');
-  }
+  const Action(this.value);
+
+  static Action fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Action'));
 }
 
 class AssociateFirewallRuleGroupResponse {
@@ -4424,92 +4406,49 @@ class AssociateResolverRuleResponse {
 }
 
 enum AutodefinedReverseFlag {
-  enable,
-  disable,
-  useLocalResourceSetting,
-}
+  enable('ENABLE'),
+  disable('DISABLE'),
+  useLocalResourceSetting('USE_LOCAL_RESOURCE_SETTING'),
+  ;
 
-extension AutodefinedReverseFlagValueExtension on AutodefinedReverseFlag {
-  String toValue() {
-    switch (this) {
-      case AutodefinedReverseFlag.enable:
-        return 'ENABLE';
-      case AutodefinedReverseFlag.disable:
-        return 'DISABLE';
-      case AutodefinedReverseFlag.useLocalResourceSetting:
-        return 'USE_LOCAL_RESOURCE_SETTING';
-    }
-  }
-}
+  final String value;
 
-extension AutodefinedReverseFlagFromString on String {
-  AutodefinedReverseFlag toAutodefinedReverseFlag() {
-    switch (this) {
-      case 'ENABLE':
-        return AutodefinedReverseFlag.enable;
-      case 'DISABLE':
-        return AutodefinedReverseFlag.disable;
-      case 'USE_LOCAL_RESOURCE_SETTING':
-        return AutodefinedReverseFlag.useLocalResourceSetting;
-    }
-    throw Exception('$this is not known in enum AutodefinedReverseFlag');
-  }
+  const AutodefinedReverseFlag(this.value);
+
+  static AutodefinedReverseFlag fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AutodefinedReverseFlag'));
 }
 
 enum BlockOverrideDnsType {
-  cname,
-}
+  cname('CNAME'),
+  ;
 
-extension BlockOverrideDnsTypeValueExtension on BlockOverrideDnsType {
-  String toValue() {
-    switch (this) {
-      case BlockOverrideDnsType.cname:
-        return 'CNAME';
-    }
-  }
-}
+  final String value;
 
-extension BlockOverrideDnsTypeFromString on String {
-  BlockOverrideDnsType toBlockOverrideDnsType() {
-    switch (this) {
-      case 'CNAME':
-        return BlockOverrideDnsType.cname;
-    }
-    throw Exception('$this is not known in enum BlockOverrideDnsType');
-  }
+  const BlockOverrideDnsType(this.value);
+
+  static BlockOverrideDnsType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum BlockOverrideDnsType'));
 }
 
 enum BlockResponse {
-  nodata,
-  nxdomain,
-  override,
-}
+  nodata('NODATA'),
+  nxdomain('NXDOMAIN'),
+  override('OVERRIDE'),
+  ;
 
-extension BlockResponseValueExtension on BlockResponse {
-  String toValue() {
-    switch (this) {
-      case BlockResponse.nodata:
-        return 'NODATA';
-      case BlockResponse.nxdomain:
-        return 'NXDOMAIN';
-      case BlockResponse.override:
-        return 'OVERRIDE';
-    }
-  }
-}
+  final String value;
 
-extension BlockResponseFromString on String {
-  BlockResponse toBlockResponse() {
-    switch (this) {
-      case 'NODATA':
-        return BlockResponse.nodata;
-      case 'NXDOMAIN':
-        return BlockResponse.nxdomain;
-      case 'OVERRIDE':
-        return BlockResponse.override;
-    }
-    throw Exception('$this is not known in enum BlockResponse');
-  }
+  const BlockResponse(this.value);
+
+  static BlockResponse fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum BlockResponse'));
 }
 
 class CreateFirewallDomainListResponse {
@@ -5167,8 +5106,8 @@ class FirewallConfig {
 
   factory FirewallConfig.fromJson(Map<String, dynamic> json) {
     return FirewallConfig(
-      firewallFailOpen:
-          (json['FirewallFailOpen'] as String?)?.toFirewallFailOpenStatus(),
+      firewallFailOpen: (json['FirewallFailOpen'] as String?)
+          ?.let(FirewallFailOpenStatus.fromString),
       id: json['Id'] as String?,
       ownerId: json['OwnerId'] as String?,
       resourceId: json['ResourceId'] as String?,
@@ -5177,27 +5116,17 @@ class FirewallConfig {
 }
 
 enum FirewallDomainImportOperation {
-  replace,
-}
+  replace('REPLACE'),
+  ;
 
-extension FirewallDomainImportOperationValueExtension
-    on FirewallDomainImportOperation {
-  String toValue() {
-    switch (this) {
-      case FirewallDomainImportOperation.replace:
-        return 'REPLACE';
-    }
-  }
-}
+  final String value;
 
-extension FirewallDomainImportOperationFromString on String {
-  FirewallDomainImportOperation toFirewallDomainImportOperation() {
-    switch (this) {
-      case 'REPLACE':
-        return FirewallDomainImportOperation.replace;
-    }
-    throw Exception('$this is not known in enum FirewallDomainImportOperation');
-  }
+  const FirewallDomainImportOperation(this.value);
+
+  static FirewallDomainImportOperation fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum FirewallDomainImportOperation'));
 }
 
 /// High-level information about a list of firewall domains for use in a
@@ -5266,7 +5195,8 @@ class FirewallDomainList {
       managedOwnerName: json['ManagedOwnerName'] as String?,
       modificationTime: json['ModificationTime'] as String?,
       name: json['Name'] as String?,
-      status: (json['Status'] as String?)?.toFirewallDomainListStatus(),
+      status:
+          (json['Status'] as String?)?.let(FirewallDomainListStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
     );
   }
@@ -5318,143 +5248,68 @@ class FirewallDomainListMetadata {
 }
 
 enum FirewallDomainListStatus {
-  complete,
-  completeImportFailed,
-  importing,
-  deleting,
-  updating,
-}
+  complete('COMPLETE'),
+  completeImportFailed('COMPLETE_IMPORT_FAILED'),
+  importing('IMPORTING'),
+  deleting('DELETING'),
+  updating('UPDATING'),
+  ;
 
-extension FirewallDomainListStatusValueExtension on FirewallDomainListStatus {
-  String toValue() {
-    switch (this) {
-      case FirewallDomainListStatus.complete:
-        return 'COMPLETE';
-      case FirewallDomainListStatus.completeImportFailed:
-        return 'COMPLETE_IMPORT_FAILED';
-      case FirewallDomainListStatus.importing:
-        return 'IMPORTING';
-      case FirewallDomainListStatus.deleting:
-        return 'DELETING';
-      case FirewallDomainListStatus.updating:
-        return 'UPDATING';
-    }
-  }
-}
+  final String value;
 
-extension FirewallDomainListStatusFromString on String {
-  FirewallDomainListStatus toFirewallDomainListStatus() {
-    switch (this) {
-      case 'COMPLETE':
-        return FirewallDomainListStatus.complete;
-      case 'COMPLETE_IMPORT_FAILED':
-        return FirewallDomainListStatus.completeImportFailed;
-      case 'IMPORTING':
-        return FirewallDomainListStatus.importing;
-      case 'DELETING':
-        return FirewallDomainListStatus.deleting;
-      case 'UPDATING':
-        return FirewallDomainListStatus.updating;
-    }
-    throw Exception('$this is not known in enum FirewallDomainListStatus');
-  }
+  const FirewallDomainListStatus(this.value);
+
+  static FirewallDomainListStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum FirewallDomainListStatus'));
 }
 
 enum FirewallDomainRedirectionAction {
-  inspectRedirectionDomain,
-  trustRedirectionDomain,
-}
+  inspectRedirectionDomain('INSPECT_REDIRECTION_DOMAIN'),
+  trustRedirectionDomain('TRUST_REDIRECTION_DOMAIN'),
+  ;
 
-extension FirewallDomainRedirectionActionValueExtension
-    on FirewallDomainRedirectionAction {
-  String toValue() {
-    switch (this) {
-      case FirewallDomainRedirectionAction.inspectRedirectionDomain:
-        return 'INSPECT_REDIRECTION_DOMAIN';
-      case FirewallDomainRedirectionAction.trustRedirectionDomain:
-        return 'TRUST_REDIRECTION_DOMAIN';
-    }
-  }
-}
+  final String value;
 
-extension FirewallDomainRedirectionActionFromString on String {
-  FirewallDomainRedirectionAction toFirewallDomainRedirectionAction() {
-    switch (this) {
-      case 'INSPECT_REDIRECTION_DOMAIN':
-        return FirewallDomainRedirectionAction.inspectRedirectionDomain;
-      case 'TRUST_REDIRECTION_DOMAIN':
-        return FirewallDomainRedirectionAction.trustRedirectionDomain;
-    }
-    throw Exception(
-        '$this is not known in enum FirewallDomainRedirectionAction');
-  }
+  const FirewallDomainRedirectionAction(this.value);
+
+  static FirewallDomainRedirectionAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum FirewallDomainRedirectionAction'));
 }
 
 enum FirewallDomainUpdateOperation {
-  add,
-  remove,
-  replace,
-}
+  add('ADD'),
+  remove('REMOVE'),
+  replace('REPLACE'),
+  ;
 
-extension FirewallDomainUpdateOperationValueExtension
-    on FirewallDomainUpdateOperation {
-  String toValue() {
-    switch (this) {
-      case FirewallDomainUpdateOperation.add:
-        return 'ADD';
-      case FirewallDomainUpdateOperation.remove:
-        return 'REMOVE';
-      case FirewallDomainUpdateOperation.replace:
-        return 'REPLACE';
-    }
-  }
-}
+  final String value;
 
-extension FirewallDomainUpdateOperationFromString on String {
-  FirewallDomainUpdateOperation toFirewallDomainUpdateOperation() {
-    switch (this) {
-      case 'ADD':
-        return FirewallDomainUpdateOperation.add;
-      case 'REMOVE':
-        return FirewallDomainUpdateOperation.remove;
-      case 'REPLACE':
-        return FirewallDomainUpdateOperation.replace;
-    }
-    throw Exception('$this is not known in enum FirewallDomainUpdateOperation');
-  }
+  const FirewallDomainUpdateOperation(this.value);
+
+  static FirewallDomainUpdateOperation fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum FirewallDomainUpdateOperation'));
 }
 
 enum FirewallFailOpenStatus {
-  enabled,
-  disabled,
-  useLocalResourceSetting,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  useLocalResourceSetting('USE_LOCAL_RESOURCE_SETTING'),
+  ;
 
-extension FirewallFailOpenStatusValueExtension on FirewallFailOpenStatus {
-  String toValue() {
-    switch (this) {
-      case FirewallFailOpenStatus.enabled:
-        return 'ENABLED';
-      case FirewallFailOpenStatus.disabled:
-        return 'DISABLED';
-      case FirewallFailOpenStatus.useLocalResourceSetting:
-        return 'USE_LOCAL_RESOURCE_SETTING';
-    }
-  }
-}
+  final String value;
 
-extension FirewallFailOpenStatusFromString on String {
-  FirewallFailOpenStatus toFirewallFailOpenStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return FirewallFailOpenStatus.enabled;
-      case 'DISABLED':
-        return FirewallFailOpenStatus.disabled;
-      case 'USE_LOCAL_RESOURCE_SETTING':
-        return FirewallFailOpenStatus.useLocalResourceSetting;
-    }
-    throw Exception('$this is not known in enum FirewallFailOpenStatus');
-  }
+  const FirewallFailOpenStatus(this.value);
+
+  static FirewallFailOpenStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum FirewallFailOpenStatus'));
 }
 
 /// A single firewall rule in a rule group.
@@ -5625,18 +5480,19 @@ class FirewallRule {
 
   factory FirewallRule.fromJson(Map<String, dynamic> json) {
     return FirewallRule(
-      action: (json['Action'] as String?)?.toAction(),
-      blockOverrideDnsType:
-          (json['BlockOverrideDnsType'] as String?)?.toBlockOverrideDnsType(),
+      action: (json['Action'] as String?)?.let(Action.fromString),
+      blockOverrideDnsType: (json['BlockOverrideDnsType'] as String?)
+          ?.let(BlockOverrideDnsType.fromString),
       blockOverrideDomain: json['BlockOverrideDomain'] as String?,
       blockOverrideTtl: json['BlockOverrideTtl'] as int?,
-      blockResponse: (json['BlockResponse'] as String?)?.toBlockResponse(),
+      blockResponse:
+          (json['BlockResponse'] as String?)?.let(BlockResponse.fromString),
       creationTime: json['CreationTime'] as String?,
       creatorRequestId: json['CreatorRequestId'] as String?,
       firewallDomainListId: json['FirewallDomainListId'] as String?,
       firewallDomainRedirectionAction:
           (json['FirewallDomainRedirectionAction'] as String?)
-              ?.toFirewallDomainRedirectionAction(),
+              ?.let(FirewallDomainRedirectionAction.fromString),
       firewallRuleGroupId: json['FirewallRuleGroupId'] as String?,
       modificationTime: json['ModificationTime'] as String?,
       name: json['Name'] as String?,
@@ -5716,8 +5572,10 @@ class FirewallRuleGroup {
       name: json['Name'] as String?,
       ownerId: json['OwnerId'] as String?,
       ruleCount: json['RuleCount'] as int?,
-      shareStatus: (json['ShareStatus'] as String?)?.toShareStatus(),
-      status: (json['Status'] as String?)?.toFirewallRuleGroupStatus(),
+      shareStatus:
+          (json['ShareStatus'] as String?)?.let(ShareStatus.fromString),
+      status:
+          (json['Status'] as String?)?.let(FirewallRuleGroupStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
     );
   }
@@ -5800,12 +5658,12 @@ class FirewallRuleGroupAssociation {
       id: json['Id'] as String?,
       managedOwnerName: json['ManagedOwnerName'] as String?,
       modificationTime: json['ModificationTime'] as String?,
-      mutationProtection:
-          (json['MutationProtection'] as String?)?.toMutationProtectionStatus(),
+      mutationProtection: (json['MutationProtection'] as String?)
+          ?.let(MutationProtectionStatus.fromString),
       name: json['Name'] as String?,
       priority: json['Priority'] as int?,
-      status:
-          (json['Status'] as String?)?.toFirewallRuleGroupAssociationStatus(),
+      status: (json['Status'] as String?)
+          ?.let(FirewallRuleGroupAssociationStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
       vpcId: json['VpcId'] as String?,
     );
@@ -5813,38 +5671,19 @@ class FirewallRuleGroupAssociation {
 }
 
 enum FirewallRuleGroupAssociationStatus {
-  complete,
-  deleting,
-  updating,
-}
+  complete('COMPLETE'),
+  deleting('DELETING'),
+  updating('UPDATING'),
+  ;
 
-extension FirewallRuleGroupAssociationStatusValueExtension
-    on FirewallRuleGroupAssociationStatus {
-  String toValue() {
-    switch (this) {
-      case FirewallRuleGroupAssociationStatus.complete:
-        return 'COMPLETE';
-      case FirewallRuleGroupAssociationStatus.deleting:
-        return 'DELETING';
-      case FirewallRuleGroupAssociationStatus.updating:
-        return 'UPDATING';
-    }
-  }
-}
+  final String value;
 
-extension FirewallRuleGroupAssociationStatusFromString on String {
-  FirewallRuleGroupAssociationStatus toFirewallRuleGroupAssociationStatus() {
-    switch (this) {
-      case 'COMPLETE':
-        return FirewallRuleGroupAssociationStatus.complete;
-      case 'DELETING':
-        return FirewallRuleGroupAssociationStatus.deleting;
-      case 'UPDATING':
-        return FirewallRuleGroupAssociationStatus.updating;
-    }
-    throw Exception(
-        '$this is not known in enum FirewallRuleGroupAssociationStatus');
-  }
+  const FirewallRuleGroupAssociationStatus(this.value);
+
+  static FirewallRuleGroupAssociationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum FirewallRuleGroupAssociationStatus'));
 }
 
 /// Minimal high-level information for a firewall rule group. The action
@@ -5893,42 +5732,26 @@ class FirewallRuleGroupMetadata {
       id: json['Id'] as String?,
       name: json['Name'] as String?,
       ownerId: json['OwnerId'] as String?,
-      shareStatus: (json['ShareStatus'] as String?)?.toShareStatus(),
+      shareStatus:
+          (json['ShareStatus'] as String?)?.let(ShareStatus.fromString),
     );
   }
 }
 
 enum FirewallRuleGroupStatus {
-  complete,
-  deleting,
-  updating,
-}
+  complete('COMPLETE'),
+  deleting('DELETING'),
+  updating('UPDATING'),
+  ;
 
-extension FirewallRuleGroupStatusValueExtension on FirewallRuleGroupStatus {
-  String toValue() {
-    switch (this) {
-      case FirewallRuleGroupStatus.complete:
-        return 'COMPLETE';
-      case FirewallRuleGroupStatus.deleting:
-        return 'DELETING';
-      case FirewallRuleGroupStatus.updating:
-        return 'UPDATING';
-    }
-  }
-}
+  final String value;
 
-extension FirewallRuleGroupStatusFromString on String {
-  FirewallRuleGroupStatus toFirewallRuleGroupStatus() {
-    switch (this) {
-      case 'COMPLETE':
-        return FirewallRuleGroupStatus.complete;
-      case 'DELETING':
-        return FirewallRuleGroupStatus.deleting;
-      case 'UPDATING':
-        return FirewallRuleGroupStatus.updating;
-    }
-    throw Exception('$this is not known in enum FirewallRuleGroupStatus');
-  }
+  const FirewallRuleGroupStatus(this.value);
+
+  static FirewallRuleGroupStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum FirewallRuleGroupStatus'));
 }
 
 class GetFirewallConfigResponse {
@@ -6237,7 +6060,8 @@ class ImportFirewallDomainsResponse {
     return ImportFirewallDomainsResponse(
       id: json['Id'] as String?,
       name: json['Name'] as String?,
-      status: (json['Status'] as String?)?.toFirewallDomainListStatus(),
+      status:
+          (json['Status'] as String?)?.let(FirewallDomainListStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
     );
   }
@@ -6327,7 +6151,7 @@ class IpAddressResponse {
       ipId: json['IpId'] as String?,
       ipv6: json['Ipv6'] as String?,
       modificationTime: json['ModificationTime'] as String?,
-      status: (json['Status'] as String?)?.toIpAddressStatus(),
+      status: (json['Status'] as String?)?.let(IpAddressStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
       subnetId: json['SubnetId'] as String?,
     );
@@ -6335,81 +6159,28 @@ class IpAddressResponse {
 }
 
 enum IpAddressStatus {
-  creating,
-  failedCreation,
-  attaching,
-  attached,
-  remapDetaching,
-  remapAttaching,
-  detaching,
-  failedResourceGone,
-  deleting,
-  deleteFailedFasExpired,
-  updating,
-  updateFailed,
-}
+  creating('CREATING'),
+  failedCreation('FAILED_CREATION'),
+  attaching('ATTACHING'),
+  attached('ATTACHED'),
+  remapDetaching('REMAP_DETACHING'),
+  remapAttaching('REMAP_ATTACHING'),
+  detaching('DETACHING'),
+  failedResourceGone('FAILED_RESOURCE_GONE'),
+  deleting('DELETING'),
+  deleteFailedFasExpired('DELETE_FAILED_FAS_EXPIRED'),
+  updating('UPDATING'),
+  updateFailed('UPDATE_FAILED'),
+  ;
 
-extension IpAddressStatusValueExtension on IpAddressStatus {
-  String toValue() {
-    switch (this) {
-      case IpAddressStatus.creating:
-        return 'CREATING';
-      case IpAddressStatus.failedCreation:
-        return 'FAILED_CREATION';
-      case IpAddressStatus.attaching:
-        return 'ATTACHING';
-      case IpAddressStatus.attached:
-        return 'ATTACHED';
-      case IpAddressStatus.remapDetaching:
-        return 'REMAP_DETACHING';
-      case IpAddressStatus.remapAttaching:
-        return 'REMAP_ATTACHING';
-      case IpAddressStatus.detaching:
-        return 'DETACHING';
-      case IpAddressStatus.failedResourceGone:
-        return 'FAILED_RESOURCE_GONE';
-      case IpAddressStatus.deleting:
-        return 'DELETING';
-      case IpAddressStatus.deleteFailedFasExpired:
-        return 'DELETE_FAILED_FAS_EXPIRED';
-      case IpAddressStatus.updating:
-        return 'UPDATING';
-      case IpAddressStatus.updateFailed:
-        return 'UPDATE_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension IpAddressStatusFromString on String {
-  IpAddressStatus toIpAddressStatus() {
-    switch (this) {
-      case 'CREATING':
-        return IpAddressStatus.creating;
-      case 'FAILED_CREATION':
-        return IpAddressStatus.failedCreation;
-      case 'ATTACHING':
-        return IpAddressStatus.attaching;
-      case 'ATTACHED':
-        return IpAddressStatus.attached;
-      case 'REMAP_DETACHING':
-        return IpAddressStatus.remapDetaching;
-      case 'REMAP_ATTACHING':
-        return IpAddressStatus.remapAttaching;
-      case 'DETACHING':
-        return IpAddressStatus.detaching;
-      case 'FAILED_RESOURCE_GONE':
-        return IpAddressStatus.failedResourceGone;
-      case 'DELETING':
-        return IpAddressStatus.deleting;
-      case 'DELETE_FAILED_FAS_EXPIRED':
-        return IpAddressStatus.deleteFailedFasExpired;
-      case 'UPDATING':
-        return IpAddressStatus.updating;
-      case 'UPDATE_FAILED':
-        return IpAddressStatus.updateFailed;
-    }
-    throw Exception('$this is not known in enum IpAddressStatus');
-  }
+  const IpAddressStatus(this.value);
+
+  static IpAddressStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum IpAddressStatus'));
 }
 
 /// In an <a
@@ -6981,31 +6752,18 @@ class ListTagsForResourceResponse {
 }
 
 enum MutationProtectionStatus {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension MutationProtectionStatusValueExtension on MutationProtectionStatus {
-  String toValue() {
-    switch (this) {
-      case MutationProtectionStatus.enabled:
-        return 'ENABLED';
-      case MutationProtectionStatus.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension MutationProtectionStatusFromString on String {
-  MutationProtectionStatus toMutationProtectionStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return MutationProtectionStatus.enabled;
-      case 'DISABLED':
-        return MutationProtectionStatus.disabled;
-    }
-    throw Exception('$this is not known in enum MutationProtectionStatus');
-  }
+  const MutationProtectionStatus(this.value);
+
+  static MutationProtectionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MutationProtectionStatus'));
 }
 
 /// A complex type that contains settings for an existing Resolver on an
@@ -7073,96 +6831,46 @@ class OutpostResolver {
       name: json['Name'] as String?,
       outpostArn: json['OutpostArn'] as String?,
       preferredInstanceType: json['PreferredInstanceType'] as String?,
-      status: (json['Status'] as String?)?.toOutpostResolverStatus(),
+      status:
+          (json['Status'] as String?)?.let(OutpostResolverStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
     );
   }
 }
 
 enum OutpostResolverStatus {
-  creating,
-  operational,
-  updating,
-  deleting,
-  actionNeeded,
-  failedCreation,
-  failedDeletion,
-}
+  creating('CREATING'),
+  operational('OPERATIONAL'),
+  updating('UPDATING'),
+  deleting('DELETING'),
+  actionNeeded('ACTION_NEEDED'),
+  failedCreation('FAILED_CREATION'),
+  failedDeletion('FAILED_DELETION'),
+  ;
 
-extension OutpostResolverStatusValueExtension on OutpostResolverStatus {
-  String toValue() {
-    switch (this) {
-      case OutpostResolverStatus.creating:
-        return 'CREATING';
-      case OutpostResolverStatus.operational:
-        return 'OPERATIONAL';
-      case OutpostResolverStatus.updating:
-        return 'UPDATING';
-      case OutpostResolverStatus.deleting:
-        return 'DELETING';
-      case OutpostResolverStatus.actionNeeded:
-        return 'ACTION_NEEDED';
-      case OutpostResolverStatus.failedCreation:
-        return 'FAILED_CREATION';
-      case OutpostResolverStatus.failedDeletion:
-        return 'FAILED_DELETION';
-    }
-  }
-}
+  final String value;
 
-extension OutpostResolverStatusFromString on String {
-  OutpostResolverStatus toOutpostResolverStatus() {
-    switch (this) {
-      case 'CREATING':
-        return OutpostResolverStatus.creating;
-      case 'OPERATIONAL':
-        return OutpostResolverStatus.operational;
-      case 'UPDATING':
-        return OutpostResolverStatus.updating;
-      case 'DELETING':
-        return OutpostResolverStatus.deleting;
-      case 'ACTION_NEEDED':
-        return OutpostResolverStatus.actionNeeded;
-      case 'FAILED_CREATION':
-        return OutpostResolverStatus.failedCreation;
-      case 'FAILED_DELETION':
-        return OutpostResolverStatus.failedDeletion;
-    }
-    throw Exception('$this is not known in enum OutpostResolverStatus');
-  }
+  const OutpostResolverStatus(this.value);
+
+  static OutpostResolverStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum OutpostResolverStatus'));
 }
 
 enum Protocol {
-  doH,
-  do53,
-  doHFips,
-}
+  doH('DoH'),
+  do53('Do53'),
+  doHFips('DoH-FIPS'),
+  ;
 
-extension ProtocolValueExtension on Protocol {
-  String toValue() {
-    switch (this) {
-      case Protocol.doH:
-        return 'DoH';
-      case Protocol.do53:
-        return 'Do53';
-      case Protocol.doHFips:
-        return 'DoH-FIPS';
-    }
-  }
-}
+  final String value;
 
-extension ProtocolFromString on String {
-  Protocol toProtocol() {
-    switch (this) {
-      case 'DoH':
-        return Protocol.doH;
-      case 'Do53':
-        return Protocol.do53;
-      case 'DoH-FIPS':
-        return Protocol.doHFips;
-    }
-    throw Exception('$this is not known in enum Protocol');
-  }
+  const Protocol(this.value);
+
+  static Protocol fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Protocol'));
 }
 
 class PutFirewallRuleGroupPolicyResponse {
@@ -7216,54 +6924,22 @@ class PutResolverRulePolicyResponse {
 }
 
 enum ResolverAutodefinedReverseStatus {
-  enabling,
-  enabled,
-  disabling,
-  disabled,
-  updatingToUseLocalResourceSetting,
-  useLocalResourceSetting,
-}
+  enabling('ENABLING'),
+  enabled('ENABLED'),
+  disabling('DISABLING'),
+  disabled('DISABLED'),
+  updatingToUseLocalResourceSetting('UPDATING_TO_USE_LOCAL_RESOURCE_SETTING'),
+  useLocalResourceSetting('USE_LOCAL_RESOURCE_SETTING'),
+  ;
 
-extension ResolverAutodefinedReverseStatusValueExtension
-    on ResolverAutodefinedReverseStatus {
-  String toValue() {
-    switch (this) {
-      case ResolverAutodefinedReverseStatus.enabling:
-        return 'ENABLING';
-      case ResolverAutodefinedReverseStatus.enabled:
-        return 'ENABLED';
-      case ResolverAutodefinedReverseStatus.disabling:
-        return 'DISABLING';
-      case ResolverAutodefinedReverseStatus.disabled:
-        return 'DISABLED';
-      case ResolverAutodefinedReverseStatus.updatingToUseLocalResourceSetting:
-        return 'UPDATING_TO_USE_LOCAL_RESOURCE_SETTING';
-      case ResolverAutodefinedReverseStatus.useLocalResourceSetting:
-        return 'USE_LOCAL_RESOURCE_SETTING';
-    }
-  }
-}
+  final String value;
 
-extension ResolverAutodefinedReverseStatusFromString on String {
-  ResolverAutodefinedReverseStatus toResolverAutodefinedReverseStatus() {
-    switch (this) {
-      case 'ENABLING':
-        return ResolverAutodefinedReverseStatus.enabling;
-      case 'ENABLED':
-        return ResolverAutodefinedReverseStatus.enabled;
-      case 'DISABLING':
-        return ResolverAutodefinedReverseStatus.disabling;
-      case 'DISABLED':
-        return ResolverAutodefinedReverseStatus.disabled;
-      case 'UPDATING_TO_USE_LOCAL_RESOURCE_SETTING':
-        return ResolverAutodefinedReverseStatus
-            .updatingToUseLocalResourceSetting;
-      case 'USE_LOCAL_RESOURCE_SETTING':
-        return ResolverAutodefinedReverseStatus.useLocalResourceSetting;
-    }
-    throw Exception(
-        '$this is not known in enum ResolverAutodefinedReverseStatus');
-  }
+  const ResolverAutodefinedReverseStatus(this.value);
+
+  static ResolverAutodefinedReverseStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ResolverAutodefinedReverseStatus'));
 }
 
 /// A complex type that contains information about a Resolver configuration for
@@ -7311,7 +6987,7 @@ class ResolverConfig {
   factory ResolverConfig.fromJson(Map<String, dynamic> json) {
     return ResolverConfig(
       autodefinedReverse: (json['AutodefinedReverse'] as String?)
-          ?.toResolverAutodefinedReverseStatus(),
+          ?.let(ResolverAutodefinedReverseStatus.fromString),
       id: json['Id'] as String?,
       ownerId: json['OwnerId'] as String?,
       resourceId: json['ResourceId'] as String?,
@@ -7320,53 +6996,22 @@ class ResolverConfig {
 }
 
 enum ResolverDNSSECValidationStatus {
-  enabling,
-  enabled,
-  disabling,
-  disabled,
-  updatingToUseLocalResourceSetting,
-  useLocalResourceSetting,
-}
+  enabling('ENABLING'),
+  enabled('ENABLED'),
+  disabling('DISABLING'),
+  disabled('DISABLED'),
+  updatingToUseLocalResourceSetting('UPDATING_TO_USE_LOCAL_RESOURCE_SETTING'),
+  useLocalResourceSetting('USE_LOCAL_RESOURCE_SETTING'),
+  ;
 
-extension ResolverDNSSECValidationStatusValueExtension
-    on ResolverDNSSECValidationStatus {
-  String toValue() {
-    switch (this) {
-      case ResolverDNSSECValidationStatus.enabling:
-        return 'ENABLING';
-      case ResolverDNSSECValidationStatus.enabled:
-        return 'ENABLED';
-      case ResolverDNSSECValidationStatus.disabling:
-        return 'DISABLING';
-      case ResolverDNSSECValidationStatus.disabled:
-        return 'DISABLED';
-      case ResolverDNSSECValidationStatus.updatingToUseLocalResourceSetting:
-        return 'UPDATING_TO_USE_LOCAL_RESOURCE_SETTING';
-      case ResolverDNSSECValidationStatus.useLocalResourceSetting:
-        return 'USE_LOCAL_RESOURCE_SETTING';
-    }
-  }
-}
+  final String value;
 
-extension ResolverDNSSECValidationStatusFromString on String {
-  ResolverDNSSECValidationStatus toResolverDNSSECValidationStatus() {
-    switch (this) {
-      case 'ENABLING':
-        return ResolverDNSSECValidationStatus.enabling;
-      case 'ENABLED':
-        return ResolverDNSSECValidationStatus.enabled;
-      case 'DISABLING':
-        return ResolverDNSSECValidationStatus.disabling;
-      case 'DISABLED':
-        return ResolverDNSSECValidationStatus.disabled;
-      case 'UPDATING_TO_USE_LOCAL_RESOURCE_SETTING':
-        return ResolverDNSSECValidationStatus.updatingToUseLocalResourceSetting;
-      case 'USE_LOCAL_RESOURCE_SETTING':
-        return ResolverDNSSECValidationStatus.useLocalResourceSetting;
-    }
-    throw Exception(
-        '$this is not known in enum ResolverDNSSECValidationStatus');
-  }
+  const ResolverDNSSECValidationStatus(this.value);
+
+  static ResolverDNSSECValidationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ResolverDNSSECValidationStatus'));
 }
 
 /// A complex type that contains information about a configuration for DNSSEC
@@ -7415,7 +7060,7 @@ class ResolverDnssecConfig {
       ownerId: json['OwnerId'] as String?,
       resourceId: json['ResourceId'] as String?,
       validationStatus: (json['ValidationStatus'] as String?)
-          ?.toResolverDNSSECValidationStatus(),
+          ?.let(ResolverDNSSECValidationStatus.fromString),
     );
   }
 }
@@ -7614,7 +7259,8 @@ class ResolverEndpoint {
       arn: json['Arn'] as String?,
       creationTime: json['CreationTime'] as String?,
       creatorRequestId: json['CreatorRequestId'] as String?,
-      direction: (json['Direction'] as String?)?.toResolverEndpointDirection(),
+      direction: (json['Direction'] as String?)
+          ?.let(ResolverEndpointDirection.fromString),
       hostVPCId: json['HostVPCId'] as String?,
       id: json['Id'] as String?,
       ipAddressCount: json['IpAddressCount'] as int?,
@@ -7624,127 +7270,69 @@ class ResolverEndpoint {
       preferredInstanceType: json['PreferredInstanceType'] as String?,
       protocols: (json['Protocols'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toProtocol())
+          .map((e) => Protocol.fromString((e as String)))
           .toList(),
-      resolverEndpointType:
-          (json['ResolverEndpointType'] as String?)?.toResolverEndpointType(),
+      resolverEndpointType: (json['ResolverEndpointType'] as String?)
+          ?.let(ResolverEndpointType.fromString),
       securityGroupIds: (json['SecurityGroupIds'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      status: (json['Status'] as String?)?.toResolverEndpointStatus(),
+      status:
+          (json['Status'] as String?)?.let(ResolverEndpointStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
     );
   }
 }
 
 enum ResolverEndpointDirection {
-  inbound,
-  outbound,
-}
+  inbound('INBOUND'),
+  outbound('OUTBOUND'),
+  ;
 
-extension ResolverEndpointDirectionValueExtension on ResolverEndpointDirection {
-  String toValue() {
-    switch (this) {
-      case ResolverEndpointDirection.inbound:
-        return 'INBOUND';
-      case ResolverEndpointDirection.outbound:
-        return 'OUTBOUND';
-    }
-  }
-}
+  final String value;
 
-extension ResolverEndpointDirectionFromString on String {
-  ResolverEndpointDirection toResolverEndpointDirection() {
-    switch (this) {
-      case 'INBOUND':
-        return ResolverEndpointDirection.inbound;
-      case 'OUTBOUND':
-        return ResolverEndpointDirection.outbound;
-    }
-    throw Exception('$this is not known in enum ResolverEndpointDirection');
-  }
+  const ResolverEndpointDirection(this.value);
+
+  static ResolverEndpointDirection fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ResolverEndpointDirection'));
 }
 
 enum ResolverEndpointStatus {
-  creating,
-  operational,
-  updating,
-  autoRecovering,
-  actionNeeded,
-  deleting,
-}
+  creating('CREATING'),
+  operational('OPERATIONAL'),
+  updating('UPDATING'),
+  autoRecovering('AUTO_RECOVERING'),
+  actionNeeded('ACTION_NEEDED'),
+  deleting('DELETING'),
+  ;
 
-extension ResolverEndpointStatusValueExtension on ResolverEndpointStatus {
-  String toValue() {
-    switch (this) {
-      case ResolverEndpointStatus.creating:
-        return 'CREATING';
-      case ResolverEndpointStatus.operational:
-        return 'OPERATIONAL';
-      case ResolverEndpointStatus.updating:
-        return 'UPDATING';
-      case ResolverEndpointStatus.autoRecovering:
-        return 'AUTO_RECOVERING';
-      case ResolverEndpointStatus.actionNeeded:
-        return 'ACTION_NEEDED';
-      case ResolverEndpointStatus.deleting:
-        return 'DELETING';
-    }
-  }
-}
+  final String value;
 
-extension ResolverEndpointStatusFromString on String {
-  ResolverEndpointStatus toResolverEndpointStatus() {
-    switch (this) {
-      case 'CREATING':
-        return ResolverEndpointStatus.creating;
-      case 'OPERATIONAL':
-        return ResolverEndpointStatus.operational;
-      case 'UPDATING':
-        return ResolverEndpointStatus.updating;
-      case 'AUTO_RECOVERING':
-        return ResolverEndpointStatus.autoRecovering;
-      case 'ACTION_NEEDED':
-        return ResolverEndpointStatus.actionNeeded;
-      case 'DELETING':
-        return ResolverEndpointStatus.deleting;
-    }
-    throw Exception('$this is not known in enum ResolverEndpointStatus');
-  }
+  const ResolverEndpointStatus(this.value);
+
+  static ResolverEndpointStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ResolverEndpointStatus'));
 }
 
 enum ResolverEndpointType {
-  ipv6,
-  ipv4,
-  dualstack,
-}
+  ipv6('IPV6'),
+  ipv4('IPV4'),
+  dualstack('DUALSTACK'),
+  ;
 
-extension ResolverEndpointTypeValueExtension on ResolverEndpointType {
-  String toValue() {
-    switch (this) {
-      case ResolverEndpointType.ipv6:
-        return 'IPV6';
-      case ResolverEndpointType.ipv4:
-        return 'IPV4';
-      case ResolverEndpointType.dualstack:
-        return 'DUALSTACK';
-    }
-  }
-}
+  final String value;
 
-extension ResolverEndpointTypeFromString on String {
-  ResolverEndpointType toResolverEndpointType() {
-    switch (this) {
-      case 'IPV6':
-        return ResolverEndpointType.ipv6;
-      case 'IPV4':
-        return ResolverEndpointType.ipv4;
-      case 'DUALSTACK':
-        return ResolverEndpointType.dualstack;
-    }
-    throw Exception('$this is not known in enum ResolverEndpointType');
-  }
+  const ResolverEndpointType(this.value);
+
+  static ResolverEndpointType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ResolverEndpointType'));
 }
 
 /// In the response to a <a
@@ -7847,8 +7435,10 @@ class ResolverQueryLogConfig {
       id: json['Id'] as String?,
       name: json['Name'] as String?,
       ownerId: json['OwnerId'] as String?,
-      shareStatus: (json['ShareStatus'] as String?)?.toShareStatus(),
-      status: (json['Status'] as String?)?.toResolverQueryLogConfigStatus(),
+      shareStatus:
+          (json['ShareStatus'] as String?)?.let(ShareStatus.fromString),
+      status: (json['Status'] as String?)
+          ?.let(ResolverQueryLogConfigStatus.fromString),
     );
   }
 }
@@ -7938,141 +7528,67 @@ class ResolverQueryLogConfigAssociation {
     return ResolverQueryLogConfigAssociation(
       creationTime: json['CreationTime'] as String?,
       error: (json['Error'] as String?)
-          ?.toResolverQueryLogConfigAssociationError(),
+          ?.let(ResolverQueryLogConfigAssociationError.fromString),
       errorMessage: json['ErrorMessage'] as String?,
       id: json['Id'] as String?,
       resolverQueryLogConfigId: json['ResolverQueryLogConfigId'] as String?,
       resourceId: json['ResourceId'] as String?,
       status: (json['Status'] as String?)
-          ?.toResolverQueryLogConfigAssociationStatus(),
+          ?.let(ResolverQueryLogConfigAssociationStatus.fromString),
     );
   }
 }
 
 enum ResolverQueryLogConfigAssociationError {
-  none,
-  destinationNotFound,
-  accessDenied,
-  internalServiceError,
-}
+  none('NONE'),
+  destinationNotFound('DESTINATION_NOT_FOUND'),
+  accessDenied('ACCESS_DENIED'),
+  internalServiceError('INTERNAL_SERVICE_ERROR'),
+  ;
 
-extension ResolverQueryLogConfigAssociationErrorValueExtension
-    on ResolverQueryLogConfigAssociationError {
-  String toValue() {
-    switch (this) {
-      case ResolverQueryLogConfigAssociationError.none:
-        return 'NONE';
-      case ResolverQueryLogConfigAssociationError.destinationNotFound:
-        return 'DESTINATION_NOT_FOUND';
-      case ResolverQueryLogConfigAssociationError.accessDenied:
-        return 'ACCESS_DENIED';
-      case ResolverQueryLogConfigAssociationError.internalServiceError:
-        return 'INTERNAL_SERVICE_ERROR';
-    }
-  }
-}
+  final String value;
 
-extension ResolverQueryLogConfigAssociationErrorFromString on String {
-  ResolverQueryLogConfigAssociationError
-      toResolverQueryLogConfigAssociationError() {
-    switch (this) {
-      case 'NONE':
-        return ResolverQueryLogConfigAssociationError.none;
-      case 'DESTINATION_NOT_FOUND':
-        return ResolverQueryLogConfigAssociationError.destinationNotFound;
-      case 'ACCESS_DENIED':
-        return ResolverQueryLogConfigAssociationError.accessDenied;
-      case 'INTERNAL_SERVICE_ERROR':
-        return ResolverQueryLogConfigAssociationError.internalServiceError;
-    }
-    throw Exception(
-        '$this is not known in enum ResolverQueryLogConfigAssociationError');
-  }
+  const ResolverQueryLogConfigAssociationError(this.value);
+
+  static ResolverQueryLogConfigAssociationError fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ResolverQueryLogConfigAssociationError'));
 }
 
 enum ResolverQueryLogConfigAssociationStatus {
-  creating,
-  active,
-  actionNeeded,
-  deleting,
-  failed,
-}
+  creating('CREATING'),
+  active('ACTIVE'),
+  actionNeeded('ACTION_NEEDED'),
+  deleting('DELETING'),
+  failed('FAILED'),
+  ;
 
-extension ResolverQueryLogConfigAssociationStatusValueExtension
-    on ResolverQueryLogConfigAssociationStatus {
-  String toValue() {
-    switch (this) {
-      case ResolverQueryLogConfigAssociationStatus.creating:
-        return 'CREATING';
-      case ResolverQueryLogConfigAssociationStatus.active:
-        return 'ACTIVE';
-      case ResolverQueryLogConfigAssociationStatus.actionNeeded:
-        return 'ACTION_NEEDED';
-      case ResolverQueryLogConfigAssociationStatus.deleting:
-        return 'DELETING';
-      case ResolverQueryLogConfigAssociationStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ResolverQueryLogConfigAssociationStatusFromString on String {
-  ResolverQueryLogConfigAssociationStatus
-      toResolverQueryLogConfigAssociationStatus() {
-    switch (this) {
-      case 'CREATING':
-        return ResolverQueryLogConfigAssociationStatus.creating;
-      case 'ACTIVE':
-        return ResolverQueryLogConfigAssociationStatus.active;
-      case 'ACTION_NEEDED':
-        return ResolverQueryLogConfigAssociationStatus.actionNeeded;
-      case 'DELETING':
-        return ResolverQueryLogConfigAssociationStatus.deleting;
-      case 'FAILED':
-        return ResolverQueryLogConfigAssociationStatus.failed;
-    }
-    throw Exception(
-        '$this is not known in enum ResolverQueryLogConfigAssociationStatus');
-  }
+  const ResolverQueryLogConfigAssociationStatus(this.value);
+
+  static ResolverQueryLogConfigAssociationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ResolverQueryLogConfigAssociationStatus'));
 }
 
 enum ResolverQueryLogConfigStatus {
-  creating,
-  created,
-  deleting,
-  failed,
-}
+  creating('CREATING'),
+  created('CREATED'),
+  deleting('DELETING'),
+  failed('FAILED'),
+  ;
 
-extension ResolverQueryLogConfigStatusValueExtension
-    on ResolverQueryLogConfigStatus {
-  String toValue() {
-    switch (this) {
-      case ResolverQueryLogConfigStatus.creating:
-        return 'CREATING';
-      case ResolverQueryLogConfigStatus.created:
-        return 'CREATED';
-      case ResolverQueryLogConfigStatus.deleting:
-        return 'DELETING';
-      case ResolverQueryLogConfigStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ResolverQueryLogConfigStatusFromString on String {
-  ResolverQueryLogConfigStatus toResolverQueryLogConfigStatus() {
-    switch (this) {
-      case 'CREATING':
-        return ResolverQueryLogConfigStatus.creating;
-      case 'CREATED':
-        return ResolverQueryLogConfigStatus.created;
-      case 'DELETING':
-        return ResolverQueryLogConfigStatus.deleting;
-      case 'FAILED':
-        return ResolverQueryLogConfigStatus.failed;
-    }
-    throw Exception('$this is not known in enum ResolverQueryLogConfigStatus');
-  }
+  const ResolverQueryLogConfigStatus(this.value);
+
+  static ResolverQueryLogConfigStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ResolverQueryLogConfigStatus'));
 }
 
 /// For queries that originate in your VPC, detailed information about a
@@ -8187,9 +7703,10 @@ class ResolverRule {
       name: json['Name'] as String?,
       ownerId: json['OwnerId'] as String?,
       resolverEndpointId: json['ResolverEndpointId'] as String?,
-      ruleType: (json['RuleType'] as String?)?.toRuleTypeOption(),
-      shareStatus: (json['ShareStatus'] as String?)?.toShareStatus(),
-      status: (json['Status'] as String?)?.toResolverRuleStatus(),
+      ruleType: (json['RuleType'] as String?)?.let(RuleTypeOption.fromString),
+      shareStatus:
+          (json['ShareStatus'] as String?)?.let(ShareStatus.fromString),
+      status: (json['Status'] as String?)?.let(ResolverRuleStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
       targetIps: (json['TargetIps'] as List?)
           ?.whereNotNull()
@@ -8247,7 +7764,8 @@ class ResolverRuleAssociation {
       id: json['Id'] as String?,
       name: json['Name'] as String?,
       resolverRuleId: json['ResolverRuleId'] as String?,
-      status: (json['Status'] as String?)?.toResolverRuleAssociationStatus(),
+      status: (json['Status'] as String?)
+          ?.let(ResolverRuleAssociationStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
       vPCId: json['VPCId'] as String?,
     );
@@ -8255,47 +7773,21 @@ class ResolverRuleAssociation {
 }
 
 enum ResolverRuleAssociationStatus {
-  creating,
-  complete,
-  deleting,
-  failed,
-  overridden,
-}
+  creating('CREATING'),
+  complete('COMPLETE'),
+  deleting('DELETING'),
+  failed('FAILED'),
+  overridden('OVERRIDDEN'),
+  ;
 
-extension ResolverRuleAssociationStatusValueExtension
-    on ResolverRuleAssociationStatus {
-  String toValue() {
-    switch (this) {
-      case ResolverRuleAssociationStatus.creating:
-        return 'CREATING';
-      case ResolverRuleAssociationStatus.complete:
-        return 'COMPLETE';
-      case ResolverRuleAssociationStatus.deleting:
-        return 'DELETING';
-      case ResolverRuleAssociationStatus.failed:
-        return 'FAILED';
-      case ResolverRuleAssociationStatus.overridden:
-        return 'OVERRIDDEN';
-    }
-  }
-}
+  final String value;
 
-extension ResolverRuleAssociationStatusFromString on String {
-  ResolverRuleAssociationStatus toResolverRuleAssociationStatus() {
-    switch (this) {
-      case 'CREATING':
-        return ResolverRuleAssociationStatus.creating;
-      case 'COMPLETE':
-        return ResolverRuleAssociationStatus.complete;
-      case 'DELETING':
-        return ResolverRuleAssociationStatus.deleting;
-      case 'FAILED':
-        return ResolverRuleAssociationStatus.failed;
-      case 'OVERRIDDEN':
-        return ResolverRuleAssociationStatus.overridden;
-    }
-    throw Exception('$this is not known in enum ResolverRuleAssociationStatus');
-  }
+  const ResolverRuleAssociationStatus(this.value);
+
+  static ResolverRuleAssociationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ResolverRuleAssociationStatus'));
 }
 
 /// In an <a
@@ -8333,135 +7825,65 @@ class ResolverRuleConfig {
 }
 
 enum ResolverRuleStatus {
-  complete,
-  deleting,
-  updating,
-  failed,
-}
+  complete('COMPLETE'),
+  deleting('DELETING'),
+  updating('UPDATING'),
+  failed('FAILED'),
+  ;
 
-extension ResolverRuleStatusValueExtension on ResolverRuleStatus {
-  String toValue() {
-    switch (this) {
-      case ResolverRuleStatus.complete:
-        return 'COMPLETE';
-      case ResolverRuleStatus.deleting:
-        return 'DELETING';
-      case ResolverRuleStatus.updating:
-        return 'UPDATING';
-      case ResolverRuleStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ResolverRuleStatusFromString on String {
-  ResolverRuleStatus toResolverRuleStatus() {
-    switch (this) {
-      case 'COMPLETE':
-        return ResolverRuleStatus.complete;
-      case 'DELETING':
-        return ResolverRuleStatus.deleting;
-      case 'UPDATING':
-        return ResolverRuleStatus.updating;
-      case 'FAILED':
-        return ResolverRuleStatus.failed;
-    }
-    throw Exception('$this is not known in enum ResolverRuleStatus');
-  }
+  const ResolverRuleStatus(this.value);
+
+  static ResolverRuleStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ResolverRuleStatus'));
 }
 
 enum RuleTypeOption {
-  forward,
-  system,
-  recursive,
-}
+  forward('FORWARD'),
+  system('SYSTEM'),
+  recursive('RECURSIVE'),
+  ;
 
-extension RuleTypeOptionValueExtension on RuleTypeOption {
-  String toValue() {
-    switch (this) {
-      case RuleTypeOption.forward:
-        return 'FORWARD';
-      case RuleTypeOption.system:
-        return 'SYSTEM';
-      case RuleTypeOption.recursive:
-        return 'RECURSIVE';
-    }
-  }
-}
+  final String value;
 
-extension RuleTypeOptionFromString on String {
-  RuleTypeOption toRuleTypeOption() {
-    switch (this) {
-      case 'FORWARD':
-        return RuleTypeOption.forward;
-      case 'SYSTEM':
-        return RuleTypeOption.system;
-      case 'RECURSIVE':
-        return RuleTypeOption.recursive;
-    }
-    throw Exception('$this is not known in enum RuleTypeOption');
-  }
+  const RuleTypeOption(this.value);
+
+  static RuleTypeOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RuleTypeOption'));
 }
 
 enum ShareStatus {
-  notShared,
-  sharedWithMe,
-  sharedByMe,
-}
+  notShared('NOT_SHARED'),
+  sharedWithMe('SHARED_WITH_ME'),
+  sharedByMe('SHARED_BY_ME'),
+  ;
 
-extension ShareStatusValueExtension on ShareStatus {
-  String toValue() {
-    switch (this) {
-      case ShareStatus.notShared:
-        return 'NOT_SHARED';
-      case ShareStatus.sharedWithMe:
-        return 'SHARED_WITH_ME';
-      case ShareStatus.sharedByMe:
-        return 'SHARED_BY_ME';
-    }
-  }
-}
+  final String value;
 
-extension ShareStatusFromString on String {
-  ShareStatus toShareStatus() {
-    switch (this) {
-      case 'NOT_SHARED':
-        return ShareStatus.notShared;
-      case 'SHARED_WITH_ME':
-        return ShareStatus.sharedWithMe;
-      case 'SHARED_BY_ME':
-        return ShareStatus.sharedByMe;
-    }
-    throw Exception('$this is not known in enum ShareStatus');
-  }
+  const ShareStatus(this.value);
+
+  static ShareStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ShareStatus'));
 }
 
 enum SortOrder {
-  ascending,
-  descending,
-}
+  ascending('ASCENDING'),
+  descending('DESCENDING'),
+  ;
 
-extension SortOrderValueExtension on SortOrder {
-  String toValue() {
-    switch (this) {
-      case SortOrder.ascending:
-        return 'ASCENDING';
-      case SortOrder.descending:
-        return 'DESCENDING';
-    }
-  }
-}
+  final String value;
 
-extension SortOrderFromString on String {
-  SortOrder toSortOrder() {
-    switch (this) {
-      case 'ASCENDING':
-        return SortOrder.ascending;
-      case 'DESCENDING':
-        return SortOrder.descending;
-    }
-    throw Exception('$this is not known in enum SortOrder');
-  }
+  const SortOrder(this.value);
+
+  static SortOrder fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SortOrder'));
 }
 
 /// One tag that you want to add to the specified resource. A tag consists of a
@@ -8575,7 +7997,7 @@ class TargetAddress {
       ip: json['Ip'] as String?,
       ipv6: json['Ipv6'] as String?,
       port: json['Port'] as int?,
-      protocol: (json['Protocol'] as String?)?.toProtocol(),
+      protocol: (json['Protocol'] as String?)?.let(Protocol.fromString),
     );
   }
 
@@ -8588,7 +8010,7 @@ class TargetAddress {
       if (ip != null) 'Ip': ip,
       if (ipv6 != null) 'Ipv6': ipv6,
       if (port != null) 'Port': port,
-      if (protocol != null) 'Protocol': protocol.toValue(),
+      if (protocol != null) 'Protocol': protocol.value,
     };
   }
 }
@@ -8644,7 +8066,8 @@ class UpdateFirewallDomainsResponse {
     return UpdateFirewallDomainsResponse(
       id: json['Id'] as String?,
       name: json['Name'] as String?,
-      status: (json['Status'] as String?)?.toFirewallDomainListStatus(),
+      status:
+          (json['Status'] as String?)?.let(FirewallDomainListStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
     );
   }
@@ -8802,36 +8225,18 @@ class UpdateResolverRuleResponse {
 }
 
 enum Validation {
-  enable,
-  disable,
-  useLocalResourceSetting,
-}
+  enable('ENABLE'),
+  disable('DISABLE'),
+  useLocalResourceSetting('USE_LOCAL_RESOURCE_SETTING'),
+  ;
 
-extension ValidationValueExtension on Validation {
-  String toValue() {
-    switch (this) {
-      case Validation.enable:
-        return 'ENABLE';
-      case Validation.disable:
-        return 'DISABLE';
-      case Validation.useLocalResourceSetting:
-        return 'USE_LOCAL_RESOURCE_SETTING';
-    }
-  }
-}
+  final String value;
 
-extension ValidationFromString on String {
-  Validation toValidation() {
-    switch (this) {
-      case 'ENABLE':
-        return Validation.enable;
-      case 'DISABLE':
-        return Validation.disable;
-      case 'USE_LOCAL_RESOURCE_SETTING':
-        return Validation.useLocalResourceSetting;
-    }
-    throw Exception('$this is not known in enum Validation');
-  }
+  const Validation(this.value);
+
+  static Validation fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Validation'));
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

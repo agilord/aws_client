@@ -100,7 +100,7 @@ class KinesisVideoSignalingChannels {
     final $payload = <String, dynamic>{
       'ChannelARN': channelARN,
       if (clientId != null) 'ClientId': clientId,
-      if (service != null) 'Service': service.toValue(),
+      if (service != null) 'Service': service.value,
       if (username != null) 'Username': username,
     };
     final response = await _protocol.send(
@@ -226,26 +226,16 @@ class SendAlexaOfferToMasterResponse {
 }
 
 enum Service {
-  turn,
-}
+  turn('TURN'),
+  ;
 
-extension ServiceValueExtension on Service {
-  String toValue() {
-    switch (this) {
-      case Service.turn:
-        return 'TURN';
-    }
-  }
-}
+  final String value;
 
-extension ServiceFromString on String {
-  Service toService() {
-    switch (this) {
-      case 'TURN':
-        return Service.turn;
-    }
-    throw Exception('$this is not known in enum Service');
-  }
+  const Service(this.value);
+
+  static Service fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Service'));
 }
 
 class ClientLimitExceededException extends _s.GenericAwsException {

@@ -221,7 +221,7 @@ class IoTThingsGraph {
       headers: headers,
       payload: {
         'definition': definition,
-        'target': target.toValue(),
+        'target': target.value,
         if (flowActionsRoleArn != null)
           'flowActionsRoleArn': flowActionsRoleArn,
         if (greengrassGroupName != null)
@@ -593,7 +593,7 @@ class IoTThingsGraph {
       // TODO queryParams
       headers: headers,
       payload: {
-        'entityType': entityType.toValue(),
+        'entityType': entityType.value,
         'thingName': thingName,
       },
     );
@@ -1107,7 +1107,7 @@ class IoTThingsGraph {
       // TODO queryParams
       headers: headers,
       payload: {
-        'entityTypes': entityTypes.map((e) => e.toValue()).toList(),
+        'entityTypes': entityTypes.map((e) => e.value).toList(),
         if (filters != null) 'filters': filters,
         if (maxResults != null) 'maxResults': maxResults,
         if (namespaceVersion != null) 'namespaceVersion': namespaceVersion,
@@ -1764,7 +1764,7 @@ class DefinitionDocument {
 
   factory DefinitionDocument.fromJson(Map<String, dynamic> json) {
     return DefinitionDocument(
-      language: (json['language'] as String).toDefinitionLanguage(),
+      language: DefinitionLanguage.fromString((json['language'] as String)),
       text: json['text'] as String,
     );
   }
@@ -1773,33 +1773,24 @@ class DefinitionDocument {
     final language = this.language;
     final text = this.text;
     return {
-      'language': language.toValue(),
+      'language': language.value,
       'text': text,
     };
   }
 }
 
 enum DefinitionLanguage {
-  graphql,
-}
+  graphql('GRAPHQL'),
+  ;
 
-extension DefinitionLanguageValueExtension on DefinitionLanguage {
-  String toValue() {
-    switch (this) {
-      case DefinitionLanguage.graphql:
-        return 'GRAPHQL';
-    }
-  }
-}
+  final String value;
 
-extension DefinitionLanguageFromString on String {
-  DefinitionLanguage toDefinitionLanguage() {
-    switch (this) {
-      case 'GRAPHQL':
-        return DefinitionLanguage.graphql;
-    }
-    throw Exception('$this is not known in enum DefinitionLanguage');
-  }
+  const DefinitionLanguage(this.value);
+
+  static DefinitionLanguage fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DefinitionLanguage'));
 }
 
 class DeleteFlowTemplateResponse {
@@ -1891,31 +1882,18 @@ class DeploySystemInstanceResponse {
 }
 
 enum DeploymentTarget {
-  greengrass,
-  cloud,
-}
+  greengrass('GREENGRASS'),
+  cloud('CLOUD'),
+  ;
 
-extension DeploymentTargetValueExtension on DeploymentTarget {
-  String toValue() {
-    switch (this) {
-      case DeploymentTarget.greengrass:
-        return 'GREENGRASS';
-      case DeploymentTarget.cloud:
-        return 'CLOUD';
-    }
-  }
-}
+  final String value;
 
-extension DeploymentTargetFromString on String {
-  DeploymentTarget toDeploymentTarget() {
-    switch (this) {
-      case 'GREENGRASS':
-        return DeploymentTarget.greengrass;
-      case 'CLOUD':
-        return DeploymentTarget.cloud;
-    }
-    throw Exception('$this is not known in enum DeploymentTarget');
-  }
+  const DeploymentTarget(this.value);
+
+  static DeploymentTarget fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DeploymentTarget'));
 }
 
 class DeprecateFlowTemplateResponse {
@@ -2012,7 +1990,7 @@ class EntityDescription {
               json['definition'] as Map<String, dynamic>)
           : null,
       id: json['id'] as String?,
-      type: (json['type'] as String?)?.toEntityType(),
+      type: (json['type'] as String?)?.let(EntityType.fromString),
     );
   }
 }
@@ -2042,219 +2020,79 @@ class EntityFilter {
     final name = this.name;
     final value = this.value;
     return {
-      if (name != null) 'name': name.toValue(),
+      if (name != null) 'name': name.value,
       if (value != null) 'value': value,
     };
   }
 }
 
 enum EntityFilterName {
-  name,
-  namespace,
-  semanticTypePath,
-  referencedEntityId,
-}
+  name('NAME'),
+  namespace('NAMESPACE'),
+  semanticTypePath('SEMANTIC_TYPE_PATH'),
+  referencedEntityId('REFERENCED_ENTITY_ID'),
+  ;
 
-extension EntityFilterNameValueExtension on EntityFilterName {
-  String toValue() {
-    switch (this) {
-      case EntityFilterName.name:
-        return 'NAME';
-      case EntityFilterName.namespace:
-        return 'NAMESPACE';
-      case EntityFilterName.semanticTypePath:
-        return 'SEMANTIC_TYPE_PATH';
-      case EntityFilterName.referencedEntityId:
-        return 'REFERENCED_ENTITY_ID';
-    }
-  }
-}
+  final String value;
 
-extension EntityFilterNameFromString on String {
-  EntityFilterName toEntityFilterName() {
-    switch (this) {
-      case 'NAME':
-        return EntityFilterName.name;
-      case 'NAMESPACE':
-        return EntityFilterName.namespace;
-      case 'SEMANTIC_TYPE_PATH':
-        return EntityFilterName.semanticTypePath;
-      case 'REFERENCED_ENTITY_ID':
-        return EntityFilterName.referencedEntityId;
-    }
-    throw Exception('$this is not known in enum EntityFilterName');
-  }
+  const EntityFilterName(this.value);
+
+  static EntityFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EntityFilterName'));
 }
 
 enum EntityType {
-  device,
-  service,
-  deviceModel,
-  capability,
-  state,
-  action,
-  event,
-  property,
-  mapping,
-  $enum,
-}
+  device('DEVICE'),
+  service('SERVICE'),
+  deviceModel('DEVICE_MODEL'),
+  capability('CAPABILITY'),
+  state('STATE'),
+  action('ACTION'),
+  event('EVENT'),
+  property('PROPERTY'),
+  mapping('MAPPING'),
+  $enum('ENUM'),
+  ;
 
-extension EntityTypeValueExtension on EntityType {
-  String toValue() {
-    switch (this) {
-      case EntityType.device:
-        return 'DEVICE';
-      case EntityType.service:
-        return 'SERVICE';
-      case EntityType.deviceModel:
-        return 'DEVICE_MODEL';
-      case EntityType.capability:
-        return 'CAPABILITY';
-      case EntityType.state:
-        return 'STATE';
-      case EntityType.action:
-        return 'ACTION';
-      case EntityType.event:
-        return 'EVENT';
-      case EntityType.property:
-        return 'PROPERTY';
-      case EntityType.mapping:
-        return 'MAPPING';
-      case EntityType.$enum:
-        return 'ENUM';
-    }
-  }
-}
+  final String value;
 
-extension EntityTypeFromString on String {
-  EntityType toEntityType() {
-    switch (this) {
-      case 'DEVICE':
-        return EntityType.device;
-      case 'SERVICE':
-        return EntityType.service;
-      case 'DEVICE_MODEL':
-        return EntityType.deviceModel;
-      case 'CAPABILITY':
-        return EntityType.capability;
-      case 'STATE':
-        return EntityType.state;
-      case 'ACTION':
-        return EntityType.action;
-      case 'EVENT':
-        return EntityType.event;
-      case 'PROPERTY':
-        return EntityType.property;
-      case 'MAPPING':
-        return EntityType.mapping;
-      case 'ENUM':
-        return EntityType.$enum;
-    }
-    throw Exception('$this is not known in enum EntityType');
-  }
+  const EntityType(this.value);
+
+  static EntityType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum EntityType'));
 }
 
 enum FlowExecutionEventType {
-  executionStarted,
-  executionFailed,
-  executionAborted,
-  executionSucceeded,
-  stepStarted,
-  stepFailed,
-  stepSucceeded,
-  activityScheduled,
-  activityStarted,
-  activityFailed,
-  activitySucceeded,
-  startFlowExecutionTask,
-  scheduleNextReadyStepsTask,
-  thingActionTask,
-  thingActionTaskFailed,
-  thingActionTaskSucceeded,
-  acknowledgeTaskMessage,
-}
+  executionStarted('EXECUTION_STARTED'),
+  executionFailed('EXECUTION_FAILED'),
+  executionAborted('EXECUTION_ABORTED'),
+  executionSucceeded('EXECUTION_SUCCEEDED'),
+  stepStarted('STEP_STARTED'),
+  stepFailed('STEP_FAILED'),
+  stepSucceeded('STEP_SUCCEEDED'),
+  activityScheduled('ACTIVITY_SCHEDULED'),
+  activityStarted('ACTIVITY_STARTED'),
+  activityFailed('ACTIVITY_FAILED'),
+  activitySucceeded('ACTIVITY_SUCCEEDED'),
+  startFlowExecutionTask('START_FLOW_EXECUTION_TASK'),
+  scheduleNextReadyStepsTask('SCHEDULE_NEXT_READY_STEPS_TASK'),
+  thingActionTask('THING_ACTION_TASK'),
+  thingActionTaskFailed('THING_ACTION_TASK_FAILED'),
+  thingActionTaskSucceeded('THING_ACTION_TASK_SUCCEEDED'),
+  acknowledgeTaskMessage('ACKNOWLEDGE_TASK_MESSAGE'),
+  ;
 
-extension FlowExecutionEventTypeValueExtension on FlowExecutionEventType {
-  String toValue() {
-    switch (this) {
-      case FlowExecutionEventType.executionStarted:
-        return 'EXECUTION_STARTED';
-      case FlowExecutionEventType.executionFailed:
-        return 'EXECUTION_FAILED';
-      case FlowExecutionEventType.executionAborted:
-        return 'EXECUTION_ABORTED';
-      case FlowExecutionEventType.executionSucceeded:
-        return 'EXECUTION_SUCCEEDED';
-      case FlowExecutionEventType.stepStarted:
-        return 'STEP_STARTED';
-      case FlowExecutionEventType.stepFailed:
-        return 'STEP_FAILED';
-      case FlowExecutionEventType.stepSucceeded:
-        return 'STEP_SUCCEEDED';
-      case FlowExecutionEventType.activityScheduled:
-        return 'ACTIVITY_SCHEDULED';
-      case FlowExecutionEventType.activityStarted:
-        return 'ACTIVITY_STARTED';
-      case FlowExecutionEventType.activityFailed:
-        return 'ACTIVITY_FAILED';
-      case FlowExecutionEventType.activitySucceeded:
-        return 'ACTIVITY_SUCCEEDED';
-      case FlowExecutionEventType.startFlowExecutionTask:
-        return 'START_FLOW_EXECUTION_TASK';
-      case FlowExecutionEventType.scheduleNextReadyStepsTask:
-        return 'SCHEDULE_NEXT_READY_STEPS_TASK';
-      case FlowExecutionEventType.thingActionTask:
-        return 'THING_ACTION_TASK';
-      case FlowExecutionEventType.thingActionTaskFailed:
-        return 'THING_ACTION_TASK_FAILED';
-      case FlowExecutionEventType.thingActionTaskSucceeded:
-        return 'THING_ACTION_TASK_SUCCEEDED';
-      case FlowExecutionEventType.acknowledgeTaskMessage:
-        return 'ACKNOWLEDGE_TASK_MESSAGE';
-    }
-  }
-}
+  final String value;
 
-extension FlowExecutionEventTypeFromString on String {
-  FlowExecutionEventType toFlowExecutionEventType() {
-    switch (this) {
-      case 'EXECUTION_STARTED':
-        return FlowExecutionEventType.executionStarted;
-      case 'EXECUTION_FAILED':
-        return FlowExecutionEventType.executionFailed;
-      case 'EXECUTION_ABORTED':
-        return FlowExecutionEventType.executionAborted;
-      case 'EXECUTION_SUCCEEDED':
-        return FlowExecutionEventType.executionSucceeded;
-      case 'STEP_STARTED':
-        return FlowExecutionEventType.stepStarted;
-      case 'STEP_FAILED':
-        return FlowExecutionEventType.stepFailed;
-      case 'STEP_SUCCEEDED':
-        return FlowExecutionEventType.stepSucceeded;
-      case 'ACTIVITY_SCHEDULED':
-        return FlowExecutionEventType.activityScheduled;
-      case 'ACTIVITY_STARTED':
-        return FlowExecutionEventType.activityStarted;
-      case 'ACTIVITY_FAILED':
-        return FlowExecutionEventType.activityFailed;
-      case 'ACTIVITY_SUCCEEDED':
-        return FlowExecutionEventType.activitySucceeded;
-      case 'START_FLOW_EXECUTION_TASK':
-        return FlowExecutionEventType.startFlowExecutionTask;
-      case 'SCHEDULE_NEXT_READY_STEPS_TASK':
-        return FlowExecutionEventType.scheduleNextReadyStepsTask;
-      case 'THING_ACTION_TASK':
-        return FlowExecutionEventType.thingActionTask;
-      case 'THING_ACTION_TASK_FAILED':
-        return FlowExecutionEventType.thingActionTaskFailed;
-      case 'THING_ACTION_TASK_SUCCEEDED':
-        return FlowExecutionEventType.thingActionTaskSucceeded;
-      case 'ACKNOWLEDGE_TASK_MESSAGE':
-        return FlowExecutionEventType.acknowledgeTaskMessage;
-    }
-    throw Exception('$this is not known in enum FlowExecutionEventType');
-  }
+  const FlowExecutionEventType(this.value);
+
+  static FlowExecutionEventType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum FlowExecutionEventType'));
 }
 
 /// An object that contains information about a flow event.
@@ -2280,7 +2118,8 @@ class FlowExecutionMessage {
 
   factory FlowExecutionMessage.fromJson(Map<String, dynamic> json) {
     return FlowExecutionMessage(
-      eventType: (json['eventType'] as String?)?.toFlowExecutionEventType(),
+      eventType: (json['eventType'] as String?)
+          ?.let(FlowExecutionEventType.fromString),
       messageId: json['messageId'] as String?,
       payload: json['payload'] as String?,
       timestamp: timeStampFromJson(json['timestamp']),
@@ -2289,41 +2128,20 @@ class FlowExecutionMessage {
 }
 
 enum FlowExecutionStatus {
-  running,
-  aborted,
-  succeeded,
-  failed,
-}
+  running('RUNNING'),
+  aborted('ABORTED'),
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  ;
 
-extension FlowExecutionStatusValueExtension on FlowExecutionStatus {
-  String toValue() {
-    switch (this) {
-      case FlowExecutionStatus.running:
-        return 'RUNNING';
-      case FlowExecutionStatus.aborted:
-        return 'ABORTED';
-      case FlowExecutionStatus.succeeded:
-        return 'SUCCEEDED';
-      case FlowExecutionStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension FlowExecutionStatusFromString on String {
-  FlowExecutionStatus toFlowExecutionStatus() {
-    switch (this) {
-      case 'RUNNING':
-        return FlowExecutionStatus.running;
-      case 'ABORTED':
-        return FlowExecutionStatus.aborted;
-      case 'SUCCEEDED':
-        return FlowExecutionStatus.succeeded;
-      case 'FAILED':
-        return FlowExecutionStatus.failed;
-    }
-    throw Exception('$this is not known in enum FlowExecutionStatus');
-  }
+  const FlowExecutionStatus(this.value);
+
+  static FlowExecutionStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum FlowExecutionStatus'));
 }
 
 /// An object that contains summary information about a flow execution.
@@ -2360,7 +2178,7 @@ class FlowExecutionSummary {
       createdAt: timeStampFromJson(json['createdAt']),
       flowExecutionId: json['flowExecutionId'] as String?,
       flowTemplateId: json['flowTemplateId'] as String?,
-      status: (json['status'] as String?)?.toFlowExecutionStatus(),
+      status: (json['status'] as String?)?.let(FlowExecutionStatus.fromString),
       systemInstanceId: json['systemInstanceId'] as String?,
       updatedAt: timeStampFromJson(json['updatedAt']),
     );
@@ -2418,33 +2236,24 @@ class FlowTemplateFilter {
     final name = this.name;
     final value = this.value;
     return {
-      'name': name.toValue(),
+      'name': name.value,
       'value': value,
     };
   }
 }
 
 enum FlowTemplateFilterName {
-  deviceModelId,
-}
+  deviceModelId('DEVICE_MODEL_ID'),
+  ;
 
-extension FlowTemplateFilterNameValueExtension on FlowTemplateFilterName {
-  String toValue() {
-    switch (this) {
-      case FlowTemplateFilterName.deviceModelId:
-        return 'DEVICE_MODEL_ID';
-    }
-  }
-}
+  final String value;
 
-extension FlowTemplateFilterNameFromString on String {
-  FlowTemplateFilterName toFlowTemplateFilterName() {
-    switch (this) {
-      case 'DEVICE_MODEL_ID':
-        return FlowTemplateFilterName.deviceModelId;
-    }
-    throw Exception('$this is not known in enum FlowTemplateFilterName');
-  }
+  const FlowTemplateFilterName(this.value);
+
+  static FlowTemplateFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum FlowTemplateFilterName'));
 }
 
 /// An object that contains summary information about a workflow.
@@ -2565,12 +2374,13 @@ class GetNamespaceDeletionStatusResponse {
   factory GetNamespaceDeletionStatusResponse.fromJson(
       Map<String, dynamic> json) {
     return GetNamespaceDeletionStatusResponse(
-      errorCode:
-          (json['errorCode'] as String?)?.toNamespaceDeletionStatusErrorCodes(),
+      errorCode: (json['errorCode'] as String?)
+          ?.let(NamespaceDeletionStatusErrorCodes.fromString),
       errorMessage: json['errorMessage'] as String?,
       namespaceArn: json['namespaceArn'] as String?,
       namespaceName: json['namespaceName'] as String?,
-      status: (json['status'] as String?)?.toNamespaceDeletionStatus(),
+      status:
+          (json['status'] as String?)?.let(NamespaceDeletionStatus.fromString),
     );
   }
 }
@@ -2675,7 +2485,7 @@ class GetUploadStatusResponse {
     return GetUploadStatusResponse(
       createdDate: nonNullableTimeStampFromJson(json['createdDate'] as Object),
       uploadId: json['uploadId'] as String,
-      uploadStatus: (json['uploadStatus'] as String).toUploadStatus(),
+      uploadStatus: UploadStatus.fromString((json['uploadStatus'] as String)),
       failureReason: (json['failureReason'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -2768,61 +2578,33 @@ class MetricsConfiguration {
 }
 
 enum NamespaceDeletionStatus {
-  inProgress,
-  succeeded,
-  failed,
-}
+  inProgress('IN_PROGRESS'),
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  ;
 
-extension NamespaceDeletionStatusValueExtension on NamespaceDeletionStatus {
-  String toValue() {
-    switch (this) {
-      case NamespaceDeletionStatus.inProgress:
-        return 'IN_PROGRESS';
-      case NamespaceDeletionStatus.succeeded:
-        return 'SUCCEEDED';
-      case NamespaceDeletionStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension NamespaceDeletionStatusFromString on String {
-  NamespaceDeletionStatus toNamespaceDeletionStatus() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return NamespaceDeletionStatus.inProgress;
-      case 'SUCCEEDED':
-        return NamespaceDeletionStatus.succeeded;
-      case 'FAILED':
-        return NamespaceDeletionStatus.failed;
-    }
-    throw Exception('$this is not known in enum NamespaceDeletionStatus');
-  }
+  const NamespaceDeletionStatus(this.value);
+
+  static NamespaceDeletionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum NamespaceDeletionStatus'));
 }
 
 enum NamespaceDeletionStatusErrorCodes {
-  validationFailed,
-}
+  validationFailed('VALIDATION_FAILED'),
+  ;
 
-extension NamespaceDeletionStatusErrorCodesValueExtension
-    on NamespaceDeletionStatusErrorCodes {
-  String toValue() {
-    switch (this) {
-      case NamespaceDeletionStatusErrorCodes.validationFailed:
-        return 'VALIDATION_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension NamespaceDeletionStatusErrorCodesFromString on String {
-  NamespaceDeletionStatusErrorCodes toNamespaceDeletionStatusErrorCodes() {
-    switch (this) {
-      case 'VALIDATION_FAILED':
-        return NamespaceDeletionStatusErrorCodes.validationFailed;
-    }
-    throw Exception(
-        '$this is not known in enum NamespaceDeletionStatusErrorCodes');
-  }
+  const NamespaceDeletionStatusErrorCodes(this.value);
+
+  static NamespaceDeletionStatusErrorCodes fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum NamespaceDeletionStatusErrorCodes'));
 }
 
 class SearchEntitiesResponse {
@@ -2974,63 +2756,24 @@ class SearchThingsResponse {
 }
 
 enum SystemInstanceDeploymentStatus {
-  notDeployed,
-  bootstrap,
-  deployInProgress,
-  deployedInTarget,
-  undeployInProgress,
-  failed,
-  pendingDelete,
-  deletedInTarget,
-}
+  notDeployed('NOT_DEPLOYED'),
+  bootstrap('BOOTSTRAP'),
+  deployInProgress('DEPLOY_IN_PROGRESS'),
+  deployedInTarget('DEPLOYED_IN_TARGET'),
+  undeployInProgress('UNDEPLOY_IN_PROGRESS'),
+  failed('FAILED'),
+  pendingDelete('PENDING_DELETE'),
+  deletedInTarget('DELETED_IN_TARGET'),
+  ;
 
-extension SystemInstanceDeploymentStatusValueExtension
-    on SystemInstanceDeploymentStatus {
-  String toValue() {
-    switch (this) {
-      case SystemInstanceDeploymentStatus.notDeployed:
-        return 'NOT_DEPLOYED';
-      case SystemInstanceDeploymentStatus.bootstrap:
-        return 'BOOTSTRAP';
-      case SystemInstanceDeploymentStatus.deployInProgress:
-        return 'DEPLOY_IN_PROGRESS';
-      case SystemInstanceDeploymentStatus.deployedInTarget:
-        return 'DEPLOYED_IN_TARGET';
-      case SystemInstanceDeploymentStatus.undeployInProgress:
-        return 'UNDEPLOY_IN_PROGRESS';
-      case SystemInstanceDeploymentStatus.failed:
-        return 'FAILED';
-      case SystemInstanceDeploymentStatus.pendingDelete:
-        return 'PENDING_DELETE';
-      case SystemInstanceDeploymentStatus.deletedInTarget:
-        return 'DELETED_IN_TARGET';
-    }
-  }
-}
+  final String value;
 
-extension SystemInstanceDeploymentStatusFromString on String {
-  SystemInstanceDeploymentStatus toSystemInstanceDeploymentStatus() {
-    switch (this) {
-      case 'NOT_DEPLOYED':
-        return SystemInstanceDeploymentStatus.notDeployed;
-      case 'BOOTSTRAP':
-        return SystemInstanceDeploymentStatus.bootstrap;
-      case 'DEPLOY_IN_PROGRESS':
-        return SystemInstanceDeploymentStatus.deployInProgress;
-      case 'DEPLOYED_IN_TARGET':
-        return SystemInstanceDeploymentStatus.deployedInTarget;
-      case 'UNDEPLOY_IN_PROGRESS':
-        return SystemInstanceDeploymentStatus.undeployInProgress;
-      case 'FAILED':
-        return SystemInstanceDeploymentStatus.failed;
-      case 'PENDING_DELETE':
-        return SystemInstanceDeploymentStatus.pendingDelete;
-      case 'DELETED_IN_TARGET':
-        return SystemInstanceDeploymentStatus.deletedInTarget;
-    }
-    throw Exception(
-        '$this is not known in enum SystemInstanceDeploymentStatus');
-  }
+  const SystemInstanceDeploymentStatus(this.value);
+
+  static SystemInstanceDeploymentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SystemInstanceDeploymentStatus'));
 }
 
 /// An object that contains a system instance definition and summary
@@ -3117,43 +2860,26 @@ class SystemInstanceFilter {
     final name = this.name;
     final value = this.value;
     return {
-      if (name != null) 'name': name.toValue(),
+      if (name != null) 'name': name.value,
       if (value != null) 'value': value,
     };
   }
 }
 
 enum SystemInstanceFilterName {
-  systemTemplateId,
-  status,
-  greengrassGroupName,
-}
+  systemTemplateId('SYSTEM_TEMPLATE_ID'),
+  status('STATUS'),
+  greengrassGroupName('GREENGRASS_GROUP_NAME'),
+  ;
 
-extension SystemInstanceFilterNameValueExtension on SystemInstanceFilterName {
-  String toValue() {
-    switch (this) {
-      case SystemInstanceFilterName.systemTemplateId:
-        return 'SYSTEM_TEMPLATE_ID';
-      case SystemInstanceFilterName.status:
-        return 'STATUS';
-      case SystemInstanceFilterName.greengrassGroupName:
-        return 'GREENGRASS_GROUP_NAME';
-    }
-  }
-}
+  final String value;
 
-extension SystemInstanceFilterNameFromString on String {
-  SystemInstanceFilterName toSystemInstanceFilterName() {
-    switch (this) {
-      case 'SYSTEM_TEMPLATE_ID':
-        return SystemInstanceFilterName.systemTemplateId;
-      case 'STATUS':
-        return SystemInstanceFilterName.status;
-      case 'GREENGRASS_GROUP_NAME':
-        return SystemInstanceFilterName.greengrassGroupName;
-    }
-    throw Exception('$this is not known in enum SystemInstanceFilterName');
-  }
+  const SystemInstanceFilterName(this.value);
+
+  static SystemInstanceFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SystemInstanceFilterName'));
 }
 
 /// An object that contains summary information about a system instance.
@@ -3205,8 +2931,9 @@ class SystemInstanceSummary {
       greengrassGroupName: json['greengrassGroupName'] as String?,
       greengrassGroupVersionId: json['greengrassGroupVersionId'] as String?,
       id: json['id'] as String?,
-      status: (json['status'] as String?)?.toSystemInstanceDeploymentStatus(),
-      target: (json['target'] as String?)?.toDeploymentTarget(),
+      status: (json['status'] as String?)
+          ?.let(SystemInstanceDeploymentStatus.fromString),
+      target: (json['target'] as String?)?.let(DeploymentTarget.fromString),
       updatedAt: timeStampFromJson(json['updatedAt']),
     );
   }
@@ -3264,33 +2991,24 @@ class SystemTemplateFilter {
     final name = this.name;
     final value = this.value;
     return {
-      'name': name.toValue(),
+      'name': name.value,
       'value': value,
     };
   }
 }
 
 enum SystemTemplateFilterName {
-  flowTemplateId,
-}
+  flowTemplateId('FLOW_TEMPLATE_ID'),
+  ;
 
-extension SystemTemplateFilterNameValueExtension on SystemTemplateFilterName {
-  String toValue() {
-    switch (this) {
-      case SystemTemplateFilterName.flowTemplateId:
-        return 'FLOW_TEMPLATE_ID';
-    }
-  }
-}
+  final String value;
 
-extension SystemTemplateFilterNameFromString on String {
-  SystemTemplateFilterName toSystemTemplateFilterName() {
-    switch (this) {
-      case 'FLOW_TEMPLATE_ID':
-        return SystemTemplateFilterName.flowTemplateId;
-    }
-    throw Exception('$this is not known in enum SystemTemplateFilterName');
-  }
+  const SystemTemplateFilterName(this.value);
+
+  static SystemTemplateFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SystemTemplateFilterName'));
 }
 
 /// An object that contains information about a system.
@@ -3466,36 +3184,19 @@ class UploadEntityDefinitionsResponse {
 }
 
 enum UploadStatus {
-  inProgress,
-  succeeded,
-  failed,
-}
+  inProgress('IN_PROGRESS'),
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  ;
 
-extension UploadStatusValueExtension on UploadStatus {
-  String toValue() {
-    switch (this) {
-      case UploadStatus.inProgress:
-        return 'IN_PROGRESS';
-      case UploadStatus.succeeded:
-        return 'SUCCEEDED';
-      case UploadStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension UploadStatusFromString on String {
-  UploadStatus toUploadStatus() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return UploadStatus.inProgress;
-      case 'SUCCEEDED':
-        return UploadStatus.succeeded;
-      case 'FAILED':
-        return UploadStatus.failed;
-    }
-    throw Exception('$this is not known in enum UploadStatus');
-  }
+  const UploadStatus(this.value);
+
+  static UploadStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum UploadStatus'));
 }
 
 class InternalFailureException extends _s.GenericAwsException {

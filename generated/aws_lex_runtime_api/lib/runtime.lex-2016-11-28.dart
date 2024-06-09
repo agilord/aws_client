@@ -438,7 +438,7 @@ class LexRuntimeService {
           _s.extractHeaderStringValue(response.headers, 'Content-Type'),
       dialogState: _s
           .extractHeaderStringValue(response.headers, 'x-amz-lex-dialog-state')
-          ?.toDialogState(),
+          ?.let(DialogState.fromString),
       encodedInputTranscript: _s.extractHeaderStringValue(
           response.headers, 'x-amz-lex-encoded-input-transcript'),
       encodedMessage: _s.extractHeaderStringValue(
@@ -452,7 +452,7 @@ class LexRuntimeService {
       messageFormat: _s
           .extractHeaderStringValue(
               response.headers, 'x-amz-lex-message-format')
-          ?.toMessageFormatType(),
+          ?.let(MessageFormatType.fromString),
       nluIntentConfidence: _s.extractHeaderJsonValue(
           response.headers, 'x-amz-lex-nlu-intent-confidence'),
       sentimentResponse:
@@ -790,7 +790,7 @@ class LexRuntimeService {
           _s.extractHeaderStringValue(response.headers, 'Content-Type'),
       dialogState: _s
           .extractHeaderStringValue(response.headers, 'x-amz-lex-dialog-state')
-          ?.toDialogState(),
+          ?.let(DialogState.fromString),
       encodedMessage: _s.extractHeaderStringValue(
           response.headers, 'x-amz-lex-encoded-message'),
       intentName: _s.extractHeaderStringValue(
@@ -800,7 +800,7 @@ class LexRuntimeService {
       messageFormat: _s
           .extractHeaderStringValue(
               response.headers, 'x-amz-lex-message-format')
-          ?.toMessageFormatType(),
+          ?.let(MessageFormatType.fromString),
       sessionAttributes: _s.extractHeaderJsonValue(
           response.headers, 'x-amz-lex-session-attributes'),
       sessionId:
@@ -916,59 +916,32 @@ class Button {
 }
 
 enum ConfirmationStatus {
-  none,
-  confirmed,
-  denied,
-}
+  none('None'),
+  confirmed('Confirmed'),
+  denied('Denied'),
+  ;
 
-extension ConfirmationStatusValueExtension on ConfirmationStatus {
-  String toValue() {
-    switch (this) {
-      case ConfirmationStatus.none:
-        return 'None';
-      case ConfirmationStatus.confirmed:
-        return 'Confirmed';
-      case ConfirmationStatus.denied:
-        return 'Denied';
-    }
-  }
-}
+  final String value;
 
-extension ConfirmationStatusFromString on String {
-  ConfirmationStatus toConfirmationStatus() {
-    switch (this) {
-      case 'None':
-        return ConfirmationStatus.none;
-      case 'Confirmed':
-        return ConfirmationStatus.confirmed;
-      case 'Denied':
-        return ConfirmationStatus.denied;
-    }
-    throw Exception('$this is not known in enum ConfirmationStatus');
-  }
+  const ConfirmationStatus(this.value);
+
+  static ConfirmationStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ConfirmationStatus'));
 }
 
 enum ContentType {
-  applicationVndAmazonawsCardGeneric,
-}
+  applicationVndAmazonawsCardGeneric('application/vnd.amazonaws.card.generic'),
+  ;
 
-extension ContentTypeValueExtension on ContentType {
-  String toValue() {
-    switch (this) {
-      case ContentType.applicationVndAmazonawsCardGeneric:
-        return 'application/vnd.amazonaws.card.generic';
-    }
-  }
-}
+  final String value;
 
-extension ContentTypeFromString on String {
-  ContentType toContentType() {
-    switch (this) {
-      case 'application/vnd.amazonaws.card.generic':
-        return ContentType.applicationVndAmazonawsCardGeneric;
-    }
-    throw Exception('$this is not known in enum ContentType');
-  }
+  const ContentType(this.value);
+
+  static ContentType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ContentType'));
 }
 
 class DeleteSessionResponse {
@@ -1098,12 +1071,13 @@ class DialogAction {
 
   factory DialogAction.fromJson(Map<String, dynamic> json) {
     return DialogAction(
-      type: (json['type'] as String).toDialogActionType(),
-      fulfillmentState:
-          (json['fulfillmentState'] as String?)?.toFulfillmentState(),
+      type: DialogActionType.fromString((json['type'] as String)),
+      fulfillmentState: (json['fulfillmentState'] as String?)
+          ?.let(FulfillmentState.fromString),
       intentName: json['intentName'] as String?,
       message: json['message'] as String?,
-      messageFormat: (json['messageFormat'] as String?)?.toMessageFormatType(),
+      messageFormat:
+          (json['messageFormat'] as String?)?.let(MessageFormatType.fromString),
       slotToElicit: json['slotToElicit'] as String?,
       slots: (json['slots'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -1119,12 +1093,11 @@ class DialogAction {
     final slotToElicit = this.slotToElicit;
     final slots = this.slots;
     return {
-      'type': type.toValue(),
-      if (fulfillmentState != null)
-        'fulfillmentState': fulfillmentState.toValue(),
+      'type': type.value,
+      if (fulfillmentState != null) 'fulfillmentState': fulfillmentState.value,
       if (intentName != null) 'intentName': intentName,
       if (message != null) 'message': message,
-      if (messageFormat != null) 'messageFormat': messageFormat.toValue(),
+      if (messageFormat != null) 'messageFormat': messageFormat.value,
       if (slotToElicit != null) 'slotToElicit': slotToElicit,
       if (slots != null) 'slots': slots,
     };
@@ -1132,127 +1105,55 @@ class DialogAction {
 }
 
 enum DialogActionType {
-  elicitIntent,
-  confirmIntent,
-  elicitSlot,
-  close,
-  delegate,
-}
+  elicitIntent('ElicitIntent'),
+  confirmIntent('ConfirmIntent'),
+  elicitSlot('ElicitSlot'),
+  close('Close'),
+  delegate('Delegate'),
+  ;
 
-extension DialogActionTypeValueExtension on DialogActionType {
-  String toValue() {
-    switch (this) {
-      case DialogActionType.elicitIntent:
-        return 'ElicitIntent';
-      case DialogActionType.confirmIntent:
-        return 'ConfirmIntent';
-      case DialogActionType.elicitSlot:
-        return 'ElicitSlot';
-      case DialogActionType.close:
-        return 'Close';
-      case DialogActionType.delegate:
-        return 'Delegate';
-    }
-  }
-}
+  final String value;
 
-extension DialogActionTypeFromString on String {
-  DialogActionType toDialogActionType() {
-    switch (this) {
-      case 'ElicitIntent':
-        return DialogActionType.elicitIntent;
-      case 'ConfirmIntent':
-        return DialogActionType.confirmIntent;
-      case 'ElicitSlot':
-        return DialogActionType.elicitSlot;
-      case 'Close':
-        return DialogActionType.close;
-      case 'Delegate':
-        return DialogActionType.delegate;
-    }
-    throw Exception('$this is not known in enum DialogActionType');
-  }
+  const DialogActionType(this.value);
+
+  static DialogActionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DialogActionType'));
 }
 
 enum DialogState {
-  elicitIntent,
-  confirmIntent,
-  elicitSlot,
-  fulfilled,
-  readyForFulfillment,
-  failed,
-}
+  elicitIntent('ElicitIntent'),
+  confirmIntent('ConfirmIntent'),
+  elicitSlot('ElicitSlot'),
+  fulfilled('Fulfilled'),
+  readyForFulfillment('ReadyForFulfillment'),
+  failed('Failed'),
+  ;
 
-extension DialogStateValueExtension on DialogState {
-  String toValue() {
-    switch (this) {
-      case DialogState.elicitIntent:
-        return 'ElicitIntent';
-      case DialogState.confirmIntent:
-        return 'ConfirmIntent';
-      case DialogState.elicitSlot:
-        return 'ElicitSlot';
-      case DialogState.fulfilled:
-        return 'Fulfilled';
-      case DialogState.readyForFulfillment:
-        return 'ReadyForFulfillment';
-      case DialogState.failed:
-        return 'Failed';
-    }
-  }
-}
+  final String value;
 
-extension DialogStateFromString on String {
-  DialogState toDialogState() {
-    switch (this) {
-      case 'ElicitIntent':
-        return DialogState.elicitIntent;
-      case 'ConfirmIntent':
-        return DialogState.confirmIntent;
-      case 'ElicitSlot':
-        return DialogState.elicitSlot;
-      case 'Fulfilled':
-        return DialogState.fulfilled;
-      case 'ReadyForFulfillment':
-        return DialogState.readyForFulfillment;
-      case 'Failed':
-        return DialogState.failed;
-    }
-    throw Exception('$this is not known in enum DialogState');
-  }
+  const DialogState(this.value);
+
+  static DialogState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum DialogState'));
 }
 
 enum FulfillmentState {
-  fulfilled,
-  failed,
-  readyForFulfillment,
-}
+  fulfilled('Fulfilled'),
+  failed('Failed'),
+  readyForFulfillment('ReadyForFulfillment'),
+  ;
 
-extension FulfillmentStateValueExtension on FulfillmentState {
-  String toValue() {
-    switch (this) {
-      case FulfillmentState.fulfilled:
-        return 'Fulfilled';
-      case FulfillmentState.failed:
-        return 'Failed';
-      case FulfillmentState.readyForFulfillment:
-        return 'ReadyForFulfillment';
-    }
-  }
-}
+  final String value;
 
-extension FulfillmentStateFromString on String {
-  FulfillmentState toFulfillmentState() {
-    switch (this) {
-      case 'Fulfilled':
-        return FulfillmentState.fulfilled;
-      case 'Failed':
-        return FulfillmentState.failed;
-      case 'ReadyForFulfillment':
-        return FulfillmentState.readyForFulfillment;
-    }
-    throw Exception('$this is not known in enum FulfillmentState');
-  }
+  const FulfillmentState(this.value);
+
+  static FulfillmentState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FulfillmentState'));
 }
 
 /// Represents an option rendered to the user when a prompt is shown. It could
@@ -1472,12 +1373,12 @@ class IntentSummary {
   factory IntentSummary.fromJson(Map<String, dynamic> json) {
     return IntentSummary(
       dialogActionType:
-          (json['dialogActionType'] as String).toDialogActionType(),
+          DialogActionType.fromString((json['dialogActionType'] as String)),
       checkpointLabel: json['checkpointLabel'] as String?,
-      confirmationStatus:
-          (json['confirmationStatus'] as String?)?.toConfirmationStatus(),
-      fulfillmentState:
-          (json['fulfillmentState'] as String?)?.toFulfillmentState(),
+      confirmationStatus: (json['confirmationStatus'] as String?)
+          ?.let(ConfirmationStatus.fromString),
+      fulfillmentState: (json['fulfillmentState'] as String?)
+          ?.let(FulfillmentState.fromString),
       intentName: json['intentName'] as String?,
       slotToElicit: json['slotToElicit'] as String?,
       slots: (json['slots'] as Map<String, dynamic>?)
@@ -1494,12 +1395,11 @@ class IntentSummary {
     final slotToElicit = this.slotToElicit;
     final slots = this.slots;
     return {
-      'dialogActionType': dialogActionType.toValue(),
+      'dialogActionType': dialogActionType.value,
       if (checkpointLabel != null) 'checkpointLabel': checkpointLabel,
       if (confirmationStatus != null)
-        'confirmationStatus': confirmationStatus.toValue(),
-      if (fulfillmentState != null)
-        'fulfillmentState': fulfillmentState.toValue(),
+        'confirmationStatus': confirmationStatus.value,
+      if (fulfillmentState != null) 'fulfillmentState': fulfillmentState.value,
       if (intentName != null) 'intentName': intentName,
       if (slotToElicit != null) 'slotToElicit': slotToElicit,
       if (slots != null) 'slots': slots,
@@ -1508,41 +1408,20 @@ class IntentSummary {
 }
 
 enum MessageFormatType {
-  plainText,
-  customPayload,
-  ssml,
-  composite,
-}
+  plainText('PlainText'),
+  customPayload('CustomPayload'),
+  ssml('SSML'),
+  composite('Composite'),
+  ;
 
-extension MessageFormatTypeValueExtension on MessageFormatType {
-  String toValue() {
-    switch (this) {
-      case MessageFormatType.plainText:
-        return 'PlainText';
-      case MessageFormatType.customPayload:
-        return 'CustomPayload';
-      case MessageFormatType.ssml:
-        return 'SSML';
-      case MessageFormatType.composite:
-        return 'Composite';
-    }
-  }
-}
+  final String value;
 
-extension MessageFormatTypeFromString on String {
-  MessageFormatType toMessageFormatType() {
-    switch (this) {
-      case 'PlainText':
-        return MessageFormatType.plainText;
-      case 'CustomPayload':
-        return MessageFormatType.customPayload;
-      case 'SSML':
-        return MessageFormatType.ssml;
-      case 'Composite':
-        return MessageFormatType.composite;
-    }
-    throw Exception('$this is not known in enum MessageFormatType');
-  }
+  const MessageFormatType(this.value);
+
+  static MessageFormatType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MessageFormatType'));
 }
 
 class PostContentResponse {
@@ -1991,10 +1870,12 @@ class PostTextResponse {
           .map((e) => PredictedIntent.fromJson(e as Map<String, dynamic>))
           .toList(),
       botVersion: json['botVersion'] as String?,
-      dialogState: (json['dialogState'] as String?)?.toDialogState(),
+      dialogState:
+          (json['dialogState'] as String?)?.let(DialogState.fromString),
       intentName: json['intentName'] as String?,
       message: json['message'] as String?,
-      messageFormat: (json['messageFormat'] as String?)?.toMessageFormatType(),
+      messageFormat:
+          (json['messageFormat'] as String?)?.let(MessageFormatType.fromString),
       nluIntentConfidence: json['nluIntentConfidence'] != null
           ? IntentConfidence.fromJson(
               json['nluIntentConfidence'] as Map<String, dynamic>)
@@ -2192,7 +2073,8 @@ class ResponseCard {
 
   factory ResponseCard.fromJson(Map<String, dynamic> json) {
     return ResponseCard(
-      contentType: (json['contentType'] as String?)?.toContentType(),
+      contentType:
+          (json['contentType'] as String?)?.let(ContentType.fromString),
       genericAttachments: (json['genericAttachments'] as List?)
           ?.whereNotNull()
           .map((e) => GenericAttachment.fromJson(e as Map<String, dynamic>))

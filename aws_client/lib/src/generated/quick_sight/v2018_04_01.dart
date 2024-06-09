@@ -419,7 +419,7 @@ class QuickSight {
   }) async {
     final $payload = <String, dynamic>{
       'AccountName': accountName,
-      'AuthenticationMethod': authenticationMethod.toValue(),
+      'AuthenticationMethod': authenticationMethod.value,
       'NotificationEmail': notificationEmail,
       if (activeDirectoryName != null)
         'ActiveDirectoryName': activeDirectoryName,
@@ -429,7 +429,7 @@ class QuickSight {
       if (authorProGroup != null) 'AuthorProGroup': authorProGroup,
       if (contactNumber != null) 'ContactNumber': contactNumber,
       if (directoryId != null) 'DirectoryId': directoryId,
-      if (edition != null) 'Edition': edition.toValue(),
+      if (edition != null) 'Edition': edition.value,
       if (emailAddress != null) 'EmailAddress': emailAddress,
       if (firstName != null) 'FirstName': firstName,
       if (iAMIdentityCenterInstanceArn != null)
@@ -811,7 +811,7 @@ class QuickSight {
   }) async {
     final $payload = <String, dynamic>{
       'DataSetId': dataSetId,
-      'ImportMode': importMode.toValue(),
+      'ImportMode': importMode.value,
       'Name': name,
       'PhysicalTableMap': physicalTableMap,
       if (columnGroups != null) 'ColumnGroups': columnGroups,
@@ -910,7 +910,7 @@ class QuickSight {
     final $payload = <String, dynamic>{
       'DataSourceId': dataSourceId,
       'Name': name,
-      'Type': type.toValue(),
+      'Type': type.value,
       if (credentials != null) 'Credentials': credentials,
       if (dataSourceParameters != null)
         'DataSourceParameters': dataSourceParameters,
@@ -985,11 +985,11 @@ class QuickSight {
     List<Tag>? tags,
   }) async {
     final $payload = <String, dynamic>{
-      if (folderType != null) 'FolderType': folderType.toValue(),
+      if (folderType != null) 'FolderType': folderType.value,
       if (name != null) 'Name': name,
       if (parentFolderArn != null) 'ParentFolderArn': parentFolderArn,
       if (permissions != null) 'Permissions': permissions,
-      if (sharingModel != null) 'SharingModel': sharingModel.toValue(),
+      if (sharingModel != null) 'SharingModel': sharingModel.value,
       if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
@@ -1034,7 +1034,7 @@ class QuickSight {
       payload: null,
       method: 'PUT',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId)}/folders/${Uri.encodeComponent(folderId)}/members/${Uri.encodeComponent(memberType.toValue())}/${Uri.encodeComponent(memberId)}',
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/folders/${Uri.encodeComponent(folderId)}/members/${Uri.encodeComponent(memberType.value)}/${Uri.encodeComponent(memberId)}',
       exceptionFnMap: _exceptionFns,
     );
     return CreateFolderMembershipResponse.fromJson(response);
@@ -1193,7 +1193,7 @@ class QuickSight {
   }) async {
     final $payload = <String, dynamic>{
       'AssignmentName': assignmentName,
-      'AssignmentStatus': assignmentStatus.toValue(),
+      'AssignmentStatus': assignmentStatus.value,
       if (identities != null) 'Identities': identities,
       if (policyArn != null) 'PolicyArn': policyArn,
     };
@@ -1246,7 +1246,7 @@ class QuickSight {
     IngestionType? ingestionType,
   }) async {
     final $payload = <String, dynamic>{
-      if (ingestionType != null) 'IngestionType': ingestionType.toValue(),
+      if (ingestionType != null) 'IngestionType': ingestionType.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1303,7 +1303,7 @@ class QuickSight {
     List<Tag>? tags,
   }) async {
     final $payload = <String, dynamic>{
-      'IdentityStore': identityStore.toValue(),
+      'IdentityStore': identityStore.value,
       'Namespace': namespace,
       if (tags != null) 'Tags': tags,
     };
@@ -1388,7 +1388,7 @@ class QuickSight {
       payload: null,
       method: 'POST',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId)}/namespaces/${Uri.encodeComponent(namespace)}/roles/${Uri.encodeComponent(role.toValue())}/members/${Uri.encodeComponent(memberName)}',
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/namespaces/${Uri.encodeComponent(namespace)}/roles/${Uri.encodeComponent(role.value)}/members/${Uri.encodeComponent(memberName)}',
       exceptionFnMap: _exceptionFns,
     );
     return CreateRoleMembershipResponse.fromJson(response);
@@ -2178,7 +2178,7 @@ class QuickSight {
       payload: null,
       method: 'DELETE',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId)}/folders/${Uri.encodeComponent(folderId)}/members/${Uri.encodeComponent(memberType.toValue())}/${Uri.encodeComponent(memberId)}',
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/folders/${Uri.encodeComponent(folderId)}/members/${Uri.encodeComponent(memberType.value)}/${Uri.encodeComponent(memberId)}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteFolderMembershipResponse.fromJson(response);
@@ -2321,7 +2321,7 @@ class QuickSight {
       payload: null,
       method: 'DELETE',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId)}/identity-propagation-config/${Uri.encodeComponent(service.toValue())}',
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/identity-propagation-config/${Uri.encodeComponent(service.value)}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteIdentityPropagationConfigResponse.fromJson(response);
@@ -2421,7 +2421,7 @@ class QuickSight {
       payload: null,
       method: 'DELETE',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId)}/namespaces/${Uri.encodeComponent(namespace)}/roles/${Uri.encodeComponent(role.toValue())}/custom-permission',
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/namespaces/${Uri.encodeComponent(namespace)}/roles/${Uri.encodeComponent(role.value)}/custom-permission',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteRoleCustomPermissionResponse.fromJson(response);
@@ -2460,7 +2460,7 @@ class QuickSight {
       payload: null,
       method: 'DELETE',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId)}/namespaces/${Uri.encodeComponent(namespace)}/roles/${Uri.encodeComponent(role.toValue())}/members/${Uri.encodeComponent(memberName)}',
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/namespaces/${Uri.encodeComponent(namespace)}/roles/${Uri.encodeComponent(role.value)}/members/${Uri.encodeComponent(memberName)}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteRoleMembershipResponse.fromJson(response);
@@ -3918,7 +3918,7 @@ class QuickSight {
       payload: null,
       method: 'GET',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId)}/namespaces/${Uri.encodeComponent(namespace)}/roles/${Uri.encodeComponent(role.toValue())}/custom-permission',
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/namespaces/${Uri.encodeComponent(namespace)}/roles/${Uri.encodeComponent(role.value)}/custom-permission',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeRoleCustomPermissionResponse.fromJson(response);
@@ -4792,7 +4792,7 @@ class QuickSight {
       600,
     );
     final $query = <String, List<String>>{
-      'creds-type': [identityType.toValue()],
+      'creds-type': [identityType.value],
       if (additionalDashboardIds != null)
         'additional-dashboard-ids': additionalDashboardIds,
       if (namespace != null) 'namespace': [namespace],
@@ -5496,7 +5496,7 @@ class QuickSight {
     );
     final $query = <String, List<String>>{
       if (assignmentStatus != null)
-        'assignment-status': [assignmentStatus.toValue()],
+        'assignment-status': [assignmentStatus.value],
       if (maxResults != null) 'max-results': [maxResults.toString()],
       if (nextToken != null) 'next-token': [nextToken],
     };
@@ -5796,7 +5796,7 @@ class QuickSight {
       payload: null,
       method: 'GET',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId)}/namespaces/${Uri.encodeComponent(namespace)}/roles/${Uri.encodeComponent(role.toValue())}/members',
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/namespaces/${Uri.encodeComponent(namespace)}/roles/${Uri.encodeComponent(role.value)}/members',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
@@ -6122,7 +6122,7 @@ class QuickSight {
     final $query = <String, List<String>>{
       if (maxResults != null) 'max-results': [maxResults.toString()],
       if (nextToken != null) 'next-token': [nextToken],
-      if (type != null) 'type': [type.toValue()],
+      if (type != null) 'type': [type.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -6585,8 +6585,8 @@ class QuickSight {
   }) async {
     final $payload = <String, dynamic>{
       'Email': email,
-      'IdentityType': identityType.toValue(),
-      'UserRole': userRole.toValue(),
+      'IdentityType': identityType.value,
+      'UserRole': userRole.value,
       if (customFederationProviderUrl != null)
         'CustomFederationProviderUrl': customFederationProviderUrl,
       if (customPermissionsName != null)
@@ -7067,7 +7067,7 @@ class QuickSight {
   }) async {
     final $payload = <String, dynamic>{
       'AssetBundleExportJobId': assetBundleExportJobId,
-      'ExportFormat': exportFormat.toValue(),
+      'ExportFormat': exportFormat.value,
       'ResourceArns': resourceArns,
       if (cloudFormationOverridePropertyConfiguration != null)
         'CloudFormationOverridePropertyConfiguration':
@@ -7159,7 +7159,7 @@ class QuickSight {
     final $payload = <String, dynamic>{
       'AssetBundleImportJobId': assetBundleImportJobId,
       'AssetBundleImportSource': assetBundleImportSource,
-      if (failureAction != null) 'FailureAction': failureAction.toValue(),
+      if (failureAction != null) 'FailureAction': failureAction.value,
       if (overrideParameters != null) 'OverrideParameters': overrideParameters,
       if (overridePermissions != null)
         'OverridePermissions': overridePermissions,
@@ -7978,7 +7978,7 @@ class QuickSight {
     RowLevelPermissionTagConfiguration? rowLevelPermissionTagConfiguration,
   }) async {
     final $payload = <String, dynamic>{
-      'ImportMode': importMode.toValue(),
+      'ImportMode': importMode.value,
       'Name': name,
       'PhysicalTableMap': physicalTableMap,
       if (columnGroups != null) 'ColumnGroups': columnGroups,
@@ -8335,8 +8335,7 @@ class QuickSight {
     String? policyArn,
   }) async {
     final $payload = <String, dynamic>{
-      if (assignmentStatus != null)
-        'AssignmentStatus': assignmentStatus.toValue(),
+      if (assignmentStatus != null) 'AssignmentStatus': assignmentStatus.value,
       if (identities != null) 'Identities': identities,
       if (policyArn != null) 'PolicyArn': policyArn,
     };
@@ -8386,7 +8385,7 @@ class QuickSight {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId)}/identity-propagation-config/${Uri.encodeComponent(service.toValue())}',
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/identity-propagation-config/${Uri.encodeComponent(service.value)}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateIdentityPropagationConfigResponse.fromJson(response);
@@ -8598,7 +8597,7 @@ class QuickSight {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/accounts/${Uri.encodeComponent(awsAccountId)}/namespaces/${Uri.encodeComponent(namespace)}/roles/${Uri.encodeComponent(role.toValue())}/custom-permission',
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/namespaces/${Uri.encodeComponent(namespace)}/roles/${Uri.encodeComponent(role.value)}/custom-permission',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateRoleCustomPermissionResponse.fromJson(response);
@@ -8636,7 +8635,7 @@ class QuickSight {
     required PurchaseMode purchaseMode,
   }) async {
     final $payload = <String, dynamic>{
-      'PurchaseMode': purchaseMode.toValue(),
+      'PurchaseMode': purchaseMode.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -9308,7 +9307,7 @@ class QuickSight {
   }) async {
     final $payload = <String, dynamic>{
       'Email': email,
-      'Role': role.toValue(),
+      'Role': role.value,
       if (customFederationProviderUrl != null)
         'CustomFederationProviderUrl': customFederationProviderUrl,
       if (customPermissionsName != null)
@@ -9484,7 +9483,7 @@ class AccountInfo {
       accountName: json['AccountName'] as String?,
       accountSubscriptionStatus: json['AccountSubscriptionStatus'] as String?,
       authenticationType: json['AuthenticationType'] as String?,
-      edition: (json['Edition'] as String?)?.toEdition(),
+      edition: (json['Edition'] as String?)?.let(Edition.fromString),
       iAMIdentityCenterInstanceArn:
           json['IAMIdentityCenterInstanceArn'] as String?,
       notificationEmail: json['NotificationEmail'] as String?,
@@ -9503,7 +9502,7 @@ class AccountInfo {
       if (accountSubscriptionStatus != null)
         'AccountSubscriptionStatus': accountSubscriptionStatus,
       if (authenticationType != null) 'AuthenticationType': authenticationType,
-      if (edition != null) 'Edition': edition.toValue(),
+      if (edition != null) 'Edition': edition.value,
       if (iAMIdentityCenterInstanceArn != null)
         'IAMIdentityCenterInstanceArn': iAMIdentityCenterInstanceArn,
       if (notificationEmail != null) 'NotificationEmail': notificationEmail,
@@ -9557,7 +9556,7 @@ class AccountSettings {
     return AccountSettings(
       accountName: json['AccountName'] as String?,
       defaultNamespace: json['DefaultNamespace'] as String?,
-      edition: (json['Edition'] as String?)?.toEdition(),
+      edition: (json['Edition'] as String?)?.let(Edition.fromString),
       notificationEmail: json['NotificationEmail'] as String?,
       publicSharingEnabled: json['PublicSharingEnabled'] as bool?,
       terminationProtectionEnabled:
@@ -9575,7 +9574,7 @@ class AccountSettings {
     return {
       if (accountName != null) 'AccountName': accountName,
       if (defaultNamespace != null) 'DefaultNamespace': defaultNamespace,
-      if (edition != null) 'Edition': edition.toValue(),
+      if (edition != null) 'Edition': edition.value,
       if (notificationEmail != null) 'NotificationEmail': notificationEmail,
       if (publicSharingEnabled != null)
         'PublicSharingEnabled': publicSharingEnabled,
@@ -9626,8 +9625,8 @@ class AdHocFilteringOption {
 
   factory AdHocFilteringOption.fromJson(Map<String, dynamic> json) {
     return AdHocFilteringOption(
-      availabilityStatus:
-          (json['AvailabilityStatus'] as String?)?.toDashboardBehavior(),
+      availabilityStatus: (json['AvailabilityStatus'] as String?)
+          ?.let(DashboardBehavior.fromString),
     );
   }
 
@@ -9635,7 +9634,7 @@ class AdHocFilteringOption {
     final availabilityStatus = this.availabilityStatus;
     return {
       if (availabilityStatus != null)
-        'AvailabilityStatus': availabilityStatus.toValue(),
+        'AvailabilityStatus': availabilityStatus.value,
     };
   }
 }
@@ -9700,9 +9699,9 @@ class AggregationFunction {
           : null,
       categoricalAggregationFunction:
           (json['CategoricalAggregationFunction'] as String?)
-              ?.toCategoricalAggregationFunction(),
+              ?.let(CategoricalAggregationFunction.fromString),
       dateAggregationFunction: (json['DateAggregationFunction'] as String?)
-          ?.toDateAggregationFunction(),
+          ?.let(DateAggregationFunction.fromString),
       numericalAggregationFunction: json['NumericalAggregationFunction'] != null
           ? NumericalAggregationFunction.fromJson(
               json['NumericalAggregationFunction'] as Map<String, dynamic>)
@@ -9719,10 +9718,9 @@ class AggregationFunction {
       if (attributeAggregationFunction != null)
         'AttributeAggregationFunction': attributeAggregationFunction,
       if (categoricalAggregationFunction != null)
-        'CategoricalAggregationFunction':
-            categoricalAggregationFunction.toValue(),
+        'CategoricalAggregationFunction': categoricalAggregationFunction.value,
       if (dateAggregationFunction != null)
-        'DateAggregationFunction': dateAggregationFunction.toValue(),
+        'DateAggregationFunction': dateAggregationFunction.value,
       if (numericalAggregationFunction != null)
         'NumericalAggregationFunction': numericalAggregationFunction,
     };
@@ -9758,7 +9756,8 @@ class AggregationSortConfiguration {
   factory AggregationSortConfiguration.fromJson(Map<String, dynamic> json) {
     return AggregationSortConfiguration(
       column: ColumnIdentifier.fromJson(json['Column'] as Map<String, dynamic>),
-      sortDirection: (json['SortDirection'] as String).toSortDirection(),
+      sortDirection:
+          SortDirection.fromString((json['SortDirection'] as String)),
       aggregationFunction: json['AggregationFunction'] != null
           ? AggregationFunction.fromJson(
               json['AggregationFunction'] as Map<String, dynamic>)
@@ -9772,7 +9771,7 @@ class AggregationSortConfiguration {
     final aggregationFunction = this.aggregationFunction;
     return {
       'Column': column,
-      'SortDirection': sortDirection.toValue(),
+      'SortDirection': sortDirection.value,
       if (aggregationFunction != null)
         'AggregationFunction': aggregationFunction,
     };
@@ -9909,7 +9908,7 @@ class Analysis {
           ?.whereNotNull()
           .map((e) => Sheet.fromJson(e as Map<String, dynamic>))
           .toList(),
-      status: (json['Status'] as String?)?.toResourceStatus(),
+      status: (json['Status'] as String?)?.let(ResourceStatus.fromString),
       themeArn: json['ThemeArn'] as String?,
     );
   }
@@ -9935,7 +9934,7 @@ class Analysis {
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       if (name != null) 'Name': name,
       if (sheets != null) 'Sheets': sheets,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (themeArn != null) 'ThemeArn': themeArn,
     };
   }
@@ -10099,7 +10098,7 @@ class AnalysisError {
   factory AnalysisError.fromJson(Map<String, dynamic> json) {
     return AnalysisError(
       message: json['Message'] as String?,
-      type: (json['Type'] as String?)?.toAnalysisErrorType(),
+      type: (json['Type'] as String?)?.let(AnalysisErrorType.fromString),
       violatedEntities: (json['ViolatedEntities'] as List?)
           ?.whereNotNull()
           .map((e) => Entity.fromJson(e as Map<String, dynamic>))
@@ -10113,131 +10112,53 @@ class AnalysisError {
     final violatedEntities = this.violatedEntities;
     return {
       if (message != null) 'Message': message,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
       if (violatedEntities != null) 'ViolatedEntities': violatedEntities,
     };
   }
 }
 
 enum AnalysisErrorType {
-  accessDenied,
-  sourceNotFound,
-  dataSetNotFound,
-  internalFailure,
-  parameterValueIncompatible,
-  parameterTypeInvalid,
-  parameterNotFound,
-  columnTypeMismatch,
-  columnGeographicRoleMismatch,
-  columnReplacementMissing,
-}
+  accessDenied('ACCESS_DENIED'),
+  sourceNotFound('SOURCE_NOT_FOUND'),
+  dataSetNotFound('DATA_SET_NOT_FOUND'),
+  internalFailure('INTERNAL_FAILURE'),
+  parameterValueIncompatible('PARAMETER_VALUE_INCOMPATIBLE'),
+  parameterTypeInvalid('PARAMETER_TYPE_INVALID'),
+  parameterNotFound('PARAMETER_NOT_FOUND'),
+  columnTypeMismatch('COLUMN_TYPE_MISMATCH'),
+  columnGeographicRoleMismatch('COLUMN_GEOGRAPHIC_ROLE_MISMATCH'),
+  columnReplacementMissing('COLUMN_REPLACEMENT_MISSING'),
+  ;
 
-extension AnalysisErrorTypeValueExtension on AnalysisErrorType {
-  String toValue() {
-    switch (this) {
-      case AnalysisErrorType.accessDenied:
-        return 'ACCESS_DENIED';
-      case AnalysisErrorType.sourceNotFound:
-        return 'SOURCE_NOT_FOUND';
-      case AnalysisErrorType.dataSetNotFound:
-        return 'DATA_SET_NOT_FOUND';
-      case AnalysisErrorType.internalFailure:
-        return 'INTERNAL_FAILURE';
-      case AnalysisErrorType.parameterValueIncompatible:
-        return 'PARAMETER_VALUE_INCOMPATIBLE';
-      case AnalysisErrorType.parameterTypeInvalid:
-        return 'PARAMETER_TYPE_INVALID';
-      case AnalysisErrorType.parameterNotFound:
-        return 'PARAMETER_NOT_FOUND';
-      case AnalysisErrorType.columnTypeMismatch:
-        return 'COLUMN_TYPE_MISMATCH';
-      case AnalysisErrorType.columnGeographicRoleMismatch:
-        return 'COLUMN_GEOGRAPHIC_ROLE_MISMATCH';
-      case AnalysisErrorType.columnReplacementMissing:
-        return 'COLUMN_REPLACEMENT_MISSING';
-    }
-  }
-}
+  final String value;
 
-extension AnalysisErrorTypeFromString on String {
-  AnalysisErrorType toAnalysisErrorType() {
-    switch (this) {
-      case 'ACCESS_DENIED':
-        return AnalysisErrorType.accessDenied;
-      case 'SOURCE_NOT_FOUND':
-        return AnalysisErrorType.sourceNotFound;
-      case 'DATA_SET_NOT_FOUND':
-        return AnalysisErrorType.dataSetNotFound;
-      case 'INTERNAL_FAILURE':
-        return AnalysisErrorType.internalFailure;
-      case 'PARAMETER_VALUE_INCOMPATIBLE':
-        return AnalysisErrorType.parameterValueIncompatible;
-      case 'PARAMETER_TYPE_INVALID':
-        return AnalysisErrorType.parameterTypeInvalid;
-      case 'PARAMETER_NOT_FOUND':
-        return AnalysisErrorType.parameterNotFound;
-      case 'COLUMN_TYPE_MISMATCH':
-        return AnalysisErrorType.columnTypeMismatch;
-      case 'COLUMN_GEOGRAPHIC_ROLE_MISMATCH':
-        return AnalysisErrorType.columnGeographicRoleMismatch;
-      case 'COLUMN_REPLACEMENT_MISSING':
-        return AnalysisErrorType.columnReplacementMissing;
-    }
-    throw Exception('$this is not known in enum AnalysisErrorType');
-  }
+  const AnalysisErrorType(this.value);
+
+  static AnalysisErrorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AnalysisErrorType'));
 }
 
 enum AnalysisFilterAttribute {
-  quicksightUser,
-  quicksightViewerOrOwner,
-  directQuicksightViewerOrOwner,
-  quicksightOwner,
-  directQuicksightOwner,
-  directQuicksightSoleOwner,
-  analysisName,
-}
+  quicksightUser('QUICKSIGHT_USER'),
+  quicksightViewerOrOwner('QUICKSIGHT_VIEWER_OR_OWNER'),
+  directQuicksightViewerOrOwner('DIRECT_QUICKSIGHT_VIEWER_OR_OWNER'),
+  quicksightOwner('QUICKSIGHT_OWNER'),
+  directQuicksightOwner('DIRECT_QUICKSIGHT_OWNER'),
+  directQuicksightSoleOwner('DIRECT_QUICKSIGHT_SOLE_OWNER'),
+  analysisName('ANALYSIS_NAME'),
+  ;
 
-extension AnalysisFilterAttributeValueExtension on AnalysisFilterAttribute {
-  String toValue() {
-    switch (this) {
-      case AnalysisFilterAttribute.quicksightUser:
-        return 'QUICKSIGHT_USER';
-      case AnalysisFilterAttribute.quicksightViewerOrOwner:
-        return 'QUICKSIGHT_VIEWER_OR_OWNER';
-      case AnalysisFilterAttribute.directQuicksightViewerOrOwner:
-        return 'DIRECT_QUICKSIGHT_VIEWER_OR_OWNER';
-      case AnalysisFilterAttribute.quicksightOwner:
-        return 'QUICKSIGHT_OWNER';
-      case AnalysisFilterAttribute.directQuicksightOwner:
-        return 'DIRECT_QUICKSIGHT_OWNER';
-      case AnalysisFilterAttribute.directQuicksightSoleOwner:
-        return 'DIRECT_QUICKSIGHT_SOLE_OWNER';
-      case AnalysisFilterAttribute.analysisName:
-        return 'ANALYSIS_NAME';
-    }
-  }
-}
+  final String value;
 
-extension AnalysisFilterAttributeFromString on String {
-  AnalysisFilterAttribute toAnalysisFilterAttribute() {
-    switch (this) {
-      case 'QUICKSIGHT_USER':
-        return AnalysisFilterAttribute.quicksightUser;
-      case 'QUICKSIGHT_VIEWER_OR_OWNER':
-        return AnalysisFilterAttribute.quicksightViewerOrOwner;
-      case 'DIRECT_QUICKSIGHT_VIEWER_OR_OWNER':
-        return AnalysisFilterAttribute.directQuicksightViewerOrOwner;
-      case 'QUICKSIGHT_OWNER':
-        return AnalysisFilterAttribute.quicksightOwner;
-      case 'DIRECT_QUICKSIGHT_OWNER':
-        return AnalysisFilterAttribute.directQuicksightOwner;
-      case 'DIRECT_QUICKSIGHT_SOLE_OWNER':
-        return AnalysisFilterAttribute.directQuicksightSoleOwner;
-      case 'ANALYSIS_NAME':
-        return AnalysisFilterAttribute.analysisName;
-    }
-    throw Exception('$this is not known in enum AnalysisFilterAttribute');
-  }
+  const AnalysisFilterAttribute(this.value);
+
+  static AnalysisFilterAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AnalysisFilterAttribute'));
 }
 
 /// A filter that you apply when searching for one or more analyses.
@@ -10317,8 +10238,8 @@ class AnalysisSearchFilter {
     final operator = this.operator;
     final value = this.value;
     return {
-      if (name != null) 'Name': name.toValue(),
-      if (operator != null) 'Operator': operator.toValue(),
+      if (name != null) 'Name': name.value,
+      if (operator != null) 'Operator': operator.value,
       if (value != null) 'Value': value,
     };
   }
@@ -10401,7 +10322,7 @@ class AnalysisSummary {
       createdTime: timeStampFromJson(json['CreatedTime']),
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       name: json['Name'] as String?,
-      status: (json['Status'] as String?)?.toResourceStatus(),
+      status: (json['Status'] as String?)?.let(ResourceStatus.fromString),
     );
   }
 
@@ -10419,7 +10340,7 @@ class AnalysisSummary {
       if (lastUpdatedTime != null)
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       if (name != null) 'Name': name,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -10445,7 +10366,8 @@ class AnchorDateConfiguration {
 
   factory AnchorDateConfiguration.fromJson(Map<String, dynamic> json) {
     return AnchorDateConfiguration(
-      anchorOption: (json['AnchorOption'] as String?)?.toAnchorOption(),
+      anchorOption:
+          (json['AnchorOption'] as String?)?.let(AnchorOption.fromString),
       parameterName: json['ParameterName'] as String?,
     );
   }
@@ -10454,33 +10376,24 @@ class AnchorDateConfiguration {
     final anchorOption = this.anchorOption;
     final parameterName = this.parameterName;
     return {
-      if (anchorOption != null) 'AnchorOption': anchorOption.toValue(),
+      if (anchorOption != null) 'AnchorOption': anchorOption.value,
       if (parameterName != null) 'ParameterName': parameterName,
     };
   }
 }
 
 enum AnchorOption {
-  now,
-}
+  now('NOW'),
+  ;
 
-extension AnchorOptionValueExtension on AnchorOption {
-  String toValue() {
-    switch (this) {
-      case AnchorOption.now:
-        return 'NOW';
-    }
-  }
-}
+  final String value;
 
-extension AnchorOptionFromString on String {
-  AnchorOption toAnchorOption() {
-    switch (this) {
-      case 'NOW':
-        return AnchorOption.now;
-    }
-    throw Exception('$this is not known in enum AnchorOption');
-  }
+  const AnchorOption(this.value);
+
+  static AnchorOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AnchorOption'));
 }
 
 /// Information about the dashboard that you want to embed.
@@ -10730,7 +10643,8 @@ class ArcConfiguration {
   factory ArcConfiguration.fromJson(Map<String, dynamic> json) {
     return ArcConfiguration(
       arcAngle: json['ArcAngle'] as double?,
-      arcThickness: (json['ArcThickness'] as String?)?.toArcThicknessOptions(),
+      arcThickness: (json['ArcThickness'] as String?)
+          ?.let(ArcThicknessOptions.fromString),
     );
   }
 
@@ -10739,7 +10653,7 @@ class ArcConfiguration {
     final arcThickness = this.arcThickness;
     return {
       if (arcAngle != null) 'ArcAngle': arcAngle,
-      if (arcThickness != null) 'ArcThickness': arcThickness.toValue(),
+      if (arcThickness != null) 'ArcThickness': arcThickness.value,
     };
   }
 }
@@ -10756,87 +10670,50 @@ class ArcOptions {
 
   factory ArcOptions.fromJson(Map<String, dynamic> json) {
     return ArcOptions(
-      arcThickness: (json['ArcThickness'] as String?)?.toArcThickness(),
+      arcThickness:
+          (json['ArcThickness'] as String?)?.let(ArcThickness.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final arcThickness = this.arcThickness;
     return {
-      if (arcThickness != null) 'ArcThickness': arcThickness.toValue(),
+      if (arcThickness != null) 'ArcThickness': arcThickness.value,
     };
   }
 }
 
 enum ArcThickness {
-  small,
-  medium,
-  large,
-  whole,
-}
+  small('SMALL'),
+  medium('MEDIUM'),
+  large('LARGE'),
+  whole('WHOLE'),
+  ;
 
-extension ArcThicknessValueExtension on ArcThickness {
-  String toValue() {
-    switch (this) {
-      case ArcThickness.small:
-        return 'SMALL';
-      case ArcThickness.medium:
-        return 'MEDIUM';
-      case ArcThickness.large:
-        return 'LARGE';
-      case ArcThickness.whole:
-        return 'WHOLE';
-    }
-  }
-}
+  final String value;
 
-extension ArcThicknessFromString on String {
-  ArcThickness toArcThickness() {
-    switch (this) {
-      case 'SMALL':
-        return ArcThickness.small;
-      case 'MEDIUM':
-        return ArcThickness.medium;
-      case 'LARGE':
-        return ArcThickness.large;
-      case 'WHOLE':
-        return ArcThickness.whole;
-    }
-    throw Exception('$this is not known in enum ArcThickness');
-  }
+  const ArcThickness(this.value);
+
+  static ArcThickness fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ArcThickness'));
 }
 
 enum ArcThicknessOptions {
-  small,
-  medium,
-  large,
-}
+  small('SMALL'),
+  medium('MEDIUM'),
+  large('LARGE'),
+  ;
 
-extension ArcThicknessOptionsValueExtension on ArcThicknessOptions {
-  String toValue() {
-    switch (this) {
-      case ArcThicknessOptions.small:
-        return 'SMALL';
-      case ArcThicknessOptions.medium:
-        return 'MEDIUM';
-      case ArcThicknessOptions.large:
-        return 'LARGE';
-    }
-  }
-}
+  final String value;
 
-extension ArcThicknessOptionsFromString on String {
-  ArcThicknessOptions toArcThicknessOptions() {
-    switch (this) {
-      case 'SMALL':
-        return ArcThicknessOptions.small;
-      case 'MEDIUM':
-        return ArcThicknessOptions.medium;
-      case 'LARGE':
-        return ArcThicknessOptions.large;
-    }
-    throw Exception('$this is not known in enum ArcThicknessOptions');
-  }
+  const ArcThicknessOptions(this.value);
+
+  static ArcThicknessOptions fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ArcThicknessOptions'));
 }
 
 /// An optional collection of CloudFormation property configurations that
@@ -10962,31 +10839,18 @@ class AssetBundleCloudFormationOverridePropertyConfiguration {
 }
 
 enum AssetBundleExportFormat {
-  cloudformationJson,
-  quicksightJson,
-}
+  cloudformationJson('CLOUDFORMATION_JSON'),
+  quicksightJson('QUICKSIGHT_JSON'),
+  ;
 
-extension AssetBundleExportFormatValueExtension on AssetBundleExportFormat {
-  String toValue() {
-    switch (this) {
-      case AssetBundleExportFormat.cloudformationJson:
-        return 'CLOUDFORMATION_JSON';
-      case AssetBundleExportFormat.quicksightJson:
-        return 'QUICKSIGHT_JSON';
-    }
-  }
-}
+  final String value;
 
-extension AssetBundleExportFormatFromString on String {
-  AssetBundleExportFormat toAssetBundleExportFormat() {
-    switch (this) {
-      case 'CLOUDFORMATION_JSON':
-        return AssetBundleExportFormat.cloudformationJson;
-      case 'QUICKSIGHT_JSON':
-        return AssetBundleExportFormat.quicksightJson;
-    }
-    throw Exception('$this is not known in enum AssetBundleExportFormat');
-  }
+  const AssetBundleExportFormat(this.value);
+
+  static AssetBundleExportFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AssetBundleExportFormat'));
 }
 
 /// Controls how a specific <code>Analysis</code> resource is parameterized in
@@ -11011,8 +10875,8 @@ class AssetBundleExportJobAnalysisOverrideProperties {
       arn: json['Arn'] as String,
       properties: (json['Properties'] as List)
           .whereNotNull()
-          .map((e) =>
-              (e as String).toAssetBundleExportJobAnalysisPropertyToOverride())
+          .map((e) => AssetBundleExportJobAnalysisPropertyToOverride.fromString(
+              (e as String)))
           .toList(),
     );
   }
@@ -11022,35 +10886,24 @@ class AssetBundleExportJobAnalysisOverrideProperties {
     final properties = this.properties;
     return {
       'Arn': arn,
-      'Properties': properties.map((e) => e.toValue()).toList(),
+      'Properties': properties.map((e) => e.value).toList(),
     };
   }
 }
 
 enum AssetBundleExportJobAnalysisPropertyToOverride {
-  name,
-}
+  name('Name'),
+  ;
 
-extension AssetBundleExportJobAnalysisPropertyToOverrideValueExtension
-    on AssetBundleExportJobAnalysisPropertyToOverride {
-  String toValue() {
-    switch (this) {
-      case AssetBundleExportJobAnalysisPropertyToOverride.name:
-        return 'Name';
-    }
-  }
-}
+  final String value;
 
-extension AssetBundleExportJobAnalysisPropertyToOverrideFromString on String {
-  AssetBundleExportJobAnalysisPropertyToOverride
-      toAssetBundleExportJobAnalysisPropertyToOverride() {
-    switch (this) {
-      case 'Name':
-        return AssetBundleExportJobAnalysisPropertyToOverride.name;
-    }
-    throw Exception(
-        '$this is not known in enum AssetBundleExportJobAnalysisPropertyToOverride');
-  }
+  const AssetBundleExportJobAnalysisPropertyToOverride(this.value);
+
+  static AssetBundleExportJobAnalysisPropertyToOverride fromString(
+          String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AssetBundleExportJobAnalysisPropertyToOverride'));
 }
 
 /// Controls how a specific <code>Dashboard</code> resource is parameterized in
@@ -11076,7 +10929,8 @@ class AssetBundleExportJobDashboardOverrideProperties {
       properties: (json['Properties'] as List)
           .whereNotNull()
           .map((e) =>
-              (e as String).toAssetBundleExportJobDashboardPropertyToOverride())
+              AssetBundleExportJobDashboardPropertyToOverride.fromString(
+                  (e as String)))
           .toList(),
     );
   }
@@ -11086,35 +10940,24 @@ class AssetBundleExportJobDashboardOverrideProperties {
     final properties = this.properties;
     return {
       'Arn': arn,
-      'Properties': properties.map((e) => e.toValue()).toList(),
+      'Properties': properties.map((e) => e.value).toList(),
     };
   }
 }
 
 enum AssetBundleExportJobDashboardPropertyToOverride {
-  name,
-}
+  name('Name'),
+  ;
 
-extension AssetBundleExportJobDashboardPropertyToOverrideValueExtension
-    on AssetBundleExportJobDashboardPropertyToOverride {
-  String toValue() {
-    switch (this) {
-      case AssetBundleExportJobDashboardPropertyToOverride.name:
-        return 'Name';
-    }
-  }
-}
+  final String value;
 
-extension AssetBundleExportJobDashboardPropertyToOverrideFromString on String {
-  AssetBundleExportJobDashboardPropertyToOverride
-      toAssetBundleExportJobDashboardPropertyToOverride() {
-    switch (this) {
-      case 'Name':
-        return AssetBundleExportJobDashboardPropertyToOverride.name;
-    }
-    throw Exception(
-        '$this is not known in enum AssetBundleExportJobDashboardPropertyToOverride');
-  }
+  const AssetBundleExportJobDashboardPropertyToOverride(this.value);
+
+  static AssetBundleExportJobDashboardPropertyToOverride fromString(
+          String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AssetBundleExportJobDashboardPropertyToOverride'));
 }
 
 /// Controls how a specific <code>DataSet</code> resource is parameterized in
@@ -11139,8 +10982,8 @@ class AssetBundleExportJobDataSetOverrideProperties {
       arn: json['Arn'] as String,
       properties: (json['Properties'] as List)
           .whereNotNull()
-          .map((e) =>
-              (e as String).toAssetBundleExportJobDataSetPropertyToOverride())
+          .map((e) => AssetBundleExportJobDataSetPropertyToOverride.fromString(
+              (e as String)))
           .toList(),
     );
   }
@@ -11150,35 +10993,24 @@ class AssetBundleExportJobDataSetOverrideProperties {
     final properties = this.properties;
     return {
       'Arn': arn,
-      'Properties': properties.map((e) => e.toValue()).toList(),
+      'Properties': properties.map((e) => e.value).toList(),
     };
   }
 }
 
 enum AssetBundleExportJobDataSetPropertyToOverride {
-  name,
-}
+  name('Name'),
+  ;
 
-extension AssetBundleExportJobDataSetPropertyToOverrideValueExtension
-    on AssetBundleExportJobDataSetPropertyToOverride {
-  String toValue() {
-    switch (this) {
-      case AssetBundleExportJobDataSetPropertyToOverride.name:
-        return 'Name';
-    }
-  }
-}
+  final String value;
 
-extension AssetBundleExportJobDataSetPropertyToOverrideFromString on String {
-  AssetBundleExportJobDataSetPropertyToOverride
-      toAssetBundleExportJobDataSetPropertyToOverride() {
-    switch (this) {
-      case 'Name':
-        return AssetBundleExportJobDataSetPropertyToOverride.name;
-    }
-    throw Exception(
-        '$this is not known in enum AssetBundleExportJobDataSetPropertyToOverride');
-  }
+  const AssetBundleExportJobDataSetPropertyToOverride(this.value);
+
+  static AssetBundleExportJobDataSetPropertyToOverride fromString(
+          String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AssetBundleExportJobDataSetPropertyToOverride'));
 }
 
 /// Controls how a specific <code>DataSource</code> resource is parameterized in
@@ -11203,8 +11035,9 @@ class AssetBundleExportJobDataSourceOverrideProperties {
       arn: json['Arn'] as String,
       properties: (json['Properties'] as List)
           .whereNotNull()
-          .map((e) => (e as String)
-              .toAssetBundleExportJobDataSourcePropertyToOverride())
+          .map((e) =>
+              AssetBundleExportJobDataSourcePropertyToOverride.fromString(
+                  (e as String)))
           .toList(),
     );
   }
@@ -11214,122 +11047,41 @@ class AssetBundleExportJobDataSourceOverrideProperties {
     final properties = this.properties;
     return {
       'Arn': arn,
-      'Properties': properties.map((e) => e.toValue()).toList(),
+      'Properties': properties.map((e) => e.value).toList(),
     };
   }
 }
 
 enum AssetBundleExportJobDataSourcePropertyToOverride {
-  name,
-  disableSsl,
-  secretArn,
-  username,
-  password,
-  domain,
-  workGroup,
-  host,
-  port,
-  database,
-  dataSetName,
-  catalog,
-  instanceId,
-  clusterId,
-  manifestFileLocation,
-  warehouse,
-  roleArn,
-  productType,
-}
+  name('Name'),
+  disableSsl('DisableSsl'),
+  secretArn('SecretArn'),
+  username('Username'),
+  password('Password'),
+  domain('Domain'),
+  workGroup('WorkGroup'),
+  host('Host'),
+  port('Port'),
+  database('Database'),
+  dataSetName('DataSetName'),
+  catalog('Catalog'),
+  instanceId('InstanceId'),
+  clusterId('ClusterId'),
+  manifestFileLocation('ManifestFileLocation'),
+  warehouse('Warehouse'),
+  roleArn('RoleArn'),
+  productType('ProductType'),
+  ;
 
-extension AssetBundleExportJobDataSourcePropertyToOverrideValueExtension
-    on AssetBundleExportJobDataSourcePropertyToOverride {
-  String toValue() {
-    switch (this) {
-      case AssetBundleExportJobDataSourcePropertyToOverride.name:
-        return 'Name';
-      case AssetBundleExportJobDataSourcePropertyToOverride.disableSsl:
-        return 'DisableSsl';
-      case AssetBundleExportJobDataSourcePropertyToOverride.secretArn:
-        return 'SecretArn';
-      case AssetBundleExportJobDataSourcePropertyToOverride.username:
-        return 'Username';
-      case AssetBundleExportJobDataSourcePropertyToOverride.password:
-        return 'Password';
-      case AssetBundleExportJobDataSourcePropertyToOverride.domain:
-        return 'Domain';
-      case AssetBundleExportJobDataSourcePropertyToOverride.workGroup:
-        return 'WorkGroup';
-      case AssetBundleExportJobDataSourcePropertyToOverride.host:
-        return 'Host';
-      case AssetBundleExportJobDataSourcePropertyToOverride.port:
-        return 'Port';
-      case AssetBundleExportJobDataSourcePropertyToOverride.database:
-        return 'Database';
-      case AssetBundleExportJobDataSourcePropertyToOverride.dataSetName:
-        return 'DataSetName';
-      case AssetBundleExportJobDataSourcePropertyToOverride.catalog:
-        return 'Catalog';
-      case AssetBundleExportJobDataSourcePropertyToOverride.instanceId:
-        return 'InstanceId';
-      case AssetBundleExportJobDataSourcePropertyToOverride.clusterId:
-        return 'ClusterId';
-      case AssetBundleExportJobDataSourcePropertyToOverride
-            .manifestFileLocation:
-        return 'ManifestFileLocation';
-      case AssetBundleExportJobDataSourcePropertyToOverride.warehouse:
-        return 'Warehouse';
-      case AssetBundleExportJobDataSourcePropertyToOverride.roleArn:
-        return 'RoleArn';
-      case AssetBundleExportJobDataSourcePropertyToOverride.productType:
-        return 'ProductType';
-    }
-  }
-}
+  final String value;
 
-extension AssetBundleExportJobDataSourcePropertyToOverrideFromString on String {
-  AssetBundleExportJobDataSourcePropertyToOverride
-      toAssetBundleExportJobDataSourcePropertyToOverride() {
-    switch (this) {
-      case 'Name':
-        return AssetBundleExportJobDataSourcePropertyToOverride.name;
-      case 'DisableSsl':
-        return AssetBundleExportJobDataSourcePropertyToOverride.disableSsl;
-      case 'SecretArn':
-        return AssetBundleExportJobDataSourcePropertyToOverride.secretArn;
-      case 'Username':
-        return AssetBundleExportJobDataSourcePropertyToOverride.username;
-      case 'Password':
-        return AssetBundleExportJobDataSourcePropertyToOverride.password;
-      case 'Domain':
-        return AssetBundleExportJobDataSourcePropertyToOverride.domain;
-      case 'WorkGroup':
-        return AssetBundleExportJobDataSourcePropertyToOverride.workGroup;
-      case 'Host':
-        return AssetBundleExportJobDataSourcePropertyToOverride.host;
-      case 'Port':
-        return AssetBundleExportJobDataSourcePropertyToOverride.port;
-      case 'Database':
-        return AssetBundleExportJobDataSourcePropertyToOverride.database;
-      case 'DataSetName':
-        return AssetBundleExportJobDataSourcePropertyToOverride.dataSetName;
-      case 'Catalog':
-        return AssetBundleExportJobDataSourcePropertyToOverride.catalog;
-      case 'InstanceId':
-        return AssetBundleExportJobDataSourcePropertyToOverride.instanceId;
-      case 'ClusterId':
-        return AssetBundleExportJobDataSourcePropertyToOverride.clusterId;
-      case 'ManifestFileLocation':
-        return AssetBundleExportJobDataSourcePropertyToOverride
-            .manifestFileLocation;
-      case 'Warehouse':
-        return AssetBundleExportJobDataSourcePropertyToOverride.warehouse;
-      case 'RoleArn':
-        return AssetBundleExportJobDataSourcePropertyToOverride.roleArn;
-      case 'ProductType':
-        return AssetBundleExportJobDataSourcePropertyToOverride.productType;
-    }
-    throw Exception(
-        '$this is not known in enum AssetBundleExportJobDataSourcePropertyToOverride');
-  }
+  const AssetBundleExportJobDataSourcePropertyToOverride(this.value);
+
+  static AssetBundleExportJobDataSourcePropertyToOverride fromString(
+          String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AssetBundleExportJobDataSourcePropertyToOverride'));
 }
 
 /// Describes an error that occurred during an Asset Bundle export job.
@@ -11391,8 +11143,9 @@ class AssetBundleExportJobRefreshScheduleOverrideProperties {
       arn: json['Arn'] as String,
       properties: (json['Properties'] as List)
           .whereNotNull()
-          .map((e) => (e as String)
-              .toAssetBundleExportJobRefreshSchedulePropertyToOverride())
+          .map((e) =>
+              AssetBundleExportJobRefreshSchedulePropertyToOverride.fromString(
+                  (e as String)))
           .toList(),
     );
   }
@@ -11402,38 +11155,24 @@ class AssetBundleExportJobRefreshScheduleOverrideProperties {
     final properties = this.properties;
     return {
       'Arn': arn,
-      'Properties': properties.map((e) => e.toValue()).toList(),
+      'Properties': properties.map((e) => e.value).toList(),
     };
   }
 }
 
 enum AssetBundleExportJobRefreshSchedulePropertyToOverride {
-  startAfterDateTime,
-}
+  startAfterDateTime('StartAfterDateTime'),
+  ;
 
-extension AssetBundleExportJobRefreshSchedulePropertyToOverrideValueExtension
-    on AssetBundleExportJobRefreshSchedulePropertyToOverride {
-  String toValue() {
-    switch (this) {
-      case AssetBundleExportJobRefreshSchedulePropertyToOverride
-            .startAfterDateTime:
-        return 'StartAfterDateTime';
-    }
-  }
-}
+  final String value;
 
-extension AssetBundleExportJobRefreshSchedulePropertyToOverrideFromString
-    on String {
-  AssetBundleExportJobRefreshSchedulePropertyToOverride
-      toAssetBundleExportJobRefreshSchedulePropertyToOverride() {
-    switch (this) {
-      case 'StartAfterDateTime':
-        return AssetBundleExportJobRefreshSchedulePropertyToOverride
-            .startAfterDateTime;
-    }
-    throw Exception(
-        '$this is not known in enum AssetBundleExportJobRefreshSchedulePropertyToOverride');
-  }
+  const AssetBundleExportJobRefreshSchedulePropertyToOverride(this.value);
+
+  static AssetBundleExportJobRefreshSchedulePropertyToOverride fromString(
+          String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AssetBundleExportJobRefreshSchedulePropertyToOverride'));
 }
 
 /// An optional structure that configures resource ID overrides for the export
@@ -11465,42 +11204,20 @@ class AssetBundleExportJobResourceIdOverrideConfiguration {
 }
 
 enum AssetBundleExportJobStatus {
-  queuedForImmediateExecution,
-  inProgress,
-  successful,
-  failed,
-}
+  queuedForImmediateExecution('QUEUED_FOR_IMMEDIATE_EXECUTION'),
+  inProgress('IN_PROGRESS'),
+  successful('SUCCESSFUL'),
+  failed('FAILED'),
+  ;
 
-extension AssetBundleExportJobStatusValueExtension
-    on AssetBundleExportJobStatus {
-  String toValue() {
-    switch (this) {
-      case AssetBundleExportJobStatus.queuedForImmediateExecution:
-        return 'QUEUED_FOR_IMMEDIATE_EXECUTION';
-      case AssetBundleExportJobStatus.inProgress:
-        return 'IN_PROGRESS';
-      case AssetBundleExportJobStatus.successful:
-        return 'SUCCESSFUL';
-      case AssetBundleExportJobStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension AssetBundleExportJobStatusFromString on String {
-  AssetBundleExportJobStatus toAssetBundleExportJobStatus() {
-    switch (this) {
-      case 'QUEUED_FOR_IMMEDIATE_EXECUTION':
-        return AssetBundleExportJobStatus.queuedForImmediateExecution;
-      case 'IN_PROGRESS':
-        return AssetBundleExportJobStatus.inProgress;
-      case 'SUCCESSFUL':
-        return AssetBundleExportJobStatus.successful;
-      case 'FAILED':
-        return AssetBundleExportJobStatus.failed;
-    }
-    throw Exception('$this is not known in enum AssetBundleExportJobStatus');
-  }
+  const AssetBundleExportJobStatus(this.value);
+
+  static AssetBundleExportJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AssetBundleExportJobStatus'));
 }
 
 /// A summary of the export job that includes details of the job's configuration
@@ -11549,12 +11266,13 @@ class AssetBundleExportJobSummary {
       arn: json['Arn'] as String?,
       assetBundleExportJobId: json['AssetBundleExportJobId'] as String?,
       createdTime: timeStampFromJson(json['CreatedTime']),
-      exportFormat:
-          (json['ExportFormat'] as String?)?.toAssetBundleExportFormat(),
+      exportFormat: (json['ExportFormat'] as String?)
+          ?.let(AssetBundleExportFormat.fromString),
       includeAllDependencies: json['IncludeAllDependencies'] as bool?,
       includePermissions: json['IncludePermissions'] as bool?,
       includeTags: json['IncludeTags'] as bool?,
-      jobStatus: (json['JobStatus'] as String?)?.toAssetBundleExportJobStatus(),
+      jobStatus: (json['JobStatus'] as String?)
+          ?.let(AssetBundleExportJobStatus.fromString),
     );
   }
 
@@ -11572,12 +11290,12 @@ class AssetBundleExportJobSummary {
       if (assetBundleExportJobId != null)
         'AssetBundleExportJobId': assetBundleExportJobId,
       if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
-      if (exportFormat != null) 'ExportFormat': exportFormat.toValue(),
+      if (exportFormat != null) 'ExportFormat': exportFormat.value,
       if (includeAllDependencies != null)
         'IncludeAllDependencies': includeAllDependencies,
       if (includePermissions != null) 'IncludePermissions': includePermissions,
       if (includeTags != null) 'IncludeTags': includeTags,
-      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (jobStatus != null) 'JobStatus': jobStatus.value,
     };
   }
 }
@@ -11604,8 +11322,8 @@ class AssetBundleExportJobThemeOverrideProperties {
       arn: json['Arn'] as String,
       properties: (json['Properties'] as List)
           .whereNotNull()
-          .map((e) =>
-              (e as String).toAssetBundleExportJobThemePropertyToOverride())
+          .map((e) => AssetBundleExportJobThemePropertyToOverride.fromString(
+              (e as String)))
           .toList(),
     );
   }
@@ -11615,35 +11333,23 @@ class AssetBundleExportJobThemeOverrideProperties {
     final properties = this.properties;
     return {
       'Arn': arn,
-      'Properties': properties.map((e) => e.toValue()).toList(),
+      'Properties': properties.map((e) => e.value).toList(),
     };
   }
 }
 
 enum AssetBundleExportJobThemePropertyToOverride {
-  name,
-}
+  name('Name'),
+  ;
 
-extension AssetBundleExportJobThemePropertyToOverrideValueExtension
-    on AssetBundleExportJobThemePropertyToOverride {
-  String toValue() {
-    switch (this) {
-      case AssetBundleExportJobThemePropertyToOverride.name:
-        return 'Name';
-    }
-  }
-}
+  final String value;
 
-extension AssetBundleExportJobThemePropertyToOverrideFromString on String {
-  AssetBundleExportJobThemePropertyToOverride
-      toAssetBundleExportJobThemePropertyToOverride() {
-    switch (this) {
-      case 'Name':
-        return AssetBundleExportJobThemePropertyToOverride.name;
-    }
-    throw Exception(
-        '$this is not known in enum AssetBundleExportJobThemePropertyToOverride');
-  }
+  const AssetBundleExportJobThemePropertyToOverride(this.value);
+
+  static AssetBundleExportJobThemePropertyToOverride fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AssetBundleExportJobThemePropertyToOverride'));
 }
 
 /// Controls how a specific <code>VPCConnection</code> resource is parameterized
@@ -11668,8 +11374,9 @@ class AssetBundleExportJobVPCConnectionOverrideProperties {
       arn: json['Arn'] as String,
       properties: (json['Properties'] as List)
           .whereNotNull()
-          .map((e) => (e as String)
-              .toAssetBundleExportJobVPCConnectionPropertyToOverride())
+          .map((e) =>
+              AssetBundleExportJobVPCConnectionPropertyToOverride.fromString(
+                  (e as String)))
           .toList(),
     );
   }
@@ -11679,46 +11386,26 @@ class AssetBundleExportJobVPCConnectionOverrideProperties {
     final properties = this.properties;
     return {
       'Arn': arn,
-      'Properties': properties.map((e) => e.toValue()).toList(),
+      'Properties': properties.map((e) => e.value).toList(),
     };
   }
 }
 
 enum AssetBundleExportJobVPCConnectionPropertyToOverride {
-  name,
-  dnsResolvers,
-  roleArn,
-}
+  name('Name'),
+  dnsResolvers('DnsResolvers'),
+  roleArn('RoleArn'),
+  ;
 
-extension AssetBundleExportJobVPCConnectionPropertyToOverrideValueExtension
-    on AssetBundleExportJobVPCConnectionPropertyToOverride {
-  String toValue() {
-    switch (this) {
-      case AssetBundleExportJobVPCConnectionPropertyToOverride.name:
-        return 'Name';
-      case AssetBundleExportJobVPCConnectionPropertyToOverride.dnsResolvers:
-        return 'DnsResolvers';
-      case AssetBundleExportJobVPCConnectionPropertyToOverride.roleArn:
-        return 'RoleArn';
-    }
-  }
-}
+  final String value;
 
-extension AssetBundleExportJobVPCConnectionPropertyToOverrideFromString
-    on String {
-  AssetBundleExportJobVPCConnectionPropertyToOverride
-      toAssetBundleExportJobVPCConnectionPropertyToOverride() {
-    switch (this) {
-      case 'Name':
-        return AssetBundleExportJobVPCConnectionPropertyToOverride.name;
-      case 'DnsResolvers':
-        return AssetBundleExportJobVPCConnectionPropertyToOverride.dnsResolvers;
-      case 'RoleArn':
-        return AssetBundleExportJobVPCConnectionPropertyToOverride.roleArn;
-    }
-    throw Exception(
-        '$this is not known in enum AssetBundleExportJobVPCConnectionPropertyToOverride');
-  }
+  const AssetBundleExportJobVPCConnectionPropertyToOverride(this.value);
+
+  static AssetBundleExportJobVPCConnectionPropertyToOverride fromString(
+          String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AssetBundleExportJobVPCConnectionPropertyToOverride'));
 }
 
 /// The option to relax the validation that is required to export each asset.
@@ -11780,33 +11467,18 @@ class AssetBundleExportJobWarning {
 }
 
 enum AssetBundleImportFailureAction {
-  doNothing,
-  rollback,
-}
+  doNothing('DO_NOTHING'),
+  rollback('ROLLBACK'),
+  ;
 
-extension AssetBundleImportFailureActionValueExtension
-    on AssetBundleImportFailureAction {
-  String toValue() {
-    switch (this) {
-      case AssetBundleImportFailureAction.doNothing:
-        return 'DO_NOTHING';
-      case AssetBundleImportFailureAction.rollback:
-        return 'ROLLBACK';
-    }
-  }
-}
+  final String value;
 
-extension AssetBundleImportFailureActionFromString on String {
-  AssetBundleImportFailureAction toAssetBundleImportFailureAction() {
-    switch (this) {
-      case 'DO_NOTHING':
-        return AssetBundleImportFailureAction.doNothing;
-      case 'ROLLBACK':
-        return AssetBundleImportFailureAction.rollback;
-    }
-    throw Exception(
-        '$this is not known in enum AssetBundleImportFailureAction');
-  }
+  const AssetBundleImportFailureAction(this.value);
+
+  static AssetBundleImportFailureAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AssetBundleImportFailureAction'));
 }
 
 /// The override parameters for a single analysis that is being imported.
@@ -12791,57 +12463,23 @@ class AssetBundleImportJobResourceIdOverrideConfiguration {
 }
 
 enum AssetBundleImportJobStatus {
-  queuedForImmediateExecution,
-  inProgress,
-  successful,
-  failed,
-  failedRollbackInProgress,
-  failedRollbackCompleted,
-  failedRollbackError,
-}
+  queuedForImmediateExecution('QUEUED_FOR_IMMEDIATE_EXECUTION'),
+  inProgress('IN_PROGRESS'),
+  successful('SUCCESSFUL'),
+  failed('FAILED'),
+  failedRollbackInProgress('FAILED_ROLLBACK_IN_PROGRESS'),
+  failedRollbackCompleted('FAILED_ROLLBACK_COMPLETED'),
+  failedRollbackError('FAILED_ROLLBACK_ERROR'),
+  ;
 
-extension AssetBundleImportJobStatusValueExtension
-    on AssetBundleImportJobStatus {
-  String toValue() {
-    switch (this) {
-      case AssetBundleImportJobStatus.queuedForImmediateExecution:
-        return 'QUEUED_FOR_IMMEDIATE_EXECUTION';
-      case AssetBundleImportJobStatus.inProgress:
-        return 'IN_PROGRESS';
-      case AssetBundleImportJobStatus.successful:
-        return 'SUCCESSFUL';
-      case AssetBundleImportJobStatus.failed:
-        return 'FAILED';
-      case AssetBundleImportJobStatus.failedRollbackInProgress:
-        return 'FAILED_ROLLBACK_IN_PROGRESS';
-      case AssetBundleImportJobStatus.failedRollbackCompleted:
-        return 'FAILED_ROLLBACK_COMPLETED';
-      case AssetBundleImportJobStatus.failedRollbackError:
-        return 'FAILED_ROLLBACK_ERROR';
-    }
-  }
-}
+  final String value;
 
-extension AssetBundleImportJobStatusFromString on String {
-  AssetBundleImportJobStatus toAssetBundleImportJobStatus() {
-    switch (this) {
-      case 'QUEUED_FOR_IMMEDIATE_EXECUTION':
-        return AssetBundleImportJobStatus.queuedForImmediateExecution;
-      case 'IN_PROGRESS':
-        return AssetBundleImportJobStatus.inProgress;
-      case 'SUCCESSFUL':
-        return AssetBundleImportJobStatus.successful;
-      case 'FAILED':
-        return AssetBundleImportJobStatus.failed;
-      case 'FAILED_ROLLBACK_IN_PROGRESS':
-        return AssetBundleImportJobStatus.failedRollbackInProgress;
-      case 'FAILED_ROLLBACK_COMPLETED':
-        return AssetBundleImportJobStatus.failedRollbackCompleted;
-      case 'FAILED_ROLLBACK_ERROR':
-        return AssetBundleImportJobStatus.failedRollbackError;
-    }
-    throw Exception('$this is not known in enum AssetBundleImportJobStatus');
-  }
+  const AssetBundleImportJobStatus(this.value);
+
+  static AssetBundleImportJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AssetBundleImportJobStatus'));
 }
 
 /// A summary of the import job that includes details of the requested job's
@@ -12877,8 +12515,9 @@ class AssetBundleImportJobSummary {
       assetBundleImportJobId: json['AssetBundleImportJobId'] as String?,
       createdTime: timeStampFromJson(json['CreatedTime']),
       failureAction: (json['FailureAction'] as String?)
-          ?.toAssetBundleImportFailureAction(),
-      jobStatus: (json['JobStatus'] as String?)?.toAssetBundleImportJobStatus(),
+          ?.let(AssetBundleImportFailureAction.fromString),
+      jobStatus: (json['JobStatus'] as String?)
+          ?.let(AssetBundleImportJobStatus.fromString),
     );
   }
 
@@ -12893,8 +12532,8 @@ class AssetBundleImportJobSummary {
       if (assetBundleImportJobId != null)
         'AssetBundleImportJobId': assetBundleImportJobId,
       if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
-      if (failureAction != null) 'FailureAction': failureAction.toValue(),
-      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (failureAction != null) 'FailureAction': failureAction.value,
+      if (jobStatus != null) 'JobStatus': jobStatus.value,
     };
   }
 }
@@ -13301,7 +12940,7 @@ class AssetOptions {
   factory AssetOptions.fromJson(Map<String, dynamic> json) {
     return AssetOptions(
       timezone: json['Timezone'] as String?,
-      weekStart: (json['WeekStart'] as String?)?.toDayOfTheWeek(),
+      weekStart: (json['WeekStart'] as String?)?.let(DayOfTheWeek.fromString),
     );
   }
 
@@ -13310,42 +12949,25 @@ class AssetOptions {
     final weekStart = this.weekStart;
     return {
       if (timezone != null) 'Timezone': timezone,
-      if (weekStart != null) 'WeekStart': weekStart.toValue(),
+      if (weekStart != null) 'WeekStart': weekStart.value,
     };
   }
 }
 
 enum AssignmentStatus {
-  enabled,
-  draft,
-  disabled,
-}
+  enabled('ENABLED'),
+  draft('DRAFT'),
+  disabled('DISABLED'),
+  ;
 
-extension AssignmentStatusValueExtension on AssignmentStatus {
-  String toValue() {
-    switch (this) {
-      case AssignmentStatus.enabled:
-        return 'ENABLED';
-      case AssignmentStatus.draft:
-        return 'DRAFT';
-      case AssignmentStatus.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension AssignmentStatusFromString on String {
-  AssignmentStatus toAssignmentStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return AssignmentStatus.enabled;
-      case 'DRAFT':
-        return AssignmentStatus.draft;
-      case 'DISABLED':
-        return AssignmentStatus.disabled;
-    }
-    throw Exception('$this is not known in enum AssignmentStatus');
-  }
+  const AssignmentStatus(this.value);
+
+  static AssignmentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AssignmentStatus'));
 }
 
 /// Parameters for Amazon Athena.
@@ -13410,7 +13032,7 @@ class AttributeAggregationFunction {
     return AttributeAggregationFunction(
       simpleAttributeAggregation:
           (json['SimpleAttributeAggregation'] as String?)
-              ?.toSimpleAttributeAggregationFunction(),
+              ?.let(SimpleAttributeAggregationFunction.fromString),
       valueForMultipleValues: json['ValueForMultipleValues'] as String?,
     );
   }
@@ -13420,7 +13042,7 @@ class AttributeAggregationFunction {
     final valueForMultipleValues = this.valueForMultipleValues;
     return {
       if (simpleAttributeAggregation != null)
-        'SimpleAttributeAggregation': simpleAttributeAggregation.toValue(),
+        'SimpleAttributeAggregation': simpleAttributeAggregation.value,
       if (valueForMultipleValues != null)
         'ValueForMultipleValues': valueForMultipleValues,
     };
@@ -13502,121 +13124,45 @@ class AuroraPostgreSqlParameters {
 }
 
 enum AuthenticationMethodOption {
-  iamAndQuicksight,
-  iamOnly,
-  activeDirectory,
-  iamIdentityCenter,
-}
+  iamAndQuicksight('IAM_AND_QUICKSIGHT'),
+  iamOnly('IAM_ONLY'),
+  activeDirectory('ACTIVE_DIRECTORY'),
+  iamIdentityCenter('IAM_IDENTITY_CENTER'),
+  ;
 
-extension AuthenticationMethodOptionValueExtension
-    on AuthenticationMethodOption {
-  String toValue() {
-    switch (this) {
-      case AuthenticationMethodOption.iamAndQuicksight:
-        return 'IAM_AND_QUICKSIGHT';
-      case AuthenticationMethodOption.iamOnly:
-        return 'IAM_ONLY';
-      case AuthenticationMethodOption.activeDirectory:
-        return 'ACTIVE_DIRECTORY';
-      case AuthenticationMethodOption.iamIdentityCenter:
-        return 'IAM_IDENTITY_CENTER';
-    }
-  }
-}
+  final String value;
 
-extension AuthenticationMethodOptionFromString on String {
-  AuthenticationMethodOption toAuthenticationMethodOption() {
-    switch (this) {
-      case 'IAM_AND_QUICKSIGHT':
-        return AuthenticationMethodOption.iamAndQuicksight;
-      case 'IAM_ONLY':
-        return AuthenticationMethodOption.iamOnly;
-      case 'ACTIVE_DIRECTORY':
-        return AuthenticationMethodOption.activeDirectory;
-      case 'IAM_IDENTITY_CENTER':
-        return AuthenticationMethodOption.iamIdentityCenter;
-    }
-    throw Exception('$this is not known in enum AuthenticationMethodOption');
-  }
+  const AuthenticationMethodOption(this.value);
+
+  static AuthenticationMethodOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AuthenticationMethodOption'));
 }
 
 enum AuthorSpecifiedAggregation {
-  count,
-  distinctCount,
-  min,
-  max,
-  median,
-  sum,
-  average,
-  stdev,
-  stdevp,
-  $var,
-  varp,
-  percentile,
-}
+  count('COUNT'),
+  distinctCount('DISTINCT_COUNT'),
+  min('MIN'),
+  max('MAX'),
+  median('MEDIAN'),
+  sum('SUM'),
+  average('AVERAGE'),
+  stdev('STDEV'),
+  stdevp('STDEVP'),
+  $var('VAR'),
+  varp('VARP'),
+  percentile('PERCENTILE'),
+  ;
 
-extension AuthorSpecifiedAggregationValueExtension
-    on AuthorSpecifiedAggregation {
-  String toValue() {
-    switch (this) {
-      case AuthorSpecifiedAggregation.count:
-        return 'COUNT';
-      case AuthorSpecifiedAggregation.distinctCount:
-        return 'DISTINCT_COUNT';
-      case AuthorSpecifiedAggregation.min:
-        return 'MIN';
-      case AuthorSpecifiedAggregation.max:
-        return 'MAX';
-      case AuthorSpecifiedAggregation.median:
-        return 'MEDIAN';
-      case AuthorSpecifiedAggregation.sum:
-        return 'SUM';
-      case AuthorSpecifiedAggregation.average:
-        return 'AVERAGE';
-      case AuthorSpecifiedAggregation.stdev:
-        return 'STDEV';
-      case AuthorSpecifiedAggregation.stdevp:
-        return 'STDEVP';
-      case AuthorSpecifiedAggregation.$var:
-        return 'VAR';
-      case AuthorSpecifiedAggregation.varp:
-        return 'VARP';
-      case AuthorSpecifiedAggregation.percentile:
-        return 'PERCENTILE';
-    }
-  }
-}
+  final String value;
 
-extension AuthorSpecifiedAggregationFromString on String {
-  AuthorSpecifiedAggregation toAuthorSpecifiedAggregation() {
-    switch (this) {
-      case 'COUNT':
-        return AuthorSpecifiedAggregation.count;
-      case 'DISTINCT_COUNT':
-        return AuthorSpecifiedAggregation.distinctCount;
-      case 'MIN':
-        return AuthorSpecifiedAggregation.min;
-      case 'MAX':
-        return AuthorSpecifiedAggregation.max;
-      case 'MEDIAN':
-        return AuthorSpecifiedAggregation.median;
-      case 'SUM':
-        return AuthorSpecifiedAggregation.sum;
-      case 'AVERAGE':
-        return AuthorSpecifiedAggregation.average;
-      case 'STDEV':
-        return AuthorSpecifiedAggregation.stdev;
-      case 'STDEVP':
-        return AuthorSpecifiedAggregation.stdevp;
-      case 'VAR':
-        return AuthorSpecifiedAggregation.$var;
-      case 'VARP':
-        return AuthorSpecifiedAggregation.varp;
-      case 'PERCENTILE':
-        return AuthorSpecifiedAggregation.percentile;
-    }
-    throw Exception('$this is not known in enum AuthorSpecifiedAggregation');
-  }
+  const AuthorSpecifiedAggregation(this.value);
+
+  static AuthorSpecifiedAggregation fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AuthorSpecifiedAggregation'));
 }
 
 /// The authorized targets that are associated with a service.
@@ -13639,7 +13185,7 @@ class AuthorizedTargetsByService {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      service: (json['Service'] as String?)?.toServiceType(),
+      service: (json['Service'] as String?)?.let(ServiceType.fromString),
     );
   }
 
@@ -13648,7 +13194,7 @@ class AuthorizedTargetsByService {
     final service = this.service;
     return {
       if (authorizedTargets != null) 'AuthorizedTargets': authorizedTargets,
-      if (service != null) 'Service': service.toValue(),
+      if (service != null) 'Service': service.value,
     };
   }
 }
@@ -13677,31 +13223,17 @@ class AwsIotAnalyticsParameters {
 }
 
 enum AxisBinding {
-  primaryYaxis,
-  secondaryYaxis,
-}
+  primaryYaxis('PRIMARY_YAXIS'),
+  secondaryYaxis('SECONDARY_YAXIS'),
+  ;
 
-extension AxisBindingValueExtension on AxisBinding {
-  String toValue() {
-    switch (this) {
-      case AxisBinding.primaryYaxis:
-        return 'PRIMARY_YAXIS';
-      case AxisBinding.secondaryYaxis:
-        return 'SECONDARY_YAXIS';
-    }
-  }
-}
+  final String value;
 
-extension AxisBindingFromString on String {
-  AxisBinding toAxisBinding() {
-    switch (this) {
-      case 'PRIMARY_YAXIS':
-        return AxisBinding.primaryYaxis;
-      case 'SECONDARY_YAXIS':
-        return AxisBinding.secondaryYaxis;
-    }
-    throw Exception('$this is not known in enum AxisBinding');
-  }
+  const AxisBinding(this.value);
+
+  static AxisBinding fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AxisBinding'));
 }
 
 /// The data options for an axis.
@@ -13819,14 +13351,14 @@ class AxisDisplayOptions {
   factory AxisDisplayOptions.fromJson(Map<String, dynamic> json) {
     return AxisDisplayOptions(
       axisLineVisibility:
-          (json['AxisLineVisibility'] as String?)?.toVisibility(),
+          (json['AxisLineVisibility'] as String?)?.let(Visibility.fromString),
       axisOffset: json['AxisOffset'] as String?,
       dataOptions: json['DataOptions'] != null
           ? AxisDataOptions.fromJson(
               json['DataOptions'] as Map<String, dynamic>)
           : null,
       gridLineVisibility:
-          (json['GridLineVisibility'] as String?)?.toVisibility(),
+          (json['GridLineVisibility'] as String?)?.let(Visibility.fromString),
       scrollbarOptions: json['ScrollbarOptions'] != null
           ? ScrollBarOptions.fromJson(
               json['ScrollbarOptions'] as Map<String, dynamic>)
@@ -13847,11 +13379,11 @@ class AxisDisplayOptions {
     final tickLabelOptions = this.tickLabelOptions;
     return {
       if (axisLineVisibility != null)
-        'AxisLineVisibility': axisLineVisibility.toValue(),
+        'AxisLineVisibility': axisLineVisibility.value,
       if (axisOffset != null) 'AxisOffset': axisOffset,
       if (dataOptions != null) 'DataOptions': dataOptions,
       if (gridLineVisibility != null)
-        'GridLineVisibility': gridLineVisibility.toValue(),
+        'GridLineVisibility': gridLineVisibility.value,
       if (scrollbarOptions != null) 'ScrollbarOptions': scrollbarOptions,
       if (tickLabelOptions != null) 'TickLabelOptions': tickLabelOptions,
     };
@@ -14249,7 +13781,7 @@ class BarChartConfiguration {
   factory BarChartConfiguration.fromJson(Map<String, dynamic> json) {
     return BarChartConfiguration(
       barsArrangement:
-          (json['BarsArrangement'] as String?)?.toBarsArrangement(),
+          (json['BarsArrangement'] as String?)?.let(BarsArrangement.fromString),
       categoryAxis: json['CategoryAxis'] != null
           ? AxisDisplayOptions.fromJson(
               json['CategoryAxis'] as Map<String, dynamic>)
@@ -14283,7 +13815,8 @@ class BarChartConfiguration {
       legend: json['Legend'] != null
           ? LegendOptions.fromJson(json['Legend'] as Map<String, dynamic>)
           : null,
-      orientation: (json['Orientation'] as String?)?.toBarChartOrientation(),
+      orientation:
+          (json['Orientation'] as String?)?.let(BarChartOrientation.fromString),
       referenceLines: (json['ReferenceLines'] as List?)
           ?.whereNotNull()
           .map((e) => ReferenceLine.fromJson(e as Map<String, dynamic>))
@@ -14333,7 +13866,7 @@ class BarChartConfiguration {
     final valueLabelOptions = this.valueLabelOptions;
     final visualPalette = this.visualPalette;
     return {
-      if (barsArrangement != null) 'BarsArrangement': barsArrangement.toValue(),
+      if (barsArrangement != null) 'BarsArrangement': barsArrangement.value,
       if (categoryAxis != null) 'CategoryAxis': categoryAxis,
       if (categoryLabelOptions != null)
         'CategoryLabelOptions': categoryLabelOptions,
@@ -14344,7 +13877,7 @@ class BarChartConfiguration {
       if (fieldWells != null) 'FieldWells': fieldWells,
       if (interactions != null) 'Interactions': interactions,
       if (legend != null) 'Legend': legend,
-      if (orientation != null) 'Orientation': orientation.toValue(),
+      if (orientation != null) 'Orientation': orientation.value,
       if (referenceLines != null) 'ReferenceLines': referenceLines,
       if (smallMultiplesOptions != null)
         'SmallMultiplesOptions': smallMultiplesOptions,
@@ -14388,31 +13921,18 @@ class BarChartFieldWells {
 }
 
 enum BarChartOrientation {
-  horizontal,
-  vertical,
-}
+  horizontal('HORIZONTAL'),
+  vertical('VERTICAL'),
+  ;
 
-extension BarChartOrientationValueExtension on BarChartOrientation {
-  String toValue() {
-    switch (this) {
-      case BarChartOrientation.horizontal:
-        return 'HORIZONTAL';
-      case BarChartOrientation.vertical:
-        return 'VERTICAL';
-    }
-  }
-}
+  final String value;
 
-extension BarChartOrientationFromString on String {
-  BarChartOrientation toBarChartOrientation() {
-    switch (this) {
-      case 'HORIZONTAL':
-        return BarChartOrientation.horizontal;
-      case 'VERTICAL':
-        return BarChartOrientation.vertical;
-    }
-    throw Exception('$this is not known in enum BarChartOrientation');
-  }
+  const BarChartOrientation(this.value);
+
+  static BarChartOrientation fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum BarChartOrientation'));
 }
 
 /// sort-configuration-description
@@ -14599,74 +14119,36 @@ class BarChartVisual {
 }
 
 enum BarsArrangement {
-  clustered,
-  stacked,
-  stackedPercent,
-}
+  clustered('CLUSTERED'),
+  stacked('STACKED'),
+  stackedPercent('STACKED_PERCENT'),
+  ;
 
-extension BarsArrangementValueExtension on BarsArrangement {
-  String toValue() {
-    switch (this) {
-      case BarsArrangement.clustered:
-        return 'CLUSTERED';
-      case BarsArrangement.stacked:
-        return 'STACKED';
-      case BarsArrangement.stackedPercent:
-        return 'STACKED_PERCENT';
-    }
-  }
-}
+  final String value;
 
-extension BarsArrangementFromString on String {
-  BarsArrangement toBarsArrangement() {
-    switch (this) {
-      case 'CLUSTERED':
-        return BarsArrangement.clustered;
-      case 'STACKED':
-        return BarsArrangement.stacked;
-      case 'STACKED_PERCENT':
-        return BarsArrangement.stackedPercent;
-    }
-    throw Exception('$this is not known in enum BarsArrangement');
-  }
+  const BarsArrangement(this.value);
+
+  static BarsArrangement fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum BarsArrangement'));
 }
 
 enum BaseMapStyleType {
-  lightGray,
-  darkGray,
-  street,
-  imagery,
-}
+  lightGray('LIGHT_GRAY'),
+  darkGray('DARK_GRAY'),
+  street('STREET'),
+  imagery('IMAGERY'),
+  ;
 
-extension BaseMapStyleTypeValueExtension on BaseMapStyleType {
-  String toValue() {
-    switch (this) {
-      case BaseMapStyleType.lightGray:
-        return 'LIGHT_GRAY';
-      case BaseMapStyleType.darkGray:
-        return 'DARK_GRAY';
-      case BaseMapStyleType.street:
-        return 'STREET';
-      case BaseMapStyleType.imagery:
-        return 'IMAGERY';
-    }
-  }
-}
+  final String value;
 
-extension BaseMapStyleTypeFromString on String {
-  BaseMapStyleType toBaseMapStyleType() {
-    switch (this) {
-      case 'LIGHT_GRAY':
-        return BaseMapStyleType.lightGray;
-      case 'DARK_GRAY':
-        return BaseMapStyleType.darkGray;
-      case 'STREET':
-        return BaseMapStyleType.street;
-      case 'IMAGERY':
-        return BaseMapStyleType.imagery;
-    }
-    throw Exception('$this is not known in enum BaseMapStyleType');
-  }
+  const BaseMapStyleType(this.value);
+
+  static BaseMapStyleType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum BaseMapStyleType'));
 }
 
 /// The parameters that are required to connect to a Google BigQuery data
@@ -15079,31 +14561,18 @@ class BoxPlotFieldWells {
 }
 
 enum BoxPlotFillStyle {
-  solid,
-  transparent,
-}
+  solid('SOLID'),
+  transparent('TRANSPARENT'),
+  ;
 
-extension BoxPlotFillStyleValueExtension on BoxPlotFillStyle {
-  String toValue() {
-    switch (this) {
-      case BoxPlotFillStyle.solid:
-        return 'SOLID';
-      case BoxPlotFillStyle.transparent:
-        return 'TRANSPARENT';
-    }
-  }
-}
+  final String value;
 
-extension BoxPlotFillStyleFromString on String {
-  BoxPlotFillStyle toBoxPlotFillStyle() {
-    switch (this) {
-      case 'SOLID':
-        return BoxPlotFillStyle.solid;
-      case 'TRANSPARENT':
-        return BoxPlotFillStyle.transparent;
-    }
-    throw Exception('$this is not known in enum BoxPlotFillStyle');
-  }
+  const BoxPlotFillStyle(this.value);
+
+  static BoxPlotFillStyle fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum BoxPlotFillStyle'));
 }
 
 /// The options of a box plot visual.
@@ -15125,9 +14594,10 @@ class BoxPlotOptions {
 
   factory BoxPlotOptions.fromJson(Map<String, dynamic> json) {
     return BoxPlotOptions(
-      allDataPointsVisibility:
-          (json['AllDataPointsVisibility'] as String?)?.toVisibility(),
-      outlierVisibility: (json['OutlierVisibility'] as String?)?.toVisibility(),
+      allDataPointsVisibility: (json['AllDataPointsVisibility'] as String?)
+          ?.let(Visibility.fromString),
+      outlierVisibility:
+          (json['OutlierVisibility'] as String?)?.let(Visibility.fromString),
       styleOptions: json['StyleOptions'] != null
           ? BoxPlotStyleOptions.fromJson(
               json['StyleOptions'] as Map<String, dynamic>)
@@ -15141,9 +14611,9 @@ class BoxPlotOptions {
     final styleOptions = this.styleOptions;
     return {
       if (allDataPointsVisibility != null)
-        'AllDataPointsVisibility': allDataPointsVisibility.toValue(),
+        'AllDataPointsVisibility': allDataPointsVisibility.value,
       if (outlierVisibility != null)
-        'OutlierVisibility': outlierVisibility.toValue(),
+        'OutlierVisibility': outlierVisibility.value,
       if (styleOptions != null) 'StyleOptions': styleOptions,
     };
   }
@@ -15197,14 +14667,15 @@ class BoxPlotStyleOptions {
 
   factory BoxPlotStyleOptions.fromJson(Map<String, dynamic> json) {
     return BoxPlotStyleOptions(
-      fillStyle: (json['FillStyle'] as String?)?.toBoxPlotFillStyle(),
+      fillStyle:
+          (json['FillStyle'] as String?)?.let(BoxPlotFillStyle.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final fillStyle = this.fillStyle;
     return {
-      if (fillStyle != null) 'FillStyle': fillStyle.toValue(),
+      if (fillStyle != null) 'FillStyle': fillStyle.value,
     };
   }
 }
@@ -15527,9 +14998,10 @@ class CastColumnTypeOperation {
   factory CastColumnTypeOperation.fromJson(Map<String, dynamic> json) {
     return CastColumnTypeOperation(
       columnName: json['ColumnName'] as String,
-      newColumnType: (json['NewColumnType'] as String).toColumnDataType(),
+      newColumnType:
+          ColumnDataType.fromString((json['NewColumnType'] as String)),
       format: json['Format'] as String?,
-      subType: (json['SubType'] as String?)?.toColumnDataSubType(),
+      subType: (json['SubType'] as String?)?.let(ColumnDataSubType.fromString),
     );
   }
 
@@ -15540,41 +15012,26 @@ class CastColumnTypeOperation {
     final subType = this.subType;
     return {
       'ColumnName': columnName,
-      'NewColumnType': newColumnType.toValue(),
+      'NewColumnType': newColumnType.value,
       if (format != null) 'Format': format,
-      if (subType != null) 'SubType': subType.toValue(),
+      if (subType != null) 'SubType': subType.value,
     };
   }
 }
 
 enum CategoricalAggregationFunction {
-  count,
-  distinctCount,
-}
+  count('COUNT'),
+  distinctCount('DISTINCT_COUNT'),
+  ;
 
-extension CategoricalAggregationFunctionValueExtension
-    on CategoricalAggregationFunction {
-  String toValue() {
-    switch (this) {
-      case CategoricalAggregationFunction.count:
-        return 'COUNT';
-      case CategoricalAggregationFunction.distinctCount:
-        return 'DISTINCT_COUNT';
-    }
-  }
-}
+  final String value;
 
-extension CategoricalAggregationFunctionFromString on String {
-  CategoricalAggregationFunction toCategoricalAggregationFunction() {
-    switch (this) {
-      case 'COUNT':
-        return CategoricalAggregationFunction.count;
-      case 'DISTINCT_COUNT':
-        return CategoricalAggregationFunction.distinctCount;
-    }
-    throw Exception(
-        '$this is not known in enum CategoricalAggregationFunction');
-  }
+  const CategoricalAggregationFunction(this.value);
+
+  static CategoricalAggregationFunction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CategoricalAggregationFunction'));
 }
 
 /// The dimension type field with categorical type columns..
@@ -15651,7 +15108,7 @@ class CategoricalMeasureField {
       column: ColumnIdentifier.fromJson(json['Column'] as Map<String, dynamic>),
       fieldId: json['FieldId'] as String,
       aggregationFunction: (json['AggregationFunction'] as String?)
-          ?.toCategoricalAggregationFunction(),
+          ?.let(CategoricalAggregationFunction.fromString),
       formatConfiguration: json['FormatConfiguration'] != null
           ? StringFormatConfiguration.fromJson(
               json['FormatConfiguration'] as Map<String, dynamic>)
@@ -15668,7 +15125,7 @@ class CategoricalMeasureField {
       'Column': column,
       'FieldId': fieldId,
       if (aggregationFunction != null)
-        'AggregationFunction': aggregationFunction.toValue(),
+        'AggregationFunction': aggregationFunction.value,
       if (formatConfiguration != null)
         'FormatConfiguration': formatConfiguration,
     };
@@ -15824,138 +15281,67 @@ class CategoryFilterConfiguration {
 }
 
 enum CategoryFilterFunction {
-  exact,
-  contains,
-}
+  exact('EXACT'),
+  contains('CONTAINS'),
+  ;
 
-extension CategoryFilterFunctionValueExtension on CategoryFilterFunction {
-  String toValue() {
-    switch (this) {
-      case CategoryFilterFunction.exact:
-        return 'EXACT';
-      case CategoryFilterFunction.contains:
-        return 'CONTAINS';
-    }
-  }
-}
+  final String value;
 
-extension CategoryFilterFunctionFromString on String {
-  CategoryFilterFunction toCategoryFilterFunction() {
-    switch (this) {
-      case 'EXACT':
-        return CategoryFilterFunction.exact;
-      case 'CONTAINS':
-        return CategoryFilterFunction.contains;
-    }
-    throw Exception('$this is not known in enum CategoryFilterFunction');
-  }
+  const CategoryFilterFunction(this.value);
+
+  static CategoryFilterFunction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CategoryFilterFunction'));
 }
 
 enum CategoryFilterMatchOperator {
-  equals,
-  doesNotEqual,
-  contains,
-  doesNotContain,
-  startsWith,
-  endsWith,
-}
+  equals('EQUALS'),
+  doesNotEqual('DOES_NOT_EQUAL'),
+  contains('CONTAINS'),
+  doesNotContain('DOES_NOT_CONTAIN'),
+  startsWith('STARTS_WITH'),
+  endsWith('ENDS_WITH'),
+  ;
 
-extension CategoryFilterMatchOperatorValueExtension
-    on CategoryFilterMatchOperator {
-  String toValue() {
-    switch (this) {
-      case CategoryFilterMatchOperator.equals:
-        return 'EQUALS';
-      case CategoryFilterMatchOperator.doesNotEqual:
-        return 'DOES_NOT_EQUAL';
-      case CategoryFilterMatchOperator.contains:
-        return 'CONTAINS';
-      case CategoryFilterMatchOperator.doesNotContain:
-        return 'DOES_NOT_CONTAIN';
-      case CategoryFilterMatchOperator.startsWith:
-        return 'STARTS_WITH';
-      case CategoryFilterMatchOperator.endsWith:
-        return 'ENDS_WITH';
-    }
-  }
-}
+  final String value;
 
-extension CategoryFilterMatchOperatorFromString on String {
-  CategoryFilterMatchOperator toCategoryFilterMatchOperator() {
-    switch (this) {
-      case 'EQUALS':
-        return CategoryFilterMatchOperator.equals;
-      case 'DOES_NOT_EQUAL':
-        return CategoryFilterMatchOperator.doesNotEqual;
-      case 'CONTAINS':
-        return CategoryFilterMatchOperator.contains;
-      case 'DOES_NOT_CONTAIN':
-        return CategoryFilterMatchOperator.doesNotContain;
-      case 'STARTS_WITH':
-        return CategoryFilterMatchOperator.startsWith;
-      case 'ENDS_WITH':
-        return CategoryFilterMatchOperator.endsWith;
-    }
-    throw Exception('$this is not known in enum CategoryFilterMatchOperator');
-  }
+  const CategoryFilterMatchOperator(this.value);
+
+  static CategoryFilterMatchOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CategoryFilterMatchOperator'));
 }
 
 enum CategoryFilterSelectAllOptions {
-  filterAllValues,
-}
+  filterAllValues('FILTER_ALL_VALUES'),
+  ;
 
-extension CategoryFilterSelectAllOptionsValueExtension
-    on CategoryFilterSelectAllOptions {
-  String toValue() {
-    switch (this) {
-      case CategoryFilterSelectAllOptions.filterAllValues:
-        return 'FILTER_ALL_VALUES';
-    }
-  }
-}
+  final String value;
 
-extension CategoryFilterSelectAllOptionsFromString on String {
-  CategoryFilterSelectAllOptions toCategoryFilterSelectAllOptions() {
-    switch (this) {
-      case 'FILTER_ALL_VALUES':
-        return CategoryFilterSelectAllOptions.filterAllValues;
-    }
-    throw Exception(
-        '$this is not known in enum CategoryFilterSelectAllOptions');
-  }
+  const CategoryFilterSelectAllOptions(this.value);
+
+  static CategoryFilterSelectAllOptions fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CategoryFilterSelectAllOptions'));
 }
 
 enum CategoryFilterType {
-  customFilter,
-  customFilterList,
-  filterList,
-}
+  customFilter('CUSTOM_FILTER'),
+  customFilterList('CUSTOM_FILTER_LIST'),
+  filterList('FILTER_LIST'),
+  ;
 
-extension CategoryFilterTypeValueExtension on CategoryFilterType {
-  String toValue() {
-    switch (this) {
-      case CategoryFilterType.customFilter:
-        return 'CUSTOM_FILTER';
-      case CategoryFilterType.customFilterList:
-        return 'CUSTOM_FILTER_LIST';
-      case CategoryFilterType.filterList:
-        return 'FILTER_LIST';
-    }
-  }
-}
+  final String value;
 
-extension CategoryFilterTypeFromString on String {
-  CategoryFilterType toCategoryFilterType() {
-    switch (this) {
-      case 'CUSTOM_FILTER':
-        return CategoryFilterType.customFilter;
-      case 'CUSTOM_FILTER_LIST':
-        return CategoryFilterType.customFilterList;
-      case 'FILTER_LIST':
-        return CategoryFilterType.filterList;
-    }
-    throw Exception('$this is not known in enum CategoryFilterType');
-  }
+  const CategoryFilterType(this.value);
+
+  static CategoryFilterType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum CategoryFilterType'));
 }
 
 /// A structure that represents the cell value synonym.
@@ -16025,8 +15411,8 @@ class ChartAxisLabelOptions {
           .map((e) => AxisLabelOptions.fromJson(e as Map<String, dynamic>))
           .toList(),
       sortIconVisibility:
-          (json['SortIconVisibility'] as String?)?.toVisibility(),
-      visibility: (json['Visibility'] as String?)?.toVisibility(),
+          (json['SortIconVisibility'] as String?)?.let(Visibility.fromString),
+      visibility: (json['Visibility'] as String?)?.let(Visibility.fromString),
     );
   }
 
@@ -16037,8 +15423,8 @@ class ChartAxisLabelOptions {
     return {
       if (axisLabelOptions != null) 'AxisLabelOptions': axisLabelOptions,
       if (sortIconVisibility != null)
-        'SortIconVisibility': sortIconVisibility.toValue(),
-      if (visibility != null) 'Visibility': visibility.toValue(),
+        'SortIconVisibility': sortIconVisibility.value,
+      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
@@ -16123,31 +15509,18 @@ class CollectiveConstant {
 }
 
 enum ColorFillType {
-  discrete,
-  gradient,
-}
+  discrete('DISCRETE'),
+  gradient('GRADIENT'),
+  ;
 
-extension ColorFillTypeValueExtension on ColorFillType {
-  String toValue() {
-    switch (this) {
-      case ColorFillType.discrete:
-        return 'DISCRETE';
-      case ColorFillType.gradient:
-        return 'GRADIENT';
-    }
-  }
-}
+  final String value;
 
-extension ColorFillTypeFromString on String {
-  ColorFillType toColorFillType() {
-    switch (this) {
-      case 'DISCRETE':
-        return ColorFillType.discrete;
-      case 'GRADIENT':
-        return ColorFillType.gradient;
-    }
-    throw Exception('$this is not known in enum ColorFillType');
-  }
+  const ColorFillType(this.value);
+
+  static ColorFillType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ColorFillType'));
 }
 
 /// Determines the color scale that is applied to the visual.
@@ -16169,7 +15542,8 @@ class ColorScale {
 
   factory ColorScale.fromJson(Map<String, dynamic> json) {
     return ColorScale(
-      colorFillType: (json['ColorFillType'] as String).toColorFillType(),
+      colorFillType:
+          ColorFillType.fromString((json['ColorFillType'] as String)),
       colors: (json['Colors'] as List)
           .whereNotNull()
           .map((e) => DataColor.fromJson(e as Map<String, dynamic>))
@@ -16185,7 +15559,7 @@ class ColorScale {
     final colors = this.colors;
     final nullValueColor = this.nullValueColor;
     return {
-      'ColorFillType': colorFillType.toValue(),
+      'ColorFillType': colorFillType.value,
       'Colors': colors,
       if (nullValueColor != null) 'NullValueColor': nullValueColor,
     };
@@ -16250,7 +15624,7 @@ class ColumnConfiguration {
           ? FormatConfiguration.fromJson(
               json['FormatConfiguration'] as Map<String, dynamic>)
           : null,
-      role: (json['Role'] as String?)?.toColumnRole(),
+      role: (json['Role'] as String?)?.let(ColumnRole.fromString),
     );
   }
 
@@ -16265,103 +15639,56 @@ class ColumnConfiguration {
         'ColorsConfiguration': colorsConfiguration,
       if (formatConfiguration != null)
         'FormatConfiguration': formatConfiguration,
-      if (role != null) 'Role': role.toValue(),
+      if (role != null) 'Role': role.value,
     };
   }
 }
 
 enum ColumnDataRole {
-  dimension,
-  measure,
-}
+  dimension('DIMENSION'),
+  measure('MEASURE'),
+  ;
 
-extension ColumnDataRoleValueExtension on ColumnDataRole {
-  String toValue() {
-    switch (this) {
-      case ColumnDataRole.dimension:
-        return 'DIMENSION';
-      case ColumnDataRole.measure:
-        return 'MEASURE';
-    }
-  }
-}
+  final String value;
 
-extension ColumnDataRoleFromString on String {
-  ColumnDataRole toColumnDataRole() {
-    switch (this) {
-      case 'DIMENSION':
-        return ColumnDataRole.dimension;
-      case 'MEASURE':
-        return ColumnDataRole.measure;
-    }
-    throw Exception('$this is not known in enum ColumnDataRole');
-  }
+  const ColumnDataRole(this.value);
+
+  static ColumnDataRole fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ColumnDataRole'));
 }
 
 enum ColumnDataSubType {
-  float,
-  fixed,
-}
+  float('FLOAT'),
+  fixed('FIXED'),
+  ;
 
-extension ColumnDataSubTypeValueExtension on ColumnDataSubType {
-  String toValue() {
-    switch (this) {
-      case ColumnDataSubType.float:
-        return 'FLOAT';
-      case ColumnDataSubType.fixed:
-        return 'FIXED';
-    }
-  }
-}
+  final String value;
 
-extension ColumnDataSubTypeFromString on String {
-  ColumnDataSubType toColumnDataSubType() {
-    switch (this) {
-      case 'FLOAT':
-        return ColumnDataSubType.float;
-      case 'FIXED':
-        return ColumnDataSubType.fixed;
-    }
-    throw Exception('$this is not known in enum ColumnDataSubType');
-  }
+  const ColumnDataSubType(this.value);
+
+  static ColumnDataSubType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ColumnDataSubType'));
 }
 
 enum ColumnDataType {
-  string,
-  integer,
-  decimal,
-  datetime,
-}
+  string('STRING'),
+  integer('INTEGER'),
+  decimal('DECIMAL'),
+  datetime('DATETIME'),
+  ;
 
-extension ColumnDataTypeValueExtension on ColumnDataType {
-  String toValue() {
-    switch (this) {
-      case ColumnDataType.string:
-        return 'STRING';
-      case ColumnDataType.integer:
-        return 'INTEGER';
-      case ColumnDataType.decimal:
-        return 'DECIMAL';
-      case ColumnDataType.datetime:
-        return 'DATETIME';
-    }
-  }
-}
+  final String value;
 
-extension ColumnDataTypeFromString on String {
-  ColumnDataType toColumnDataType() {
-    switch (this) {
-      case 'STRING':
-        return ColumnDataType.string;
-      case 'INTEGER':
-        return ColumnDataType.integer;
-      case 'DECIMAL':
-        return ColumnDataType.decimal;
-      case 'DATETIME':
-        return ColumnDataType.datetime;
-    }
-    throw Exception('$this is not known in enum ColumnDataType');
-  }
+  const ColumnDataType(this.value);
+
+  static ColumnDataType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ColumnDataType'));
 }
 
 /// Metadata that contains a description for a column.
@@ -16599,64 +15926,33 @@ class ColumnLevelPermissionRule {
 }
 
 enum ColumnOrderingType {
-  greaterIsBetter,
-  lesserIsBetter,
-  specified,
-}
+  greaterIsBetter('GREATER_IS_BETTER'),
+  lesserIsBetter('LESSER_IS_BETTER'),
+  specified('SPECIFIED'),
+  ;
 
-extension ColumnOrderingTypeValueExtension on ColumnOrderingType {
-  String toValue() {
-    switch (this) {
-      case ColumnOrderingType.greaterIsBetter:
-        return 'GREATER_IS_BETTER';
-      case ColumnOrderingType.lesserIsBetter:
-        return 'LESSER_IS_BETTER';
-      case ColumnOrderingType.specified:
-        return 'SPECIFIED';
-    }
-  }
-}
+  final String value;
 
-extension ColumnOrderingTypeFromString on String {
-  ColumnOrderingType toColumnOrderingType() {
-    switch (this) {
-      case 'GREATER_IS_BETTER':
-        return ColumnOrderingType.greaterIsBetter;
-      case 'LESSER_IS_BETTER':
-        return ColumnOrderingType.lesserIsBetter;
-      case 'SPECIFIED':
-        return ColumnOrderingType.specified;
-    }
-    throw Exception('$this is not known in enum ColumnOrderingType');
-  }
+  const ColumnOrderingType(this.value);
+
+  static ColumnOrderingType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ColumnOrderingType'));
 }
 
 enum ColumnRole {
-  dimension,
-  measure,
-}
+  dimension('DIMENSION'),
+  measure('MEASURE'),
+  ;
 
-extension ColumnRoleValueExtension on ColumnRole {
-  String toValue() {
-    switch (this) {
-      case ColumnRole.dimension:
-        return 'DIMENSION';
-      case ColumnRole.measure:
-        return 'MEASURE';
-    }
-  }
-}
+  final String value;
 
-extension ColumnRoleFromString on String {
-  ColumnRole toColumnRole() {
-    switch (this) {
-      case 'DIMENSION':
-        return ColumnRole.dimension;
-      case 'MEASURE':
-        return ColumnRole.measure;
-    }
-    throw Exception('$this is not known in enum ColumnRole');
-  }
+  const ColumnRole(this.value);
+
+  static ColumnRole fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ColumnRole'));
 }
 
 /// The column schema.
@@ -16713,7 +16009,7 @@ class ColumnSort {
 
   factory ColumnSort.fromJson(Map<String, dynamic> json) {
     return ColumnSort(
-      direction: (json['Direction'] as String).toSortDirection(),
+      direction: SortDirection.fromString((json['Direction'] as String)),
       sortBy: ColumnIdentifier.fromJson(json['SortBy'] as Map<String, dynamic>),
       aggregationFunction: json['AggregationFunction'] != null
           ? AggregationFunction.fromJson(
@@ -16727,7 +16023,7 @@ class ColumnSort {
     final sortBy = this.sortBy;
     final aggregationFunction = this.aggregationFunction;
     return {
-      'Direction': direction.toValue(),
+      'Direction': direction.value,
       'SortBy': sortBy,
       if (aggregationFunction != null)
         'AggregationFunction': aggregationFunction,
@@ -16757,8 +16053,8 @@ class ColumnTag {
           ? ColumnDescription.fromJson(
               json['ColumnDescription'] as Map<String, dynamic>)
           : null,
-      columnGeographicRole:
-          (json['ColumnGeographicRole'] as String?)?.toGeoSpatialDataRole(),
+      columnGeographicRole: (json['ColumnGeographicRole'] as String?)
+          ?.let(GeoSpatialDataRole.fromString),
     );
   }
 
@@ -16768,37 +16064,24 @@ class ColumnTag {
     return {
       if (columnDescription != null) 'ColumnDescription': columnDescription,
       if (columnGeographicRole != null)
-        'ColumnGeographicRole': columnGeographicRole.toValue(),
+        'ColumnGeographicRole': columnGeographicRole.value,
     };
   }
 }
 
 enum ColumnTagName {
-  columnGeographicRole,
-  columnDescription,
-}
+  columnGeographicRole('COLUMN_GEOGRAPHIC_ROLE'),
+  columnDescription('COLUMN_DESCRIPTION'),
+  ;
 
-extension ColumnTagNameValueExtension on ColumnTagName {
-  String toValue() {
-    switch (this) {
-      case ColumnTagName.columnGeographicRole:
-        return 'COLUMN_GEOGRAPHIC_ROLE';
-      case ColumnTagName.columnDescription:
-        return 'COLUMN_DESCRIPTION';
-    }
-  }
-}
+  final String value;
 
-extension ColumnTagNameFromString on String {
-  ColumnTagName toColumnTagName() {
-    switch (this) {
-      case 'COLUMN_GEOGRAPHIC_ROLE':
-        return ColumnTagName.columnGeographicRole;
-      case 'COLUMN_DESCRIPTION':
-        return ColumnTagName.columnDescription;
-    }
-    throw Exception('$this is not known in enum ColumnTagName');
-  }
+  const ColumnTagName(this.value);
+
+  static ColumnTagName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ColumnTagName'));
 }
 
 /// The tooltip item for the columns that are not part of a field well.
@@ -16834,8 +16117,9 @@ class ColumnTooltipItem {
               json['Aggregation'] as Map<String, dynamic>)
           : null,
       label: json['Label'] as String?,
-      tooltipTarget: (json['TooltipTarget'] as String?)?.toTooltipTarget(),
-      visibility: (json['Visibility'] as String?)?.toVisibility(),
+      tooltipTarget:
+          (json['TooltipTarget'] as String?)?.let(TooltipTarget.fromString),
+      visibility: (json['Visibility'] as String?)?.let(Visibility.fromString),
     );
   }
 
@@ -16849,8 +16133,8 @@ class ColumnTooltipItem {
       'Column': column,
       if (aggregation != null) 'Aggregation': aggregation,
       if (label != null) 'Label': label,
-      if (tooltipTarget != null) 'TooltipTarget': tooltipTarget.toValue(),
-      if (visibility != null) 'Visibility': visibility.toValue(),
+      if (tooltipTarget != null) 'TooltipTarget': tooltipTarget.value,
+      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
@@ -17017,7 +16301,7 @@ class ComboChartConfiguration {
               json['BarDataLabels'] as Map<String, dynamic>)
           : null,
       barsArrangement:
-          (json['BarsArrangement'] as String?)?.toBarsArrangement(),
+          (json['BarsArrangement'] as String?)?.let(BarsArrangement.fromString),
       categoryAxis: json['CategoryAxis'] != null
           ? AxisDisplayOptions.fromJson(
               json['CategoryAxis'] as Map<String, dynamic>)
@@ -17104,7 +16388,7 @@ class ComboChartConfiguration {
     final visualPalette = this.visualPalette;
     return {
       if (barDataLabels != null) 'BarDataLabels': barDataLabels,
-      if (barsArrangement != null) 'BarsArrangement': barsArrangement.toValue(),
+      if (barsArrangement != null) 'BarsArrangement': barsArrangement.value,
       if (categoryAxis != null) 'CategoryAxis': categoryAxis,
       if (categoryLabelOptions != null)
         'CategoryLabelOptions': categoryLabelOptions,
@@ -17328,8 +16612,9 @@ class ComparativeOrder {
           .toList(),
       treatUndefinedSpecifiedValues:
           (json['TreatUndefinedSpecifiedValues'] as String?)
-              ?.toUndefinedSpecifiedValueType(),
-      useOrdering: (json['UseOrdering'] as String?)?.toColumnOrderingType(),
+              ?.let(UndefinedSpecifiedValueType.fromString),
+      useOrdering:
+          (json['UseOrdering'] as String?)?.let(ColumnOrderingType.fromString),
     );
   }
 
@@ -17340,9 +16625,8 @@ class ComparativeOrder {
     return {
       if (specifedOrder != null) 'SpecifedOrder': specifedOrder,
       if (treatUndefinedSpecifiedValues != null)
-        'TreatUndefinedSpecifiedValues':
-            treatUndefinedSpecifiedValues.toValue(),
-      if (useOrdering != null) 'UseOrdering': useOrdering.toValue(),
+        'TreatUndefinedSpecifiedValues': treatUndefinedSpecifiedValues.value,
+      if (useOrdering != null) 'UseOrdering': useOrdering.value,
     };
   }
 }
@@ -17378,8 +16662,8 @@ class ComparisonConfiguration {
           ? ComparisonFormatConfiguration.fromJson(
               json['ComparisonFormat'] as Map<String, dynamic>)
           : null,
-      comparisonMethod:
-          (json['ComparisonMethod'] as String?)?.toComparisonMethod(),
+      comparisonMethod: (json['ComparisonMethod'] as String?)
+          ?.let(ComparisonMethod.fromString),
     );
   }
 
@@ -17388,8 +16672,7 @@ class ComparisonConfiguration {
     final comparisonMethod = this.comparisonMethod;
     return {
       if (comparisonFormat != null) 'ComparisonFormat': comparisonFormat,
-      if (comparisonMethod != null)
-        'ComparisonMethod': comparisonMethod.toValue(),
+      if (comparisonMethod != null) 'ComparisonMethod': comparisonMethod.value,
     };
   }
 }
@@ -17444,36 +16727,19 @@ class ComparisonFormatConfiguration {
 }
 
 enum ComparisonMethod {
-  difference,
-  percentDifference,
-  percent,
-}
+  difference('DIFFERENCE'),
+  percentDifference('PERCENT_DIFFERENCE'),
+  percent('PERCENT'),
+  ;
 
-extension ComparisonMethodValueExtension on ComparisonMethod {
-  String toValue() {
-    switch (this) {
-      case ComparisonMethod.difference:
-        return 'DIFFERENCE';
-      case ComparisonMethod.percentDifference:
-        return 'PERCENT_DIFFERENCE';
-      case ComparisonMethod.percent:
-        return 'PERCENT';
-    }
-  }
-}
+  final String value;
 
-extension ComparisonMethodFromString on String {
-  ComparisonMethod toComparisonMethod() {
-    switch (this) {
-      case 'DIFFERENCE':
-        return ComparisonMethod.difference;
-      case 'PERCENT_DIFFERENCE':
-        return ComparisonMethod.percentDifference;
-      case 'PERCENT':
-        return ComparisonMethod.percent;
-    }
-    throw Exception('$this is not known in enum ComparisonMethod');
-  }
+  const ComparisonMethod(this.value);
+
+  static ComparisonMethod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ComparisonMethod'));
 }
 
 /// The computation union that is used in an insight visual.
@@ -17697,7 +16963,7 @@ class ConditionalFormattingCustomIconOptions {
   factory ConditionalFormattingCustomIconOptions.fromJson(
       Map<String, dynamic> json) {
     return ConditionalFormattingCustomIconOptions(
-      icon: (json['Icon'] as String?)?.toIcon(),
+      icon: (json['Icon'] as String?)?.let(Icon.fromString),
       unicodeIcon: json['UnicodeIcon'] as String?,
     );
   }
@@ -17706,7 +16972,7 @@ class ConditionalFormattingCustomIconOptions {
     final icon = this.icon;
     final unicodeIcon = this.unicodeIcon;
     return {
-      if (icon != null) 'Icon': icon.toValue(),
+      if (icon != null) 'Icon': icon.value,
       if (unicodeIcon != null) 'UnicodeIcon': unicodeIcon,
     };
   }
@@ -17793,7 +17059,7 @@ class ConditionalFormattingIconDisplayConfiguration {
       Map<String, dynamic> json) {
     return ConditionalFormattingIconDisplayConfiguration(
       iconDisplayOption: (json['IconDisplayOption'] as String?)
-          ?.toConditionalFormattingIconDisplayOption(),
+          ?.let(ConditionalFormattingIconDisplayOption.fromString),
     );
   }
 
@@ -17801,35 +17067,23 @@ class ConditionalFormattingIconDisplayConfiguration {
     final iconDisplayOption = this.iconDisplayOption;
     return {
       if (iconDisplayOption != null)
-        'IconDisplayOption': iconDisplayOption.toValue(),
+        'IconDisplayOption': iconDisplayOption.value,
     };
   }
 }
 
 enum ConditionalFormattingIconDisplayOption {
-  iconOnly,
-}
+  iconOnly('ICON_ONLY'),
+  ;
 
-extension ConditionalFormattingIconDisplayOptionValueExtension
-    on ConditionalFormattingIconDisplayOption {
-  String toValue() {
-    switch (this) {
-      case ConditionalFormattingIconDisplayOption.iconOnly:
-        return 'ICON_ONLY';
-    }
-  }
-}
+  final String value;
 
-extension ConditionalFormattingIconDisplayOptionFromString on String {
-  ConditionalFormattingIconDisplayOption
-      toConditionalFormattingIconDisplayOption() {
-    switch (this) {
-      case 'ICON_ONLY':
-        return ConditionalFormattingIconDisplayOption.iconOnly;
-    }
-    throw Exception(
-        '$this is not known in enum ConditionalFormattingIconDisplayOption');
-  }
+  const ConditionalFormattingIconDisplayOption(this.value);
+
+  static ConditionalFormattingIconDisplayOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ConditionalFormattingIconDisplayOption'));
 }
 
 /// Formatting configuration for icon set.
@@ -17850,7 +17104,7 @@ class ConditionalFormattingIconSet {
     return ConditionalFormattingIconSet(
       expression: json['Expression'] as String,
       iconSetType: (json['IconSetType'] as String?)
-          ?.toConditionalFormattingIconSetType(),
+          ?.let(ConditionalFormattingIconSetType.fromString),
     );
   }
 
@@ -17859,84 +17113,33 @@ class ConditionalFormattingIconSet {
     final iconSetType = this.iconSetType;
     return {
       'Expression': expression,
-      if (iconSetType != null) 'IconSetType': iconSetType.toValue(),
+      if (iconSetType != null) 'IconSetType': iconSetType.value,
     };
   }
 }
 
 enum ConditionalFormattingIconSetType {
-  plusMinus,
-  checkX,
-  threeColorArrow,
-  threeGrayArrow,
-  caretUpMinusDown,
-  threeShape,
-  threeCircle,
-  flags,
-  bars,
-  fourColorArrow,
-  fourGrayArrow,
-}
+  plusMinus('PLUS_MINUS'),
+  checkX('CHECK_X'),
+  threeColorArrow('THREE_COLOR_ARROW'),
+  threeGrayArrow('THREE_GRAY_ARROW'),
+  caretUpMinusDown('CARET_UP_MINUS_DOWN'),
+  threeShape('THREE_SHAPE'),
+  threeCircle('THREE_CIRCLE'),
+  flags('FLAGS'),
+  bars('BARS'),
+  fourColorArrow('FOUR_COLOR_ARROW'),
+  fourGrayArrow('FOUR_GRAY_ARROW'),
+  ;
 
-extension ConditionalFormattingIconSetTypeValueExtension
-    on ConditionalFormattingIconSetType {
-  String toValue() {
-    switch (this) {
-      case ConditionalFormattingIconSetType.plusMinus:
-        return 'PLUS_MINUS';
-      case ConditionalFormattingIconSetType.checkX:
-        return 'CHECK_X';
-      case ConditionalFormattingIconSetType.threeColorArrow:
-        return 'THREE_COLOR_ARROW';
-      case ConditionalFormattingIconSetType.threeGrayArrow:
-        return 'THREE_GRAY_ARROW';
-      case ConditionalFormattingIconSetType.caretUpMinusDown:
-        return 'CARET_UP_MINUS_DOWN';
-      case ConditionalFormattingIconSetType.threeShape:
-        return 'THREE_SHAPE';
-      case ConditionalFormattingIconSetType.threeCircle:
-        return 'THREE_CIRCLE';
-      case ConditionalFormattingIconSetType.flags:
-        return 'FLAGS';
-      case ConditionalFormattingIconSetType.bars:
-        return 'BARS';
-      case ConditionalFormattingIconSetType.fourColorArrow:
-        return 'FOUR_COLOR_ARROW';
-      case ConditionalFormattingIconSetType.fourGrayArrow:
-        return 'FOUR_GRAY_ARROW';
-    }
-  }
-}
+  final String value;
 
-extension ConditionalFormattingIconSetTypeFromString on String {
-  ConditionalFormattingIconSetType toConditionalFormattingIconSetType() {
-    switch (this) {
-      case 'PLUS_MINUS':
-        return ConditionalFormattingIconSetType.plusMinus;
-      case 'CHECK_X':
-        return ConditionalFormattingIconSetType.checkX;
-      case 'THREE_COLOR_ARROW':
-        return ConditionalFormattingIconSetType.threeColorArrow;
-      case 'THREE_GRAY_ARROW':
-        return ConditionalFormattingIconSetType.threeGrayArrow;
-      case 'CARET_UP_MINUS_DOWN':
-        return ConditionalFormattingIconSetType.caretUpMinusDown;
-      case 'THREE_SHAPE':
-        return ConditionalFormattingIconSetType.threeShape;
-      case 'THREE_CIRCLE':
-        return ConditionalFormattingIconSetType.threeCircle;
-      case 'FLAGS':
-        return ConditionalFormattingIconSetType.flags;
-      case 'BARS':
-        return ConditionalFormattingIconSetType.bars;
-      case 'FOUR_COLOR_ARROW':
-        return ConditionalFormattingIconSetType.fourColorArrow;
-      case 'FOUR_GRAY_ARROW':
-        return ConditionalFormattingIconSetType.fourGrayArrow;
-    }
-    throw Exception(
-        '$this is not known in enum ConditionalFormattingIconSetType');
-  }
+  const ConditionalFormattingIconSetType(this.value);
+
+  static ConditionalFormattingIconSetType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ConditionalFormattingIconSetType'));
 }
 
 /// Formatting configuration for solid color.
@@ -17970,36 +17173,19 @@ class ConditionalFormattingSolidColor {
 }
 
 enum ConstantType {
-  singular,
-  range,
-  collective,
-}
+  singular('SINGULAR'),
+  range('RANGE'),
+  collective('COLLECTIVE'),
+  ;
 
-extension ConstantTypeValueExtension on ConstantType {
-  String toValue() {
-    switch (this) {
-      case ConstantType.singular:
-        return 'SINGULAR';
-      case ConstantType.range:
-        return 'RANGE';
-      case ConstantType.collective:
-        return 'COLLECTIVE';
-    }
-  }
-}
+  final String value;
 
-extension ConstantTypeFromString on String {
-  ConstantType toConstantType() {
-    switch (this) {
-      case 'SINGULAR':
-        return ConstantType.singular;
-      case 'RANGE':
-        return ConstantType.range;
-      case 'COLLECTIVE':
-        return ConstantType.collective;
-    }
-    throw Exception('$this is not known in enum ConstantType');
-  }
+  const ConstantType(this.value);
+
+  static ConstantType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ConstantType'));
 }
 
 /// The context menu options for a visual's interactions.
@@ -18015,8 +17201,8 @@ class ContextMenuOption {
 
   factory ContextMenuOption.fromJson(Map<String, dynamic> json) {
     return ContextMenuOption(
-      availabilityStatus:
-          (json['AvailabilityStatus'] as String?)?.toDashboardBehavior(),
+      availabilityStatus: (json['AvailabilityStatus'] as String?)
+          ?.let(DashboardBehavior.fromString),
     );
   }
 
@@ -18024,7 +17210,7 @@ class ContextMenuOption {
     final availabilityStatus = this.availabilityStatus;
     return {
       if (availabilityStatus != null)
-        'AvailabilityStatus': availabilityStatus.toValue(),
+        'AvailabilityStatus': availabilityStatus.value,
     };
   }
 }
@@ -18195,7 +17381,8 @@ class CreateAnalysisResponse {
     return CreateAnalysisResponse(
       analysisId: json['AnalysisId'] as String?,
       arn: json['Arn'] as String?,
-      creationStatus: (json['CreationStatus'] as String?)?.toResourceStatus(),
+      creationStatus:
+          (json['CreationStatus'] as String?)?.let(ResourceStatus.fromString),
       requestId: json['RequestId'] as String?,
       status: json['Status'] as int?,
     );
@@ -18210,7 +17397,7 @@ class CreateAnalysisResponse {
     return {
       if (analysisId != null) 'AnalysisId': analysisId,
       if (arn != null) 'Arn': arn,
-      if (creationStatus != null) 'CreationStatus': creationStatus.toValue(),
+      if (creationStatus != null) 'CreationStatus': creationStatus.value,
       if (requestId != null) 'RequestId': requestId,
     };
   }
@@ -18275,7 +17462,8 @@ class CreateDashboardResponse {
   factory CreateDashboardResponse.fromJson(Map<String, dynamic> json) {
     return CreateDashboardResponse(
       arn: json['Arn'] as String?,
-      creationStatus: (json['CreationStatus'] as String?)?.toResourceStatus(),
+      creationStatus:
+          (json['CreationStatus'] as String?)?.let(ResourceStatus.fromString),
       dashboardId: json['DashboardId'] as String?,
       requestId: json['RequestId'] as String?,
       status: json['Status'] as int?,
@@ -18292,7 +17480,7 @@ class CreateDashboardResponse {
     final versionArn = this.versionArn;
     return {
       if (arn != null) 'Arn': arn,
-      if (creationStatus != null) 'CreationStatus': creationStatus.toValue(),
+      if (creationStatus != null) 'CreationStatus': creationStatus.value,
       if (dashboardId != null) 'DashboardId': dashboardId,
       if (requestId != null) 'RequestId': requestId,
       if (versionArn != null) 'VersionArn': versionArn,
@@ -18387,7 +17575,8 @@ class CreateDataSourceResponse {
   factory CreateDataSourceResponse.fromJson(Map<String, dynamic> json) {
     return CreateDataSourceResponse(
       arn: json['Arn'] as String?,
-      creationStatus: (json['CreationStatus'] as String?)?.toResourceStatus(),
+      creationStatus:
+          (json['CreationStatus'] as String?)?.let(ResourceStatus.fromString),
       dataSourceId: json['DataSourceId'] as String?,
       requestId: json['RequestId'] as String?,
       status: json['Status'] as int?,
@@ -18402,7 +17591,7 @@ class CreateDataSourceResponse {
     final status = this.status;
     return {
       if (arn != null) 'Arn': arn,
-      if (creationStatus != null) 'CreationStatus': creationStatus.toValue(),
+      if (creationStatus != null) 'CreationStatus': creationStatus.value,
       if (dataSourceId != null) 'DataSourceId': dataSourceId,
       if (requestId != null) 'RequestId': requestId,
     };
@@ -18619,8 +17808,8 @@ class CreateIAMPolicyAssignmentResponse {
     return CreateIAMPolicyAssignmentResponse(
       assignmentId: json['AssignmentId'] as String?,
       assignmentName: json['AssignmentName'] as String?,
-      assignmentStatus:
-          (json['AssignmentStatus'] as String?)?.toAssignmentStatus(),
+      assignmentStatus: (json['AssignmentStatus'] as String?)
+          ?.let(AssignmentStatus.fromString),
       identities: (json['Identities'] as Map<String, dynamic>?)?.map((k, e) =>
           MapEntry(
               k, (e as List).whereNotNull().map((e) => e as String).toList())),
@@ -18641,8 +17830,7 @@ class CreateIAMPolicyAssignmentResponse {
     return {
       if (assignmentId != null) 'AssignmentId': assignmentId,
       if (assignmentName != null) 'AssignmentName': assignmentName,
-      if (assignmentStatus != null)
-        'AssignmentStatus': assignmentStatus.toValue(),
+      if (assignmentStatus != null) 'AssignmentStatus': assignmentStatus.value,
       if (identities != null) 'Identities': identities,
       if (policyArn != null) 'PolicyArn': policyArn,
       if (requestId != null) 'RequestId': requestId,
@@ -18679,7 +17867,7 @@ class CreateIngestionResponse {
       arn: json['Arn'] as String?,
       ingestionId: json['IngestionId'] as String?,
       ingestionStatus:
-          (json['IngestionStatus'] as String?)?.toIngestionStatus(),
+          (json['IngestionStatus'] as String?)?.let(IngestionStatus.fromString),
       requestId: json['RequestId'] as String?,
       status: json['Status'] as int?,
     );
@@ -18694,7 +17882,7 @@ class CreateIngestionResponse {
     return {
       if (arn != null) 'Arn': arn,
       if (ingestionId != null) 'IngestionId': ingestionId,
-      if (ingestionStatus != null) 'IngestionStatus': ingestionStatus.toValue(),
+      if (ingestionStatus != null) 'IngestionStatus': ingestionStatus.value,
       if (requestId != null) 'RequestId': requestId,
     };
   }
@@ -18743,8 +17931,10 @@ class CreateNamespaceResponse {
     return CreateNamespaceResponse(
       arn: json['Arn'] as String?,
       capacityRegion: json['CapacityRegion'] as String?,
-      creationStatus: (json['CreationStatus'] as String?)?.toNamespaceStatus(),
-      identityStore: (json['IdentityStore'] as String?)?.toIdentityStore(),
+      creationStatus:
+          (json['CreationStatus'] as String?)?.let(NamespaceStatus.fromString),
+      identityStore:
+          (json['IdentityStore'] as String?)?.let(IdentityStore.fromString),
       name: json['Name'] as String?,
       requestId: json['RequestId'] as String?,
       status: json['Status'] as int?,
@@ -18762,8 +17952,8 @@ class CreateNamespaceResponse {
     return {
       if (arn != null) 'Arn': arn,
       if (capacityRegion != null) 'CapacityRegion': capacityRegion,
-      if (creationStatus != null) 'CreationStatus': creationStatus.toValue(),
-      if (identityStore != null) 'IdentityStore': identityStore.toValue(),
+      if (creationStatus != null) 'CreationStatus': creationStatus.value,
+      if (identityStore != null) 'IdentityStore': identityStore.value,
       if (name != null) 'Name': name,
       if (requestId != null) 'RequestId': requestId,
     };
@@ -18910,7 +18100,8 @@ class CreateTemplateResponse {
   factory CreateTemplateResponse.fromJson(Map<String, dynamic> json) {
     return CreateTemplateResponse(
       arn: json['Arn'] as String?,
-      creationStatus: (json['CreationStatus'] as String?)?.toResourceStatus(),
+      creationStatus:
+          (json['CreationStatus'] as String?)?.let(ResourceStatus.fromString),
       requestId: json['RequestId'] as String?,
       status: json['Status'] as int?,
       templateId: json['TemplateId'] as String?,
@@ -18927,7 +18118,7 @@ class CreateTemplateResponse {
     final versionArn = this.versionArn;
     return {
       if (arn != null) 'Arn': arn,
-      if (creationStatus != null) 'CreationStatus': creationStatus.toValue(),
+      if (creationStatus != null) 'CreationStatus': creationStatus.value,
       if (requestId != null) 'RequestId': requestId,
       if (templateId != null) 'TemplateId': templateId,
       if (versionArn != null) 'VersionArn': versionArn,
@@ -19003,7 +18194,8 @@ class CreateThemeResponse {
   factory CreateThemeResponse.fromJson(Map<String, dynamic> json) {
     return CreateThemeResponse(
       arn: json['Arn'] as String?,
-      creationStatus: (json['CreationStatus'] as String?)?.toResourceStatus(),
+      creationStatus:
+          (json['CreationStatus'] as String?)?.let(ResourceStatus.fromString),
       requestId: json['RequestId'] as String?,
       status: json['Status'] as int?,
       themeId: json['ThemeId'] as String?,
@@ -19020,7 +18212,7 @@ class CreateThemeResponse {
     final versionArn = this.versionArn;
     return {
       if (arn != null) 'Arn': arn,
-      if (creationStatus != null) 'CreationStatus': creationStatus.toValue(),
+      if (creationStatus != null) 'CreationStatus': creationStatus.value,
       if (requestId != null) 'RequestId': requestId,
       if (themeId != null) 'ThemeId': themeId,
       if (versionArn != null) 'VersionArn': versionArn,
@@ -19162,9 +18354,9 @@ class CreateVPCConnectionResponse {
     return CreateVPCConnectionResponse(
       arn: json['Arn'] as String?,
       availabilityStatus: (json['AvailabilityStatus'] as String?)
-          ?.toVPCConnectionAvailabilityStatus(),
-      creationStatus:
-          (json['CreationStatus'] as String?)?.toVPCConnectionResourceStatus(),
+          ?.let(VPCConnectionAvailabilityStatus.fromString),
+      creationStatus: (json['CreationStatus'] as String?)
+          ?.let(VPCConnectionResourceStatus.fromString),
       requestId: json['RequestId'] as String?,
       status: json['Status'] as int?,
       vPCConnectionId: json['VPCConnectionId'] as String?,
@@ -19181,8 +18373,8 @@ class CreateVPCConnectionResponse {
     return {
       if (arn != null) 'Arn': arn,
       if (availabilityStatus != null)
-        'AvailabilityStatus': availabilityStatus.toValue(),
-      if (creationStatus != null) 'CreationStatus': creationStatus.toValue(),
+        'AvailabilityStatus': availabilityStatus.value,
+      if (creationStatus != null) 'CreationStatus': creationStatus.value,
       if (requestId != null) 'RequestId': requestId,
       if (vPCConnectionId != null) 'VPCConnectionId': vPCConnectionId,
     };
@@ -19229,31 +18421,18 @@ class CredentialPair {
 }
 
 enum CrossDatasetTypes {
-  allDatasets,
-  singleDataset,
-}
+  allDatasets('ALL_DATASETS'),
+  singleDataset('SINGLE_DATASET'),
+  ;
 
-extension CrossDatasetTypesValueExtension on CrossDatasetTypes {
-  String toValue() {
-    switch (this) {
-      case CrossDatasetTypes.allDatasets:
-        return 'ALL_DATASETS';
-      case CrossDatasetTypes.singleDataset:
-        return 'SINGLE_DATASET';
-    }
-  }
-}
+  final String value;
 
-extension CrossDatasetTypesFromString on String {
-  CrossDatasetTypes toCrossDatasetTypes() {
-    switch (this) {
-      case 'ALL_DATASETS':
-        return CrossDatasetTypes.allDatasets;
-      case 'SINGLE_DATASET':
-        return CrossDatasetTypes.singleDataset;
-    }
-    throw Exception('$this is not known in enum CrossDatasetTypes');
-  }
+  const CrossDatasetTypes(this.value);
+
+  static CrossDatasetTypes fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CrossDatasetTypes'));
 }
 
 /// The options that determine the currency display format configuration.
@@ -19308,7 +18487,8 @@ class CurrencyDisplayFormatConfiguration {
           ? NullValueFormatConfiguration.fromJson(
               json['NullValueFormatConfiguration'] as Map<String, dynamic>)
           : null,
-      numberScale: (json['NumberScale'] as String?)?.toNumberScale(),
+      numberScale:
+          (json['NumberScale'] as String?)?.let(NumberScale.fromString),
       prefix: json['Prefix'] as String?,
       separatorConfiguration: json['SeparatorConfiguration'] != null
           ? NumericSeparatorConfiguration.fromJson(
@@ -19335,7 +18515,7 @@ class CurrencyDisplayFormatConfiguration {
         'NegativeValueConfiguration': negativeValueConfiguration,
       if (nullValueFormatConfiguration != null)
         'NullValueFormatConfiguration': nullValueFormatConfiguration,
-      if (numberScale != null) 'NumberScale': numberScale.toValue(),
+      if (numberScale != null) 'NumberScale': numberScale.value,
       if (prefix != null) 'Prefix': prefix,
       if (separatorConfiguration != null)
         'SeparatorConfiguration': separatorConfiguration,
@@ -19469,7 +18649,8 @@ class CustomActionURLOperation {
 
   factory CustomActionURLOperation.fromJson(Map<String, dynamic> json) {
     return CustomActionURLOperation(
-      uRLTarget: (json['URLTarget'] as String).toURLTargetConfiguration(),
+      uRLTarget:
+          URLTargetConfiguration.fromString((json['URLTarget'] as String)),
       uRLTemplate: json['URLTemplate'] as String,
     );
   }
@@ -19478,7 +18659,7 @@ class CustomActionURLOperation {
     final uRLTarget = this.uRLTarget;
     final uRLTemplate = this.uRLTemplate;
     return {
-      'URLTarget': uRLTarget.toValue(),
+      'URLTarget': uRLTarget.value,
       'URLTemplate': uRLTemplate,
     };
   }
@@ -19505,7 +18686,8 @@ class CustomColor {
     return CustomColor(
       color: json['Color'] as String,
       fieldValue: json['FieldValue'] as String?,
-      specialValue: (json['SpecialValue'] as String?)?.toSpecialValue(),
+      specialValue:
+          (json['SpecialValue'] as String?)?.let(SpecialValue.fromString),
     );
   }
 
@@ -19516,7 +18698,7 @@ class CustomColor {
     return {
       'Color': color,
       if (fieldValue != null) 'FieldValue': fieldValue,
-      if (specialValue != null) 'SpecialValue': specialValue.toValue(),
+      if (specialValue != null) 'SpecialValue': specialValue.value,
     };
   }
 }
@@ -19548,10 +18730,11 @@ class CustomContentConfiguration {
 
   factory CustomContentConfiguration.fromJson(Map<String, dynamic> json) {
     return CustomContentConfiguration(
-      contentType: (json['ContentType'] as String?)?.toCustomContentType(),
+      contentType:
+          (json['ContentType'] as String?)?.let(CustomContentType.fromString),
       contentUrl: json['ContentUrl'] as String?,
       imageScaling: (json['ImageScaling'] as String?)
-          ?.toCustomContentImageScalingConfiguration(),
+          ?.let(CustomContentImageScalingConfiguration.fromString),
       interactions: json['Interactions'] != null
           ? VisualInteractionOptions.fromJson(
               json['Interactions'] as Map<String, dynamic>)
@@ -19565,81 +18748,44 @@ class CustomContentConfiguration {
     final imageScaling = this.imageScaling;
     final interactions = this.interactions;
     return {
-      if (contentType != null) 'ContentType': contentType.toValue(),
+      if (contentType != null) 'ContentType': contentType.value,
       if (contentUrl != null) 'ContentUrl': contentUrl,
-      if (imageScaling != null) 'ImageScaling': imageScaling.toValue(),
+      if (imageScaling != null) 'ImageScaling': imageScaling.value,
       if (interactions != null) 'Interactions': interactions,
     };
   }
 }
 
 enum CustomContentImageScalingConfiguration {
-  fitToHeight,
-  fitToWidth,
-  doNotScale,
-  scaleToVisual,
-}
+  fitToHeight('FIT_TO_HEIGHT'),
+  fitToWidth('FIT_TO_WIDTH'),
+  doNotScale('DO_NOT_SCALE'),
+  scaleToVisual('SCALE_TO_VISUAL'),
+  ;
 
-extension CustomContentImageScalingConfigurationValueExtension
-    on CustomContentImageScalingConfiguration {
-  String toValue() {
-    switch (this) {
-      case CustomContentImageScalingConfiguration.fitToHeight:
-        return 'FIT_TO_HEIGHT';
-      case CustomContentImageScalingConfiguration.fitToWidth:
-        return 'FIT_TO_WIDTH';
-      case CustomContentImageScalingConfiguration.doNotScale:
-        return 'DO_NOT_SCALE';
-      case CustomContentImageScalingConfiguration.scaleToVisual:
-        return 'SCALE_TO_VISUAL';
-    }
-  }
-}
+  final String value;
 
-extension CustomContentImageScalingConfigurationFromString on String {
-  CustomContentImageScalingConfiguration
-      toCustomContentImageScalingConfiguration() {
-    switch (this) {
-      case 'FIT_TO_HEIGHT':
-        return CustomContentImageScalingConfiguration.fitToHeight;
-      case 'FIT_TO_WIDTH':
-        return CustomContentImageScalingConfiguration.fitToWidth;
-      case 'DO_NOT_SCALE':
-        return CustomContentImageScalingConfiguration.doNotScale;
-      case 'SCALE_TO_VISUAL':
-        return CustomContentImageScalingConfiguration.scaleToVisual;
-    }
-    throw Exception(
-        '$this is not known in enum CustomContentImageScalingConfiguration');
-  }
+  const CustomContentImageScalingConfiguration(this.value);
+
+  static CustomContentImageScalingConfiguration fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CustomContentImageScalingConfiguration'));
 }
 
 enum CustomContentType {
-  image,
-  otherEmbeddedContent,
-}
+  image('IMAGE'),
+  otherEmbeddedContent('OTHER_EMBEDDED_CONTENT'),
+  ;
 
-extension CustomContentTypeValueExtension on CustomContentType {
-  String toValue() {
-    switch (this) {
-      case CustomContentType.image:
-        return 'IMAGE';
-      case CustomContentType.otherEmbeddedContent:
-        return 'OTHER_EMBEDDED_CONTENT';
-    }
-  }
-}
+  final String value;
 
-extension CustomContentTypeFromString on String {
-  CustomContentType toCustomContentType() {
-    switch (this) {
-      case 'IMAGE':
-        return CustomContentType.image;
-      case 'OTHER_EMBEDDED_CONTENT':
-        return CustomContentType.otherEmbeddedContent;
-    }
-    throw Exception('$this is not known in enum CustomContentType');
-  }
+  const CustomContentType(this.value);
+
+  static CustomContentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CustomContentType'));
 }
 
 /// A visual that contains custom content.
@@ -19770,13 +18916,13 @@ class CustomFilterConfiguration {
 
   factory CustomFilterConfiguration.fromJson(Map<String, dynamic> json) {
     return CustomFilterConfiguration(
-      matchOperator:
-          (json['MatchOperator'] as String).toCategoryFilterMatchOperator(),
-      nullOption: (json['NullOption'] as String).toFilterNullOption(),
+      matchOperator: CategoryFilterMatchOperator.fromString(
+          (json['MatchOperator'] as String)),
+      nullOption: FilterNullOption.fromString((json['NullOption'] as String)),
       categoryValue: json['CategoryValue'] as String?,
       parameterName: json['ParameterName'] as String?,
       selectAllOptions: (json['SelectAllOptions'] as String?)
-          ?.toCategoryFilterSelectAllOptions(),
+          ?.let(CategoryFilterSelectAllOptions.fromString),
     );
   }
 
@@ -19787,12 +18933,11 @@ class CustomFilterConfiguration {
     final parameterName = this.parameterName;
     final selectAllOptions = this.selectAllOptions;
     return {
-      'MatchOperator': matchOperator.toValue(),
-      'NullOption': nullOption.toValue(),
+      'MatchOperator': matchOperator.value,
+      'NullOption': nullOption.value,
       if (categoryValue != null) 'CategoryValue': categoryValue,
       if (parameterName != null) 'ParameterName': parameterName,
-      if (selectAllOptions != null)
-        'SelectAllOptions': selectAllOptions.toValue(),
+      if (selectAllOptions != null) 'SelectAllOptions': selectAllOptions.value,
     };
   }
 }
@@ -19839,15 +18984,15 @@ class CustomFilterListConfiguration {
 
   factory CustomFilterListConfiguration.fromJson(Map<String, dynamic> json) {
     return CustomFilterListConfiguration(
-      matchOperator:
-          (json['MatchOperator'] as String).toCategoryFilterMatchOperator(),
-      nullOption: (json['NullOption'] as String).toFilterNullOption(),
+      matchOperator: CategoryFilterMatchOperator.fromString(
+          (json['MatchOperator'] as String)),
+      nullOption: FilterNullOption.fromString((json['NullOption'] as String)),
       categoryValues: (json['CategoryValues'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
       selectAllOptions: (json['SelectAllOptions'] as String?)
-          ?.toCategoryFilterSelectAllOptions(),
+          ?.let(CategoryFilterSelectAllOptions.fromString),
     );
   }
 
@@ -19857,11 +19002,10 @@ class CustomFilterListConfiguration {
     final categoryValues = this.categoryValues;
     final selectAllOptions = this.selectAllOptions;
     return {
-      'MatchOperator': matchOperator.toValue(),
-      'NullOption': nullOption.toValue(),
+      'MatchOperator': matchOperator.value,
+      'NullOption': nullOption.value,
       if (categoryValues != null) 'CategoryValues': categoryValues,
-      if (selectAllOptions != null)
-        'SelectAllOptions': selectAllOptions.toValue(),
+      if (selectAllOptions != null) 'SelectAllOptions': selectAllOptions.value,
     };
   }
 }
@@ -20108,31 +19252,18 @@ class Dashboard {
 }
 
 enum DashboardBehavior {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension DashboardBehaviorValueExtension on DashboardBehavior {
-  String toValue() {
-    switch (this) {
-      case DashboardBehavior.enabled:
-        return 'ENABLED';
-      case DashboardBehavior.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension DashboardBehaviorFromString on String {
-  DashboardBehavior toDashboardBehavior() {
-    switch (this) {
-      case 'ENABLED':
-        return DashboardBehavior.enabled;
-      case 'DISABLED':
-        return DashboardBehavior.disabled;
-    }
-    throw Exception('$this is not known in enum DashboardBehavior');
-  }
+  const DashboardBehavior(this.value);
+
+  static DashboardBehavior fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DashboardBehavior'));
 }
 
 /// Dashboard error.
@@ -20155,7 +19286,7 @@ class DashboardError {
   factory DashboardError.fromJson(Map<String, dynamic> json) {
     return DashboardError(
       message: json['Message'] as String?,
-      type: (json['Type'] as String?)?.toDashboardErrorType(),
+      type: (json['Type'] as String?)?.let(DashboardErrorType.fromString),
       violatedEntities: (json['ViolatedEntities'] as List?)
           ?.whereNotNull()
           .map((e) => Entity.fromJson(e as Map<String, dynamic>))
@@ -20169,131 +19300,53 @@ class DashboardError {
     final violatedEntities = this.violatedEntities;
     return {
       if (message != null) 'Message': message,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
       if (violatedEntities != null) 'ViolatedEntities': violatedEntities,
     };
   }
 }
 
 enum DashboardErrorType {
-  accessDenied,
-  sourceNotFound,
-  dataSetNotFound,
-  internalFailure,
-  parameterValueIncompatible,
-  parameterTypeInvalid,
-  parameterNotFound,
-  columnTypeMismatch,
-  columnGeographicRoleMismatch,
-  columnReplacementMissing,
-}
+  accessDenied('ACCESS_DENIED'),
+  sourceNotFound('SOURCE_NOT_FOUND'),
+  dataSetNotFound('DATA_SET_NOT_FOUND'),
+  internalFailure('INTERNAL_FAILURE'),
+  parameterValueIncompatible('PARAMETER_VALUE_INCOMPATIBLE'),
+  parameterTypeInvalid('PARAMETER_TYPE_INVALID'),
+  parameterNotFound('PARAMETER_NOT_FOUND'),
+  columnTypeMismatch('COLUMN_TYPE_MISMATCH'),
+  columnGeographicRoleMismatch('COLUMN_GEOGRAPHIC_ROLE_MISMATCH'),
+  columnReplacementMissing('COLUMN_REPLACEMENT_MISSING'),
+  ;
 
-extension DashboardErrorTypeValueExtension on DashboardErrorType {
-  String toValue() {
-    switch (this) {
-      case DashboardErrorType.accessDenied:
-        return 'ACCESS_DENIED';
-      case DashboardErrorType.sourceNotFound:
-        return 'SOURCE_NOT_FOUND';
-      case DashboardErrorType.dataSetNotFound:
-        return 'DATA_SET_NOT_FOUND';
-      case DashboardErrorType.internalFailure:
-        return 'INTERNAL_FAILURE';
-      case DashboardErrorType.parameterValueIncompatible:
-        return 'PARAMETER_VALUE_INCOMPATIBLE';
-      case DashboardErrorType.parameterTypeInvalid:
-        return 'PARAMETER_TYPE_INVALID';
-      case DashboardErrorType.parameterNotFound:
-        return 'PARAMETER_NOT_FOUND';
-      case DashboardErrorType.columnTypeMismatch:
-        return 'COLUMN_TYPE_MISMATCH';
-      case DashboardErrorType.columnGeographicRoleMismatch:
-        return 'COLUMN_GEOGRAPHIC_ROLE_MISMATCH';
-      case DashboardErrorType.columnReplacementMissing:
-        return 'COLUMN_REPLACEMENT_MISSING';
-    }
-  }
-}
+  final String value;
 
-extension DashboardErrorTypeFromString on String {
-  DashboardErrorType toDashboardErrorType() {
-    switch (this) {
-      case 'ACCESS_DENIED':
-        return DashboardErrorType.accessDenied;
-      case 'SOURCE_NOT_FOUND':
-        return DashboardErrorType.sourceNotFound;
-      case 'DATA_SET_NOT_FOUND':
-        return DashboardErrorType.dataSetNotFound;
-      case 'INTERNAL_FAILURE':
-        return DashboardErrorType.internalFailure;
-      case 'PARAMETER_VALUE_INCOMPATIBLE':
-        return DashboardErrorType.parameterValueIncompatible;
-      case 'PARAMETER_TYPE_INVALID':
-        return DashboardErrorType.parameterTypeInvalid;
-      case 'PARAMETER_NOT_FOUND':
-        return DashboardErrorType.parameterNotFound;
-      case 'COLUMN_TYPE_MISMATCH':
-        return DashboardErrorType.columnTypeMismatch;
-      case 'COLUMN_GEOGRAPHIC_ROLE_MISMATCH':
-        return DashboardErrorType.columnGeographicRoleMismatch;
-      case 'COLUMN_REPLACEMENT_MISSING':
-        return DashboardErrorType.columnReplacementMissing;
-    }
-    throw Exception('$this is not known in enum DashboardErrorType');
-  }
+  const DashboardErrorType(this.value);
+
+  static DashboardErrorType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DashboardErrorType'));
 }
 
 enum DashboardFilterAttribute {
-  quicksightUser,
-  quicksightViewerOrOwner,
-  directQuicksightViewerOrOwner,
-  quicksightOwner,
-  directQuicksightOwner,
-  directQuicksightSoleOwner,
-  dashboardName,
-}
+  quicksightUser('QUICKSIGHT_USER'),
+  quicksightViewerOrOwner('QUICKSIGHT_VIEWER_OR_OWNER'),
+  directQuicksightViewerOrOwner('DIRECT_QUICKSIGHT_VIEWER_OR_OWNER'),
+  quicksightOwner('QUICKSIGHT_OWNER'),
+  directQuicksightOwner('DIRECT_QUICKSIGHT_OWNER'),
+  directQuicksightSoleOwner('DIRECT_QUICKSIGHT_SOLE_OWNER'),
+  dashboardName('DASHBOARD_NAME'),
+  ;
 
-extension DashboardFilterAttributeValueExtension on DashboardFilterAttribute {
-  String toValue() {
-    switch (this) {
-      case DashboardFilterAttribute.quicksightUser:
-        return 'QUICKSIGHT_USER';
-      case DashboardFilterAttribute.quicksightViewerOrOwner:
-        return 'QUICKSIGHT_VIEWER_OR_OWNER';
-      case DashboardFilterAttribute.directQuicksightViewerOrOwner:
-        return 'DIRECT_QUICKSIGHT_VIEWER_OR_OWNER';
-      case DashboardFilterAttribute.quicksightOwner:
-        return 'QUICKSIGHT_OWNER';
-      case DashboardFilterAttribute.directQuicksightOwner:
-        return 'DIRECT_QUICKSIGHT_OWNER';
-      case DashboardFilterAttribute.directQuicksightSoleOwner:
-        return 'DIRECT_QUICKSIGHT_SOLE_OWNER';
-      case DashboardFilterAttribute.dashboardName:
-        return 'DASHBOARD_NAME';
-    }
-  }
-}
+  final String value;
 
-extension DashboardFilterAttributeFromString on String {
-  DashboardFilterAttribute toDashboardFilterAttribute() {
-    switch (this) {
-      case 'QUICKSIGHT_USER':
-        return DashboardFilterAttribute.quicksightUser;
-      case 'QUICKSIGHT_VIEWER_OR_OWNER':
-        return DashboardFilterAttribute.quicksightViewerOrOwner;
-      case 'DIRECT_QUICKSIGHT_VIEWER_OR_OWNER':
-        return DashboardFilterAttribute.directQuicksightViewerOrOwner;
-      case 'QUICKSIGHT_OWNER':
-        return DashboardFilterAttribute.quicksightOwner;
-      case 'DIRECT_QUICKSIGHT_OWNER':
-        return DashboardFilterAttribute.directQuicksightOwner;
-      case 'DIRECT_QUICKSIGHT_SOLE_OWNER':
-        return DashboardFilterAttribute.directQuicksightSoleOwner;
-      case 'DASHBOARD_NAME':
-        return DashboardFilterAttribute.dashboardName;
-    }
-    throw Exception('$this is not known in enum DashboardFilterAttribute');
-  }
+  const DashboardFilterAttribute(this.value);
+
+  static DashboardFilterAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DashboardFilterAttribute'));
 }
 
 /// Dashboard publish options.
@@ -20514,8 +19567,8 @@ class DashboardSearchFilter {
     final name = this.name;
     final value = this.value;
     return {
-      'Operator': operator.toValue(),
-      if (name != null) 'Name': name.toValue(),
+      'Operator': operator.value,
+      if (name != null) 'Name': name.value,
       if (value != null) 'Value': value,
     };
   }
@@ -20630,31 +19683,18 @@ class DashboardSummary {
 }
 
 enum DashboardUIState {
-  expanded,
-  collapsed,
-}
+  expanded('EXPANDED'),
+  collapsed('COLLAPSED'),
+  ;
 
-extension DashboardUIStateValueExtension on DashboardUIState {
-  String toValue() {
-    switch (this) {
-      case DashboardUIState.expanded:
-        return 'EXPANDED';
-      case DashboardUIState.collapsed:
-        return 'COLLAPSED';
-    }
-  }
-}
+  final String value;
 
-extension DashboardUIStateFromString on String {
-  DashboardUIState toDashboardUIState() {
-    switch (this) {
-      case 'EXPANDED':
-        return DashboardUIState.expanded;
-      case 'COLLAPSED':
-        return DashboardUIState.collapsed;
-    }
-    throw Exception('$this is not known in enum DashboardUIState');
-  }
+  const DashboardUIState(this.value);
+
+  static DashboardUIState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DashboardUIState'));
 }
 
 /// Dashboard version.
@@ -20722,7 +19762,7 @@ class DashboardVersion {
           .map((e) => Sheet.fromJson(e as Map<String, dynamic>))
           .toList(),
       sourceEntityArn: json['SourceEntityArn'] as String?,
-      status: (json['Status'] as String?)?.toResourceStatus(),
+      status: (json['Status'] as String?)?.let(ResourceStatus.fromString),
       themeArn: json['ThemeArn'] as String?,
       versionNumber: json['VersionNumber'] as int?,
     );
@@ -20747,7 +19787,7 @@ class DashboardVersion {
       if (errors != null) 'Errors': errors,
       if (sheets != null) 'Sheets': sheets,
       if (sourceEntityArn != null) 'SourceEntityArn': sourceEntityArn,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (themeArn != null) 'ThemeArn': themeArn,
       if (versionNumber != null) 'VersionNumber': versionNumber,
     };
@@ -20899,7 +19939,7 @@ class DashboardVersionSummary {
       createdTime: timeStampFromJson(json['CreatedTime']),
       description: json['Description'] as String?,
       sourceEntityArn: json['SourceEntityArn'] as String?,
-      status: (json['Status'] as String?)?.toResourceStatus(),
+      status: (json['Status'] as String?)?.let(ResourceStatus.fromString),
       versionNumber: json['VersionNumber'] as int?,
     );
   }
@@ -20916,7 +19956,7 @@ class DashboardVersionSummary {
       if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
       if (description != null) 'Description': description,
       if (sourceEntityArn != null) 'SourceEntityArn': sourceEntityArn,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (versionNumber != null) 'VersionNumber': versionNumber,
     };
   }
@@ -21024,7 +20064,7 @@ class DataAggregation {
   factory DataAggregation.fromJson(Map<String, dynamic> json) {
     return DataAggregation(
       datasetRowDateGranularity: (json['DatasetRowDateGranularity'] as String?)
-          ?.toTopicTimeGranularity(),
+          ?.let(TopicTimeGranularity.fromString),
       defaultDateColumnName: json['DefaultDateColumnName'] as String?,
     );
   }
@@ -21034,7 +20074,7 @@ class DataAggregation {
     final defaultDateColumnName = this.defaultDateColumnName;
     return {
       if (datasetRowDateGranularity != null)
-        'DatasetRowDateGranularity': datasetRowDateGranularity.toValue(),
+        'DatasetRowDateGranularity': datasetRowDateGranularity.value,
       if (defaultDateColumnName != null)
         'DefaultDateColumnName': defaultDateColumnName,
     };
@@ -21178,7 +20218,7 @@ class DataFieldSeriesItem {
 
   factory DataFieldSeriesItem.fromJson(Map<String, dynamic> json) {
     return DataFieldSeriesItem(
-      axisBinding: (json['AxisBinding'] as String).toAxisBinding(),
+      axisBinding: AxisBinding.fromString((json['AxisBinding'] as String)),
       fieldId: json['FieldId'] as String,
       fieldValue: json['FieldValue'] as String?,
       settings: json['Settings'] != null
@@ -21194,7 +20234,7 @@ class DataFieldSeriesItem {
     final fieldValue = this.fieldValue;
     final settings = this.settings;
     return {
-      'AxisBinding': axisBinding.toValue(),
+      'AxisBinding': axisBinding.value,
       'FieldId': fieldId,
       if (fieldValue != null) 'FieldValue': fieldValue,
       if (settings != null) 'Settings': settings,
@@ -21203,36 +20243,19 @@ class DataFieldSeriesItem {
 }
 
 enum DataLabelContent {
-  value,
-  percent,
-  valueAndPercent,
-}
+  $value('VALUE'),
+  percent('PERCENT'),
+  valueAndPercent('VALUE_AND_PERCENT'),
+  ;
 
-extension DataLabelContentValueExtension on DataLabelContent {
-  String toValue() {
-    switch (this) {
-      case DataLabelContent.value:
-        return 'VALUE';
-      case DataLabelContent.percent:
-        return 'PERCENT';
-      case DataLabelContent.valueAndPercent:
-        return 'VALUE_AND_PERCENT';
-    }
-  }
-}
+  final String value;
 
-extension DataLabelContentFromString on String {
-  DataLabelContent toDataLabelContent() {
-    switch (this) {
-      case 'VALUE':
-        return DataLabelContent.value;
-      case 'PERCENT':
-        return DataLabelContent.percent;
-      case 'VALUE_AND_PERCENT':
-        return DataLabelContent.valueAndPercent;
-    }
-    throw Exception('$this is not known in enum DataLabelContent');
-  }
+  const DataLabelContent(this.value);
+
+  static DataLabelContent fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DataLabelContent'));
 }
 
 /// The options that determine the presentation of the data labels.
@@ -21282,24 +20305,27 @@ class DataLabelOptions {
 
   factory DataLabelOptions.fromJson(Map<String, dynamic> json) {
     return DataLabelOptions(
-      categoryLabelVisibility:
-          (json['CategoryLabelVisibility'] as String?)?.toVisibility(),
+      categoryLabelVisibility: (json['CategoryLabelVisibility'] as String?)
+          ?.let(Visibility.fromString),
       dataLabelTypes: (json['DataLabelTypes'] as List?)
           ?.whereNotNull()
           .map((e) => DataLabelType.fromJson(e as Map<String, dynamic>))
           .toList(),
       labelColor: json['LabelColor'] as String?,
-      labelContent: (json['LabelContent'] as String?)?.toDataLabelContent(),
+      labelContent:
+          (json['LabelContent'] as String?)?.let(DataLabelContent.fromString),
       labelFontConfiguration: json['LabelFontConfiguration'] != null
           ? FontConfiguration.fromJson(
               json['LabelFontConfiguration'] as Map<String, dynamic>)
           : null,
-      measureLabelVisibility:
-          (json['MeasureLabelVisibility'] as String?)?.toVisibility(),
-      overlap: (json['Overlap'] as String?)?.toDataLabelOverlap(),
-      position: (json['Position'] as String?)?.toDataLabelPosition(),
-      totalsVisibility: (json['TotalsVisibility'] as String?)?.toVisibility(),
-      visibility: (json['Visibility'] as String?)?.toVisibility(),
+      measureLabelVisibility: (json['MeasureLabelVisibility'] as String?)
+          ?.let(Visibility.fromString),
+      overlap: (json['Overlap'] as String?)?.let(DataLabelOverlap.fromString),
+      position:
+          (json['Position'] as String?)?.let(DataLabelPosition.fromString),
+      totalsVisibility:
+          (json['TotalsVisibility'] as String?)?.let(Visibility.fromString),
+      visibility: (json['Visibility'] as String?)?.let(Visibility.fromString),
     );
   }
 
@@ -21316,97 +20342,54 @@ class DataLabelOptions {
     final visibility = this.visibility;
     return {
       if (categoryLabelVisibility != null)
-        'CategoryLabelVisibility': categoryLabelVisibility.toValue(),
+        'CategoryLabelVisibility': categoryLabelVisibility.value,
       if (dataLabelTypes != null) 'DataLabelTypes': dataLabelTypes,
       if (labelColor != null) 'LabelColor': labelColor,
-      if (labelContent != null) 'LabelContent': labelContent.toValue(),
+      if (labelContent != null) 'LabelContent': labelContent.value,
       if (labelFontConfiguration != null)
         'LabelFontConfiguration': labelFontConfiguration,
       if (measureLabelVisibility != null)
-        'MeasureLabelVisibility': measureLabelVisibility.toValue(),
-      if (overlap != null) 'Overlap': overlap.toValue(),
-      if (position != null) 'Position': position.toValue(),
-      if (totalsVisibility != null)
-        'TotalsVisibility': totalsVisibility.toValue(),
-      if (visibility != null) 'Visibility': visibility.toValue(),
+        'MeasureLabelVisibility': measureLabelVisibility.value,
+      if (overlap != null) 'Overlap': overlap.value,
+      if (position != null) 'Position': position.value,
+      if (totalsVisibility != null) 'TotalsVisibility': totalsVisibility.value,
+      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
 
 enum DataLabelOverlap {
-  disableOverlap,
-  enableOverlap,
-}
+  disableOverlap('DISABLE_OVERLAP'),
+  enableOverlap('ENABLE_OVERLAP'),
+  ;
 
-extension DataLabelOverlapValueExtension on DataLabelOverlap {
-  String toValue() {
-    switch (this) {
-      case DataLabelOverlap.disableOverlap:
-        return 'DISABLE_OVERLAP';
-      case DataLabelOverlap.enableOverlap:
-        return 'ENABLE_OVERLAP';
-    }
-  }
-}
+  final String value;
 
-extension DataLabelOverlapFromString on String {
-  DataLabelOverlap toDataLabelOverlap() {
-    switch (this) {
-      case 'DISABLE_OVERLAP':
-        return DataLabelOverlap.disableOverlap;
-      case 'ENABLE_OVERLAP':
-        return DataLabelOverlap.enableOverlap;
-    }
-    throw Exception('$this is not known in enum DataLabelOverlap');
-  }
+  const DataLabelOverlap(this.value);
+
+  static DataLabelOverlap fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DataLabelOverlap'));
 }
 
 enum DataLabelPosition {
-  inside,
-  outside,
-  left,
-  top,
-  bottom,
-  right,
-}
+  inside('INSIDE'),
+  outside('OUTSIDE'),
+  left('LEFT'),
+  top('TOP'),
+  bottom('BOTTOM'),
+  right('RIGHT'),
+  ;
 
-extension DataLabelPositionValueExtension on DataLabelPosition {
-  String toValue() {
-    switch (this) {
-      case DataLabelPosition.inside:
-        return 'INSIDE';
-      case DataLabelPosition.outside:
-        return 'OUTSIDE';
-      case DataLabelPosition.left:
-        return 'LEFT';
-      case DataLabelPosition.top:
-        return 'TOP';
-      case DataLabelPosition.bottom:
-        return 'BOTTOM';
-      case DataLabelPosition.right:
-        return 'RIGHT';
-    }
-  }
-}
+  final String value;
 
-extension DataLabelPositionFromString on String {
-  DataLabelPosition toDataLabelPosition() {
-    switch (this) {
-      case 'INSIDE':
-        return DataLabelPosition.inside;
-      case 'OUTSIDE':
-        return DataLabelPosition.outside;
-      case 'LEFT':
-        return DataLabelPosition.left;
-      case 'TOP':
-        return DataLabelPosition.top;
-      case 'BOTTOM':
-        return DataLabelPosition.bottom;
-      case 'RIGHT':
-        return DataLabelPosition.right;
-    }
-    throw Exception('$this is not known in enum DataLabelPosition');
-  }
+  const DataLabelPosition(this.value);
+
+  static DataLabelPosition fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DataLabelPosition'));
 }
 
 /// The option that determines the data label type.
@@ -21500,7 +20483,7 @@ class DataPathColor {
       color: json['Color'] as String,
       element: DataPathValue.fromJson(json['Element'] as Map<String, dynamic>),
       timeGranularity:
-          (json['TimeGranularity'] as String?)?.toTimeGranularity(),
+          (json['TimeGranularity'] as String?)?.let(TimeGranularity.fromString),
     );
   }
 
@@ -21511,7 +20494,7 @@ class DataPathColor {
     return {
       'Color': color,
       'Element': element,
-      if (timeGranularity != null) 'TimeGranularity': timeGranularity.toValue(),
+      if (timeGranularity != null) 'TimeGranularity': timeGranularity.value,
     };
   }
 }
@@ -21537,7 +20520,7 @@ class DataPathLabelType {
     return DataPathLabelType(
       fieldId: json['FieldId'] as String?,
       fieldValue: json['FieldValue'] as String?,
-      visibility: (json['Visibility'] as String?)?.toVisibility(),
+      visibility: (json['Visibility'] as String?)?.let(Visibility.fromString),
     );
   }
 
@@ -21548,7 +20531,7 @@ class DataPathLabelType {
     return {
       if (fieldId != null) 'FieldId': fieldId,
       if (fieldValue != null) 'FieldValue': fieldValue,
-      if (visibility != null) 'Visibility': visibility.toValue(),
+      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
@@ -21568,7 +20551,7 @@ class DataPathSort {
 
   factory DataPathSort.fromJson(Map<String, dynamic> json) {
     return DataPathSort(
-      direction: (json['Direction'] as String).toSortDirection(),
+      direction: SortDirection.fromString((json['Direction'] as String)),
       sortPaths: (json['SortPaths'] as List)
           .whereNotNull()
           .map((e) => DataPathValue.fromJson(e as Map<String, dynamic>))
@@ -21580,7 +20563,7 @@ class DataPathSort {
     final direction = this.direction;
     final sortPaths = this.sortPaths;
     return {
-      'Direction': direction.toValue(),
+      'Direction': direction.value,
       'SortPaths': sortPaths,
     };
   }
@@ -21621,7 +20604,7 @@ class DataPathType {
   factory DataPathType.fromJson(Map<String, dynamic> json) {
     return DataPathType(
       pivotTableDataPathType: (json['PivotTableDataPathType'] as String?)
-          ?.toPivotTableDataPathType(),
+          ?.let(PivotTableDataPathType.fromString),
     );
   }
 
@@ -21629,7 +20612,7 @@ class DataPathType {
     final pivotTableDataPathType = this.pivotTableDataPathType;
     return {
       if (pivotTableDataPathType != null)
-        'PivotTableDataPathType': pivotTableDataPathType.toValue(),
+        'PivotTableDataPathType': pivotTableDataPathType.value,
     };
   }
 }
@@ -21684,8 +20667,8 @@ class DataPointDrillUpDownOption {
 
   factory DataPointDrillUpDownOption.fromJson(Map<String, dynamic> json) {
     return DataPointDrillUpDownOption(
-      availabilityStatus:
-          (json['AvailabilityStatus'] as String?)?.toDashboardBehavior(),
+      availabilityStatus: (json['AvailabilityStatus'] as String?)
+          ?.let(DashboardBehavior.fromString),
     );
   }
 
@@ -21693,7 +20676,7 @@ class DataPointDrillUpDownOption {
     final availabilityStatus = this.availabilityStatus;
     return {
       if (availabilityStatus != null)
-        'AvailabilityStatus': availabilityStatus.toValue(),
+        'AvailabilityStatus': availabilityStatus.value,
     };
   }
 }
@@ -21709,8 +20692,8 @@ class DataPointMenuLabelOption {
 
   factory DataPointMenuLabelOption.fromJson(Map<String, dynamic> json) {
     return DataPointMenuLabelOption(
-      availabilityStatus:
-          (json['AvailabilityStatus'] as String?)?.toDashboardBehavior(),
+      availabilityStatus: (json['AvailabilityStatus'] as String?)
+          ?.let(DashboardBehavior.fromString),
     );
   }
 
@@ -21718,7 +20701,7 @@ class DataPointMenuLabelOption {
     final availabilityStatus = this.availabilityStatus;
     return {
       if (availabilityStatus != null)
-        'AvailabilityStatus': availabilityStatus.toValue(),
+        'AvailabilityStatus': availabilityStatus.value,
     };
   }
 }
@@ -21734,8 +20717,8 @@ class DataPointTooltipOption {
 
   factory DataPointTooltipOption.fromJson(Map<String, dynamic> json) {
     return DataPointTooltipOption(
-      availabilityStatus:
-          (json['AvailabilityStatus'] as String?)?.toDashboardBehavior(),
+      availabilityStatus: (json['AvailabilityStatus'] as String?)
+          ?.let(DashboardBehavior.fromString),
     );
   }
 
@@ -21743,7 +20726,7 @@ class DataPointTooltipOption {
     final availabilityStatus = this.availabilityStatus;
     return {
       if (availabilityStatus != null)
-        'AvailabilityStatus': availabilityStatus.toValue(),
+        'AvailabilityStatus': availabilityStatus.value,
     };
   }
 }
@@ -21856,7 +20839,8 @@ class DataSet {
       fieldFolders: (json['FieldFolders'] as Map<String, dynamic>?)?.map(
           (k, e) =>
               MapEntry(k, FieldFolder.fromJson(e as Map<String, dynamic>))),
-      importMode: (json['ImportMode'] as String?)?.toDataSetImportMode(),
+      importMode:
+          (json['ImportMode'] as String?)?.let(DataSetImportMode.fromString),
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       logicalTableMap: (json['LogicalTableMap'] as Map<String, dynamic>?)?.map(
           (k, e) =>
@@ -21914,7 +20898,7 @@ class DataSet {
         'DataSetUsageConfiguration': dataSetUsageConfiguration,
       if (datasetParameters != null) 'DatasetParameters': datasetParameters,
       if (fieldFolders != null) 'FieldFolders': fieldFolders,
-      if (importMode != null) 'ImportMode': importMode.toValue(),
+      if (importMode != null) 'ImportMode': importMode.value,
       if (lastUpdatedTime != null)
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       if (logicalTableMap != null) 'LogicalTableMap': logicalTableMap,
@@ -21975,51 +20959,22 @@ class DataSetConfiguration {
 }
 
 enum DataSetFilterAttribute {
-  quicksightViewerOrOwner,
-  quicksightOwner,
-  directQuicksightViewerOrOwner,
-  directQuicksightOwner,
-  directQuicksightSoleOwner,
-  datasetName,
-}
+  quicksightViewerOrOwner('QUICKSIGHT_VIEWER_OR_OWNER'),
+  quicksightOwner('QUICKSIGHT_OWNER'),
+  directQuicksightViewerOrOwner('DIRECT_QUICKSIGHT_VIEWER_OR_OWNER'),
+  directQuicksightOwner('DIRECT_QUICKSIGHT_OWNER'),
+  directQuicksightSoleOwner('DIRECT_QUICKSIGHT_SOLE_OWNER'),
+  datasetName('DATASET_NAME'),
+  ;
 
-extension DataSetFilterAttributeValueExtension on DataSetFilterAttribute {
-  String toValue() {
-    switch (this) {
-      case DataSetFilterAttribute.quicksightViewerOrOwner:
-        return 'QUICKSIGHT_VIEWER_OR_OWNER';
-      case DataSetFilterAttribute.quicksightOwner:
-        return 'QUICKSIGHT_OWNER';
-      case DataSetFilterAttribute.directQuicksightViewerOrOwner:
-        return 'DIRECT_QUICKSIGHT_VIEWER_OR_OWNER';
-      case DataSetFilterAttribute.directQuicksightOwner:
-        return 'DIRECT_QUICKSIGHT_OWNER';
-      case DataSetFilterAttribute.directQuicksightSoleOwner:
-        return 'DIRECT_QUICKSIGHT_SOLE_OWNER';
-      case DataSetFilterAttribute.datasetName:
-        return 'DATASET_NAME';
-    }
-  }
-}
+  final String value;
 
-extension DataSetFilterAttributeFromString on String {
-  DataSetFilterAttribute toDataSetFilterAttribute() {
-    switch (this) {
-      case 'QUICKSIGHT_VIEWER_OR_OWNER':
-        return DataSetFilterAttribute.quicksightViewerOrOwner;
-      case 'QUICKSIGHT_OWNER':
-        return DataSetFilterAttribute.quicksightOwner;
-      case 'DIRECT_QUICKSIGHT_VIEWER_OR_OWNER':
-        return DataSetFilterAttribute.directQuicksightViewerOrOwner;
-      case 'DIRECT_QUICKSIGHT_OWNER':
-        return DataSetFilterAttribute.directQuicksightOwner;
-      case 'DIRECT_QUICKSIGHT_SOLE_OWNER':
-        return DataSetFilterAttribute.directQuicksightSoleOwner;
-      case 'DATASET_NAME':
-        return DataSetFilterAttribute.datasetName;
-    }
-    throw Exception('$this is not known in enum DataSetFilterAttribute');
-  }
+  const DataSetFilterAttribute(this.value);
+
+  static DataSetFilterAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DataSetFilterAttribute'));
 }
 
 /// A data set.
@@ -22053,31 +21008,18 @@ class DataSetIdentifierDeclaration {
 }
 
 enum DataSetImportMode {
-  spice,
-  directQuery,
-}
+  spice('SPICE'),
+  directQuery('DIRECT_QUERY'),
+  ;
 
-extension DataSetImportModeValueExtension on DataSetImportMode {
-  String toValue() {
-    switch (this) {
-      case DataSetImportMode.spice:
-        return 'SPICE';
-      case DataSetImportMode.directQuery:
-        return 'DIRECT_QUERY';
-    }
-  }
-}
+  final String value;
 
-extension DataSetImportModeFromString on String {
-  DataSetImportMode toDataSetImportMode() {
-    switch (this) {
-      case 'SPICE':
-        return DataSetImportMode.spice;
-      case 'DIRECT_QUERY':
-        return DataSetImportMode.directQuery;
-    }
-    throw Exception('$this is not known in enum DataSetImportMode');
-  }
+  const DataSetImportMode(this.value);
+
+  static DataSetImportMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DataSetImportMode'));
 }
 
 /// Dataset reference.
@@ -22230,8 +21172,8 @@ class DataSetSearchFilter {
     final operator = this.operator;
     final value = this.value;
     return {
-      'Name': name.toValue(),
-      'Operator': operator.toValue(),
+      'Name': name.value,
+      'Operator': operator.value,
       'Value': value,
     };
   }
@@ -22286,7 +21228,8 @@ class DataSetSummary {
           json['ColumnLevelPermissionRulesApplied'] as bool?,
       createdTime: timeStampFromJson(json['CreatedTime']),
       dataSetId: json['DataSetId'] as String?,
-      importMode: (json['ImportMode'] as String?)?.toDataSetImportMode(),
+      importMode:
+          (json['ImportMode'] as String?)?.let(DataSetImportMode.fromString),
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       name: json['Name'] as String?,
       rowLevelPermissionDataSet: json['RowLevelPermissionDataSet'] != null
@@ -22316,7 +21259,7 @@ class DataSetSummary {
         'ColumnLevelPermissionRulesApplied': columnLevelPermissionRulesApplied,
       if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
       if (dataSetId != null) 'DataSetId': dataSetId,
-      if (importMode != null) 'ImportMode': importMode.toValue(),
+      if (importMode != null) 'ImportMode': importMode.value,
       if (lastUpdatedTime != null)
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       if (name != null) 'Name': name,
@@ -22465,8 +21408,8 @@ class DataSource {
           ? SslProperties.fromJson(
               json['SslProperties'] as Map<String, dynamic>)
           : null,
-      status: (json['Status'] as String?)?.toResourceStatus(),
-      type: (json['Type'] as String?)?.toDataSourceType(),
+      status: (json['Status'] as String?)?.let(ResourceStatus.fromString),
+      type: (json['Type'] as String?)?.let(DataSourceType.fromString),
       vpcConnectionProperties: json['VpcConnectionProperties'] != null
           ? VpcConnectionProperties.fromJson(
               json['VpcConnectionProperties'] as Map<String, dynamic>)
@@ -22502,8 +21445,8 @@ class DataSource {
       if (name != null) 'Name': name,
       if (secretArn != null) 'SecretArn': secretArn,
       if (sslProperties != null) 'SslProperties': sslProperties,
-      if (status != null) 'Status': status.toValue(),
-      if (type != null) 'Type': type.toValue(),
+      if (status != null) 'Status': status.value,
+      if (type != null) 'Type': type.value,
       if (vpcConnectionProperties != null)
         'VpcConnectionProperties': vpcConnectionProperties,
     };
@@ -22562,7 +21505,7 @@ class DataSourceErrorInfo {
   factory DataSourceErrorInfo.fromJson(Map<String, dynamic> json) {
     return DataSourceErrorInfo(
       message: json['Message'] as String?,
-      type: (json['Type'] as String?)?.toDataSourceErrorInfoType(),
+      type: (json['Type'] as String?)?.let(DataSourceErrorInfoType.fromString),
     );
   }
 
@@ -22571,105 +21514,47 @@ class DataSourceErrorInfo {
     final type = this.type;
     return {
       if (message != null) 'Message': message,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum DataSourceErrorInfoType {
-  accessDenied,
-  copySourceNotFound,
-  timeout,
-  engineVersionNotSupported,
-  unknownHost,
-  genericSqlFailure,
-  conflict,
-  unknown,
-}
+  accessDenied('ACCESS_DENIED'),
+  copySourceNotFound('COPY_SOURCE_NOT_FOUND'),
+  timeout('TIMEOUT'),
+  engineVersionNotSupported('ENGINE_VERSION_NOT_SUPPORTED'),
+  unknownHost('UNKNOWN_HOST'),
+  genericSqlFailure('GENERIC_SQL_FAILURE'),
+  conflict('CONFLICT'),
+  unknown('UNKNOWN'),
+  ;
 
-extension DataSourceErrorInfoTypeValueExtension on DataSourceErrorInfoType {
-  String toValue() {
-    switch (this) {
-      case DataSourceErrorInfoType.accessDenied:
-        return 'ACCESS_DENIED';
-      case DataSourceErrorInfoType.copySourceNotFound:
-        return 'COPY_SOURCE_NOT_FOUND';
-      case DataSourceErrorInfoType.timeout:
-        return 'TIMEOUT';
-      case DataSourceErrorInfoType.engineVersionNotSupported:
-        return 'ENGINE_VERSION_NOT_SUPPORTED';
-      case DataSourceErrorInfoType.unknownHost:
-        return 'UNKNOWN_HOST';
-      case DataSourceErrorInfoType.genericSqlFailure:
-        return 'GENERIC_SQL_FAILURE';
-      case DataSourceErrorInfoType.conflict:
-        return 'CONFLICT';
-      case DataSourceErrorInfoType.unknown:
-        return 'UNKNOWN';
-    }
-  }
-}
+  final String value;
 
-extension DataSourceErrorInfoTypeFromString on String {
-  DataSourceErrorInfoType toDataSourceErrorInfoType() {
-    switch (this) {
-      case 'ACCESS_DENIED':
-        return DataSourceErrorInfoType.accessDenied;
-      case 'COPY_SOURCE_NOT_FOUND':
-        return DataSourceErrorInfoType.copySourceNotFound;
-      case 'TIMEOUT':
-        return DataSourceErrorInfoType.timeout;
-      case 'ENGINE_VERSION_NOT_SUPPORTED':
-        return DataSourceErrorInfoType.engineVersionNotSupported;
-      case 'UNKNOWN_HOST':
-        return DataSourceErrorInfoType.unknownHost;
-      case 'GENERIC_SQL_FAILURE':
-        return DataSourceErrorInfoType.genericSqlFailure;
-      case 'CONFLICT':
-        return DataSourceErrorInfoType.conflict;
-      case 'UNKNOWN':
-        return DataSourceErrorInfoType.unknown;
-    }
-    throw Exception('$this is not known in enum DataSourceErrorInfoType');
-  }
+  const DataSourceErrorInfoType(this.value);
+
+  static DataSourceErrorInfoType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DataSourceErrorInfoType'));
 }
 
 enum DataSourceFilterAttribute {
-  directQuicksightViewerOrOwner,
-  directQuicksightOwner,
-  directQuicksightSoleOwner,
-  datasourceName,
-}
+  directQuicksightViewerOrOwner('DIRECT_QUICKSIGHT_VIEWER_OR_OWNER'),
+  directQuicksightOwner('DIRECT_QUICKSIGHT_OWNER'),
+  directQuicksightSoleOwner('DIRECT_QUICKSIGHT_SOLE_OWNER'),
+  datasourceName('DATASOURCE_NAME'),
+  ;
 
-extension DataSourceFilterAttributeValueExtension on DataSourceFilterAttribute {
-  String toValue() {
-    switch (this) {
-      case DataSourceFilterAttribute.directQuicksightViewerOrOwner:
-        return 'DIRECT_QUICKSIGHT_VIEWER_OR_OWNER';
-      case DataSourceFilterAttribute.directQuicksightOwner:
-        return 'DIRECT_QUICKSIGHT_OWNER';
-      case DataSourceFilterAttribute.directQuicksightSoleOwner:
-        return 'DIRECT_QUICKSIGHT_SOLE_OWNER';
-      case DataSourceFilterAttribute.datasourceName:
-        return 'DATASOURCE_NAME';
-    }
-  }
-}
+  final String value;
 
-extension DataSourceFilterAttributeFromString on String {
-  DataSourceFilterAttribute toDataSourceFilterAttribute() {
-    switch (this) {
-      case 'DIRECT_QUICKSIGHT_VIEWER_OR_OWNER':
-        return DataSourceFilterAttribute.directQuicksightViewerOrOwner;
-      case 'DIRECT_QUICKSIGHT_OWNER':
-        return DataSourceFilterAttribute.directQuicksightOwner;
-      case 'DIRECT_QUICKSIGHT_SOLE_OWNER':
-        return DataSourceFilterAttribute.directQuicksightSoleOwner;
-      case 'DATASOURCE_NAME':
-        return DataSourceFilterAttribute.datasourceName;
-    }
-    throw Exception('$this is not known in enum DataSourceFilterAttribute');
-  }
+  const DataSourceFilterAttribute(this.value);
+
+  static DataSourceFilterAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DataSourceFilterAttribute'));
 }
 
 /// The parameters that Amazon QuickSight uses to connect to your underlying
@@ -23029,8 +21914,8 @@ class DataSourceSearchFilter {
     final operator = this.operator;
     final value = this.value;
     return {
-      'Name': name.toValue(),
-      'Operator': operator.toValue(),
+      'Name': name.value,
+      'Operator': operator.value,
       'Value': value,
     };
   }
@@ -23075,7 +21960,7 @@ class DataSourceSummary {
       dataSourceId: json['DataSourceId'] as String?,
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       name: json['Name'] as String?,
-      type: (json['Type'] as String?)?.toDataSourceType(),
+      type: (json['Type'] as String?)?.let(DataSourceType.fromString),
     );
   }
 
@@ -23093,172 +21978,51 @@ class DataSourceSummary {
       if (lastUpdatedTime != null)
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       if (name != null) 'Name': name,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum DataSourceType {
-  adobeAnalytics,
-  amazonElasticsearch,
-  athena,
-  aurora,
-  auroraPostgresql,
-  awsIotAnalytics,
-  github,
-  jira,
-  mariadb,
-  mysql,
-  oracle,
-  postgresql,
-  presto,
-  redshift,
-  s3,
-  salesforce,
-  servicenow,
-  snowflake,
-  spark,
-  sqlserver,
-  teradata,
-  twitter,
-  timestream,
-  amazonOpensearch,
-  exasol,
-  databricks,
-  starburst,
-  trino,
-  bigquery,
-}
+  adobeAnalytics('ADOBE_ANALYTICS'),
+  amazonElasticsearch('AMAZON_ELASTICSEARCH'),
+  athena('ATHENA'),
+  aurora('AURORA'),
+  auroraPostgresql('AURORA_POSTGRESQL'),
+  awsIotAnalytics('AWS_IOT_ANALYTICS'),
+  github('GITHUB'),
+  jira('JIRA'),
+  mariadb('MARIADB'),
+  mysql('MYSQL'),
+  oracle('ORACLE'),
+  postgresql('POSTGRESQL'),
+  presto('PRESTO'),
+  redshift('REDSHIFT'),
+  s3('S3'),
+  salesforce('SALESFORCE'),
+  servicenow('SERVICENOW'),
+  snowflake('SNOWFLAKE'),
+  spark('SPARK'),
+  sqlserver('SQLSERVER'),
+  teradata('TERADATA'),
+  twitter('TWITTER'),
+  timestream('TIMESTREAM'),
+  amazonOpensearch('AMAZON_OPENSEARCH'),
+  exasol('EXASOL'),
+  databricks('DATABRICKS'),
+  starburst('STARBURST'),
+  trino('TRINO'),
+  bigquery('BIGQUERY'),
+  ;
 
-extension DataSourceTypeValueExtension on DataSourceType {
-  String toValue() {
-    switch (this) {
-      case DataSourceType.adobeAnalytics:
-        return 'ADOBE_ANALYTICS';
-      case DataSourceType.amazonElasticsearch:
-        return 'AMAZON_ELASTICSEARCH';
-      case DataSourceType.athena:
-        return 'ATHENA';
-      case DataSourceType.aurora:
-        return 'AURORA';
-      case DataSourceType.auroraPostgresql:
-        return 'AURORA_POSTGRESQL';
-      case DataSourceType.awsIotAnalytics:
-        return 'AWS_IOT_ANALYTICS';
-      case DataSourceType.github:
-        return 'GITHUB';
-      case DataSourceType.jira:
-        return 'JIRA';
-      case DataSourceType.mariadb:
-        return 'MARIADB';
-      case DataSourceType.mysql:
-        return 'MYSQL';
-      case DataSourceType.oracle:
-        return 'ORACLE';
-      case DataSourceType.postgresql:
-        return 'POSTGRESQL';
-      case DataSourceType.presto:
-        return 'PRESTO';
-      case DataSourceType.redshift:
-        return 'REDSHIFT';
-      case DataSourceType.s3:
-        return 'S3';
-      case DataSourceType.salesforce:
-        return 'SALESFORCE';
-      case DataSourceType.servicenow:
-        return 'SERVICENOW';
-      case DataSourceType.snowflake:
-        return 'SNOWFLAKE';
-      case DataSourceType.spark:
-        return 'SPARK';
-      case DataSourceType.sqlserver:
-        return 'SQLSERVER';
-      case DataSourceType.teradata:
-        return 'TERADATA';
-      case DataSourceType.twitter:
-        return 'TWITTER';
-      case DataSourceType.timestream:
-        return 'TIMESTREAM';
-      case DataSourceType.amazonOpensearch:
-        return 'AMAZON_OPENSEARCH';
-      case DataSourceType.exasol:
-        return 'EXASOL';
-      case DataSourceType.databricks:
-        return 'DATABRICKS';
-      case DataSourceType.starburst:
-        return 'STARBURST';
-      case DataSourceType.trino:
-        return 'TRINO';
-      case DataSourceType.bigquery:
-        return 'BIGQUERY';
-    }
-  }
-}
+  final String value;
 
-extension DataSourceTypeFromString on String {
-  DataSourceType toDataSourceType() {
-    switch (this) {
-      case 'ADOBE_ANALYTICS':
-        return DataSourceType.adobeAnalytics;
-      case 'AMAZON_ELASTICSEARCH':
-        return DataSourceType.amazonElasticsearch;
-      case 'ATHENA':
-        return DataSourceType.athena;
-      case 'AURORA':
-        return DataSourceType.aurora;
-      case 'AURORA_POSTGRESQL':
-        return DataSourceType.auroraPostgresql;
-      case 'AWS_IOT_ANALYTICS':
-        return DataSourceType.awsIotAnalytics;
-      case 'GITHUB':
-        return DataSourceType.github;
-      case 'JIRA':
-        return DataSourceType.jira;
-      case 'MARIADB':
-        return DataSourceType.mariadb;
-      case 'MYSQL':
-        return DataSourceType.mysql;
-      case 'ORACLE':
-        return DataSourceType.oracle;
-      case 'POSTGRESQL':
-        return DataSourceType.postgresql;
-      case 'PRESTO':
-        return DataSourceType.presto;
-      case 'REDSHIFT':
-        return DataSourceType.redshift;
-      case 'S3':
-        return DataSourceType.s3;
-      case 'SALESFORCE':
-        return DataSourceType.salesforce;
-      case 'SERVICENOW':
-        return DataSourceType.servicenow;
-      case 'SNOWFLAKE':
-        return DataSourceType.snowflake;
-      case 'SPARK':
-        return DataSourceType.spark;
-      case 'SQLSERVER':
-        return DataSourceType.sqlserver;
-      case 'TERADATA':
-        return DataSourceType.teradata;
-      case 'TWITTER':
-        return DataSourceType.twitter;
-      case 'TIMESTREAM':
-        return DataSourceType.timestream;
-      case 'AMAZON_OPENSEARCH':
-        return DataSourceType.amazonOpensearch;
-      case 'EXASOL':
-        return DataSourceType.exasol;
-      case 'DATABRICKS':
-        return DataSourceType.databricks;
-      case 'STARBURST':
-        return DataSourceType.starburst;
-      case 'TRINO':
-        return DataSourceType.trino;
-      case 'BIGQUERY':
-        return DataSourceType.bigquery;
-    }
-    throw Exception('$this is not known in enum DataSourceType');
-  }
+  const DataSourceType(this.value);
+
+  static DataSourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DataSourceType'));
 }
 
 /// The parameters that are required to connect to a Databricks data source.
@@ -23449,69 +22213,35 @@ class DatasetParameter {
 /// The value type of the parameter. The value type is used to validate the
 /// parameter before it is evaluated.
 enum DatasetParameterValueType {
-  multiValued,
-  singleValued,
-}
+  multiValued('MULTI_VALUED'),
+  singleValued('SINGLE_VALUED'),
+  ;
 
-extension DatasetParameterValueTypeValueExtension on DatasetParameterValueType {
-  String toValue() {
-    switch (this) {
-      case DatasetParameterValueType.multiValued:
-        return 'MULTI_VALUED';
-      case DatasetParameterValueType.singleValued:
-        return 'SINGLE_VALUED';
-    }
-  }
-}
+  final String value;
 
-extension DatasetParameterValueTypeFromString on String {
-  DatasetParameterValueType toDatasetParameterValueType() {
-    switch (this) {
-      case 'MULTI_VALUED':
-        return DatasetParameterValueType.multiValued;
-      case 'SINGLE_VALUED':
-        return DatasetParameterValueType.singleValued;
-    }
-    throw Exception('$this is not known in enum DatasetParameterValueType');
-  }
+  const DatasetParameterValueType(this.value);
+
+  static DatasetParameterValueType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DatasetParameterValueType'));
 }
 
 enum DateAggregationFunction {
-  count,
-  distinctCount,
-  min,
-  max,
-}
+  count('COUNT'),
+  distinctCount('DISTINCT_COUNT'),
+  min('MIN'),
+  max('MAX'),
+  ;
 
-extension DateAggregationFunctionValueExtension on DateAggregationFunction {
-  String toValue() {
-    switch (this) {
-      case DateAggregationFunction.count:
-        return 'COUNT';
-      case DateAggregationFunction.distinctCount:
-        return 'DISTINCT_COUNT';
-      case DateAggregationFunction.min:
-        return 'MIN';
-      case DateAggregationFunction.max:
-        return 'MAX';
-    }
-  }
-}
+  final String value;
 
-extension DateAggregationFunctionFromString on String {
-  DateAggregationFunction toDateAggregationFunction() {
-    switch (this) {
-      case 'COUNT':
-        return DateAggregationFunction.count;
-      case 'DISTINCT_COUNT':
-        return DateAggregationFunction.distinctCount;
-      case 'MIN':
-        return DateAggregationFunction.min;
-      case 'MAX':
-        return DateAggregationFunction.max;
-    }
-    throw Exception('$this is not known in enum DateAggregationFunction');
-  }
+  const DateAggregationFunction(this.value);
+
+  static DateAggregationFunction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DateAggregationFunction'));
 }
 
 /// The options that determine how a date axis is displayed.
@@ -23525,8 +22255,8 @@ class DateAxisOptions {
 
   factory DateAxisOptions.fromJson(Map<String, dynamic> json) {
     return DateAxisOptions(
-      missingDateVisibility:
-          (json['MissingDateVisibility'] as String?)?.toVisibility(),
+      missingDateVisibility: (json['MissingDateVisibility'] as String?)
+          ?.let(Visibility.fromString),
     );
   }
 
@@ -23534,7 +22264,7 @@ class DateAxisOptions {
     final missingDateVisibility = this.missingDateVisibility;
     return {
       if (missingDateVisibility != null)
-        'MissingDateVisibility': missingDateVisibility.toValue(),
+        'MissingDateVisibility': missingDateVisibility.value,
     };
   }
 }
@@ -23600,7 +22330,7 @@ class DateDimensionField {
       column: ColumnIdentifier.fromJson(json['Column'] as Map<String, dynamic>),
       fieldId: json['FieldId'] as String,
       dateGranularity:
-          (json['DateGranularity'] as String?)?.toTimeGranularity(),
+          (json['DateGranularity'] as String?)?.let(TimeGranularity.fromString),
       formatConfiguration: json['FormatConfiguration'] != null
           ? DateTimeFormatConfiguration.fromJson(
               json['FormatConfiguration'] as Map<String, dynamic>)
@@ -23618,7 +22348,7 @@ class DateDimensionField {
     return {
       'Column': column,
       'FieldId': fieldId,
-      if (dateGranularity != null) 'DateGranularity': dateGranularity.toValue(),
+      if (dateGranularity != null) 'DateGranularity': dateGranularity.value,
       if (formatConfiguration != null)
         'FormatConfiguration': formatConfiguration,
       if (hierarchyId != null) 'HierarchyId': hierarchyId,
@@ -23651,8 +22381,8 @@ class DateMeasureField {
     return DateMeasureField(
       column: ColumnIdentifier.fromJson(json['Column'] as Map<String, dynamic>),
       fieldId: json['FieldId'] as String,
-      aggregationFunction:
-          (json['AggregationFunction'] as String?)?.toDateAggregationFunction(),
+      aggregationFunction: (json['AggregationFunction'] as String?)
+          ?.let(DateAggregationFunction.fromString),
       formatConfiguration: json['FormatConfiguration'] != null
           ? DateTimeFormatConfiguration.fromJson(
               json['FormatConfiguration'] as Map<String, dynamic>)
@@ -23669,7 +22399,7 @@ class DateMeasureField {
       'Column': column,
       'FieldId': fieldId,
       if (aggregationFunction != null)
-        'AggregationFunction': aggregationFunction.toValue(),
+        'AggregationFunction': aggregationFunction.value,
       if (formatConfiguration != null)
         'FormatConfiguration': formatConfiguration,
     };
@@ -23707,13 +22437,14 @@ class DateTimeDatasetParameter {
     return DateTimeDatasetParameter(
       id: json['Id'] as String,
       name: json['Name'] as String,
-      valueType: (json['ValueType'] as String).toDatasetParameterValueType(),
+      valueType:
+          DatasetParameterValueType.fromString((json['ValueType'] as String)),
       defaultValues: json['DefaultValues'] != null
           ? DateTimeDatasetParameterDefaultValues.fromJson(
               json['DefaultValues'] as Map<String, dynamic>)
           : null,
       timeGranularity:
-          (json['TimeGranularity'] as String?)?.toTimeGranularity(),
+          (json['TimeGranularity'] as String?)?.let(TimeGranularity.fromString),
     );
   }
 
@@ -23726,9 +22457,9 @@ class DateTimeDatasetParameter {
     return {
       'Id': id,
       'Name': name,
-      'ValueType': valueType.toValue(),
+      'ValueType': valueType.value,
       if (defaultValues != null) 'DefaultValues': defaultValues,
-      if (timeGranularity != null) 'TimeGranularity': timeGranularity.toValue(),
+      if (timeGranularity != null) 'TimeGranularity': timeGranularity.value,
     };
   }
 }
@@ -23962,7 +22693,7 @@ class DateTimeParameterDeclaration {
               (e) => MappedDataSetParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
       timeGranularity:
-          (json['TimeGranularity'] as String?)?.toTimeGranularity(),
+          (json['TimeGranularity'] as String?)?.let(TimeGranularity.fromString),
       valueWhenUnset: json['ValueWhenUnset'] != null
           ? DateTimeValueWhenUnsetConfiguration.fromJson(
               json['ValueWhenUnset'] as Map<String, dynamic>)
@@ -23981,7 +22712,7 @@ class DateTimeParameterDeclaration {
       if (defaultValues != null) 'DefaultValues': defaultValues,
       if (mappedDataSetParameters != null)
         'MappedDataSetParameters': mappedDataSetParameters,
-      if (timeGranularity != null) 'TimeGranularity': timeGranularity.toValue(),
+      if (timeGranularity != null) 'TimeGranularity': timeGranularity.value,
       if (valueWhenUnset != null) 'ValueWhenUnset': valueWhenUnset,
     };
   }
@@ -24059,8 +22790,8 @@ class DateTimeValueWhenUnsetConfiguration {
       Map<String, dynamic> json) {
     return DateTimeValueWhenUnsetConfiguration(
       customValue: timeStampFromJson(json['CustomValue']),
-      valueWhenUnsetOption:
-          (json['ValueWhenUnsetOption'] as String?)?.toValueWhenUnsetOption(),
+      valueWhenUnsetOption: (json['ValueWhenUnsetOption'] as String?)
+          ?.let(ValueWhenUnsetOption.fromString),
     );
   }
 
@@ -24070,115 +22801,48 @@ class DateTimeValueWhenUnsetConfiguration {
     return {
       if (customValue != null) 'CustomValue': unixTimestampToJson(customValue),
       if (valueWhenUnsetOption != null)
-        'ValueWhenUnsetOption': valueWhenUnsetOption.toValue(),
+        'ValueWhenUnsetOption': valueWhenUnsetOption.value,
     };
   }
 }
 
 enum DayOfTheWeek {
-  sunday,
-  monday,
-  tuesday,
-  wednesday,
-  thursday,
-  friday,
-  saturday,
-}
+  sunday('SUNDAY'),
+  monday('MONDAY'),
+  tuesday('TUESDAY'),
+  wednesday('WEDNESDAY'),
+  thursday('THURSDAY'),
+  friday('FRIDAY'),
+  saturday('SATURDAY'),
+  ;
 
-extension DayOfTheWeekValueExtension on DayOfTheWeek {
-  String toValue() {
-    switch (this) {
-      case DayOfTheWeek.sunday:
-        return 'SUNDAY';
-      case DayOfTheWeek.monday:
-        return 'MONDAY';
-      case DayOfTheWeek.tuesday:
-        return 'TUESDAY';
-      case DayOfTheWeek.wednesday:
-        return 'WEDNESDAY';
-      case DayOfTheWeek.thursday:
-        return 'THURSDAY';
-      case DayOfTheWeek.friday:
-        return 'FRIDAY';
-      case DayOfTheWeek.saturday:
-        return 'SATURDAY';
-    }
-  }
-}
+  final String value;
 
-extension DayOfTheWeekFromString on String {
-  DayOfTheWeek toDayOfTheWeek() {
-    switch (this) {
-      case 'SUNDAY':
-        return DayOfTheWeek.sunday;
-      case 'MONDAY':
-        return DayOfTheWeek.monday;
-      case 'TUESDAY':
-        return DayOfTheWeek.tuesday;
-      case 'WEDNESDAY':
-        return DayOfTheWeek.wednesday;
-      case 'THURSDAY':
-        return DayOfTheWeek.thursday;
-      case 'FRIDAY':
-        return DayOfTheWeek.friday;
-      case 'SATURDAY':
-        return DayOfTheWeek.saturday;
-    }
-    throw Exception('$this is not known in enum DayOfTheWeek');
-  }
+  const DayOfTheWeek(this.value);
+
+  static DayOfTheWeek fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DayOfTheWeek'));
 }
 
 enum DayOfWeek {
-  sunday,
-  monday,
-  tuesday,
-  wednesday,
-  thursday,
-  friday,
-  saturday,
-}
+  sunday('SUNDAY'),
+  monday('MONDAY'),
+  tuesday('TUESDAY'),
+  wednesday('WEDNESDAY'),
+  thursday('THURSDAY'),
+  friday('FRIDAY'),
+  saturday('SATURDAY'),
+  ;
 
-extension DayOfWeekValueExtension on DayOfWeek {
-  String toValue() {
-    switch (this) {
-      case DayOfWeek.sunday:
-        return 'SUNDAY';
-      case DayOfWeek.monday:
-        return 'MONDAY';
-      case DayOfWeek.tuesday:
-        return 'TUESDAY';
-      case DayOfWeek.wednesday:
-        return 'WEDNESDAY';
-      case DayOfWeek.thursday:
-        return 'THURSDAY';
-      case DayOfWeek.friday:
-        return 'FRIDAY';
-      case DayOfWeek.saturday:
-        return 'SATURDAY';
-    }
-  }
-}
+  final String value;
 
-extension DayOfWeekFromString on String {
-  DayOfWeek toDayOfWeek() {
-    switch (this) {
-      case 'SUNDAY':
-        return DayOfWeek.sunday;
-      case 'MONDAY':
-        return DayOfWeek.monday;
-      case 'TUESDAY':
-        return DayOfWeek.tuesday;
-      case 'WEDNESDAY':
-        return DayOfWeek.wednesday;
-      case 'THURSDAY':
-        return DayOfWeek.thursday;
-      case 'FRIDAY':
-        return DayOfWeek.friday;
-      case 'SATURDAY':
-        return DayOfWeek.saturday;
-    }
-    throw Exception('$this is not known in enum DayOfWeek');
-  }
+  const DayOfWeek(this.value);
+
+  static DayOfWeek fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum DayOfWeek'));
 }
 
 /// A decimal parameter for a dataset.
@@ -24208,7 +22872,8 @@ class DecimalDatasetParameter {
     return DecimalDatasetParameter(
       id: json['Id'] as String,
       name: json['Name'] as String,
-      valueType: (json['ValueType'] as String).toDatasetParameterValueType(),
+      valueType:
+          DatasetParameterValueType.fromString((json['ValueType'] as String)),
       defaultValues: json['DefaultValues'] != null
           ? DecimalDatasetParameterDefaultValues.fromJson(
               json['DefaultValues'] as Map<String, dynamic>)
@@ -24224,7 +22889,7 @@ class DecimalDatasetParameter {
     return {
       'Id': id,
       'Name': name,
-      'ValueType': valueType.toValue(),
+      'ValueType': valueType.value,
       if (defaultValues != null) 'DefaultValues': defaultValues,
     };
   }
@@ -24357,7 +23022,7 @@ class DecimalParameterDeclaration {
     return DecimalParameterDeclaration(
       name: json['Name'] as String,
       parameterValueType:
-          (json['ParameterValueType'] as String).toParameterValueType(),
+          ParameterValueType.fromString((json['ParameterValueType'] as String)),
       defaultValues: json['DefaultValues'] != null
           ? DecimalDefaultValues.fromJson(
               json['DefaultValues'] as Map<String, dynamic>)
@@ -24382,7 +23047,7 @@ class DecimalParameterDeclaration {
     final valueWhenUnset = this.valueWhenUnset;
     return {
       'Name': name,
-      'ParameterValueType': parameterValueType.toValue(),
+      'ParameterValueType': parameterValueType.value,
       if (defaultValues != null) 'DefaultValues': defaultValues,
       if (mappedDataSetParameters != null)
         'MappedDataSetParameters': mappedDataSetParameters,
@@ -24442,8 +23107,8 @@ class DecimalValueWhenUnsetConfiguration {
       Map<String, dynamic> json) {
     return DecimalValueWhenUnsetConfiguration(
       customValue: json['CustomValue'] as double?,
-      valueWhenUnsetOption:
-          (json['ValueWhenUnsetOption'] as String?)?.toValueWhenUnsetOption(),
+      valueWhenUnsetOption: (json['ValueWhenUnsetOption'] as String?)
+          ?.let(ValueWhenUnsetOption.fromString),
     );
   }
 
@@ -24453,82 +23118,33 @@ class DecimalValueWhenUnsetConfiguration {
     return {
       if (customValue != null) 'CustomValue': customValue,
       if (valueWhenUnsetOption != null)
-        'ValueWhenUnsetOption': valueWhenUnsetOption.toValue(),
+        'ValueWhenUnsetOption': valueWhenUnsetOption.value,
     };
   }
 }
 
 enum DefaultAggregation {
-  sum,
-  max,
-  min,
-  count,
-  distinctCount,
-  average,
-  median,
-  stdev,
-  stdevp,
-  $var,
-  varp,
-}
+  sum('SUM'),
+  max('MAX'),
+  min('MIN'),
+  count('COUNT'),
+  distinctCount('DISTINCT_COUNT'),
+  average('AVERAGE'),
+  median('MEDIAN'),
+  stdev('STDEV'),
+  stdevp('STDEVP'),
+  $var('VAR'),
+  varp('VARP'),
+  ;
 
-extension DefaultAggregationValueExtension on DefaultAggregation {
-  String toValue() {
-    switch (this) {
-      case DefaultAggregation.sum:
-        return 'SUM';
-      case DefaultAggregation.max:
-        return 'MAX';
-      case DefaultAggregation.min:
-        return 'MIN';
-      case DefaultAggregation.count:
-        return 'COUNT';
-      case DefaultAggregation.distinctCount:
-        return 'DISTINCT_COUNT';
-      case DefaultAggregation.average:
-        return 'AVERAGE';
-      case DefaultAggregation.median:
-        return 'MEDIAN';
-      case DefaultAggregation.stdev:
-        return 'STDEV';
-      case DefaultAggregation.stdevp:
-        return 'STDEVP';
-      case DefaultAggregation.$var:
-        return 'VAR';
-      case DefaultAggregation.varp:
-        return 'VARP';
-    }
-  }
-}
+  final String value;
 
-extension DefaultAggregationFromString on String {
-  DefaultAggregation toDefaultAggregation() {
-    switch (this) {
-      case 'SUM':
-        return DefaultAggregation.sum;
-      case 'MAX':
-        return DefaultAggregation.max;
-      case 'MIN':
-        return DefaultAggregation.min;
-      case 'COUNT':
-        return DefaultAggregation.count;
-      case 'DISTINCT_COUNT':
-        return DefaultAggregation.distinctCount;
-      case 'AVERAGE':
-        return DefaultAggregation.average;
-      case 'MEDIAN':
-        return DefaultAggregation.median;
-      case 'STDEV':
-        return DefaultAggregation.stdev;
-      case 'STDEVP':
-        return DefaultAggregation.stdevp;
-      case 'VAR':
-        return DefaultAggregation.$var;
-      case 'VARP':
-        return DefaultAggregation.varp;
-    }
-    throw Exception('$this is not known in enum DefaultAggregation');
-  }
+  const DefaultAggregation(this.value);
+
+  static DefaultAggregation fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DefaultAggregation'));
 }
 
 /// The default options that correspond to the filter control type of a
@@ -24563,7 +23179,8 @@ class DefaultDateTimePickerControlOptions {
           ? DateTimePickerControlDisplayOptions.fromJson(
               json['DisplayOptions'] as Map<String, dynamic>)
           : null,
-      type: (json['Type'] as String?)?.toSheetControlDateTimePickerType(),
+      type: (json['Type'] as String?)
+          ?.let(SheetControlDateTimePickerType.fromString),
     );
   }
 
@@ -24572,7 +23189,7 @@ class DefaultDateTimePickerControlOptions {
     final type = this.type;
     return {
       if (displayOptions != null) 'DisplayOptions': displayOptions,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -24751,7 +23368,7 @@ class DefaultFilterDropDownControlOptions {
           ? FilterSelectableValues.fromJson(
               json['SelectableValues'] as Map<String, dynamic>)
           : null,
-      type: (json['Type'] as String?)?.toSheetControlListType(),
+      type: (json['Type'] as String?)?.let(SheetControlListType.fromString),
     );
   }
 
@@ -24762,7 +23379,7 @@ class DefaultFilterDropDownControlOptions {
     return {
       if (displayOptions != null) 'DisplayOptions': displayOptions,
       if (selectableValues != null) 'SelectableValues': selectableValues,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -24807,7 +23424,7 @@ class DefaultFilterListControlOptions {
           ? FilterSelectableValues.fromJson(
               json['SelectableValues'] as Map<String, dynamic>)
           : null,
-      type: (json['Type'] as String?)?.toSheetControlListType(),
+      type: (json['Type'] as String?)?.let(SheetControlListType.fromString),
     );
   }
 
@@ -24818,7 +23435,7 @@ class DefaultFilterListControlOptions {
     return {
       if (displayOptions != null) 'DisplayOptions': displayOptions,
       if (selectableValues != null) 'SelectableValues': selectableValues,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -24840,7 +23457,8 @@ class DefaultFormatting {
 
   factory DefaultFormatting.fromJson(Map<String, dynamic> json) {
     return DefaultFormatting(
-      displayFormat: (json['DisplayFormat'] as String?)?.toDisplayFormat(),
+      displayFormat:
+          (json['DisplayFormat'] as String?)?.let(DisplayFormat.fromString),
       displayFormatOptions: json['DisplayFormatOptions'] != null
           ? DisplayFormatOptions.fromJson(
               json['DisplayFormatOptions'] as Map<String, dynamic>)
@@ -24852,7 +23470,7 @@ class DefaultFormatting {
     final displayFormat = this.displayFormat;
     final displayFormatOptions = this.displayFormatOptions;
     return {
-      if (displayFormat != null) 'DisplayFormat': displayFormat.toValue(),
+      if (displayFormat != null) 'DisplayFormat': displayFormat.value,
       if (displayFormatOptions != null)
         'DisplayFormatOptions': displayFormatOptions,
     };
@@ -24980,8 +23598,8 @@ class DefaultNewSheetConfiguration {
           ? DefaultPaginatedLayoutConfiguration.fromJson(
               json['PaginatedLayoutConfiguration'] as Map<String, dynamic>)
           : null,
-      sheetContentType:
-          (json['SheetContentType'] as String?)?.toSheetContentType(),
+      sheetContentType: (json['SheetContentType'] as String?)
+          ?.let(SheetContentType.fromString),
     );
   }
 
@@ -24994,8 +23612,7 @@ class DefaultNewSheetConfiguration {
         'InteractiveLayoutConfiguration': interactiveLayoutConfiguration,
       if (paginatedLayoutConfiguration != null)
         'PaginatedLayoutConfiguration': paginatedLayoutConfiguration,
-      if (sheetContentType != null)
-        'SheetContentType': sheetContentType.toValue(),
+      if (sheetContentType != null) 'SheetContentType': sheetContentType.value,
     };
   }
 }
@@ -25128,7 +23745,7 @@ class DefaultSliderControlOptions {
           ? SliderControlDisplayOptions.fromJson(
               json['DisplayOptions'] as Map<String, dynamic>)
           : null,
-      type: (json['Type'] as String?)?.toSheetControlSliderType(),
+      type: (json['Type'] as String?)?.let(SheetControlSliderType.fromString),
     );
   }
 
@@ -25143,7 +23760,7 @@ class DefaultSliderControlOptions {
       'MinimumValue': minimumValue,
       'StepSize': stepSize,
       if (displayOptions != null) 'DisplayOptions': displayOptions,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -26161,9 +24778,9 @@ class DeleteVPCConnectionResponse {
     return DeleteVPCConnectionResponse(
       arn: json['Arn'] as String?,
       availabilityStatus: (json['AvailabilityStatus'] as String?)
-          ?.toVPCConnectionAvailabilityStatus(),
-      deletionStatus:
-          (json['DeletionStatus'] as String?)?.toVPCConnectionResourceStatus(),
+          ?.let(VPCConnectionAvailabilityStatus.fromString),
+      deletionStatus: (json['DeletionStatus'] as String?)
+          ?.let(VPCConnectionResourceStatus.fromString),
       requestId: json['RequestId'] as String?,
       status: json['Status'] as int?,
       vPCConnectionId: json['VPCConnectionId'] as String?,
@@ -26180,8 +24797,8 @@ class DeleteVPCConnectionResponse {
     return {
       if (arn != null) 'Arn': arn,
       if (availabilityStatus != null)
-        'AvailabilityStatus': availabilityStatus.toValue(),
-      if (deletionStatus != null) 'DeletionStatus': deletionStatus.toValue(),
+        'AvailabilityStatus': availabilityStatus.value,
+      if (deletionStatus != null) 'DeletionStatus': deletionStatus.value,
       if (requestId != null) 'RequestId': requestId,
       if (vPCConnectionId != null) 'VPCConnectionId': vPCConnectionId,
     };
@@ -26433,7 +25050,8 @@ class DescribeAnalysisDefinitionResponse {
           .toList(),
       name: json['Name'] as String?,
       requestId: json['RequestId'] as String?,
-      resourceStatus: (json['ResourceStatus'] as String?)?.toResourceStatus(),
+      resourceStatus:
+          (json['ResourceStatus'] as String?)?.let(ResourceStatus.fromString),
       status: json['Status'] as int?,
       themeArn: json['ThemeArn'] as String?,
     );
@@ -26454,7 +25072,7 @@ class DescribeAnalysisDefinitionResponse {
       if (errors != null) 'Errors': errors,
       if (name != null) 'Name': name,
       if (requestId != null) 'RequestId': requestId,
-      if (resourceStatus != null) 'ResourceStatus': resourceStatus.toValue(),
+      if (resourceStatus != null) 'ResourceStatus': resourceStatus.value,
       if (themeArn != null) 'ThemeArn': themeArn,
     };
   }
@@ -26674,12 +25292,13 @@ class DescribeAssetBundleExportJobResponse {
           .map((e) =>
               AssetBundleExportJobError.fromJson(e as Map<String, dynamic>))
           .toList(),
-      exportFormat:
-          (json['ExportFormat'] as String?)?.toAssetBundleExportFormat(),
+      exportFormat: (json['ExportFormat'] as String?)
+          ?.let(AssetBundleExportFormat.fromString),
       includeAllDependencies: json['IncludeAllDependencies'] as bool?,
       includePermissions: json['IncludePermissions'] as bool?,
       includeTags: json['IncludeTags'] as bool?,
-      jobStatus: (json['JobStatus'] as String?)?.toAssetBundleExportJobStatus(),
+      jobStatus: (json['JobStatus'] as String?)
+          ?.let(AssetBundleExportJobStatus.fromString),
       requestId: json['RequestId'] as String?,
       resourceArns: (json['ResourceArns'] as List?)
           ?.whereNotNull()
@@ -26728,12 +25347,12 @@ class DescribeAssetBundleExportJobResponse {
       if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
       if (downloadUrl != null) 'DownloadUrl': downloadUrl,
       if (errors != null) 'Errors': errors,
-      if (exportFormat != null) 'ExportFormat': exportFormat.toValue(),
+      if (exportFormat != null) 'ExportFormat': exportFormat.value,
       if (includeAllDependencies != null)
         'IncludeAllDependencies': includeAllDependencies,
       if (includePermissions != null) 'IncludePermissions': includePermissions,
       if (includeTags != null) 'IncludeTags': includeTags,
-      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (jobStatus != null) 'JobStatus': jobStatus.value,
       if (requestId != null) 'RequestId': requestId,
       if (resourceArns != null) 'ResourceArns': resourceArns,
       if (validationStrategy != null) 'ValidationStrategy': validationStrategy,
@@ -26861,8 +25480,9 @@ class DescribeAssetBundleImportJobResponse {
               AssetBundleImportJobError.fromJson(e as Map<String, dynamic>))
           .toList(),
       failureAction: (json['FailureAction'] as String?)
-          ?.toAssetBundleImportFailureAction(),
-      jobStatus: (json['JobStatus'] as String?)?.toAssetBundleImportJobStatus(),
+          ?.let(AssetBundleImportFailureAction.fromString),
+      jobStatus: (json['JobStatus'] as String?)
+          ?.let(AssetBundleImportJobStatus.fromString),
       overrideParameters: json['OverrideParameters'] != null
           ? AssetBundleImportJobOverrideParameters.fromJson(
               json['OverrideParameters'] as Map<String, dynamic>)
@@ -26920,8 +25540,8 @@ class DescribeAssetBundleImportJobResponse {
       if (awsAccountId != null) 'AwsAccountId': awsAccountId,
       if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
       if (errors != null) 'Errors': errors,
-      if (failureAction != null) 'FailureAction': failureAction.toValue(),
-      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (failureAction != null) 'FailureAction': failureAction.value,
+      if (jobStatus != null) 'JobStatus': jobStatus.value,
       if (overrideParameters != null) 'OverrideParameters': overrideParameters,
       if (overridePermissions != null)
         'OverridePermissions': overridePermissions,
@@ -27041,7 +25661,8 @@ class DescribeDashboardDefinitionResponse {
           .toList(),
       name: json['Name'] as String?,
       requestId: json['RequestId'] as String?,
-      resourceStatus: (json['ResourceStatus'] as String?)?.toResourceStatus(),
+      resourceStatus:
+          (json['ResourceStatus'] as String?)?.let(ResourceStatus.fromString),
       status: json['Status'] as int?,
       themeArn: json['ThemeArn'] as String?,
     );
@@ -27065,7 +25686,7 @@ class DescribeDashboardDefinitionResponse {
       if (errors != null) 'Errors': errors,
       if (name != null) 'Name': name,
       if (requestId != null) 'RequestId': requestId,
-      if (resourceStatus != null) 'ResourceStatus': resourceStatus.toValue(),
+      if (resourceStatus != null) 'ResourceStatus': resourceStatus.value,
       if (themeArn != null) 'ThemeArn': themeArn,
     };
   }
@@ -27254,7 +25875,8 @@ class DescribeDashboardSnapshotJobResponse {
       awsAccountId: json['AwsAccountId'] as String?,
       createdTime: timeStampFromJson(json['CreatedTime']),
       dashboardId: json['DashboardId'] as String?,
-      jobStatus: (json['JobStatus'] as String?)?.toSnapshotJobStatus(),
+      jobStatus:
+          (json['JobStatus'] as String?)?.let(SnapshotJobStatus.fromString),
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       requestId: json['RequestId'] as String?,
       snapshotConfiguration: json['SnapshotConfiguration'] != null
@@ -27287,7 +25909,7 @@ class DescribeDashboardSnapshotJobResponse {
       if (awsAccountId != null) 'AwsAccountId': awsAccountId,
       if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
       if (dashboardId != null) 'DashboardId': dashboardId,
-      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (jobStatus != null) 'JobStatus': jobStatus.value,
       if (lastUpdatedTime != null)
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       if (requestId != null) 'RequestId': requestId,
@@ -27351,7 +25973,8 @@ class DescribeDashboardSnapshotJobResultResponse {
           ? SnapshotJobErrorInfo.fromJson(
               json['ErrorInfo'] as Map<String, dynamic>)
           : null,
-      jobStatus: (json['JobStatus'] as String?)?.toSnapshotJobStatus(),
+      jobStatus:
+          (json['JobStatus'] as String?)?.let(SnapshotJobStatus.fromString),
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       requestId: json['RequestId'] as String?,
       result: json['Result'] != null
@@ -27374,7 +25997,7 @@ class DescribeDashboardSnapshotJobResultResponse {
       if (arn != null) 'Arn': arn,
       if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
       if (errorInfo != null) 'ErrorInfo': errorInfo,
-      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (jobStatus != null) 'JobStatus': jobStatus.value,
       if (lastUpdatedTime != null)
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       if (requestId != null) 'RequestId': requestId,
@@ -28275,7 +26898,8 @@ class DescribeTemplateDefinitionResponse {
           .toList(),
       name: json['Name'] as String?,
       requestId: json['RequestId'] as String?,
-      resourceStatus: (json['ResourceStatus'] as String?)?.toResourceStatus(),
+      resourceStatus:
+          (json['ResourceStatus'] as String?)?.let(ResourceStatus.fromString),
       status: json['Status'] as int?,
       templateId: json['TemplateId'] as String?,
       themeArn: json['ThemeArn'] as String?,
@@ -28296,7 +26920,7 @@ class DescribeTemplateDefinitionResponse {
       if (errors != null) 'Errors': errors,
       if (name != null) 'Name': name,
       if (requestId != null) 'RequestId': requestId,
-      if (resourceStatus != null) 'ResourceStatus': resourceStatus.toValue(),
+      if (resourceStatus != null) 'ResourceStatus': resourceStatus.value,
       if (templateId != null) 'TemplateId': templateId,
       if (themeArn != null) 'ThemeArn': themeArn,
     };
@@ -28836,8 +27460,8 @@ class DestinationParameterValueConfiguration {
           ? CustomValuesConfiguration.fromJson(
               json['CustomValuesConfiguration'] as Map<String, dynamic>)
           : null,
-      selectAllValueOptions:
-          (json['SelectAllValueOptions'] as String?)?.toSelectAllValueOptions(),
+      selectAllValueOptions: (json['SelectAllValueOptions'] as String?)
+          ?.let(SelectAllValueOptions.fromString),
       sourceColumn: json['SourceColumn'] != null
           ? ColumnIdentifier.fromJson(
               json['SourceColumn'] as Map<String, dynamic>)
@@ -28857,7 +27481,7 @@ class DestinationParameterValueConfiguration {
       if (customValuesConfiguration != null)
         'CustomValuesConfiguration': customValuesConfiguration,
       if (selectAllValueOptions != null)
-        'SelectAllValueOptions': selectAllValueOptions.toValue(),
+        'SelectAllValueOptions': selectAllValueOptions.value,
       if (sourceColumn != null) 'SourceColumn': sourceColumn,
       if (sourceField != null) 'SourceField': sourceField,
       if (sourceParameterName != null)
@@ -28915,51 +27539,22 @@ class DimensionField {
 }
 
 enum DisplayFormat {
-  auto,
-  percent,
-  currency,
-  number,
-  date,
-  string,
-}
+  auto('AUTO'),
+  percent('PERCENT'),
+  currency('CURRENCY'),
+  number('NUMBER'),
+  date('DATE'),
+  string('STRING'),
+  ;
 
-extension DisplayFormatValueExtension on DisplayFormat {
-  String toValue() {
-    switch (this) {
-      case DisplayFormat.auto:
-        return 'AUTO';
-      case DisplayFormat.percent:
-        return 'PERCENT';
-      case DisplayFormat.currency:
-        return 'CURRENCY';
-      case DisplayFormat.number:
-        return 'NUMBER';
-      case DisplayFormat.date:
-        return 'DATE';
-      case DisplayFormat.string:
-        return 'STRING';
-    }
-  }
-}
+  final String value;
 
-extension DisplayFormatFromString on String {
-  DisplayFormat toDisplayFormat() {
-    switch (this) {
-      case 'AUTO':
-        return DisplayFormat.auto;
-      case 'PERCENT':
-        return DisplayFormat.percent;
-      case 'CURRENCY':
-        return DisplayFormat.currency;
-      case 'NUMBER':
-        return DisplayFormat.number;
-      case 'DATE':
-        return DisplayFormat.date;
-      case 'STRING':
-        return DisplayFormat.string;
-    }
-    throw Exception('$this is not known in enum DisplayFormat');
-  }
+  const DisplayFormat(this.value);
+
+  static DisplayFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DisplayFormat'));
 }
 
 /// A structure that represents additional options for display formatting.
@@ -29023,7 +27618,7 @@ class DisplayFormatOptions {
       currencySymbol: json['CurrencySymbol'] as String?,
       dateFormat: json['DateFormat'] as String?,
       decimalSeparator: (json['DecimalSeparator'] as String?)
-          ?.toTopicNumericSeparatorSymbol(),
+          ?.let(TopicNumericSeparatorSymbol.fromString),
       fractionDigits: json['FractionDigits'] as int?,
       groupingSeparator: json['GroupingSeparator'] as String?,
       negativeFormat: json['NegativeFormat'] != null
@@ -29032,7 +27627,7 @@ class DisplayFormatOptions {
           : null,
       prefix: json['Prefix'] as String?,
       suffix: json['Suffix'] as String?,
-      unitScaler: (json['UnitScaler'] as String?)?.toNumberScale(),
+      unitScaler: (json['UnitScaler'] as String?)?.let(NumberScale.fromString),
       useBlankCellFormat: json['UseBlankCellFormat'] as bool?,
       useGrouping: json['UseGrouping'] as bool?,
     );
@@ -29055,14 +27650,13 @@ class DisplayFormatOptions {
       if (blankCellFormat != null) 'BlankCellFormat': blankCellFormat,
       if (currencySymbol != null) 'CurrencySymbol': currencySymbol,
       if (dateFormat != null) 'DateFormat': dateFormat,
-      if (decimalSeparator != null)
-        'DecimalSeparator': decimalSeparator.toValue(),
+      if (decimalSeparator != null) 'DecimalSeparator': decimalSeparator.value,
       if (fractionDigits != null) 'FractionDigits': fractionDigits,
       if (groupingSeparator != null) 'GroupingSeparator': groupingSeparator,
       if (negativeFormat != null) 'NegativeFormat': negativeFormat,
       if (prefix != null) 'Prefix': prefix,
       if (suffix != null) 'Suffix': suffix,
-      if (unitScaler != null) 'UnitScaler': unitScaler.toValue(),
+      if (unitScaler != null) 'UnitScaler': unitScaler.value,
       if (useBlankCellFormat != null) 'UseBlankCellFormat': useBlankCellFormat,
       if (useGrouping != null) 'UseGrouping': useGrouping,
     };
@@ -29082,14 +27676,15 @@ class DonutCenterOptions {
 
   factory DonutCenterOptions.fromJson(Map<String, dynamic> json) {
     return DonutCenterOptions(
-      labelVisibility: (json['LabelVisibility'] as String?)?.toVisibility(),
+      labelVisibility:
+          (json['LabelVisibility'] as String?)?.let(Visibility.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final labelVisibility = this.labelVisibility;
     return {
-      if (labelVisibility != null) 'LabelVisibility': labelVisibility.toValue(),
+      if (labelVisibility != null) 'LabelVisibility': labelVisibility.value,
     };
   }
 }
@@ -29290,69 +27885,34 @@ class DynamicDefaultValue {
 }
 
 enum Edition {
-  standard,
-  enterprise,
-  enterpriseAndQ,
-}
+  standard('STANDARD'),
+  enterprise('ENTERPRISE'),
+  enterpriseAndQ('ENTERPRISE_AND_Q'),
+  ;
 
-extension EditionValueExtension on Edition {
-  String toValue() {
-    switch (this) {
-      case Edition.standard:
-        return 'STANDARD';
-      case Edition.enterprise:
-        return 'ENTERPRISE';
-      case Edition.enterpriseAndQ:
-        return 'ENTERPRISE_AND_Q';
-    }
-  }
-}
+  final String value;
 
-extension EditionFromString on String {
-  Edition toEdition() {
-    switch (this) {
-      case 'STANDARD':
-        return Edition.standard;
-      case 'ENTERPRISE':
-        return Edition.enterprise;
-      case 'ENTERPRISE_AND_Q':
-        return Edition.enterpriseAndQ;
-    }
-    throw Exception('$this is not known in enum Edition');
-  }
+  const Edition(this.value);
+
+  static Edition fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Edition'));
 }
 
 enum EmbeddingIdentityType {
-  iam,
-  quicksight,
-  anonymous,
-}
+  iam('IAM'),
+  quicksight('QUICKSIGHT'),
+  anonymous('ANONYMOUS'),
+  ;
 
-extension EmbeddingIdentityTypeValueExtension on EmbeddingIdentityType {
-  String toValue() {
-    switch (this) {
-      case EmbeddingIdentityType.iam:
-        return 'IAM';
-      case EmbeddingIdentityType.quicksight:
-        return 'QUICKSIGHT';
-      case EmbeddingIdentityType.anonymous:
-        return 'ANONYMOUS';
-    }
-  }
-}
+  final String value;
 
-extension EmbeddingIdentityTypeFromString on String {
-  EmbeddingIdentityType toEmbeddingIdentityType() {
-    switch (this) {
-      case 'IAM':
-        return EmbeddingIdentityType.iam;
-      case 'QUICKSIGHT':
-        return EmbeddingIdentityType.quicksight;
-      case 'ANONYMOUS':
-        return EmbeddingIdentityType.anonymous;
-    }
-    throw Exception('$this is not known in enum EmbeddingIdentityType');
-  }
+  const EmbeddingIdentityType(this.value);
+
+  static EmbeddingIdentityType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum EmbeddingIdentityType'));
 }
 
 /// An empty visual.
@@ -29443,7 +28003,7 @@ class ErrorInfo {
   factory ErrorInfo.fromJson(Map<String, dynamic> json) {
     return ErrorInfo(
       message: json['Message'] as String?,
-      type: (json['Type'] as String?)?.toIngestionErrorType(),
+      type: (json['Type'] as String?)?.let(IngestionErrorType.fromString),
     );
   }
 
@@ -29452,7 +28012,7 @@ class ErrorInfo {
     final type = this.type;
     return {
       if (message != null) 'Message': message,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -29517,8 +28077,8 @@ class ExcludePeriodConfiguration {
   factory ExcludePeriodConfiguration.fromJson(Map<String, dynamic> json) {
     return ExcludePeriodConfiguration(
       amount: json['Amount'] as int,
-      granularity: (json['Granularity'] as String).toTimeGranularity(),
-      status: (json['Status'] as String?)?.toWidgetStatus(),
+      granularity: TimeGranularity.fromString((json['Granularity'] as String)),
+      status: (json['Status'] as String?)?.let(WidgetStatus.fromString),
     );
   }
 
@@ -29528,8 +28088,8 @@ class ExcludePeriodConfiguration {
     final status = this.status;
     return {
       'Amount': amount,
-      'Granularity': granularity.toValue(),
-      if (status != null) 'Status': status.toValue(),
+      'Granularity': granularity.value,
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -29590,8 +28150,8 @@ class ExportHiddenFieldsOption {
 
   factory ExportHiddenFieldsOption.fromJson(Map<String, dynamic> json) {
     return ExportHiddenFieldsOption(
-      availabilityStatus:
-          (json['AvailabilityStatus'] as String?)?.toDashboardBehavior(),
+      availabilityStatus: (json['AvailabilityStatus'] as String?)
+          ?.let(DashboardBehavior.fromString),
     );
   }
 
@@ -29599,7 +28159,7 @@ class ExportHiddenFieldsOption {
     final availabilityStatus = this.availabilityStatus;
     return {
       if (availabilityStatus != null)
-        'AvailabilityStatus': availabilityStatus.toValue(),
+        'AvailabilityStatus': availabilityStatus.value,
     };
   }
 }
@@ -29615,8 +28175,8 @@ class ExportToCSVOption {
 
   factory ExportToCSVOption.fromJson(Map<String, dynamic> json) {
     return ExportToCSVOption(
-      availabilityStatus:
-          (json['AvailabilityStatus'] as String?)?.toDashboardBehavior(),
+      availabilityStatus: (json['AvailabilityStatus'] as String?)
+          ?.let(DashboardBehavior.fromString),
     );
   }
 
@@ -29624,7 +28184,7 @@ class ExportToCSVOption {
     final availabilityStatus = this.availabilityStatus;
     return {
       if (availabilityStatus != null)
-        'AvailabilityStatus': availabilityStatus.toValue(),
+        'AvailabilityStatus': availabilityStatus.value,
     };
   }
 }
@@ -29640,8 +28200,8 @@ class ExportWithHiddenFieldsOption {
 
   factory ExportWithHiddenFieldsOption.fromJson(Map<String, dynamic> json) {
     return ExportWithHiddenFieldsOption(
-      availabilityStatus:
-          (json['AvailabilityStatus'] as String?)?.toDashboardBehavior(),
+      availabilityStatus: (json['AvailabilityStatus'] as String?)
+          ?.let(DashboardBehavior.fromString),
     );
   }
 
@@ -29649,7 +28209,7 @@ class ExportWithHiddenFieldsOption {
     final availabilityStatus = this.availabilityStatus;
     return {
       if (availabilityStatus != null)
-        'AvailabilityStatus': availabilityStatus.toValue(),
+        'AvailabilityStatus': availabilityStatus.value,
     };
   }
 }
@@ -29733,14 +28293,14 @@ class FieldBasedTooltip {
 
   factory FieldBasedTooltip.fromJson(Map<String, dynamic> json) {
     return FieldBasedTooltip(
-      aggregationVisibility:
-          (json['AggregationVisibility'] as String?)?.toVisibility(),
+      aggregationVisibility: (json['AggregationVisibility'] as String?)
+          ?.let(Visibility.fromString),
       tooltipFields: (json['TooltipFields'] as List?)
           ?.whereNotNull()
           .map((e) => TooltipItem.fromJson(e as Map<String, dynamic>))
           .toList(),
-      tooltipTitleType:
-          (json['TooltipTitleType'] as String?)?.toTooltipTitleType(),
+      tooltipTitleType: (json['TooltipTitleType'] as String?)
+          ?.let(TooltipTitleType.fromString),
     );
   }
 
@@ -29750,10 +28310,9 @@ class FieldBasedTooltip {
     final tooltipTitleType = this.tooltipTitleType;
     return {
       if (aggregationVisibility != null)
-        'AggregationVisibility': aggregationVisibility.toValue(),
+        'AggregationVisibility': aggregationVisibility.value,
       if (tooltipFields != null) 'TooltipFields': tooltipFields,
-      if (tooltipTitleType != null)
-        'TooltipTitleType': tooltipTitleType.toValue(),
+      if (tooltipTitleType != null) 'TooltipTitleType': tooltipTitleType.value,
     };
   }
 }
@@ -29808,7 +28367,7 @@ class FieldLabelType {
   factory FieldLabelType.fromJson(Map<String, dynamic> json) {
     return FieldLabelType(
       fieldId: json['FieldId'] as String?,
-      visibility: (json['Visibility'] as String?)?.toVisibility(),
+      visibility: (json['Visibility'] as String?)?.let(Visibility.fromString),
     );
   }
 
@@ -29817,7 +28376,7 @@ class FieldLabelType {
     final visibility = this.visibility;
     return {
       if (fieldId != null) 'FieldId': fieldId,
-      if (visibility != null) 'Visibility': visibility.toValue(),
+      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
@@ -29842,7 +28401,7 @@ class FieldSeriesItem {
 
   factory FieldSeriesItem.fromJson(Map<String, dynamic> json) {
     return FieldSeriesItem(
-      axisBinding: (json['AxisBinding'] as String).toAxisBinding(),
+      axisBinding: AxisBinding.fromString((json['AxisBinding'] as String)),
       fieldId: json['FieldId'] as String,
       settings: json['Settings'] != null
           ? LineChartSeriesSettings.fromJson(
@@ -29856,7 +28415,7 @@ class FieldSeriesItem {
     final fieldId = this.fieldId;
     final settings = this.settings;
     return {
-      'AxisBinding': axisBinding.toValue(),
+      'AxisBinding': axisBinding.value,
       'FieldId': fieldId,
       if (settings != null) 'Settings': settings,
     };
@@ -29887,7 +28446,7 @@ class FieldSort {
 
   factory FieldSort.fromJson(Map<String, dynamic> json) {
     return FieldSort(
-      direction: (json['Direction'] as String).toSortDirection(),
+      direction: SortDirection.fromString((json['Direction'] as String)),
       fieldId: json['FieldId'] as String,
     );
   }
@@ -29896,7 +28455,7 @@ class FieldSort {
     final direction = this.direction;
     final fieldId = this.fieldId;
     return {
-      'Direction': direction.toValue(),
+      'Direction': direction.value,
       'FieldId': fieldId,
     };
   }
@@ -29961,8 +28520,9 @@ class FieldTooltipItem {
     return FieldTooltipItem(
       fieldId: json['FieldId'] as String,
       label: json['Label'] as String?,
-      tooltipTarget: (json['TooltipTarget'] as String?)?.toTooltipTarget(),
-      visibility: (json['Visibility'] as String?)?.toVisibility(),
+      tooltipTarget:
+          (json['TooltipTarget'] as String?)?.let(TooltipTarget.fromString),
+      visibility: (json['Visibility'] as String?)?.let(Visibility.fromString),
     );
   }
 
@@ -29974,58 +28534,28 @@ class FieldTooltipItem {
     return {
       'FieldId': fieldId,
       if (label != null) 'Label': label,
-      if (tooltipTarget != null) 'TooltipTarget': tooltipTarget.toValue(),
-      if (visibility != null) 'Visibility': visibility.toValue(),
+      if (tooltipTarget != null) 'TooltipTarget': tooltipTarget.value,
+      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
 
 enum FileFormat {
-  csv,
-  tsv,
-  clf,
-  elf,
-  xlsx,
-  json,
-}
+  csv('CSV'),
+  tsv('TSV'),
+  clf('CLF'),
+  elf('ELF'),
+  xlsx('XLSX'),
+  json('JSON'),
+  ;
 
-extension FileFormatValueExtension on FileFormat {
-  String toValue() {
-    switch (this) {
-      case FileFormat.csv:
-        return 'CSV';
-      case FileFormat.tsv:
-        return 'TSV';
-      case FileFormat.clf:
-        return 'CLF';
-      case FileFormat.elf:
-        return 'ELF';
-      case FileFormat.xlsx:
-        return 'XLSX';
-      case FileFormat.json:
-        return 'JSON';
-    }
-  }
-}
+  final String value;
 
-extension FileFormatFromString on String {
-  FileFormat toFileFormat() {
-    switch (this) {
-      case 'CSV':
-        return FileFormat.csv;
-      case 'TSV':
-        return FileFormat.tsv;
-      case 'CLF':
-        return FileFormat.clf;
-      case 'ELF':
-        return FileFormat.elf;
-      case 'XLSX':
-        return FileFormat.xlsx;
-      case 'JSON':
-        return FileFormat.json;
-    }
-    throw Exception('$this is not known in enum FileFormat');
-  }
+  const FileFormat(this.value);
+
+  static FileFormat fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum FileFormat'));
 }
 
 /// The aggregated field well of the filled map.
@@ -30488,36 +29018,18 @@ class Filter {
 }
 
 enum FilterClass {
-  enforcedValueFilter,
-  conditionalValueFilter,
-  namedValueFilter,
-}
+  enforcedValueFilter('ENFORCED_VALUE_FILTER'),
+  conditionalValueFilter('CONDITIONAL_VALUE_FILTER'),
+  namedValueFilter('NAMED_VALUE_FILTER'),
+  ;
 
-extension FilterClassValueExtension on FilterClass {
-  String toValue() {
-    switch (this) {
-      case FilterClass.enforcedValueFilter:
-        return 'ENFORCED_VALUE_FILTER';
-      case FilterClass.conditionalValueFilter:
-        return 'CONDITIONAL_VALUE_FILTER';
-      case FilterClass.namedValueFilter:
-        return 'NAMED_VALUE_FILTER';
-    }
-  }
-}
+  final String value;
 
-extension FilterClassFromString on String {
-  FilterClass toFilterClass() {
-    switch (this) {
-      case 'ENFORCED_VALUE_FILTER':
-        return FilterClass.enforcedValueFilter;
-      case 'CONDITIONAL_VALUE_FILTER':
-        return FilterClass.conditionalValueFilter;
-      case 'NAMED_VALUE_FILTER':
-        return FilterClass.namedValueFilter;
-    }
-    throw Exception('$this is not known in enum FilterClass');
-  }
+  const FilterClass(this.value);
+
+  static FilterClass fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum FilterClass'));
 }
 
 /// The control of a filter that is used to interact with a dashboard or an
@@ -30712,7 +29224,8 @@ class FilterDateTimePickerControl {
           ? DateTimePickerControlDisplayOptions.fromJson(
               json['DisplayOptions'] as Map<String, dynamic>)
           : null,
-      type: (json['Type'] as String?)?.toSheetControlDateTimePickerType(),
+      type: (json['Type'] as String?)
+          ?.let(SheetControlDateTimePickerType.fromString),
     );
   }
 
@@ -30727,7 +29240,7 @@ class FilterDateTimePickerControl {
       'SourceFilterId': sourceFilterId,
       'Title': title,
       if (displayOptions != null) 'DisplayOptions': displayOptions,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -30797,7 +29310,7 @@ class FilterDropDownControl {
           ? FilterSelectableValues.fromJson(
               json['SelectableValues'] as Map<String, dynamic>)
           : null,
-      type: (json['Type'] as String?)?.toSheetControlListType(),
+      type: (json['Type'] as String?)?.let(SheetControlListType.fromString),
     );
   }
 
@@ -30817,7 +29330,7 @@ class FilterDropDownControl {
         'CascadingControlConfiguration': cascadingControlConfiguration,
       if (displayOptions != null) 'DisplayOptions': displayOptions,
       if (selectableValues != null) 'SelectableValues': selectableValues,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -30870,7 +29383,8 @@ class FilterGroup {
 
   factory FilterGroup.fromJson(Map<String, dynamic> json) {
     return FilterGroup(
-      crossDataset: (json['CrossDataset'] as String).toCrossDatasetTypes(),
+      crossDataset:
+          CrossDatasetTypes.fromString((json['CrossDataset'] as String)),
       filterGroupId: json['FilterGroupId'] as String,
       filters: (json['Filters'] as List)
           .whereNotNull()
@@ -30878,7 +29392,7 @@ class FilterGroup {
           .toList(),
       scopeConfiguration: FilterScopeConfiguration.fromJson(
           json['ScopeConfiguration'] as Map<String, dynamic>),
-      status: (json['Status'] as String?)?.toWidgetStatus(),
+      status: (json['Status'] as String?)?.let(WidgetStatus.fromString),
     );
   }
 
@@ -30889,11 +29403,11 @@ class FilterGroup {
     final scopeConfiguration = this.scopeConfiguration;
     final status = this.status;
     return {
-      'CrossDataset': crossDataset.toValue(),
+      'CrossDataset': crossDataset.value,
       'FilterGroupId': filterGroupId,
       'Filters': filters,
       'ScopeConfiguration': scopeConfiguration,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -30940,15 +29454,16 @@ class FilterListConfiguration {
 
   factory FilterListConfiguration.fromJson(Map<String, dynamic> json) {
     return FilterListConfiguration(
-      matchOperator:
-          (json['MatchOperator'] as String).toCategoryFilterMatchOperator(),
+      matchOperator: CategoryFilterMatchOperator.fromString(
+          (json['MatchOperator'] as String)),
       categoryValues: (json['CategoryValues'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      nullOption: (json['NullOption'] as String?)?.toFilterNullOption(),
+      nullOption:
+          (json['NullOption'] as String?)?.let(FilterNullOption.fromString),
       selectAllOptions: (json['SelectAllOptions'] as String?)
-          ?.toCategoryFilterSelectAllOptions(),
+          ?.let(CategoryFilterSelectAllOptions.fromString),
     );
   }
 
@@ -30958,11 +29473,10 @@ class FilterListConfiguration {
     final nullOption = this.nullOption;
     final selectAllOptions = this.selectAllOptions;
     return {
-      'MatchOperator': matchOperator.toValue(),
+      'MatchOperator': matchOperator.value,
       if (categoryValues != null) 'CategoryValues': categoryValues,
-      if (nullOption != null) 'NullOption': nullOption.toValue(),
-      if (selectAllOptions != null)
-        'SelectAllOptions': selectAllOptions.toValue(),
+      if (nullOption != null) 'NullOption': nullOption.value,
+      if (selectAllOptions != null) 'SelectAllOptions': selectAllOptions.value,
     };
   }
 }
@@ -31032,7 +29546,7 @@ class FilterListControl {
           ? FilterSelectableValues.fromJson(
               json['SelectableValues'] as Map<String, dynamic>)
           : null,
-      type: (json['Type'] as String?)?.toSheetControlListType(),
+      type: (json['Type'] as String?)?.let(SheetControlListType.fromString),
     );
   }
 
@@ -31052,42 +29566,25 @@ class FilterListControl {
         'CascadingControlConfiguration': cascadingControlConfiguration,
       if (displayOptions != null) 'DisplayOptions': displayOptions,
       if (selectableValues != null) 'SelectableValues': selectableValues,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum FilterNullOption {
-  allValues,
-  nullsOnly,
-  nonNullsOnly,
-}
+  allValues('ALL_VALUES'),
+  nullsOnly('NULLS_ONLY'),
+  nonNullsOnly('NON_NULLS_ONLY'),
+  ;
 
-extension FilterNullOptionValueExtension on FilterNullOption {
-  String toValue() {
-    switch (this) {
-      case FilterNullOption.allValues:
-        return 'ALL_VALUES';
-      case FilterNullOption.nullsOnly:
-        return 'NULLS_ONLY';
-      case FilterNullOption.nonNullsOnly:
-        return 'NON_NULLS_ONLY';
-    }
-  }
-}
+  final String value;
 
-extension FilterNullOptionFromString on String {
-  FilterNullOption toFilterNullOption() {
-    switch (this) {
-      case 'ALL_VALUES':
-        return FilterNullOption.allValues;
-      case 'NULLS_ONLY':
-        return FilterNullOption.nullsOnly;
-      case 'NON_NULLS_ONLY':
-        return FilterNullOption.nonNullsOnly;
-    }
-    throw Exception('$this is not known in enum FilterNullOption');
-  }
+  const FilterNullOption(this.value);
+
+  static FilterNullOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FilterNullOption'));
 }
 
 /// A transform operation that filters rows based on a condition.
@@ -31152,8 +29649,8 @@ class FilterOperationSelectedFieldsConfiguration {
           ?.whereNotNull()
           .map((e) => ColumnIdentifier.fromJson(e as Map<String, dynamic>))
           .toList(),
-      selectedFieldOptions:
-          (json['SelectedFieldOptions'] as String?)?.toSelectedFieldOptions(),
+      selectedFieldOptions: (json['SelectedFieldOptions'] as String?)
+          ?.let(SelectedFieldOptions.fromString),
       selectedFields: (json['SelectedFields'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -31168,7 +29665,7 @@ class FilterOperationSelectedFieldsConfiguration {
     return {
       if (selectedColumns != null) 'SelectedColumns': selectedColumns,
       if (selectedFieldOptions != null)
-        'SelectedFieldOptions': selectedFieldOptions.toValue(),
+        'SelectedFieldOptions': selectedFieldOptions.value,
       if (selectedFields != null) 'SelectedFields': selectedFields,
     };
   }
@@ -31211,31 +29708,18 @@ class FilterOperationTargetVisualsConfiguration {
 }
 
 enum FilterOperator {
-  stringEquals,
-  stringLike,
-}
+  stringEquals('StringEquals'),
+  stringLike('StringLike'),
+  ;
 
-extension FilterOperatorValueExtension on FilterOperator {
-  String toValue() {
-    switch (this) {
-      case FilterOperator.stringEquals:
-        return 'StringEquals';
-      case FilterOperator.stringLike:
-        return 'StringLike';
-    }
-  }
-}
+  final String value;
 
-extension FilterOperatorFromString on String {
-  FilterOperator toFilterOperator() {
-    switch (this) {
-      case 'StringEquals':
-        return FilterOperator.stringEquals;
-      case 'StringLike':
-        return FilterOperator.stringLike;
-    }
-    throw Exception('$this is not known in enum FilterOperator');
-  }
+  const FilterOperator(this.value);
+
+  static FilterOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FilterOperator'));
 }
 
 /// A control from a date filter that is used to specify the relative date.
@@ -31414,7 +29898,7 @@ class FilterSliderControl {
           ? SliderControlDisplayOptions.fromJson(
               json['DisplayOptions'] as Map<String, dynamic>)
           : null,
-      type: (json['Type'] as String?)?.toSheetControlSliderType(),
+      type: (json['Type'] as String?)?.let(SheetControlSliderType.fromString),
     );
   }
 
@@ -31435,7 +29919,7 @@ class FilterSliderControl {
       'StepSize': stepSize,
       'Title': title,
       if (displayOptions != null) 'DisplayOptions': displayOptions,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -31542,31 +30026,18 @@ class FilterTextFieldControl {
 }
 
 enum FilterVisualScope {
-  allVisuals,
-  selectedVisuals,
-}
+  allVisuals('ALL_VISUALS'),
+  selectedVisuals('SELECTED_VISUALS'),
+  ;
 
-extension FilterVisualScopeValueExtension on FilterVisualScope {
-  String toValue() {
-    switch (this) {
-      case FilterVisualScope.allVisuals:
-        return 'ALL_VISUALS';
-      case FilterVisualScope.selectedVisuals:
-        return 'SELECTED_VISUALS';
-    }
-  }
-}
+  final String value;
 
-extension FilterVisualScopeFromString on String {
-  FilterVisualScope toFilterVisualScope() {
-    switch (this) {
-      case 'ALL_VISUALS':
-        return FilterVisualScope.allVisuals;
-      case 'SELECTED_VISUALS':
-        return FilterVisualScope.selectedVisuals;
-    }
-    throw Exception('$this is not known in enum FilterVisualScope');
-  }
+  const FilterVisualScope(this.value);
+
+  static FilterVisualScope fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FilterVisualScope'));
 }
 
 /// A folder in Amazon QuickSight.
@@ -31615,10 +30086,11 @@ class Folder {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      folderType: (json['FolderType'] as String?)?.toFolderType(),
+      folderType: (json['FolderType'] as String?)?.let(FolderType.fromString),
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       name: json['Name'] as String?,
-      sharingModel: (json['SharingModel'] as String?)?.toSharingModel(),
+      sharingModel:
+          (json['SharingModel'] as String?)?.let(SharingModel.fromString),
     );
   }
 
@@ -31636,66 +30108,33 @@ class Folder {
       if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
       if (folderId != null) 'FolderId': folderId,
       if (folderPath != null) 'FolderPath': folderPath,
-      if (folderType != null) 'FolderType': folderType.toValue(),
+      if (folderType != null) 'FolderType': folderType.value,
       if (lastUpdatedTime != null)
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       if (name != null) 'Name': name,
-      if (sharingModel != null) 'SharingModel': sharingModel.toValue(),
+      if (sharingModel != null) 'SharingModel': sharingModel.value,
     };
   }
 }
 
 enum FolderFilterAttribute {
-  parentFolderArn,
-  directQuicksightOwner,
-  directQuicksightSoleOwner,
-  directQuicksightViewerOrOwner,
-  quicksightOwner,
-  quicksightViewerOrOwner,
-  folderName,
-}
+  parentFolderArn('PARENT_FOLDER_ARN'),
+  directQuicksightOwner('DIRECT_QUICKSIGHT_OWNER'),
+  directQuicksightSoleOwner('DIRECT_QUICKSIGHT_SOLE_OWNER'),
+  directQuicksightViewerOrOwner('DIRECT_QUICKSIGHT_VIEWER_OR_OWNER'),
+  quicksightOwner('QUICKSIGHT_OWNER'),
+  quicksightViewerOrOwner('QUICKSIGHT_VIEWER_OR_OWNER'),
+  folderName('FOLDER_NAME'),
+  ;
 
-extension FolderFilterAttributeValueExtension on FolderFilterAttribute {
-  String toValue() {
-    switch (this) {
-      case FolderFilterAttribute.parentFolderArn:
-        return 'PARENT_FOLDER_ARN';
-      case FolderFilterAttribute.directQuicksightOwner:
-        return 'DIRECT_QUICKSIGHT_OWNER';
-      case FolderFilterAttribute.directQuicksightSoleOwner:
-        return 'DIRECT_QUICKSIGHT_SOLE_OWNER';
-      case FolderFilterAttribute.directQuicksightViewerOrOwner:
-        return 'DIRECT_QUICKSIGHT_VIEWER_OR_OWNER';
-      case FolderFilterAttribute.quicksightOwner:
-        return 'QUICKSIGHT_OWNER';
-      case FolderFilterAttribute.quicksightViewerOrOwner:
-        return 'QUICKSIGHT_VIEWER_OR_OWNER';
-      case FolderFilterAttribute.folderName:
-        return 'FOLDER_NAME';
-    }
-  }
-}
+  final String value;
 
-extension FolderFilterAttributeFromString on String {
-  FolderFilterAttribute toFolderFilterAttribute() {
-    switch (this) {
-      case 'PARENT_FOLDER_ARN':
-        return FolderFilterAttribute.parentFolderArn;
-      case 'DIRECT_QUICKSIGHT_OWNER':
-        return FolderFilterAttribute.directQuicksightOwner;
-      case 'DIRECT_QUICKSIGHT_SOLE_OWNER':
-        return FolderFilterAttribute.directQuicksightSoleOwner;
-      case 'DIRECT_QUICKSIGHT_VIEWER_OR_OWNER':
-        return FolderFilterAttribute.directQuicksightViewerOrOwner;
-      case 'QUICKSIGHT_OWNER':
-        return FolderFilterAttribute.quicksightOwner;
-      case 'QUICKSIGHT_VIEWER_OR_OWNER':
-        return FolderFilterAttribute.quicksightViewerOrOwner;
-      case 'FOLDER_NAME':
-        return FolderFilterAttribute.folderName;
-    }
-    throw Exception('$this is not known in enum FolderFilterAttribute');
-  }
+  const FolderFilterAttribute(this.value);
+
+  static FolderFilterAttribute fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum FolderFilterAttribute'));
 }
 
 /// An asset in a Amazon QuickSight folder, such as a dashboard, analysis, or
@@ -31715,7 +30154,7 @@ class FolderMember {
   factory FolderMember.fromJson(Map<String, dynamic> json) {
     return FolderMember(
       memberId: json['MemberId'] as String?,
-      memberType: (json['MemberType'] as String?)?.toMemberType(),
+      memberType: (json['MemberType'] as String?)?.let(MemberType.fromString),
     );
   }
 
@@ -31724,7 +30163,7 @@ class FolderMember {
     final memberType = this.memberType;
     return {
       if (memberId != null) 'MemberId': memberId,
-      if (memberType != null) 'MemberType': memberType.toValue(),
+      if (memberType != null) 'MemberType': memberType.value,
     };
   }
 }
@@ -31813,8 +30252,8 @@ class FolderSearchFilter {
     final operator = this.operator;
     final value = this.value;
     return {
-      if (name != null) 'Name': name.toValue(),
-      if (operator != null) 'Operator': operator.toValue(),
+      if (name != null) 'Name': name.value,
+      if (operator != null) 'Operator': operator.value,
       if (value != null) 'Value': value,
     };
   }
@@ -31858,10 +30297,11 @@ class FolderSummary {
       arn: json['Arn'] as String?,
       createdTime: timeStampFromJson(json['CreatedTime']),
       folderId: json['FolderId'] as String?,
-      folderType: (json['FolderType'] as String?)?.toFolderType(),
+      folderType: (json['FolderType'] as String?)?.let(FolderType.fromString),
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       name: json['Name'] as String?,
-      sharingModel: (json['SharingModel'] as String?)?.toSharingModel(),
+      sharingModel:
+          (json['SharingModel'] as String?)?.let(SharingModel.fromString),
     );
   }
 
@@ -31877,41 +30317,27 @@ class FolderSummary {
       if (arn != null) 'Arn': arn,
       if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
       if (folderId != null) 'FolderId': folderId,
-      if (folderType != null) 'FolderType': folderType.toValue(),
+      if (folderType != null) 'FolderType': folderType.value,
       if (lastUpdatedTime != null)
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       if (name != null) 'Name': name,
-      if (sharingModel != null) 'SharingModel': sharingModel.toValue(),
+      if (sharingModel != null) 'SharingModel': sharingModel.value,
     };
   }
 }
 
 enum FolderType {
-  shared,
-  restricted,
-}
+  shared('SHARED'),
+  restricted('RESTRICTED'),
+  ;
 
-extension FolderTypeValueExtension on FolderType {
-  String toValue() {
-    switch (this) {
-      case FolderType.shared:
-        return 'SHARED';
-      case FolderType.restricted:
-        return 'RESTRICTED';
-    }
-  }
-}
+  final String value;
 
-extension FolderTypeFromString on String {
-  FolderType toFolderType() {
-    switch (this) {
-      case 'SHARED':
-        return FolderType.shared;
-      case 'RESTRICTED':
-        return FolderType.restricted;
-    }
-    throw Exception('$this is not known in enum FolderType');
-  }
+  const FolderType(this.value);
+
+  static FolderType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum FolderType'));
 }
 
 /// Determines the font settings.
@@ -31965,11 +30391,12 @@ class FontConfiguration {
   factory FontConfiguration.fromJson(Map<String, dynamic> json) {
     return FontConfiguration(
       fontColor: json['FontColor'] as String?,
-      fontDecoration: (json['FontDecoration'] as String?)?.toFontDecoration(),
+      fontDecoration:
+          (json['FontDecoration'] as String?)?.let(FontDecoration.fromString),
       fontSize: json['FontSize'] != null
           ? FontSize.fromJson(json['FontSize'] as Map<String, dynamic>)
           : null,
-      fontStyle: (json['FontStyle'] as String?)?.toFontStyle(),
+      fontStyle: (json['FontStyle'] as String?)?.let(FontStyle.fromString),
       fontWeight: json['FontWeight'] != null
           ? FontWeight.fromJson(json['FontWeight'] as Map<String, dynamic>)
           : null,
@@ -31984,40 +30411,27 @@ class FontConfiguration {
     final fontWeight = this.fontWeight;
     return {
       if (fontColor != null) 'FontColor': fontColor,
-      if (fontDecoration != null) 'FontDecoration': fontDecoration.toValue(),
+      if (fontDecoration != null) 'FontDecoration': fontDecoration.value,
       if (fontSize != null) 'FontSize': fontSize,
-      if (fontStyle != null) 'FontStyle': fontStyle.toValue(),
+      if (fontStyle != null) 'FontStyle': fontStyle.value,
       if (fontWeight != null) 'FontWeight': fontWeight,
     };
   }
 }
 
 enum FontDecoration {
-  underline,
-  none,
-}
+  underline('UNDERLINE'),
+  none('NONE'),
+  ;
 
-extension FontDecorationValueExtension on FontDecoration {
-  String toValue() {
-    switch (this) {
-      case FontDecoration.underline:
-        return 'UNDERLINE';
-      case FontDecoration.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension FontDecorationFromString on String {
-  FontDecoration toFontDecoration() {
-    switch (this) {
-      case 'UNDERLINE':
-        return FontDecoration.underline;
-      case 'NONE':
-        return FontDecoration.none;
-    }
-    throw Exception('$this is not known in enum FontDecoration');
-  }
+  const FontDecoration(this.value);
+
+  static FontDecoration fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FontDecoration'));
 }
 
 /// The option that determines the text display size.
@@ -32031,44 +30445,30 @@ class FontSize {
 
   factory FontSize.fromJson(Map<String, dynamic> json) {
     return FontSize(
-      relative: (json['Relative'] as String?)?.toRelativeFontSize(),
+      relative: (json['Relative'] as String?)?.let(RelativeFontSize.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final relative = this.relative;
     return {
-      if (relative != null) 'Relative': relative.toValue(),
+      if (relative != null) 'Relative': relative.value,
     };
   }
 }
 
 enum FontStyle {
-  normal,
-  italic,
-}
+  normal('NORMAL'),
+  italic('ITALIC'),
+  ;
 
-extension FontStyleValueExtension on FontStyle {
-  String toValue() {
-    switch (this) {
-      case FontStyle.normal:
-        return 'NORMAL';
-      case FontStyle.italic:
-        return 'ITALIC';
-    }
-  }
-}
+  final String value;
 
-extension FontStyleFromString on String {
-  FontStyle toFontStyle() {
-    switch (this) {
-      case 'NORMAL':
-        return FontStyle.normal;
-      case 'ITALIC':
-        return FontStyle.italic;
-    }
-    throw Exception('$this is not known in enum FontStyle');
-  }
+  const FontStyle(this.value);
+
+  static FontStyle fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum FontStyle'));
 }
 
 /// The option that determines the text display weight, or boldness.
@@ -32082,44 +30482,31 @@ class FontWeight {
 
   factory FontWeight.fromJson(Map<String, dynamic> json) {
     return FontWeight(
-      name: (json['Name'] as String?)?.toFontWeightName(),
+      name: (json['Name'] as String?)?.let(FontWeightName.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final name = this.name;
     return {
-      if (name != null) 'Name': name.toValue(),
+      if (name != null) 'Name': name.value,
     };
   }
 }
 
 enum FontWeightName {
-  normal,
-  bold,
-}
+  normal('NORMAL'),
+  bold('BOLD'),
+  ;
 
-extension FontWeightNameValueExtension on FontWeightName {
-  String toValue() {
-    switch (this) {
-      case FontWeightName.normal:
-        return 'NORMAL';
-      case FontWeightName.bold:
-        return 'BOLD';
-    }
-  }
-}
+  final String value;
 
-extension FontWeightNameFromString on String {
-  FontWeightName toFontWeightName() {
-    switch (this) {
-      case 'NORMAL':
-        return FontWeightName.normal;
-      case 'BOLD':
-        return FontWeightName.bold;
-    }
-    throw Exception('$this is not known in enum FontWeightName');
-  }
+  const FontWeightName(this.value);
+
+  static FontWeightName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FontWeightName'));
 }
 
 /// The forecast computation configuration.
@@ -32190,8 +30577,8 @@ class ForecastComputation {
       periodsBackward: json['PeriodsBackward'] as int?,
       periodsForward: json['PeriodsForward'] as int?,
       predictionInterval: json['PredictionInterval'] as int?,
-      seasonality:
-          (json['Seasonality'] as String?)?.toForecastComputationSeasonality(),
+      seasonality: (json['Seasonality'] as String?)
+          ?.let(ForecastComputationSeasonality.fromString),
       time: json['Time'] != null
           ? DimensionField.fromJson(json['Time'] as Map<String, dynamic>)
           : null,
@@ -32223,7 +30610,7 @@ class ForecastComputation {
       if (periodsBackward != null) 'PeriodsBackward': periodsBackward,
       if (periodsForward != null) 'PeriodsForward': periodsForward,
       if (predictionInterval != null) 'PredictionInterval': predictionInterval,
-      if (seasonality != null) 'Seasonality': seasonality.toValue(),
+      if (seasonality != null) 'Seasonality': seasonality.value,
       if (time != null) 'Time': time,
       if (upperBoundary != null) 'UpperBoundary': upperBoundary,
       if (value != null) 'Value': value,
@@ -32232,33 +30619,18 @@ class ForecastComputation {
 }
 
 enum ForecastComputationSeasonality {
-  automatic,
-  custom,
-}
+  automatic('AUTOMATIC'),
+  custom('CUSTOM'),
+  ;
 
-extension ForecastComputationSeasonalityValueExtension
-    on ForecastComputationSeasonality {
-  String toValue() {
-    switch (this) {
-      case ForecastComputationSeasonality.automatic:
-        return 'AUTOMATIC';
-      case ForecastComputationSeasonality.custom:
-        return 'CUSTOM';
-    }
-  }
-}
+  final String value;
 
-extension ForecastComputationSeasonalityFromString on String {
-  ForecastComputationSeasonality toForecastComputationSeasonality() {
-    switch (this) {
-      case 'AUTOMATIC':
-        return ForecastComputationSeasonality.automatic;
-      case 'CUSTOM':
-        return ForecastComputationSeasonality.custom;
-    }
-    throw Exception(
-        '$this is not known in enum ForecastComputationSeasonality');
-  }
+  const ForecastComputationSeasonality(this.value);
+
+  static ForecastComputationSeasonality fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ForecastComputationSeasonality'));
 }
 
 /// The forecast configuration that is used in a line chart's display
@@ -32504,7 +30876,8 @@ class FreeFormLayoutElement {
   factory FreeFormLayoutElement.fromJson(Map<String, dynamic> json) {
     return FreeFormLayoutElement(
       elementId: json['ElementId'] as String,
-      elementType: (json['ElementType'] as String).toLayoutElementType(),
+      elementType:
+          LayoutElementType.fromString((json['ElementType'] as String)),
       height: json['Height'] as String,
       width: json['Width'] as String,
       xAxisLocation: json['XAxisLocation'] as String,
@@ -32530,7 +30903,7 @@ class FreeFormLayoutElement {
           ? FreeFormLayoutElementBorderStyle.fromJson(
               json['SelectedBorderStyle'] as Map<String, dynamic>)
           : null,
-      visibility: (json['Visibility'] as String?)?.toVisibility(),
+      visibility: (json['Visibility'] as String?)?.let(Visibility.fromString),
     );
   }
 
@@ -32549,7 +30922,7 @@ class FreeFormLayoutElement {
     final visibility = this.visibility;
     return {
       'ElementId': elementId,
-      'ElementType': elementType.toValue(),
+      'ElementType': elementType.value,
       'Height': height,
       'Width': width,
       'XAxisLocation': xAxisLocation,
@@ -32560,7 +30933,7 @@ class FreeFormLayoutElement {
       if (renderingRules != null) 'RenderingRules': renderingRules,
       if (selectedBorderStyle != null)
         'SelectedBorderStyle': selectedBorderStyle,
-      if (visibility != null) 'Visibility': visibility.toValue(),
+      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
@@ -32582,7 +30955,7 @@ class FreeFormLayoutElementBackgroundStyle {
       Map<String, dynamic> json) {
     return FreeFormLayoutElementBackgroundStyle(
       color: json['Color'] as String?,
-      visibility: (json['Visibility'] as String?)?.toVisibility(),
+      visibility: (json['Visibility'] as String?)?.let(Visibility.fromString),
     );
   }
 
@@ -32591,7 +30964,7 @@ class FreeFormLayoutElementBackgroundStyle {
     final visibility = this.visibility;
     return {
       if (color != null) 'Color': color,
-      if (visibility != null) 'Visibility': visibility.toValue(),
+      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
@@ -32612,7 +30985,7 @@ class FreeFormLayoutElementBorderStyle {
   factory FreeFormLayoutElementBorderStyle.fromJson(Map<String, dynamic> json) {
     return FreeFormLayoutElementBorderStyle(
       color: json['Color'] as String?,
-      visibility: (json['Visibility'] as String?)?.toVisibility(),
+      visibility: (json['Visibility'] as String?)?.let(Visibility.fromString),
     );
   }
 
@@ -32621,7 +30994,7 @@ class FreeFormLayoutElementBorderStyle {
     final visibility = this.visibility;
     return {
       if (color != null) 'Color': color,
-      if (visibility != null) 'Visibility': visibility.toValue(),
+      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
@@ -32853,19 +31226,20 @@ class FunnelChartDataLabelOptions {
 
   factory FunnelChartDataLabelOptions.fromJson(Map<String, dynamic> json) {
     return FunnelChartDataLabelOptions(
-      categoryLabelVisibility:
-          (json['CategoryLabelVisibility'] as String?)?.toVisibility(),
+      categoryLabelVisibility: (json['CategoryLabelVisibility'] as String?)
+          ?.let(Visibility.fromString),
       labelColor: json['LabelColor'] as String?,
       labelFontConfiguration: json['LabelFontConfiguration'] != null
           ? FontConfiguration.fromJson(
               json['LabelFontConfiguration'] as Map<String, dynamic>)
           : null,
       measureDataLabelStyle: (json['MeasureDataLabelStyle'] as String?)
-          ?.toFunnelChartMeasureDataLabelStyle(),
-      measureLabelVisibility:
-          (json['MeasureLabelVisibility'] as String?)?.toVisibility(),
-      position: (json['Position'] as String?)?.toDataLabelPosition(),
-      visibility: (json['Visibility'] as String?)?.toVisibility(),
+          ?.let(FunnelChartMeasureDataLabelStyle.fromString),
+      measureLabelVisibility: (json['MeasureLabelVisibility'] as String?)
+          ?.let(Visibility.fromString),
+      position:
+          (json['Position'] as String?)?.let(DataLabelPosition.fromString),
+      visibility: (json['Visibility'] as String?)?.let(Visibility.fromString),
     );
   }
 
@@ -32879,16 +31253,16 @@ class FunnelChartDataLabelOptions {
     final visibility = this.visibility;
     return {
       if (categoryLabelVisibility != null)
-        'CategoryLabelVisibility': categoryLabelVisibility.toValue(),
+        'CategoryLabelVisibility': categoryLabelVisibility.value,
       if (labelColor != null) 'LabelColor': labelColor,
       if (labelFontConfiguration != null)
         'LabelFontConfiguration': labelFontConfiguration,
       if (measureDataLabelStyle != null)
-        'MeasureDataLabelStyle': measureDataLabelStyle.toValue(),
+        'MeasureDataLabelStyle': measureDataLabelStyle.value,
       if (measureLabelVisibility != null)
-        'MeasureLabelVisibility': measureLabelVisibility.toValue(),
-      if (position != null) 'Position': position.toValue(),
-      if (visibility != null) 'Visibility': visibility.toValue(),
+        'MeasureLabelVisibility': measureLabelVisibility.value,
+      if (position != null) 'Position': position.value,
+      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
@@ -32927,49 +31301,21 @@ class FunnelChartFieldWells {
 }
 
 enum FunnelChartMeasureDataLabelStyle {
-  valueOnly,
-  percentageByFirstStage,
-  percentageByPreviousStage,
-  valueAndPercentageByFirstStage,
-  valueAndPercentageByPreviousStage,
-}
+  valueOnly('VALUE_ONLY'),
+  percentageByFirstStage('PERCENTAGE_BY_FIRST_STAGE'),
+  percentageByPreviousStage('PERCENTAGE_BY_PREVIOUS_STAGE'),
+  valueAndPercentageByFirstStage('VALUE_AND_PERCENTAGE_BY_FIRST_STAGE'),
+  valueAndPercentageByPreviousStage('VALUE_AND_PERCENTAGE_BY_PREVIOUS_STAGE'),
+  ;
 
-extension FunnelChartMeasureDataLabelStyleValueExtension
-    on FunnelChartMeasureDataLabelStyle {
-  String toValue() {
-    switch (this) {
-      case FunnelChartMeasureDataLabelStyle.valueOnly:
-        return 'VALUE_ONLY';
-      case FunnelChartMeasureDataLabelStyle.percentageByFirstStage:
-        return 'PERCENTAGE_BY_FIRST_STAGE';
-      case FunnelChartMeasureDataLabelStyle.percentageByPreviousStage:
-        return 'PERCENTAGE_BY_PREVIOUS_STAGE';
-      case FunnelChartMeasureDataLabelStyle.valueAndPercentageByFirstStage:
-        return 'VALUE_AND_PERCENTAGE_BY_FIRST_STAGE';
-      case FunnelChartMeasureDataLabelStyle.valueAndPercentageByPreviousStage:
-        return 'VALUE_AND_PERCENTAGE_BY_PREVIOUS_STAGE';
-    }
-  }
-}
+  final String value;
 
-extension FunnelChartMeasureDataLabelStyleFromString on String {
-  FunnelChartMeasureDataLabelStyle toFunnelChartMeasureDataLabelStyle() {
-    switch (this) {
-      case 'VALUE_ONLY':
-        return FunnelChartMeasureDataLabelStyle.valueOnly;
-      case 'PERCENTAGE_BY_FIRST_STAGE':
-        return FunnelChartMeasureDataLabelStyle.percentageByFirstStage;
-      case 'PERCENTAGE_BY_PREVIOUS_STAGE':
-        return FunnelChartMeasureDataLabelStyle.percentageByPreviousStage;
-      case 'VALUE_AND_PERCENTAGE_BY_FIRST_STAGE':
-        return FunnelChartMeasureDataLabelStyle.valueAndPercentageByFirstStage;
-      case 'VALUE_AND_PERCENTAGE_BY_PREVIOUS_STAGE':
-        return FunnelChartMeasureDataLabelStyle
-            .valueAndPercentageByPreviousStage;
-    }
-    throw Exception(
-        '$this is not known in enum FunnelChartMeasureDataLabelStyle');
-  }
+  const FunnelChartMeasureDataLabelStyle(this.value);
+
+  static FunnelChartMeasureDataLabelStyle fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum FunnelChartMeasureDataLabelStyle'));
 }
 
 /// The sort configuration of a <code>FunnelChartVisual</code>.
@@ -33377,7 +31723,7 @@ class GaugeChartOptions {
               json['Comparison'] as Map<String, dynamic>)
           : null,
       primaryValueDisplayType: (json['PrimaryValueDisplayType'] as String?)
-          ?.toPrimaryValueDisplayType(),
+          ?.let(PrimaryValueDisplayType.fromString),
       primaryValueFontConfiguration:
           json['PrimaryValueFontConfiguration'] != null
               ? FontConfiguration.fromJson(
@@ -33397,7 +31743,7 @@ class GaugeChartOptions {
       if (arcAxis != null) 'ArcAxis': arcAxis,
       if (comparison != null) 'Comparison': comparison,
       if (primaryValueDisplayType != null)
-        'PrimaryValueDisplayType': primaryValueDisplayType.toValue(),
+        'PrimaryValueDisplayType': primaryValueDisplayType.value,
       if (primaryValueFontConfiguration != null)
         'PrimaryValueFontConfiguration': primaryValueFontConfiguration,
     };
@@ -33627,7 +31973,8 @@ class GeoSpatialColumnGroup {
           .map((e) => e as String)
           .toList(),
       name: json['Name'] as String,
-      countryCode: (json['CountryCode'] as String?)?.toGeoSpatialCountryCode(),
+      countryCode: (json['CountryCode'] as String?)
+          ?.let(GeoSpatialCountryCode.fromString),
     );
   }
 
@@ -33638,85 +31985,43 @@ class GeoSpatialColumnGroup {
     return {
       'Columns': columns,
       'Name': name,
-      if (countryCode != null) 'CountryCode': countryCode.toValue(),
+      if (countryCode != null) 'CountryCode': countryCode.value,
     };
   }
 }
 
 enum GeoSpatialCountryCode {
-  us,
-}
+  us('US'),
+  ;
 
-extension GeoSpatialCountryCodeValueExtension on GeoSpatialCountryCode {
-  String toValue() {
-    switch (this) {
-      case GeoSpatialCountryCode.us:
-        return 'US';
-    }
-  }
-}
+  final String value;
 
-extension GeoSpatialCountryCodeFromString on String {
-  GeoSpatialCountryCode toGeoSpatialCountryCode() {
-    switch (this) {
-      case 'US':
-        return GeoSpatialCountryCode.us;
-    }
-    throw Exception('$this is not known in enum GeoSpatialCountryCode');
-  }
+  const GeoSpatialCountryCode(this.value);
+
+  static GeoSpatialCountryCode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum GeoSpatialCountryCode'));
 }
 
 enum GeoSpatialDataRole {
-  country,
-  state,
-  county,
-  city,
-  postcode,
-  longitude,
-  latitude,
-}
+  country('COUNTRY'),
+  state('STATE'),
+  county('COUNTY'),
+  city('CITY'),
+  postcode('POSTCODE'),
+  longitude('LONGITUDE'),
+  latitude('LATITUDE'),
+  ;
 
-extension GeoSpatialDataRoleValueExtension on GeoSpatialDataRole {
-  String toValue() {
-    switch (this) {
-      case GeoSpatialDataRole.country:
-        return 'COUNTRY';
-      case GeoSpatialDataRole.state:
-        return 'STATE';
-      case GeoSpatialDataRole.county:
-        return 'COUNTY';
-      case GeoSpatialDataRole.city:
-        return 'CITY';
-      case GeoSpatialDataRole.postcode:
-        return 'POSTCODE';
-      case GeoSpatialDataRole.longitude:
-        return 'LONGITUDE';
-      case GeoSpatialDataRole.latitude:
-        return 'LATITUDE';
-    }
-  }
-}
+  final String value;
 
-extension GeoSpatialDataRoleFromString on String {
-  GeoSpatialDataRole toGeoSpatialDataRole() {
-    switch (this) {
-      case 'COUNTRY':
-        return GeoSpatialDataRole.country;
-      case 'STATE':
-        return GeoSpatialDataRole.state;
-      case 'COUNTY':
-        return GeoSpatialDataRole.county;
-      case 'CITY':
-        return GeoSpatialDataRole.city;
-      case 'POSTCODE':
-        return GeoSpatialDataRole.postcode;
-      case 'LONGITUDE':
-        return GeoSpatialDataRole.longitude;
-      case 'LATITUDE':
-        return GeoSpatialDataRole.latitude;
-    }
-    throw Exception('$this is not known in enum GeoSpatialDataRole');
-  }
+  const GeoSpatialDataRole(this.value);
+
+  static GeoSpatialDataRole fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum GeoSpatialDataRole'));
 }
 
 /// The bound options (north, south, west, east) of the geospatial window
@@ -34025,14 +32330,15 @@ class GeospatialMapStyleOptions {
 
   factory GeospatialMapStyleOptions.fromJson(Map<String, dynamic> json) {
     return GeospatialMapStyleOptions(
-      baseMapStyle: (json['BaseMapStyle'] as String?)?.toBaseMapStyleType(),
+      baseMapStyle:
+          (json['BaseMapStyle'] as String?)?.let(BaseMapStyleType.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final baseMapStyle = this.baseMapStyle;
     return {
-      if (baseMapStyle != null) 'BaseMapStyle': baseMapStyle.toValue(),
+      if (baseMapStyle != null) 'BaseMapStyle': baseMapStyle.value,
     };
   }
 }
@@ -34144,7 +32450,7 @@ class GeospatialPointStyleOptions {
               json['HeatmapConfiguration'] as Map<String, dynamic>)
           : null,
       selectedPointStyle: (json['SelectedPointStyle'] as String?)
-          ?.toGeospatialSelectedPointStyle(),
+          ?.let(GeospatialSelectedPointStyle.fromString),
     );
   }
 
@@ -34158,43 +32464,25 @@ class GeospatialPointStyleOptions {
       if (heatmapConfiguration != null)
         'HeatmapConfiguration': heatmapConfiguration,
       if (selectedPointStyle != null)
-        'SelectedPointStyle': selectedPointStyle.toValue(),
+        'SelectedPointStyle': selectedPointStyle.value,
     };
   }
 }
 
 enum GeospatialSelectedPointStyle {
-  point,
-  cluster,
-  heatmap,
-}
+  point('POINT'),
+  cluster('CLUSTER'),
+  heatmap('HEATMAP'),
+  ;
 
-extension GeospatialSelectedPointStyleValueExtension
-    on GeospatialSelectedPointStyle {
-  String toValue() {
-    switch (this) {
-      case GeospatialSelectedPointStyle.point:
-        return 'POINT';
-      case GeospatialSelectedPointStyle.cluster:
-        return 'CLUSTER';
-      case GeospatialSelectedPointStyle.heatmap:
-        return 'HEATMAP';
-    }
-  }
-}
+  final String value;
 
-extension GeospatialSelectedPointStyleFromString on String {
-  GeospatialSelectedPointStyle toGeospatialSelectedPointStyle() {
-    switch (this) {
-      case 'POINT':
-        return GeospatialSelectedPointStyle.point;
-      case 'CLUSTER':
-        return GeospatialSelectedPointStyle.cluster;
-      case 'HEATMAP':
-        return GeospatialSelectedPointStyle.heatmap;
-    }
-    throw Exception('$this is not known in enum GeospatialSelectedPointStyle');
-  }
+  const GeospatialSelectedPointStyle(this.value);
+
+  static GeospatialSelectedPointStyle fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GeospatialSelectedPointStyle'));
 }
 
 /// The window options of the geospatial map visual.
@@ -34217,7 +32505,8 @@ class GeospatialWindowOptions {
           ? GeospatialCoordinateBounds.fromJson(
               json['Bounds'] as Map<String, dynamic>)
           : null,
-      mapZoomMode: (json['MapZoomMode'] as String?)?.toMapZoomMode(),
+      mapZoomMode:
+          (json['MapZoomMode'] as String?)?.let(MapZoomMode.fromString),
     );
   }
 
@@ -34226,7 +32515,7 @@ class GeospatialWindowOptions {
     final mapZoomMode = this.mapZoomMode;
     return {
       if (bounds != null) 'Bounds': bounds,
-      if (mapZoomMode != null) 'MapZoomMode': mapZoomMode.toValue(),
+      if (mapZoomMode != null) 'MapZoomMode': mapZoomMode.value,
     };
   }
 }
@@ -34504,7 +32793,8 @@ class GridLayoutElement {
     return GridLayoutElement(
       columnSpan: json['ColumnSpan'] as int,
       elementId: json['ElementId'] as String,
-      elementType: (json['ElementType'] as String).toLayoutElementType(),
+      elementType:
+          LayoutElementType.fromString((json['ElementType'] as String)),
       rowSpan: json['RowSpan'] as int,
       columnIndex: json['ColumnIndex'] as int?,
       rowIndex: json['RowIndex'] as int?,
@@ -34521,7 +32811,7 @@ class GridLayoutElement {
     return {
       'ColumnSpan': columnSpan,
       'ElementId': elementId,
-      'ElementType': elementType.toValue(),
+      'ElementType': elementType.value,
       'RowSpan': rowSpan,
       if (columnIndex != null) 'ColumnIndex': columnIndex,
       if (rowIndex != null) 'RowIndex': rowIndex,
@@ -34558,7 +32848,7 @@ class GridLayoutScreenCanvasSizeOptions {
   factory GridLayoutScreenCanvasSizeOptions.fromJson(
       Map<String, dynamic> json) {
     return GridLayoutScreenCanvasSizeOptions(
-      resizeOption: (json['ResizeOption'] as String).toResizeOption(),
+      resizeOption: ResizeOption.fromString((json['ResizeOption'] as String)),
       optimizedViewPortWidth: json['OptimizedViewPortWidth'] as String?,
     );
   }
@@ -34567,7 +32857,7 @@ class GridLayoutScreenCanvasSizeOptions {
     final resizeOption = this.resizeOption;
     final optimizedViewPortWidth = this.optimizedViewPortWidth;
     return {
-      'ResizeOption': resizeOption.toValue(),
+      'ResizeOption': resizeOption.value,
       if (optimizedViewPortWidth != null)
         'OptimizedViewPortWidth': optimizedViewPortWidth,
     };
@@ -34620,49 +32910,31 @@ class Group {
 }
 
 enum GroupFilterAttribute {
-  groupName,
-}
+  groupName('GROUP_NAME'),
+  ;
 
-extension GroupFilterAttributeValueExtension on GroupFilterAttribute {
-  String toValue() {
-    switch (this) {
-      case GroupFilterAttribute.groupName:
-        return 'GROUP_NAME';
-    }
-  }
-}
+  final String value;
 
-extension GroupFilterAttributeFromString on String {
-  GroupFilterAttribute toGroupFilterAttribute() {
-    switch (this) {
-      case 'GROUP_NAME':
-        return GroupFilterAttribute.groupName;
-    }
-    throw Exception('$this is not known in enum GroupFilterAttribute');
-  }
+  const GroupFilterAttribute(this.value);
+
+  static GroupFilterAttribute fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum GroupFilterAttribute'));
 }
 
 enum GroupFilterOperator {
-  startsWith,
-}
+  startsWith('StartsWith'),
+  ;
 
-extension GroupFilterOperatorValueExtension on GroupFilterOperator {
-  String toValue() {
-    switch (this) {
-      case GroupFilterOperator.startsWith:
-        return 'StartsWith';
-    }
-  }
-}
+  final String value;
 
-extension GroupFilterOperatorFromString on String {
-  GroupFilterOperator toGroupFilterOperator() {
-    switch (this) {
-      case 'StartsWith':
-        return GroupFilterOperator.startsWith;
-    }
-    throw Exception('$this is not known in enum GroupFilterOperator');
-  }
+  const GroupFilterOperator(this.value);
+
+  static GroupFilterOperator fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum GroupFilterOperator'));
 }
 
 /// A member of an Amazon QuickSight group. Currently, group members must be
@@ -34724,8 +32996,8 @@ class GroupSearchFilter {
     final operator = this.operator;
     final value = this.value;
     return {
-      'Name': name.toValue(),
-      'Operator': operator.toValue(),
+      'Name': name.value,
+      'Operator': operator.value,
       'Value': value,
     };
   }
@@ -35230,8 +33502,8 @@ class HistogramBinOptions {
       binWidth: json['BinWidth'] != null
           ? BinWidthOptions.fromJson(json['BinWidth'] as Map<String, dynamic>)
           : null,
-      selectedBinType:
-          (json['SelectedBinType'] as String?)?.toHistogramBinType(),
+      selectedBinType: (json['SelectedBinType'] as String?)
+          ?.let(HistogramBinType.fromString),
       startValue: json['StartValue'] as double?,
     );
   }
@@ -35244,38 +33516,25 @@ class HistogramBinOptions {
     return {
       if (binCount != null) 'BinCount': binCount,
       if (binWidth != null) 'BinWidth': binWidth,
-      if (selectedBinType != null) 'SelectedBinType': selectedBinType.toValue(),
+      if (selectedBinType != null) 'SelectedBinType': selectedBinType.value,
       if (startValue != null) 'StartValue': startValue,
     };
   }
 }
 
 enum HistogramBinType {
-  binCount,
-  binWidth,
-}
+  binCount('BIN_COUNT'),
+  binWidth('BIN_WIDTH'),
+  ;
 
-extension HistogramBinTypeValueExtension on HistogramBinType {
-  String toValue() {
-    switch (this) {
-      case HistogramBinType.binCount:
-        return 'BIN_COUNT';
-      case HistogramBinType.binWidth:
-        return 'BIN_WIDTH';
-    }
-  }
-}
+  final String value;
 
-extension HistogramBinTypeFromString on String {
-  HistogramBinType toHistogramBinType() {
-    switch (this) {
-      case 'BIN_COUNT':
-        return HistogramBinType.binCount;
-      case 'BIN_WIDTH':
-        return HistogramBinType.binWidth;
-    }
-    throw Exception('$this is not known in enum HistogramBinType');
-  }
+  const HistogramBinType(this.value);
+
+  static HistogramBinType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum HistogramBinType'));
 }
 
 /// The configuration for a <code>HistogramVisual</code>.
@@ -35483,41 +33742,20 @@ class HistogramVisual {
 }
 
 enum HorizontalTextAlignment {
-  left,
-  center,
-  right,
-  auto,
-}
+  left('LEFT'),
+  center('CENTER'),
+  right('RIGHT'),
+  auto('AUTO'),
+  ;
 
-extension HorizontalTextAlignmentValueExtension on HorizontalTextAlignment {
-  String toValue() {
-    switch (this) {
-      case HorizontalTextAlignment.left:
-        return 'LEFT';
-      case HorizontalTextAlignment.center:
-        return 'CENTER';
-      case HorizontalTextAlignment.right:
-        return 'RIGHT';
-      case HorizontalTextAlignment.auto:
-        return 'AUTO';
-    }
-  }
-}
+  final String value;
 
-extension HorizontalTextAlignmentFromString on String {
-  HorizontalTextAlignment toHorizontalTextAlignment() {
-    switch (this) {
-      case 'LEFT':
-        return HorizontalTextAlignment.left;
-      case 'CENTER':
-        return HorizontalTextAlignment.center;
-      case 'RIGHT':
-        return HorizontalTextAlignment.right;
-      case 'AUTO':
-        return HorizontalTextAlignment.auto;
-    }
-    throw Exception('$this is not known in enum HorizontalTextAlignment');
-  }
+  const HorizontalTextAlignment(this.value);
+
+  static HorizontalTextAlignment fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum HorizontalTextAlignment'));
 }
 
 /// An Identity and Access Management (IAM) policy assignment.
@@ -35553,8 +33791,8 @@ class IAMPolicyAssignment {
     return IAMPolicyAssignment(
       assignmentId: json['AssignmentId'] as String?,
       assignmentName: json['AssignmentName'] as String?,
-      assignmentStatus:
-          (json['AssignmentStatus'] as String?)?.toAssignmentStatus(),
+      assignmentStatus: (json['AssignmentStatus'] as String?)
+          ?.let(AssignmentStatus.fromString),
       awsAccountId: json['AwsAccountId'] as String?,
       identities: (json['Identities'] as Map<String, dynamic>?)?.map((k, e) =>
           MapEntry(
@@ -35573,8 +33811,7 @@ class IAMPolicyAssignment {
     return {
       if (assignmentId != null) 'AssignmentId': assignmentId,
       if (assignmentName != null) 'AssignmentName': assignmentName,
-      if (assignmentStatus != null)
-        'AssignmentStatus': assignmentStatus.toValue(),
+      if (assignmentStatus != null) 'AssignmentStatus': assignmentStatus.value,
       if (awsAccountId != null) 'AwsAccountId': awsAccountId,
       if (identities != null) 'Identities': identities,
       if (policyArn != null) 'PolicyArn': policyArn,
@@ -35598,8 +33835,8 @@ class IAMPolicyAssignmentSummary {
   factory IAMPolicyAssignmentSummary.fromJson(Map<String, dynamic> json) {
     return IAMPolicyAssignmentSummary(
       assignmentName: json['AssignmentName'] as String?,
-      assignmentStatus:
-          (json['AssignmentStatus'] as String?)?.toAssignmentStatus(),
+      assignmentStatus: (json['AssignmentStatus'] as String?)
+          ?.let(AssignmentStatus.fromString),
     );
   }
 
@@ -35608,158 +33845,47 @@ class IAMPolicyAssignmentSummary {
     final assignmentStatus = this.assignmentStatus;
     return {
       if (assignmentName != null) 'AssignmentName': assignmentName,
-      if (assignmentStatus != null)
-        'AssignmentStatus': assignmentStatus.toValue(),
+      if (assignmentStatus != null) 'AssignmentStatus': assignmentStatus.value,
     };
   }
 }
 
 enum Icon {
-  caretUp,
-  caretDown,
-  plus,
-  minus,
-  arrowUp,
-  arrowDown,
-  arrowLeft,
-  arrowUpLeft,
-  arrowDownLeft,
-  arrowRight,
-  arrowUpRight,
-  arrowDownRight,
-  faceUp,
-  faceDown,
-  faceFlat,
-  oneBar,
-  twoBar,
-  threeBar,
-  circle,
-  triangle,
-  square,
-  flag,
-  thumbsUp,
-  thumbsDown,
-  checkmark,
-  x,
-}
+  caretUp('CARET_UP'),
+  caretDown('CARET_DOWN'),
+  plus('PLUS'),
+  minus('MINUS'),
+  arrowUp('ARROW_UP'),
+  arrowDown('ARROW_DOWN'),
+  arrowLeft('ARROW_LEFT'),
+  arrowUpLeft('ARROW_UP_LEFT'),
+  arrowDownLeft('ARROW_DOWN_LEFT'),
+  arrowRight('ARROW_RIGHT'),
+  arrowUpRight('ARROW_UP_RIGHT'),
+  arrowDownRight('ARROW_DOWN_RIGHT'),
+  faceUp('FACE_UP'),
+  faceDown('FACE_DOWN'),
+  faceFlat('FACE_FLAT'),
+  oneBar('ONE_BAR'),
+  twoBar('TWO_BAR'),
+  threeBar('THREE_BAR'),
+  circle('CIRCLE'),
+  triangle('TRIANGLE'),
+  square('SQUARE'),
+  flag('FLAG'),
+  thumbsUp('THUMBS_UP'),
+  thumbsDown('THUMBS_DOWN'),
+  checkmark('CHECKMARK'),
+  x('X'),
+  ;
 
-extension IconValueExtension on Icon {
-  String toValue() {
-    switch (this) {
-      case Icon.caretUp:
-        return 'CARET_UP';
-      case Icon.caretDown:
-        return 'CARET_DOWN';
-      case Icon.plus:
-        return 'PLUS';
-      case Icon.minus:
-        return 'MINUS';
-      case Icon.arrowUp:
-        return 'ARROW_UP';
-      case Icon.arrowDown:
-        return 'ARROW_DOWN';
-      case Icon.arrowLeft:
-        return 'ARROW_LEFT';
-      case Icon.arrowUpLeft:
-        return 'ARROW_UP_LEFT';
-      case Icon.arrowDownLeft:
-        return 'ARROW_DOWN_LEFT';
-      case Icon.arrowRight:
-        return 'ARROW_RIGHT';
-      case Icon.arrowUpRight:
-        return 'ARROW_UP_RIGHT';
-      case Icon.arrowDownRight:
-        return 'ARROW_DOWN_RIGHT';
-      case Icon.faceUp:
-        return 'FACE_UP';
-      case Icon.faceDown:
-        return 'FACE_DOWN';
-      case Icon.faceFlat:
-        return 'FACE_FLAT';
-      case Icon.oneBar:
-        return 'ONE_BAR';
-      case Icon.twoBar:
-        return 'TWO_BAR';
-      case Icon.threeBar:
-        return 'THREE_BAR';
-      case Icon.circle:
-        return 'CIRCLE';
-      case Icon.triangle:
-        return 'TRIANGLE';
-      case Icon.square:
-        return 'SQUARE';
-      case Icon.flag:
-        return 'FLAG';
-      case Icon.thumbsUp:
-        return 'THUMBS_UP';
-      case Icon.thumbsDown:
-        return 'THUMBS_DOWN';
-      case Icon.checkmark:
-        return 'CHECKMARK';
-      case Icon.x:
-        return 'X';
-    }
-  }
-}
+  final String value;
 
-extension IconFromString on String {
-  Icon toIcon() {
-    switch (this) {
-      case 'CARET_UP':
-        return Icon.caretUp;
-      case 'CARET_DOWN':
-        return Icon.caretDown;
-      case 'PLUS':
-        return Icon.plus;
-      case 'MINUS':
-        return Icon.minus;
-      case 'ARROW_UP':
-        return Icon.arrowUp;
-      case 'ARROW_DOWN':
-        return Icon.arrowDown;
-      case 'ARROW_LEFT':
-        return Icon.arrowLeft;
-      case 'ARROW_UP_LEFT':
-        return Icon.arrowUpLeft;
-      case 'ARROW_DOWN_LEFT':
-        return Icon.arrowDownLeft;
-      case 'ARROW_RIGHT':
-        return Icon.arrowRight;
-      case 'ARROW_UP_RIGHT':
-        return Icon.arrowUpRight;
-      case 'ARROW_DOWN_RIGHT':
-        return Icon.arrowDownRight;
-      case 'FACE_UP':
-        return Icon.faceUp;
-      case 'FACE_DOWN':
-        return Icon.faceDown;
-      case 'FACE_FLAT':
-        return Icon.faceFlat;
-      case 'ONE_BAR':
-        return Icon.oneBar;
-      case 'TWO_BAR':
-        return Icon.twoBar;
-      case 'THREE_BAR':
-        return Icon.threeBar;
-      case 'CIRCLE':
-        return Icon.circle;
-      case 'TRIANGLE':
-        return Icon.triangle;
-      case 'SQUARE':
-        return Icon.square;
-      case 'FLAG':
-        return Icon.flag;
-      case 'THUMBS_UP':
-        return Icon.thumbsUp;
-      case 'THUMBS_DOWN':
-        return Icon.thumbsDown;
-      case 'CHECKMARK':
-        return Icon.checkmark;
-      case 'X':
-        return Icon.x;
-    }
-    throw Exception('$this is not known in enum Icon');
-  }
+  const Icon(this.value);
+
+  static Icon fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Icon'));
 }
 
 /// The parameters for an IAM Identity Center configuration.
@@ -35788,59 +33914,33 @@ class IdentityCenterConfiguration {
 }
 
 enum IdentityStore {
-  quicksight,
-}
+  quicksight('QUICKSIGHT'),
+  ;
 
-extension IdentityStoreValueExtension on IdentityStore {
-  String toValue() {
-    switch (this) {
-      case IdentityStore.quicksight:
-        return 'QUICKSIGHT';
-    }
-  }
-}
+  final String value;
 
-extension IdentityStoreFromString on String {
-  IdentityStore toIdentityStore() {
-    switch (this) {
-      case 'QUICKSIGHT':
-        return IdentityStore.quicksight;
-    }
-    throw Exception('$this is not known in enum IdentityStore');
-  }
+  const IdentityStore(this.value);
+
+  static IdentityStore fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum IdentityStore'));
 }
 
 enum IdentityType {
-  iam,
-  quicksight,
-  iamIdentityCenter,
-}
+  iam('IAM'),
+  quicksight('QUICKSIGHT'),
+  iamIdentityCenter('IAM_IDENTITY_CENTER'),
+  ;
 
-extension IdentityTypeValueExtension on IdentityType {
-  String toValue() {
-    switch (this) {
-      case IdentityType.iam:
-        return 'IAM';
-      case IdentityType.quicksight:
-        return 'QUICKSIGHT';
-      case IdentityType.iamIdentityCenter:
-        return 'IAM_IDENTITY_CENTER';
-    }
-  }
-}
+  final String value;
 
-extension IdentityTypeFromString on String {
-  IdentityType toIdentityType() {
-    switch (this) {
-      case 'IAM':
-        return IdentityType.iam;
-      case 'QUICKSIGHT':
-        return IdentityType.quicksight;
-      case 'IAM_IDENTITY_CENTER':
-        return IdentityType.iamIdentityCenter;
-    }
-    throw Exception('$this is not known in enum IdentityType');
-  }
+  const IdentityType(this.value);
+
+  static IdentityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum IdentityType'));
 }
 
 /// The incremental refresh configuration for a dataset.
@@ -35916,7 +34016,8 @@ class Ingestion {
     return Ingestion(
       arn: json['Arn'] as String,
       createdTime: nonNullableTimeStampFromJson(json['CreatedTime'] as Object),
-      ingestionStatus: (json['IngestionStatus'] as String).toIngestionStatus(),
+      ingestionStatus:
+          IngestionStatus.fromString((json['IngestionStatus'] as String)),
       errorInfo: json['ErrorInfo'] != null
           ? ErrorInfo.fromJson(json['ErrorInfo'] as Map<String, dynamic>)
           : null,
@@ -35926,9 +34027,10 @@ class Ingestion {
       queueInfo: json['QueueInfo'] != null
           ? QueueInfo.fromJson(json['QueueInfo'] as Map<String, dynamic>)
           : null,
-      requestSource:
-          (json['RequestSource'] as String?)?.toIngestionRequestSource(),
-      requestType: (json['RequestType'] as String?)?.toIngestionRequestType(),
+      requestSource: (json['RequestSource'] as String?)
+          ?.let(IngestionRequestSource.fromString),
+      requestType: (json['RequestType'] as String?)
+          ?.let(IngestionRequestType.fromString),
       rowInfo: json['RowInfo'] != null
           ? RowInfo.fromJson(json['RowInfo'] as Map<String, dynamic>)
           : null,
@@ -35950,7 +34052,7 @@ class Ingestion {
     return {
       'Arn': arn,
       'CreatedTime': unixTimestampToJson(createdTime),
-      'IngestionStatus': ingestionStatus.toValue(),
+      'IngestionStatus': ingestionStatus.value,
       if (errorInfo != null) 'ErrorInfo': errorInfo,
       if (ingestionId != null) 'IngestionId': ingestionId,
       if (ingestionSizeInBytes != null)
@@ -35958,400 +34060,139 @@ class Ingestion {
       if (ingestionTimeInSeconds != null)
         'IngestionTimeInSeconds': ingestionTimeInSeconds,
       if (queueInfo != null) 'QueueInfo': queueInfo,
-      if (requestSource != null) 'RequestSource': requestSource.toValue(),
-      if (requestType != null) 'RequestType': requestType.toValue(),
+      if (requestSource != null) 'RequestSource': requestSource.value,
+      if (requestType != null) 'RequestType': requestType.value,
       if (rowInfo != null) 'RowInfo': rowInfo,
     };
   }
 }
 
 enum IngestionErrorType {
-  failureToAssumeRole,
-  ingestionSuperseded,
-  ingestionCanceled,
-  dataSetDeleted,
-  dataSetNotSpice,
-  s3UploadedFileDeleted,
-  s3ManifestError,
-  dataToleranceException,
-  spiceTableNotFound,
-  dataSetSizeLimitExceeded,
-  rowSizeLimitExceeded,
-  accountCapacityLimitExceeded,
-  customerError,
-  dataSourceNotFound,
-  iamRoleNotAvailable,
-  connectionFailure,
-  sqlTableNotFound,
-  permissionDenied,
-  sslCertificateValidationFailure,
-  oauthTokenFailure,
-  sourceApiLimitExceededFailure,
-  passwordAuthenticationFailure,
-  sqlSchemaMismatchError,
-  invalidDateFormat,
-  invalidDataprepSyntax,
-  sourceResourceLimitExceeded,
-  sqlInvalidParameterValue,
-  queryTimeout,
-  sqlNumericOverflow,
-  unresolvableHost,
-  unroutableHost,
-  sqlException,
-  s3FileInaccessible,
-  iotFileNotFound,
-  iotDataSetFileEmpty,
-  invalidDataSourceConfig,
-  dataSourceAuthFailed,
-  dataSourceConnectionFailed,
-  failureToProcessJsonFile,
-  internalServiceError,
-  refreshSuppressedByEdit,
-  permissionNotFound,
-  elasticsearchCursorNotEnabled,
-  cursorNotEnabled,
-  duplicateColumnNamesFound,
-}
+  failureToAssumeRole('FAILURE_TO_ASSUME_ROLE'),
+  ingestionSuperseded('INGESTION_SUPERSEDED'),
+  ingestionCanceled('INGESTION_CANCELED'),
+  dataSetDeleted('DATA_SET_DELETED'),
+  dataSetNotSpice('DATA_SET_NOT_SPICE'),
+  s3UploadedFileDeleted('S3_UPLOADED_FILE_DELETED'),
+  s3ManifestError('S3_MANIFEST_ERROR'),
+  dataToleranceException('DATA_TOLERANCE_EXCEPTION'),
+  spiceTableNotFound('SPICE_TABLE_NOT_FOUND'),
+  dataSetSizeLimitExceeded('DATA_SET_SIZE_LIMIT_EXCEEDED'),
+  rowSizeLimitExceeded('ROW_SIZE_LIMIT_EXCEEDED'),
+  accountCapacityLimitExceeded('ACCOUNT_CAPACITY_LIMIT_EXCEEDED'),
+  customerError('CUSTOMER_ERROR'),
+  dataSourceNotFound('DATA_SOURCE_NOT_FOUND'),
+  iamRoleNotAvailable('IAM_ROLE_NOT_AVAILABLE'),
+  connectionFailure('CONNECTION_FAILURE'),
+  sqlTableNotFound('SQL_TABLE_NOT_FOUND'),
+  permissionDenied('PERMISSION_DENIED'),
+  sslCertificateValidationFailure('SSL_CERTIFICATE_VALIDATION_FAILURE'),
+  oauthTokenFailure('OAUTH_TOKEN_FAILURE'),
+  sourceApiLimitExceededFailure('SOURCE_API_LIMIT_EXCEEDED_FAILURE'),
+  passwordAuthenticationFailure('PASSWORD_AUTHENTICATION_FAILURE'),
+  sqlSchemaMismatchError('SQL_SCHEMA_MISMATCH_ERROR'),
+  invalidDateFormat('INVALID_DATE_FORMAT'),
+  invalidDataprepSyntax('INVALID_DATAPREP_SYNTAX'),
+  sourceResourceLimitExceeded('SOURCE_RESOURCE_LIMIT_EXCEEDED'),
+  sqlInvalidParameterValue('SQL_INVALID_PARAMETER_VALUE'),
+  queryTimeout('QUERY_TIMEOUT'),
+  sqlNumericOverflow('SQL_NUMERIC_OVERFLOW'),
+  unresolvableHost('UNRESOLVABLE_HOST'),
+  unroutableHost('UNROUTABLE_HOST'),
+  sqlException('SQL_EXCEPTION'),
+  s3FileInaccessible('S3_FILE_INACCESSIBLE'),
+  iotFileNotFound('IOT_FILE_NOT_FOUND'),
+  iotDataSetFileEmpty('IOT_DATA_SET_FILE_EMPTY'),
+  invalidDataSourceConfig('INVALID_DATA_SOURCE_CONFIG'),
+  dataSourceAuthFailed('DATA_SOURCE_AUTH_FAILED'),
+  dataSourceConnectionFailed('DATA_SOURCE_CONNECTION_FAILED'),
+  failureToProcessJsonFile('FAILURE_TO_PROCESS_JSON_FILE'),
+  internalServiceError('INTERNAL_SERVICE_ERROR'),
+  refreshSuppressedByEdit('REFRESH_SUPPRESSED_BY_EDIT'),
+  permissionNotFound('PERMISSION_NOT_FOUND'),
+  elasticsearchCursorNotEnabled('ELASTICSEARCH_CURSOR_NOT_ENABLED'),
+  cursorNotEnabled('CURSOR_NOT_ENABLED'),
+  duplicateColumnNamesFound('DUPLICATE_COLUMN_NAMES_FOUND'),
+  ;
 
-extension IngestionErrorTypeValueExtension on IngestionErrorType {
-  String toValue() {
-    switch (this) {
-      case IngestionErrorType.failureToAssumeRole:
-        return 'FAILURE_TO_ASSUME_ROLE';
-      case IngestionErrorType.ingestionSuperseded:
-        return 'INGESTION_SUPERSEDED';
-      case IngestionErrorType.ingestionCanceled:
-        return 'INGESTION_CANCELED';
-      case IngestionErrorType.dataSetDeleted:
-        return 'DATA_SET_DELETED';
-      case IngestionErrorType.dataSetNotSpice:
-        return 'DATA_SET_NOT_SPICE';
-      case IngestionErrorType.s3UploadedFileDeleted:
-        return 'S3_UPLOADED_FILE_DELETED';
-      case IngestionErrorType.s3ManifestError:
-        return 'S3_MANIFEST_ERROR';
-      case IngestionErrorType.dataToleranceException:
-        return 'DATA_TOLERANCE_EXCEPTION';
-      case IngestionErrorType.spiceTableNotFound:
-        return 'SPICE_TABLE_NOT_FOUND';
-      case IngestionErrorType.dataSetSizeLimitExceeded:
-        return 'DATA_SET_SIZE_LIMIT_EXCEEDED';
-      case IngestionErrorType.rowSizeLimitExceeded:
-        return 'ROW_SIZE_LIMIT_EXCEEDED';
-      case IngestionErrorType.accountCapacityLimitExceeded:
-        return 'ACCOUNT_CAPACITY_LIMIT_EXCEEDED';
-      case IngestionErrorType.customerError:
-        return 'CUSTOMER_ERROR';
-      case IngestionErrorType.dataSourceNotFound:
-        return 'DATA_SOURCE_NOT_FOUND';
-      case IngestionErrorType.iamRoleNotAvailable:
-        return 'IAM_ROLE_NOT_AVAILABLE';
-      case IngestionErrorType.connectionFailure:
-        return 'CONNECTION_FAILURE';
-      case IngestionErrorType.sqlTableNotFound:
-        return 'SQL_TABLE_NOT_FOUND';
-      case IngestionErrorType.permissionDenied:
-        return 'PERMISSION_DENIED';
-      case IngestionErrorType.sslCertificateValidationFailure:
-        return 'SSL_CERTIFICATE_VALIDATION_FAILURE';
-      case IngestionErrorType.oauthTokenFailure:
-        return 'OAUTH_TOKEN_FAILURE';
-      case IngestionErrorType.sourceApiLimitExceededFailure:
-        return 'SOURCE_API_LIMIT_EXCEEDED_FAILURE';
-      case IngestionErrorType.passwordAuthenticationFailure:
-        return 'PASSWORD_AUTHENTICATION_FAILURE';
-      case IngestionErrorType.sqlSchemaMismatchError:
-        return 'SQL_SCHEMA_MISMATCH_ERROR';
-      case IngestionErrorType.invalidDateFormat:
-        return 'INVALID_DATE_FORMAT';
-      case IngestionErrorType.invalidDataprepSyntax:
-        return 'INVALID_DATAPREP_SYNTAX';
-      case IngestionErrorType.sourceResourceLimitExceeded:
-        return 'SOURCE_RESOURCE_LIMIT_EXCEEDED';
-      case IngestionErrorType.sqlInvalidParameterValue:
-        return 'SQL_INVALID_PARAMETER_VALUE';
-      case IngestionErrorType.queryTimeout:
-        return 'QUERY_TIMEOUT';
-      case IngestionErrorType.sqlNumericOverflow:
-        return 'SQL_NUMERIC_OVERFLOW';
-      case IngestionErrorType.unresolvableHost:
-        return 'UNRESOLVABLE_HOST';
-      case IngestionErrorType.unroutableHost:
-        return 'UNROUTABLE_HOST';
-      case IngestionErrorType.sqlException:
-        return 'SQL_EXCEPTION';
-      case IngestionErrorType.s3FileInaccessible:
-        return 'S3_FILE_INACCESSIBLE';
-      case IngestionErrorType.iotFileNotFound:
-        return 'IOT_FILE_NOT_FOUND';
-      case IngestionErrorType.iotDataSetFileEmpty:
-        return 'IOT_DATA_SET_FILE_EMPTY';
-      case IngestionErrorType.invalidDataSourceConfig:
-        return 'INVALID_DATA_SOURCE_CONFIG';
-      case IngestionErrorType.dataSourceAuthFailed:
-        return 'DATA_SOURCE_AUTH_FAILED';
-      case IngestionErrorType.dataSourceConnectionFailed:
-        return 'DATA_SOURCE_CONNECTION_FAILED';
-      case IngestionErrorType.failureToProcessJsonFile:
-        return 'FAILURE_TO_PROCESS_JSON_FILE';
-      case IngestionErrorType.internalServiceError:
-        return 'INTERNAL_SERVICE_ERROR';
-      case IngestionErrorType.refreshSuppressedByEdit:
-        return 'REFRESH_SUPPRESSED_BY_EDIT';
-      case IngestionErrorType.permissionNotFound:
-        return 'PERMISSION_NOT_FOUND';
-      case IngestionErrorType.elasticsearchCursorNotEnabled:
-        return 'ELASTICSEARCH_CURSOR_NOT_ENABLED';
-      case IngestionErrorType.cursorNotEnabled:
-        return 'CURSOR_NOT_ENABLED';
-      case IngestionErrorType.duplicateColumnNamesFound:
-        return 'DUPLICATE_COLUMN_NAMES_FOUND';
-    }
-  }
-}
+  final String value;
 
-extension IngestionErrorTypeFromString on String {
-  IngestionErrorType toIngestionErrorType() {
-    switch (this) {
-      case 'FAILURE_TO_ASSUME_ROLE':
-        return IngestionErrorType.failureToAssumeRole;
-      case 'INGESTION_SUPERSEDED':
-        return IngestionErrorType.ingestionSuperseded;
-      case 'INGESTION_CANCELED':
-        return IngestionErrorType.ingestionCanceled;
-      case 'DATA_SET_DELETED':
-        return IngestionErrorType.dataSetDeleted;
-      case 'DATA_SET_NOT_SPICE':
-        return IngestionErrorType.dataSetNotSpice;
-      case 'S3_UPLOADED_FILE_DELETED':
-        return IngestionErrorType.s3UploadedFileDeleted;
-      case 'S3_MANIFEST_ERROR':
-        return IngestionErrorType.s3ManifestError;
-      case 'DATA_TOLERANCE_EXCEPTION':
-        return IngestionErrorType.dataToleranceException;
-      case 'SPICE_TABLE_NOT_FOUND':
-        return IngestionErrorType.spiceTableNotFound;
-      case 'DATA_SET_SIZE_LIMIT_EXCEEDED':
-        return IngestionErrorType.dataSetSizeLimitExceeded;
-      case 'ROW_SIZE_LIMIT_EXCEEDED':
-        return IngestionErrorType.rowSizeLimitExceeded;
-      case 'ACCOUNT_CAPACITY_LIMIT_EXCEEDED':
-        return IngestionErrorType.accountCapacityLimitExceeded;
-      case 'CUSTOMER_ERROR':
-        return IngestionErrorType.customerError;
-      case 'DATA_SOURCE_NOT_FOUND':
-        return IngestionErrorType.dataSourceNotFound;
-      case 'IAM_ROLE_NOT_AVAILABLE':
-        return IngestionErrorType.iamRoleNotAvailable;
-      case 'CONNECTION_FAILURE':
-        return IngestionErrorType.connectionFailure;
-      case 'SQL_TABLE_NOT_FOUND':
-        return IngestionErrorType.sqlTableNotFound;
-      case 'PERMISSION_DENIED':
-        return IngestionErrorType.permissionDenied;
-      case 'SSL_CERTIFICATE_VALIDATION_FAILURE':
-        return IngestionErrorType.sslCertificateValidationFailure;
-      case 'OAUTH_TOKEN_FAILURE':
-        return IngestionErrorType.oauthTokenFailure;
-      case 'SOURCE_API_LIMIT_EXCEEDED_FAILURE':
-        return IngestionErrorType.sourceApiLimitExceededFailure;
-      case 'PASSWORD_AUTHENTICATION_FAILURE':
-        return IngestionErrorType.passwordAuthenticationFailure;
-      case 'SQL_SCHEMA_MISMATCH_ERROR':
-        return IngestionErrorType.sqlSchemaMismatchError;
-      case 'INVALID_DATE_FORMAT':
-        return IngestionErrorType.invalidDateFormat;
-      case 'INVALID_DATAPREP_SYNTAX':
-        return IngestionErrorType.invalidDataprepSyntax;
-      case 'SOURCE_RESOURCE_LIMIT_EXCEEDED':
-        return IngestionErrorType.sourceResourceLimitExceeded;
-      case 'SQL_INVALID_PARAMETER_VALUE':
-        return IngestionErrorType.sqlInvalidParameterValue;
-      case 'QUERY_TIMEOUT':
-        return IngestionErrorType.queryTimeout;
-      case 'SQL_NUMERIC_OVERFLOW':
-        return IngestionErrorType.sqlNumericOverflow;
-      case 'UNRESOLVABLE_HOST':
-        return IngestionErrorType.unresolvableHost;
-      case 'UNROUTABLE_HOST':
-        return IngestionErrorType.unroutableHost;
-      case 'SQL_EXCEPTION':
-        return IngestionErrorType.sqlException;
-      case 'S3_FILE_INACCESSIBLE':
-        return IngestionErrorType.s3FileInaccessible;
-      case 'IOT_FILE_NOT_FOUND':
-        return IngestionErrorType.iotFileNotFound;
-      case 'IOT_DATA_SET_FILE_EMPTY':
-        return IngestionErrorType.iotDataSetFileEmpty;
-      case 'INVALID_DATA_SOURCE_CONFIG':
-        return IngestionErrorType.invalidDataSourceConfig;
-      case 'DATA_SOURCE_AUTH_FAILED':
-        return IngestionErrorType.dataSourceAuthFailed;
-      case 'DATA_SOURCE_CONNECTION_FAILED':
-        return IngestionErrorType.dataSourceConnectionFailed;
-      case 'FAILURE_TO_PROCESS_JSON_FILE':
-        return IngestionErrorType.failureToProcessJsonFile;
-      case 'INTERNAL_SERVICE_ERROR':
-        return IngestionErrorType.internalServiceError;
-      case 'REFRESH_SUPPRESSED_BY_EDIT':
-        return IngestionErrorType.refreshSuppressedByEdit;
-      case 'PERMISSION_NOT_FOUND':
-        return IngestionErrorType.permissionNotFound;
-      case 'ELASTICSEARCH_CURSOR_NOT_ENABLED':
-        return IngestionErrorType.elasticsearchCursorNotEnabled;
-      case 'CURSOR_NOT_ENABLED':
-        return IngestionErrorType.cursorNotEnabled;
-      case 'DUPLICATE_COLUMN_NAMES_FOUND':
-        return IngestionErrorType.duplicateColumnNamesFound;
-    }
-    throw Exception('$this is not known in enum IngestionErrorType');
-  }
+  const IngestionErrorType(this.value);
+
+  static IngestionErrorType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum IngestionErrorType'));
 }
 
 enum IngestionRequestSource {
-  manual,
-  scheduled,
-}
+  manual('MANUAL'),
+  scheduled('SCHEDULED'),
+  ;
 
-extension IngestionRequestSourceValueExtension on IngestionRequestSource {
-  String toValue() {
-    switch (this) {
-      case IngestionRequestSource.manual:
-        return 'MANUAL';
-      case IngestionRequestSource.scheduled:
-        return 'SCHEDULED';
-    }
-  }
-}
+  final String value;
 
-extension IngestionRequestSourceFromString on String {
-  IngestionRequestSource toIngestionRequestSource() {
-    switch (this) {
-      case 'MANUAL':
-        return IngestionRequestSource.manual;
-      case 'SCHEDULED':
-        return IngestionRequestSource.scheduled;
-    }
-    throw Exception('$this is not known in enum IngestionRequestSource');
-  }
+  const IngestionRequestSource(this.value);
+
+  static IngestionRequestSource fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum IngestionRequestSource'));
 }
 
 /// This defines the type of ingestion request. This is returned as part of
 /// create ingestion response.
 enum IngestionRequestType {
-  initialIngestion,
-  edit,
-  incrementalRefresh,
-  fullRefresh,
-}
+  initialIngestion('INITIAL_INGESTION'),
+  edit('EDIT'),
+  incrementalRefresh('INCREMENTAL_REFRESH'),
+  fullRefresh('FULL_REFRESH'),
+  ;
 
-extension IngestionRequestTypeValueExtension on IngestionRequestType {
-  String toValue() {
-    switch (this) {
-      case IngestionRequestType.initialIngestion:
-        return 'INITIAL_INGESTION';
-      case IngestionRequestType.edit:
-        return 'EDIT';
-      case IngestionRequestType.incrementalRefresh:
-        return 'INCREMENTAL_REFRESH';
-      case IngestionRequestType.fullRefresh:
-        return 'FULL_REFRESH';
-    }
-  }
-}
+  final String value;
 
-extension IngestionRequestTypeFromString on String {
-  IngestionRequestType toIngestionRequestType() {
-    switch (this) {
-      case 'INITIAL_INGESTION':
-        return IngestionRequestType.initialIngestion;
-      case 'EDIT':
-        return IngestionRequestType.edit;
-      case 'INCREMENTAL_REFRESH':
-        return IngestionRequestType.incrementalRefresh;
-      case 'FULL_REFRESH':
-        return IngestionRequestType.fullRefresh;
-    }
-    throw Exception('$this is not known in enum IngestionRequestType');
-  }
+  const IngestionRequestType(this.value);
+
+  static IngestionRequestType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum IngestionRequestType'));
 }
 
 enum IngestionStatus {
-  initialized,
-  queued,
-  running,
-  failed,
-  completed,
-  cancelled,
-}
+  initialized('INITIALIZED'),
+  queued('QUEUED'),
+  running('RUNNING'),
+  failed('FAILED'),
+  completed('COMPLETED'),
+  cancelled('CANCELLED'),
+  ;
 
-extension IngestionStatusValueExtension on IngestionStatus {
-  String toValue() {
-    switch (this) {
-      case IngestionStatus.initialized:
-        return 'INITIALIZED';
-      case IngestionStatus.queued:
-        return 'QUEUED';
-      case IngestionStatus.running:
-        return 'RUNNING';
-      case IngestionStatus.failed:
-        return 'FAILED';
-      case IngestionStatus.completed:
-        return 'COMPLETED';
-      case IngestionStatus.cancelled:
-        return 'CANCELLED';
-    }
-  }
-}
+  final String value;
 
-extension IngestionStatusFromString on String {
-  IngestionStatus toIngestionStatus() {
-    switch (this) {
-      case 'INITIALIZED':
-        return IngestionStatus.initialized;
-      case 'QUEUED':
-        return IngestionStatus.queued;
-      case 'RUNNING':
-        return IngestionStatus.running;
-      case 'FAILED':
-        return IngestionStatus.failed;
-      case 'COMPLETED':
-        return IngestionStatus.completed;
-      case 'CANCELLED':
-        return IngestionStatus.cancelled;
-    }
-    throw Exception('$this is not known in enum IngestionStatus');
-  }
+  const IngestionStatus(this.value);
+
+  static IngestionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum IngestionStatus'));
 }
 
 /// This defines the type of ingestion user wants to trigger. This is part of
 /// create ingestion request.
 enum IngestionType {
-  incrementalRefresh,
-  fullRefresh,
-}
+  incrementalRefresh('INCREMENTAL_REFRESH'),
+  fullRefresh('FULL_REFRESH'),
+  ;
 
-extension IngestionTypeValueExtension on IngestionType {
-  String toValue() {
-    switch (this) {
-      case IngestionType.incrementalRefresh:
-        return 'INCREMENTAL_REFRESH';
-      case IngestionType.fullRefresh:
-        return 'FULL_REFRESH';
-    }
-  }
-}
+  final String value;
 
-extension IngestionTypeFromString on String {
-  IngestionType toIngestionType() {
-    switch (this) {
-      case 'INCREMENTAL_REFRESH':
-        return IngestionType.incrementalRefresh;
-      case 'FULL_REFRESH':
-        return IngestionType.fullRefresh;
-    }
-    throw Exception('$this is not known in enum IngestionType');
-  }
+  const IngestionType(this.value);
+
+  static IngestionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum IngestionType'));
 }
 
 /// Metadata for a column that is used as the input of a transform operation.
@@ -36375,8 +34216,8 @@ class InputColumn {
   factory InputColumn.fromJson(Map<String, dynamic> json) {
     return InputColumn(
       name: json['Name'] as String,
-      type: (json['Type'] as String).toInputColumnDataType(),
-      subType: (json['SubType'] as String?)?.toColumnDataSubType(),
+      type: InputColumnDataType.fromString((json['Type'] as String)),
+      subType: (json['SubType'] as String?)?.let(ColumnDataSubType.fromString),
     );
   }
 
@@ -36386,63 +34227,30 @@ class InputColumn {
     final subType = this.subType;
     return {
       'Name': name,
-      'Type': type.toValue(),
-      if (subType != null) 'SubType': subType.toValue(),
+      'Type': type.value,
+      if (subType != null) 'SubType': subType.value,
     };
   }
 }
 
 enum InputColumnDataType {
-  string,
-  integer,
-  decimal,
-  datetime,
-  bit,
-  boolean,
-  json,
-}
+  string('STRING'),
+  integer('INTEGER'),
+  decimal('DECIMAL'),
+  datetime('DATETIME'),
+  bit('BIT'),
+  boolean('BOOLEAN'),
+  json('JSON'),
+  ;
 
-extension InputColumnDataTypeValueExtension on InputColumnDataType {
-  String toValue() {
-    switch (this) {
-      case InputColumnDataType.string:
-        return 'STRING';
-      case InputColumnDataType.integer:
-        return 'INTEGER';
-      case InputColumnDataType.decimal:
-        return 'DECIMAL';
-      case InputColumnDataType.datetime:
-        return 'DATETIME';
-      case InputColumnDataType.bit:
-        return 'BIT';
-      case InputColumnDataType.boolean:
-        return 'BOOLEAN';
-      case InputColumnDataType.json:
-        return 'JSON';
-    }
-  }
-}
+  final String value;
 
-extension InputColumnDataTypeFromString on String {
-  InputColumnDataType toInputColumnDataType() {
-    switch (this) {
-      case 'STRING':
-        return InputColumnDataType.string;
-      case 'INTEGER':
-        return InputColumnDataType.integer;
-      case 'DECIMAL':
-        return InputColumnDataType.decimal;
-      case 'DATETIME':
-        return InputColumnDataType.datetime;
-      case 'BIT':
-        return InputColumnDataType.bit;
-      case 'BOOLEAN':
-        return InputColumnDataType.boolean;
-      case 'JSON':
-        return InputColumnDataType.json;
-    }
-    throw Exception('$this is not known in enum InputColumnDataType');
-  }
+  const InputColumnDataType(this.value);
+
+  static InputColumnDataType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum InputColumnDataType'));
 }
 
 /// The configuration of an insight visual.
@@ -36595,7 +34403,8 @@ class IntegerDatasetParameter {
     return IntegerDatasetParameter(
       id: json['Id'] as String,
       name: json['Name'] as String,
-      valueType: (json['ValueType'] as String).toDatasetParameterValueType(),
+      valueType:
+          DatasetParameterValueType.fromString((json['ValueType'] as String)),
       defaultValues: json['DefaultValues'] != null
           ? IntegerDatasetParameterDefaultValues.fromJson(
               json['DefaultValues'] as Map<String, dynamic>)
@@ -36611,7 +34420,7 @@ class IntegerDatasetParameter {
     return {
       'Id': id,
       'Name': name,
-      'ValueType': valueType.toValue(),
+      'ValueType': valueType.value,
       if (defaultValues != null) 'DefaultValues': defaultValues,
     };
   }
@@ -36741,7 +34550,7 @@ class IntegerParameterDeclaration {
     return IntegerParameterDeclaration(
       name: json['Name'] as String,
       parameterValueType:
-          (json['ParameterValueType'] as String).toParameterValueType(),
+          ParameterValueType.fromString((json['ParameterValueType'] as String)),
       defaultValues: json['DefaultValues'] != null
           ? IntegerDefaultValues.fromJson(
               json['DefaultValues'] as Map<String, dynamic>)
@@ -36766,7 +34575,7 @@ class IntegerParameterDeclaration {
     final valueWhenUnset = this.valueWhenUnset;
     return {
       'Name': name,
-      'ParameterValueType': parameterValueType.toValue(),
+      'ParameterValueType': parameterValueType.value,
       if (defaultValues != null) 'DefaultValues': defaultValues,
       if (mappedDataSetParameters != null)
         'MappedDataSetParameters': mappedDataSetParameters,
@@ -36805,8 +34614,8 @@ class IntegerValueWhenUnsetConfiguration {
       Map<String, dynamic> json) {
     return IntegerValueWhenUnsetConfiguration(
       customValue: json['CustomValue'] as int?,
-      valueWhenUnsetOption:
-          (json['ValueWhenUnsetOption'] as String?)?.toValueWhenUnsetOption(),
+      valueWhenUnsetOption: (json['ValueWhenUnsetOption'] as String?)
+          ?.let(ValueWhenUnsetOption.fromString),
     );
   }
 
@@ -36816,7 +34625,7 @@ class IntegerValueWhenUnsetConfiguration {
     return {
       if (customValue != null) 'CustomValue': customValue,
       if (valueWhenUnsetOption != null)
-        'ValueWhenUnsetOption': valueWhenUnsetOption.toValue(),
+        'ValueWhenUnsetOption': valueWhenUnsetOption.value,
     };
   }
 }
@@ -36849,7 +34658,7 @@ class ItemsLimitConfiguration {
     return ItemsLimitConfiguration(
       itemsLimit: json['ItemsLimit'] as int?,
       otherCategories:
-          (json['OtherCategories'] as String?)?.toOtherCategories(),
+          (json['OtherCategories'] as String?)?.let(OtherCategories.fromString),
     );
   }
 
@@ -36858,7 +34667,7 @@ class ItemsLimitConfiguration {
     final otherCategories = this.otherCategories;
     return {
       if (itemsLimit != null) 'ItemsLimit': itemsLimit,
-      if (otherCategories != null) 'OtherCategories': otherCategories.toValue(),
+      if (otherCategories != null) 'OtherCategories': otherCategories.value,
     };
   }
 }
@@ -36920,7 +34729,7 @@ class JoinInstruction {
       leftOperand: json['LeftOperand'] as String,
       onClause: json['OnClause'] as String,
       rightOperand: json['RightOperand'] as String,
-      type: (json['Type'] as String).toJoinType(),
+      type: JoinType.fromString((json['Type'] as String)),
       leftJoinKeyProperties: json['LeftJoinKeyProperties'] != null
           ? JoinKeyProperties.fromJson(
               json['LeftJoinKeyProperties'] as Map<String, dynamic>)
@@ -36943,7 +34752,7 @@ class JoinInstruction {
       'LeftOperand': leftOperand,
       'OnClause': onClause,
       'RightOperand': rightOperand,
-      'Type': type.toValue(),
+      'Type': type.value,
       if (leftJoinKeyProperties != null)
         'LeftJoinKeyProperties': leftJoinKeyProperties,
       if (rightJoinKeyProperties != null)
@@ -36978,41 +34787,19 @@ class JoinKeyProperties {
 }
 
 enum JoinType {
-  inner,
-  outer,
-  left,
-  right,
-}
+  inner('INNER'),
+  outer('OUTER'),
+  left('LEFT'),
+  right('RIGHT'),
+  ;
 
-extension JoinTypeValueExtension on JoinType {
-  String toValue() {
-    switch (this) {
-      case JoinType.inner:
-        return 'INNER';
-      case JoinType.outer:
-        return 'OUTER';
-      case JoinType.left:
-        return 'LEFT';
-      case JoinType.right:
-        return 'RIGHT';
-    }
-  }
-}
+  final String value;
 
-extension JoinTypeFromString on String {
-  JoinType toJoinType() {
-    switch (this) {
-      case 'INNER':
-        return JoinType.inner;
-      case 'OUTER':
-        return JoinType.outer;
-      case 'LEFT':
-        return JoinType.left;
-      case 'RIGHT':
-        return JoinType.right;
-    }
-    throw Exception('$this is not known in enum JoinType');
-  }
+  const JoinType(this.value);
+
+  static JoinType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum JoinType'));
 }
 
 /// The conditional formatting for the actual value of a KPI visual.
@@ -37325,7 +35112,7 @@ class KPIOptions {
               json['Comparison'] as Map<String, dynamic>)
           : null,
       primaryValueDisplayType: (json['PrimaryValueDisplayType'] as String?)
-          ?.toPrimaryValueDisplayType(),
+          ?.let(PrimaryValueDisplayType.fromString),
       primaryValueFontConfiguration:
           json['PrimaryValueFontConfiguration'] != null
               ? FontConfiguration.fromJson(
@@ -37374,7 +35161,7 @@ class KPIOptions {
     return {
       if (comparison != null) 'Comparison': comparison,
       if (primaryValueDisplayType != null)
-        'PrimaryValueDisplayType': primaryValueDisplayType.toValue(),
+        'PrimaryValueDisplayType': primaryValueDisplayType.value,
       if (primaryValueFontConfiguration != null)
         'PrimaryValueFontConfiguration': primaryValueFontConfiguration,
       if (progressBar != null) 'ProgressBar': progressBar,
@@ -37503,10 +35290,11 @@ class KPISparklineOptions {
 
   factory KPISparklineOptions.fromJson(Map<String, dynamic> json) {
     return KPISparklineOptions(
-      type: (json['Type'] as String).toKPISparklineType(),
+      type: KPISparklineType.fromString((json['Type'] as String)),
       color: json['Color'] as String?,
-      tooltipVisibility: (json['TooltipVisibility'] as String?)?.toVisibility(),
-      visibility: (json['Visibility'] as String?)?.toVisibility(),
+      tooltipVisibility:
+          (json['TooltipVisibility'] as String?)?.let(Visibility.fromString),
+      visibility: (json['Visibility'] as String?)?.let(Visibility.fromString),
     );
   }
 
@@ -37516,41 +35304,28 @@ class KPISparklineOptions {
     final tooltipVisibility = this.tooltipVisibility;
     final visibility = this.visibility;
     return {
-      'Type': type.toValue(),
+      'Type': type.value,
       if (color != null) 'Color': color,
       if (tooltipVisibility != null)
-        'TooltipVisibility': tooltipVisibility.toValue(),
-      if (visibility != null) 'Visibility': visibility.toValue(),
+        'TooltipVisibility': tooltipVisibility.value,
+      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
 
 enum KPISparklineType {
-  line,
-  area,
-}
+  line('LINE'),
+  area('AREA'),
+  ;
 
-extension KPISparklineTypeValueExtension on KPISparklineType {
-  String toValue() {
-    switch (this) {
-      case KPISparklineType.line:
-        return 'LINE';
-      case KPISparklineType.area:
-        return 'AREA';
-    }
-  }
-}
+  final String value;
 
-extension KPISparklineTypeFromString on String {
-  KPISparklineType toKPISparklineType() {
-    switch (this) {
-      case 'LINE':
-        return KPISparklineType.line;
-      case 'AREA':
-        return KPISparklineType.area;
-    }
-    throw Exception('$this is not known in enum KPISparklineType');
-  }
+  const KPISparklineType(this.value);
+
+  static KPISparklineType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum KPISparklineType'));
 }
 
 /// A key performance indicator (KPI).
@@ -37680,45 +35455,31 @@ class KPIVisualStandardLayout {
 
   factory KPIVisualStandardLayout.fromJson(Map<String, dynamic> json) {
     return KPIVisualStandardLayout(
-      type: (json['Type'] as String).toKPIVisualStandardLayoutType(),
+      type: KPIVisualStandardLayoutType.fromString((json['Type'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final type = this.type;
     return {
-      'Type': type.toValue(),
+      'Type': type.value,
     };
   }
 }
 
 enum KPIVisualStandardLayoutType {
-  classic,
-  vertical,
-}
+  classic('CLASSIC'),
+  vertical('VERTICAL'),
+  ;
 
-extension KPIVisualStandardLayoutTypeValueExtension
-    on KPIVisualStandardLayoutType {
-  String toValue() {
-    switch (this) {
-      case KPIVisualStandardLayoutType.classic:
-        return 'CLASSIC';
-      case KPIVisualStandardLayoutType.vertical:
-        return 'VERTICAL';
-    }
-  }
-}
+  final String value;
 
-extension KPIVisualStandardLayoutTypeFromString on String {
-  KPIVisualStandardLayoutType toKPIVisualStandardLayoutType() {
-    switch (this) {
-      case 'CLASSIC':
-        return KPIVisualStandardLayoutType.classic;
-      case 'VERTICAL':
-        return KPIVisualStandardLayoutType.vertical;
-    }
-    throw Exception('$this is not known in enum KPIVisualStandardLayoutType');
-  }
+  const KPIVisualStandardLayoutType(this.value);
+
+  static KPIVisualStandardLayoutType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum KPIVisualStandardLayoutType'));
 }
 
 /// The share label options for the labels.
@@ -37745,7 +35506,7 @@ class LabelOptions {
           ? FontConfiguration.fromJson(
               json['FontConfiguration'] as Map<String, dynamic>)
           : null,
-      visibility: (json['Visibility'] as String?)?.toVisibility(),
+      visibility: (json['Visibility'] as String?)?.let(Visibility.fromString),
     );
   }
 
@@ -37756,7 +35517,7 @@ class LabelOptions {
     return {
       if (customLabel != null) 'CustomLabel': customLabel,
       if (fontConfiguration != null) 'FontConfiguration': fontConfiguration,
-      if (visibility != null) 'Visibility': visibility.toValue(),
+      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
@@ -37849,41 +35610,20 @@ class LayoutConfiguration {
 }
 
 enum LayoutElementType {
-  visual,
-  filterControl,
-  parameterControl,
-  textBox,
-}
+  visual('VISUAL'),
+  filterControl('FILTER_CONTROL'),
+  parameterControl('PARAMETER_CONTROL'),
+  textBox('TEXT_BOX'),
+  ;
 
-extension LayoutElementTypeValueExtension on LayoutElementType {
-  String toValue() {
-    switch (this) {
-      case LayoutElementType.visual:
-        return 'VISUAL';
-      case LayoutElementType.filterControl:
-        return 'FILTER_CONTROL';
-      case LayoutElementType.parameterControl:
-        return 'PARAMETER_CONTROL';
-      case LayoutElementType.textBox:
-        return 'TEXT_BOX';
-    }
-  }
-}
+  final String value;
 
-extension LayoutElementTypeFromString on String {
-  LayoutElementType toLayoutElementType() {
-    switch (this) {
-      case 'VISUAL':
-        return LayoutElementType.visual;
-      case 'FILTER_CONTROL':
-        return LayoutElementType.filterControl;
-      case 'PARAMETER_CONTROL':
-        return LayoutElementType.parameterControl;
-      case 'TEXT_BOX':
-        return LayoutElementType.textBox;
-    }
-    throw Exception('$this is not known in enum LayoutElementType');
-  }
+  const LayoutElementType(this.value);
+
+  static LayoutElementType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LayoutElementType'));
 }
 
 /// The options for the legend setup of a visual.
@@ -37931,11 +35671,11 @@ class LegendOptions {
   factory LegendOptions.fromJson(Map<String, dynamic> json) {
     return LegendOptions(
       height: json['Height'] as String?,
-      position: (json['Position'] as String?)?.toLegendPosition(),
+      position: (json['Position'] as String?)?.let(LegendPosition.fromString),
       title: json['Title'] != null
           ? LabelOptions.fromJson(json['Title'] as Map<String, dynamic>)
           : null,
-      visibility: (json['Visibility'] as String?)?.toVisibility(),
+      visibility: (json['Visibility'] as String?)?.let(Visibility.fromString),
       width: json['Width'] as String?,
     );
   }
@@ -37948,50 +35688,29 @@ class LegendOptions {
     final width = this.width;
     return {
       if (height != null) 'Height': height,
-      if (position != null) 'Position': position.toValue(),
+      if (position != null) 'Position': position.value,
       if (title != null) 'Title': title,
-      if (visibility != null) 'Visibility': visibility.toValue(),
+      if (visibility != null) 'Visibility': visibility.value,
       if (width != null) 'Width': width,
     };
   }
 }
 
 enum LegendPosition {
-  auto,
-  right,
-  bottom,
-  top,
-}
+  auto('AUTO'),
+  right('RIGHT'),
+  bottom('BOTTOM'),
+  top('TOP'),
+  ;
 
-extension LegendPositionValueExtension on LegendPosition {
-  String toValue() {
-    switch (this) {
-      case LegendPosition.auto:
-        return 'AUTO';
-      case LegendPosition.right:
-        return 'RIGHT';
-      case LegendPosition.bottom:
-        return 'BOTTOM';
-      case LegendPosition.top:
-        return 'TOP';
-    }
-  }
-}
+  final String value;
 
-extension LegendPositionFromString on String {
-  LegendPosition toLegendPosition() {
-    switch (this) {
-      case 'AUTO':
-        return LegendPosition.auto;
-      case 'RIGHT':
-        return LegendPosition.right;
-      case 'BOTTOM':
-        return LegendPosition.bottom;
-      case 'TOP':
-        return LegendPosition.top;
-    }
-    throw Exception('$this is not known in enum LegendPosition');
-  }
+  const LegendPosition(this.value);
+
+  static LegendPosition fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LegendPosition'));
 }
 
 /// The field well configuration of a line chart.
@@ -38211,7 +35930,7 @@ class LineChartConfiguration {
       tooltip: json['Tooltip'] != null
           ? TooltipOptions.fromJson(json['Tooltip'] as Map<String, dynamic>)
           : null,
-      type: (json['Type'] as String?)?.toLineChartType(),
+      type: (json['Type'] as String?)?.let(LineChartType.fromString),
       visualPalette: json['VisualPalette'] != null
           ? VisualPalette.fromJson(
               json['VisualPalette'] as Map<String, dynamic>)
@@ -38275,7 +35994,7 @@ class LineChartConfiguration {
         'SmallMultiplesOptions': smallMultiplesOptions,
       if (sortConfiguration != null) 'SortConfiguration': sortConfiguration,
       if (tooltip != null) 'Tooltip': tooltip,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
       if (visualPalette != null) 'VisualPalette': visualPalette,
       if (xAxisDisplayOptions != null)
         'XAxisDisplayOptions': xAxisDisplayOptions,
@@ -38304,7 +36023,8 @@ class LineChartDefaultSeriesSettings {
 
   factory LineChartDefaultSeriesSettings.fromJson(Map<String, dynamic> json) {
     return LineChartDefaultSeriesSettings(
-      axisBinding: (json['AxisBinding'] as String?)?.toAxisBinding(),
+      axisBinding:
+          (json['AxisBinding'] as String?)?.let(AxisBinding.fromString),
       lineStyleSettings: json['LineStyleSettings'] != null
           ? LineChartLineStyleSettings.fromJson(
               json['LineStyleSettings'] as Map<String, dynamic>)
@@ -38321,7 +36041,7 @@ class LineChartDefaultSeriesSettings {
     final lineStyleSettings = this.lineStyleSettings;
     final markerStyleSettings = this.markerStyleSettings;
     return {
-      if (axisBinding != null) 'AxisBinding': axisBinding.toValue(),
+      if (axisBinding != null) 'AxisBinding': axisBinding.value,
       if (lineStyleSettings != null) 'LineStyleSettings': lineStyleSettings,
       if (markerStyleSettings != null)
         'MarkerStyleSettings': markerStyleSettings,
@@ -38358,36 +36078,19 @@ class LineChartFieldWells {
 }
 
 enum LineChartLineStyle {
-  solid,
-  dotted,
-  dashed,
-}
+  solid('SOLID'),
+  dotted('DOTTED'),
+  dashed('DASHED'),
+  ;
 
-extension LineChartLineStyleValueExtension on LineChartLineStyle {
-  String toValue() {
-    switch (this) {
-      case LineChartLineStyle.solid:
-        return 'SOLID';
-      case LineChartLineStyle.dotted:
-        return 'DOTTED';
-      case LineChartLineStyle.dashed:
-        return 'DASHED';
-    }
-  }
-}
+  final String value;
 
-extension LineChartLineStyleFromString on String {
-  LineChartLineStyle toLineChartLineStyle() {
-    switch (this) {
-      case 'SOLID':
-        return LineChartLineStyle.solid;
-      case 'DOTTED':
-        return LineChartLineStyle.dotted;
-      case 'DASHED':
-        return LineChartLineStyle.dashed;
-    }
-    throw Exception('$this is not known in enum LineChartLineStyle');
-  }
+  const LineChartLineStyle(this.value);
+
+  static LineChartLineStyle fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum LineChartLineStyle'));
 }
 
 /// Line styles options for a line series in <code>LineChartVisual</code>.
@@ -38438,10 +36141,12 @@ class LineChartLineStyleSettings {
 
   factory LineChartLineStyleSettings.fromJson(Map<String, dynamic> json) {
     return LineChartLineStyleSettings(
-      lineInterpolation:
-          (json['LineInterpolation'] as String?)?.toLineInterpolation(),
-      lineStyle: (json['LineStyle'] as String?)?.toLineChartLineStyle(),
-      lineVisibility: (json['LineVisibility'] as String?)?.toVisibility(),
+      lineInterpolation: (json['LineInterpolation'] as String?)
+          ?.let(LineInterpolation.fromString),
+      lineStyle:
+          (json['LineStyle'] as String?)?.let(LineChartLineStyle.fromString),
+      lineVisibility:
+          (json['LineVisibility'] as String?)?.let(Visibility.fromString),
       lineWidth: json['LineWidth'] as String?,
     );
   }
@@ -38453,55 +36158,30 @@ class LineChartLineStyleSettings {
     final lineWidth = this.lineWidth;
     return {
       if (lineInterpolation != null)
-        'LineInterpolation': lineInterpolation.toValue(),
-      if (lineStyle != null) 'LineStyle': lineStyle.toValue(),
-      if (lineVisibility != null) 'LineVisibility': lineVisibility.toValue(),
+        'LineInterpolation': lineInterpolation.value,
+      if (lineStyle != null) 'LineStyle': lineStyle.value,
+      if (lineVisibility != null) 'LineVisibility': lineVisibility.value,
       if (lineWidth != null) 'LineWidth': lineWidth,
     };
   }
 }
 
 enum LineChartMarkerShape {
-  circle,
-  triangle,
-  square,
-  diamond,
-  roundedSquare,
-}
+  circle('CIRCLE'),
+  triangle('TRIANGLE'),
+  square('SQUARE'),
+  diamond('DIAMOND'),
+  roundedSquare('ROUNDED_SQUARE'),
+  ;
 
-extension LineChartMarkerShapeValueExtension on LineChartMarkerShape {
-  String toValue() {
-    switch (this) {
-      case LineChartMarkerShape.circle:
-        return 'CIRCLE';
-      case LineChartMarkerShape.triangle:
-        return 'TRIANGLE';
-      case LineChartMarkerShape.square:
-        return 'SQUARE';
-      case LineChartMarkerShape.diamond:
-        return 'DIAMOND';
-      case LineChartMarkerShape.roundedSquare:
-        return 'ROUNDED_SQUARE';
-    }
-  }
-}
+  final String value;
 
-extension LineChartMarkerShapeFromString on String {
-  LineChartMarkerShape toLineChartMarkerShape() {
-    switch (this) {
-      case 'CIRCLE':
-        return LineChartMarkerShape.circle;
-      case 'TRIANGLE':
-        return LineChartMarkerShape.triangle;
-      case 'SQUARE':
-        return LineChartMarkerShape.square;
-      case 'DIAMOND':
-        return LineChartMarkerShape.diamond;
-      case 'ROUNDED_SQUARE':
-        return LineChartMarkerShape.roundedSquare;
-    }
-    throw Exception('$this is not known in enum LineChartMarkerShape');
-  }
+  const LineChartMarkerShape(this.value);
+
+  static LineChartMarkerShape fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum LineChartMarkerShape'));
 }
 
 /// Marker styles options for a line series in <code>LineChartVisual</code>.
@@ -38547,9 +36227,11 @@ class LineChartMarkerStyleSettings {
   factory LineChartMarkerStyleSettings.fromJson(Map<String, dynamic> json) {
     return LineChartMarkerStyleSettings(
       markerColor: json['MarkerColor'] as String?,
-      markerShape: (json['MarkerShape'] as String?)?.toLineChartMarkerShape(),
+      markerShape: (json['MarkerShape'] as String?)
+          ?.let(LineChartMarkerShape.fromString),
       markerSize: json['MarkerSize'] as String?,
-      markerVisibility: (json['MarkerVisibility'] as String?)?.toVisibility(),
+      markerVisibility:
+          (json['MarkerVisibility'] as String?)?.let(Visibility.fromString),
     );
   }
 
@@ -38560,10 +36242,9 @@ class LineChartMarkerStyleSettings {
     final markerVisibility = this.markerVisibility;
     return {
       if (markerColor != null) 'MarkerColor': markerColor,
-      if (markerShape != null) 'MarkerShape': markerShape.toValue(),
+      if (markerShape != null) 'MarkerShape': markerShape.value,
       if (markerSize != null) 'MarkerSize': markerSize,
-      if (markerVisibility != null)
-        'MarkerVisibility': markerVisibility.toValue(),
+      if (markerVisibility != null) 'MarkerVisibility': markerVisibility.value,
     };
   }
 }
@@ -38681,36 +36362,19 @@ class LineChartSortConfiguration {
 }
 
 enum LineChartType {
-  line,
-  area,
-  stackedArea,
-}
+  line('LINE'),
+  area('AREA'),
+  stackedArea('STACKED_AREA'),
+  ;
 
-extension LineChartTypeValueExtension on LineChartType {
-  String toValue() {
-    switch (this) {
-      case LineChartType.line:
-        return 'LINE';
-      case LineChartType.area:
-        return 'AREA';
-      case LineChartType.stackedArea:
-        return 'STACKED_AREA';
-    }
-  }
-}
+  final String value;
 
-extension LineChartTypeFromString on String {
-  LineChartType toLineChartType() {
-    switch (this) {
-      case 'LINE':
-        return LineChartType.line;
-      case 'AREA':
-        return LineChartType.area;
-      case 'STACKED_AREA':
-        return LineChartType.stackedArea;
-    }
-    throw Exception('$this is not known in enum LineChartType');
-  }
+  const LineChartType(this.value);
+
+  static LineChartType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LineChartType'));
 }
 
 /// A line chart.
@@ -38793,36 +36457,19 @@ class LineChartVisual {
 }
 
 enum LineInterpolation {
-  linear,
-  smooth,
-  stepped,
-}
+  linear('LINEAR'),
+  smooth('SMOOTH'),
+  stepped('STEPPED'),
+  ;
 
-extension LineInterpolationValueExtension on LineInterpolation {
-  String toValue() {
-    switch (this) {
-      case LineInterpolation.linear:
-        return 'LINEAR';
-      case LineInterpolation.smooth:
-        return 'SMOOTH';
-      case LineInterpolation.stepped:
-        return 'STEPPED';
-    }
-  }
-}
+  final String value;
 
-extension LineInterpolationFromString on String {
-  LineInterpolation toLineInterpolation() {
-    switch (this) {
-      case 'LINEAR':
-        return LineInterpolation.linear;
-      case 'SMOOTH':
-        return LineInterpolation.smooth;
-      case 'STEPPED':
-        return LineInterpolation.stepped;
-    }
-    throw Exception('$this is not known in enum LineInterpolation');
-  }
+  const LineInterpolation(this.value);
+
+  static LineInterpolation fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum LineInterpolation'));
 }
 
 /// The series axis configuration of a line chart.
@@ -39104,14 +36751,14 @@ class ListControlSearchOptions {
 
   factory ListControlSearchOptions.fromJson(Map<String, dynamic> json) {
     return ListControlSearchOptions(
-      visibility: (json['Visibility'] as String?)?.toVisibility(),
+      visibility: (json['Visibility'] as String?)?.let(Visibility.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final visibility = this.visibility;
     return {
-      if (visibility != null) 'Visibility': visibility.toValue(),
+      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
@@ -39128,14 +36775,14 @@ class ListControlSelectAllOptions {
 
   factory ListControlSelectAllOptions.fromJson(Map<String, dynamic> json) {
     return ListControlSelectAllOptions(
-      visibility: (json['Visibility'] as String?)?.toVisibility(),
+      visibility: (json['Visibility'] as String?)?.let(Visibility.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final visibility = this.visibility;
     return {
-      if (visibility != null) 'Visibility': visibility.toValue(),
+      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
@@ -40391,14 +38038,14 @@ class LoadingAnimation {
 
   factory LoadingAnimation.fromJson(Map<String, dynamic> json) {
     return LoadingAnimation(
-      visibility: (json['Visibility'] as String?)?.toVisibility(),
+      visibility: (json['Visibility'] as String?)?.let(Visibility.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final visibility = this.visibility;
     return {
-      if (visibility != null) 'Visibility': visibility.toValue(),
+      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
@@ -40571,7 +38218,7 @@ class LookbackWindow {
     return LookbackWindow(
       columnName: json['ColumnName'] as String,
       size: json['Size'] as int,
-      sizeUnit: (json['SizeUnit'] as String).toLookbackWindowSizeUnit(),
+      sizeUnit: LookbackWindowSizeUnit.fromString((json['SizeUnit'] as String)),
     );
   }
 
@@ -40582,42 +38229,25 @@ class LookbackWindow {
     return {
       'ColumnName': columnName,
       'Size': size,
-      'SizeUnit': sizeUnit.toValue(),
+      'SizeUnit': sizeUnit.value,
     };
   }
 }
 
 enum LookbackWindowSizeUnit {
-  hour,
-  day,
-  week,
-}
+  hour('HOUR'),
+  day('DAY'),
+  week('WEEK'),
+  ;
 
-extension LookbackWindowSizeUnitValueExtension on LookbackWindowSizeUnit {
-  String toValue() {
-    switch (this) {
-      case LookbackWindowSizeUnit.hour:
-        return 'HOUR';
-      case LookbackWindowSizeUnit.day:
-        return 'DAY';
-      case LookbackWindowSizeUnit.week:
-        return 'WEEK';
-    }
-  }
-}
+  final String value;
 
-extension LookbackWindowSizeUnitFromString on String {
-  LookbackWindowSizeUnit toLookbackWindowSizeUnit() {
-    switch (this) {
-      case 'HOUR':
-        return LookbackWindowSizeUnit.hour;
-      case 'DAY':
-        return LookbackWindowSizeUnit.day;
-      case 'WEEK':
-        return LookbackWindowSizeUnit.week;
-    }
-    throw Exception('$this is not known in enum LookbackWindowSizeUnit');
-  }
+  const LookbackWindowSizeUnit(this.value);
+
+  static LookbackWindowSizeUnit fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum LookbackWindowSizeUnit'));
 }
 
 /// Amazon S3 manifest file location.
@@ -40651,31 +38281,17 @@ class ManifestFileLocation {
 }
 
 enum MapZoomMode {
-  auto,
-  manual,
-}
+  auto('AUTO'),
+  manual('MANUAL'),
+  ;
 
-extension MapZoomModeValueExtension on MapZoomMode {
-  String toValue() {
-    switch (this) {
-      case MapZoomMode.auto:
-        return 'AUTO';
-      case MapZoomMode.manual:
-        return 'MANUAL';
-    }
-  }
-}
+  final String value;
 
-extension MapZoomModeFromString on String {
-  MapZoomMode toMapZoomMode() {
-    switch (this) {
-      case 'AUTO':
-        return MapZoomMode.auto;
-      case 'MANUAL':
-        return MapZoomMode.manual;
-    }
-    throw Exception('$this is not known in enum MapZoomMode');
-  }
+  const MapZoomMode(this.value);
+
+  static MapZoomMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum MapZoomMode'));
 }
 
 /// A dataset parameter that is mapped to an analysis parameter.
@@ -40779,14 +38395,14 @@ class MaximumLabelType {
 
   factory MaximumLabelType.fromJson(Map<String, dynamic> json) {
     return MaximumLabelType(
-      visibility: (json['Visibility'] as String?)?.toVisibility(),
+      visibility: (json['Visibility'] as String?)?.let(Visibility.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final visibility = this.visibility;
     return {
-      if (visibility != null) 'Visibility': visibility.toValue(),
+      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
@@ -40828,7 +38444,7 @@ class MaximumMinimumComputation {
   factory MaximumMinimumComputation.fromJson(Map<String, dynamic> json) {
     return MaximumMinimumComputation(
       computationId: json['ComputationId'] as String,
-      type: (json['Type'] as String).toMaximumMinimumComputationType(),
+      type: MaximumMinimumComputationType.fromString((json['Type'] as String)),
       name: json['Name'] as String?,
       time: json['Time'] != null
           ? DimensionField.fromJson(json['Time'] as Map<String, dynamic>)
@@ -40847,7 +38463,7 @@ class MaximumMinimumComputation {
     final value = this.value;
     return {
       'ComputationId': computationId,
-      'Type': type.toValue(),
+      'Type': type.value,
       if (name != null) 'Name': name,
       if (time != null) 'Time': time,
       if (value != null) 'Value': value,
@@ -40856,32 +38472,18 @@ class MaximumMinimumComputation {
 }
 
 enum MaximumMinimumComputationType {
-  maximum,
-  minimum,
-}
+  maximum('MAXIMUM'),
+  minimum('MINIMUM'),
+  ;
 
-extension MaximumMinimumComputationTypeValueExtension
-    on MaximumMinimumComputationType {
-  String toValue() {
-    switch (this) {
-      case MaximumMinimumComputationType.maximum:
-        return 'MAXIMUM';
-      case MaximumMinimumComputationType.minimum:
-        return 'MINIMUM';
-    }
-  }
-}
+  final String value;
 
-extension MaximumMinimumComputationTypeFromString on String {
-  MaximumMinimumComputationType toMaximumMinimumComputationType() {
-    switch (this) {
-      case 'MAXIMUM':
-        return MaximumMinimumComputationType.maximum;
-      case 'MINIMUM':
-        return MaximumMinimumComputationType.minimum;
-    }
-    throw Exception('$this is not known in enum MaximumMinimumComputationType');
-  }
+  const MaximumMinimumComputationType(this.value);
+
+  static MaximumMinimumComputationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MaximumMinimumComputationType'));
 }
 
 /// The measure (metric) type field.
@@ -40975,46 +38577,20 @@ class MemberIdArnPair {
 }
 
 enum MemberType {
-  dashboard,
-  analysis,
-  dataset,
-  datasource,
-  topic,
-}
+  dashboard('DASHBOARD'),
+  analysis('ANALYSIS'),
+  dataset('DATASET'),
+  datasource('DATASOURCE'),
+  topic('TOPIC'),
+  ;
 
-extension MemberTypeValueExtension on MemberType {
-  String toValue() {
-    switch (this) {
-      case MemberType.dashboard:
-        return 'DASHBOARD';
-      case MemberType.analysis:
-        return 'ANALYSIS';
-      case MemberType.dataset:
-        return 'DATASET';
-      case MemberType.datasource:
-        return 'DATASOURCE';
-      case MemberType.topic:
-        return 'TOPIC';
-    }
-  }
-}
+  final String value;
 
-extension MemberTypeFromString on String {
-  MemberType toMemberType() {
-    switch (this) {
-      case 'DASHBOARD':
-        return MemberType.dashboard;
-      case 'ANALYSIS':
-        return MemberType.analysis;
-      case 'DATASET':
-        return MemberType.dataset;
-      case 'DATASOURCE':
-        return MemberType.datasource;
-      case 'TOPIC':
-        return MemberType.topic;
-    }
-    throw Exception('$this is not known in enum MemberType');
-  }
+  const MemberType(this.value);
+
+  static MemberType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum MemberType'));
 }
 
 /// The metric comparison computation configuration.
@@ -41085,14 +38661,14 @@ class MinimumLabelType {
 
   factory MinimumLabelType.fromJson(Map<String, dynamic> json) {
     return MinimumLabelType(
-      visibility: (json['Visibility'] as String?)?.toVisibility(),
+      visibility: (json['Visibility'] as String?)?.let(Visibility.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final visibility = this.visibility;
     return {
-      if (visibility != null) 'Visibility': visibility.toValue(),
+      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
@@ -41124,51 +38700,33 @@ class MissingDataConfiguration {
 
   factory MissingDataConfiguration.fromJson(Map<String, dynamic> json) {
     return MissingDataConfiguration(
-      treatmentOption:
-          (json['TreatmentOption'] as String?)?.toMissingDataTreatmentOption(),
+      treatmentOption: (json['TreatmentOption'] as String?)
+          ?.let(MissingDataTreatmentOption.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final treatmentOption = this.treatmentOption;
     return {
-      if (treatmentOption != null) 'TreatmentOption': treatmentOption.toValue(),
+      if (treatmentOption != null) 'TreatmentOption': treatmentOption.value,
     };
   }
 }
 
 enum MissingDataTreatmentOption {
-  interpolate,
-  showAsZero,
-  showAsBlank,
-}
+  interpolate('INTERPOLATE'),
+  showAsZero('SHOW_AS_ZERO'),
+  showAsBlank('SHOW_AS_BLANK'),
+  ;
 
-extension MissingDataTreatmentOptionValueExtension
-    on MissingDataTreatmentOption {
-  String toValue() {
-    switch (this) {
-      case MissingDataTreatmentOption.interpolate:
-        return 'INTERPOLATE';
-      case MissingDataTreatmentOption.showAsZero:
-        return 'SHOW_AS_ZERO';
-      case MissingDataTreatmentOption.showAsBlank:
-        return 'SHOW_AS_BLANK';
-    }
-  }
-}
+  final String value;
 
-extension MissingDataTreatmentOptionFromString on String {
-  MissingDataTreatmentOption toMissingDataTreatmentOption() {
-    switch (this) {
-      case 'INTERPOLATE':
-        return MissingDataTreatmentOption.interpolate;
-      case 'SHOW_AS_ZERO':
-        return MissingDataTreatmentOption.showAsZero;
-      case 'SHOW_AS_BLANK':
-        return MissingDataTreatmentOption.showAsBlank;
-    }
-    throw Exception('$this is not known in enum MissingDataTreatmentOption');
-  }
+  const MissingDataTreatmentOption(this.value);
+
+  static MissingDataTreatmentOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MissingDataTreatmentOption'));
 }
 
 /// The parameters for MySQL.
@@ -41209,86 +38767,29 @@ class MySqlParameters {
 }
 
 enum NamedEntityAggType {
-  sum,
-  min,
-  max,
-  count,
-  average,
-  distinctCount,
-  stdev,
-  stdevp,
-  $var,
-  varp,
-  percentile,
-  median,
-  custom,
-}
+  sum('SUM'),
+  min('MIN'),
+  max('MAX'),
+  count('COUNT'),
+  average('AVERAGE'),
+  distinctCount('DISTINCT_COUNT'),
+  stdev('STDEV'),
+  stdevp('STDEVP'),
+  $var('VAR'),
+  varp('VARP'),
+  percentile('PERCENTILE'),
+  median('MEDIAN'),
+  custom('CUSTOM'),
+  ;
 
-extension NamedEntityAggTypeValueExtension on NamedEntityAggType {
-  String toValue() {
-    switch (this) {
-      case NamedEntityAggType.sum:
-        return 'SUM';
-      case NamedEntityAggType.min:
-        return 'MIN';
-      case NamedEntityAggType.max:
-        return 'MAX';
-      case NamedEntityAggType.count:
-        return 'COUNT';
-      case NamedEntityAggType.average:
-        return 'AVERAGE';
-      case NamedEntityAggType.distinctCount:
-        return 'DISTINCT_COUNT';
-      case NamedEntityAggType.stdev:
-        return 'STDEV';
-      case NamedEntityAggType.stdevp:
-        return 'STDEVP';
-      case NamedEntityAggType.$var:
-        return 'VAR';
-      case NamedEntityAggType.varp:
-        return 'VARP';
-      case NamedEntityAggType.percentile:
-        return 'PERCENTILE';
-      case NamedEntityAggType.median:
-        return 'MEDIAN';
-      case NamedEntityAggType.custom:
-        return 'CUSTOM';
-    }
-  }
-}
+  final String value;
 
-extension NamedEntityAggTypeFromString on String {
-  NamedEntityAggType toNamedEntityAggType() {
-    switch (this) {
-      case 'SUM':
-        return NamedEntityAggType.sum;
-      case 'MIN':
-        return NamedEntityAggType.min;
-      case 'MAX':
-        return NamedEntityAggType.max;
-      case 'COUNT':
-        return NamedEntityAggType.count;
-      case 'AVERAGE':
-        return NamedEntityAggType.average;
-      case 'DISTINCT_COUNT':
-        return NamedEntityAggType.distinctCount;
-      case 'STDEV':
-        return NamedEntityAggType.stdev;
-      case 'STDEVP':
-        return NamedEntityAggType.stdevp;
-      case 'VAR':
-        return NamedEntityAggType.$var;
-      case 'VARP':
-        return NamedEntityAggType.varp;
-      case 'PERCENTILE':
-        return NamedEntityAggType.percentile;
-      case 'MEDIAN':
-        return NamedEntityAggType.median;
-      case 'CUSTOM':
-        return NamedEntityAggType.custom;
-    }
-    throw Exception('$this is not known in enum NamedEntityAggType');
-  }
+  const NamedEntityAggType(this.value);
+
+  static NamedEntityAggType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum NamedEntityAggType'));
 }
 
 /// A structure that represents a named entity.
@@ -41326,8 +38827,10 @@ class NamedEntityDefinition {
               json['Metric'] as Map<String, dynamic>)
           : null,
       propertyName: json['PropertyName'] as String?,
-      propertyRole: (json['PropertyRole'] as String?)?.toPropertyRole(),
-      propertyUsage: (json['PropertyUsage'] as String?)?.toPropertyUsage(),
+      propertyRole:
+          (json['PropertyRole'] as String?)?.let(PropertyRole.fromString),
+      propertyUsage:
+          (json['PropertyUsage'] as String?)?.let(PropertyUsage.fromString),
     );
   }
 
@@ -41341,8 +38844,8 @@ class NamedEntityDefinition {
       if (fieldName != null) 'FieldName': fieldName,
       if (metric != null) 'Metric': metric,
       if (propertyName != null) 'PropertyName': propertyName,
-      if (propertyRole != null) 'PropertyRole': propertyRole.toValue(),
-      if (propertyUsage != null) 'PropertyUsage': propertyUsage.toValue(),
+      if (propertyRole != null) 'PropertyRole': propertyRole.value,
+      if (propertyUsage != null) 'PropertyUsage': propertyUsage.value,
     };
   }
 }
@@ -41366,7 +38869,8 @@ class NamedEntityDefinitionMetric {
 
   factory NamedEntityDefinitionMetric.fromJson(Map<String, dynamic> json) {
     return NamedEntityDefinitionMetric(
-      aggregation: (json['Aggregation'] as String?)?.toNamedEntityAggType(),
+      aggregation:
+          (json['Aggregation'] as String?)?.let(NamedEntityAggType.fromString),
       aggregationFunctionParameters:
           (json['AggregationFunctionParameters'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
@@ -41377,7 +38881,7 @@ class NamedEntityDefinitionMetric {
     final aggregation = this.aggregation;
     final aggregationFunctionParameters = this.aggregationFunctionParameters;
     return {
-      if (aggregation != null) 'Aggregation': aggregation.toValue(),
+      if (aggregation != null) 'Aggregation': aggregation.value,
       if (aggregationFunctionParameters != null)
         'AggregationFunctionParameters': aggregationFunctionParameters,
     };
@@ -41385,124 +38889,46 @@ class NamedEntityDefinitionMetric {
 }
 
 enum NamedFilterAggType {
-  noAggregation,
-  sum,
-  average,
-  count,
-  distinctCount,
-  max,
-  median,
-  min,
-  stdev,
-  stdevp,
-  $var,
-  varp,
-}
+  noAggregation('NO_AGGREGATION'),
+  sum('SUM'),
+  average('AVERAGE'),
+  count('COUNT'),
+  distinctCount('DISTINCT_COUNT'),
+  max('MAX'),
+  median('MEDIAN'),
+  min('MIN'),
+  stdev('STDEV'),
+  stdevp('STDEVP'),
+  $var('VAR'),
+  varp('VARP'),
+  ;
 
-extension NamedFilterAggTypeValueExtension on NamedFilterAggType {
-  String toValue() {
-    switch (this) {
-      case NamedFilterAggType.noAggregation:
-        return 'NO_AGGREGATION';
-      case NamedFilterAggType.sum:
-        return 'SUM';
-      case NamedFilterAggType.average:
-        return 'AVERAGE';
-      case NamedFilterAggType.count:
-        return 'COUNT';
-      case NamedFilterAggType.distinctCount:
-        return 'DISTINCT_COUNT';
-      case NamedFilterAggType.max:
-        return 'MAX';
-      case NamedFilterAggType.median:
-        return 'MEDIAN';
-      case NamedFilterAggType.min:
-        return 'MIN';
-      case NamedFilterAggType.stdev:
-        return 'STDEV';
-      case NamedFilterAggType.stdevp:
-        return 'STDEVP';
-      case NamedFilterAggType.$var:
-        return 'VAR';
-      case NamedFilterAggType.varp:
-        return 'VARP';
-    }
-  }
-}
+  final String value;
 
-extension NamedFilterAggTypeFromString on String {
-  NamedFilterAggType toNamedFilterAggType() {
-    switch (this) {
-      case 'NO_AGGREGATION':
-        return NamedFilterAggType.noAggregation;
-      case 'SUM':
-        return NamedFilterAggType.sum;
-      case 'AVERAGE':
-        return NamedFilterAggType.average;
-      case 'COUNT':
-        return NamedFilterAggType.count;
-      case 'DISTINCT_COUNT':
-        return NamedFilterAggType.distinctCount;
-      case 'MAX':
-        return NamedFilterAggType.max;
-      case 'MEDIAN':
-        return NamedFilterAggType.median;
-      case 'MIN':
-        return NamedFilterAggType.min;
-      case 'STDEV':
-        return NamedFilterAggType.stdev;
-      case 'STDEVP':
-        return NamedFilterAggType.stdevp;
-      case 'VAR':
-        return NamedFilterAggType.$var;
-      case 'VARP':
-        return NamedFilterAggType.varp;
-    }
-    throw Exception('$this is not known in enum NamedFilterAggType');
-  }
+  const NamedFilterAggType(this.value);
+
+  static NamedFilterAggType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum NamedFilterAggType'));
 }
 
 enum NamedFilterType {
-  categoryFilter,
-  numericEqualityFilter,
-  numericRangeFilter,
-  dateRangeFilter,
-  relativeDateFilter,
-}
+  categoryFilter('CATEGORY_FILTER'),
+  numericEqualityFilter('NUMERIC_EQUALITY_FILTER'),
+  numericRangeFilter('NUMERIC_RANGE_FILTER'),
+  dateRangeFilter('DATE_RANGE_FILTER'),
+  relativeDateFilter('RELATIVE_DATE_FILTER'),
+  ;
 
-extension NamedFilterTypeValueExtension on NamedFilterType {
-  String toValue() {
-    switch (this) {
-      case NamedFilterType.categoryFilter:
-        return 'CATEGORY_FILTER';
-      case NamedFilterType.numericEqualityFilter:
-        return 'NUMERIC_EQUALITY_FILTER';
-      case NamedFilterType.numericRangeFilter:
-        return 'NUMERIC_RANGE_FILTER';
-      case NamedFilterType.dateRangeFilter:
-        return 'DATE_RANGE_FILTER';
-      case NamedFilterType.relativeDateFilter:
-        return 'RELATIVE_DATE_FILTER';
-    }
-  }
-}
+  final String value;
 
-extension NamedFilterTypeFromString on String {
-  NamedFilterType toNamedFilterType() {
-    switch (this) {
-      case 'CATEGORY_FILTER':
-        return NamedFilterType.categoryFilter;
-      case 'NUMERIC_EQUALITY_FILTER':
-        return NamedFilterType.numericEqualityFilter;
-      case 'NUMERIC_RANGE_FILTER':
-        return NamedFilterType.numericRangeFilter;
-      case 'DATE_RANGE_FILTER':
-        return NamedFilterType.dateRangeFilter;
-      case 'RELATIVE_DATE_FILTER':
-        return NamedFilterType.relativeDateFilter;
-    }
-    throw Exception('$this is not known in enum NamedFilterType');
-  }
+  const NamedFilterType(this.value);
+
+  static NamedFilterType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum NamedFilterType'));
 }
 
 /// Errors that occur during namespace creation.
@@ -41521,7 +38947,7 @@ class NamespaceError {
   factory NamespaceError.fromJson(Map<String, dynamic> json) {
     return NamespaceError(
       message: json['Message'] as String?,
-      type: (json['Type'] as String?)?.toNamespaceErrorType(),
+      type: (json['Type'] as String?)?.let(NamespaceErrorType.fromString),
     );
   }
 
@@ -41530,37 +38956,24 @@ class NamespaceError {
     final type = this.type;
     return {
       if (message != null) 'Message': message,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum NamespaceErrorType {
-  permissionDenied,
-  internalServiceError,
-}
+  permissionDenied('PERMISSION_DENIED'),
+  internalServiceError('INTERNAL_SERVICE_ERROR'),
+  ;
 
-extension NamespaceErrorTypeValueExtension on NamespaceErrorType {
-  String toValue() {
-    switch (this) {
-      case NamespaceErrorType.permissionDenied:
-        return 'PERMISSION_DENIED';
-      case NamespaceErrorType.internalServiceError:
-        return 'INTERNAL_SERVICE_ERROR';
-    }
-  }
-}
+  final String value;
 
-extension NamespaceErrorTypeFromString on String {
-  NamespaceErrorType toNamespaceErrorType() {
-    switch (this) {
-      case 'PERMISSION_DENIED':
-        return NamespaceErrorType.permissionDenied;
-      case 'INTERNAL_SERVICE_ERROR':
-        return NamespaceErrorType.internalServiceError;
-    }
-    throw Exception('$this is not known in enum NamespaceErrorType');
-  }
+  const NamespaceErrorType(this.value);
+
+  static NamespaceErrorType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum NamespaceErrorType'));
 }
 
 /// The error type.
@@ -41596,8 +39009,10 @@ class NamespaceInfoV2 {
     return NamespaceInfoV2(
       arn: json['Arn'] as String?,
       capacityRegion: json['CapacityRegion'] as String?,
-      creationStatus: (json['CreationStatus'] as String?)?.toNamespaceStatus(),
-      identityStore: (json['IdentityStore'] as String?)?.toIdentityStore(),
+      creationStatus:
+          (json['CreationStatus'] as String?)?.let(NamespaceStatus.fromString),
+      identityStore:
+          (json['IdentityStore'] as String?)?.let(IdentityStore.fromString),
       name: json['Name'] as String?,
       namespaceError: json['NamespaceError'] != null
           ? NamespaceError.fromJson(
@@ -41616,8 +39031,8 @@ class NamespaceInfoV2 {
     return {
       if (arn != null) 'Arn': arn,
       if (capacityRegion != null) 'CapacityRegion': capacityRegion,
-      if (creationStatus != null) 'CreationStatus': creationStatus.toValue(),
-      if (identityStore != null) 'IdentityStore': identityStore.toValue(),
+      if (creationStatus != null) 'CreationStatus': creationStatus.value,
+      if (identityStore != null) 'IdentityStore': identityStore.value,
       if (name != null) 'Name': name,
       if (namespaceError != null) 'NamespaceError': namespaceError,
     };
@@ -41625,46 +39040,21 @@ class NamespaceInfoV2 {
 }
 
 enum NamespaceStatus {
-  created,
-  creating,
-  deleting,
-  retryableFailure,
-  nonRetryableFailure,
-}
+  created('CREATED'),
+  creating('CREATING'),
+  deleting('DELETING'),
+  retryableFailure('RETRYABLE_FAILURE'),
+  nonRetryableFailure('NON_RETRYABLE_FAILURE'),
+  ;
 
-extension NamespaceStatusValueExtension on NamespaceStatus {
-  String toValue() {
-    switch (this) {
-      case NamespaceStatus.created:
-        return 'CREATED';
-      case NamespaceStatus.creating:
-        return 'CREATING';
-      case NamespaceStatus.deleting:
-        return 'DELETING';
-      case NamespaceStatus.retryableFailure:
-        return 'RETRYABLE_FAILURE';
-      case NamespaceStatus.nonRetryableFailure:
-        return 'NON_RETRYABLE_FAILURE';
-    }
-  }
-}
+  final String value;
 
-extension NamespaceStatusFromString on String {
-  NamespaceStatus toNamespaceStatus() {
-    switch (this) {
-      case 'CREATED':
-        return NamespaceStatus.created;
-      case 'CREATING':
-        return NamespaceStatus.creating;
-      case 'DELETING':
-        return NamespaceStatus.deleting;
-      case 'RETRYABLE_FAILURE':
-        return NamespaceStatus.retryableFailure;
-      case 'NON_RETRYABLE_FAILURE':
-        return NamespaceStatus.nonRetryableFailure;
-    }
-    throw Exception('$this is not known in enum NamespaceStatus');
-  }
+  const NamespaceStatus(this.value);
+
+  static NamespaceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum NamespaceStatus'));
 }
 
 /// A structure that represents a negative format.
@@ -41708,44 +39098,32 @@ class NegativeValueConfiguration {
 
   factory NegativeValueConfiguration.fromJson(Map<String, dynamic> json) {
     return NegativeValueConfiguration(
-      displayMode: (json['DisplayMode'] as String).toNegativeValueDisplayMode(),
+      displayMode:
+          NegativeValueDisplayMode.fromString((json['DisplayMode'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final displayMode = this.displayMode;
     return {
-      'DisplayMode': displayMode.toValue(),
+      'DisplayMode': displayMode.value,
     };
   }
 }
 
 enum NegativeValueDisplayMode {
-  positive,
-  negative,
-}
+  positive('POSITIVE'),
+  negative('NEGATIVE'),
+  ;
 
-extension NegativeValueDisplayModeValueExtension on NegativeValueDisplayMode {
-  String toValue() {
-    switch (this) {
-      case NegativeValueDisplayMode.positive:
-        return 'POSITIVE';
-      case NegativeValueDisplayMode.negative:
-        return 'NEGATIVE';
-    }
-  }
-}
+  final String value;
 
-extension NegativeValueDisplayModeFromString on String {
-  NegativeValueDisplayMode toNegativeValueDisplayMode() {
-    switch (this) {
-      case 'POSITIVE':
-        return NegativeValueDisplayMode.positive;
-      case 'NEGATIVE':
-        return NegativeValueDisplayMode.negative;
-    }
-    throw Exception('$this is not known in enum NegativeValueDisplayMode');
-  }
+  const NegativeValueDisplayMode(this.value);
+
+  static NegativeValueDisplayMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum NegativeValueDisplayMode'));
 }
 
 /// The structure that contains information about a network interface.
@@ -41778,7 +39156,8 @@ class NetworkInterface {
       availabilityZone: json['AvailabilityZone'] as String?,
       errorMessage: json['ErrorMessage'] as String?,
       networkInterfaceId: json['NetworkInterfaceId'] as String?,
-      status: (json['Status'] as String?)?.toNetworkInterfaceStatus(),
+      status:
+          (json['Status'] as String?)?.let(NetworkInterfaceStatus.fromString),
       subnetId: json['SubnetId'] as String?,
     );
   }
@@ -41793,78 +39172,33 @@ class NetworkInterface {
       if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
       if (errorMessage != null) 'ErrorMessage': errorMessage,
       if (networkInterfaceId != null) 'NetworkInterfaceId': networkInterfaceId,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (subnetId != null) 'SubnetId': subnetId,
     };
   }
 }
 
 enum NetworkInterfaceStatus {
-  creating,
-  available,
-  creationFailed,
-  updating,
-  updateFailed,
-  deleting,
-  deleted,
-  deletionFailed,
-  deletionScheduled,
-  attachmentFailedRollbackFailed,
-}
+  creating('CREATING'),
+  available('AVAILABLE'),
+  creationFailed('CREATION_FAILED'),
+  updating('UPDATING'),
+  updateFailed('UPDATE_FAILED'),
+  deleting('DELETING'),
+  deleted('DELETED'),
+  deletionFailed('DELETION_FAILED'),
+  deletionScheduled('DELETION_SCHEDULED'),
+  attachmentFailedRollbackFailed('ATTACHMENT_FAILED_ROLLBACK_FAILED'),
+  ;
 
-extension NetworkInterfaceStatusValueExtension on NetworkInterfaceStatus {
-  String toValue() {
-    switch (this) {
-      case NetworkInterfaceStatus.creating:
-        return 'CREATING';
-      case NetworkInterfaceStatus.available:
-        return 'AVAILABLE';
-      case NetworkInterfaceStatus.creationFailed:
-        return 'CREATION_FAILED';
-      case NetworkInterfaceStatus.updating:
-        return 'UPDATING';
-      case NetworkInterfaceStatus.updateFailed:
-        return 'UPDATE_FAILED';
-      case NetworkInterfaceStatus.deleting:
-        return 'DELETING';
-      case NetworkInterfaceStatus.deleted:
-        return 'DELETED';
-      case NetworkInterfaceStatus.deletionFailed:
-        return 'DELETION_FAILED';
-      case NetworkInterfaceStatus.deletionScheduled:
-        return 'DELETION_SCHEDULED';
-      case NetworkInterfaceStatus.attachmentFailedRollbackFailed:
-        return 'ATTACHMENT_FAILED_ROLLBACK_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension NetworkInterfaceStatusFromString on String {
-  NetworkInterfaceStatus toNetworkInterfaceStatus() {
-    switch (this) {
-      case 'CREATING':
-        return NetworkInterfaceStatus.creating;
-      case 'AVAILABLE':
-        return NetworkInterfaceStatus.available;
-      case 'CREATION_FAILED':
-        return NetworkInterfaceStatus.creationFailed;
-      case 'UPDATING':
-        return NetworkInterfaceStatus.updating;
-      case 'UPDATE_FAILED':
-        return NetworkInterfaceStatus.updateFailed;
-      case 'DELETING':
-        return NetworkInterfaceStatus.deleting;
-      case 'DELETED':
-        return NetworkInterfaceStatus.deleted;
-      case 'DELETION_FAILED':
-        return NetworkInterfaceStatus.deletionFailed;
-      case 'DELETION_SCHEDULED':
-        return NetworkInterfaceStatus.deletionScheduled;
-      case 'ATTACHMENT_FAILED_ROLLBACK_FAILED':
-        return NetworkInterfaceStatus.attachmentFailedRollbackFailed;
-    }
-    throw Exception('$this is not known in enum NetworkInterfaceStatus');
-  }
+  const NetworkInterfaceStatus(this.value);
+
+  static NetworkInterfaceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum NetworkInterfaceStatus'));
 }
 
 /// The configuration that overrides the existing default values for a dataset
@@ -41998,7 +39332,8 @@ class NumberDisplayFormatConfiguration {
           ? NullValueFormatConfiguration.fromJson(
               json['NullValueFormatConfiguration'] as Map<String, dynamic>)
           : null,
-      numberScale: (json['NumberScale'] as String?)?.toNumberScale(),
+      numberScale:
+          (json['NumberScale'] as String?)?.let(NumberScale.fromString),
       prefix: json['Prefix'] as String?,
       separatorConfiguration: json['SeparatorConfiguration'] != null
           ? NumericSeparatorConfiguration.fromJson(
@@ -42023,7 +39358,7 @@ class NumberDisplayFormatConfiguration {
         'NegativeValueConfiguration': negativeValueConfiguration,
       if (nullValueFormatConfiguration != null)
         'NullValueFormatConfiguration': nullValueFormatConfiguration,
-      if (numberScale != null) 'NumberScale': numberScale.toValue(),
+      if (numberScale != null) 'NumberScale': numberScale.value,
       if (prefix != null) 'Prefix': prefix,
       if (separatorConfiguration != null)
         'SeparatorConfiguration': separatorConfiguration,
@@ -42060,51 +39395,21 @@ class NumberFormatConfiguration {
 }
 
 enum NumberScale {
-  none,
-  auto,
-  thousands,
-  millions,
-  billions,
-  trillions,
-}
+  none('NONE'),
+  auto('AUTO'),
+  thousands('THOUSANDS'),
+  millions('MILLIONS'),
+  billions('BILLIONS'),
+  trillions('TRILLIONS'),
+  ;
 
-extension NumberScaleValueExtension on NumberScale {
-  String toValue() {
-    switch (this) {
-      case NumberScale.none:
-        return 'NONE';
-      case NumberScale.auto:
-        return 'AUTO';
-      case NumberScale.thousands:
-        return 'THOUSANDS';
-      case NumberScale.millions:
-        return 'MILLIONS';
-      case NumberScale.billions:
-        return 'BILLIONS';
-      case NumberScale.trillions:
-        return 'TRILLIONS';
-    }
-  }
-}
+  final String value;
 
-extension NumberScaleFromString on String {
-  NumberScale toNumberScale() {
-    switch (this) {
-      case 'NONE':
-        return NumberScale.none;
-      case 'AUTO':
-        return NumberScale.auto;
-      case 'THOUSANDS':
-        return NumberScale.thousands;
-      case 'MILLIONS':
-        return NumberScale.millions;
-      case 'BILLIONS':
-        return NumberScale.billions;
-      case 'TRILLIONS':
-        return NumberScale.trillions;
-    }
-    throw Exception('$this is not known in enum NumberScale');
-  }
+  const NumberScale(this.value);
+
+  static NumberScale fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum NumberScale'));
 }
 
 /// The options for an axis with a numeric field.
@@ -42238,9 +39543,9 @@ class NumericEqualityFilter {
     return NumericEqualityFilter(
       column: ColumnIdentifier.fromJson(json['Column'] as Map<String, dynamic>),
       filterId: json['FilterId'] as String,
-      matchOperator:
-          (json['MatchOperator'] as String).toNumericEqualityMatchOperator(),
-      nullOption: (json['NullOption'] as String).toFilterNullOption(),
+      matchOperator: NumericEqualityMatchOperator.fromString(
+          (json['MatchOperator'] as String)),
+      nullOption: FilterNullOption.fromString((json['NullOption'] as String)),
       aggregationFunction: json['AggregationFunction'] != null
           ? AggregationFunction.fromJson(
               json['AggregationFunction'] as Map<String, dynamic>)
@@ -42253,7 +39558,7 @@ class NumericEqualityFilter {
               : null,
       parameterName: json['ParameterName'] as String?,
       selectAllOptions: (json['SelectAllOptions'] as String?)
-          ?.toNumericFilterSelectAllOptions(),
+          ?.let(NumericFilterSelectAllOptions.fromString),
       value: json['Value'] as double?,
     );
   }
@@ -42272,71 +39577,46 @@ class NumericEqualityFilter {
     return {
       'Column': column,
       'FilterId': filterId,
-      'MatchOperator': matchOperator.toValue(),
-      'NullOption': nullOption.toValue(),
+      'MatchOperator': matchOperator.value,
+      'NullOption': nullOption.value,
       if (aggregationFunction != null)
         'AggregationFunction': aggregationFunction,
       if (defaultFilterControlConfiguration != null)
         'DefaultFilterControlConfiguration': defaultFilterControlConfiguration,
       if (parameterName != null) 'ParameterName': parameterName,
-      if (selectAllOptions != null)
-        'SelectAllOptions': selectAllOptions.toValue(),
+      if (selectAllOptions != null) 'SelectAllOptions': selectAllOptions.value,
       if (value != null) 'Value': value,
     };
   }
 }
 
 enum NumericEqualityMatchOperator {
-  equals,
-  doesNotEqual,
-}
+  equals('EQUALS'),
+  doesNotEqual('DOES_NOT_EQUAL'),
+  ;
 
-extension NumericEqualityMatchOperatorValueExtension
-    on NumericEqualityMatchOperator {
-  String toValue() {
-    switch (this) {
-      case NumericEqualityMatchOperator.equals:
-        return 'EQUALS';
-      case NumericEqualityMatchOperator.doesNotEqual:
-        return 'DOES_NOT_EQUAL';
-    }
-  }
-}
+  final String value;
 
-extension NumericEqualityMatchOperatorFromString on String {
-  NumericEqualityMatchOperator toNumericEqualityMatchOperator() {
-    switch (this) {
-      case 'EQUALS':
-        return NumericEqualityMatchOperator.equals;
-      case 'DOES_NOT_EQUAL':
-        return NumericEqualityMatchOperator.doesNotEqual;
-    }
-    throw Exception('$this is not known in enum NumericEqualityMatchOperator');
-  }
+  const NumericEqualityMatchOperator(this.value);
+
+  static NumericEqualityMatchOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum NumericEqualityMatchOperator'));
 }
 
 enum NumericFilterSelectAllOptions {
-  filterAllValues,
-}
+  filterAllValues('FILTER_ALL_VALUES'),
+  ;
 
-extension NumericFilterSelectAllOptionsValueExtension
-    on NumericFilterSelectAllOptions {
-  String toValue() {
-    switch (this) {
-      case NumericFilterSelectAllOptions.filterAllValues:
-        return 'FILTER_ALL_VALUES';
-    }
-  }
-}
+  final String value;
 
-extension NumericFilterSelectAllOptionsFromString on String {
-  NumericFilterSelectAllOptions toNumericFilterSelectAllOptions() {
-    switch (this) {
-      case 'FILTER_ALL_VALUES':
-        return NumericFilterSelectAllOptions.filterAllValues;
-    }
-    throw Exception('$this is not known in enum NumericFilterSelectAllOptions');
-  }
+  const NumericFilterSelectAllOptions(this.value);
+
+  static NumericFilterSelectAllOptions fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum NumericFilterSelectAllOptions'));
 }
 
 /// The options that determine the numeric format configuration.
@@ -42476,7 +39756,7 @@ class NumericRangeFilter {
     return NumericRangeFilter(
       column: ColumnIdentifier.fromJson(json['Column'] as Map<String, dynamic>),
       filterId: json['FilterId'] as String,
-      nullOption: (json['NullOption'] as String).toFilterNullOption(),
+      nullOption: FilterNullOption.fromString((json['NullOption'] as String)),
       aggregationFunction: json['AggregationFunction'] != null
           ? AggregationFunction.fromJson(
               json['AggregationFunction'] as Map<String, dynamic>)
@@ -42498,7 +39778,7 @@ class NumericRangeFilter {
               json['RangeMinimum'] as Map<String, dynamic>)
           : null,
       selectAllOptions: (json['SelectAllOptions'] as String?)
-          ?.toNumericFilterSelectAllOptions(),
+          ?.let(NumericFilterSelectAllOptions.fromString),
     );
   }
 
@@ -42517,7 +39797,7 @@ class NumericRangeFilter {
     return {
       'Column': column,
       'FilterId': filterId,
-      'NullOption': nullOption.toValue(),
+      'NullOption': nullOption.value,
       if (aggregationFunction != null)
         'AggregationFunction': aggregationFunction,
       if (defaultFilterControlConfiguration != null)
@@ -42526,8 +39806,7 @@ class NumericRangeFilter {
       if (includeMinimum != null) 'IncludeMinimum': includeMinimum,
       if (rangeMaximum != null) 'RangeMaximum': rangeMaximum,
       if (rangeMinimum != null) 'RangeMinimum': rangeMinimum,
-      if (selectAllOptions != null)
-        'SelectAllOptions': selectAllOptions.toValue(),
+      if (selectAllOptions != null) 'SelectAllOptions': selectAllOptions.value,
     };
   }
 }
@@ -42577,8 +39856,8 @@ class NumericSeparatorConfiguration {
 
   factory NumericSeparatorConfiguration.fromJson(Map<String, dynamic> json) {
     return NumericSeparatorConfiguration(
-      decimalSeparator:
-          (json['DecimalSeparator'] as String?)?.toNumericSeparatorSymbol(),
+      decimalSeparator: (json['DecimalSeparator'] as String?)
+          ?.let(NumericSeparatorSymbol.fromString),
       thousandsSeparator: json['ThousandsSeparator'] != null
           ? ThousandSeparatorOptions.fromJson(
               json['ThousandsSeparator'] as Map<String, dynamic>)
@@ -42590,44 +39869,26 @@ class NumericSeparatorConfiguration {
     final decimalSeparator = this.decimalSeparator;
     final thousandsSeparator = this.thousandsSeparator;
     return {
-      if (decimalSeparator != null)
-        'DecimalSeparator': decimalSeparator.toValue(),
+      if (decimalSeparator != null) 'DecimalSeparator': decimalSeparator.value,
       if (thousandsSeparator != null) 'ThousandsSeparator': thousandsSeparator,
     };
   }
 }
 
 enum NumericSeparatorSymbol {
-  comma,
-  dot,
-  space,
-}
+  comma('COMMA'),
+  dot('DOT'),
+  space('SPACE'),
+  ;
 
-extension NumericSeparatorSymbolValueExtension on NumericSeparatorSymbol {
-  String toValue() {
-    switch (this) {
-      case NumericSeparatorSymbol.comma:
-        return 'COMMA';
-      case NumericSeparatorSymbol.dot:
-        return 'DOT';
-      case NumericSeparatorSymbol.space:
-        return 'SPACE';
-    }
-  }
-}
+  final String value;
 
-extension NumericSeparatorSymbolFromString on String {
-  NumericSeparatorSymbol toNumericSeparatorSymbol() {
-    switch (this) {
-      case 'COMMA':
-        return NumericSeparatorSymbol.comma;
-      case 'DOT':
-        return NumericSeparatorSymbol.dot;
-      case 'SPACE':
-        return NumericSeparatorSymbol.space;
-    }
-    throw Exception('$this is not known in enum NumericSeparatorSymbol');
-  }
+  const NumericSeparatorSymbol(this.value);
+
+  static NumericSeparatorSymbol fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum NumericSeparatorSymbol'));
 }
 
 /// Aggregation for numerical values.
@@ -42689,7 +39950,7 @@ class NumericalAggregationFunction {
           : null,
       simpleNumericalAggregation:
           (json['SimpleNumericalAggregation'] as String?)
-              ?.toSimpleNumericalAggregationFunction(),
+              ?.let(SimpleNumericalAggregationFunction.fromString),
     );
   }
 
@@ -42700,7 +39961,7 @@ class NumericalAggregationFunction {
       if (percentileAggregation != null)
         'PercentileAggregation': percentileAggregation,
       if (simpleNumericalAggregation != null)
-        'SimpleNumericalAggregation': simpleNumericalAggregation.toValue(),
+        'SimpleNumericalAggregation': simpleNumericalAggregation.value,
     };
   }
 }
@@ -42843,31 +40104,18 @@ class OracleParameters {
 }
 
 enum OtherCategories {
-  include,
-  exclude,
-}
+  include('INCLUDE'),
+  exclude('EXCLUDE'),
+  ;
 
-extension OtherCategoriesValueExtension on OtherCategories {
-  String toValue() {
-    switch (this) {
-      case OtherCategories.include:
-        return 'INCLUDE';
-      case OtherCategories.exclude:
-        return 'EXCLUDE';
-    }
-  }
-}
+  final String value;
 
-extension OtherCategoriesFromString on String {
-  OtherCategories toOtherCategories() {
-    switch (this) {
-      case 'INCLUDE':
-        return OtherCategories.include;
-      case 'EXCLUDE':
-        return OtherCategories.exclude;
-    }
-    throw Exception('$this is not known in enum OtherCategories');
-  }
+  const OtherCategories(this.value);
+
+  static OtherCategories fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OtherCategories'));
 }
 
 /// Output column.
@@ -42895,8 +40143,8 @@ class OutputColumn {
     return OutputColumn(
       description: json['Description'] as String?,
       name: json['Name'] as String?,
-      subType: (json['SubType'] as String?)?.toColumnDataSubType(),
-      type: (json['Type'] as String?)?.toColumnDataType(),
+      subType: (json['SubType'] as String?)?.let(ColumnDataSubType.fromString),
+      type: (json['Type'] as String?)?.let(ColumnDataType.fromString),
     );
   }
 
@@ -42908,8 +40156,8 @@ class OutputColumn {
     return {
       if (description != null) 'Description': description,
       if (name != null) 'Name': name,
-      if (subType != null) 'SubType': subType.toValue(),
-      if (type != null) 'Type': type.toValue(),
+      if (subType != null) 'SubType': subType.value,
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -42987,36 +40235,19 @@ class PaginationConfiguration {
 }
 
 enum PanelBorderStyle {
-  solid,
-  dashed,
-  dotted,
-}
+  solid('SOLID'),
+  dashed('DASHED'),
+  dotted('DOTTED'),
+  ;
 
-extension PanelBorderStyleValueExtension on PanelBorderStyle {
-  String toValue() {
-    switch (this) {
-      case PanelBorderStyle.solid:
-        return 'SOLID';
-      case PanelBorderStyle.dashed:
-        return 'DASHED';
-      case PanelBorderStyle.dotted:
-        return 'DOTTED';
-    }
-  }
-}
+  final String value;
 
-extension PanelBorderStyleFromString on String {
-  PanelBorderStyle toPanelBorderStyle() {
-    switch (this) {
-      case 'SOLID':
-        return PanelBorderStyle.solid;
-      case 'DASHED':
-        return PanelBorderStyle.dashed;
-      case 'DOTTED':
-        return PanelBorderStyle.dotted;
-    }
-    throw Exception('$this is not known in enum PanelBorderStyle');
-  }
+  const PanelBorderStyle(this.value);
+
+  static PanelBorderStyle fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PanelBorderStyle'));
 }
 
 /// A collection of options that configure how each panel displays in a small
@@ -43066,13 +40297,16 @@ class PanelConfiguration {
     return PanelConfiguration(
       backgroundColor: json['BackgroundColor'] as String?,
       backgroundVisibility:
-          (json['BackgroundVisibility'] as String?)?.toVisibility(),
+          (json['BackgroundVisibility'] as String?)?.let(Visibility.fromString),
       borderColor: json['BorderColor'] as String?,
-      borderStyle: (json['BorderStyle'] as String?)?.toPanelBorderStyle(),
+      borderStyle:
+          (json['BorderStyle'] as String?)?.let(PanelBorderStyle.fromString),
       borderThickness: json['BorderThickness'] as String?,
-      borderVisibility: (json['BorderVisibility'] as String?)?.toVisibility(),
+      borderVisibility:
+          (json['BorderVisibility'] as String?)?.let(Visibility.fromString),
       gutterSpacing: json['GutterSpacing'] as String?,
-      gutterVisibility: (json['GutterVisibility'] as String?)?.toVisibility(),
+      gutterVisibility:
+          (json['GutterVisibility'] as String?)?.let(Visibility.fromString),
       title: json['Title'] != null
           ? PanelTitleOptions.fromJson(json['Title'] as Map<String, dynamic>)
           : null,
@@ -43092,15 +40326,13 @@ class PanelConfiguration {
     return {
       if (backgroundColor != null) 'BackgroundColor': backgroundColor,
       if (backgroundVisibility != null)
-        'BackgroundVisibility': backgroundVisibility.toValue(),
+        'BackgroundVisibility': backgroundVisibility.value,
       if (borderColor != null) 'BorderColor': borderColor,
-      if (borderStyle != null) 'BorderStyle': borderStyle.toValue(),
+      if (borderStyle != null) 'BorderStyle': borderStyle.value,
       if (borderThickness != null) 'BorderThickness': borderThickness,
-      if (borderVisibility != null)
-        'BorderVisibility': borderVisibility.toValue(),
+      if (borderVisibility != null) 'BorderVisibility': borderVisibility.value,
       if (gutterSpacing != null) 'GutterSpacing': gutterSpacing,
-      if (gutterVisibility != null)
-        'GutterVisibility': gutterVisibility.toValue(),
+      if (gutterVisibility != null) 'GutterVisibility': gutterVisibility.value,
       if (title != null) 'Title': title,
     };
   }
@@ -43129,8 +40361,8 @@ class PanelTitleOptions {
               json['FontConfiguration'] as Map<String, dynamic>)
           : null,
       horizontalTextAlignment: (json['HorizontalTextAlignment'] as String?)
-          ?.toHorizontalTextAlignment(),
-      visibility: (json['Visibility'] as String?)?.toVisibility(),
+          ?.let(HorizontalTextAlignment.fromString),
+      visibility: (json['Visibility'] as String?)?.let(Visibility.fromString),
     );
   }
 
@@ -43141,111 +40373,48 @@ class PanelTitleOptions {
     return {
       if (fontConfiguration != null) 'FontConfiguration': fontConfiguration,
       if (horizontalTextAlignment != null)
-        'HorizontalTextAlignment': horizontalTextAlignment.toValue(),
-      if (visibility != null) 'Visibility': visibility.toValue(),
+        'HorizontalTextAlignment': horizontalTextAlignment.value,
+      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
 
 enum PaperOrientation {
-  portrait,
-  landscape,
-}
+  portrait('PORTRAIT'),
+  landscape('LANDSCAPE'),
+  ;
 
-extension PaperOrientationValueExtension on PaperOrientation {
-  String toValue() {
-    switch (this) {
-      case PaperOrientation.portrait:
-        return 'PORTRAIT';
-      case PaperOrientation.landscape:
-        return 'LANDSCAPE';
-    }
-  }
-}
+  final String value;
 
-extension PaperOrientationFromString on String {
-  PaperOrientation toPaperOrientation() {
-    switch (this) {
-      case 'PORTRAIT':
-        return PaperOrientation.portrait;
-      case 'LANDSCAPE':
-        return PaperOrientation.landscape;
-    }
-    throw Exception('$this is not known in enum PaperOrientation');
-  }
+  const PaperOrientation(this.value);
+
+  static PaperOrientation fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PaperOrientation'));
 }
 
 enum PaperSize {
-  usLetter,
-  usLegal,
-  usTabloidLedger,
-  a0,
-  a1,
-  a2,
-  a3,
-  a4,
-  a5,
-  jisB4,
-  jisB5,
-}
+  usLetter('US_LETTER'),
+  usLegal('US_LEGAL'),
+  usTabloidLedger('US_TABLOID_LEDGER'),
+  a0('A0'),
+  a1('A1'),
+  a2('A2'),
+  a3('A3'),
+  a4('A4'),
+  a5('A5'),
+  jisB4('JIS_B4'),
+  jisB5('JIS_B5'),
+  ;
 
-extension PaperSizeValueExtension on PaperSize {
-  String toValue() {
-    switch (this) {
-      case PaperSize.usLetter:
-        return 'US_LETTER';
-      case PaperSize.usLegal:
-        return 'US_LEGAL';
-      case PaperSize.usTabloidLedger:
-        return 'US_TABLOID_LEDGER';
-      case PaperSize.a0:
-        return 'A0';
-      case PaperSize.a1:
-        return 'A1';
-      case PaperSize.a2:
-        return 'A2';
-      case PaperSize.a3:
-        return 'A3';
-      case PaperSize.a4:
-        return 'A4';
-      case PaperSize.a5:
-        return 'A5';
-      case PaperSize.jisB4:
-        return 'JIS_B4';
-      case PaperSize.jisB5:
-        return 'JIS_B5';
-    }
-  }
-}
+  final String value;
 
-extension PaperSizeFromString on String {
-  PaperSize toPaperSize() {
-    switch (this) {
-      case 'US_LETTER':
-        return PaperSize.usLetter;
-      case 'US_LEGAL':
-        return PaperSize.usLegal;
-      case 'US_TABLOID_LEDGER':
-        return PaperSize.usTabloidLedger;
-      case 'A0':
-        return PaperSize.a0;
-      case 'A1':
-        return PaperSize.a1;
-      case 'A2':
-        return PaperSize.a2;
-      case 'A3':
-        return PaperSize.a3;
-      case 'A4':
-        return PaperSize.a4;
-      case 'A5':
-        return PaperSize.a5;
-      case 'JIS_B4':
-        return PaperSize.jisB4;
-      case 'JIS_B5':
-        return PaperSize.jisB5;
-    }
-    throw Exception('$this is not known in enum PaperSize');
-  }
+  const PaperSize(this.value);
+
+  static PaperSize fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum PaperSize'));
 }
 
 /// The control of a parameter that users can interact with in a dashboard or an
@@ -43497,7 +40666,7 @@ class ParameterDropDownControl {
           ? ParameterSelectableValues.fromJson(
               json['SelectableValues'] as Map<String, dynamic>)
           : null,
-      type: (json['Type'] as String?)?.toSheetControlListType(),
+      type: (json['Type'] as String?)?.let(SheetControlListType.fromString),
     );
   }
 
@@ -43517,7 +40686,7 @@ class ParameterDropDownControl {
         'CascadingControlConfiguration': cascadingControlConfiguration,
       if (displayOptions != null) 'DisplayOptions': displayOptions,
       if (selectableValues != null) 'SelectableValues': selectableValues,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -43575,7 +40744,7 @@ class ParameterListControl {
           ? ParameterSelectableValues.fromJson(
               json['SelectableValues'] as Map<String, dynamic>)
           : null,
-      type: (json['Type'] as String?)?.toSheetControlListType(),
+      type: (json['Type'] as String?)?.let(SheetControlListType.fromString),
     );
   }
 
@@ -43595,7 +40764,7 @@ class ParameterListControl {
         'CascadingControlConfiguration': cascadingControlConfiguration,
       if (displayOptions != null) 'DisplayOptions': displayOptions,
       if (selectableValues != null) 'SelectableValues': selectableValues,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -43808,31 +40977,18 @@ class ParameterTextFieldControl {
 }
 
 enum ParameterValueType {
-  multiValued,
-  singleValued,
-}
+  multiValued('MULTI_VALUED'),
+  singleValued('SINGLE_VALUED'),
+  ;
 
-extension ParameterValueTypeValueExtension on ParameterValueType {
-  String toValue() {
-    switch (this) {
-      case ParameterValueType.multiValued:
-        return 'MULTI_VALUED';
-      case ParameterValueType.singleValued:
-        return 'SINGLE_VALUED';
-    }
-  }
-}
+  final String value;
 
-extension ParameterValueTypeFromString on String {
-  ParameterValueType toParameterValueType() {
-    switch (this) {
-      case 'MULTI_VALUED':
-        return ParameterValueType.multiValued;
-      case 'SINGLE_VALUED':
-        return ParameterValueType.singleValued;
-    }
-    throw Exception('$this is not known in enum ParameterValueType');
-  }
+  const ParameterValueType(this.value);
+
+  static ParameterValueType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ParameterValueType'));
 }
 
 /// A list of Amazon QuickSight parameters and the list's override values.
@@ -44107,8 +41263,8 @@ class PeriodToDateComputation {
     return PeriodToDateComputation(
       computationId: json['ComputationId'] as String,
       name: json['Name'] as String?,
-      periodTimeGranularity:
-          (json['PeriodTimeGranularity'] as String?)?.toTimeGranularity(),
+      periodTimeGranularity: (json['PeriodTimeGranularity'] as String?)
+          ?.let(TimeGranularity.fromString),
       time: json['Time'] != null
           ? DimensionField.fromJson(json['Time'] as Map<String, dynamic>)
           : null,
@@ -44128,7 +41284,7 @@ class PeriodToDateComputation {
       'ComputationId': computationId,
       if (name != null) 'Name': name,
       if (periodTimeGranularity != null)
-        'PeriodTimeGranularity': periodTimeGranularity.toValue(),
+        'PeriodTimeGranularity': periodTimeGranularity.value,
       if (time != null) 'Time': time,
       if (value != null) 'Value': value,
     };
@@ -44757,52 +41913,32 @@ class PivotTableConditionalFormattingScope {
       Map<String, dynamic> json) {
     return PivotTableConditionalFormattingScope(
       role: (json['Role'] as String?)
-          ?.toPivotTableConditionalFormattingScopeRole(),
+          ?.let(PivotTableConditionalFormattingScopeRole.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final role = this.role;
     return {
-      if (role != null) 'Role': role.toValue(),
+      if (role != null) 'Role': role.value,
     };
   }
 }
 
 enum PivotTableConditionalFormattingScopeRole {
-  field,
-  fieldTotal,
-  grandTotal,
-}
+  field('FIELD'),
+  fieldTotal('FIELD_TOTAL'),
+  grandTotal('GRAND_TOTAL'),
+  ;
 
-extension PivotTableConditionalFormattingScopeRoleValueExtension
-    on PivotTableConditionalFormattingScopeRole {
-  String toValue() {
-    switch (this) {
-      case PivotTableConditionalFormattingScopeRole.field:
-        return 'FIELD';
-      case PivotTableConditionalFormattingScopeRole.fieldTotal:
-        return 'FIELD_TOTAL';
-      case PivotTableConditionalFormattingScopeRole.grandTotal:
-        return 'GRAND_TOTAL';
-    }
-  }
-}
+  final String value;
 
-extension PivotTableConditionalFormattingScopeRoleFromString on String {
-  PivotTableConditionalFormattingScopeRole
-      toPivotTableConditionalFormattingScopeRole() {
-    switch (this) {
-      case 'FIELD':
-        return PivotTableConditionalFormattingScopeRole.field;
-      case 'FIELD_TOTAL':
-        return PivotTableConditionalFormattingScopeRole.fieldTotal;
-      case 'GRAND_TOTAL':
-        return PivotTableConditionalFormattingScopeRole.grandTotal;
-    }
-    throw Exception(
-        '$this is not known in enum PivotTableConditionalFormattingScopeRole');
-  }
+  const PivotTableConditionalFormattingScopeRole(this.value);
+
+  static PivotTableConditionalFormattingScopeRole fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PivotTableConditionalFormattingScopeRole'));
 }
 
 /// The configuration for a <code>PivotTableVisual</code>.
@@ -44926,70 +42062,35 @@ class PivotTableDataPathOption {
 }
 
 enum PivotTableDataPathType {
-  hierarchyRowsLayoutColumn,
-  multipleRowMetricsColumn,
-  emptyColumnHeader,
-  countMetricColumn,
-}
+  hierarchyRowsLayoutColumn('HIERARCHY_ROWS_LAYOUT_COLUMN'),
+  multipleRowMetricsColumn('MULTIPLE_ROW_METRICS_COLUMN'),
+  emptyColumnHeader('EMPTY_COLUMN_HEADER'),
+  countMetricColumn('COUNT_METRIC_COLUMN'),
+  ;
 
-extension PivotTableDataPathTypeValueExtension on PivotTableDataPathType {
-  String toValue() {
-    switch (this) {
-      case PivotTableDataPathType.hierarchyRowsLayoutColumn:
-        return 'HIERARCHY_ROWS_LAYOUT_COLUMN';
-      case PivotTableDataPathType.multipleRowMetricsColumn:
-        return 'MULTIPLE_ROW_METRICS_COLUMN';
-      case PivotTableDataPathType.emptyColumnHeader:
-        return 'EMPTY_COLUMN_HEADER';
-      case PivotTableDataPathType.countMetricColumn:
-        return 'COUNT_METRIC_COLUMN';
-    }
-  }
-}
+  final String value;
 
-extension PivotTableDataPathTypeFromString on String {
-  PivotTableDataPathType toPivotTableDataPathType() {
-    switch (this) {
-      case 'HIERARCHY_ROWS_LAYOUT_COLUMN':
-        return PivotTableDataPathType.hierarchyRowsLayoutColumn;
-      case 'MULTIPLE_ROW_METRICS_COLUMN':
-        return PivotTableDataPathType.multipleRowMetricsColumn;
-      case 'EMPTY_COLUMN_HEADER':
-        return PivotTableDataPathType.emptyColumnHeader;
-      case 'COUNT_METRIC_COLUMN':
-        return PivotTableDataPathType.countMetricColumn;
-    }
-    throw Exception('$this is not known in enum PivotTableDataPathType');
-  }
+  const PivotTableDataPathType(this.value);
+
+  static PivotTableDataPathType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PivotTableDataPathType'));
 }
 
 enum PivotTableFieldCollapseState {
-  collapsed,
-  expanded,
-}
+  collapsed('COLLAPSED'),
+  expanded('EXPANDED'),
+  ;
 
-extension PivotTableFieldCollapseStateValueExtension
-    on PivotTableFieldCollapseState {
-  String toValue() {
-    switch (this) {
-      case PivotTableFieldCollapseState.collapsed:
-        return 'COLLAPSED';
-      case PivotTableFieldCollapseState.expanded:
-        return 'EXPANDED';
-    }
-  }
-}
+  final String value;
 
-extension PivotTableFieldCollapseStateFromString on String {
-  PivotTableFieldCollapseState toPivotTableFieldCollapseState() {
-    switch (this) {
-      case 'COLLAPSED':
-        return PivotTableFieldCollapseState.collapsed;
-      case 'EXPANDED':
-        return PivotTableFieldCollapseState.expanded;
-    }
-    throw Exception('$this is not known in enum PivotTableFieldCollapseState');
-  }
+  const PivotTableFieldCollapseState(this.value);
+
+  static PivotTableFieldCollapseState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PivotTableFieldCollapseState'));
 }
 
 /// The collapse state options for the pivot table field options.
@@ -45020,7 +42121,8 @@ class PivotTableFieldCollapseStateOption {
     return PivotTableFieldCollapseStateOption(
       target: PivotTableFieldCollapseStateTarget.fromJson(
           json['Target'] as Map<String, dynamic>),
-      state: (json['State'] as String?)?.toPivotTableFieldCollapseState(),
+      state: (json['State'] as String?)
+          ?.let(PivotTableFieldCollapseState.fromString),
     );
   }
 
@@ -45029,7 +42131,7 @@ class PivotTableFieldCollapseStateOption {
     final state = this.state;
     return {
       'Target': target,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
     };
   }
 }
@@ -45090,7 +42192,7 @@ class PivotTableFieldOption {
     return PivotTableFieldOption(
       fieldId: json['FieldId'] as String,
       customLabel: json['CustomLabel'] as String?,
-      visibility: (json['Visibility'] as String?)?.toVisibility(),
+      visibility: (json['Visibility'] as String?)?.let(Visibility.fromString),
     );
   }
 
@@ -45101,7 +42203,7 @@ class PivotTableFieldOption {
     return {
       'FieldId': fieldId,
       if (customLabel != null) 'CustomLabel': customLabel,
-      if (visibility != null) 'Visibility': visibility.toValue(),
+      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
@@ -45211,31 +42313,18 @@ class PivotTableFieldWells {
 }
 
 enum PivotTableMetricPlacement {
-  row,
-  column,
-}
+  row('ROW'),
+  column('COLUMN'),
+  ;
 
-extension PivotTableMetricPlacementValueExtension on PivotTableMetricPlacement {
-  String toValue() {
-    switch (this) {
-      case PivotTableMetricPlacement.row:
-        return 'ROW';
-      case PivotTableMetricPlacement.column:
-        return 'COLUMN';
-    }
-  }
-}
+  final String value;
 
-extension PivotTableMetricPlacementFromString on String {
-  PivotTableMetricPlacement toPivotTableMetricPlacement() {
-    switch (this) {
-      case 'ROW':
-        return PivotTableMetricPlacement.row;
-      case 'COLUMN':
-        return PivotTableMetricPlacement.column;
-    }
-    throw Exception('$this is not known in enum PivotTableMetricPlacement');
-  }
+  const PivotTableMetricPlacement(this.value);
+
+  static PivotTableMetricPlacement fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PivotTableMetricPlacement'));
 }
 
 /// The table options for a pivot table visual.
@@ -45318,16 +42407,17 @@ class PivotTableOptions {
           ? TableCellStyle.fromJson(json['CellStyle'] as Map<String, dynamic>)
           : null,
       collapsedRowDimensionsVisibility:
-          (json['CollapsedRowDimensionsVisibility'] as String?)?.toVisibility(),
+          (json['CollapsedRowDimensionsVisibility'] as String?)
+              ?.let(Visibility.fromString),
       columnHeaderStyle: json['ColumnHeaderStyle'] != null
           ? TableCellStyle.fromJson(
               json['ColumnHeaderStyle'] as Map<String, dynamic>)
           : null,
-      columnNamesVisibility:
-          (json['ColumnNamesVisibility'] as String?)?.toVisibility(),
+      columnNamesVisibility: (json['ColumnNamesVisibility'] as String?)
+          ?.let(Visibility.fromString),
       defaultCellWidth: json['DefaultCellWidth'] as String?,
-      metricPlacement:
-          (json['MetricPlacement'] as String?)?.toPivotTableMetricPlacement(),
+      metricPlacement: (json['MetricPlacement'] as String?)
+          ?.let(PivotTableMetricPlacement.fromString),
       rowAlternateColorOptions: json['RowAlternateColorOptions'] != null
           ? RowAlternateColorOptions.fromJson(
               json['RowAlternateColorOptions'] as Map<String, dynamic>)
@@ -45344,11 +42434,12 @@ class PivotTableOptions {
           ? PivotTableRowsLabelOptions.fromJson(
               json['RowsLabelOptions'] as Map<String, dynamic>)
           : null,
-      rowsLayout: (json['RowsLayout'] as String?)?.toPivotTableRowsLayout(),
-      singleMetricVisibility:
-          (json['SingleMetricVisibility'] as String?)?.toVisibility(),
-      toggleButtonsVisibility:
-          (json['ToggleButtonsVisibility'] as String?)?.toVisibility(),
+      rowsLayout:
+          (json['RowsLayout'] as String?)?.let(PivotTableRowsLayout.fromString),
+      singleMetricVisibility: (json['SingleMetricVisibility'] as String?)
+          ?.let(Visibility.fromString),
+      toggleButtonsVisibility: (json['ToggleButtonsVisibility'] as String?)
+          ?.let(Visibility.fromString),
     );
   }
 
@@ -45371,22 +42462,22 @@ class PivotTableOptions {
       if (cellStyle != null) 'CellStyle': cellStyle,
       if (collapsedRowDimensionsVisibility != null)
         'CollapsedRowDimensionsVisibility':
-            collapsedRowDimensionsVisibility.toValue(),
+            collapsedRowDimensionsVisibility.value,
       if (columnHeaderStyle != null) 'ColumnHeaderStyle': columnHeaderStyle,
       if (columnNamesVisibility != null)
-        'ColumnNamesVisibility': columnNamesVisibility.toValue(),
+        'ColumnNamesVisibility': columnNamesVisibility.value,
       if (defaultCellWidth != null) 'DefaultCellWidth': defaultCellWidth,
-      if (metricPlacement != null) 'MetricPlacement': metricPlacement.toValue(),
+      if (metricPlacement != null) 'MetricPlacement': metricPlacement.value,
       if (rowAlternateColorOptions != null)
         'RowAlternateColorOptions': rowAlternateColorOptions,
       if (rowFieldNamesStyle != null) 'RowFieldNamesStyle': rowFieldNamesStyle,
       if (rowHeaderStyle != null) 'RowHeaderStyle': rowHeaderStyle,
       if (rowsLabelOptions != null) 'RowsLabelOptions': rowsLabelOptions,
-      if (rowsLayout != null) 'RowsLayout': rowsLayout.toValue(),
+      if (rowsLayout != null) 'RowsLayout': rowsLayout.value,
       if (singleMetricVisibility != null)
-        'SingleMetricVisibility': singleMetricVisibility.toValue(),
+        'SingleMetricVisibility': singleMetricVisibility.value,
       if (toggleButtonsVisibility != null)
-        'ToggleButtonsVisibility': toggleButtonsVisibility.toValue(),
+        'ToggleButtonsVisibility': toggleButtonsVisibility.value,
     };
   }
 }
@@ -45407,9 +42498,11 @@ class PivotTablePaginatedReportOptions {
   factory PivotTablePaginatedReportOptions.fromJson(Map<String, dynamic> json) {
     return PivotTablePaginatedReportOptions(
       overflowColumnHeaderVisibility:
-          (json['OverflowColumnHeaderVisibility'] as String?)?.toVisibility(),
+          (json['OverflowColumnHeaderVisibility'] as String?)
+              ?.let(Visibility.fromString),
       verticalOverflowVisibility:
-          (json['VerticalOverflowVisibility'] as String?)?.toVisibility(),
+          (json['VerticalOverflowVisibility'] as String?)
+              ?.let(Visibility.fromString),
     );
   }
 
@@ -45418,10 +42511,9 @@ class PivotTablePaginatedReportOptions {
     final verticalOverflowVisibility = this.verticalOverflowVisibility;
     return {
       if (overflowColumnHeaderVisibility != null)
-        'OverflowColumnHeaderVisibility':
-            overflowColumnHeaderVisibility.toValue(),
+        'OverflowColumnHeaderVisibility': overflowColumnHeaderVisibility.value,
       if (verticalOverflowVisibility != null)
-        'VerticalOverflowVisibility': verticalOverflowVisibility.toValue(),
+        'VerticalOverflowVisibility': verticalOverflowVisibility.value,
     };
   }
 }
@@ -45444,7 +42536,7 @@ class PivotTableRowsLabelOptions {
   factory PivotTableRowsLabelOptions.fromJson(Map<String, dynamic> json) {
     return PivotTableRowsLabelOptions(
       customLabel: json['CustomLabel'] as String?,
-      visibility: (json['Visibility'] as String?)?.toVisibility(),
+      visibility: (json['Visibility'] as String?)?.let(Visibility.fromString),
     );
   }
 
@@ -45453,37 +42545,24 @@ class PivotTableRowsLabelOptions {
     final visibility = this.visibility;
     return {
       if (customLabel != null) 'CustomLabel': customLabel,
-      if (visibility != null) 'Visibility': visibility.toValue(),
+      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
 
 enum PivotTableRowsLayout {
-  tabular,
-  hierarchy,
-}
+  tabular('TABULAR'),
+  hierarchy('HIERARCHY'),
+  ;
 
-extension PivotTableRowsLayoutValueExtension on PivotTableRowsLayout {
-  String toValue() {
-    switch (this) {
-      case PivotTableRowsLayout.tabular:
-        return 'TABULAR';
-      case PivotTableRowsLayout.hierarchy:
-        return 'HIERARCHY';
-    }
-  }
-}
+  final String value;
 
-extension PivotTableRowsLayoutFromString on String {
-  PivotTableRowsLayout toPivotTableRowsLayout() {
-    switch (this) {
-      case 'TABULAR':
-        return PivotTableRowsLayout.tabular;
-      case 'HIERARCHY':
-        return PivotTableRowsLayout.hierarchy;
-    }
-    throw Exception('$this is not known in enum PivotTableRowsLayout');
-  }
+  const PivotTableRowsLayout(this.value);
+
+  static PivotTableRowsLayout fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum PivotTableRowsLayout'));
 }
 
 /// The sort by field for the field sort options.
@@ -45557,36 +42636,19 @@ class PivotTableSortConfiguration {
 }
 
 enum PivotTableSubtotalLevel {
-  all,
-  custom,
-  last,
-}
+  all('ALL'),
+  custom('CUSTOM'),
+  last('LAST'),
+  ;
 
-extension PivotTableSubtotalLevelValueExtension on PivotTableSubtotalLevel {
-  String toValue() {
-    switch (this) {
-      case PivotTableSubtotalLevel.all:
-        return 'ALL';
-      case PivotTableSubtotalLevel.custom:
-        return 'CUSTOM';
-      case PivotTableSubtotalLevel.last:
-        return 'LAST';
-    }
-  }
-}
+  final String value;
 
-extension PivotTableSubtotalLevelFromString on String {
-  PivotTableSubtotalLevel toPivotTableSubtotalLevel() {
-    switch (this) {
-      case 'ALL':
-        return PivotTableSubtotalLevel.all;
-      case 'CUSTOM':
-        return PivotTableSubtotalLevel.custom;
-      case 'LAST':
-        return PivotTableSubtotalLevel.last;
-    }
-    throw Exception('$this is not known in enum PivotTableSubtotalLevel');
-  }
+  const PivotTableSubtotalLevel(this.value);
+
+  static PivotTableSubtotalLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PivotTableSubtotalLevel'));
 }
 
 /// The total options for a pivot table visual.
@@ -45771,9 +42833,10 @@ class PivotTotalOptions {
           ? TableCellStyle.fromJson(
               json['MetricHeaderCellStyle'] as Map<String, dynamic>)
           : null,
-      placement: (json['Placement'] as String?)?.toTableTotalsPlacement(),
-      scrollStatus:
-          (json['ScrollStatus'] as String?)?.toTableTotalsScrollStatus(),
+      placement:
+          (json['Placement'] as String?)?.let(TableTotalsPlacement.fromString),
+      scrollStatus: (json['ScrollStatus'] as String?)
+          ?.let(TableTotalsScrollStatus.fromString),
       totalAggregationOptions: (json['TotalAggregationOptions'] as List?)
           ?.whereNotNull()
           .map(
@@ -45783,7 +42846,8 @@ class PivotTotalOptions {
           ? TableCellStyle.fromJson(
               json['TotalCellStyle'] as Map<String, dynamic>)
           : null,
-      totalsVisibility: (json['TotalsVisibility'] as String?)?.toVisibility(),
+      totalsVisibility:
+          (json['TotalsVisibility'] as String?)?.let(Visibility.fromString),
       valueCellStyle: json['ValueCellStyle'] != null
           ? TableCellStyle.fromJson(
               json['ValueCellStyle'] as Map<String, dynamic>)
@@ -45804,13 +42868,12 @@ class PivotTotalOptions {
       if (customLabel != null) 'CustomLabel': customLabel,
       if (metricHeaderCellStyle != null)
         'MetricHeaderCellStyle': metricHeaderCellStyle,
-      if (placement != null) 'Placement': placement.toValue(),
-      if (scrollStatus != null) 'ScrollStatus': scrollStatus.toValue(),
+      if (placement != null) 'Placement': placement.value,
+      if (scrollStatus != null) 'ScrollStatus': scrollStatus.value,
       if (totalAggregationOptions != null)
         'TotalAggregationOptions': totalAggregationOptions,
       if (totalCellStyle != null) 'TotalCellStyle': totalCellStyle,
-      if (totalsVisibility != null)
-        'TotalsVisibility': totalsVisibility.toValue(),
+      if (totalsVisibility != null) 'TotalsVisibility': totalsVisibility.value,
       if (valueCellStyle != null) 'ValueCellStyle': valueCellStyle,
     };
   }
@@ -45937,36 +43000,19 @@ class PrestoParameters {
 }
 
 enum PrimaryValueDisplayType {
-  hidden,
-  comparison,
-  actual,
-}
+  hidden('HIDDEN'),
+  comparison('COMPARISON'),
+  actual('ACTUAL'),
+  ;
 
-extension PrimaryValueDisplayTypeValueExtension on PrimaryValueDisplayType {
-  String toValue() {
-    switch (this) {
-      case PrimaryValueDisplayType.hidden:
-        return 'HIDDEN';
-      case PrimaryValueDisplayType.comparison:
-        return 'COMPARISON';
-      case PrimaryValueDisplayType.actual:
-        return 'ACTUAL';
-    }
-  }
-}
+  final String value;
 
-extension PrimaryValueDisplayTypeFromString on String {
-  PrimaryValueDisplayType toPrimaryValueDisplayType() {
-    switch (this) {
-      case 'HIDDEN':
-        return PrimaryValueDisplayType.hidden;
-      case 'COMPARISON':
-        return PrimaryValueDisplayType.comparison;
-      case 'ACTUAL':
-        return PrimaryValueDisplayType.actual;
-    }
-    throw Exception('$this is not known in enum PrimaryValueDisplayType');
-  }
+  const PrimaryValueDisplayType(this.value);
+
+  static PrimaryValueDisplayType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PrimaryValueDisplayType'));
 }
 
 /// The options that determine the presentation of the progress bar of a KPI
@@ -45981,14 +43027,14 @@ class ProgressBarOptions {
 
   factory ProgressBarOptions.fromJson(Map<String, dynamic> json) {
     return ProgressBarOptions(
-      visibility: (json['Visibility'] as String?)?.toVisibility(),
+      visibility: (json['Visibility'] as String?)?.let(Visibility.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final visibility = this.visibility;
     return {
-      if (visibility != null) 'Visibility': visibility.toValue(),
+      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
@@ -46021,92 +43067,49 @@ class ProjectOperation {
 }
 
 enum PropertyRole {
-  primary,
-  id,
-}
+  primary('PRIMARY'),
+  id('ID'),
+  ;
 
-extension PropertyRoleValueExtension on PropertyRole {
-  String toValue() {
-    switch (this) {
-      case PropertyRole.primary:
-        return 'PRIMARY';
-      case PropertyRole.id:
-        return 'ID';
-    }
-  }
-}
+  final String value;
 
-extension PropertyRoleFromString on String {
-  PropertyRole toPropertyRole() {
-    switch (this) {
-      case 'PRIMARY':
-        return PropertyRole.primary;
-      case 'ID':
-        return PropertyRole.id;
-    }
-    throw Exception('$this is not known in enum PropertyRole');
-  }
+  const PropertyRole(this.value);
+
+  static PropertyRole fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PropertyRole'));
 }
 
 enum PropertyUsage {
-  inherit,
-  dimension,
-  measure,
-}
+  inherit('INHERIT'),
+  dimension('DIMENSION'),
+  measure('MEASURE'),
+  ;
 
-extension PropertyUsageValueExtension on PropertyUsage {
-  String toValue() {
-    switch (this) {
-      case PropertyUsage.inherit:
-        return 'INHERIT';
-      case PropertyUsage.dimension:
-        return 'DIMENSION';
-      case PropertyUsage.measure:
-        return 'MEASURE';
-    }
-  }
-}
+  final String value;
 
-extension PropertyUsageFromString on String {
-  PropertyUsage toPropertyUsage() {
-    switch (this) {
-      case 'INHERIT':
-        return PropertyUsage.inherit;
-      case 'DIMENSION':
-        return PropertyUsage.dimension;
-      case 'MEASURE':
-        return PropertyUsage.measure;
-    }
-    throw Exception('$this is not known in enum PropertyUsage');
-  }
+  const PropertyUsage(this.value);
+
+  static PropertyUsage fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PropertyUsage'));
 }
 
 enum PurchaseMode {
-  manual,
-  autoPurchase,
-}
+  manual('MANUAL'),
+  autoPurchase('AUTO_PURCHASE'),
+  ;
 
-extension PurchaseModeValueExtension on PurchaseMode {
-  String toValue() {
-    switch (this) {
-      case PurchaseMode.manual:
-        return 'MANUAL';
-      case PurchaseMode.autoPurchase:
-        return 'AUTO_PURCHASE';
-    }
-  }
-}
+  final String value;
 
-extension PurchaseModeFromString on String {
-  PurchaseMode toPurchaseMode() {
-    switch (this) {
-      case 'MANUAL':
-        return PurchaseMode.manual;
-      case 'AUTO_PURCHASE':
-        return PurchaseMode.autoPurchase;
-    }
-    throw Exception('$this is not known in enum PurchaseMode');
-  }
+  const PurchaseMode(this.value);
+
+  static PurchaseMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PurchaseMode'));
 }
 
 class PutDataSetRefreshPropertiesResponse {
@@ -46226,49 +43229,32 @@ class RadarChartAreaStyleSettings {
 
   factory RadarChartAreaStyleSettings.fromJson(Map<String, dynamic> json) {
     return RadarChartAreaStyleSettings(
-      visibility: (json['Visibility'] as String?)?.toVisibility(),
+      visibility: (json['Visibility'] as String?)?.let(Visibility.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final visibility = this.visibility;
     return {
-      if (visibility != null) 'Visibility': visibility.toValue(),
+      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
 
 enum RadarChartAxesRangeScale {
-  auto,
-  independent,
-  shared,
-}
+  auto('AUTO'),
+  independent('INDEPENDENT'),
+  shared('SHARED'),
+  ;
 
-extension RadarChartAxesRangeScaleValueExtension on RadarChartAxesRangeScale {
-  String toValue() {
-    switch (this) {
-      case RadarChartAxesRangeScale.auto:
-        return 'AUTO';
-      case RadarChartAxesRangeScale.independent:
-        return 'INDEPENDENT';
-      case RadarChartAxesRangeScale.shared:
-        return 'SHARED';
-    }
-  }
-}
+  final String value;
 
-extension RadarChartAxesRangeScaleFromString on String {
-  RadarChartAxesRangeScale toRadarChartAxesRangeScale() {
-    switch (this) {
-      case 'AUTO':
-        return RadarChartAxesRangeScale.auto;
-      case 'INDEPENDENT':
-        return RadarChartAxesRangeScale.independent;
-      case 'SHARED':
-        return RadarChartAxesRangeScale.shared;
-    }
-    throw Exception('$this is not known in enum RadarChartAxesRangeScale');
-  }
+  const RadarChartAxesRangeScale(this.value);
+
+  static RadarChartAxesRangeScale fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RadarChartAxesRangeScale'));
 }
 
 /// The configuration of a <code>RadarChartVisual</code>.
@@ -46344,11 +43330,12 @@ class RadarChartConfiguration {
   factory RadarChartConfiguration.fromJson(Map<String, dynamic> json) {
     return RadarChartConfiguration(
       alternateBandColorsVisibility:
-          (json['AlternateBandColorsVisibility'] as String?)?.toVisibility(),
+          (json['AlternateBandColorsVisibility'] as String?)
+              ?.let(Visibility.fromString),
       alternateBandEvenColor: json['AlternateBandEvenColor'] as String?,
       alternateBandOddColor: json['AlternateBandOddColor'] as String?,
-      axesRangeScale:
-          (json['AxesRangeScale'] as String?)?.toRadarChartAxesRangeScale(),
+      axesRangeScale: (json['AxesRangeScale'] as String?)
+          ?.let(RadarChartAxesRangeScale.fromString),
       baseSeriesSettings: json['BaseSeriesSettings'] != null
           ? RadarChartSeriesSettings.fromJson(
               json['BaseSeriesSettings'] as Map<String, dynamic>)
@@ -46380,7 +43367,7 @@ class RadarChartConfiguration {
       legend: json['Legend'] != null
           ? LegendOptions.fromJson(json['Legend'] as Map<String, dynamic>)
           : null,
-      shape: (json['Shape'] as String?)?.toRadarChartShape(),
+      shape: (json['Shape'] as String?)?.let(RadarChartShape.fromString),
       sortConfiguration: json['SortConfiguration'] != null
           ? RadarChartSortConfiguration.fromJson(
               json['SortConfiguration'] as Map<String, dynamic>)
@@ -46412,13 +43399,12 @@ class RadarChartConfiguration {
     final visualPalette = this.visualPalette;
     return {
       if (alternateBandColorsVisibility != null)
-        'AlternateBandColorsVisibility':
-            alternateBandColorsVisibility.toValue(),
+        'AlternateBandColorsVisibility': alternateBandColorsVisibility.value,
       if (alternateBandEvenColor != null)
         'AlternateBandEvenColor': alternateBandEvenColor,
       if (alternateBandOddColor != null)
         'AlternateBandOddColor': alternateBandOddColor,
-      if (axesRangeScale != null) 'AxesRangeScale': axesRangeScale.toValue(),
+      if (axesRangeScale != null) 'AxesRangeScale': axesRangeScale.value,
       if (baseSeriesSettings != null) 'BaseSeriesSettings': baseSeriesSettings,
       if (categoryAxis != null) 'CategoryAxis': categoryAxis,
       if (categoryLabelOptions != null)
@@ -46428,7 +43414,7 @@ class RadarChartConfiguration {
       if (fieldWells != null) 'FieldWells': fieldWells,
       if (interactions != null) 'Interactions': interactions,
       if (legend != null) 'Legend': legend,
-      if (shape != null) 'Shape': shape.toValue(),
+      if (shape != null) 'Shape': shape.value,
       if (sortConfiguration != null) 'SortConfiguration': sortConfiguration,
       if (startAngle != null) 'StartAngle': startAngle,
       if (visualPalette != null) 'VisualPalette': visualPalette,
@@ -46491,31 +43477,18 @@ class RadarChartSeriesSettings {
 }
 
 enum RadarChartShape {
-  circle,
-  polygon,
-}
+  circle('CIRCLE'),
+  polygon('POLYGON'),
+  ;
 
-extension RadarChartShapeValueExtension on RadarChartShape {
-  String toValue() {
-    switch (this) {
-      case RadarChartShape.circle:
-        return 'CIRCLE';
-      case RadarChartShape.polygon:
-        return 'POLYGON';
-    }
-  }
-}
+  final String value;
 
-extension RadarChartShapeFromString on String {
-  RadarChartShape toRadarChartShape() {
-    switch (this) {
-      case 'CIRCLE':
-        return RadarChartShape.circle;
-      case 'POLYGON':
-        return RadarChartShape.polygon;
-    }
-    throw Exception('$this is not known in enum RadarChartShape');
-  }
+  const RadarChartShape(this.value);
+
+  static RadarChartShape fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RadarChartShape'));
 }
 
 /// The sort configuration of a <code>RadarChartVisual</code>.
@@ -46690,14 +43663,14 @@ class RangeEndsLabelType {
 
   factory RangeEndsLabelType.fromJson(Map<String, dynamic> json) {
     return RangeEndsLabelType(
-      visibility: (json['Visibility'] as String?)?.toVisibility(),
+      visibility: (json['Visibility'] as String?)?.let(Visibility.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final visibility = this.visibility;
     return {
-      if (visibility != null) 'Visibility': visibility.toValue(),
+      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
@@ -46915,7 +43888,7 @@ class ReferenceLine {
           ? ReferenceLineLabelConfiguration.fromJson(
               json['LabelConfiguration'] as Map<String, dynamic>)
           : null,
-      status: (json['Status'] as String?)?.toWidgetStatus(),
+      status: (json['Status'] as String?)?.let(WidgetStatus.fromString),
       styleConfiguration: json['StyleConfiguration'] != null
           ? ReferenceLineStyleConfiguration.fromJson(
               json['StyleConfiguration'] as Map<String, dynamic>)
@@ -46931,7 +43904,7 @@ class ReferenceLine {
     return {
       'DataConfiguration': dataConfiguration,
       if (labelConfiguration != null) 'LabelConfiguration': labelConfiguration,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (styleConfiguration != null) 'StyleConfiguration': styleConfiguration,
     };
   }
@@ -47004,12 +43977,14 @@ class ReferenceLineDataConfiguration {
 
   factory ReferenceLineDataConfiguration.fromJson(Map<String, dynamic> json) {
     return ReferenceLineDataConfiguration(
-      axisBinding: (json['AxisBinding'] as String?)?.toAxisBinding(),
+      axisBinding:
+          (json['AxisBinding'] as String?)?.let(AxisBinding.fromString),
       dynamicConfiguration: json['DynamicConfiguration'] != null
           ? ReferenceLineDynamicDataConfiguration.fromJson(
               json['DynamicConfiguration'] as Map<String, dynamic>)
           : null,
-      seriesType: (json['SeriesType'] as String?)?.toReferenceLineSeriesType(),
+      seriesType: (json['SeriesType'] as String?)
+          ?.let(ReferenceLineSeriesType.fromString),
       staticConfiguration: json['StaticConfiguration'] != null
           ? ReferenceLineStaticDataConfiguration.fromJson(
               json['StaticConfiguration'] as Map<String, dynamic>)
@@ -47023,10 +43998,10 @@ class ReferenceLineDataConfiguration {
     final seriesType = this.seriesType;
     final staticConfiguration = this.staticConfiguration;
     return {
-      if (axisBinding != null) 'AxisBinding': axisBinding.toValue(),
+      if (axisBinding != null) 'AxisBinding': axisBinding.value,
       if (dynamicConfiguration != null)
         'DynamicConfiguration': dynamicConfiguration,
-      if (seriesType != null) 'SeriesType': seriesType.toValue(),
+      if (seriesType != null) 'SeriesType': seriesType.value,
       if (staticConfiguration != null)
         'StaticConfiguration': staticConfiguration,
     };
@@ -47140,13 +44115,13 @@ class ReferenceLineLabelConfiguration {
               json['FontConfiguration'] as Map<String, dynamic>)
           : null,
       horizontalPosition: (json['HorizontalPosition'] as String?)
-          ?.toReferenceLineLabelHorizontalPosition(),
+          ?.let(ReferenceLineLabelHorizontalPosition.fromString),
       valueLabelConfiguration: json['ValueLabelConfiguration'] != null
           ? ReferenceLineValueLabelConfiguration.fromJson(
               json['ValueLabelConfiguration'] as Map<String, dynamic>)
           : null,
       verticalPosition: (json['VerticalPosition'] as String?)
-          ?.toReferenceLineLabelVerticalPosition(),
+          ?.let(ReferenceLineLabelVerticalPosition.fromString),
     );
   }
 
@@ -47163,140 +44138,74 @@ class ReferenceLineLabelConfiguration {
       if (fontColor != null) 'FontColor': fontColor,
       if (fontConfiguration != null) 'FontConfiguration': fontConfiguration,
       if (horizontalPosition != null)
-        'HorizontalPosition': horizontalPosition.toValue(),
+        'HorizontalPosition': horizontalPosition.value,
       if (valueLabelConfiguration != null)
         'ValueLabelConfiguration': valueLabelConfiguration,
-      if (verticalPosition != null)
-        'VerticalPosition': verticalPosition.toValue(),
+      if (verticalPosition != null) 'VerticalPosition': verticalPosition.value,
     };
   }
 }
 
 enum ReferenceLineLabelHorizontalPosition {
-  left,
-  center,
-  right,
-}
+  left('LEFT'),
+  center('CENTER'),
+  right('RIGHT'),
+  ;
 
-extension ReferenceLineLabelHorizontalPositionValueExtension
-    on ReferenceLineLabelHorizontalPosition {
-  String toValue() {
-    switch (this) {
-      case ReferenceLineLabelHorizontalPosition.left:
-        return 'LEFT';
-      case ReferenceLineLabelHorizontalPosition.center:
-        return 'CENTER';
-      case ReferenceLineLabelHorizontalPosition.right:
-        return 'RIGHT';
-    }
-  }
-}
+  final String value;
 
-extension ReferenceLineLabelHorizontalPositionFromString on String {
-  ReferenceLineLabelHorizontalPosition
-      toReferenceLineLabelHorizontalPosition() {
-    switch (this) {
-      case 'LEFT':
-        return ReferenceLineLabelHorizontalPosition.left;
-      case 'CENTER':
-        return ReferenceLineLabelHorizontalPosition.center;
-      case 'RIGHT':
-        return ReferenceLineLabelHorizontalPosition.right;
-    }
-    throw Exception(
-        '$this is not known in enum ReferenceLineLabelHorizontalPosition');
-  }
+  const ReferenceLineLabelHorizontalPosition(this.value);
+
+  static ReferenceLineLabelHorizontalPosition fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ReferenceLineLabelHorizontalPosition'));
 }
 
 enum ReferenceLineLabelVerticalPosition {
-  above,
-  below,
-}
+  above('ABOVE'),
+  below('BELOW'),
+  ;
 
-extension ReferenceLineLabelVerticalPositionValueExtension
-    on ReferenceLineLabelVerticalPosition {
-  String toValue() {
-    switch (this) {
-      case ReferenceLineLabelVerticalPosition.above:
-        return 'ABOVE';
-      case ReferenceLineLabelVerticalPosition.below:
-        return 'BELOW';
-    }
-  }
-}
+  final String value;
 
-extension ReferenceLineLabelVerticalPositionFromString on String {
-  ReferenceLineLabelVerticalPosition toReferenceLineLabelVerticalPosition() {
-    switch (this) {
-      case 'ABOVE':
-        return ReferenceLineLabelVerticalPosition.above;
-      case 'BELOW':
-        return ReferenceLineLabelVerticalPosition.below;
-    }
-    throw Exception(
-        '$this is not known in enum ReferenceLineLabelVerticalPosition');
-  }
+  const ReferenceLineLabelVerticalPosition(this.value);
+
+  static ReferenceLineLabelVerticalPosition fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ReferenceLineLabelVerticalPosition'));
 }
 
 enum ReferenceLinePatternType {
-  solid,
-  dashed,
-  dotted,
-}
+  solid('SOLID'),
+  dashed('DASHED'),
+  dotted('DOTTED'),
+  ;
 
-extension ReferenceLinePatternTypeValueExtension on ReferenceLinePatternType {
-  String toValue() {
-    switch (this) {
-      case ReferenceLinePatternType.solid:
-        return 'SOLID';
-      case ReferenceLinePatternType.dashed:
-        return 'DASHED';
-      case ReferenceLinePatternType.dotted:
-        return 'DOTTED';
-    }
-  }
-}
+  final String value;
 
-extension ReferenceLinePatternTypeFromString on String {
-  ReferenceLinePatternType toReferenceLinePatternType() {
-    switch (this) {
-      case 'SOLID':
-        return ReferenceLinePatternType.solid;
-      case 'DASHED':
-        return ReferenceLinePatternType.dashed;
-      case 'DOTTED':
-        return ReferenceLinePatternType.dotted;
-    }
-    throw Exception('$this is not known in enum ReferenceLinePatternType');
-  }
+  const ReferenceLinePatternType(this.value);
+
+  static ReferenceLinePatternType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ReferenceLinePatternType'));
 }
 
 enum ReferenceLineSeriesType {
-  bar,
-  line,
-}
+  bar('BAR'),
+  line('LINE'),
+  ;
 
-extension ReferenceLineSeriesTypeValueExtension on ReferenceLineSeriesType {
-  String toValue() {
-    switch (this) {
-      case ReferenceLineSeriesType.bar:
-        return 'BAR';
-      case ReferenceLineSeriesType.line:
-        return 'LINE';
-    }
-  }
-}
+  final String value;
 
-extension ReferenceLineSeriesTypeFromString on String {
-  ReferenceLineSeriesType toReferenceLineSeriesType() {
-    switch (this) {
-      case 'BAR':
-        return ReferenceLineSeriesType.bar;
-      case 'LINE':
-        return ReferenceLineSeriesType.line;
-    }
-    throw Exception('$this is not known in enum ReferenceLineSeriesType');
-  }
+  const ReferenceLineSeriesType(this.value);
+
+  static ReferenceLineSeriesType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ReferenceLineSeriesType'));
 }
 
 /// The static data configuration of the reference line data configuration.
@@ -47351,7 +44260,8 @@ class ReferenceLineStyleConfiguration {
   factory ReferenceLineStyleConfiguration.fromJson(Map<String, dynamic> json) {
     return ReferenceLineStyleConfiguration(
       color: json['Color'] as String?,
-      pattern: (json['Pattern'] as String?)?.toReferenceLinePatternType(),
+      pattern: (json['Pattern'] as String?)
+          ?.let(ReferenceLinePatternType.fromString),
     );
   }
 
@@ -47360,7 +44270,7 @@ class ReferenceLineStyleConfiguration {
     final pattern = this.pattern;
     return {
       if (color != null) 'Color': color,
-      if (pattern != null) 'Pattern': pattern.toValue(),
+      if (pattern != null) 'Pattern': pattern.value,
     };
   }
 }
@@ -47396,7 +44306,7 @@ class ReferenceLineValueLabelConfiguration {
               json['FormatConfiguration'] as Map<String, dynamic>)
           : null,
       relativePosition: (json['RelativePosition'] as String?)
-          ?.toReferenceLineValueLabelRelativePosition(),
+          ?.let(ReferenceLineValueLabelRelativePosition.fromString),
     );
   }
 
@@ -47406,41 +44316,24 @@ class ReferenceLineValueLabelConfiguration {
     return {
       if (formatConfiguration != null)
         'FormatConfiguration': formatConfiguration,
-      if (relativePosition != null)
-        'RelativePosition': relativePosition.toValue(),
+      if (relativePosition != null) 'RelativePosition': relativePosition.value,
     };
   }
 }
 
 enum ReferenceLineValueLabelRelativePosition {
-  beforeCustomLabel,
-  afterCustomLabel,
-}
+  beforeCustomLabel('BEFORE_CUSTOM_LABEL'),
+  afterCustomLabel('AFTER_CUSTOM_LABEL'),
+  ;
 
-extension ReferenceLineValueLabelRelativePositionValueExtension
-    on ReferenceLineValueLabelRelativePosition {
-  String toValue() {
-    switch (this) {
-      case ReferenceLineValueLabelRelativePosition.beforeCustomLabel:
-        return 'BEFORE_CUSTOM_LABEL';
-      case ReferenceLineValueLabelRelativePosition.afterCustomLabel:
-        return 'AFTER_CUSTOM_LABEL';
-    }
-  }
-}
+  final String value;
 
-extension ReferenceLineValueLabelRelativePositionFromString on String {
-  ReferenceLineValueLabelRelativePosition
-      toReferenceLineValueLabelRelativePosition() {
-    switch (this) {
-      case 'BEFORE_CUSTOM_LABEL':
-        return ReferenceLineValueLabelRelativePosition.beforeCustomLabel;
-      case 'AFTER_CUSTOM_LABEL':
-        return ReferenceLineValueLabelRelativePosition.afterCustomLabel;
-    }
-    throw Exception(
-        '$this is not known in enum ReferenceLineValueLabelRelativePosition');
-  }
+  const ReferenceLineValueLabelRelativePosition(this.value);
+
+  static ReferenceLineValueLabelRelativePosition fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ReferenceLineValueLabelRelativePosition'));
 }
 
 /// The refresh configuration of a dataset.
@@ -47521,7 +44414,7 @@ class RefreshFrequency {
 
   factory RefreshFrequency.fromJson(Map<String, dynamic> json) {
     return RefreshFrequency(
-      interval: (json['Interval'] as String).toRefreshInterval(),
+      interval: RefreshInterval.fromString((json['Interval'] as String)),
       refreshOnDay: json['RefreshOnDay'] != null
           ? ScheduleRefreshOnEntity.fromJson(
               json['RefreshOnDay'] as Map<String, dynamic>)
@@ -47537,7 +44430,7 @@ class RefreshFrequency {
     final timeOfTheDay = this.timeOfTheDay;
     final timezone = this.timezone;
     return {
-      'Interval': interval.toValue(),
+      'Interval': interval.value,
       if (refreshOnDay != null) 'RefreshOnDay': refreshOnDay,
       if (timeOfTheDay != null) 'TimeOfTheDay': timeOfTheDay,
       if (timezone != null) 'Timezone': timezone,
@@ -47546,51 +44439,22 @@ class RefreshFrequency {
 }
 
 enum RefreshInterval {
-  minute15,
-  minute30,
-  hourly,
-  daily,
-  weekly,
-  monthly,
-}
+  minute15('MINUTE15'),
+  minute30('MINUTE30'),
+  hourly('HOURLY'),
+  daily('DAILY'),
+  weekly('WEEKLY'),
+  monthly('MONTHLY'),
+  ;
 
-extension RefreshIntervalValueExtension on RefreshInterval {
-  String toValue() {
-    switch (this) {
-      case RefreshInterval.minute15:
-        return 'MINUTE15';
-      case RefreshInterval.minute30:
-        return 'MINUTE30';
-      case RefreshInterval.hourly:
-        return 'HOURLY';
-      case RefreshInterval.daily:
-        return 'DAILY';
-      case RefreshInterval.weekly:
-        return 'WEEKLY';
-      case RefreshInterval.monthly:
-        return 'MONTHLY';
-    }
-  }
-}
+  final String value;
 
-extension RefreshIntervalFromString on String {
-  RefreshInterval toRefreshInterval() {
-    switch (this) {
-      case 'MINUTE15':
-        return RefreshInterval.minute15;
-      case 'MINUTE30':
-        return RefreshInterval.minute30;
-      case 'HOURLY':
-        return RefreshInterval.hourly;
-      case 'DAILY':
-        return RefreshInterval.daily;
-      case 'WEEKLY':
-        return RefreshInterval.weekly;
-      case 'MONTHLY':
-        return RefreshInterval.monthly;
-    }
-    throw Exception('$this is not known in enum RefreshInterval');
-  }
+  const RefreshInterval(this.value);
+
+  static RefreshInterval fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RefreshInterval'));
 }
 
 /// The refresh schedule of a dataset.
@@ -47634,7 +44498,7 @@ class RefreshSchedule {
 
   factory RefreshSchedule.fromJson(Map<String, dynamic> json) {
     return RefreshSchedule(
-      refreshType: (json['RefreshType'] as String).toIngestionType(),
+      refreshType: IngestionType.fromString((json['RefreshType'] as String)),
       scheduleFrequency: RefreshFrequency.fromJson(
           json['ScheduleFrequency'] as Map<String, dynamic>),
       scheduleId: json['ScheduleId'] as String,
@@ -47650,7 +44514,7 @@ class RefreshSchedule {
     final arn = this.arn;
     final startAfterDateTime = this.startAfterDateTime;
     return {
-      'RefreshType': refreshType.toValue(),
+      'RefreshType': refreshType.value,
       'ScheduleFrequency': scheduleFrequency,
       'ScheduleId': scheduleId,
       if (arn != null) 'Arn': arn,
@@ -48144,46 +45008,21 @@ class RelativeDateTimeControlDisplayOptions {
 }
 
 enum RelativeDateType {
-  previous,
-  $this,
-  last,
-  now,
-  next,
-}
+  previous('PREVIOUS'),
+  $this('THIS'),
+  last('LAST'),
+  now('NOW'),
+  next('NEXT'),
+  ;
 
-extension RelativeDateTypeValueExtension on RelativeDateType {
-  String toValue() {
-    switch (this) {
-      case RelativeDateType.previous:
-        return 'PREVIOUS';
-      case RelativeDateType.$this:
-        return 'THIS';
-      case RelativeDateType.last:
-        return 'LAST';
-      case RelativeDateType.now:
-        return 'NOW';
-      case RelativeDateType.next:
-        return 'NEXT';
-    }
-  }
-}
+  final String value;
 
-extension RelativeDateTypeFromString on String {
-  RelativeDateType toRelativeDateType() {
-    switch (this) {
-      case 'PREVIOUS':
-        return RelativeDateType.previous;
-      case 'THIS':
-        return RelativeDateType.$this;
-      case 'LAST':
-        return RelativeDateType.last;
-      case 'NOW':
-        return RelativeDateType.now;
-      case 'NEXT':
-        return RelativeDateType.next;
-    }
-    throw Exception('$this is not known in enum RelativeDateType');
-  }
+  const RelativeDateType(this.value);
+
+  static RelativeDateType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RelativeDateType'));
 }
 
 /// A <code>RelativeDatesFilter</code> filters relative dates values.
@@ -48275,10 +45114,11 @@ class RelativeDatesFilter {
           json['AnchorDateConfiguration'] as Map<String, dynamic>),
       column: ColumnIdentifier.fromJson(json['Column'] as Map<String, dynamic>),
       filterId: json['FilterId'] as String,
-      nullOption: (json['NullOption'] as String).toFilterNullOption(),
+      nullOption: FilterNullOption.fromString((json['NullOption'] as String)),
       relativeDateType:
-          (json['RelativeDateType'] as String).toRelativeDateType(),
-      timeGranularity: (json['TimeGranularity'] as String).toTimeGranularity(),
+          RelativeDateType.fromString((json['RelativeDateType'] as String)),
+      timeGranularity:
+          TimeGranularity.fromString((json['TimeGranularity'] as String)),
       defaultFilterControlConfiguration:
           json['DefaultFilterControlConfiguration'] != null
               ? DefaultFilterControlConfiguration.fromJson(
@@ -48289,8 +45129,8 @@ class RelativeDatesFilter {
           ? ExcludePeriodConfiguration.fromJson(
               json['ExcludePeriodConfiguration'] as Map<String, dynamic>)
           : null,
-      minimumGranularity:
-          (json['MinimumGranularity'] as String?)?.toTimeGranularity(),
+      minimumGranularity: (json['MinimumGranularity'] as String?)
+          ?.let(TimeGranularity.fromString),
       parameterName: json['ParameterName'] as String?,
       relativeDateValue: json['RelativeDateValue'] as int?,
     );
@@ -48313,15 +45153,15 @@ class RelativeDatesFilter {
       'AnchorDateConfiguration': anchorDateConfiguration,
       'Column': column,
       'FilterId': filterId,
-      'NullOption': nullOption.toValue(),
-      'RelativeDateType': relativeDateType.toValue(),
-      'TimeGranularity': timeGranularity.toValue(),
+      'NullOption': nullOption.value,
+      'RelativeDateType': relativeDateType.value,
+      'TimeGranularity': timeGranularity.value,
       if (defaultFilterControlConfiguration != null)
         'DefaultFilterControlConfiguration': defaultFilterControlConfiguration,
       if (excludePeriodConfiguration != null)
         'ExcludePeriodConfiguration': excludePeriodConfiguration,
       if (minimumGranularity != null)
-        'MinimumGranularity': minimumGranularity.toValue(),
+        'MinimumGranularity': minimumGranularity.value,
       if (parameterName != null) 'ParameterName': parameterName,
       if (relativeDateValue != null) 'RelativeDateValue': relativeDateValue,
     };
@@ -48329,46 +45169,21 @@ class RelativeDatesFilter {
 }
 
 enum RelativeFontSize {
-  extraSmall,
-  small,
-  medium,
-  large,
-  extraLarge,
-}
+  extraSmall('EXTRA_SMALL'),
+  small('SMALL'),
+  medium('MEDIUM'),
+  large('LARGE'),
+  extraLarge('EXTRA_LARGE'),
+  ;
 
-extension RelativeFontSizeValueExtension on RelativeFontSize {
-  String toValue() {
-    switch (this) {
-      case RelativeFontSize.extraSmall:
-        return 'EXTRA_SMALL';
-      case RelativeFontSize.small:
-        return 'SMALL';
-      case RelativeFontSize.medium:
-        return 'MEDIUM';
-      case RelativeFontSize.large:
-        return 'LARGE';
-      case RelativeFontSize.extraLarge:
-        return 'EXTRA_LARGE';
-    }
-  }
-}
+  final String value;
 
-extension RelativeFontSizeFromString on String {
-  RelativeFontSize toRelativeFontSize() {
-    switch (this) {
-      case 'EXTRA_SMALL':
-        return RelativeFontSize.extraSmall;
-      case 'SMALL':
-        return RelativeFontSize.small;
-      case 'MEDIUM':
-        return RelativeFontSize.medium;
-      case 'LARGE':
-        return RelativeFontSize.large;
-      case 'EXTRA_LARGE':
-        return RelativeFontSize.extraLarge;
-    }
-    throw Exception('$this is not known in enum RelativeFontSize');
-  }
+  const RelativeFontSize(this.value);
+
+  static RelativeFontSize fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RelativeFontSize'));
 }
 
 /// A transform operation that renames a column.
@@ -48402,31 +45217,18 @@ class RenameColumnOperation {
 }
 
 enum ResizeOption {
-  fixed,
-  responsive,
-}
+  fixed('FIXED'),
+  responsive('RESPONSIVE'),
+  ;
 
-extension ResizeOptionValueExtension on ResizeOption {
-  String toValue() {
-    switch (this) {
-      case ResizeOption.fixed:
-        return 'FIXED';
-      case ResizeOption.responsive:
-        return 'RESPONSIVE';
-    }
-  }
-}
+  final String value;
 
-extension ResizeOptionFromString on String {
-  ResizeOption toResizeOption() {
-    switch (this) {
-      case 'FIXED':
-        return ResizeOption.fixed;
-      case 'RESPONSIVE':
-        return ResizeOption.responsive;
-    }
-    throw Exception('$this is not known in enum ResizeOption');
-  }
+  const ResizeOption(this.value);
+
+  static ResizeOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResizeOption'));
 }
 
 /// Permission for the resource.
@@ -48480,56 +45282,23 @@ class ResourcePermission {
 }
 
 enum ResourceStatus {
-  creationInProgress,
-  creationSuccessful,
-  creationFailed,
-  updateInProgress,
-  updateSuccessful,
-  updateFailed,
-  deleted,
-}
+  creationInProgress('CREATION_IN_PROGRESS'),
+  creationSuccessful('CREATION_SUCCESSFUL'),
+  creationFailed('CREATION_FAILED'),
+  updateInProgress('UPDATE_IN_PROGRESS'),
+  updateSuccessful('UPDATE_SUCCESSFUL'),
+  updateFailed('UPDATE_FAILED'),
+  deleted('DELETED'),
+  ;
 
-extension ResourceStatusValueExtension on ResourceStatus {
-  String toValue() {
-    switch (this) {
-      case ResourceStatus.creationInProgress:
-        return 'CREATION_IN_PROGRESS';
-      case ResourceStatus.creationSuccessful:
-        return 'CREATION_SUCCESSFUL';
-      case ResourceStatus.creationFailed:
-        return 'CREATION_FAILED';
-      case ResourceStatus.updateInProgress:
-        return 'UPDATE_IN_PROGRESS';
-      case ResourceStatus.updateSuccessful:
-        return 'UPDATE_SUCCESSFUL';
-      case ResourceStatus.updateFailed:
-        return 'UPDATE_FAILED';
-      case ResourceStatus.deleted:
-        return 'DELETED';
-    }
-  }
-}
+  final String value;
 
-extension ResourceStatusFromString on String {
-  ResourceStatus toResourceStatus() {
-    switch (this) {
-      case 'CREATION_IN_PROGRESS':
-        return ResourceStatus.creationInProgress;
-      case 'CREATION_SUCCESSFUL':
-        return ResourceStatus.creationSuccessful;
-      case 'CREATION_FAILED':
-        return ResourceStatus.creationFailed;
-      case 'UPDATE_IN_PROGRESS':
-        return ResourceStatus.updateInProgress;
-      case 'UPDATE_SUCCESSFUL':
-        return ResourceStatus.updateSuccessful;
-      case 'UPDATE_FAILED':
-        return ResourceStatus.updateFailed;
-      case 'DELETED':
-        return ResourceStatus.deleted;
-    }
-    throw Exception('$this is not known in enum ResourceStatus');
-  }
+  const ResourceStatus(this.value);
+
+  static ResourceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResourceStatus'));
 }
 
 class RestoreAnalysisResponse {
@@ -48575,51 +45344,21 @@ class RestoreAnalysisResponse {
 }
 
 enum Role {
-  admin,
-  author,
-  reader,
-  adminPro,
-  authorPro,
-  readerPro,
-}
+  admin('ADMIN'),
+  author('AUTHOR'),
+  reader('READER'),
+  adminPro('ADMIN_PRO'),
+  authorPro('AUTHOR_PRO'),
+  readerPro('READER_PRO'),
+  ;
 
-extension RoleValueExtension on Role {
-  String toValue() {
-    switch (this) {
-      case Role.admin:
-        return 'ADMIN';
-      case Role.author:
-        return 'AUTHOR';
-      case Role.reader:
-        return 'READER';
-      case Role.adminPro:
-        return 'ADMIN_PRO';
-      case Role.authorPro:
-        return 'AUTHOR_PRO';
-      case Role.readerPro:
-        return 'READER_PRO';
-    }
-  }
-}
+  final String value;
 
-extension RoleFromString on String {
-  Role toRole() {
-    switch (this) {
-      case 'ADMIN':
-        return Role.admin;
-      case 'AUTHOR':
-        return Role.author;
-      case 'READER':
-        return Role.reader;
-      case 'ADMIN_PRO':
-        return Role.adminPro;
-      case 'AUTHOR_PRO':
-        return Role.authorPro;
-      case 'READER_PRO':
-        return Role.readerPro;
-    }
-    throw Exception('$this is not known in enum Role');
-  }
+  const Role(this.value);
+
+  static Role fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Role'));
 }
 
 /// The rolling date configuration of a date time filter.
@@ -48675,9 +45414,9 @@ class RowAlternateColorOptions {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      status: (json['Status'] as String?)?.toWidgetStatus(),
-      usePrimaryBackgroundColor:
-          (json['UsePrimaryBackgroundColor'] as String?)?.toWidgetStatus(),
+      status: (json['Status'] as String?)?.let(WidgetStatus.fromString),
+      usePrimaryBackgroundColor: (json['UsePrimaryBackgroundColor'] as String?)
+          ?.let(WidgetStatus.fromString),
     );
   }
 
@@ -48687,9 +45426,9 @@ class RowAlternateColorOptions {
     final usePrimaryBackgroundColor = this.usePrimaryBackgroundColor;
     return {
       if (rowAlternateColors != null) 'RowAlternateColors': rowAlternateColors,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (usePrimaryBackgroundColor != null)
-        'UsePrimaryBackgroundColor': usePrimaryBackgroundColor.toValue(),
+        'UsePrimaryBackgroundColor': usePrimaryBackgroundColor.value,
     };
   }
 }
@@ -48778,12 +45517,12 @@ class RowLevelPermissionDataSet {
   factory RowLevelPermissionDataSet.fromJson(Map<String, dynamic> json) {
     return RowLevelPermissionDataSet(
       arn: json['Arn'] as String,
-      permissionPolicy:
-          (json['PermissionPolicy'] as String).toRowLevelPermissionPolicy(),
+      permissionPolicy: RowLevelPermissionPolicy.fromString(
+          (json['PermissionPolicy'] as String)),
       formatVersion: (json['FormatVersion'] as String?)
-          ?.toRowLevelPermissionFormatVersion(),
+          ?.let(RowLevelPermissionFormatVersion.fromString),
       namespace: json['Namespace'] as String?,
-      status: (json['Status'] as String?)?.toStatus(),
+      status: (json['Status'] as String?)?.let(Status.fromString),
     );
   }
 
@@ -48795,70 +45534,42 @@ class RowLevelPermissionDataSet {
     final status = this.status;
     return {
       'Arn': arn,
-      'PermissionPolicy': permissionPolicy.toValue(),
-      if (formatVersion != null) 'FormatVersion': formatVersion.toValue(),
+      'PermissionPolicy': permissionPolicy.value,
+      if (formatVersion != null) 'FormatVersion': formatVersion.value,
       if (namespace != null) 'Namespace': namespace,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
 
 enum RowLevelPermissionFormatVersion {
-  version_1,
-  version_2,
-}
+  version_1('VERSION_1'),
+  version_2('VERSION_2'),
+  ;
 
-extension RowLevelPermissionFormatVersionValueExtension
-    on RowLevelPermissionFormatVersion {
-  String toValue() {
-    switch (this) {
-      case RowLevelPermissionFormatVersion.version_1:
-        return 'VERSION_1';
-      case RowLevelPermissionFormatVersion.version_2:
-        return 'VERSION_2';
-    }
-  }
-}
+  final String value;
 
-extension RowLevelPermissionFormatVersionFromString on String {
-  RowLevelPermissionFormatVersion toRowLevelPermissionFormatVersion() {
-    switch (this) {
-      case 'VERSION_1':
-        return RowLevelPermissionFormatVersion.version_1;
-      case 'VERSION_2':
-        return RowLevelPermissionFormatVersion.version_2;
-    }
-    throw Exception(
-        '$this is not known in enum RowLevelPermissionFormatVersion');
-  }
+  const RowLevelPermissionFormatVersion(this.value);
+
+  static RowLevelPermissionFormatVersion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RowLevelPermissionFormatVersion'));
 }
 
 enum RowLevelPermissionPolicy {
-  grantAccess,
-  denyAccess,
-}
+  grantAccess('GRANT_ACCESS'),
+  denyAccess('DENY_ACCESS'),
+  ;
 
-extension RowLevelPermissionPolicyValueExtension on RowLevelPermissionPolicy {
-  String toValue() {
-    switch (this) {
-      case RowLevelPermissionPolicy.grantAccess:
-        return 'GRANT_ACCESS';
-      case RowLevelPermissionPolicy.denyAccess:
-        return 'DENY_ACCESS';
-    }
-  }
-}
+  final String value;
 
-extension RowLevelPermissionPolicyFromString on String {
-  RowLevelPermissionPolicy toRowLevelPermissionPolicy() {
-    switch (this) {
-      case 'GRANT_ACCESS':
-        return RowLevelPermissionPolicy.grantAccess;
-      case 'DENY_ACCESS':
-        return RowLevelPermissionPolicy.denyAccess;
-    }
-    throw Exception('$this is not known in enum RowLevelPermissionPolicy');
-  }
+  const RowLevelPermissionPolicy(this.value);
+
+  static RowLevelPermissionPolicy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RowLevelPermissionPolicy'));
 }
 
 /// The configuration of tags on a dataset to set row-level security.
@@ -48891,7 +45602,7 @@ class RowLevelPermissionTagConfiguration {
           .map((e) =>
               RowLevelPermissionTagRule.fromJson(e as Map<String, dynamic>))
           .toList(),
-      status: (json['Status'] as String?)?.toStatus(),
+      status: (json['Status'] as String?)?.let(Status.fromString),
       tagRuleConfigurations: (json['TagRuleConfigurations'] as List?)
           ?.whereNotNull()
           .map((e) =>
@@ -48906,7 +45617,7 @@ class RowLevelPermissionTagConfiguration {
     final tagRuleConfigurations = this.tagRuleConfigurations;
     return {
       'TagRules': tagRules,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (tagRuleConfigurations != null)
         'TagRuleConfigurations': tagRuleConfigurations,
     };
@@ -49119,8 +45830,8 @@ class SameSheetTargetVisualConfiguration {
   factory SameSheetTargetVisualConfiguration.fromJson(
       Map<String, dynamic> json) {
     return SameSheetTargetVisualConfiguration(
-      targetVisualOptions:
-          (json['TargetVisualOptions'] as String?)?.toTargetVisualOptions(),
+      targetVisualOptions: (json['TargetVisualOptions'] as String?)
+          ?.let(TargetVisualOptions.fromString),
       targetVisuals: (json['TargetVisuals'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -49133,7 +45844,7 @@ class SameSheetTargetVisualConfiguration {
     final targetVisuals = this.targetVisuals;
     return {
       if (targetVisualOptions != null)
-        'TargetVisualOptions': targetVisualOptions.toValue(),
+        'TargetVisualOptions': targetVisualOptions.value,
       if (targetVisuals != null) 'TargetVisuals': targetVisuals,
     };
   }
@@ -49836,7 +46547,7 @@ class ScheduleRefreshOnEntity {
   factory ScheduleRefreshOnEntity.fromJson(Map<String, dynamic> json) {
     return ScheduleRefreshOnEntity(
       dayOfMonth: json['DayOfMonth'] as String?,
-      dayOfWeek: (json['DayOfWeek'] as String?)?.toDayOfWeek(),
+      dayOfWeek: (json['DayOfWeek'] as String?)?.let(DayOfWeek.fromString),
     );
   }
 
@@ -49845,7 +46556,7 @@ class ScheduleRefreshOnEntity {
     final dayOfWeek = this.dayOfWeek;
     return {
       if (dayOfMonth != null) 'DayOfMonth': dayOfMonth,
-      if (dayOfWeek != null) 'DayOfWeek': dayOfWeek.toValue(),
+      if (dayOfWeek != null) 'DayOfWeek': dayOfWeek.value,
     };
   }
 }
@@ -49865,7 +46576,7 @@ class ScrollBarOptions {
 
   factory ScrollBarOptions.fromJson(Map<String, dynamic> json) {
     return ScrollBarOptions(
-      visibility: (json['Visibility'] as String?)?.toVisibility(),
+      visibility: (json['Visibility'] as String?)?.let(Visibility.fromString),
       visibleRange: json['VisibleRange'] != null
           ? VisibleRangeOptions.fromJson(
               json['VisibleRange'] as Map<String, dynamic>)
@@ -49877,7 +46588,7 @@ class ScrollBarOptions {
     final visibility = this.visibility;
     final visibleRange = this.visibleRange;
     return {
-      if (visibility != null) 'Visibility': visibility.toValue(),
+      if (visibility != null) 'Visibility': visibility.value,
       if (visibleRange != null) 'VisibleRange': visibleRange,
     };
   }
@@ -50172,14 +46883,14 @@ class SecondaryValueOptions {
 
   factory SecondaryValueOptions.fromJson(Map<String, dynamic> json) {
     return SecondaryValueOptions(
-      visibility: (json['Visibility'] as String?)?.toVisibility(),
+      visibility: (json['Visibility'] as String?)?.let(Visibility.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final visibility = this.visibility;
     return {
-      if (visibility != null) 'Visibility': visibility.toValue(),
+      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
@@ -50195,14 +46906,15 @@ class SectionAfterPageBreak {
 
   factory SectionAfterPageBreak.fromJson(Map<String, dynamic> json) {
     return SectionAfterPageBreak(
-      status: (json['Status'] as String?)?.toSectionPageBreakStatus(),
+      status:
+          (json['Status'] as String?)?.let(SectionPageBreakStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -50326,9 +47038,9 @@ class SectionBasedLayoutPaperCanvasSizeOptions {
       paperMargin: json['PaperMargin'] != null
           ? Spacing.fromJson(json['PaperMargin'] as Map<String, dynamic>)
           : null,
-      paperOrientation:
-          (json['PaperOrientation'] as String?)?.toPaperOrientation(),
-      paperSize: (json['PaperSize'] as String?)?.toPaperSize(),
+      paperOrientation: (json['PaperOrientation'] as String?)
+          ?.let(PaperOrientation.fromString),
+      paperSize: (json['PaperSize'] as String?)?.let(PaperSize.fromString),
     );
   }
 
@@ -50338,9 +47050,8 @@ class SectionBasedLayoutPaperCanvasSizeOptions {
     final paperSize = this.paperSize;
     return {
       if (paperMargin != null) 'PaperMargin': paperMargin,
-      if (paperOrientation != null)
-        'PaperOrientation': paperOrientation.toValue(),
-      if (paperSize != null) 'PaperSize': paperSize.toValue(),
+      if (paperOrientation != null) 'PaperOrientation': paperOrientation.value,
+      if (paperSize != null) 'PaperSize': paperSize.value,
     };
   }
 }
@@ -50396,31 +47107,18 @@ class SectionPageBreakConfiguration {
 }
 
 enum SectionPageBreakStatus {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension SectionPageBreakStatusValueExtension on SectionPageBreakStatus {
-  String toValue() {
-    switch (this) {
-      case SectionPageBreakStatus.enabled:
-        return 'ENABLED';
-      case SectionPageBreakStatus.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension SectionPageBreakStatusFromString on String {
-  SectionPageBreakStatus toSectionPageBreakStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return SectionPageBreakStatus.enabled;
-      case 'DISABLED':
-        return SectionPageBreakStatus.disabled;
-    }
-    throw Exception('$this is not known in enum SectionPageBreakStatus');
-  }
+  const SectionPageBreakStatus(this.value);
+
+  static SectionPageBreakStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SectionPageBreakStatus'));
 }
 
 /// The options that style a section.
@@ -50462,49 +47160,31 @@ class SectionStyle {
 }
 
 enum SelectAllValueOptions {
-  allValues,
-}
+  allValues('ALL_VALUES'),
+  ;
 
-extension SelectAllValueOptionsValueExtension on SelectAllValueOptions {
-  String toValue() {
-    switch (this) {
-      case SelectAllValueOptions.allValues:
-        return 'ALL_VALUES';
-    }
-  }
-}
+  final String value;
 
-extension SelectAllValueOptionsFromString on String {
-  SelectAllValueOptions toSelectAllValueOptions() {
-    switch (this) {
-      case 'ALL_VALUES':
-        return SelectAllValueOptions.allValues;
-    }
-    throw Exception('$this is not known in enum SelectAllValueOptions');
-  }
+  const SelectAllValueOptions(this.value);
+
+  static SelectAllValueOptions fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SelectAllValueOptions'));
 }
 
 enum SelectedFieldOptions {
-  allFields,
-}
+  allFields('ALL_FIELDS'),
+  ;
 
-extension SelectedFieldOptionsValueExtension on SelectedFieldOptions {
-  String toValue() {
-    switch (this) {
-      case SelectedFieldOptions.allFields:
-        return 'ALL_FIELDS';
-    }
-  }
-}
+  final String value;
 
-extension SelectedFieldOptionsFromString on String {
-  SelectedFieldOptions toSelectedFieldOptions() {
-    switch (this) {
-      case 'ALL_FIELDS':
-        return SelectedFieldOptions.allFields;
-    }
-    throw Exception('$this is not known in enum SelectedFieldOptions');
-  }
+  const SelectedFieldOptions(this.value);
+
+  static SelectedFieldOptions fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SelectedFieldOptions'));
 }
 
 /// The configuration for applying a filter to specific sheets or visuals. You
@@ -50545,31 +47225,18 @@ class SelectedSheetsFilterScopeConfiguration {
 }
 
 enum SelectedTooltipType {
-  basic,
-  detailed,
-}
+  basic('BASIC'),
+  detailed('DETAILED'),
+  ;
 
-extension SelectedTooltipTypeValueExtension on SelectedTooltipType {
-  String toValue() {
-    switch (this) {
-      case SelectedTooltipType.basic:
-        return 'BASIC';
-      case SelectedTooltipType.detailed:
-        return 'DETAILED';
-    }
-  }
-}
+  final String value;
 
-extension SelectedTooltipTypeFromString on String {
-  SelectedTooltipType toSelectedTooltipType() {
-    switch (this) {
-      case 'BASIC':
-        return SelectedTooltipType.basic;
-      case 'DETAILED':
-        return SelectedTooltipType.detailed;
-    }
-    throw Exception('$this is not known in enum SelectedTooltipType');
-  }
+  const SelectedTooltipType(this.value);
+
+  static SelectedTooltipType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SelectedTooltipType'));
 }
 
 /// A structure that represents a semantic entity type.
@@ -50748,26 +47415,16 @@ class ServiceNowParameters {
 }
 
 enum ServiceType {
-  redshift,
-}
+  redshift('REDSHIFT'),
+  ;
 
-extension ServiceTypeValueExtension on ServiceType {
-  String toValue() {
-    switch (this) {
-      case ServiceType.redshift:
-        return 'REDSHIFT';
-    }
-  }
-}
+  final String value;
 
-extension ServiceTypeFromString on String {
-  ServiceType toServiceType() {
-    switch (this) {
-      case 'REDSHIFT':
-        return ServiceType.redshift;
-    }
-    throw Exception('$this is not known in enum ServiceType');
-  }
+  const ServiceType(this.value);
+
+  static ServiceType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ServiceType'));
 }
 
 /// The key-value pair used for the row-level security tags feature.
@@ -50849,31 +47506,18 @@ class ShapeConditionalFormat {
 }
 
 enum SharingModel {
-  account,
-  namespace,
-}
+  account('ACCOUNT'),
+  namespace('NAMESPACE'),
+  ;
 
-extension SharingModelValueExtension on SharingModel {
-  String toValue() {
-    switch (this) {
-      case SharingModel.account:
-        return 'ACCOUNT';
-      case SharingModel.namespace:
-        return 'NAMESPACE';
-    }
-  }
-}
+  final String value;
 
-extension SharingModelFromString on String {
-  SharingModel toSharingModel() {
-    switch (this) {
-      case 'ACCOUNT':
-        return SharingModel.account;
-      case 'NAMESPACE':
-        return SharingModel.namespace;
-    }
-    throw Exception('$this is not known in enum SharingModel');
-  }
+  const SharingModel(this.value);
+
+  static SharingModel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SharingModel'));
 }
 
 /// A <i>sheet</i>, which is an object that contains a set of visuals that are
@@ -50913,61 +47557,33 @@ class Sheet {
 }
 
 enum SheetContentType {
-  paginated,
-  interactive,
-}
+  paginated('PAGINATED'),
+  interactive('INTERACTIVE'),
+  ;
 
-extension SheetContentTypeValueExtension on SheetContentType {
-  String toValue() {
-    switch (this) {
-      case SheetContentType.paginated:
-        return 'PAGINATED';
-      case SheetContentType.interactive:
-        return 'INTERACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension SheetContentTypeFromString on String {
-  SheetContentType toSheetContentType() {
-    switch (this) {
-      case 'PAGINATED':
-        return SheetContentType.paginated;
-      case 'INTERACTIVE':
-        return SheetContentType.interactive;
-    }
-    throw Exception('$this is not known in enum SheetContentType');
-  }
+  const SheetContentType(this.value);
+
+  static SheetContentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SheetContentType'));
 }
 
 enum SheetControlDateTimePickerType {
-  singleValued,
-  dateRange,
-}
+  singleValued('SINGLE_VALUED'),
+  dateRange('DATE_RANGE'),
+  ;
 
-extension SheetControlDateTimePickerTypeValueExtension
-    on SheetControlDateTimePickerType {
-  String toValue() {
-    switch (this) {
-      case SheetControlDateTimePickerType.singleValued:
-        return 'SINGLE_VALUED';
-      case SheetControlDateTimePickerType.dateRange:
-        return 'DATE_RANGE';
-    }
-  }
-}
+  final String value;
 
-extension SheetControlDateTimePickerTypeFromString on String {
-  SheetControlDateTimePickerType toSheetControlDateTimePickerType() {
-    switch (this) {
-      case 'SINGLE_VALUED':
-        return SheetControlDateTimePickerType.singleValued;
-      case 'DATE_RANGE':
-        return SheetControlDateTimePickerType.dateRange;
-    }
-    throw Exception(
-        '$this is not known in enum SheetControlDateTimePickerType');
-  }
+  const SheetControlDateTimePickerType(this.value);
+
+  static SheetControlDateTimePickerType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SheetControlDateTimePickerType'));
 }
 
 /// A control to display info icons for filters and parameters.
@@ -50986,7 +47602,7 @@ class SheetControlInfoIconLabelOptions {
   factory SheetControlInfoIconLabelOptions.fromJson(Map<String, dynamic> json) {
     return SheetControlInfoIconLabelOptions(
       infoIconText: json['InfoIconText'] as String?,
-      visibility: (json['Visibility'] as String?)?.toVisibility(),
+      visibility: (json['Visibility'] as String?)?.let(Visibility.fromString),
     );
   }
 
@@ -50995,7 +47611,7 @@ class SheetControlInfoIconLabelOptions {
     final visibility = this.visibility;
     return {
       if (infoIconText != null) 'InfoIconText': infoIconText,
-      if (visibility != null) 'Visibility': visibility.toValue(),
+      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
@@ -51054,59 +47670,33 @@ class SheetControlLayoutConfiguration {
 }
 
 enum SheetControlListType {
-  multiSelect,
-  singleSelect,
-}
+  multiSelect('MULTI_SELECT'),
+  singleSelect('SINGLE_SELECT'),
+  ;
 
-extension SheetControlListTypeValueExtension on SheetControlListType {
-  String toValue() {
-    switch (this) {
-      case SheetControlListType.multiSelect:
-        return 'MULTI_SELECT';
-      case SheetControlListType.singleSelect:
-        return 'SINGLE_SELECT';
-    }
-  }
-}
+  final String value;
 
-extension SheetControlListTypeFromString on String {
-  SheetControlListType toSheetControlListType() {
-    switch (this) {
-      case 'MULTI_SELECT':
-        return SheetControlListType.multiSelect;
-      case 'SINGLE_SELECT':
-        return SheetControlListType.singleSelect;
-    }
-    throw Exception('$this is not known in enum SheetControlListType');
-  }
+  const SheetControlListType(this.value);
+
+  static SheetControlListType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SheetControlListType'));
 }
 
 enum SheetControlSliderType {
-  singlePoint,
-  range,
-}
+  singlePoint('SINGLE_POINT'),
+  range('RANGE'),
+  ;
 
-extension SheetControlSliderTypeValueExtension on SheetControlSliderType {
-  String toValue() {
-    switch (this) {
-      case SheetControlSliderType.singlePoint:
-        return 'SINGLE_POINT';
-      case SheetControlSliderType.range:
-        return 'RANGE';
-    }
-  }
-}
+  final String value;
 
-extension SheetControlSliderTypeFromString on String {
-  SheetControlSliderType toSheetControlSliderType() {
-    switch (this) {
-      case 'SINGLE_POINT':
-        return SheetControlSliderType.singlePoint;
-      case 'RANGE':
-        return SheetControlSliderType.range;
-    }
-    throw Exception('$this is not known in enum SheetControlSliderType');
-  }
+  const SheetControlSliderType(this.value);
+
+  static SheetControlSliderType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SheetControlSliderType'));
 }
 
 /// Sheet controls option.
@@ -51120,15 +47710,15 @@ class SheetControlsOption {
 
   factory SheetControlsOption.fromJson(Map<String, dynamic> json) {
     return SheetControlsOption(
-      visibilityState:
-          (json['VisibilityState'] as String?)?.toDashboardUIState(),
+      visibilityState: (json['VisibilityState'] as String?)
+          ?.let(DashboardUIState.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final visibilityState = this.visibilityState;
     return {
-      if (visibilityState != null) 'VisibilityState': visibilityState.toValue(),
+      if (visibilityState != null) 'VisibilityState': visibilityState.value,
     };
   }
 }
@@ -51212,7 +47802,8 @@ class SheetDefinition {
   factory SheetDefinition.fromJson(Map<String, dynamic> json) {
     return SheetDefinition(
       sheetId: json['SheetId'] as String,
-      contentType: (json['ContentType'] as String?)?.toSheetContentType(),
+      contentType:
+          (json['ContentType'] as String?)?.let(SheetContentType.fromString),
       description: json['Description'] as String?,
       filterControls: (json['FilterControls'] as List?)
           ?.whereNotNull()
@@ -51257,7 +47848,7 @@ class SheetDefinition {
     final visuals = this.visuals;
     return {
       'SheetId': sheetId,
-      if (contentType != null) 'ContentType': contentType.toValue(),
+      if (contentType != null) 'ContentType': contentType.value,
       if (description != null) 'Description': description,
       if (filterControls != null) 'FilterControls': filterControls,
       if (layouts != null) 'Layouts': layouts,
@@ -51294,14 +47885,14 @@ class SheetElementConfigurationOverrides {
   factory SheetElementConfigurationOverrides.fromJson(
       Map<String, dynamic> json) {
     return SheetElementConfigurationOverrides(
-      visibility: (json['Visibility'] as String?)?.toVisibility(),
+      visibility: (json['Visibility'] as String?)?.let(Visibility.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final visibility = this.visibility;
     return {
-      if (visibility != null) 'Visibility': visibility.toValue(),
+      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
@@ -51349,8 +47940,8 @@ class SheetLayoutElementMaximizationOption {
   factory SheetLayoutElementMaximizationOption.fromJson(
       Map<String, dynamic> json) {
     return SheetLayoutElementMaximizationOption(
-      availabilityStatus:
-          (json['AvailabilityStatus'] as String?)?.toDashboardBehavior(),
+      availabilityStatus: (json['AvailabilityStatus'] as String?)
+          ?.let(DashboardBehavior.fromString),
     );
   }
 
@@ -51358,7 +47949,7 @@ class SheetLayoutElementMaximizationOption {
     final availabilityStatus = this.availabilityStatus;
     return {
       if (availabilityStatus != null)
-        'AvailabilityStatus': availabilityStatus.toValue(),
+        'AvailabilityStatus': availabilityStatus.value,
     };
   }
 }
@@ -51457,7 +48048,7 @@ class SheetVisualScopingConfiguration {
 
   factory SheetVisualScopingConfiguration.fromJson(Map<String, dynamic> json) {
     return SheetVisualScopingConfiguration(
-      scope: (json['Scope'] as String).toFilterVisualScope(),
+      scope: FilterVisualScope.fromString((json['Scope'] as String)),
       sheetId: json['SheetId'] as String,
       visualIds: (json['VisualIds'] as List?)
           ?.whereNotNull()
@@ -51471,7 +48062,7 @@ class SheetVisualScopingConfiguration {
     final sheetId = this.sheetId;
     final visualIds = this.visualIds;
     return {
-      'Scope': scope.toValue(),
+      'Scope': scope.value,
       'SheetId': sheetId,
       if (visualIds != null) 'VisualIds': visualIds,
     };
@@ -51560,28 +48151,17 @@ class SignupResponse {
 }
 
 enum SimpleAttributeAggregationFunction {
-  uniqueValue,
-}
+  uniqueValue('UNIQUE_VALUE'),
+  ;
 
-extension SimpleAttributeAggregationFunctionValueExtension
-    on SimpleAttributeAggregationFunction {
-  String toValue() {
-    switch (this) {
-      case SimpleAttributeAggregationFunction.uniqueValue:
-        return 'UNIQUE_VALUE';
-    }
-  }
-}
+  final String value;
 
-extension SimpleAttributeAggregationFunctionFromString on String {
-  SimpleAttributeAggregationFunction toSimpleAttributeAggregationFunction() {
-    switch (this) {
-      case 'UNIQUE_VALUE':
-        return SimpleAttributeAggregationFunction.uniqueValue;
-    }
-    throw Exception(
-        '$this is not known in enum SimpleAttributeAggregationFunction');
-  }
+  const SimpleAttributeAggregationFunction(this.value);
+
+  static SimpleAttributeAggregationFunction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SimpleAttributeAggregationFunction'));
 }
 
 /// The simple cluster marker of the cluster marker.
@@ -51608,128 +48188,46 @@ class SimpleClusterMarker {
 }
 
 enum SimpleNumericalAggregationFunction {
-  sum,
-  average,
-  min,
-  max,
-  count,
-  distinctCount,
-  $var,
-  varp,
-  stdev,
-  stdevp,
-  median,
-}
+  sum('SUM'),
+  average('AVERAGE'),
+  min('MIN'),
+  max('MAX'),
+  count('COUNT'),
+  distinctCount('DISTINCT_COUNT'),
+  $var('VAR'),
+  varp('VARP'),
+  stdev('STDEV'),
+  stdevp('STDEVP'),
+  median('MEDIAN'),
+  ;
 
-extension SimpleNumericalAggregationFunctionValueExtension
-    on SimpleNumericalAggregationFunction {
-  String toValue() {
-    switch (this) {
-      case SimpleNumericalAggregationFunction.sum:
-        return 'SUM';
-      case SimpleNumericalAggregationFunction.average:
-        return 'AVERAGE';
-      case SimpleNumericalAggregationFunction.min:
-        return 'MIN';
-      case SimpleNumericalAggregationFunction.max:
-        return 'MAX';
-      case SimpleNumericalAggregationFunction.count:
-        return 'COUNT';
-      case SimpleNumericalAggregationFunction.distinctCount:
-        return 'DISTINCT_COUNT';
-      case SimpleNumericalAggregationFunction.$var:
-        return 'VAR';
-      case SimpleNumericalAggregationFunction.varp:
-        return 'VARP';
-      case SimpleNumericalAggregationFunction.stdev:
-        return 'STDEV';
-      case SimpleNumericalAggregationFunction.stdevp:
-        return 'STDEVP';
-      case SimpleNumericalAggregationFunction.median:
-        return 'MEDIAN';
-    }
-  }
-}
+  final String value;
 
-extension SimpleNumericalAggregationFunctionFromString on String {
-  SimpleNumericalAggregationFunction toSimpleNumericalAggregationFunction() {
-    switch (this) {
-      case 'SUM':
-        return SimpleNumericalAggregationFunction.sum;
-      case 'AVERAGE':
-        return SimpleNumericalAggregationFunction.average;
-      case 'MIN':
-        return SimpleNumericalAggregationFunction.min;
-      case 'MAX':
-        return SimpleNumericalAggregationFunction.max;
-      case 'COUNT':
-        return SimpleNumericalAggregationFunction.count;
-      case 'DISTINCT_COUNT':
-        return SimpleNumericalAggregationFunction.distinctCount;
-      case 'VAR':
-        return SimpleNumericalAggregationFunction.$var;
-      case 'VARP':
-        return SimpleNumericalAggregationFunction.varp;
-      case 'STDEV':
-        return SimpleNumericalAggregationFunction.stdev;
-      case 'STDEVP':
-        return SimpleNumericalAggregationFunction.stdevp;
-      case 'MEDIAN':
-        return SimpleNumericalAggregationFunction.median;
-    }
-    throw Exception(
-        '$this is not known in enum SimpleNumericalAggregationFunction');
-  }
+  const SimpleNumericalAggregationFunction(this.value);
+
+  static SimpleNumericalAggregationFunction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SimpleNumericalAggregationFunction'));
 }
 
 enum SimpleTotalAggregationFunction {
-  $default,
-  sum,
-  average,
-  min,
-  max,
-  none,
-}
+  $default('DEFAULT'),
+  sum('SUM'),
+  average('AVERAGE'),
+  min('MIN'),
+  max('MAX'),
+  none('NONE'),
+  ;
 
-extension SimpleTotalAggregationFunctionValueExtension
-    on SimpleTotalAggregationFunction {
-  String toValue() {
-    switch (this) {
-      case SimpleTotalAggregationFunction.$default:
-        return 'DEFAULT';
-      case SimpleTotalAggregationFunction.sum:
-        return 'SUM';
-      case SimpleTotalAggregationFunction.average:
-        return 'AVERAGE';
-      case SimpleTotalAggregationFunction.min:
-        return 'MIN';
-      case SimpleTotalAggregationFunction.max:
-        return 'MAX';
-      case SimpleTotalAggregationFunction.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension SimpleTotalAggregationFunctionFromString on String {
-  SimpleTotalAggregationFunction toSimpleTotalAggregationFunction() {
-    switch (this) {
-      case 'DEFAULT':
-        return SimpleTotalAggregationFunction.$default;
-      case 'SUM':
-        return SimpleTotalAggregationFunction.sum;
-      case 'AVERAGE':
-        return SimpleTotalAggregationFunction.average;
-      case 'MIN':
-        return SimpleTotalAggregationFunction.min;
-      case 'MAX':
-        return SimpleTotalAggregationFunction.max;
-      case 'NONE':
-        return SimpleTotalAggregationFunction.none;
-    }
-    throw Exception(
-        '$this is not known in enum SimpleTotalAggregationFunction');
-  }
+  const SimpleTotalAggregationFunction(this.value);
+
+  static SimpleTotalAggregationFunction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SimpleTotalAggregationFunction'));
 }
 
 /// The settings of a chart's single axis configuration.
@@ -51758,26 +48256,17 @@ class SingleAxisOptions {
 }
 
 enum SingleYAxisOption {
-  primaryYAxis,
-}
+  primaryYAxis('PRIMARY_Y_AXIS'),
+  ;
 
-extension SingleYAxisOptionValueExtension on SingleYAxisOption {
-  String toValue() {
-    switch (this) {
-      case SingleYAxisOption.primaryYAxis:
-        return 'PRIMARY_Y_AXIS';
-    }
-  }
-}
+  final String value;
 
-extension SingleYAxisOptionFromString on String {
-  SingleYAxisOption toSingleYAxisOption() {
-    switch (this) {
-      case 'PRIMARY_Y_AXIS':
-        return SingleYAxisOption.primaryYAxis;
-    }
-    throw Exception('$this is not known in enum SingleYAxisOption');
-  }
+  const SingleYAxisOption(this.value);
+
+  static SingleYAxisOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SingleYAxisOption'));
 }
 
 /// The display options of a control.
@@ -51817,32 +48306,18 @@ class SliderControlDisplayOptions {
 }
 
 enum SmallMultiplesAxisPlacement {
-  outside,
-  inside,
-}
+  outside('OUTSIDE'),
+  inside('INSIDE'),
+  ;
 
-extension SmallMultiplesAxisPlacementValueExtension
-    on SmallMultiplesAxisPlacement {
-  String toValue() {
-    switch (this) {
-      case SmallMultiplesAxisPlacement.outside:
-        return 'OUTSIDE';
-      case SmallMultiplesAxisPlacement.inside:
-        return 'INSIDE';
-    }
-  }
-}
+  final String value;
 
-extension SmallMultiplesAxisPlacementFromString on String {
-  SmallMultiplesAxisPlacement toSmallMultiplesAxisPlacement() {
-    switch (this) {
-      case 'OUTSIDE':
-        return SmallMultiplesAxisPlacement.outside;
-      case 'INSIDE':
-        return SmallMultiplesAxisPlacement.inside;
-    }
-    throw Exception('$this is not known in enum SmallMultiplesAxisPlacement');
-  }
+  const SmallMultiplesAxisPlacement(this.value);
+
+  static SmallMultiplesAxisPlacement fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SmallMultiplesAxisPlacement'));
 }
 
 /// Configures the properties of a chart's axes that are used by small multiples
@@ -51864,9 +48339,10 @@ class SmallMultiplesAxisProperties {
 
   factory SmallMultiplesAxisProperties.fromJson(Map<String, dynamic> json) {
     return SmallMultiplesAxisProperties(
-      placement:
-          (json['Placement'] as String?)?.toSmallMultiplesAxisPlacement(),
-      scale: (json['Scale'] as String?)?.toSmallMultiplesAxisScale(),
+      placement: (json['Placement'] as String?)
+          ?.let(SmallMultiplesAxisPlacement.fromString),
+      scale:
+          (json['Scale'] as String?)?.let(SmallMultiplesAxisScale.fromString),
     );
   }
 
@@ -51874,38 +48350,25 @@ class SmallMultiplesAxisProperties {
     final placement = this.placement;
     final scale = this.scale;
     return {
-      if (placement != null) 'Placement': placement.toValue(),
-      if (scale != null) 'Scale': scale.toValue(),
+      if (placement != null) 'Placement': placement.value,
+      if (scale != null) 'Scale': scale.value,
     };
   }
 }
 
 enum SmallMultiplesAxisScale {
-  shared,
-  independent,
-}
+  shared('SHARED'),
+  independent('INDEPENDENT'),
+  ;
 
-extension SmallMultiplesAxisScaleValueExtension on SmallMultiplesAxisScale {
-  String toValue() {
-    switch (this) {
-      case SmallMultiplesAxisScale.shared:
-        return 'SHARED';
-      case SmallMultiplesAxisScale.independent:
-        return 'INDEPENDENT';
-    }
-  }
-}
+  final String value;
 
-extension SmallMultiplesAxisScaleFromString on String {
-  SmallMultiplesAxisScale toSmallMultiplesAxisScale() {
-    switch (this) {
-      case 'SHARED':
-        return SmallMultiplesAxisScale.shared;
-      case 'INDEPENDENT':
-        return SmallMultiplesAxisScale.independent;
-    }
-    throw Exception('$this is not known in enum SmallMultiplesAxisScale');
-  }
+  const SmallMultiplesAxisScale(this.value);
+
+  static SmallMultiplesAxisScale fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SmallMultiplesAxisScale'));
 }
 
 /// Options that determine the layout and display options of a chart's small
@@ -52132,7 +48595,8 @@ class SnapshotFile {
 
   factory SnapshotFile.fromJson(Map<String, dynamic> json) {
     return SnapshotFile(
-      formatType: (json['FormatType'] as String).toSnapshotFileFormatType(),
+      formatType:
+          SnapshotFileFormatType.fromString((json['FormatType'] as String)),
       sheetSelections: (json['SheetSelections'] as List)
           .whereNotNull()
           .map((e) =>
@@ -52145,43 +48609,26 @@ class SnapshotFile {
     final formatType = this.formatType;
     final sheetSelections = this.sheetSelections;
     return {
-      'FormatType': formatType.toValue(),
+      'FormatType': formatType.value,
       'SheetSelections': sheetSelections,
     };
   }
 }
 
 enum SnapshotFileFormatType {
-  csv,
-  pdf,
-  excel,
-}
+  csv('CSV'),
+  pdf('PDF'),
+  excel('EXCEL'),
+  ;
 
-extension SnapshotFileFormatTypeValueExtension on SnapshotFileFormatType {
-  String toValue() {
-    switch (this) {
-      case SnapshotFileFormatType.csv:
-        return 'CSV';
-      case SnapshotFileFormatType.pdf:
-        return 'PDF';
-      case SnapshotFileFormatType.excel:
-        return 'EXCEL';
-    }
-  }
-}
+  final String value;
 
-extension SnapshotFileFormatTypeFromString on String {
-  SnapshotFileFormatType toSnapshotFileFormatType() {
-    switch (this) {
-      case 'CSV':
-        return SnapshotFileFormatType.csv;
-      case 'PDF':
-        return SnapshotFileFormatType.pdf;
-      case 'EXCEL':
-        return SnapshotFileFormatType.excel;
-    }
-    throw Exception('$this is not known in enum SnapshotFileFormatType');
-  }
+  const SnapshotFileFormatType(this.value);
+
+  static SnapshotFileFormatType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SnapshotFileFormatType'));
 }
 
 /// A structure that contains the information on the snapshot files.
@@ -52252,8 +48699,8 @@ class SnapshotFileSheetSelection {
 
   factory SnapshotFileSheetSelection.fromJson(Map<String, dynamic> json) {
     return SnapshotFileSheetSelection(
-      selectionScope: (json['SelectionScope'] as String)
-          .toSnapshotFileSheetSelectionScope(),
+      selectionScope: SnapshotFileSheetSelectionScope.fromString(
+          (json['SelectionScope'] as String)),
       sheetId: json['SheetId'] as String,
       visualIds: (json['VisualIds'] as List?)
           ?.whereNotNull()
@@ -52267,7 +48714,7 @@ class SnapshotFileSheetSelection {
     final sheetId = this.sheetId;
     final visualIds = this.visualIds;
     return {
-      'SelectionScope': selectionScope.toValue(),
+      'SelectionScope': selectionScope.value,
       'SheetId': sheetId,
       if (visualIds != null) 'VisualIds': visualIds,
     };
@@ -52275,33 +48722,18 @@ class SnapshotFileSheetSelection {
 }
 
 enum SnapshotFileSheetSelectionScope {
-  allVisuals,
-  selectedVisuals,
-}
+  allVisuals('ALL_VISUALS'),
+  selectedVisuals('SELECTED_VISUALS'),
+  ;
 
-extension SnapshotFileSheetSelectionScopeValueExtension
-    on SnapshotFileSheetSelectionScope {
-  String toValue() {
-    switch (this) {
-      case SnapshotFileSheetSelectionScope.allVisuals:
-        return 'ALL_VISUALS';
-      case SnapshotFileSheetSelectionScope.selectedVisuals:
-        return 'SELECTED_VISUALS';
-    }
-  }
-}
+  final String value;
 
-extension SnapshotFileSheetSelectionScopeFromString on String {
-  SnapshotFileSheetSelectionScope toSnapshotFileSheetSelectionScope() {
-    switch (this) {
-      case 'ALL_VISUALS':
-        return SnapshotFileSheetSelectionScope.allVisuals;
-      case 'SELECTED_VISUALS':
-        return SnapshotFileSheetSelectionScope.selectedVisuals;
-    }
-    throw Exception(
-        '$this is not known in enum SnapshotFileSheetSelectionScope');
-  }
+  const SnapshotFileSheetSelectionScope(this.value);
+
+  static SnapshotFileSheetSelectionScope fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SnapshotFileSheetSelectionScope'));
 }
 
 /// An object that contains information on the error that caused the snapshot
@@ -52483,41 +48915,20 @@ class SnapshotJobS3Result {
 }
 
 enum SnapshotJobStatus {
-  queued,
-  running,
-  completed,
-  failed,
-}
+  queued('QUEUED'),
+  running('RUNNING'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  ;
 
-extension SnapshotJobStatusValueExtension on SnapshotJobStatus {
-  String toValue() {
-    switch (this) {
-      case SnapshotJobStatus.queued:
-        return 'QUEUED';
-      case SnapshotJobStatus.running:
-        return 'RUNNING';
-      case SnapshotJobStatus.completed:
-        return 'COMPLETED';
-      case SnapshotJobStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension SnapshotJobStatusFromString on String {
-  SnapshotJobStatus toSnapshotJobStatus() {
-    switch (this) {
-      case 'QUEUED':
-        return SnapshotJobStatus.queued;
-      case 'RUNNING':
-        return SnapshotJobStatus.running;
-      case 'COMPLETED':
-        return SnapshotJobStatus.completed;
-      case 'FAILED':
-        return SnapshotJobStatus.failed;
-    }
-    throw Exception('$this is not known in enum SnapshotJobStatus');
-  }
+  const SnapshotJobStatus(this.value);
+
+  static SnapshotJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SnapshotJobStatus'));
 }
 
 /// A structure that describes the Amazon S3 settings to use to save the
@@ -52634,31 +49045,18 @@ class SnowflakeParameters {
 }
 
 enum SortDirection {
-  asc,
-  desc,
-}
+  asc('ASC'),
+  desc('DESC'),
+  ;
 
-extension SortDirectionValueExtension on SortDirection {
-  String toValue() {
-    switch (this) {
-      case SortDirection.asc:
-        return 'ASC';
-      case SortDirection.desc:
-        return 'DESC';
-    }
-  }
-}
+  final String value;
 
-extension SortDirectionFromString on String {
-  SortDirection toSortDirection() {
-    switch (this) {
-      case 'ASC':
-        return SortDirection.asc;
-      case 'DESC':
-        return SortDirection.desc;
-    }
-    throw Exception('$this is not known in enum SortDirection');
-  }
+  const SortDirection(this.value);
+
+  static SortDirection fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SortDirection'));
 }
 
 /// The configuration of spacing (often a margin or padding).
@@ -52736,36 +49134,19 @@ class SparkParameters {
 }
 
 enum SpecialValue {
-  empty,
-  $null,
-  other,
-}
+  empty('EMPTY'),
+  $null('NULL'),
+  other('OTHER'),
+  ;
 
-extension SpecialValueValueExtension on SpecialValue {
-  String toValue() {
-    switch (this) {
-      case SpecialValue.empty:
-        return 'EMPTY';
-      case SpecialValue.$null:
-        return 'NULL';
-      case SpecialValue.other:
-        return 'OTHER';
-    }
-  }
-}
+  final String value;
 
-extension SpecialValueFromString on String {
-  SpecialValue toSpecialValue() {
-    switch (this) {
-      case 'EMPTY':
-        return SpecialValue.empty;
-      case 'NULL':
-        return SpecialValue.$null;
-      case 'OTHER':
-        return SpecialValue.other;
-    }
-    throw Exception('$this is not known in enum SpecialValue');
-  }
+  const SpecialValue(this.value);
+
+  static SpecialValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SpecialValue'));
 }
 
 /// The parameters for SQL Server.
@@ -52855,7 +49236,8 @@ class StarburstParameters {
       catalog: json['Catalog'] as String,
       host: json['Host'] as String,
       port: json['Port'] as int,
-      productType: (json['ProductType'] as String?)?.toStarburstProductType(),
+      productType: (json['ProductType'] as String?)
+          ?.let(StarburstProductType.fromString),
     );
   }
 
@@ -52868,37 +49250,24 @@ class StarburstParameters {
       'Catalog': catalog,
       'Host': host,
       'Port': port,
-      if (productType != null) 'ProductType': productType.toValue(),
+      if (productType != null) 'ProductType': productType.value,
     };
   }
 }
 
 enum StarburstProductType {
-  galaxy,
-  enterprise,
-}
+  galaxy('GALAXY'),
+  enterprise('ENTERPRISE'),
+  ;
 
-extension StarburstProductTypeValueExtension on StarburstProductType {
-  String toValue() {
-    switch (this) {
-      case StarburstProductType.galaxy:
-        return 'GALAXY';
-      case StarburstProductType.enterprise:
-        return 'ENTERPRISE';
-    }
-  }
-}
+  final String value;
 
-extension StarburstProductTypeFromString on String {
-  StarburstProductType toStarburstProductType() {
-    switch (this) {
-      case 'GALAXY':
-        return StarburstProductType.galaxy;
-      case 'ENTERPRISE':
-        return StarburstProductType.enterprise;
-    }
-    throw Exception('$this is not known in enum StarburstProductType');
-  }
+  const StarburstProductType(this.value);
+
+  static StarburstProductType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum StarburstProductType'));
 }
 
 class StartAssetBundleExportJobResponse {
@@ -53054,31 +49423,17 @@ class StatePersistenceConfigurations {
 }
 
 enum Status {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension StatusValueExtension on Status {
-  String toValue() {
-    switch (this) {
-      case Status.enabled:
-        return 'ENABLED';
-      case Status.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension StatusFromString on String {
-  Status toStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return Status.enabled;
-      case 'DISABLED':
-        return Status.disabled;
-    }
-    throw Exception('$this is not known in enum Status');
-  }
+  const Status(this.value);
+
+  static Status fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Status'));
 }
 
 /// A string parameter for a dataset.
@@ -53108,7 +49463,8 @@ class StringDatasetParameter {
     return StringDatasetParameter(
       id: json['Id'] as String,
       name: json['Name'] as String,
-      valueType: (json['ValueType'] as String).toDatasetParameterValueType(),
+      valueType:
+          DatasetParameterValueType.fromString((json['ValueType'] as String)),
       defaultValues: json['DefaultValues'] != null
           ? StringDatasetParameterDefaultValues.fromJson(
               json['DefaultValues'] as Map<String, dynamic>)
@@ -53124,7 +49480,7 @@ class StringDatasetParameter {
     return {
       'Id': id,
       'Name': name,
-      'ValueType': valueType.toValue(),
+      'ValueType': valueType.value,
       if (defaultValues != null) 'DefaultValues': defaultValues,
     };
   }
@@ -53295,7 +49651,7 @@ class StringParameterDeclaration {
     return StringParameterDeclaration(
       name: json['Name'] as String,
       parameterValueType:
-          (json['ParameterValueType'] as String).toParameterValueType(),
+          ParameterValueType.fromString((json['ParameterValueType'] as String)),
       defaultValues: json['DefaultValues'] != null
           ? StringDefaultValues.fromJson(
               json['DefaultValues'] as Map<String, dynamic>)
@@ -53320,7 +49676,7 @@ class StringParameterDeclaration {
     final valueWhenUnset = this.valueWhenUnset;
     return {
       'Name': name,
-      'ParameterValueType': parameterValueType.toValue(),
+      'ParameterValueType': parameterValueType.value,
       if (defaultValues != null) 'DefaultValues': defaultValues,
       if (mappedDataSetParameters != null)
         'MappedDataSetParameters': mappedDataSetParameters,
@@ -53357,8 +49713,8 @@ class StringValueWhenUnsetConfiguration {
       Map<String, dynamic> json) {
     return StringValueWhenUnsetConfiguration(
       customValue: json['CustomValue'] as String?,
-      valueWhenUnsetOption:
-          (json['ValueWhenUnsetOption'] as String?)?.toValueWhenUnsetOption(),
+      valueWhenUnsetOption: (json['ValueWhenUnsetOption'] as String?)
+          ?.let(ValueWhenUnsetOption.fromString),
     );
   }
 
@@ -53368,42 +49724,25 @@ class StringValueWhenUnsetConfiguration {
     return {
       if (customValue != null) 'CustomValue': customValue,
       if (valueWhenUnsetOption != null)
-        'ValueWhenUnsetOption': valueWhenUnsetOption.toValue(),
+        'ValueWhenUnsetOption': valueWhenUnsetOption.value,
     };
   }
 }
 
 enum StyledCellType {
-  total,
-  metricHeader,
-  value,
-}
+  total('TOTAL'),
+  metricHeader('METRIC_HEADER'),
+  $value('VALUE'),
+  ;
 
-extension StyledCellTypeValueExtension on StyledCellType {
-  String toValue() {
-    switch (this) {
-      case StyledCellType.total:
-        return 'TOTAL';
-      case StyledCellType.metricHeader:
-        return 'METRIC_HEADER';
-      case StyledCellType.value:
-        return 'VALUE';
-    }
-  }
-}
+  final String value;
 
-extension StyledCellTypeFromString on String {
-  StyledCellType toStyledCellType() {
-    switch (this) {
-      case 'TOTAL':
-        return StyledCellType.total;
-      case 'METRIC_HEADER':
-        return StyledCellType.metricHeader;
-      case 'VALUE':
-        return StyledCellType.value;
-    }
-    throw Exception('$this is not known in enum StyledCellType');
-  }
+  const StyledCellType(this.value);
+
+  static StyledCellType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum StyledCellType'));
 }
 
 /// The subtotal options.
@@ -53446,7 +49785,8 @@ class SubtotalOptions {
   factory SubtotalOptions.fromJson(Map<String, dynamic> json) {
     return SubtotalOptions(
       customLabel: json['CustomLabel'] as String?,
-      fieldLevel: (json['FieldLevel'] as String?)?.toPivotTableSubtotalLevel(),
+      fieldLevel: (json['FieldLevel'] as String?)
+          ?.let(PivotTableSubtotalLevel.fromString),
       fieldLevelOptions: (json['FieldLevelOptions'] as List?)
           ?.whereNotNull()
           .map((e) => PivotTableFieldSubtotalOptions.fromJson(
@@ -53464,7 +49804,8 @@ class SubtotalOptions {
           ? TableCellStyle.fromJson(
               json['TotalCellStyle'] as Map<String, dynamic>)
           : null,
-      totalsVisibility: (json['TotalsVisibility'] as String?)?.toVisibility(),
+      totalsVisibility:
+          (json['TotalsVisibility'] as String?)?.let(Visibility.fromString),
       valueCellStyle: json['ValueCellStyle'] != null
           ? TableCellStyle.fromJson(
               json['ValueCellStyle'] as Map<String, dynamic>)
@@ -53483,14 +49824,13 @@ class SubtotalOptions {
     final valueCellStyle = this.valueCellStyle;
     return {
       if (customLabel != null) 'CustomLabel': customLabel,
-      if (fieldLevel != null) 'FieldLevel': fieldLevel.toValue(),
+      if (fieldLevel != null) 'FieldLevel': fieldLevel.value,
       if (fieldLevelOptions != null) 'FieldLevelOptions': fieldLevelOptions,
       if (metricHeaderCellStyle != null)
         'MetricHeaderCellStyle': metricHeaderCellStyle,
       if (styleTargets != null) 'StyleTargets': styleTargets,
       if (totalCellStyle != null) 'TotalCellStyle': totalCellStyle,
-      if (totalsVisibility != null)
-        'TotalsVisibility': totalsVisibility.toValue(),
+      if (totalsVisibility != null) 'TotalsVisibility': totalsVisibility.value,
       if (valueCellStyle != null) 'ValueCellStyle': valueCellStyle,
     };
   }
@@ -53586,7 +49926,7 @@ class TableBorderOptions {
   factory TableBorderOptions.fromJson(Map<String, dynamic> json) {
     return TableBorderOptions(
       color: json['Color'] as String?,
-      style: (json['Style'] as String?)?.toTableBorderStyle(),
+      style: (json['Style'] as String?)?.let(TableBorderStyle.fromString),
       thickness: json['Thickness'] as int?,
     );
   }
@@ -53597,38 +49937,25 @@ class TableBorderOptions {
     final thickness = this.thickness;
     return {
       if (color != null) 'Color': color,
-      if (style != null) 'Style': style.toValue(),
+      if (style != null) 'Style': style.value,
       if (thickness != null) 'Thickness': thickness,
     };
   }
 }
 
 enum TableBorderStyle {
-  none,
-  solid,
-}
+  none('NONE'),
+  solid('SOLID'),
+  ;
 
-extension TableBorderStyleValueExtension on TableBorderStyle {
-  String toValue() {
-    switch (this) {
-      case TableBorderStyle.none:
-        return 'NONE';
-      case TableBorderStyle.solid:
-        return 'SOLID';
-    }
-  }
-}
+  final String value;
 
-extension TableBorderStyleFromString on String {
-  TableBorderStyle toTableBorderStyle() {
-    switch (this) {
-      case 'NONE':
-        return TableBorderStyle.none;
-      case 'SOLID':
-        return TableBorderStyle.solid;
-    }
-    throw Exception('$this is not known in enum TableBorderStyle');
-  }
+  const TableBorderStyle(this.value);
+
+  static TableBorderStyle fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TableBorderStyle'));
 }
 
 /// The cell conditional formatting option for a table.
@@ -53665,38 +49992,19 @@ class TableCellConditionalFormatting {
 }
 
 enum TableCellImageScalingConfiguration {
-  fitToCellHeight,
-  fitToCellWidth,
-  doNotScale,
-}
+  fitToCellHeight('FIT_TO_CELL_HEIGHT'),
+  fitToCellWidth('FIT_TO_CELL_WIDTH'),
+  doNotScale('DO_NOT_SCALE'),
+  ;
 
-extension TableCellImageScalingConfigurationValueExtension
-    on TableCellImageScalingConfiguration {
-  String toValue() {
-    switch (this) {
-      case TableCellImageScalingConfiguration.fitToCellHeight:
-        return 'FIT_TO_CELL_HEIGHT';
-      case TableCellImageScalingConfiguration.fitToCellWidth:
-        return 'FIT_TO_CELL_WIDTH';
-      case TableCellImageScalingConfiguration.doNotScale:
-        return 'DO_NOT_SCALE';
-    }
-  }
-}
+  final String value;
 
-extension TableCellImageScalingConfigurationFromString on String {
-  TableCellImageScalingConfiguration toTableCellImageScalingConfiguration() {
-    switch (this) {
-      case 'FIT_TO_CELL_HEIGHT':
-        return TableCellImageScalingConfiguration.fitToCellHeight;
-      case 'FIT_TO_CELL_WIDTH':
-        return TableCellImageScalingConfiguration.fitToCellWidth;
-      case 'DO_NOT_SCALE':
-        return TableCellImageScalingConfiguration.doNotScale;
-    }
-    throw Exception(
-        '$this is not known in enum TableCellImageScalingConfiguration');
-  }
+  const TableCellImageScalingConfiguration(this.value);
+
+  static TableCellImageScalingConfiguration fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TableCellImageScalingConfiguration'));
 }
 
 /// The sizing options for the table image configuration.
@@ -53714,7 +50022,7 @@ class TableCellImageSizingConfiguration {
     return TableCellImageSizingConfiguration(
       tableCellImageScalingConfiguration:
           (json['TableCellImageScalingConfiguration'] as String?)
-              ?.toTableCellImageScalingConfiguration(),
+              ?.let(TableCellImageScalingConfiguration.fromString),
     );
   }
 
@@ -53724,7 +50032,7 @@ class TableCellImageSizingConfiguration {
     return {
       if (tableCellImageScalingConfiguration != null)
         'TableCellImageScalingConfiguration':
-            tableCellImageScalingConfiguration.toValue(),
+            tableCellImageScalingConfiguration.value,
     };
   }
 }
@@ -53780,11 +50088,11 @@ class TableCellStyle {
           : null,
       height: json['Height'] as int?,
       horizontalTextAlignment: (json['HorizontalTextAlignment'] as String?)
-          ?.toHorizontalTextAlignment(),
-      textWrap: (json['TextWrap'] as String?)?.toTextWrap(),
-      verticalTextAlignment:
-          (json['VerticalTextAlignment'] as String?)?.toVerticalTextAlignment(),
-      visibility: (json['Visibility'] as String?)?.toVisibility(),
+          ?.let(HorizontalTextAlignment.fromString),
+      textWrap: (json['TextWrap'] as String?)?.let(TextWrap.fromString),
+      verticalTextAlignment: (json['VerticalTextAlignment'] as String?)
+          ?.let(VerticalTextAlignment.fromString),
+      visibility: (json['Visibility'] as String?)?.let(Visibility.fromString),
     );
   }
 
@@ -53803,11 +50111,11 @@ class TableCellStyle {
       if (fontConfiguration != null) 'FontConfiguration': fontConfiguration,
       if (height != null) 'Height': height,
       if (horizontalTextAlignment != null)
-        'HorizontalTextAlignment': horizontalTextAlignment.toValue(),
-      if (textWrap != null) 'TextWrap': textWrap.toValue(),
+        'HorizontalTextAlignment': horizontalTextAlignment.value,
+      if (textWrap != null) 'TextWrap': textWrap.value,
       if (verticalTextAlignment != null)
-        'VerticalTextAlignment': verticalTextAlignment.toValue(),
-      if (visibility != null) 'Visibility': visibility.toValue(),
+        'VerticalTextAlignment': verticalTextAlignment.value,
+      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
@@ -53985,14 +50293,14 @@ class TableFieldCustomIconContent {
 
   factory TableFieldCustomIconContent.fromJson(Map<String, dynamic> json) {
     return TableFieldCustomIconContent(
-      icon: (json['Icon'] as String?)?.toTableFieldIconSetType(),
+      icon: (json['Icon'] as String?)?.let(TableFieldIconSetType.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final icon = this.icon;
     return {
-      if (icon != null) 'Icon': icon.toValue(),
+      if (icon != null) 'Icon': icon.value,
     };
   }
 }
@@ -54031,26 +50339,17 @@ class TableFieldCustomTextContent {
 }
 
 enum TableFieldIconSetType {
-  link,
-}
+  link('LINK'),
+  ;
 
-extension TableFieldIconSetTypeValueExtension on TableFieldIconSetType {
-  String toValue() {
-    switch (this) {
-      case TableFieldIconSetType.link:
-        return 'LINK';
-    }
-  }
-}
+  final String value;
 
-extension TableFieldIconSetTypeFromString on String {
-  TableFieldIconSetType toTableFieldIconSetType() {
-    switch (this) {
-      case 'LINK':
-        return TableFieldIconSetType.link;
-    }
-    throw Exception('$this is not known in enum TableFieldIconSetType');
-  }
+  const TableFieldIconSetType(this.value);
+
+  static TableFieldIconSetType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TableFieldIconSetType'));
 }
 
 /// The image configuration of a table field URL.
@@ -54097,7 +50396,7 @@ class TableFieldLinkConfiguration {
     return TableFieldLinkConfiguration(
       content: TableFieldLinkContentConfiguration.fromJson(
           json['Content'] as Map<String, dynamic>),
-      target: (json['Target'] as String).toURLTargetConfiguration(),
+      target: URLTargetConfiguration.fromString((json['Target'] as String)),
     );
   }
 
@@ -54106,7 +50405,7 @@ class TableFieldLinkConfiguration {
     final target = this.target;
     return {
       'Content': content,
-      'Target': target.toValue(),
+      'Target': target.value,
     };
   }
 }
@@ -54182,7 +50481,7 @@ class TableFieldOption {
           ? TableFieldURLConfiguration.fromJson(
               json['URLStyling'] as Map<String, dynamic>)
           : null,
-      visibility: (json['Visibility'] as String?)?.toVisibility(),
+      visibility: (json['Visibility'] as String?)?.let(Visibility.fromString),
       width: json['Width'] as String?,
     );
   }
@@ -54197,7 +50496,7 @@ class TableFieldOption {
       'FieldId': fieldId,
       if (customLabel != null) 'CustomLabel': customLabel,
       if (uRLStyling != null) 'URLStyling': uRLStyling,
-      if (visibility != null) 'Visibility': visibility.toValue(),
+      if (visibility != null) 'Visibility': visibility.value,
       if (width != null) 'Width': width,
     };
   }
@@ -54384,7 +50683,8 @@ class TableOptions {
       headerStyle: json['HeaderStyle'] != null
           ? TableCellStyle.fromJson(json['HeaderStyle'] as Map<String, dynamic>)
           : null,
-      orientation: (json['Orientation'] as String?)?.toTableOrientation(),
+      orientation:
+          (json['Orientation'] as String?)?.let(TableOrientation.fromString),
       rowAlternateColorOptions: json['RowAlternateColorOptions'] != null
           ? RowAlternateColorOptions.fromJson(
               json['RowAlternateColorOptions'] as Map<String, dynamic>)
@@ -54400,7 +50700,7 @@ class TableOptions {
     return {
       if (cellStyle != null) 'CellStyle': cellStyle,
       if (headerStyle != null) 'HeaderStyle': headerStyle,
-      if (orientation != null) 'Orientation': orientation.toValue(),
+      if (orientation != null) 'Orientation': orientation.value,
       if (rowAlternateColorOptions != null)
         'RowAlternateColorOptions': rowAlternateColorOptions,
     };
@@ -54408,31 +50708,18 @@ class TableOptions {
 }
 
 enum TableOrientation {
-  vertical,
-  horizontal,
-}
+  vertical('VERTICAL'),
+  horizontal('HORIZONTAL'),
+  ;
 
-extension TableOrientationValueExtension on TableOrientation {
-  String toValue() {
-    switch (this) {
-      case TableOrientation.vertical:
-        return 'VERTICAL';
-      case TableOrientation.horizontal:
-        return 'HORIZONTAL';
-    }
-  }
-}
+  final String value;
 
-extension TableOrientationFromString on String {
-  TableOrientation toTableOrientation() {
-    switch (this) {
-      case 'VERTICAL':
-        return TableOrientation.vertical;
-      case 'HORIZONTAL':
-        return TableOrientation.horizontal;
-    }
-    throw Exception('$this is not known in enum TableOrientation');
-  }
+  const TableOrientation(this.value);
+
+  static TableOrientation fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TableOrientation'));
 }
 
 /// The paginated report options for a table visual.
@@ -54451,9 +50738,11 @@ class TablePaginatedReportOptions {
   factory TablePaginatedReportOptions.fromJson(Map<String, dynamic> json) {
     return TablePaginatedReportOptions(
       overflowColumnHeaderVisibility:
-          (json['OverflowColumnHeaderVisibility'] as String?)?.toVisibility(),
+          (json['OverflowColumnHeaderVisibility'] as String?)
+              ?.let(Visibility.fromString),
       verticalOverflowVisibility:
-          (json['VerticalOverflowVisibility'] as String?)?.toVisibility(),
+          (json['VerticalOverflowVisibility'] as String?)
+              ?.let(Visibility.fromString),
     );
   }
 
@@ -54462,10 +50751,9 @@ class TablePaginatedReportOptions {
     final verticalOverflowVisibility = this.verticalOverflowVisibility;
     return {
       if (overflowColumnHeaderVisibility != null)
-        'OverflowColumnHeaderVisibility':
-            overflowColumnHeaderVisibility.toValue(),
+        'OverflowColumnHeaderVisibility': overflowColumnHeaderVisibility.value,
       if (verticalOverflowVisibility != null)
-        'VerticalOverflowVisibility': verticalOverflowVisibility.toValue(),
+        'VerticalOverflowVisibility': verticalOverflowVisibility.value,
     };
   }
 }
@@ -54654,77 +50942,47 @@ class TableStyleTarget {
 
   factory TableStyleTarget.fromJson(Map<String, dynamic> json) {
     return TableStyleTarget(
-      cellType: (json['CellType'] as String).toStyledCellType(),
+      cellType: StyledCellType.fromString((json['CellType'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final cellType = this.cellType;
     return {
-      'CellType': cellType.toValue(),
+      'CellType': cellType.value,
     };
   }
 }
 
 enum TableTotalsPlacement {
-  start,
-  end,
-  auto,
-}
+  start('START'),
+  end('END'),
+  auto('AUTO'),
+  ;
 
-extension TableTotalsPlacementValueExtension on TableTotalsPlacement {
-  String toValue() {
-    switch (this) {
-      case TableTotalsPlacement.start:
-        return 'START';
-      case TableTotalsPlacement.end:
-        return 'END';
-      case TableTotalsPlacement.auto:
-        return 'AUTO';
-    }
-  }
-}
+  final String value;
 
-extension TableTotalsPlacementFromString on String {
-  TableTotalsPlacement toTableTotalsPlacement() {
-    switch (this) {
-      case 'START':
-        return TableTotalsPlacement.start;
-      case 'END':
-        return TableTotalsPlacement.end;
-      case 'AUTO':
-        return TableTotalsPlacement.auto;
-    }
-    throw Exception('$this is not known in enum TableTotalsPlacement');
-  }
+  const TableTotalsPlacement(this.value);
+
+  static TableTotalsPlacement fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TableTotalsPlacement'));
 }
 
 enum TableTotalsScrollStatus {
-  pinned,
-  scrolled,
-}
+  pinned('PINNED'),
+  scrolled('SCROLLED'),
+  ;
 
-extension TableTotalsScrollStatusValueExtension on TableTotalsScrollStatus {
-  String toValue() {
-    switch (this) {
-      case TableTotalsScrollStatus.pinned:
-        return 'PINNED';
-      case TableTotalsScrollStatus.scrolled:
-        return 'SCROLLED';
-    }
-  }
-}
+  final String value;
 
-extension TableTotalsScrollStatusFromString on String {
-  TableTotalsScrollStatus toTableTotalsScrollStatus() {
-    switch (this) {
-      case 'PINNED':
-        return TableTotalsScrollStatus.pinned;
-      case 'SCROLLED':
-        return TableTotalsScrollStatus.scrolled;
-    }
-    throw Exception('$this is not known in enum TableTotalsScrollStatus');
-  }
+  const TableTotalsScrollStatus(this.value);
+
+  static TableTotalsScrollStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TableTotalsScrollStatus'));
 }
 
 /// The unaggregated field well for the table.
@@ -54930,26 +51188,17 @@ class TagResourceResponse {
 }
 
 enum TargetVisualOptions {
-  allVisuals,
-}
+  allVisuals('ALL_VISUALS'),
+  ;
 
-extension TargetVisualOptionsValueExtension on TargetVisualOptions {
-  String toValue() {
-    switch (this) {
-      case TargetVisualOptions.allVisuals:
-        return 'ALL_VISUALS';
-    }
-  }
-}
+  final String value;
 
-extension TargetVisualOptionsFromString on String {
-  TargetVisualOptions toTargetVisualOptions() {
-    switch (this) {
-      case 'ALL_VISUALS':
-        return TargetVisualOptions.allVisuals;
-    }
-    throw Exception('$this is not known in enum TargetVisualOptions');
-  }
+  const TargetVisualOptions(this.value);
+
+  static TargetVisualOptions fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TargetVisualOptions'));
 }
 
 /// A template object. A <i>template</i> is an entity in Amazon QuickSight that
@@ -55082,7 +51331,7 @@ class TemplateError {
   factory TemplateError.fromJson(Map<String, dynamic> json) {
     return TemplateError(
       message: json['Message'] as String?,
-      type: (json['Type'] as String?)?.toTemplateErrorType(),
+      type: (json['Type'] as String?)?.let(TemplateErrorType.fromString),
       violatedEntities: (json['ViolatedEntities'] as List?)
           ?.whereNotNull()
           .map((e) => Entity.fromJson(e as Map<String, dynamic>))
@@ -55096,48 +51345,27 @@ class TemplateError {
     final violatedEntities = this.violatedEntities;
     return {
       if (message != null) 'Message': message,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
       if (violatedEntities != null) 'ViolatedEntities': violatedEntities,
     };
   }
 }
 
 enum TemplateErrorType {
-  sourceNotFound,
-  dataSetNotFound,
-  internalFailure,
-  accessDenied,
-}
+  sourceNotFound('SOURCE_NOT_FOUND'),
+  dataSetNotFound('DATA_SET_NOT_FOUND'),
+  internalFailure('INTERNAL_FAILURE'),
+  accessDenied('ACCESS_DENIED'),
+  ;
 
-extension TemplateErrorTypeValueExtension on TemplateErrorType {
-  String toValue() {
-    switch (this) {
-      case TemplateErrorType.sourceNotFound:
-        return 'SOURCE_NOT_FOUND';
-      case TemplateErrorType.dataSetNotFound:
-        return 'DATA_SET_NOT_FOUND';
-      case TemplateErrorType.internalFailure:
-        return 'INTERNAL_FAILURE';
-      case TemplateErrorType.accessDenied:
-        return 'ACCESS_DENIED';
-    }
-  }
-}
+  final String value;
 
-extension TemplateErrorTypeFromString on String {
-  TemplateErrorType toTemplateErrorType() {
-    switch (this) {
-      case 'SOURCE_NOT_FOUND':
-        return TemplateErrorType.sourceNotFound;
-      case 'DATA_SET_NOT_FOUND':
-        return TemplateErrorType.dataSetNotFound;
-      case 'INTERNAL_FAILURE':
-        return TemplateErrorType.internalFailure;
-      case 'ACCESS_DENIED':
-        return TemplateErrorType.accessDenied;
-    }
-    throw Exception('$this is not known in enum TemplateErrorType');
-  }
+  const TemplateErrorType(this.value);
+
+  static TemplateErrorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TemplateErrorType'));
 }
 
 /// The source analysis of the template.
@@ -55351,7 +51579,7 @@ class TemplateVersion {
           .map((e) => Sheet.fromJson(e as Map<String, dynamic>))
           .toList(),
       sourceEntityArn: json['SourceEntityArn'] as String?,
-      status: (json['Status'] as String?)?.toResourceStatus(),
+      status: (json['Status'] as String?)?.let(ResourceStatus.fromString),
       themeArn: json['ThemeArn'] as String?,
       versionNumber: json['VersionNumber'] as int?,
     );
@@ -55375,7 +51603,7 @@ class TemplateVersion {
       if (errors != null) 'Errors': errors,
       if (sheets != null) 'Sheets': sheets,
       if (sourceEntityArn != null) 'SourceEntityArn': sourceEntityArn,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (themeArn != null) 'ThemeArn': themeArn,
       if (versionNumber != null) 'VersionNumber': versionNumber,
     };
@@ -55521,7 +51749,7 @@ class TemplateVersionSummary {
       arn: json['Arn'] as String?,
       createdTime: timeStampFromJson(json['CreatedTime']),
       description: json['Description'] as String?,
-      status: (json['Status'] as String?)?.toResourceStatus(),
+      status: (json['Status'] as String?)?.let(ResourceStatus.fromString),
       versionNumber: json['VersionNumber'] as int?,
     );
   }
@@ -55536,7 +51764,7 @@ class TemplateVersionSummary {
       if (arn != null) 'Arn': arn,
       if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
       if (description != null) 'Description': description,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (versionNumber != null) 'VersionNumber': versionNumber,
     };
   }
@@ -55682,14 +51910,14 @@ class TextControlPlaceholderOptions {
 
   factory TextControlPlaceholderOptions.fromJson(Map<String, dynamic> json) {
     return TextControlPlaceholderOptions(
-      visibility: (json['Visibility'] as String?)?.toVisibility(),
+      visibility: (json['Visibility'] as String?)?.let(Visibility.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final visibility = this.visibility;
     return {
-      if (visibility != null) 'Visibility': visibility.toValue(),
+      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
@@ -55741,59 +51969,32 @@ class TextFieldControlDisplayOptions {
 }
 
 enum TextQualifier {
-  doubleQuote,
-  singleQuote,
-}
+  doubleQuote('DOUBLE_QUOTE'),
+  singleQuote('SINGLE_QUOTE'),
+  ;
 
-extension TextQualifierValueExtension on TextQualifier {
-  String toValue() {
-    switch (this) {
-      case TextQualifier.doubleQuote:
-        return 'DOUBLE_QUOTE';
-      case TextQualifier.singleQuote:
-        return 'SINGLE_QUOTE';
-    }
-  }
-}
+  final String value;
 
-extension TextQualifierFromString on String {
-  TextQualifier toTextQualifier() {
-    switch (this) {
-      case 'DOUBLE_QUOTE':
-        return TextQualifier.doubleQuote;
-      case 'SINGLE_QUOTE':
-        return TextQualifier.singleQuote;
-    }
-    throw Exception('$this is not known in enum TextQualifier');
-  }
+  const TextQualifier(this.value);
+
+  static TextQualifier fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TextQualifier'));
 }
 
 enum TextWrap {
-  none,
-  wrap,
-}
+  none('NONE'),
+  wrap('WRAP'),
+  ;
 
-extension TextWrapValueExtension on TextWrap {
-  String toValue() {
-    switch (this) {
-      case TextWrap.none:
-        return 'NONE';
-      case TextWrap.wrap:
-        return 'WRAP';
-    }
-  }
-}
+  final String value;
 
-extension TextWrapFromString on String {
-  TextWrap toTextWrap() {
-    switch (this) {
-      case 'NONE':
-        return TextWrap.none;
-      case 'WRAP':
-        return TextWrap.wrap;
-    }
-    throw Exception('$this is not known in enum TextWrap');
-  }
+  const TextWrap(this.value);
+
+  static TextWrap fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TextWrap'));
 }
 
 /// Summary information about a theme.
@@ -55835,7 +52036,7 @@ class Theme {
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       name: json['Name'] as String?,
       themeId: json['ThemeId'] as String?,
-      type: (json['Type'] as String?)?.toThemeType(),
+      type: (json['Type'] as String?)?.let(ThemeType.fromString),
       version: json['Version'] != null
           ? ThemeVersion.fromJson(json['Version'] as Map<String, dynamic>)
           : null,
@@ -55857,7 +52058,7 @@ class Theme {
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       if (name != null) 'Name': name,
       if (themeId != null) 'ThemeId': themeId,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
       if (version != null) 'Version': version,
     };
   }
@@ -55970,7 +52171,7 @@ class ThemeError {
   factory ThemeError.fromJson(Map<String, dynamic> json) {
     return ThemeError(
       message: json['Message'] as String?,
-      type: (json['Type'] as String?)?.toThemeErrorType(),
+      type: (json['Type'] as String?)?.let(ThemeErrorType.fromString),
     );
   }
 
@@ -55979,32 +52180,23 @@ class ThemeError {
     final type = this.type;
     return {
       if (message != null) 'Message': message,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum ThemeErrorType {
-  internalFailure,
-}
+  internalFailure('INTERNAL_FAILURE'),
+  ;
 
-extension ThemeErrorTypeValueExtension on ThemeErrorType {
-  String toValue() {
-    switch (this) {
-      case ThemeErrorType.internalFailure:
-        return 'INTERNAL_FAILURE';
-    }
-  }
-}
+  final String value;
 
-extension ThemeErrorTypeFromString on String {
-  ThemeErrorType toThemeErrorType() {
-    switch (this) {
-      case 'INTERNAL_FAILURE':
-        return ThemeErrorType.internalFailure;
-    }
-    throw Exception('$this is not known in enum ThemeErrorType');
-  }
+  const ThemeErrorType(this.value);
+
+  static ThemeErrorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ThemeErrorType'));
 }
 
 /// The theme summary.
@@ -56069,36 +52261,18 @@ class ThemeSummary {
 }
 
 enum ThemeType {
-  quicksight,
-  custom,
-  all,
-}
+  quicksight('QUICKSIGHT'),
+  custom('CUSTOM'),
+  all('ALL'),
+  ;
 
-extension ThemeTypeValueExtension on ThemeType {
-  String toValue() {
-    switch (this) {
-      case ThemeType.quicksight:
-        return 'QUICKSIGHT';
-      case ThemeType.custom:
-        return 'CUSTOM';
-      case ThemeType.all:
-        return 'ALL';
-    }
-  }
-}
+  final String value;
 
-extension ThemeTypeFromString on String {
-  ThemeType toThemeType() {
-    switch (this) {
-      case 'QUICKSIGHT':
-        return ThemeType.quicksight;
-      case 'CUSTOM':
-        return ThemeType.custom;
-      case 'ALL':
-        return ThemeType.all;
-    }
-    throw Exception('$this is not known in enum ThemeType');
-  }
+  const ThemeType(this.value);
+
+  static ThemeType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ThemeType'));
 }
 
 /// A version of a theme.
@@ -56153,7 +52327,7 @@ class ThemeVersion {
           ?.whereNotNull()
           .map((e) => ThemeError.fromJson(e as Map<String, dynamic>))
           .toList(),
-      status: (json['Status'] as String?)?.toResourceStatus(),
+      status: (json['Status'] as String?)?.let(ResourceStatus.fromString),
       versionNumber: json['VersionNumber'] as int?,
     );
   }
@@ -56174,7 +52348,7 @@ class ThemeVersion {
       if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
       if (description != null) 'Description': description,
       if (errors != null) 'Errors': errors,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (versionNumber != null) 'VersionNumber': versionNumber,
     };
   }
@@ -56210,7 +52384,7 @@ class ThemeVersionSummary {
       arn: json['Arn'] as String?,
       createdTime: timeStampFromJson(json['CreatedTime']),
       description: json['Description'] as String?,
-      status: (json['Status'] as String?)?.toResourceStatus(),
+      status: (json['Status'] as String?)?.let(ResourceStatus.fromString),
       versionNumber: json['VersionNumber'] as int?,
     );
   }
@@ -56225,7 +52399,7 @@ class ThemeVersionSummary {
       if (arn != null) 'Arn': arn,
       if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
       if (description != null) 'Description': description,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (versionNumber != null) 'VersionNumber': versionNumber,
     };
   }
@@ -56246,8 +52420,9 @@ class ThousandSeparatorOptions {
 
   factory ThousandSeparatorOptions.fromJson(Map<String, dynamic> json) {
     return ThousandSeparatorOptions(
-      symbol: (json['Symbol'] as String?)?.toNumericSeparatorSymbol(),
-      visibility: (json['Visibility'] as String?)?.toVisibility(),
+      symbol:
+          (json['Symbol'] as String?)?.let(NumericSeparatorSymbol.fromString),
+      visibility: (json['Visibility'] as String?)?.let(Visibility.fromString),
     );
   }
 
@@ -56255,8 +52430,8 @@ class ThousandSeparatorOptions {
     final symbol = this.symbol;
     final visibility = this.visibility;
     return {
-      if (symbol != null) 'Symbol': symbol.toValue(),
-      if (visibility != null) 'Visibility': visibility.toValue(),
+      if (symbol != null) 'Symbol': symbol.value,
+      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
@@ -56450,7 +52625,7 @@ class TimeEqualityFilter {
               json['RollingDate'] as Map<String, dynamic>)
           : null,
       timeGranularity:
-          (json['TimeGranularity'] as String?)?.toTimeGranularity(),
+          (json['TimeGranularity'] as String?)?.let(TimeGranularity.fromString),
       value: timeStampFromJson(json['Value']),
     );
   }
@@ -56471,73 +52646,32 @@ class TimeEqualityFilter {
         'DefaultFilterControlConfiguration': defaultFilterControlConfiguration,
       if (parameterName != null) 'ParameterName': parameterName,
       if (rollingDate != null) 'RollingDate': rollingDate,
-      if (timeGranularity != null) 'TimeGranularity': timeGranularity.toValue(),
+      if (timeGranularity != null) 'TimeGranularity': timeGranularity.value,
       if (value != null) 'Value': unixTimestampToJson(value),
     };
   }
 }
 
 enum TimeGranularity {
-  year,
-  quarter,
-  month,
-  week,
-  day,
-  hour,
-  minute,
-  second,
-  millisecond,
-}
+  year('YEAR'),
+  quarter('QUARTER'),
+  month('MONTH'),
+  week('WEEK'),
+  day('DAY'),
+  hour('HOUR'),
+  minute('MINUTE'),
+  second('SECOND'),
+  millisecond('MILLISECOND'),
+  ;
 
-extension TimeGranularityValueExtension on TimeGranularity {
-  String toValue() {
-    switch (this) {
-      case TimeGranularity.year:
-        return 'YEAR';
-      case TimeGranularity.quarter:
-        return 'QUARTER';
-      case TimeGranularity.month:
-        return 'MONTH';
-      case TimeGranularity.week:
-        return 'WEEK';
-      case TimeGranularity.day:
-        return 'DAY';
-      case TimeGranularity.hour:
-        return 'HOUR';
-      case TimeGranularity.minute:
-        return 'MINUTE';
-      case TimeGranularity.second:
-        return 'SECOND';
-      case TimeGranularity.millisecond:
-        return 'MILLISECOND';
-    }
-  }
-}
+  final String value;
 
-extension TimeGranularityFromString on String {
-  TimeGranularity toTimeGranularity() {
-    switch (this) {
-      case 'YEAR':
-        return TimeGranularity.year;
-      case 'QUARTER':
-        return TimeGranularity.quarter;
-      case 'MONTH':
-        return TimeGranularity.month;
-      case 'WEEK':
-        return TimeGranularity.week;
-      case 'DAY':
-        return TimeGranularity.day;
-      case 'HOUR':
-        return TimeGranularity.hour;
-      case 'MINUTE':
-        return TimeGranularity.minute;
-      case 'SECOND':
-        return TimeGranularity.second;
-      case 'MILLISECOND':
-        return TimeGranularity.millisecond;
-    }
-    throw Exception('$this is not known in enum TimeGranularity');
-  }
+  const TimeGranularity(this.value);
+
+  static TimeGranularity fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TimeGranularity'));
 }
 
 /// The time range drill down filter.
@@ -56569,7 +52703,8 @@ class TimeRangeDrillDownFilter {
           nonNullableTimeStampFromJson(json['RangeMaximum'] as Object),
       rangeMinimum:
           nonNullableTimeStampFromJson(json['RangeMinimum'] as Object),
-      timeGranularity: (json['TimeGranularity'] as String).toTimeGranularity(),
+      timeGranularity:
+          TimeGranularity.fromString((json['TimeGranularity'] as String)),
     );
   }
 
@@ -56582,7 +52717,7 @@ class TimeRangeDrillDownFilter {
       'Column': column,
       'RangeMaximum': unixTimestampToJson(rangeMaximum),
       'RangeMinimum': unixTimestampToJson(rangeMinimum),
-      'TimeGranularity': timeGranularity.toValue(),
+      'TimeGranularity': timeGranularity.value,
     };
   }
 }
@@ -56655,7 +52790,7 @@ class TimeRangeFilter {
     return TimeRangeFilter(
       column: ColumnIdentifier.fromJson(json['Column'] as Map<String, dynamic>),
       filterId: json['FilterId'] as String,
-      nullOption: (json['NullOption'] as String).toFilterNullOption(),
+      nullOption: FilterNullOption.fromString((json['NullOption'] as String)),
       defaultFilterControlConfiguration:
           json['DefaultFilterControlConfiguration'] != null
               ? DefaultFilterControlConfiguration.fromJson(
@@ -56677,7 +52812,7 @@ class TimeRangeFilter {
               json['RangeMinimumValue'] as Map<String, dynamic>)
           : null,
       timeGranularity:
-          (json['TimeGranularity'] as String?)?.toTimeGranularity(),
+          (json['TimeGranularity'] as String?)?.let(TimeGranularity.fromString),
     );
   }
 
@@ -56696,7 +52831,7 @@ class TimeRangeFilter {
     return {
       'Column': column,
       'FilterId': filterId,
-      'NullOption': nullOption.toValue(),
+      'NullOption': nullOption.value,
       if (defaultFilterControlConfiguration != null)
         'DefaultFilterControlConfiguration': defaultFilterControlConfiguration,
       if (excludePeriodConfiguration != null)
@@ -56705,7 +52840,7 @@ class TimeRangeFilter {
       if (includeMinimum != null) 'IncludeMinimum': includeMinimum,
       if (rangeMaximumValue != null) 'RangeMaximumValue': rangeMaximumValue,
       if (rangeMinimumValue != null) 'RangeMinimumValue': rangeMinimumValue,
-      if (timeGranularity != null) 'TimeGranularity': timeGranularity.toValue(),
+      if (timeGranularity != null) 'TimeGranularity': timeGranularity.value,
     };
   }
 }
@@ -56825,9 +52960,10 @@ class TooltipOptions {
           ? FieldBasedTooltip.fromJson(
               json['FieldBasedTooltip'] as Map<String, dynamic>)
           : null,
-      selectedTooltipType:
-          (json['SelectedTooltipType'] as String?)?.toSelectedTooltipType(),
-      tooltipVisibility: (json['TooltipVisibility'] as String?)?.toVisibility(),
+      selectedTooltipType: (json['SelectedTooltipType'] as String?)
+          ?.let(SelectedTooltipType.fromString),
+      tooltipVisibility:
+          (json['TooltipVisibility'] as String?)?.let(Visibility.fromString),
     );
   }
 
@@ -56838,100 +52974,57 @@ class TooltipOptions {
     return {
       if (fieldBasedTooltip != null) 'FieldBasedTooltip': fieldBasedTooltip,
       if (selectedTooltipType != null)
-        'SelectedTooltipType': selectedTooltipType.toValue(),
+        'SelectedTooltipType': selectedTooltipType.value,
       if (tooltipVisibility != null)
-        'TooltipVisibility': tooltipVisibility.toValue(),
+        'TooltipVisibility': tooltipVisibility.value,
     };
   }
 }
 
 enum TooltipTarget {
-  both,
-  bar,
-  line,
-}
+  both('BOTH'),
+  bar('BAR'),
+  line('LINE'),
+  ;
 
-extension TooltipTargetValueExtension on TooltipTarget {
-  String toValue() {
-    switch (this) {
-      case TooltipTarget.both:
-        return 'BOTH';
-      case TooltipTarget.bar:
-        return 'BAR';
-      case TooltipTarget.line:
-        return 'LINE';
-    }
-  }
-}
+  final String value;
 
-extension TooltipTargetFromString on String {
-  TooltipTarget toTooltipTarget() {
-    switch (this) {
-      case 'BOTH':
-        return TooltipTarget.both;
-      case 'BAR':
-        return TooltipTarget.bar;
-      case 'LINE':
-        return TooltipTarget.line;
-    }
-    throw Exception('$this is not known in enum TooltipTarget');
-  }
+  const TooltipTarget(this.value);
+
+  static TooltipTarget fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TooltipTarget'));
 }
 
 enum TooltipTitleType {
-  none,
-  primaryValue,
-}
+  none('NONE'),
+  primaryValue('PRIMARY_VALUE'),
+  ;
 
-extension TooltipTitleTypeValueExtension on TooltipTitleType {
-  String toValue() {
-    switch (this) {
-      case TooltipTitleType.none:
-        return 'NONE';
-      case TooltipTitleType.primaryValue:
-        return 'PRIMARY_VALUE';
-    }
-  }
-}
+  final String value;
 
-extension TooltipTitleTypeFromString on String {
-  TooltipTitleType toTooltipTitleType() {
-    switch (this) {
-      case 'NONE':
-        return TooltipTitleType.none;
-      case 'PRIMARY_VALUE':
-        return TooltipTitleType.primaryValue;
-    }
-    throw Exception('$this is not known in enum TooltipTitleType');
-  }
+  const TooltipTitleType(this.value);
+
+  static TooltipTitleType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TooltipTitleType'));
 }
 
 enum TopBottomComputationType {
-  top,
-  bottom,
-}
+  top('TOP'),
+  bottom('BOTTOM'),
+  ;
 
-extension TopBottomComputationTypeValueExtension on TopBottomComputationType {
-  String toValue() {
-    switch (this) {
-      case TopBottomComputationType.top:
-        return 'TOP';
-      case TopBottomComputationType.bottom:
-        return 'BOTTOM';
-    }
-  }
-}
+  final String value;
 
-extension TopBottomComputationTypeFromString on String {
-  TopBottomComputationType toTopBottomComputationType() {
-    switch (this) {
-      case 'TOP':
-        return TopBottomComputationType.top;
-      case 'BOTTOM':
-        return TopBottomComputationType.bottom;
-    }
-    throw Exception('$this is not known in enum TopBottomComputationType');
-  }
+  const TopBottomComputationType(this.value);
+
+  static TopBottomComputationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TopBottomComputationType'));
 }
 
 /// A <code>TopBottomFilter</code> filters values that are at the top or the
@@ -56990,7 +53083,7 @@ class TopBottomFilter {
       limit: json['Limit'] as int?,
       parameterName: json['ParameterName'] as String?,
       timeGranularity:
-          (json['TimeGranularity'] as String?)?.toTimeGranularity(),
+          (json['TimeGranularity'] as String?)?.let(TimeGranularity.fromString),
     );
   }
 
@@ -57011,7 +53104,7 @@ class TopBottomFilter {
         'DefaultFilterControlConfiguration': defaultFilterControlConfiguration,
       if (limit != null) 'Limit': limit,
       if (parameterName != null) 'ParameterName': parameterName,
-      if (timeGranularity != null) 'TimeGranularity': timeGranularity.toValue(),
+      if (timeGranularity != null) 'TimeGranularity': timeGranularity.value,
     };
   }
 }
@@ -57065,13 +53158,14 @@ class TopBottomMoversComputation {
   factory TopBottomMoversComputation.fromJson(Map<String, dynamic> json) {
     return TopBottomMoversComputation(
       computationId: json['ComputationId'] as String,
-      type: (json['Type'] as String).toTopBottomComputationType(),
+      type: TopBottomComputationType.fromString((json['Type'] as String)),
       category: json['Category'] != null
           ? DimensionField.fromJson(json['Category'] as Map<String, dynamic>)
           : null,
       moverSize: json['MoverSize'] as int?,
       name: json['Name'] as String?,
-      sortOrder: (json['SortOrder'] as String?)?.toTopBottomSortOrder(),
+      sortOrder:
+          (json['SortOrder'] as String?)?.let(TopBottomSortOrder.fromString),
       time: json['Time'] != null
           ? DimensionField.fromJson(json['Time'] as Map<String, dynamic>)
           : null,
@@ -57092,11 +53186,11 @@ class TopBottomMoversComputation {
     final value = this.value;
     return {
       'ComputationId': computationId,
-      'Type': type.toValue(),
+      'Type': type.value,
       if (category != null) 'Category': category,
       if (moverSize != null) 'MoverSize': moverSize,
       if (name != null) 'Name': name,
-      if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+      if (sortOrder != null) 'SortOrder': sortOrder.value,
       if (time != null) 'Time': time,
       if (value != null) 'Value': value,
     };
@@ -57144,7 +53238,7 @@ class TopBottomRankedComputation {
   factory TopBottomRankedComputation.fromJson(Map<String, dynamic> json) {
     return TopBottomRankedComputation(
       computationId: json['ComputationId'] as String,
-      type: (json['Type'] as String).toTopBottomComputationType(),
+      type: TopBottomComputationType.fromString((json['Type'] as String)),
       category: json['Category'] != null
           ? DimensionField.fromJson(json['Category'] as Map<String, dynamic>)
           : null,
@@ -57165,7 +53259,7 @@ class TopBottomRankedComputation {
     final value = this.value;
     return {
       'ComputationId': computationId,
-      'Type': type.toValue(),
+      'Type': type.value,
       if (category != null) 'Category': category,
       if (name != null) 'Name': name,
       if (resultSize != null) 'ResultSize': resultSize,
@@ -57175,31 +53269,18 @@ class TopBottomRankedComputation {
 }
 
 enum TopBottomSortOrder {
-  percentDifference,
-  absoluteDifference,
-}
+  percentDifference('PERCENT_DIFFERENCE'),
+  absoluteDifference('ABSOLUTE_DIFFERENCE'),
+  ;
 
-extension TopBottomSortOrderValueExtension on TopBottomSortOrder {
-  String toValue() {
-    switch (this) {
-      case TopBottomSortOrder.percentDifference:
-        return 'PERCENT_DIFFERENCE';
-      case TopBottomSortOrder.absoluteDifference:
-        return 'ABSOLUTE_DIFFERENCE';
-    }
-  }
-}
+  final String value;
 
-extension TopBottomSortOrderFromString on String {
-  TopBottomSortOrder toTopBottomSortOrder() {
-    switch (this) {
-      case 'PERCENT_DIFFERENCE':
-        return TopBottomSortOrder.percentDifference;
-      case 'ABSOLUTE_DIFFERENCE':
-        return TopBottomSortOrder.absoluteDifference;
-    }
-    throw Exception('$this is not known in enum TopBottomSortOrder');
-  }
+  const TopBottomSortOrder(this.value);
+
+  static TopBottomSortOrder fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TopBottomSortOrder'));
 }
 
 /// A structure that represents a calculated field.
@@ -57297,10 +53378,11 @@ class TopicCalculatedField {
     return TopicCalculatedField(
       calculatedFieldName: json['CalculatedFieldName'] as String,
       expression: json['Expression'] as String,
-      aggregation: (json['Aggregation'] as String?)?.toDefaultAggregation(),
+      aggregation:
+          (json['Aggregation'] as String?)?.let(DefaultAggregation.fromString),
       allowedAggregations: (json['AllowedAggregations'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toAuthorSpecifiedAggregation())
+          .map((e) => AuthorSpecifiedAggregation.fromString((e as String)))
           .toList(),
       calculatedFieldDescription: json['CalculatedFieldDescription'] as String?,
       calculatedFieldSynonyms: (json['CalculatedFieldSynonyms'] as List?)
@@ -57311,7 +53393,8 @@ class TopicCalculatedField {
           ?.whereNotNull()
           .map((e) => CellValueSynonym.fromJson(e as Map<String, dynamic>))
           .toList(),
-      columnDataRole: (json['ColumnDataRole'] as String?)?.toColumnDataRole(),
+      columnDataRole:
+          (json['ColumnDataRole'] as String?)?.let(ColumnDataRole.fromString),
       comparativeOrder: json['ComparativeOrder'] != null
           ? ComparativeOrder.fromJson(
               json['ComparativeOrder'] as Map<String, dynamic>)
@@ -57326,13 +53409,13 @@ class TopicCalculatedField {
       nonAdditive: json['NonAdditive'] as bool?,
       notAllowedAggregations: (json['NotAllowedAggregations'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toAuthorSpecifiedAggregation())
+          .map((e) => AuthorSpecifiedAggregation.fromString((e as String)))
           .toList(),
       semanticType: json['SemanticType'] != null
           ? SemanticType.fromJson(json['SemanticType'] as Map<String, dynamic>)
           : null,
-      timeGranularity:
-          (json['TimeGranularity'] as String?)?.toTopicTimeGranularity(),
+      timeGranularity: (json['TimeGranularity'] as String?)
+          ?.let(TopicTimeGranularity.fromString),
     );
   }
 
@@ -57357,16 +53440,15 @@ class TopicCalculatedField {
     return {
       'CalculatedFieldName': calculatedFieldName,
       'Expression': expression,
-      if (aggregation != null) 'Aggregation': aggregation.toValue(),
+      if (aggregation != null) 'Aggregation': aggregation.value,
       if (allowedAggregations != null)
-        'AllowedAggregations':
-            allowedAggregations.map((e) => e.toValue()).toList(),
+        'AllowedAggregations': allowedAggregations.map((e) => e.value).toList(),
       if (calculatedFieldDescription != null)
         'CalculatedFieldDescription': calculatedFieldDescription,
       if (calculatedFieldSynonyms != null)
         'CalculatedFieldSynonyms': calculatedFieldSynonyms,
       if (cellValueSynonyms != null) 'CellValueSynonyms': cellValueSynonyms,
-      if (columnDataRole != null) 'ColumnDataRole': columnDataRole.toValue(),
+      if (columnDataRole != null) 'ColumnDataRole': columnDataRole.value,
       if (comparativeOrder != null) 'ComparativeOrder': comparativeOrder,
       if (defaultFormatting != null) 'DefaultFormatting': defaultFormatting,
       if (disableIndexing != null) 'DisableIndexing': disableIndexing,
@@ -57376,9 +53458,9 @@ class TopicCalculatedField {
       if (nonAdditive != null) 'NonAdditive': nonAdditive,
       if (notAllowedAggregations != null)
         'NotAllowedAggregations':
-            notAllowedAggregations.map((e) => e.toValue()).toList(),
+            notAllowedAggregations.map((e) => e.value).toList(),
       if (semanticType != null) 'SemanticType': semanticType,
-      if (timeGranularity != null) 'TimeGranularity': timeGranularity.toValue(),
+      if (timeGranularity != null) 'TimeGranularity': timeGranularity.value,
     };
   }
 }
@@ -57409,9 +53491,9 @@ class TopicCategoryFilter {
   factory TopicCategoryFilter.fromJson(Map<String, dynamic> json) {
     return TopicCategoryFilter(
       categoryFilterFunction: (json['CategoryFilterFunction'] as String?)
-          ?.toCategoryFilterFunction(),
-      categoryFilterType:
-          (json['CategoryFilterType'] as String?)?.toCategoryFilterType(),
+          ?.let(CategoryFilterFunction.fromString),
+      categoryFilterType: (json['CategoryFilterType'] as String?)
+          ?.let(CategoryFilterType.fromString),
       constant: json['Constant'] != null
           ? TopicCategoryFilterConstant.fromJson(
               json['Constant'] as Map<String, dynamic>)
@@ -57427,9 +53509,9 @@ class TopicCategoryFilter {
     final inverse = this.inverse;
     return {
       if (categoryFilterFunction != null)
-        'CategoryFilterFunction': categoryFilterFunction.toValue(),
+        'CategoryFilterFunction': categoryFilterFunction.value,
       if (categoryFilterType != null)
-        'CategoryFilterType': categoryFilterType.toValue(),
+        'CategoryFilterType': categoryFilterType.value,
       if (constant != null) 'Constant': constant,
       if (inverse != null) 'Inverse': inverse,
     };
@@ -57463,7 +53545,8 @@ class TopicCategoryFilterConstant {
           ? CollectiveConstant.fromJson(
               json['CollectiveConstant'] as Map<String, dynamic>)
           : null,
-      constantType: (json['ConstantType'] as String?)?.toConstantType(),
+      constantType:
+          (json['ConstantType'] as String?)?.let(ConstantType.fromString),
       singularConstant: json['SingularConstant'] as String?,
     );
   }
@@ -57474,7 +53557,7 @@ class TopicCategoryFilterConstant {
     final singularConstant = this.singularConstant;
     return {
       if (collectiveConstant != null) 'CollectiveConstant': collectiveConstant,
-      if (constantType != null) 'ConstantType': constantType.toValue(),
+      if (constantType != null) 'ConstantType': constantType.value,
       if (singularConstant != null) 'SingularConstant': singularConstant,
     };
   }
@@ -57572,16 +53655,18 @@ class TopicColumn {
   factory TopicColumn.fromJson(Map<String, dynamic> json) {
     return TopicColumn(
       columnName: json['ColumnName'] as String,
-      aggregation: (json['Aggregation'] as String?)?.toDefaultAggregation(),
+      aggregation:
+          (json['Aggregation'] as String?)?.let(DefaultAggregation.fromString),
       allowedAggregations: (json['AllowedAggregations'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toAuthorSpecifiedAggregation())
+          .map((e) => AuthorSpecifiedAggregation.fromString((e as String)))
           .toList(),
       cellValueSynonyms: (json['CellValueSynonyms'] as List?)
           ?.whereNotNull()
           .map((e) => CellValueSynonym.fromJson(e as Map<String, dynamic>))
           .toList(),
-      columnDataRole: (json['ColumnDataRole'] as String?)?.toColumnDataRole(),
+      columnDataRole:
+          (json['ColumnDataRole'] as String?)?.let(ColumnDataRole.fromString),
       columnDescription: json['ColumnDescription'] as String?,
       columnFriendlyName: json['ColumnFriendlyName'] as String?,
       columnSynonyms: (json['ColumnSynonyms'] as List?)
@@ -57602,13 +53687,13 @@ class TopicColumn {
       nonAdditive: json['NonAdditive'] as bool?,
       notAllowedAggregations: (json['NotAllowedAggregations'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toAuthorSpecifiedAggregation())
+          .map((e) => AuthorSpecifiedAggregation.fromString((e as String)))
           .toList(),
       semanticType: json['SemanticType'] != null
           ? SemanticType.fromJson(json['SemanticType'] as Map<String, dynamic>)
           : null,
-      timeGranularity:
-          (json['TimeGranularity'] as String?)?.toTopicTimeGranularity(),
+      timeGranularity: (json['TimeGranularity'] as String?)
+          ?.let(TopicTimeGranularity.fromString),
     );
   }
 
@@ -57632,12 +53717,11 @@ class TopicColumn {
     final timeGranularity = this.timeGranularity;
     return {
       'ColumnName': columnName,
-      if (aggregation != null) 'Aggregation': aggregation.toValue(),
+      if (aggregation != null) 'Aggregation': aggregation.value,
       if (allowedAggregations != null)
-        'AllowedAggregations':
-            allowedAggregations.map((e) => e.toValue()).toList(),
+        'AllowedAggregations': allowedAggregations.map((e) => e.value).toList(),
       if (cellValueSynonyms != null) 'CellValueSynonyms': cellValueSynonyms,
-      if (columnDataRole != null) 'ColumnDataRole': columnDataRole.toValue(),
+      if (columnDataRole != null) 'ColumnDataRole': columnDataRole.value,
       if (columnDescription != null) 'ColumnDescription': columnDescription,
       if (columnFriendlyName != null) 'ColumnFriendlyName': columnFriendlyName,
       if (columnSynonyms != null) 'ColumnSynonyms': columnSynonyms,
@@ -57650,9 +53734,9 @@ class TopicColumn {
       if (nonAdditive != null) 'NonAdditive': nonAdditive,
       if (notAllowedAggregations != null)
         'NotAllowedAggregations':
-            notAllowedAggregations.map((e) => e.toValue()).toList(),
+            notAllowedAggregations.map((e) => e.value).toList(),
       if (semanticType != null) 'SemanticType': semanticType,
-      if (timeGranularity != null) 'TimeGranularity': timeGranularity.toValue(),
+      if (timeGranularity != null) 'TimeGranularity': timeGranularity.value,
     };
   }
 }
@@ -57723,7 +53807,7 @@ class TopicDetails {
       description: json['Description'] as String?,
       name: json['Name'] as String?,
       userExperienceVersion: (json['UserExperienceVersion'] as String?)
-          ?.toTopicUserExperienceVersion(),
+          ?.let(TopicUserExperienceVersion.fromString),
     );
   }
 
@@ -57737,7 +53821,7 @@ class TopicDetails {
       if (description != null) 'Description': description,
       if (name != null) 'Name': name,
       if (userExperienceVersion != null)
-        'UserExperienceVersion': userExperienceVersion.toValue(),
+        'UserExperienceVersion': userExperienceVersion.value,
     };
   }
 }
@@ -57808,13 +53892,15 @@ class TopicFilter {
           ? TopicDateRangeFilter.fromJson(
               json['DateRangeFilter'] as Map<String, dynamic>)
           : null,
-      filterClass: (json['FilterClass'] as String?)?.toFilterClass(),
+      filterClass:
+          (json['FilterClass'] as String?)?.let(FilterClass.fromString),
       filterDescription: json['FilterDescription'] as String?,
       filterSynonyms: (json['FilterSynonyms'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      filterType: (json['FilterType'] as String?)?.toNamedFilterType(),
+      filterType:
+          (json['FilterType'] as String?)?.let(NamedFilterType.fromString),
       numericEqualityFilter: json['NumericEqualityFilter'] != null
           ? TopicNumericEqualityFilter.fromJson(
               json['NumericEqualityFilter'] as Map<String, dynamic>)
@@ -57847,10 +53933,10 @@ class TopicFilter {
       'OperandFieldName': operandFieldName,
       if (categoryFilter != null) 'CategoryFilter': categoryFilter,
       if (dateRangeFilter != null) 'DateRangeFilter': dateRangeFilter,
-      if (filterClass != null) 'FilterClass': filterClass.toValue(),
+      if (filterClass != null) 'FilterClass': filterClass.value,
       if (filterDescription != null) 'FilterDescription': filterDescription,
       if (filterSynonyms != null) 'FilterSynonyms': filterSynonyms,
-      if (filterType != null) 'FilterType': filterType.toValue(),
+      if (filterType != null) 'FilterType': filterType.value,
       if (numericEqualityFilter != null)
         'NumericEqualityFilter': numericEqualityFilter,
       if (numericRangeFilter != null) 'NumericRangeFilter': numericRangeFilter,
@@ -57941,7 +54027,8 @@ class TopicNumericEqualityFilter {
 
   factory TopicNumericEqualityFilter.fromJson(Map<String, dynamic> json) {
     return TopicNumericEqualityFilter(
-      aggregation: (json['Aggregation'] as String?)?.toNamedFilterAggType(),
+      aggregation:
+          (json['Aggregation'] as String?)?.let(NamedFilterAggType.fromString),
       constant: json['Constant'] != null
           ? TopicSingularFilterConstant.fromJson(
               json['Constant'] as Map<String, dynamic>)
@@ -57953,7 +54040,7 @@ class TopicNumericEqualityFilter {
     final aggregation = this.aggregation;
     final constant = this.constant;
     return {
-      if (aggregation != null) 'Aggregation': aggregation.toValue(),
+      if (aggregation != null) 'Aggregation': aggregation.value,
       if (constant != null) 'Constant': constant,
     };
   }
@@ -57989,7 +54076,8 @@ class TopicNumericRangeFilter {
 
   factory TopicNumericRangeFilter.fromJson(Map<String, dynamic> json) {
     return TopicNumericRangeFilter(
-      aggregation: (json['Aggregation'] as String?)?.toNamedFilterAggType(),
+      aggregation:
+          (json['Aggregation'] as String?)?.let(NamedFilterAggType.fromString),
       constant: json['Constant'] != null
           ? TopicRangeFilterConstant.fromJson(
               json['Constant'] as Map<String, dynamic>)
@@ -58003,7 +54091,7 @@ class TopicNumericRangeFilter {
     final constant = this.constant;
     final inclusive = this.inclusive;
     return {
-      if (aggregation != null) 'Aggregation': aggregation.toValue(),
+      if (aggregation != null) 'Aggregation': aggregation.value,
       if (constant != null) 'Constant': constant,
       if (inclusive != null) 'Inclusive': inclusive,
     };
@@ -58011,32 +54099,18 @@ class TopicNumericRangeFilter {
 }
 
 enum TopicNumericSeparatorSymbol {
-  comma,
-  dot,
-}
+  comma('COMMA'),
+  dot('DOT'),
+  ;
 
-extension TopicNumericSeparatorSymbolValueExtension
-    on TopicNumericSeparatorSymbol {
-  String toValue() {
-    switch (this) {
-      case TopicNumericSeparatorSymbol.comma:
-        return 'COMMA';
-      case TopicNumericSeparatorSymbol.dot:
-        return 'DOT';
-    }
-  }
-}
+  final String value;
 
-extension TopicNumericSeparatorSymbolFromString on String {
-  TopicNumericSeparatorSymbol toTopicNumericSeparatorSymbol() {
-    switch (this) {
-      case 'COMMA':
-        return TopicNumericSeparatorSymbol.comma;
-      case 'DOT':
-        return TopicNumericSeparatorSymbol.dot;
-    }
-    throw Exception('$this is not known in enum TopicNumericSeparatorSymbol');
-  }
+  const TopicNumericSeparatorSymbol(this.value);
+
+  static TopicNumericSeparatorSymbol fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TopicNumericSeparatorSymbol'));
 }
 
 /// A constant value that is used in a range filter to specify the endpoints of
@@ -58057,7 +54131,8 @@ class TopicRangeFilterConstant {
 
   factory TopicRangeFilterConstant.fromJson(Map<String, dynamic> json) {
     return TopicRangeFilterConstant(
-      constantType: (json['ConstantType'] as String?)?.toConstantType(),
+      constantType:
+          (json['ConstantType'] as String?)?.let(ConstantType.fromString),
       rangeConstant: json['RangeConstant'] != null
           ? RangeConstant.fromJson(
               json['RangeConstant'] as Map<String, dynamic>)
@@ -58069,7 +54144,7 @@ class TopicRangeFilterConstant {
     final constantType = this.constantType;
     final rangeConstant = this.rangeConstant;
     return {
-      if (constantType != null) 'ConstantType': constantType.toValue(),
+      if (constantType != null) 'ConstantType': constantType.value,
       if (rangeConstant != null) 'RangeConstant': rangeConstant,
     };
   }
@@ -58098,7 +54173,8 @@ class TopicRefreshDetails {
     return TopicRefreshDetails(
       refreshArn: json['RefreshArn'] as String?,
       refreshId: json['RefreshId'] as String?,
-      refreshStatus: (json['RefreshStatus'] as String?)?.toTopicRefreshStatus(),
+      refreshStatus: (json['RefreshStatus'] as String?)
+          ?.let(TopicRefreshStatus.fromString),
     );
   }
 
@@ -58109,7 +54185,7 @@ class TopicRefreshDetails {
     return {
       if (refreshArn != null) 'RefreshArn': refreshArn,
       if (refreshId != null) 'RefreshId': refreshId,
-      if (refreshStatus != null) 'RefreshStatus': refreshStatus.toValue(),
+      if (refreshStatus != null) 'RefreshStatus': refreshStatus.value,
     };
   }
 }
@@ -58153,8 +54229,8 @@ class TopicRefreshSchedule {
       repeatAt: json['RepeatAt'] as String?,
       startingAt: timeStampFromJson(json['StartingAt']),
       timezone: json['Timezone'] as String?,
-      topicScheduleType:
-          (json['TopicScheduleType'] as String?)?.toTopicScheduleType(),
+      topicScheduleType: (json['TopicScheduleType'] as String?)
+          ?.let(TopicScheduleType.fromString),
     );
   }
 
@@ -58172,7 +54248,7 @@ class TopicRefreshSchedule {
       if (startingAt != null) 'StartingAt': unixTimestampToJson(startingAt),
       if (timezone != null) 'Timezone': timezone,
       if (topicScheduleType != null)
-        'TopicScheduleType': topicScheduleType.toValue(),
+        'TopicScheduleType': topicScheduleType.value,
     };
   }
 }
@@ -58225,46 +54301,21 @@ class TopicRefreshScheduleSummary {
 }
 
 enum TopicRefreshStatus {
-  initialized,
-  running,
-  failed,
-  completed,
-  cancelled,
-}
+  initialized('INITIALIZED'),
+  running('RUNNING'),
+  failed('FAILED'),
+  completed('COMPLETED'),
+  cancelled('CANCELLED'),
+  ;
 
-extension TopicRefreshStatusValueExtension on TopicRefreshStatus {
-  String toValue() {
-    switch (this) {
-      case TopicRefreshStatus.initialized:
-        return 'INITIALIZED';
-      case TopicRefreshStatus.running:
-        return 'RUNNING';
-      case TopicRefreshStatus.failed:
-        return 'FAILED';
-      case TopicRefreshStatus.completed:
-        return 'COMPLETED';
-      case TopicRefreshStatus.cancelled:
-        return 'CANCELLED';
-    }
-  }
-}
+  final String value;
 
-extension TopicRefreshStatusFromString on String {
-  TopicRefreshStatus toTopicRefreshStatus() {
-    switch (this) {
-      case 'INITIALIZED':
-        return TopicRefreshStatus.initialized;
-      case 'RUNNING':
-        return TopicRefreshStatus.running;
-      case 'FAILED':
-        return TopicRefreshStatus.failed;
-      case 'COMPLETED':
-        return TopicRefreshStatus.completed;
-      case 'CANCELLED':
-        return TopicRefreshStatus.cancelled;
-    }
-    throw Exception('$this is not known in enum TopicRefreshStatus');
-  }
+  const TopicRefreshStatus(this.value);
+
+  static TopicRefreshStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TopicRefreshStatus'));
 }
 
 /// A structure that represents a relative date filter.
@@ -58295,9 +54346,9 @@ class TopicRelativeDateFilter {
           : null,
       relativeDateFilterFunction:
           (json['RelativeDateFilterFunction'] as String?)
-              ?.toTopicRelativeDateFilterFunction(),
-      timeGranularity:
-          (json['TimeGranularity'] as String?)?.toTopicTimeGranularity(),
+              ?.let(TopicRelativeDateFilterFunction.fromString),
+      timeGranularity: (json['TimeGranularity'] as String?)
+          ?.let(TopicTimeGranularity.fromString),
     );
   }
 
@@ -58308,93 +54359,45 @@ class TopicRelativeDateFilter {
     return {
       if (constant != null) 'Constant': constant,
       if (relativeDateFilterFunction != null)
-        'RelativeDateFilterFunction': relativeDateFilterFunction.toValue(),
-      if (timeGranularity != null) 'TimeGranularity': timeGranularity.toValue(),
+        'RelativeDateFilterFunction': relativeDateFilterFunction.value,
+      if (timeGranularity != null) 'TimeGranularity': timeGranularity.value,
     };
   }
 }
 
 enum TopicRelativeDateFilterFunction {
-  previous,
-  $this,
-  last,
-  next,
-  now,
-}
+  previous('PREVIOUS'),
+  $this('THIS'),
+  last('LAST'),
+  next('NEXT'),
+  now('NOW'),
+  ;
 
-extension TopicRelativeDateFilterFunctionValueExtension
-    on TopicRelativeDateFilterFunction {
-  String toValue() {
-    switch (this) {
-      case TopicRelativeDateFilterFunction.previous:
-        return 'PREVIOUS';
-      case TopicRelativeDateFilterFunction.$this:
-        return 'THIS';
-      case TopicRelativeDateFilterFunction.last:
-        return 'LAST';
-      case TopicRelativeDateFilterFunction.next:
-        return 'NEXT';
-      case TopicRelativeDateFilterFunction.now:
-        return 'NOW';
-    }
-  }
-}
+  final String value;
 
-extension TopicRelativeDateFilterFunctionFromString on String {
-  TopicRelativeDateFilterFunction toTopicRelativeDateFilterFunction() {
-    switch (this) {
-      case 'PREVIOUS':
-        return TopicRelativeDateFilterFunction.previous;
-      case 'THIS':
-        return TopicRelativeDateFilterFunction.$this;
-      case 'LAST':
-        return TopicRelativeDateFilterFunction.last;
-      case 'NEXT':
-        return TopicRelativeDateFilterFunction.next;
-      case 'NOW':
-        return TopicRelativeDateFilterFunction.now;
-    }
-    throw Exception(
-        '$this is not known in enum TopicRelativeDateFilterFunction');
-  }
+  const TopicRelativeDateFilterFunction(this.value);
+
+  static TopicRelativeDateFilterFunction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TopicRelativeDateFilterFunction'));
 }
 
 enum TopicScheduleType {
-  hourly,
-  daily,
-  weekly,
-  monthly,
-}
+  hourly('HOURLY'),
+  daily('DAILY'),
+  weekly('WEEKLY'),
+  monthly('MONTHLY'),
+  ;
 
-extension TopicScheduleTypeValueExtension on TopicScheduleType {
-  String toValue() {
-    switch (this) {
-      case TopicScheduleType.hourly:
-        return 'HOURLY';
-      case TopicScheduleType.daily:
-        return 'DAILY';
-      case TopicScheduleType.weekly:
-        return 'WEEKLY';
-      case TopicScheduleType.monthly:
-        return 'MONTHLY';
-    }
-  }
-}
+  final String value;
 
-extension TopicScheduleTypeFromString on String {
-  TopicScheduleType toTopicScheduleType() {
-    switch (this) {
-      case 'HOURLY':
-        return TopicScheduleType.hourly;
-      case 'DAILY':
-        return TopicScheduleType.daily;
-      case 'WEEKLY':
-        return TopicScheduleType.weekly;
-      case 'MONTHLY':
-        return TopicScheduleType.monthly;
-    }
-    throw Exception('$this is not known in enum TopicScheduleType');
-  }
+  const TopicScheduleType(this.value);
+
+  static TopicScheduleType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TopicScheduleType'));
 }
 
 /// A structure that represents a singular filter constant, used in filters to
@@ -58414,7 +54417,8 @@ class TopicSingularFilterConstant {
 
   factory TopicSingularFilterConstant.fromJson(Map<String, dynamic> json) {
     return TopicSingularFilterConstant(
-      constantType: (json['ConstantType'] as String?)?.toConstantType(),
+      constantType:
+          (json['ConstantType'] as String?)?.let(ConstantType.fromString),
       singularConstant: json['SingularConstant'] as String?,
     );
   }
@@ -58423,7 +54427,7 @@ class TopicSingularFilterConstant {
     final constantType = this.constantType;
     final singularConstant = this.singularConstant;
     return {
-      if (constantType != null) 'ConstantType': constantType.toValue(),
+      if (constantType != null) 'ConstantType': constantType.value,
       if (singularConstant != null) 'SingularConstant': singularConstant,
     };
   }
@@ -58457,7 +54461,7 @@ class TopicSummary {
       name: json['Name'] as String?,
       topicId: json['TopicId'] as String?,
       userExperienceVersion: (json['UserExperienceVersion'] as String?)
-          ?.toTopicUserExperienceVersion(),
+          ?.let(TopicUserExperienceVersion.fromString),
     );
   }
 
@@ -58471,96 +54475,45 @@ class TopicSummary {
       if (name != null) 'Name': name,
       if (topicId != null) 'TopicId': topicId,
       if (userExperienceVersion != null)
-        'UserExperienceVersion': userExperienceVersion.toValue(),
+        'UserExperienceVersion': userExperienceVersion.value,
     };
   }
 }
 
 enum TopicTimeGranularity {
-  second,
-  minute,
-  hour,
-  day,
-  week,
-  month,
-  quarter,
-  year,
-}
+  second('SECOND'),
+  minute('MINUTE'),
+  hour('HOUR'),
+  day('DAY'),
+  week('WEEK'),
+  month('MONTH'),
+  quarter('QUARTER'),
+  year('YEAR'),
+  ;
 
-extension TopicTimeGranularityValueExtension on TopicTimeGranularity {
-  String toValue() {
-    switch (this) {
-      case TopicTimeGranularity.second:
-        return 'SECOND';
-      case TopicTimeGranularity.minute:
-        return 'MINUTE';
-      case TopicTimeGranularity.hour:
-        return 'HOUR';
-      case TopicTimeGranularity.day:
-        return 'DAY';
-      case TopicTimeGranularity.week:
-        return 'WEEK';
-      case TopicTimeGranularity.month:
-        return 'MONTH';
-      case TopicTimeGranularity.quarter:
-        return 'QUARTER';
-      case TopicTimeGranularity.year:
-        return 'YEAR';
-    }
-  }
-}
+  final String value;
 
-extension TopicTimeGranularityFromString on String {
-  TopicTimeGranularity toTopicTimeGranularity() {
-    switch (this) {
-      case 'SECOND':
-        return TopicTimeGranularity.second;
-      case 'MINUTE':
-        return TopicTimeGranularity.minute;
-      case 'HOUR':
-        return TopicTimeGranularity.hour;
-      case 'DAY':
-        return TopicTimeGranularity.day;
-      case 'WEEK':
-        return TopicTimeGranularity.week;
-      case 'MONTH':
-        return TopicTimeGranularity.month;
-      case 'QUARTER':
-        return TopicTimeGranularity.quarter;
-      case 'YEAR':
-        return TopicTimeGranularity.year;
-    }
-    throw Exception('$this is not known in enum TopicTimeGranularity');
-  }
+  const TopicTimeGranularity(this.value);
+
+  static TopicTimeGranularity fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TopicTimeGranularity'));
 }
 
 enum TopicUserExperienceVersion {
-  legacy,
-  newReaderExperience,
-}
+  legacy('LEGACY'),
+  newReaderExperience('NEW_READER_EXPERIENCE'),
+  ;
 
-extension TopicUserExperienceVersionValueExtension
-    on TopicUserExperienceVersion {
-  String toValue() {
-    switch (this) {
-      case TopicUserExperienceVersion.legacy:
-        return 'LEGACY';
-      case TopicUserExperienceVersion.newReaderExperience:
-        return 'NEW_READER_EXPERIENCE';
-    }
-  }
-}
+  final String value;
 
-extension TopicUserExperienceVersionFromString on String {
-  TopicUserExperienceVersion toTopicUserExperienceVersion() {
-    switch (this) {
-      case 'LEGACY':
-        return TopicUserExperienceVersion.legacy;
-      case 'NEW_READER_EXPERIENCE':
-        return TopicUserExperienceVersion.newReaderExperience;
-    }
-    throw Exception('$this is not known in enum TopicUserExperienceVersion');
-  }
+  const TopicUserExperienceVersion(this.value);
+
+  static TopicUserExperienceVersion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TopicUserExperienceVersion'));
 }
 
 /// The total aggregation computation configuration.
@@ -58615,7 +54568,7 @@ class TotalAggregationFunction {
     return TotalAggregationFunction(
       simpleTotalAggregationFunction:
           (json['SimpleTotalAggregationFunction'] as String?)
-              ?.toSimpleTotalAggregationFunction(),
+              ?.let(SimpleTotalAggregationFunction.fromString),
     );
   }
 
@@ -58623,8 +54576,7 @@ class TotalAggregationFunction {
     final simpleTotalAggregationFunction = this.simpleTotalAggregationFunction;
     return {
       if (simpleTotalAggregationFunction != null)
-        'SimpleTotalAggregationFunction':
-            simpleTotalAggregationFunction.toValue(),
+        'SimpleTotalAggregationFunction': simpleTotalAggregationFunction.value,
     };
   }
 }
@@ -58693,9 +54645,10 @@ class TotalOptions {
   factory TotalOptions.fromJson(Map<String, dynamic> json) {
     return TotalOptions(
       customLabel: json['CustomLabel'] as String?,
-      placement: (json['Placement'] as String?)?.toTableTotalsPlacement(),
-      scrollStatus:
-          (json['ScrollStatus'] as String?)?.toTableTotalsScrollStatus(),
+      placement:
+          (json['Placement'] as String?)?.let(TableTotalsPlacement.fromString),
+      scrollStatus: (json['ScrollStatus'] as String?)
+          ?.let(TableTotalsScrollStatus.fromString),
       totalAggregationOptions: (json['TotalAggregationOptions'] as List?)
           ?.whereNotNull()
           .map(
@@ -58705,7 +54658,8 @@ class TotalOptions {
           ? TableCellStyle.fromJson(
               json['TotalCellStyle'] as Map<String, dynamic>)
           : null,
-      totalsVisibility: (json['TotalsVisibility'] as String?)?.toVisibility(),
+      totalsVisibility:
+          (json['TotalsVisibility'] as String?)?.let(Visibility.fromString),
     );
   }
 
@@ -58718,13 +54672,12 @@ class TotalOptions {
     final totalsVisibility = this.totalsVisibility;
     return {
       if (customLabel != null) 'CustomLabel': customLabel,
-      if (placement != null) 'Placement': placement.toValue(),
-      if (scrollStatus != null) 'ScrollStatus': scrollStatus.toValue(),
+      if (placement != null) 'Placement': placement.value,
+      if (scrollStatus != null) 'ScrollStatus': scrollStatus.value,
       if (totalAggregationOptions != null)
         'TotalAggregationOptions': totalAggregationOptions,
       if (totalCellStyle != null) 'TotalCellStyle': totalCellStyle,
-      if (totalsVisibility != null)
-        'TotalsVisibility': totalsVisibility.toValue(),
+      if (totalsVisibility != null) 'TotalsVisibility': totalsVisibility.value,
     };
   }
 }
@@ -59158,14 +55111,14 @@ class TrendArrowOptions {
 
   factory TrendArrowOptions.fromJson(Map<String, dynamic> json) {
     return TrendArrowOptions(
-      visibility: (json['Visibility'] as String?)?.toVisibility(),
+      visibility: (json['Visibility'] as String?)?.let(Visibility.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final visibility = this.visibility;
     return {
-      if (visibility != null) 'Visibility': visibility.toValue(),
+      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
@@ -59413,36 +55366,19 @@ class UIColorPalette {
 }
 
 enum URLTargetConfiguration {
-  newTab,
-  newWindow,
-  sameTab,
-}
+  newTab('NEW_TAB'),
+  newWindow('NEW_WINDOW'),
+  sameTab('SAME_TAB'),
+  ;
 
-extension URLTargetConfigurationValueExtension on URLTargetConfiguration {
-  String toValue() {
-    switch (this) {
-      case URLTargetConfiguration.newTab:
-        return 'NEW_TAB';
-      case URLTargetConfiguration.newWindow:
-        return 'NEW_WINDOW';
-      case URLTargetConfiguration.sameTab:
-        return 'SAME_TAB';
-    }
-  }
-}
+  final String value;
 
-extension URLTargetConfigurationFromString on String {
-  URLTargetConfiguration toURLTargetConfiguration() {
-    switch (this) {
-      case 'NEW_TAB':
-        return URLTargetConfiguration.newTab;
-      case 'NEW_WINDOW':
-        return URLTargetConfiguration.newWindow;
-      case 'SAME_TAB':
-        return URLTargetConfiguration.sameTab;
-    }
-    throw Exception('$this is not known in enum URLTargetConfiguration');
-  }
+  const URLTargetConfiguration(this.value);
+
+  static URLTargetConfiguration fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum URLTargetConfiguration'));
 }
 
 /// The unaggregated field for a table.
@@ -59487,32 +55423,18 @@ class UnaggregatedField {
 }
 
 enum UndefinedSpecifiedValueType {
-  least,
-  most,
-}
+  least('LEAST'),
+  most('MOST'),
+  ;
 
-extension UndefinedSpecifiedValueTypeValueExtension
-    on UndefinedSpecifiedValueType {
-  String toValue() {
-    switch (this) {
-      case UndefinedSpecifiedValueType.least:
-        return 'LEAST';
-      case UndefinedSpecifiedValueType.most:
-        return 'MOST';
-    }
-  }
-}
+  final String value;
 
-extension UndefinedSpecifiedValueTypeFromString on String {
-  UndefinedSpecifiedValueType toUndefinedSpecifiedValueType() {
-    switch (this) {
-      case 'LEAST':
-        return UndefinedSpecifiedValueType.least;
-      case 'MOST':
-        return UndefinedSpecifiedValueType.most;
-    }
-    throw Exception('$this is not known in enum UndefinedSpecifiedValueType');
-  }
+  const UndefinedSpecifiedValueType(this.value);
+
+  static UndefinedSpecifiedValueType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum UndefinedSpecifiedValueType'));
 }
 
 /// The unique values computation configuration.
@@ -59572,7 +55494,7 @@ class UntagColumnOperation {
       columnName: json['ColumnName'] as String,
       tagNames: (json['TagNames'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toColumnTagName())
+          .map((e) => ColumnTagName.fromString((e as String)))
           .toList(),
     );
   }
@@ -59582,7 +55504,7 @@ class UntagColumnOperation {
     final tagNames = this.tagNames;
     return {
       'ColumnName': columnName,
-      'TagNames': tagNames.map((e) => e.toValue()).toList(),
+      'TagNames': tagNames.map((e) => e.value).toList(),
     };
   }
 }
@@ -59791,7 +55713,8 @@ class UpdateAnalysisResponse {
       arn: json['Arn'] as String?,
       requestId: json['RequestId'] as String?,
       status: json['Status'] as int?,
-      updateStatus: (json['UpdateStatus'] as String?)?.toResourceStatus(),
+      updateStatus:
+          (json['UpdateStatus'] as String?)?.let(ResourceStatus.fromString),
     );
   }
 
@@ -59805,7 +55728,7 @@ class UpdateAnalysisResponse {
       if (analysisId != null) 'AnalysisId': analysisId,
       if (arn != null) 'Arn': arn,
       if (requestId != null) 'RequestId': requestId,
-      if (updateStatus != null) 'UpdateStatus': updateStatus.toValue(),
+      if (updateStatus != null) 'UpdateStatus': updateStatus.value,
     };
   }
 }
@@ -59994,7 +55917,8 @@ class UpdateDashboardResponse {
   factory UpdateDashboardResponse.fromJson(Map<String, dynamic> json) {
     return UpdateDashboardResponse(
       arn: json['Arn'] as String?,
-      creationStatus: (json['CreationStatus'] as String?)?.toResourceStatus(),
+      creationStatus:
+          (json['CreationStatus'] as String?)?.let(ResourceStatus.fromString),
       dashboardId: json['DashboardId'] as String?,
       requestId: json['RequestId'] as String?,
       status: json['Status'] as int?,
@@ -60011,7 +55935,7 @@ class UpdateDashboardResponse {
     final versionArn = this.versionArn;
     return {
       if (arn != null) 'Arn': arn,
-      if (creationStatus != null) 'CreationStatus': creationStatus.toValue(),
+      if (creationStatus != null) 'CreationStatus': creationStatus.value,
       if (dashboardId != null) 'DashboardId': dashboardId,
       if (requestId != null) 'RequestId': requestId,
       if (status != null) 'Status': status,
@@ -60197,7 +56121,8 @@ class UpdateDataSourceResponse {
       dataSourceId: json['DataSourceId'] as String?,
       requestId: json['RequestId'] as String?,
       status: json['Status'] as int?,
-      updateStatus: (json['UpdateStatus'] as String?)?.toResourceStatus(),
+      updateStatus:
+          (json['UpdateStatus'] as String?)?.let(ResourceStatus.fromString),
     );
   }
 
@@ -60211,7 +56136,7 @@ class UpdateDataSourceResponse {
       if (arn != null) 'Arn': arn,
       if (dataSourceId != null) 'DataSourceId': dataSourceId,
       if (requestId != null) 'RequestId': requestId,
-      if (updateStatus != null) 'UpdateStatus': updateStatus.toValue(),
+      if (updateStatus != null) 'UpdateStatus': updateStatus.value,
     };
   }
 }
@@ -60402,8 +56327,8 @@ class UpdateIAMPolicyAssignmentResponse {
     return UpdateIAMPolicyAssignmentResponse(
       assignmentId: json['AssignmentId'] as String?,
       assignmentName: json['AssignmentName'] as String?,
-      assignmentStatus:
-          (json['AssignmentStatus'] as String?)?.toAssignmentStatus(),
+      assignmentStatus: (json['AssignmentStatus'] as String?)
+          ?.let(AssignmentStatus.fromString),
       identities: (json['Identities'] as Map<String, dynamic>?)?.map((k, e) =>
           MapEntry(
               k, (e as List).whereNotNull().map((e) => e as String).toList())),
@@ -60424,8 +56349,7 @@ class UpdateIAMPolicyAssignmentResponse {
     return {
       if (assignmentId != null) 'AssignmentId': assignmentId,
       if (assignmentName != null) 'AssignmentName': assignmentName,
-      if (assignmentStatus != null)
-        'AssignmentStatus': assignmentStatus.toValue(),
+      if (assignmentStatus != null) 'AssignmentStatus': assignmentStatus.value,
       if (identities != null) 'Identities': identities,
       if (policyArn != null) 'PolicyArn': policyArn,
       if (requestId != null) 'RequestId': requestId,
@@ -60797,7 +56721,8 @@ class UpdateTemplateResponse {
   factory UpdateTemplateResponse.fromJson(Map<String, dynamic> json) {
     return UpdateTemplateResponse(
       arn: json['Arn'] as String?,
-      creationStatus: (json['CreationStatus'] as String?)?.toResourceStatus(),
+      creationStatus:
+          (json['CreationStatus'] as String?)?.let(ResourceStatus.fromString),
       requestId: json['RequestId'] as String?,
       status: json['Status'] as int?,
       templateId: json['TemplateId'] as String?,
@@ -60814,7 +56739,7 @@ class UpdateTemplateResponse {
     final versionArn = this.versionArn;
     return {
       if (arn != null) 'Arn': arn,
-      if (creationStatus != null) 'CreationStatus': creationStatus.toValue(),
+      if (creationStatus != null) 'CreationStatus': creationStatus.value,
       if (requestId != null) 'RequestId': requestId,
       if (templateId != null) 'TemplateId': templateId,
       if (versionArn != null) 'VersionArn': versionArn,
@@ -60942,7 +56867,8 @@ class UpdateThemeResponse {
   factory UpdateThemeResponse.fromJson(Map<String, dynamic> json) {
     return UpdateThemeResponse(
       arn: json['Arn'] as String?,
-      creationStatus: (json['CreationStatus'] as String?)?.toResourceStatus(),
+      creationStatus:
+          (json['CreationStatus'] as String?)?.let(ResourceStatus.fromString),
       requestId: json['RequestId'] as String?,
       status: json['Status'] as int?,
       themeId: json['ThemeId'] as String?,
@@ -60959,7 +56885,7 @@ class UpdateThemeResponse {
     final versionArn = this.versionArn;
     return {
       if (arn != null) 'Arn': arn,
-      if (creationStatus != null) 'CreationStatus': creationStatus.toValue(),
+      if (creationStatus != null) 'CreationStatus': creationStatus.value,
       if (requestId != null) 'RequestId': requestId,
       if (themeId != null) 'ThemeId': themeId,
       if (versionArn != null) 'VersionArn': versionArn,
@@ -61192,11 +57118,11 @@ class UpdateVPCConnectionResponse {
     return UpdateVPCConnectionResponse(
       arn: json['Arn'] as String?,
       availabilityStatus: (json['AvailabilityStatus'] as String?)
-          ?.toVPCConnectionAvailabilityStatus(),
+          ?.let(VPCConnectionAvailabilityStatus.fromString),
       requestId: json['RequestId'] as String?,
       status: json['Status'] as int?,
-      updateStatus:
-          (json['UpdateStatus'] as String?)?.toVPCConnectionResourceStatus(),
+      updateStatus: (json['UpdateStatus'] as String?)
+          ?.let(VPCConnectionResourceStatus.fromString),
       vPCConnectionId: json['VPCConnectionId'] as String?,
     );
   }
@@ -61211,9 +57137,9 @@ class UpdateVPCConnectionResponse {
     return {
       if (arn != null) 'Arn': arn,
       if (availabilityStatus != null)
-        'AvailabilityStatus': availabilityStatus.toValue(),
+        'AvailabilityStatus': availabilityStatus.value,
       if (requestId != null) 'RequestId': requestId,
-      if (updateStatus != null) 'UpdateStatus': updateStatus.toValue(),
+      if (updateStatus != null) 'UpdateStatus': updateStatus.value,
       if (vPCConnectionId != null) 'VPCConnectionId': vPCConnectionId,
     };
   }
@@ -61248,9 +57174,10 @@ class UploadSettings {
     return UploadSettings(
       containsHeader: json['ContainsHeader'] as bool?,
       delimiter: json['Delimiter'] as String?,
-      format: (json['Format'] as String?)?.toFileFormat(),
+      format: (json['Format'] as String?)?.let(FileFormat.fromString),
       startFromRow: json['StartFromRow'] as int?,
-      textQualifier: (json['TextQualifier'] as String?)?.toTextQualifier(),
+      textQualifier:
+          (json['TextQualifier'] as String?)?.let(TextQualifier.fromString),
     );
   }
 
@@ -61263,9 +57190,9 @@ class UploadSettings {
     return {
       if (containsHeader != null) 'ContainsHeader': containsHeader,
       if (delimiter != null) 'Delimiter': delimiter,
-      if (format != null) 'Format': format.toValue(),
+      if (format != null) 'Format': format.value,
       if (startFromRow != null) 'StartFromRow': startFromRow,
-      if (textQualifier != null) 'TextQualifier': textQualifier.toValue(),
+      if (textQualifier != null) 'TextQualifier': textQualifier.value,
     };
   }
 }
@@ -61386,9 +57313,10 @@ class User {
       externalLoginFederationProviderUrl:
           json['ExternalLoginFederationProviderUrl'] as String?,
       externalLoginId: json['ExternalLoginId'] as String?,
-      identityType: (json['IdentityType'] as String?)?.toIdentityType(),
+      identityType:
+          (json['IdentityType'] as String?)?.let(IdentityType.fromString),
       principalId: json['PrincipalId'] as String?,
-      role: (json['Role'] as String?)?.toUserRole(),
+      role: (json['Role'] as String?)?.let(UserRole.fromString),
       userName: json['UserName'] as String?,
     );
   }
@@ -61420,70 +57348,32 @@ class User {
         'ExternalLoginFederationProviderUrl':
             externalLoginFederationProviderUrl,
       if (externalLoginId != null) 'ExternalLoginId': externalLoginId,
-      if (identityType != null) 'IdentityType': identityType.toValue(),
+      if (identityType != null) 'IdentityType': identityType.value,
       if (principalId != null) 'PrincipalId': principalId,
-      if (role != null) 'Role': role.toValue(),
+      if (role != null) 'Role': role.value,
       if (userName != null) 'UserName': userName,
     };
   }
 }
 
 enum UserRole {
-  admin,
-  author,
-  reader,
-  restrictedAuthor,
-  restrictedReader,
-  adminPro,
-  authorPro,
-  readerPro,
-}
+  admin('ADMIN'),
+  author('AUTHOR'),
+  reader('READER'),
+  restrictedAuthor('RESTRICTED_AUTHOR'),
+  restrictedReader('RESTRICTED_READER'),
+  adminPro('ADMIN_PRO'),
+  authorPro('AUTHOR_PRO'),
+  readerPro('READER_PRO'),
+  ;
 
-extension UserRoleValueExtension on UserRole {
-  String toValue() {
-    switch (this) {
-      case UserRole.admin:
-        return 'ADMIN';
-      case UserRole.author:
-        return 'AUTHOR';
-      case UserRole.reader:
-        return 'READER';
-      case UserRole.restrictedAuthor:
-        return 'RESTRICTED_AUTHOR';
-      case UserRole.restrictedReader:
-        return 'RESTRICTED_READER';
-      case UserRole.adminPro:
-        return 'ADMIN_PRO';
-      case UserRole.authorPro:
-        return 'AUTHOR_PRO';
-      case UserRole.readerPro:
-        return 'READER_PRO';
-    }
-  }
-}
+  final String value;
 
-extension UserRoleFromString on String {
-  UserRole toUserRole() {
-    switch (this) {
-      case 'ADMIN':
-        return UserRole.admin;
-      case 'AUTHOR':
-        return UserRole.author;
-      case 'READER':
-        return UserRole.reader;
-      case 'RESTRICTED_AUTHOR':
-        return UserRole.restrictedAuthor;
-      case 'RESTRICTED_READER':
-        return UserRole.restrictedReader;
-      case 'ADMIN_PRO':
-        return UserRole.adminPro;
-      case 'AUTHOR_PRO':
-        return UserRole.authorPro;
-      case 'READER_PRO':
-        return UserRole.readerPro;
-    }
-    throw Exception('$this is not known in enum UserRole');
-  }
+  const UserRole(this.value);
+
+  static UserRole fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum UserRole'));
 }
 
 /// The structure of a VPC connection.
@@ -61545,7 +57435,7 @@ class VPCConnection {
     return VPCConnection(
       arn: json['Arn'] as String?,
       availabilityStatus: (json['AvailabilityStatus'] as String?)
-          ?.toVPCConnectionAvailabilityStatus(),
+          ?.let(VPCConnectionAvailabilityStatus.fromString),
       createdTime: timeStampFromJson(json['CreatedTime']),
       dnsResolvers: (json['DnsResolvers'] as List?)
           ?.whereNotNull()
@@ -61562,7 +57452,8 @@ class VPCConnection {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      status: (json['Status'] as String?)?.toVPCConnectionResourceStatus(),
+      status: (json['Status'] as String?)
+          ?.let(VPCConnectionResourceStatus.fromString),
       vPCConnectionId: json['VPCConnectionId'] as String?,
       vPCId: json['VPCId'] as String?,
     );
@@ -61584,7 +57475,7 @@ class VPCConnection {
     return {
       if (arn != null) 'Arn': arn,
       if (availabilityStatus != null)
-        'AvailabilityStatus': availabilityStatus.toValue(),
+        'AvailabilityStatus': availabilityStatus.value,
       if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
       if (dnsResolvers != null) 'DnsResolvers': dnsResolvers,
       if (lastUpdatedTime != null)
@@ -61593,7 +57484,7 @@ class VPCConnection {
       if (networkInterfaces != null) 'NetworkInterfaces': networkInterfaces,
       if (roleArn != null) 'RoleArn': roleArn,
       if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (vPCConnectionId != null) 'VPCConnectionId': vPCConnectionId,
       if (vPCId != null) 'VPCId': vPCId,
     };
@@ -61601,102 +57492,41 @@ class VPCConnection {
 }
 
 enum VPCConnectionAvailabilityStatus {
-  available,
-  unavailable,
-  partiallyAvailable,
-}
+  available('AVAILABLE'),
+  unavailable('UNAVAILABLE'),
+  partiallyAvailable('PARTIALLY_AVAILABLE'),
+  ;
 
-extension VPCConnectionAvailabilityStatusValueExtension
-    on VPCConnectionAvailabilityStatus {
-  String toValue() {
-    switch (this) {
-      case VPCConnectionAvailabilityStatus.available:
-        return 'AVAILABLE';
-      case VPCConnectionAvailabilityStatus.unavailable:
-        return 'UNAVAILABLE';
-      case VPCConnectionAvailabilityStatus.partiallyAvailable:
-        return 'PARTIALLY_AVAILABLE';
-    }
-  }
-}
+  final String value;
 
-extension VPCConnectionAvailabilityStatusFromString on String {
-  VPCConnectionAvailabilityStatus toVPCConnectionAvailabilityStatus() {
-    switch (this) {
-      case 'AVAILABLE':
-        return VPCConnectionAvailabilityStatus.available;
-      case 'UNAVAILABLE':
-        return VPCConnectionAvailabilityStatus.unavailable;
-      case 'PARTIALLY_AVAILABLE':
-        return VPCConnectionAvailabilityStatus.partiallyAvailable;
-    }
-    throw Exception(
-        '$this is not known in enum VPCConnectionAvailabilityStatus');
-  }
+  const VPCConnectionAvailabilityStatus(this.value);
+
+  static VPCConnectionAvailabilityStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum VPCConnectionAvailabilityStatus'));
 }
 
 enum VPCConnectionResourceStatus {
-  creationInProgress,
-  creationSuccessful,
-  creationFailed,
-  updateInProgress,
-  updateSuccessful,
-  updateFailed,
-  deletionInProgress,
-  deletionFailed,
-  deleted,
-}
+  creationInProgress('CREATION_IN_PROGRESS'),
+  creationSuccessful('CREATION_SUCCESSFUL'),
+  creationFailed('CREATION_FAILED'),
+  updateInProgress('UPDATE_IN_PROGRESS'),
+  updateSuccessful('UPDATE_SUCCESSFUL'),
+  updateFailed('UPDATE_FAILED'),
+  deletionInProgress('DELETION_IN_PROGRESS'),
+  deletionFailed('DELETION_FAILED'),
+  deleted('DELETED'),
+  ;
 
-extension VPCConnectionResourceStatusValueExtension
-    on VPCConnectionResourceStatus {
-  String toValue() {
-    switch (this) {
-      case VPCConnectionResourceStatus.creationInProgress:
-        return 'CREATION_IN_PROGRESS';
-      case VPCConnectionResourceStatus.creationSuccessful:
-        return 'CREATION_SUCCESSFUL';
-      case VPCConnectionResourceStatus.creationFailed:
-        return 'CREATION_FAILED';
-      case VPCConnectionResourceStatus.updateInProgress:
-        return 'UPDATE_IN_PROGRESS';
-      case VPCConnectionResourceStatus.updateSuccessful:
-        return 'UPDATE_SUCCESSFUL';
-      case VPCConnectionResourceStatus.updateFailed:
-        return 'UPDATE_FAILED';
-      case VPCConnectionResourceStatus.deletionInProgress:
-        return 'DELETION_IN_PROGRESS';
-      case VPCConnectionResourceStatus.deletionFailed:
-        return 'DELETION_FAILED';
-      case VPCConnectionResourceStatus.deleted:
-        return 'DELETED';
-    }
-  }
-}
+  final String value;
 
-extension VPCConnectionResourceStatusFromString on String {
-  VPCConnectionResourceStatus toVPCConnectionResourceStatus() {
-    switch (this) {
-      case 'CREATION_IN_PROGRESS':
-        return VPCConnectionResourceStatus.creationInProgress;
-      case 'CREATION_SUCCESSFUL':
-        return VPCConnectionResourceStatus.creationSuccessful;
-      case 'CREATION_FAILED':
-        return VPCConnectionResourceStatus.creationFailed;
-      case 'UPDATE_IN_PROGRESS':
-        return VPCConnectionResourceStatus.updateInProgress;
-      case 'UPDATE_SUCCESSFUL':
-        return VPCConnectionResourceStatus.updateSuccessful;
-      case 'UPDATE_FAILED':
-        return VPCConnectionResourceStatus.updateFailed;
-      case 'DELETION_IN_PROGRESS':
-        return VPCConnectionResourceStatus.deletionInProgress;
-      case 'DELETION_FAILED':
-        return VPCConnectionResourceStatus.deletionFailed;
-      case 'DELETED':
-        return VPCConnectionResourceStatus.deleted;
-    }
-    throw Exception('$this is not known in enum VPCConnectionResourceStatus');
-  }
+  const VPCConnectionResourceStatus(this.value);
+
+  static VPCConnectionResourceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum VPCConnectionResourceStatus'));
 }
 
 /// The summary metadata that describes a VPC connection.
@@ -61758,7 +57588,7 @@ class VPCConnectionSummary {
     return VPCConnectionSummary(
       arn: json['Arn'] as String?,
       availabilityStatus: (json['AvailabilityStatus'] as String?)
-          ?.toVPCConnectionAvailabilityStatus(),
+          ?.let(VPCConnectionAvailabilityStatus.fromString),
       createdTime: timeStampFromJson(json['CreatedTime']),
       dnsResolvers: (json['DnsResolvers'] as List?)
           ?.whereNotNull()
@@ -61775,7 +57605,8 @@ class VPCConnectionSummary {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      status: (json['Status'] as String?)?.toVPCConnectionResourceStatus(),
+      status: (json['Status'] as String?)
+          ?.let(VPCConnectionResourceStatus.fromString),
       vPCConnectionId: json['VPCConnectionId'] as String?,
       vPCId: json['VPCId'] as String?,
     );
@@ -61797,7 +57628,7 @@ class VPCConnectionSummary {
     return {
       if (arn != null) 'Arn': arn,
       if (availabilityStatus != null)
-        'AvailabilityStatus': availabilityStatus.toValue(),
+        'AvailabilityStatus': availabilityStatus.value,
       if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
       if (dnsResolvers != null) 'DnsResolvers': dnsResolvers,
       if (lastUpdatedTime != null)
@@ -61806,7 +57637,7 @@ class VPCConnectionSummary {
       if (networkInterfaces != null) 'NetworkInterfaces': networkInterfaces,
       if (roleArn != null) 'RoleArn': roleArn,
       if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (vPCConnectionId != null) 'VPCConnectionId': vPCConnectionId,
       if (vPCId != null) 'VPCId': vPCId,
     };
@@ -61831,131 +57662,70 @@ class ValidationStrategy {
   Map<String, dynamic> toJson() {
     final mode = this.mode;
     return {
-      'Mode': mode.toValue(),
+      'Mode': mode.value,
     };
   }
 }
 
 enum ValidationStrategyMode {
-  strict,
-  lenient,
-}
+  strict('STRICT'),
+  lenient('LENIENT'),
+  ;
 
-extension ValidationStrategyModeValueExtension on ValidationStrategyMode {
-  String toValue() {
-    switch (this) {
-      case ValidationStrategyMode.strict:
-        return 'STRICT';
-      case ValidationStrategyMode.lenient:
-        return 'LENIENT';
-    }
-  }
-}
+  final String value;
 
-extension ValidationStrategyModeFromString on String {
-  ValidationStrategyMode toValidationStrategyMode() {
-    switch (this) {
-      case 'STRICT':
-        return ValidationStrategyMode.strict;
-      case 'LENIENT':
-        return ValidationStrategyMode.lenient;
-    }
-    throw Exception('$this is not known in enum ValidationStrategyMode');
-  }
+  const ValidationStrategyMode(this.value);
+
+  static ValidationStrategyMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ValidationStrategyMode'));
 }
 
 enum ValueWhenUnsetOption {
-  recommendedValue,
-  $null,
-}
+  recommendedValue('RECOMMENDED_VALUE'),
+  $null('NULL'),
+  ;
 
-extension ValueWhenUnsetOptionValueExtension on ValueWhenUnsetOption {
-  String toValue() {
-    switch (this) {
-      case ValueWhenUnsetOption.recommendedValue:
-        return 'RECOMMENDED_VALUE';
-      case ValueWhenUnsetOption.$null:
-        return 'NULL';
-    }
-  }
-}
+  final String value;
 
-extension ValueWhenUnsetOptionFromString on String {
-  ValueWhenUnsetOption toValueWhenUnsetOption() {
-    switch (this) {
-      case 'RECOMMENDED_VALUE':
-        return ValueWhenUnsetOption.recommendedValue;
-      case 'NULL':
-        return ValueWhenUnsetOption.$null;
-    }
-    throw Exception('$this is not known in enum ValueWhenUnsetOption');
-  }
+  const ValueWhenUnsetOption(this.value);
+
+  static ValueWhenUnsetOption fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ValueWhenUnsetOption'));
 }
 
 enum VerticalTextAlignment {
-  top,
-  middle,
-  bottom,
-  auto,
-}
+  top('TOP'),
+  middle('MIDDLE'),
+  bottom('BOTTOM'),
+  auto('AUTO'),
+  ;
 
-extension VerticalTextAlignmentValueExtension on VerticalTextAlignment {
-  String toValue() {
-    switch (this) {
-      case VerticalTextAlignment.top:
-        return 'TOP';
-      case VerticalTextAlignment.middle:
-        return 'MIDDLE';
-      case VerticalTextAlignment.bottom:
-        return 'BOTTOM';
-      case VerticalTextAlignment.auto:
-        return 'AUTO';
-    }
-  }
-}
+  final String value;
 
-extension VerticalTextAlignmentFromString on String {
-  VerticalTextAlignment toVerticalTextAlignment() {
-    switch (this) {
-      case 'TOP':
-        return VerticalTextAlignment.top;
-      case 'MIDDLE':
-        return VerticalTextAlignment.middle;
-      case 'BOTTOM':
-        return VerticalTextAlignment.bottom;
-      case 'AUTO':
-        return VerticalTextAlignment.auto;
-    }
-    throw Exception('$this is not known in enum VerticalTextAlignment');
-  }
+  const VerticalTextAlignment(this.value);
+
+  static VerticalTextAlignment fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum VerticalTextAlignment'));
 }
 
 enum Visibility {
-  hidden,
-  visible,
-}
+  hidden('HIDDEN'),
+  visible('VISIBLE'),
+  ;
 
-extension VisibilityValueExtension on Visibility {
-  String toValue() {
-    switch (this) {
-      case Visibility.hidden:
-        return 'HIDDEN';
-      case Visibility.visible:
-        return 'VISIBLE';
-    }
-  }
-}
+  final String value;
 
-extension VisibilityFromString on String {
-  Visibility toVisibility() {
-    switch (this) {
-      case 'HIDDEN':
-        return Visibility.hidden;
-      case 'VISIBLE':
-        return Visibility.visible;
-    }
-    throw Exception('$this is not known in enum Visibility');
-  }
+  const Visibility(this.value);
+
+  static Visibility fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Visibility'));
 }
 
 /// The range options for the data zoom scroll bar.
@@ -62332,8 +58102,8 @@ class VisualAxisSortOption {
 
   factory VisualAxisSortOption.fromJson(Map<String, dynamic> json) {
     return VisualAxisSortOption(
-      availabilityStatus:
-          (json['AvailabilityStatus'] as String?)?.toDashboardBehavior(),
+      availabilityStatus: (json['AvailabilityStatus'] as String?)
+          ?.let(DashboardBehavior.fromString),
     );
   }
 
@@ -62341,7 +58111,7 @@ class VisualAxisSortOption {
     final availabilityStatus = this.availabilityStatus;
     return {
       if (availabilityStatus != null)
-        'AvailabilityStatus': availabilityStatus.toValue(),
+        'AvailabilityStatus': availabilityStatus.value,
     };
   }
 }
@@ -62396,8 +58166,9 @@ class VisualCustomAction {
           .toList(),
       customActionId: json['CustomActionId'] as String,
       name: json['Name'] as String,
-      trigger: (json['Trigger'] as String).toVisualCustomActionTrigger(),
-      status: (json['Status'] as String?)?.toWidgetStatus(),
+      trigger:
+          VisualCustomActionTrigger.fromString((json['Trigger'] as String)),
+      status: (json['Status'] as String?)?.let(WidgetStatus.fromString),
     );
   }
 
@@ -62411,8 +58182,8 @@ class VisualCustomAction {
       'ActionOperations': actionOperations,
       'CustomActionId': customActionId,
       'Name': name,
-      'Trigger': trigger.toValue(),
-      if (status != null) 'Status': status.toValue(),
+      'Trigger': trigger.value,
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -62481,31 +58252,18 @@ class VisualCustomActionOperation {
 }
 
 enum VisualCustomActionTrigger {
-  dataPointClick,
-  dataPointMenu,
-}
+  dataPointClick('DATA_POINT_CLICK'),
+  dataPointMenu('DATA_POINT_MENU'),
+  ;
 
-extension VisualCustomActionTriggerValueExtension on VisualCustomActionTrigger {
-  String toValue() {
-    switch (this) {
-      case VisualCustomActionTrigger.dataPointClick:
-        return 'DATA_POINT_CLICK';
-      case VisualCustomActionTrigger.dataPointMenu:
-        return 'DATA_POINT_MENU';
-    }
-  }
-}
+  final String value;
 
-extension VisualCustomActionTriggerFromString on String {
-  VisualCustomActionTrigger toVisualCustomActionTrigger() {
-    switch (this) {
-      case 'DATA_POINT_CLICK':
-        return VisualCustomActionTrigger.dataPointClick;
-      case 'DATA_POINT_MENU':
-        return VisualCustomActionTrigger.dataPointMenu;
-    }
-    throw Exception('$this is not known in enum VisualCustomActionTrigger');
-  }
+  const VisualCustomActionTrigger(this.value);
+
+  static VisualCustomActionTrigger fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum VisualCustomActionTrigger'));
 }
 
 /// The general visual interactions setup for visual publish options
@@ -62555,8 +58313,8 @@ class VisualMenuOption {
 
   factory VisualMenuOption.fromJson(Map<String, dynamic> json) {
     return VisualMenuOption(
-      availabilityStatus:
-          (json['AvailabilityStatus'] as String?)?.toDashboardBehavior(),
+      availabilityStatus: (json['AvailabilityStatus'] as String?)
+          ?.let(DashboardBehavior.fromString),
     );
   }
 
@@ -62564,7 +58322,7 @@ class VisualMenuOption {
     final availabilityStatus = this.availabilityStatus;
     return {
       if (availabilityStatus != null)
-        'AvailabilityStatus': availabilityStatus.toValue(),
+        'AvailabilityStatus': availabilityStatus.value,
     };
   }
 }
@@ -62620,7 +58378,7 @@ class VisualSubtitleLabelOptions {
       formatText: json['FormatText'] != null
           ? LongFormatText.fromJson(json['FormatText'] as Map<String, dynamic>)
           : null,
-      visibility: (json['Visibility'] as String?)?.toVisibility(),
+      visibility: (json['Visibility'] as String?)?.let(Visibility.fromString),
     );
   }
 
@@ -62629,7 +58387,7 @@ class VisualSubtitleLabelOptions {
     final visibility = this.visibility;
     return {
       if (formatText != null) 'FormatText': formatText,
-      if (visibility != null) 'Visibility': visibility.toValue(),
+      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
@@ -62652,7 +58410,7 @@ class VisualTitleLabelOptions {
       formatText: json['FormatText'] != null
           ? ShortFormatText.fromJson(json['FormatText'] as Map<String, dynamic>)
           : null,
-      visibility: (json['Visibility'] as String?)?.toVisibility(),
+      visibility: (json['Visibility'] as String?)?.let(Visibility.fromString),
     );
   }
 
@@ -62661,7 +58419,7 @@ class VisualTitleLabelOptions {
     final visibility = this.visibility;
     return {
       if (formatText != null) 'FormatText': formatText,
-      if (visibility != null) 'Visibility': visibility.toValue(),
+      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
@@ -63179,31 +58937,18 @@ class WhatIfRangeScenario {
 }
 
 enum WidgetStatus {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension WidgetStatusValueExtension on WidgetStatus {
-  String toValue() {
-    switch (this) {
-      case WidgetStatus.enabled:
-        return 'ENABLED';
-      case WidgetStatus.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension WidgetStatusFromString on String {
-  WidgetStatus toWidgetStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return WidgetStatus.enabled;
-      case 'DISABLED':
-        return WidgetStatus.disabled;
-    }
-    throw Exception('$this is not known in enum WidgetStatus');
-  }
+  const WidgetStatus(this.value);
+
+  static WidgetStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum WidgetStatus'));
 }
 
 /// The aggregated field wells of a word cloud.
@@ -63313,31 +59058,18 @@ class WordCloudChartConfiguration {
 }
 
 enum WordCloudCloudLayout {
-  fluid,
-  normal,
-}
+  fluid('FLUID'),
+  normal('NORMAL'),
+  ;
 
-extension WordCloudCloudLayoutValueExtension on WordCloudCloudLayout {
-  String toValue() {
-    switch (this) {
-      case WordCloudCloudLayout.fluid:
-        return 'FLUID';
-      case WordCloudCloudLayout.normal:
-        return 'NORMAL';
-    }
-  }
-}
+  final String value;
 
-extension WordCloudCloudLayoutFromString on String {
-  WordCloudCloudLayout toWordCloudCloudLayout() {
-    switch (this) {
-      case 'FLUID':
-        return WordCloudCloudLayout.fluid;
-      case 'NORMAL':
-        return WordCloudCloudLayout.normal;
-    }
-    throw Exception('$this is not known in enum WordCloudCloudLayout');
-  }
+  const WordCloudCloudLayout(this.value);
+
+  static WordCloudCloudLayout fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum WordCloudCloudLayout'));
 }
 
 /// The field wells of a word cloud visual.
@@ -63405,13 +59137,17 @@ class WordCloudOptions {
 
   factory WordCloudOptions.fromJson(Map<String, dynamic> json) {
     return WordCloudOptions(
-      cloudLayout: (json['CloudLayout'] as String?)?.toWordCloudCloudLayout(),
+      cloudLayout: (json['CloudLayout'] as String?)
+          ?.let(WordCloudCloudLayout.fromString),
       maximumStringLength: json['MaximumStringLength'] as int?,
-      wordCasing: (json['WordCasing'] as String?)?.toWordCloudWordCasing(),
-      wordOrientation:
-          (json['WordOrientation'] as String?)?.toWordCloudWordOrientation(),
-      wordPadding: (json['WordPadding'] as String?)?.toWordCloudWordPadding(),
-      wordScaling: (json['WordScaling'] as String?)?.toWordCloudWordScaling(),
+      wordCasing:
+          (json['WordCasing'] as String?)?.let(WordCloudWordCasing.fromString),
+      wordOrientation: (json['WordOrientation'] as String?)
+          ?.let(WordCloudWordOrientation.fromString),
+      wordPadding: (json['WordPadding'] as String?)
+          ?.let(WordCloudWordPadding.fromString),
+      wordScaling: (json['WordScaling'] as String?)
+          ?.let(WordCloudWordScaling.fromString),
     );
   }
 
@@ -63423,13 +59159,13 @@ class WordCloudOptions {
     final wordPadding = this.wordPadding;
     final wordScaling = this.wordScaling;
     return {
-      if (cloudLayout != null) 'CloudLayout': cloudLayout.toValue(),
+      if (cloudLayout != null) 'CloudLayout': cloudLayout.value,
       if (maximumStringLength != null)
         'MaximumStringLength': maximumStringLength,
-      if (wordCasing != null) 'WordCasing': wordCasing.toValue(),
-      if (wordOrientation != null) 'WordOrientation': wordOrientation.toValue(),
-      if (wordPadding != null) 'WordPadding': wordPadding.toValue(),
-      if (wordScaling != null) 'WordScaling': wordScaling.toValue(),
+      if (wordCasing != null) 'WordCasing': wordCasing.value,
+      if (wordOrientation != null) 'WordOrientation': wordOrientation.value,
+      if (wordPadding != null) 'WordPadding': wordPadding.value,
+      if (wordScaling != null) 'WordScaling': wordScaling.value,
     };
   }
 }
@@ -63550,125 +59286,65 @@ class WordCloudVisual {
 }
 
 enum WordCloudWordCasing {
-  lowerCase,
-  existingCase,
-}
+  lowerCase('LOWER_CASE'),
+  existingCase('EXISTING_CASE'),
+  ;
 
-extension WordCloudWordCasingValueExtension on WordCloudWordCasing {
-  String toValue() {
-    switch (this) {
-      case WordCloudWordCasing.lowerCase:
-        return 'LOWER_CASE';
-      case WordCloudWordCasing.existingCase:
-        return 'EXISTING_CASE';
-    }
-  }
-}
+  final String value;
 
-extension WordCloudWordCasingFromString on String {
-  WordCloudWordCasing toWordCloudWordCasing() {
-    switch (this) {
-      case 'LOWER_CASE':
-        return WordCloudWordCasing.lowerCase;
-      case 'EXISTING_CASE':
-        return WordCloudWordCasing.existingCase;
-    }
-    throw Exception('$this is not known in enum WordCloudWordCasing');
-  }
+  const WordCloudWordCasing(this.value);
+
+  static WordCloudWordCasing fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum WordCloudWordCasing'));
 }
 
 enum WordCloudWordOrientation {
-  horizontal,
-  horizontalAndVertical,
-}
+  horizontal('HORIZONTAL'),
+  horizontalAndVertical('HORIZONTAL_AND_VERTICAL'),
+  ;
 
-extension WordCloudWordOrientationValueExtension on WordCloudWordOrientation {
-  String toValue() {
-    switch (this) {
-      case WordCloudWordOrientation.horizontal:
-        return 'HORIZONTAL';
-      case WordCloudWordOrientation.horizontalAndVertical:
-        return 'HORIZONTAL_AND_VERTICAL';
-    }
-  }
-}
+  final String value;
 
-extension WordCloudWordOrientationFromString on String {
-  WordCloudWordOrientation toWordCloudWordOrientation() {
-    switch (this) {
-      case 'HORIZONTAL':
-        return WordCloudWordOrientation.horizontal;
-      case 'HORIZONTAL_AND_VERTICAL':
-        return WordCloudWordOrientation.horizontalAndVertical;
-    }
-    throw Exception('$this is not known in enum WordCloudWordOrientation');
-  }
+  const WordCloudWordOrientation(this.value);
+
+  static WordCloudWordOrientation fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum WordCloudWordOrientation'));
 }
 
 enum WordCloudWordPadding {
-  none,
-  small,
-  medium,
-  large,
-}
+  none('NONE'),
+  small('SMALL'),
+  medium('MEDIUM'),
+  large('LARGE'),
+  ;
 
-extension WordCloudWordPaddingValueExtension on WordCloudWordPadding {
-  String toValue() {
-    switch (this) {
-      case WordCloudWordPadding.none:
-        return 'NONE';
-      case WordCloudWordPadding.small:
-        return 'SMALL';
-      case WordCloudWordPadding.medium:
-        return 'MEDIUM';
-      case WordCloudWordPadding.large:
-        return 'LARGE';
-    }
-  }
-}
+  final String value;
 
-extension WordCloudWordPaddingFromString on String {
-  WordCloudWordPadding toWordCloudWordPadding() {
-    switch (this) {
-      case 'NONE':
-        return WordCloudWordPadding.none;
-      case 'SMALL':
-        return WordCloudWordPadding.small;
-      case 'MEDIUM':
-        return WordCloudWordPadding.medium;
-      case 'LARGE':
-        return WordCloudWordPadding.large;
-    }
-    throw Exception('$this is not known in enum WordCloudWordPadding');
-  }
+  const WordCloudWordPadding(this.value);
+
+  static WordCloudWordPadding fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum WordCloudWordPadding'));
 }
 
 enum WordCloudWordScaling {
-  emphasize,
-  normal,
-}
+  emphasize('EMPHASIZE'),
+  normal('NORMAL'),
+  ;
 
-extension WordCloudWordScalingValueExtension on WordCloudWordScaling {
-  String toValue() {
-    switch (this) {
-      case WordCloudWordScaling.emphasize:
-        return 'EMPHASIZE';
-      case WordCloudWordScaling.normal:
-        return 'NORMAL';
-    }
-  }
-}
+  final String value;
 
-extension WordCloudWordScalingFromString on String {
-  WordCloudWordScaling toWordCloudWordScaling() {
-    switch (this) {
-      case 'EMPHASIZE':
-        return WordCloudWordScaling.emphasize;
-      case 'NORMAL':
-        return WordCloudWordScaling.normal;
-    }
-    throw Exception('$this is not known in enum WordCloudWordScaling');
-  }
+  const WordCloudWordScaling(this.value);
+
+  static WordCloudWordScaling fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum WordCloudWordScaling'));
 }
 
 /// The options that are available for a single Y axis in a chart.
@@ -63685,14 +59361,14 @@ class YAxisOptions {
 
   factory YAxisOptions.fromJson(Map<String, dynamic> json) {
     return YAxisOptions(
-      yAxis: (json['YAxis'] as String).toSingleYAxisOption(),
+      yAxis: SingleYAxisOption.fromString((json['YAxis'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final yAxis = this.yAxis;
     return {
-      'YAxis': yAxis.toValue(),
+      'YAxis': yAxis.value,
     };
   }
 }

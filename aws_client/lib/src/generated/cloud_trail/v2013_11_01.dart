@@ -408,7 +408,7 @@ class CloudTrail {
         'Name': name,
         if (advancedEventSelectors != null)
           'AdvancedEventSelectors': advancedEventSelectors,
-        if (billingMode != null) 'BillingMode': billingMode.toValue(),
+        if (billingMode != null) 'BillingMode': billingMode.value,
         if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
         if (multiRegionEnabled != null)
           'MultiRegionEnabled': multiRegionEnabled,
@@ -1685,7 +1685,7 @@ class CloudTrail {
       headers: headers,
       payload: {
         if (destination != null) 'Destination': destination,
-        if (importStatus != null) 'ImportStatus': importStatus.toValue(),
+        if (importStatus != null) 'ImportStatus': importStatus.value,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -1822,8 +1822,8 @@ class CloudTrail {
       payload: {
         'EventName': eventName,
         'EventSource': eventSource,
-        'InsightType': insightType.toValue(),
-        if (dataType != null) 'DataType': dataType.toValue(),
+        'InsightType': insightType.value,
+        if (dataType != null) 'DataType': dataType.value,
         if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
         if (errorCode != null) 'ErrorCode': errorCode,
         if (maxResults != null) 'MaxResults': maxResults,
@@ -1965,7 +1965,7 @@ class CloudTrail {
         if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (queryStatus != null) 'QueryStatus': queryStatus.toValue(),
+        if (queryStatus != null) 'QueryStatus': queryStatus.value,
         if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
       },
     );
@@ -2187,7 +2187,7 @@ class CloudTrail {
       headers: headers,
       payload: {
         if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
-        if (eventCategory != null) 'EventCategory': eventCategory.toValue(),
+        if (eventCategory != null) 'EventCategory': eventCategory.value,
         if (lookupAttributes != null) 'LookupAttributes': lookupAttributes,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
@@ -3268,7 +3268,7 @@ class CloudTrail {
         'EventDataStore': eventDataStore,
         if (advancedEventSelectors != null)
           'AdvancedEventSelectors': advancedEventSelectors,
-        if (billingMode != null) 'BillingMode': billingMode.toValue(),
+        if (billingMode != null) 'BillingMode': billingMode.value,
         if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
         if (multiRegionEnabled != null)
           'MultiRegionEnabled': multiRegionEnabled,
@@ -4547,31 +4547,17 @@ class AdvancedFieldSelector {
 }
 
 enum BillingMode {
-  extendableRetentionPricing,
-  fixedRetentionPricing,
-}
+  extendableRetentionPricing('EXTENDABLE_RETENTION_PRICING'),
+  fixedRetentionPricing('FIXED_RETENTION_PRICING'),
+  ;
 
-extension BillingModeValueExtension on BillingMode {
-  String toValue() {
-    switch (this) {
-      case BillingMode.extendableRetentionPricing:
-        return 'EXTENDABLE_RETENTION_PRICING';
-      case BillingMode.fixedRetentionPricing:
-        return 'FIXED_RETENTION_PRICING';
-    }
-  }
-}
+  final String value;
 
-extension BillingModeFromString on String {
-  BillingMode toBillingMode() {
-    switch (this) {
-      case 'EXTENDABLE_RETENTION_PRICING':
-        return BillingMode.extendableRetentionPricing;
-      case 'FIXED_RETENTION_PRICING':
-        return BillingMode.fixedRetentionPricing;
-    }
-    throw Exception('$this is not known in enum BillingMode');
-  }
+  const BillingMode(this.value);
+
+  static BillingMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum BillingMode'));
 }
 
 class CancelQueryResponse {
@@ -4591,7 +4577,7 @@ class CancelQueryResponse {
   factory CancelQueryResponse.fromJson(Map<String, dynamic> json) {
     return CancelQueryResponse(
       queryId: json['QueryId'] as String,
-      queryStatus: (json['QueryStatus'] as String).toQueryStatus(),
+      queryStatus: QueryStatus.fromString((json['QueryStatus'] as String)),
     );
   }
 
@@ -4600,7 +4586,7 @@ class CancelQueryResponse {
     final queryStatus = this.queryStatus;
     return {
       'QueryId': queryId,
-      'QueryStatus': queryStatus.toValue(),
+      'QueryStatus': queryStatus.value,
     };
   }
 }
@@ -4762,7 +4748,8 @@ class CreateEventDataStoreResponse {
           ?.whereNotNull()
           .map((e) => AdvancedEventSelector.fromJson(e as Map<String, dynamic>))
           .toList(),
-      billingMode: (json['BillingMode'] as String?)?.toBillingMode(),
+      billingMode:
+          (json['BillingMode'] as String?)?.let(BillingMode.fromString),
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
       eventDataStoreArn: json['EventDataStoreArn'] as String?,
       kmsKeyId: json['KmsKeyId'] as String?,
@@ -4770,7 +4757,7 @@ class CreateEventDataStoreResponse {
       name: json['Name'] as String?,
       organizationEnabled: json['OrganizationEnabled'] as bool?,
       retentionPeriod: json['RetentionPeriod'] as int?,
-      status: (json['Status'] as String?)?.toEventDataStoreStatus(),
+      status: (json['Status'] as String?)?.let(EventDataStoreStatus.fromString),
       tagsList: (json['TagsList'] as List?)
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -4798,7 +4785,7 @@ class CreateEventDataStoreResponse {
     return {
       if (advancedEventSelectors != null)
         'AdvancedEventSelectors': advancedEventSelectors,
-      if (billingMode != null) 'BillingMode': billingMode.toValue(),
+      if (billingMode != null) 'BillingMode': billingMode.value,
       if (createdTimestamp != null)
         'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
       if (eventDataStoreArn != null) 'EventDataStoreArn': eventDataStoreArn,
@@ -4808,7 +4795,7 @@ class CreateEventDataStoreResponse {
       if (organizationEnabled != null)
         'OrganizationEnabled': organizationEnabled,
       if (retentionPeriod != null) 'RetentionPeriod': retentionPeriod,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (tagsList != null) 'TagsList': tagsList,
       if (terminationProtectionEnabled != null)
         'TerminationProtectionEnabled': terminationProtectionEnabled,
@@ -5165,66 +5152,25 @@ class DeleteTrailResponse {
 }
 
 enum DeliveryStatus {
-  success,
-  failed,
-  failedSigningFile,
-  pending,
-  resourceNotFound,
-  accessDenied,
-  accessDeniedSigningFile,
-  cancelled,
-  unknown,
-}
+  success('SUCCESS'),
+  failed('FAILED'),
+  failedSigningFile('FAILED_SIGNING_FILE'),
+  pending('PENDING'),
+  resourceNotFound('RESOURCE_NOT_FOUND'),
+  accessDenied('ACCESS_DENIED'),
+  accessDeniedSigningFile('ACCESS_DENIED_SIGNING_FILE'),
+  cancelled('CANCELLED'),
+  unknown('UNKNOWN'),
+  ;
 
-extension DeliveryStatusValueExtension on DeliveryStatus {
-  String toValue() {
-    switch (this) {
-      case DeliveryStatus.success:
-        return 'SUCCESS';
-      case DeliveryStatus.failed:
-        return 'FAILED';
-      case DeliveryStatus.failedSigningFile:
-        return 'FAILED_SIGNING_FILE';
-      case DeliveryStatus.pending:
-        return 'PENDING';
-      case DeliveryStatus.resourceNotFound:
-        return 'RESOURCE_NOT_FOUND';
-      case DeliveryStatus.accessDenied:
-        return 'ACCESS_DENIED';
-      case DeliveryStatus.accessDeniedSigningFile:
-        return 'ACCESS_DENIED_SIGNING_FILE';
-      case DeliveryStatus.cancelled:
-        return 'CANCELLED';
-      case DeliveryStatus.unknown:
-        return 'UNKNOWN';
-    }
-  }
-}
+  final String value;
 
-extension DeliveryStatusFromString on String {
-  DeliveryStatus toDeliveryStatus() {
-    switch (this) {
-      case 'SUCCESS':
-        return DeliveryStatus.success;
-      case 'FAILED':
-        return DeliveryStatus.failed;
-      case 'FAILED_SIGNING_FILE':
-        return DeliveryStatus.failedSigningFile;
-      case 'PENDING':
-        return DeliveryStatus.pending;
-      case 'RESOURCE_NOT_FOUND':
-        return DeliveryStatus.resourceNotFound;
-      case 'ACCESS_DENIED':
-        return DeliveryStatus.accessDenied;
-      case 'ACCESS_DENIED_SIGNING_FILE':
-        return DeliveryStatus.accessDeniedSigningFile;
-      case 'CANCELLED':
-        return DeliveryStatus.cancelled;
-      case 'UNKNOWN':
-        return DeliveryStatus.unknown;
-    }
-    throw Exception('$this is not known in enum DeliveryStatus');
-  }
+  const DeliveryStatus(this.value);
+
+  static DeliveryStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DeliveryStatus'));
 }
 
 /// Returns the following response if successful. Otherwise, returns an error.
@@ -5281,14 +5227,16 @@ class DescribeQueryResponse {
   factory DescribeQueryResponse.fromJson(Map<String, dynamic> json) {
     return DescribeQueryResponse(
       deliveryS3Uri: json['DeliveryS3Uri'] as String?,
-      deliveryStatus: (json['DeliveryStatus'] as String?)?.toDeliveryStatus(),
+      deliveryStatus:
+          (json['DeliveryStatus'] as String?)?.let(DeliveryStatus.fromString),
       errorMessage: json['ErrorMessage'] as String?,
       queryId: json['QueryId'] as String?,
       queryStatistics: json['QueryStatistics'] != null
           ? QueryStatisticsForDescribeQuery.fromJson(
               json['QueryStatistics'] as Map<String, dynamic>)
           : null,
-      queryStatus: (json['QueryStatus'] as String?)?.toQueryStatus(),
+      queryStatus:
+          (json['QueryStatus'] as String?)?.let(QueryStatus.fromString),
       queryString: json['QueryString'] as String?,
     );
   }
@@ -5303,11 +5251,11 @@ class DescribeQueryResponse {
     final queryString = this.queryString;
     return {
       if (deliveryS3Uri != null) 'DeliveryS3Uri': deliveryS3Uri,
-      if (deliveryStatus != null) 'DeliveryStatus': deliveryStatus.toValue(),
+      if (deliveryStatus != null) 'DeliveryStatus': deliveryStatus.value,
       if (errorMessage != null) 'ErrorMessage': errorMessage,
       if (queryId != null) 'QueryId': queryId,
       if (queryStatistics != null) 'QueryStatistics': queryStatistics,
-      if (queryStatus != null) 'QueryStatus': queryStatus.toValue(),
+      if (queryStatus != null) 'QueryStatus': queryStatus.value,
       if (queryString != null) 'QueryString': queryString,
     };
   }
@@ -5367,7 +5315,7 @@ class Destination {
   factory Destination.fromJson(Map<String, dynamic> json) {
     return Destination(
       location: json['Location'] as String,
-      type: (json['Type'] as String).toDestinationType(),
+      type: DestinationType.fromString((json['Type'] as String)),
     );
   }
 
@@ -5376,37 +5324,24 @@ class Destination {
     final type = this.type;
     return {
       'Location': location,
-      'Type': type.toValue(),
+      'Type': type.value,
     };
   }
 }
 
 enum DestinationType {
-  eventDataStore,
-  awsService,
-}
+  eventDataStore('EVENT_DATA_STORE'),
+  awsService('AWS_SERVICE'),
+  ;
 
-extension DestinationTypeValueExtension on DestinationType {
-  String toValue() {
-    switch (this) {
-      case DestinationType.eventDataStore:
-        return 'EVENT_DATA_STORE';
-      case DestinationType.awsService:
-        return 'AWS_SERVICE';
-    }
-  }
-}
+  final String value;
 
-extension DestinationTypeFromString on String {
-  DestinationType toDestinationType() {
-    switch (this) {
-      case 'EVENT_DATA_STORE':
-        return DestinationType.eventDataStore;
-      case 'AWS_SERVICE':
-        return DestinationType.awsService;
-    }
-    throw Exception('$this is not known in enum DestinationType');
-  }
+  const DestinationType(this.value);
+
+  static DestinationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DestinationType'));
 }
 
 class DisableFederationResponse {
@@ -5425,8 +5360,8 @@ class DisableFederationResponse {
   factory DisableFederationResponse.fromJson(Map<String, dynamic> json) {
     return DisableFederationResponse(
       eventDataStoreArn: json['EventDataStoreArn'] as String?,
-      federationStatus:
-          (json['FederationStatus'] as String?)?.toFederationStatus(),
+      federationStatus: (json['FederationStatus'] as String?)
+          ?.let(FederationStatus.fromString),
     );
   }
 
@@ -5435,8 +5370,7 @@ class DisableFederationResponse {
     final federationStatus = this.federationStatus;
     return {
       if (eventDataStoreArn != null) 'EventDataStoreArn': eventDataStoreArn,
-      if (federationStatus != null)
-        'FederationStatus': federationStatus.toValue(),
+      if (federationStatus != null) 'FederationStatus': federationStatus.value,
     };
   }
 }
@@ -5461,8 +5395,8 @@ class EnableFederationResponse {
     return EnableFederationResponse(
       eventDataStoreArn: json['EventDataStoreArn'] as String?,
       federationRoleArn: json['FederationRoleArn'] as String?,
-      federationStatus:
-          (json['FederationStatus'] as String?)?.toFederationStatus(),
+      federationStatus: (json['FederationStatus'] as String?)
+          ?.let(FederationStatus.fromString),
     );
   }
 
@@ -5473,8 +5407,7 @@ class EnableFederationResponse {
     return {
       if (eventDataStoreArn != null) 'EventDataStoreArn': eventDataStoreArn,
       if (federationRoleArn != null) 'FederationRoleArn': federationRoleArn,
-      if (federationStatus != null)
-        'FederationStatus': federationStatus.toValue(),
+      if (federationStatus != null) 'FederationStatus': federationStatus.value,
     };
   }
 }
@@ -5566,26 +5499,17 @@ class Event {
 }
 
 enum EventCategory {
-  insight,
-}
+  insight('insight'),
+  ;
 
-extension EventCategoryValueExtension on EventCategory {
-  String toValue() {
-    switch (this) {
-      case EventCategory.insight:
-        return 'insight';
-    }
-  }
-}
+  final String value;
 
-extension EventCategoryFromString on String {
-  EventCategory toEventCategory() {
-    switch (this) {
-      case 'insight':
-        return EventCategory.insight;
-    }
-    throw Exception('$this is not known in enum EventCategory');
-  }
+  const EventCategory(this.value);
+
+  static EventCategory fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EventCategory'));
 }
 
 /// A storage lake of event data against which you can run complex SQL-based
@@ -5654,7 +5578,7 @@ class EventDataStore {
       name: json['Name'] as String?,
       organizationEnabled: json['OrganizationEnabled'] as bool?,
       retentionPeriod: json['RetentionPeriod'] as int?,
-      status: (json['Status'] as String?)?.toEventDataStoreStatus(),
+      status: (json['Status'] as String?)?.let(EventDataStoreStatus.fromString),
       terminationProtectionEnabled:
           json['TerminationProtectionEnabled'] as bool?,
       updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
@@ -5683,7 +5607,7 @@ class EventDataStore {
       if (organizationEnabled != null)
         'OrganizationEnabled': organizationEnabled,
       if (retentionPeriod != null) 'RetentionPeriod': retentionPeriod,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (terminationProtectionEnabled != null)
         'TerminationProtectionEnabled': terminationProtectionEnabled,
       if (updatedTimestamp != null)
@@ -5693,51 +5617,22 @@ class EventDataStore {
 }
 
 enum EventDataStoreStatus {
-  created,
-  enabled,
-  pendingDeletion,
-  startingIngestion,
-  stoppingIngestion,
-  stoppedIngestion,
-}
+  created('CREATED'),
+  enabled('ENABLED'),
+  pendingDeletion('PENDING_DELETION'),
+  startingIngestion('STARTING_INGESTION'),
+  stoppingIngestion('STOPPING_INGESTION'),
+  stoppedIngestion('STOPPED_INGESTION'),
+  ;
 
-extension EventDataStoreStatusValueExtension on EventDataStoreStatus {
-  String toValue() {
-    switch (this) {
-      case EventDataStoreStatus.created:
-        return 'CREATED';
-      case EventDataStoreStatus.enabled:
-        return 'ENABLED';
-      case EventDataStoreStatus.pendingDeletion:
-        return 'PENDING_DELETION';
-      case EventDataStoreStatus.startingIngestion:
-        return 'STARTING_INGESTION';
-      case EventDataStoreStatus.stoppingIngestion:
-        return 'STOPPING_INGESTION';
-      case EventDataStoreStatus.stoppedIngestion:
-        return 'STOPPED_INGESTION';
-    }
-  }
-}
+  final String value;
 
-extension EventDataStoreStatusFromString on String {
-  EventDataStoreStatus toEventDataStoreStatus() {
-    switch (this) {
-      case 'CREATED':
-        return EventDataStoreStatus.created;
-      case 'ENABLED':
-        return EventDataStoreStatus.enabled;
-      case 'PENDING_DELETION':
-        return EventDataStoreStatus.pendingDeletion;
-      case 'STARTING_INGESTION':
-        return EventDataStoreStatus.startingIngestion;
-      case 'STOPPING_INGESTION':
-        return EventDataStoreStatus.stoppingIngestion;
-      case 'STOPPED_INGESTION':
-        return EventDataStoreStatus.stoppedIngestion;
-    }
-    throw Exception('$this is not known in enum EventDataStoreStatus');
-  }
+  const EventDataStoreStatus(this.value);
+
+  static EventDataStoreStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum EventDataStoreStatus'));
 }
 
 /// Use event selectors to further specify the management and data event
@@ -5818,7 +5713,8 @@ class EventSelector {
               .map((e) => e as String)
               .toList(),
       includeManagementEvents: json['IncludeManagementEvents'] as bool?,
-      readWriteType: (json['ReadWriteType'] as String?)?.toReadWriteType(),
+      readWriteType:
+          (json['ReadWriteType'] as String?)?.let(ReadWriteType.fromString),
     );
   }
 
@@ -5833,47 +5729,26 @@ class EventSelector {
         'ExcludeManagementEventSources': excludeManagementEventSources,
       if (includeManagementEvents != null)
         'IncludeManagementEvents': includeManagementEvents,
-      if (readWriteType != null) 'ReadWriteType': readWriteType.toValue(),
+      if (readWriteType != null) 'ReadWriteType': readWriteType.value,
     };
   }
 }
 
 enum FederationStatus {
-  enabling,
-  enabled,
-  disabling,
-  disabled,
-}
+  enabling('ENABLING'),
+  enabled('ENABLED'),
+  disabling('DISABLING'),
+  disabled('DISABLED'),
+  ;
 
-extension FederationStatusValueExtension on FederationStatus {
-  String toValue() {
-    switch (this) {
-      case FederationStatus.enabling:
-        return 'ENABLING';
-      case FederationStatus.enabled:
-        return 'ENABLED';
-      case FederationStatus.disabling:
-        return 'DISABLING';
-      case FederationStatus.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension FederationStatusFromString on String {
-  FederationStatus toFederationStatus() {
-    switch (this) {
-      case 'ENABLING':
-        return FederationStatus.enabling;
-      case 'ENABLED':
-        return FederationStatus.enabled;
-      case 'DISABLING':
-        return FederationStatus.disabling;
-      case 'DISABLED':
-        return FederationStatus.disabled;
-    }
-    throw Exception('$this is not known in enum FederationStatus');
-  }
+  const FederationStatus(this.value);
+
+  static FederationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FederationStatus'));
 }
 
 class GetChannelResponse {
@@ -6035,12 +5910,13 @@ class GetEventDataStoreResponse {
           ?.whereNotNull()
           .map((e) => AdvancedEventSelector.fromJson(e as Map<String, dynamic>))
           .toList(),
-      billingMode: (json['BillingMode'] as String?)?.toBillingMode(),
+      billingMode:
+          (json['BillingMode'] as String?)?.let(BillingMode.fromString),
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
       eventDataStoreArn: json['EventDataStoreArn'] as String?,
       federationRoleArn: json['FederationRoleArn'] as String?,
-      federationStatus:
-          (json['FederationStatus'] as String?)?.toFederationStatus(),
+      federationStatus: (json['FederationStatus'] as String?)
+          ?.let(FederationStatus.fromString),
       kmsKeyId: json['KmsKeyId'] as String?,
       multiRegionEnabled: json['MultiRegionEnabled'] as bool?,
       name: json['Name'] as String?,
@@ -6050,7 +5926,7 @@ class GetEventDataStoreResponse {
           .map((e) => PartitionKey.fromJson(e as Map<String, dynamic>))
           .toList(),
       retentionPeriod: json['RetentionPeriod'] as int?,
-      status: (json['Status'] as String?)?.toEventDataStoreStatus(),
+      status: (json['Status'] as String?)?.let(EventDataStoreStatus.fromString),
       terminationProtectionEnabled:
           json['TerminationProtectionEnabled'] as bool?,
       updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
@@ -6076,13 +5952,12 @@ class GetEventDataStoreResponse {
     return {
       if (advancedEventSelectors != null)
         'AdvancedEventSelectors': advancedEventSelectors,
-      if (billingMode != null) 'BillingMode': billingMode.toValue(),
+      if (billingMode != null) 'BillingMode': billingMode.value,
       if (createdTimestamp != null)
         'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
       if (eventDataStoreArn != null) 'EventDataStoreArn': eventDataStoreArn,
       if (federationRoleArn != null) 'FederationRoleArn': federationRoleArn,
-      if (federationStatus != null)
-        'FederationStatus': federationStatus.toValue(),
+      if (federationStatus != null) 'FederationStatus': federationStatus.value,
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
       if (multiRegionEnabled != null) 'MultiRegionEnabled': multiRegionEnabled,
       if (name != null) 'Name': name,
@@ -6090,7 +5965,7 @@ class GetEventDataStoreResponse {
         'OrganizationEnabled': organizationEnabled,
       if (partitionKeys != null) 'PartitionKeys': partitionKeys,
       if (retentionPeriod != null) 'RetentionPeriod': retentionPeriod,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (terminationProtectionEnabled != null)
         'TerminationProtectionEnabled': terminationProtectionEnabled,
       if (updatedTimestamp != null)
@@ -6205,7 +6080,8 @@ class GetImportResponse {
           ? ImportStatistics.fromJson(
               json['ImportStatistics'] as Map<String, dynamic>)
           : null,
-      importStatus: (json['ImportStatus'] as String?)?.toImportStatus(),
+      importStatus:
+          (json['ImportStatus'] as String?)?.let(ImportStatus.fromString),
       startEventTime: timeStampFromJson(json['StartEventTime']),
       updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
     );
@@ -6230,7 +6106,7 @@ class GetImportResponse {
       if (importId != null) 'ImportId': importId,
       if (importSource != null) 'ImportSource': importSource,
       if (importStatistics != null) 'ImportStatistics': importStatistics,
-      if (importStatus != null) 'ImportStatus': importStatus.toValue(),
+      if (importStatus != null) 'ImportStatus': importStatus.value,
       if (startEventTime != null)
         'StartEventTime': unixTimestampToJson(startEventTime),
       if (updatedTimestamp != null)
@@ -6331,7 +6207,8 @@ class GetQueryResultsResponse {
           ? QueryStatistics.fromJson(
               json['QueryStatistics'] as Map<String, dynamic>)
           : null,
-      queryStatus: (json['QueryStatus'] as String?)?.toQueryStatus(),
+      queryStatus:
+          (json['QueryStatus'] as String?)?.let(QueryStatus.fromString),
     );
   }
 
@@ -6346,7 +6223,7 @@ class GetQueryResultsResponse {
       if (nextToken != null) 'NextToken': nextToken,
       if (queryResultRows != null) 'QueryResultRows': queryResultRows,
       if (queryStatistics != null) 'QueryStatistics': queryStatistics,
-      if (queryStatus != null) 'QueryStatus': queryStatus.toValue(),
+      if (queryStatus != null) 'QueryStatus': queryStatus.value,
     };
   }
 }
@@ -6631,7 +6508,7 @@ class ImportFailureListItem {
       errorType: json['ErrorType'] as String?,
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       location: json['Location'] as String?,
-      status: (json['Status'] as String?)?.toImportFailureStatus(),
+      status: (json['Status'] as String?)?.let(ImportFailureStatus.fromString),
     );
   }
 
@@ -6647,42 +6524,25 @@ class ImportFailureListItem {
       if (lastUpdatedTime != null)
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       if (location != null) 'Location': location,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
 
 enum ImportFailureStatus {
-  failed,
-  retry,
-  succeeded,
-}
+  failed('FAILED'),
+  retry('RETRY'),
+  succeeded('SUCCEEDED'),
+  ;
 
-extension ImportFailureStatusValueExtension on ImportFailureStatus {
-  String toValue() {
-    switch (this) {
-      case ImportFailureStatus.failed:
-        return 'FAILED';
-      case ImportFailureStatus.retry:
-        return 'RETRY';
-      case ImportFailureStatus.succeeded:
-        return 'SUCCEEDED';
-    }
-  }
-}
+  final String value;
 
-extension ImportFailureStatusFromString on String {
-  ImportFailureStatus toImportFailureStatus() {
-    switch (this) {
-      case 'FAILED':
-        return ImportFailureStatus.failed;
-      case 'RETRY':
-        return ImportFailureStatus.retry;
-      case 'SUCCEEDED':
-        return ImportFailureStatus.succeeded;
-    }
-    throw Exception('$this is not known in enum ImportFailureStatus');
-  }
+  const ImportFailureStatus(this.value);
+
+  static ImportFailureStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ImportFailureStatus'));
 }
 
 /// The import source.
@@ -6764,46 +6624,21 @@ class ImportStatistics {
 }
 
 enum ImportStatus {
-  initializing,
-  inProgress,
-  failed,
-  stopped,
-  completed,
-}
+  initializing('INITIALIZING'),
+  inProgress('IN_PROGRESS'),
+  failed('FAILED'),
+  stopped('STOPPED'),
+  completed('COMPLETED'),
+  ;
 
-extension ImportStatusValueExtension on ImportStatus {
-  String toValue() {
-    switch (this) {
-      case ImportStatus.initializing:
-        return 'INITIALIZING';
-      case ImportStatus.inProgress:
-        return 'IN_PROGRESS';
-      case ImportStatus.failed:
-        return 'FAILED';
-      case ImportStatus.stopped:
-        return 'STOPPED';
-      case ImportStatus.completed:
-        return 'COMPLETED';
-    }
-  }
-}
+  final String value;
 
-extension ImportStatusFromString on String {
-  ImportStatus toImportStatus() {
-    switch (this) {
-      case 'INITIALIZING':
-        return ImportStatus.initializing;
-      case 'IN_PROGRESS':
-        return ImportStatus.inProgress;
-      case 'FAILED':
-        return ImportStatus.failed;
-      case 'STOPPED':
-        return ImportStatus.stopped;
-      case 'COMPLETED':
-        return ImportStatus.completed;
-    }
-    throw Exception('$this is not known in enum ImportStatus');
-  }
+  const ImportStatus(this.value);
+
+  static ImportStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ImportStatus'));
 }
 
 /// Contains information about an import that was returned by a lookup request.
@@ -6839,7 +6674,8 @@ class ImportsListItem {
           .map((e) => e as String)
           .toList(),
       importId: json['ImportId'] as String?,
-      importStatus: (json['ImportStatus'] as String?)?.toImportStatus(),
+      importStatus:
+          (json['ImportStatus'] as String?)?.let(ImportStatus.fromString),
       updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
     );
   }
@@ -6855,7 +6691,7 @@ class ImportsListItem {
         'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
       if (destinations != null) 'Destinations': destinations,
       if (importId != null) 'ImportId': importId,
-      if (importStatus != null) 'ImportStatus': importStatus.toValue(),
+      if (importStatus != null) 'ImportStatus': importStatus.value,
       if (updatedTimestamp != null)
         'UpdatedTimestamp': unixTimestampToJson(updatedTimestamp),
     };
@@ -6948,72 +6784,46 @@ class InsightSelector {
 
   factory InsightSelector.fromJson(Map<String, dynamic> json) {
     return InsightSelector(
-      insightType: (json['InsightType'] as String?)?.toInsightType(),
+      insightType:
+          (json['InsightType'] as String?)?.let(InsightType.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final insightType = this.insightType;
     return {
-      if (insightType != null) 'InsightType': insightType.toValue(),
+      if (insightType != null) 'InsightType': insightType.value,
     };
   }
 }
 
 enum InsightType {
-  apiCallRateInsight,
-  apiErrorRateInsight,
-}
+  apiCallRateInsight('ApiCallRateInsight'),
+  apiErrorRateInsight('ApiErrorRateInsight'),
+  ;
 
-extension InsightTypeValueExtension on InsightType {
-  String toValue() {
-    switch (this) {
-      case InsightType.apiCallRateInsight:
-        return 'ApiCallRateInsight';
-      case InsightType.apiErrorRateInsight:
-        return 'ApiErrorRateInsight';
-    }
-  }
-}
+  final String value;
 
-extension InsightTypeFromString on String {
-  InsightType toInsightType() {
-    switch (this) {
-      case 'ApiCallRateInsight':
-        return InsightType.apiCallRateInsight;
-      case 'ApiErrorRateInsight':
-        return InsightType.apiErrorRateInsight;
-    }
-    throw Exception('$this is not known in enum InsightType');
-  }
+  const InsightType(this.value);
+
+  static InsightType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum InsightType'));
 }
 
 enum InsightsMetricDataType {
-  fillWithZeros,
-  nonZeroData,
-}
+  fillWithZeros('FillWithZeros'),
+  nonZeroData('NonZeroData'),
+  ;
 
-extension InsightsMetricDataTypeValueExtension on InsightsMetricDataType {
-  String toValue() {
-    switch (this) {
-      case InsightsMetricDataType.fillWithZeros:
-        return 'FillWithZeros';
-      case InsightsMetricDataType.nonZeroData:
-        return 'NonZeroData';
-    }
-  }
-}
+  final String value;
 
-extension InsightsMetricDataTypeFromString on String {
-  InsightsMetricDataType toInsightsMetricDataType() {
-    switch (this) {
-      case 'FillWithZeros':
-        return InsightsMetricDataType.fillWithZeros;
-      case 'NonZeroData':
-        return InsightsMetricDataType.nonZeroData;
-    }
-    throw Exception('$this is not known in enum InsightsMetricDataType');
-  }
+  const InsightsMetricDataType(this.value);
+
+  static InsightsMetricDataType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum InsightsMetricDataType'));
 }
 
 class ListChannelsResponse {
@@ -7197,7 +7007,8 @@ class ListInsightsMetricDataResponse {
       errorCode: json['ErrorCode'] as String?,
       eventName: json['EventName'] as String?,
       eventSource: json['EventSource'] as String?,
-      insightType: (json['InsightType'] as String?)?.toInsightType(),
+      insightType:
+          (json['InsightType'] as String?)?.let(InsightType.fromString),
       nextToken: json['NextToken'] as String?,
       timestamps: (json['Timestamps'] as List?)
           ?.whereNotNull()
@@ -7222,7 +7033,7 @@ class ListInsightsMetricDataResponse {
       if (errorCode != null) 'ErrorCode': errorCode,
       if (eventName != null) 'EventName': eventName,
       if (eventSource != null) 'EventSource': eventSource,
-      if (insightType != null) 'InsightType': insightType.toValue(),
+      if (insightType != null) 'InsightType': insightType.value,
       if (nextToken != null) 'NextToken': nextToken,
       if (timestamps != null)
         'Timestamps': timestamps.map(unixTimestampToJson).toList(),
@@ -7394,68 +7205,31 @@ class LookupAttribute {
     final attributeKey = this.attributeKey;
     final attributeValue = this.attributeValue;
     return {
-      'AttributeKey': attributeKey.toValue(),
+      'AttributeKey': attributeKey.value,
       'AttributeValue': attributeValue,
     };
   }
 }
 
 enum LookupAttributeKey {
-  eventId,
-  eventName,
-  readOnly,
-  username,
-  resourceType,
-  resourceName,
-  eventSource,
-  accessKeyId,
-}
+  eventId('EventId'),
+  eventName('EventName'),
+  readOnly('ReadOnly'),
+  username('Username'),
+  resourceType('ResourceType'),
+  resourceName('ResourceName'),
+  eventSource('EventSource'),
+  accessKeyId('AccessKeyId'),
+  ;
 
-extension LookupAttributeKeyValueExtension on LookupAttributeKey {
-  String toValue() {
-    switch (this) {
-      case LookupAttributeKey.eventId:
-        return 'EventId';
-      case LookupAttributeKey.eventName:
-        return 'EventName';
-      case LookupAttributeKey.readOnly:
-        return 'ReadOnly';
-      case LookupAttributeKey.username:
-        return 'Username';
-      case LookupAttributeKey.resourceType:
-        return 'ResourceType';
-      case LookupAttributeKey.resourceName:
-        return 'ResourceName';
-      case LookupAttributeKey.eventSource:
-        return 'EventSource';
-      case LookupAttributeKey.accessKeyId:
-        return 'AccessKeyId';
-    }
-  }
-}
+  final String value;
 
-extension LookupAttributeKeyFromString on String {
-  LookupAttributeKey toLookupAttributeKey() {
-    switch (this) {
-      case 'EventId':
-        return LookupAttributeKey.eventId;
-      case 'EventName':
-        return LookupAttributeKey.eventName;
-      case 'ReadOnly':
-        return LookupAttributeKey.readOnly;
-      case 'Username':
-        return LookupAttributeKey.username;
-      case 'ResourceType':
-        return LookupAttributeKey.resourceType;
-      case 'ResourceName':
-        return LookupAttributeKey.resourceName;
-      case 'EventSource':
-        return LookupAttributeKey.eventSource;
-      case 'AccessKeyId':
-        return LookupAttributeKey.accessKeyId;
-    }
-    throw Exception('$this is not known in enum LookupAttributeKey');
-  }
+  const LookupAttributeKey(this.value);
+
+  static LookupAttributeKey fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum LookupAttributeKey'));
 }
 
 /// Contains a response to a LookupEvents action.
@@ -7727,7 +7501,8 @@ class Query {
     return Query(
       creationTime: timeStampFromJson(json['CreationTime']),
       queryId: json['QueryId'] as String?,
-      queryStatus: (json['QueryStatus'] as String?)?.toQueryStatus(),
+      queryStatus:
+          (json['QueryStatus'] as String?)?.let(QueryStatus.fromString),
     );
   }
 
@@ -7739,7 +7514,7 @@ class Query {
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
       if (queryId != null) 'QueryId': queryId,
-      if (queryStatus != null) 'QueryStatus': queryStatus.toValue(),
+      if (queryStatus != null) 'QueryStatus': queryStatus.value,
     };
   }
 }
@@ -7841,84 +7616,37 @@ class QueryStatisticsForDescribeQuery {
 }
 
 enum QueryStatus {
-  queued,
-  running,
-  finished,
-  failed,
-  cancelled,
-  timedOut,
-}
+  queued('QUEUED'),
+  running('RUNNING'),
+  finished('FINISHED'),
+  failed('FAILED'),
+  cancelled('CANCELLED'),
+  timedOut('TIMED_OUT'),
+  ;
 
-extension QueryStatusValueExtension on QueryStatus {
-  String toValue() {
-    switch (this) {
-      case QueryStatus.queued:
-        return 'QUEUED';
-      case QueryStatus.running:
-        return 'RUNNING';
-      case QueryStatus.finished:
-        return 'FINISHED';
-      case QueryStatus.failed:
-        return 'FAILED';
-      case QueryStatus.cancelled:
-        return 'CANCELLED';
-      case QueryStatus.timedOut:
-        return 'TIMED_OUT';
-    }
-  }
-}
+  final String value;
 
-extension QueryStatusFromString on String {
-  QueryStatus toQueryStatus() {
-    switch (this) {
-      case 'QUEUED':
-        return QueryStatus.queued;
-      case 'RUNNING':
-        return QueryStatus.running;
-      case 'FINISHED':
-        return QueryStatus.finished;
-      case 'FAILED':
-        return QueryStatus.failed;
-      case 'CANCELLED':
-        return QueryStatus.cancelled;
-      case 'TIMED_OUT':
-        return QueryStatus.timedOut;
-    }
-    throw Exception('$this is not known in enum QueryStatus');
-  }
+  const QueryStatus(this.value);
+
+  static QueryStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum QueryStatus'));
 }
 
 enum ReadWriteType {
-  readOnly,
-  writeOnly,
-  all,
-}
+  readOnly('ReadOnly'),
+  writeOnly('WriteOnly'),
+  all('All'),
+  ;
 
-extension ReadWriteTypeValueExtension on ReadWriteType {
-  String toValue() {
-    switch (this) {
-      case ReadWriteType.readOnly:
-        return 'ReadOnly';
-      case ReadWriteType.writeOnly:
-        return 'WriteOnly';
-      case ReadWriteType.all:
-        return 'All';
-    }
-  }
-}
+  final String value;
 
-extension ReadWriteTypeFromString on String {
-  ReadWriteType toReadWriteType() {
-    switch (this) {
-      case 'ReadOnly':
-        return ReadWriteType.readOnly;
-      case 'WriteOnly':
-        return ReadWriteType.writeOnly;
-      case 'All':
-        return ReadWriteType.all;
-    }
-    throw Exception('$this is not known in enum ReadWriteType');
-  }
+  const ReadWriteType(this.value);
+
+  static ReadWriteType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ReadWriteType'));
 }
 
 /// Returns the following response if successful. Otherwise, returns an error.
@@ -8088,7 +7816,8 @@ class RestoreEventDataStoreResponse {
           ?.whereNotNull()
           .map((e) => AdvancedEventSelector.fromJson(e as Map<String, dynamic>))
           .toList(),
-      billingMode: (json['BillingMode'] as String?)?.toBillingMode(),
+      billingMode:
+          (json['BillingMode'] as String?)?.let(BillingMode.fromString),
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
       eventDataStoreArn: json['EventDataStoreArn'] as String?,
       kmsKeyId: json['KmsKeyId'] as String?,
@@ -8096,7 +7825,7 @@ class RestoreEventDataStoreResponse {
       name: json['Name'] as String?,
       organizationEnabled: json['OrganizationEnabled'] as bool?,
       retentionPeriod: json['RetentionPeriod'] as int?,
-      status: (json['Status'] as String?)?.toEventDataStoreStatus(),
+      status: (json['Status'] as String?)?.let(EventDataStoreStatus.fromString),
       terminationProtectionEnabled:
           json['TerminationProtectionEnabled'] as bool?,
       updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
@@ -8119,7 +7848,7 @@ class RestoreEventDataStoreResponse {
     return {
       if (advancedEventSelectors != null)
         'AdvancedEventSelectors': advancedEventSelectors,
-      if (billingMode != null) 'BillingMode': billingMode.toValue(),
+      if (billingMode != null) 'BillingMode': billingMode.value,
       if (createdTimestamp != null)
         'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
       if (eventDataStoreArn != null) 'EventDataStoreArn': eventDataStoreArn,
@@ -8129,7 +7858,7 @@ class RestoreEventDataStoreResponse {
       if (organizationEnabled != null)
         'OrganizationEnabled': organizationEnabled,
       if (retentionPeriod != null) 'RetentionPeriod': retentionPeriod,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (terminationProtectionEnabled != null)
         'TerminationProtectionEnabled': terminationProtectionEnabled,
       if (updatedTimestamp != null)
@@ -8276,7 +8005,8 @@ class StartImportResponse {
       importSource: json['ImportSource'] != null
           ? ImportSource.fromJson(json['ImportSource'] as Map<String, dynamic>)
           : null,
-      importStatus: (json['ImportStatus'] as String?)?.toImportStatus(),
+      importStatus:
+          (json['ImportStatus'] as String?)?.let(ImportStatus.fromString),
       startEventTime: timeStampFromJson(json['StartEventTime']),
       updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
     );
@@ -8299,7 +8029,7 @@ class StartImportResponse {
         'EndEventTime': unixTimestampToJson(endEventTime),
       if (importId != null) 'ImportId': importId,
       if (importSource != null) 'ImportSource': importSource,
-      if (importStatus != null) 'ImportStatus': importStatus.toValue(),
+      if (importStatus != null) 'ImportStatus': importStatus.value,
       if (startEventTime != null)
         'StartEventTime': unixTimestampToJson(startEventTime),
       if (updatedTimestamp != null)
@@ -8416,7 +8146,8 @@ class StopImportResponse {
           ? ImportStatistics.fromJson(
               json['ImportStatistics'] as Map<String, dynamic>)
           : null,
-      importStatus: (json['ImportStatus'] as String?)?.toImportStatus(),
+      importStatus:
+          (json['ImportStatus'] as String?)?.let(ImportStatus.fromString),
       startEventTime: timeStampFromJson(json['StartEventTime']),
       updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
     );
@@ -8441,7 +8172,7 @@ class StopImportResponse {
       if (importId != null) 'ImportId': importId,
       if (importSource != null) 'ImportSource': importSource,
       if (importStatistics != null) 'ImportStatistics': importStatistics,
-      if (importStatus != null) 'ImportStatus': importStatus.toValue(),
+      if (importStatus != null) 'ImportStatus': importStatus.value,
       if (startEventTime != null)
         'StartEventTime': unixTimestampToJson(startEventTime),
       if (updatedTimestamp != null)
@@ -8818,18 +8549,19 @@ class UpdateEventDataStoreResponse {
           ?.whereNotNull()
           .map((e) => AdvancedEventSelector.fromJson(e as Map<String, dynamic>))
           .toList(),
-      billingMode: (json['BillingMode'] as String?)?.toBillingMode(),
+      billingMode:
+          (json['BillingMode'] as String?)?.let(BillingMode.fromString),
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
       eventDataStoreArn: json['EventDataStoreArn'] as String?,
       federationRoleArn: json['FederationRoleArn'] as String?,
-      federationStatus:
-          (json['FederationStatus'] as String?)?.toFederationStatus(),
+      federationStatus: (json['FederationStatus'] as String?)
+          ?.let(FederationStatus.fromString),
       kmsKeyId: json['KmsKeyId'] as String?,
       multiRegionEnabled: json['MultiRegionEnabled'] as bool?,
       name: json['Name'] as String?,
       organizationEnabled: json['OrganizationEnabled'] as bool?,
       retentionPeriod: json['RetentionPeriod'] as int?,
-      status: (json['Status'] as String?)?.toEventDataStoreStatus(),
+      status: (json['Status'] as String?)?.let(EventDataStoreStatus.fromString),
       terminationProtectionEnabled:
           json['TerminationProtectionEnabled'] as bool?,
       updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
@@ -8854,20 +8586,19 @@ class UpdateEventDataStoreResponse {
     return {
       if (advancedEventSelectors != null)
         'AdvancedEventSelectors': advancedEventSelectors,
-      if (billingMode != null) 'BillingMode': billingMode.toValue(),
+      if (billingMode != null) 'BillingMode': billingMode.value,
       if (createdTimestamp != null)
         'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
       if (eventDataStoreArn != null) 'EventDataStoreArn': eventDataStoreArn,
       if (federationRoleArn != null) 'FederationRoleArn': federationRoleArn,
-      if (federationStatus != null)
-        'FederationStatus': federationStatus.toValue(),
+      if (federationStatus != null) 'FederationStatus': federationStatus.value,
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
       if (multiRegionEnabled != null) 'MultiRegionEnabled': multiRegionEnabled,
       if (name != null) 'Name': name,
       if (organizationEnabled != null)
         'OrganizationEnabled': organizationEnabled,
       if (retentionPeriod != null) 'RetentionPeriod': retentionPeriod,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (terminationProtectionEnabled != null)
         'TerminationProtectionEnabled': terminationProtectionEnabled,
       if (updatedTimestamp != null)

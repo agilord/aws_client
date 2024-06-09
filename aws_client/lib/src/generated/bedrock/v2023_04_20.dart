@@ -445,7 +445,7 @@ class Bedrock {
         'customModelKmsKeyId': customModelKmsKeyId,
       if (customModelTags != null) 'customModelTags': customModelTags,
       if (customizationType != null)
-        'customizationType': customizationType.toValue(),
+        'customizationType': customizationType.value,
       if (jobTags != null) 'jobTags': jobTags,
       if (validationDataConfig != null)
         'validationDataConfig': validationDataConfig,
@@ -546,7 +546,7 @@ class Bedrock {
       'provisionedModelName': provisionedModelName,
       'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (commitmentDuration != null)
-        'commitmentDuration': commitmentDuration.toValue(),
+        'commitmentDuration': commitmentDuration.value,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -909,8 +909,8 @@ class Bedrock {
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nameContains != null) 'nameContains': [nameContains],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (sortBy != null) 'sortBy': [sortBy.toValue()],
-      if (sortOrder != null) 'sortOrder': [sortOrder.toValue()],
+      if (sortBy != null) 'sortBy': [sortBy.value],
+      if (sortOrder != null) 'sortOrder': [sortOrder.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -979,9 +979,9 @@ class Bedrock {
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nameContains != null) 'nameContains': [nameContains],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (sortBy != null) 'sortBy': [sortBy.toValue()],
-      if (sortOrder != null) 'sortOrder': [sortOrder.toValue()],
-      if (statusEquals != null) 'statusEquals': [statusEquals.toValue()],
+      if (sortBy != null) 'sortBy': [sortBy.value],
+      if (sortOrder != null) 'sortOrder': [sortOrder.value],
+      if (statusEquals != null) 'statusEquals': [statusEquals.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1028,11 +1028,10 @@ class Bedrock {
   }) async {
     final $query = <String, List<String>>{
       if (byCustomizationType != null)
-        'byCustomizationType': [byCustomizationType.toValue()],
-      if (byInferenceType != null)
-        'byInferenceType': [byInferenceType.toValue()],
+        'byCustomizationType': [byCustomizationType.value],
+      if (byInferenceType != null) 'byInferenceType': [byInferenceType.value],
       if (byOutputModality != null)
-        'byOutputModality': [byOutputModality.toValue()],
+        'byOutputModality': [byOutputModality.value],
       if (byProvider != null) 'byProvider': [byProvider],
     };
     final response = await _protocol.send(
@@ -1160,9 +1159,9 @@ class Bedrock {
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nameContains != null) 'nameContains': [nameContains],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (sortBy != null) 'sortBy': [sortBy.toValue()],
-      if (sortOrder != null) 'sortOrder': [sortOrder.toValue()],
-      if (statusEquals != null) 'statusEquals': [statusEquals.toValue()],
+      if (sortBy != null) 'sortBy': [sortBy.value],
+      if (sortOrder != null) 'sortOrder': [sortOrder.value],
+      if (statusEquals != null) 'statusEquals': [statusEquals.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1248,9 +1247,9 @@ class Bedrock {
       if (modelArnEquals != null) 'modelArnEquals': [modelArnEquals],
       if (nameContains != null) 'nameContains': [nameContains],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (sortBy != null) 'sortBy': [sortBy.toValue()],
-      if (sortOrder != null) 'sortOrder': [sortOrder.toValue()],
-      if (statusEquals != null) 'statusEquals': [statusEquals.toValue()],
+      if (sortBy != null) 'sortBy': [sortBy.value],
+      if (sortOrder != null) 'sortOrder': [sortOrder.value],
+      if (statusEquals != null) 'statusEquals': [statusEquals.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1685,31 +1684,18 @@ class CloudWatchConfig {
 }
 
 enum CommitmentDuration {
-  oneMonth,
-  sixMonths,
-}
+  oneMonth('OneMonth'),
+  sixMonths('SixMonths'),
+  ;
 
-extension CommitmentDurationValueExtension on CommitmentDuration {
-  String toValue() {
-    switch (this) {
-      case CommitmentDuration.oneMonth:
-        return 'OneMonth';
-      case CommitmentDuration.sixMonths:
-        return 'SixMonths';
-    }
-  }
-}
+  final String value;
 
-extension CommitmentDurationFromString on String {
-  CommitmentDuration toCommitmentDuration() {
-    switch (this) {
-      case 'OneMonth':
-        return CommitmentDuration.oneMonth;
-      case 'SixMonths':
-        return CommitmentDuration.sixMonths;
-    }
-    throw Exception('$this is not known in enum CommitmentDuration');
-  }
+  const CommitmentDuration(this.value);
+
+  static CommitmentDuration fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum CommitmentDuration'));
 }
 
 class CreateEvaluationJobResponse {
@@ -1892,8 +1878,8 @@ class CustomModelSummary {
           nonNullableTimeStampFromJson(json['creationTime'] as Object),
       modelArn: json['modelArn'] as String,
       modelName: json['modelName'] as String,
-      customizationType:
-          (json['customizationType'] as String?)?.toCustomizationType(),
+      customizationType: (json['customizationType'] as String?)
+          ?.let(CustomizationType.fromString),
     );
   }
 
@@ -1911,37 +1897,24 @@ class CustomModelSummary {
       'modelArn': modelArn,
       'modelName': modelName,
       if (customizationType != null)
-        'customizationType': customizationType.toValue(),
+        'customizationType': customizationType.value,
     };
   }
 }
 
 enum CustomizationType {
-  fineTuning,
-  continuedPreTraining,
-}
+  fineTuning('FINE_TUNING'),
+  continuedPreTraining('CONTINUED_PRE_TRAINING'),
+  ;
 
-extension CustomizationTypeValueExtension on CustomizationType {
-  String toValue() {
-    switch (this) {
-      case CustomizationType.fineTuning:
-        return 'FINE_TUNING';
-      case CustomizationType.continuedPreTraining:
-        return 'CONTINUED_PRE_TRAINING';
-    }
-  }
-}
+  final String value;
 
-extension CustomizationTypeFromString on String {
-  CustomizationType toCustomizationType() {
-    switch (this) {
-      case 'FINE_TUNING':
-        return CustomizationType.fineTuning;
-      case 'CONTINUED_PRE_TRAINING':
-        return CustomizationType.continuedPreTraining;
-    }
-    throw Exception('$this is not known in enum CustomizationType');
-  }
+  const CustomizationType(this.value);
+
+  static CustomizationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CustomizationType'));
 }
 
 class DeleteCustomModelResponse {
@@ -2170,7 +2143,7 @@ class EvaluationDatasetMetricConfig {
           .whereNotNull()
           .map((e) => e as String)
           .toList(),
-      taskType: (json['taskType'] as String).toEvaluationTaskType(),
+      taskType: EvaluationTaskType.fromString((json['taskType'] as String)),
     );
   }
 
@@ -2181,7 +2154,7 @@ class EvaluationDatasetMetricConfig {
     return {
       'dataset': dataset,
       'metricNames': metricNames,
-      'taskType': taskType.toValue(),
+      'taskType': taskType.value,
     };
   }
 }
@@ -2216,74 +2189,36 @@ class EvaluationInferenceConfig {
 }
 
 enum EvaluationJobStatus {
-  inProgress,
-  completed,
-  failed,
-  stopping,
-  stopped,
-}
+  inProgress('InProgress'),
+  completed('Completed'),
+  failed('Failed'),
+  stopping('Stopping'),
+  stopped('Stopped'),
+  ;
 
-extension EvaluationJobStatusValueExtension on EvaluationJobStatus {
-  String toValue() {
-    switch (this) {
-      case EvaluationJobStatus.inProgress:
-        return 'InProgress';
-      case EvaluationJobStatus.completed:
-        return 'Completed';
-      case EvaluationJobStatus.failed:
-        return 'Failed';
-      case EvaluationJobStatus.stopping:
-        return 'Stopping';
-      case EvaluationJobStatus.stopped:
-        return 'Stopped';
-    }
-  }
-}
+  final String value;
 
-extension EvaluationJobStatusFromString on String {
-  EvaluationJobStatus toEvaluationJobStatus() {
-    switch (this) {
-      case 'InProgress':
-        return EvaluationJobStatus.inProgress;
-      case 'Completed':
-        return EvaluationJobStatus.completed;
-      case 'Failed':
-        return EvaluationJobStatus.failed;
-      case 'Stopping':
-        return EvaluationJobStatus.stopping;
-      case 'Stopped':
-        return EvaluationJobStatus.stopped;
-    }
-    throw Exception('$this is not known in enum EvaluationJobStatus');
-  }
+  const EvaluationJobStatus(this.value);
+
+  static EvaluationJobStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum EvaluationJobStatus'));
 }
 
 enum EvaluationJobType {
-  human,
-  automated,
-}
+  human('Human'),
+  automated('Automated'),
+  ;
 
-extension EvaluationJobTypeValueExtension on EvaluationJobType {
-  String toValue() {
-    switch (this) {
-      case EvaluationJobType.human:
-        return 'Human';
-      case EvaluationJobType.automated:
-        return 'Automated';
-    }
-  }
-}
+  final String value;
 
-extension EvaluationJobTypeFromString on String {
-  EvaluationJobType toEvaluationJobType() {
-    switch (this) {
-      case 'Human':
-        return EvaluationJobType.human;
-      case 'Automated':
-        return EvaluationJobType.automated;
-    }
-    throw Exception('$this is not known in enum EvaluationJobType');
-  }
+  const EvaluationJobType(this.value);
+
+  static EvaluationJobType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EvaluationJobType'));
 }
 
 /// Defines the models used in the model evaluation job.
@@ -2376,16 +2311,16 @@ class EvaluationSummary {
           nonNullableTimeStampFromJson(json['creationTime'] as Object),
       evaluationTaskTypes: (json['evaluationTaskTypes'] as List)
           .whereNotNull()
-          .map((e) => (e as String).toEvaluationTaskType())
+          .map((e) => EvaluationTaskType.fromString((e as String)))
           .toList(),
       jobArn: json['jobArn'] as String,
       jobName: json['jobName'] as String,
-      jobType: (json['jobType'] as String).toEvaluationJobType(),
+      jobType: EvaluationJobType.fromString((json['jobType'] as String)),
       modelIdentifiers: (json['modelIdentifiers'] as List)
           .whereNotNull()
           .map((e) => e as String)
           .toList(),
-      status: (json['status'] as String).toEvaluationJobStatus(),
+      status: EvaluationJobStatus.fromString((json['status'] as String)),
     );
   }
 
@@ -2399,101 +2334,50 @@ class EvaluationSummary {
     final status = this.status;
     return {
       'creationTime': iso8601ToJson(creationTime),
-      'evaluationTaskTypes':
-          evaluationTaskTypes.map((e) => e.toValue()).toList(),
+      'evaluationTaskTypes': evaluationTaskTypes.map((e) => e.value).toList(),
       'jobArn': jobArn,
       'jobName': jobName,
-      'jobType': jobType.toValue(),
+      'jobType': jobType.value,
       'modelIdentifiers': modelIdentifiers,
-      'status': status.toValue(),
+      'status': status.value,
     };
   }
 }
 
 enum EvaluationTaskType {
-  summarization,
-  classification,
-  questionAndAnswer,
-  generation,
-  custom,
-}
+  summarization('Summarization'),
+  classification('Classification'),
+  questionAndAnswer('QuestionAndAnswer'),
+  generation('Generation'),
+  custom('Custom'),
+  ;
 
-extension EvaluationTaskTypeValueExtension on EvaluationTaskType {
-  String toValue() {
-    switch (this) {
-      case EvaluationTaskType.summarization:
-        return 'Summarization';
-      case EvaluationTaskType.classification:
-        return 'Classification';
-      case EvaluationTaskType.questionAndAnswer:
-        return 'QuestionAndAnswer';
-      case EvaluationTaskType.generation:
-        return 'Generation';
-      case EvaluationTaskType.custom:
-        return 'Custom';
-    }
-  }
-}
+  final String value;
 
-extension EvaluationTaskTypeFromString on String {
-  EvaluationTaskType toEvaluationTaskType() {
-    switch (this) {
-      case 'Summarization':
-        return EvaluationTaskType.summarization;
-      case 'Classification':
-        return EvaluationTaskType.classification;
-      case 'QuestionAndAnswer':
-        return EvaluationTaskType.questionAndAnswer;
-      case 'Generation':
-        return EvaluationTaskType.generation;
-      case 'Custom':
-        return EvaluationTaskType.custom;
-    }
-    throw Exception('$this is not known in enum EvaluationTaskType');
-  }
+  const EvaluationTaskType(this.value);
+
+  static EvaluationTaskType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum EvaluationTaskType'));
 }
 
 enum FineTuningJobStatus {
-  inProgress,
-  completed,
-  failed,
-  stopping,
-  stopped,
-}
+  inProgress('InProgress'),
+  completed('Completed'),
+  failed('Failed'),
+  stopping('Stopping'),
+  stopped('Stopped'),
+  ;
 
-extension FineTuningJobStatusValueExtension on FineTuningJobStatus {
-  String toValue() {
-    switch (this) {
-      case FineTuningJobStatus.inProgress:
-        return 'InProgress';
-      case FineTuningJobStatus.completed:
-        return 'Completed';
-      case FineTuningJobStatus.failed:
-        return 'Failed';
-      case FineTuningJobStatus.stopping:
-        return 'Stopping';
-      case FineTuningJobStatus.stopped:
-        return 'Stopped';
-    }
-  }
-}
+  final String value;
 
-extension FineTuningJobStatusFromString on String {
-  FineTuningJobStatus toFineTuningJobStatus() {
-    switch (this) {
-      case 'InProgress':
-        return FineTuningJobStatus.inProgress;
-      case 'Completed':
-        return FineTuningJobStatus.completed;
-      case 'Failed':
-        return FineTuningJobStatus.failed;
-      case 'Stopping':
-        return FineTuningJobStatus.stopping;
-      case 'Stopped':
-        return FineTuningJobStatus.stopped;
-    }
-    throw Exception('$this is not known in enum FineTuningJobStatus');
-  }
+  const FineTuningJobStatus(this.value);
+
+  static FineTuningJobStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum FineTuningJobStatus'));
 }
 
 /// Information about a foundation model.
@@ -2547,15 +2431,15 @@ class FoundationModelDetails {
       modelId: json['modelId'] as String,
       customizationsSupported: (json['customizationsSupported'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toModelCustomization())
+          .map((e) => ModelCustomization.fromString((e as String)))
           .toList(),
       inferenceTypesSupported: (json['inferenceTypesSupported'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toInferenceType())
+          .map((e) => InferenceType.fromString((e as String)))
           .toList(),
       inputModalities: (json['inputModalities'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toModelModality())
+          .map((e) => ModelModality.fromString((e as String)))
           .toList(),
       modelLifecycle: json['modelLifecycle'] != null
           ? FoundationModelLifecycle.fromJson(
@@ -2564,7 +2448,7 @@ class FoundationModelDetails {
       modelName: json['modelName'] as String?,
       outputModalities: (json['outputModalities'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toModelModality())
+          .map((e) => ModelModality.fromString((e as String)))
           .toList(),
       providerName: json['providerName'] as String?,
       responseStreamingSupported: json['responseStreamingSupported'] as bool?,
@@ -2587,16 +2471,16 @@ class FoundationModelDetails {
       'modelId': modelId,
       if (customizationsSupported != null)
         'customizationsSupported':
-            customizationsSupported.map((e) => e.toValue()).toList(),
+            customizationsSupported.map((e) => e.value).toList(),
       if (inferenceTypesSupported != null)
         'inferenceTypesSupported':
-            inferenceTypesSupported.map((e) => e.toValue()).toList(),
+            inferenceTypesSupported.map((e) => e.value).toList(),
       if (inputModalities != null)
-        'inputModalities': inputModalities.map((e) => e.toValue()).toList(),
+        'inputModalities': inputModalities.map((e) => e.value).toList(),
       if (modelLifecycle != null) 'modelLifecycle': modelLifecycle,
       if (modelName != null) 'modelName': modelName,
       if (outputModalities != null)
-        'outputModalities': outputModalities.map((e) => e.toValue()).toList(),
+        'outputModalities': outputModalities.map((e) => e.value).toList(),
       if (providerName != null) 'providerName': providerName,
       if (responseStreamingSupported != null)
         'responseStreamingSupported': responseStreamingSupported,
@@ -2616,46 +2500,32 @@ class FoundationModelLifecycle {
 
   factory FoundationModelLifecycle.fromJson(Map<String, dynamic> json) {
     return FoundationModelLifecycle(
-      status: (json['status'] as String).toFoundationModelLifecycleStatus(),
+      status:
+          FoundationModelLifecycleStatus.fromString((json['status'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {
-      'status': status.toValue(),
+      'status': status.value,
     };
   }
 }
 
 enum FoundationModelLifecycleStatus {
-  active,
-  legacy,
-}
+  active('ACTIVE'),
+  legacy('LEGACY'),
+  ;
 
-extension FoundationModelLifecycleStatusValueExtension
-    on FoundationModelLifecycleStatus {
-  String toValue() {
-    switch (this) {
-      case FoundationModelLifecycleStatus.active:
-        return 'ACTIVE';
-      case FoundationModelLifecycleStatus.legacy:
-        return 'LEGACY';
-    }
-  }
-}
+  final String value;
 
-extension FoundationModelLifecycleStatusFromString on String {
-  FoundationModelLifecycleStatus toFoundationModelLifecycleStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return FoundationModelLifecycleStatus.active;
-      case 'LEGACY':
-        return FoundationModelLifecycleStatus.legacy;
-    }
-    throw Exception(
-        '$this is not known in enum FoundationModelLifecycleStatus');
-  }
+  const FoundationModelLifecycleStatus(this.value);
+
+  static FoundationModelLifecycleStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum FoundationModelLifecycleStatus'));
 }
 
 /// Summary information for a foundation model.
@@ -2709,15 +2579,15 @@ class FoundationModelSummary {
       modelId: json['modelId'] as String,
       customizationsSupported: (json['customizationsSupported'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toModelCustomization())
+          .map((e) => ModelCustomization.fromString((e as String)))
           .toList(),
       inferenceTypesSupported: (json['inferenceTypesSupported'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toInferenceType())
+          .map((e) => InferenceType.fromString((e as String)))
           .toList(),
       inputModalities: (json['inputModalities'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toModelModality())
+          .map((e) => ModelModality.fromString((e as String)))
           .toList(),
       modelLifecycle: json['modelLifecycle'] != null
           ? FoundationModelLifecycle.fromJson(
@@ -2726,7 +2596,7 @@ class FoundationModelSummary {
       modelName: json['modelName'] as String?,
       outputModalities: (json['outputModalities'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toModelModality())
+          .map((e) => ModelModality.fromString((e as String)))
           .toList(),
       providerName: json['providerName'] as String?,
       responseStreamingSupported: json['responseStreamingSupported'] as bool?,
@@ -2749,16 +2619,16 @@ class FoundationModelSummary {
       'modelId': modelId,
       if (customizationsSupported != null)
         'customizationsSupported':
-            customizationsSupported.map((e) => e.toValue()).toList(),
+            customizationsSupported.map((e) => e.value).toList(),
       if (inferenceTypesSupported != null)
         'inferenceTypesSupported':
-            inferenceTypesSupported.map((e) => e.toValue()).toList(),
+            inferenceTypesSupported.map((e) => e.value).toList(),
       if (inputModalities != null)
-        'inputModalities': inputModalities.map((e) => e.toValue()).toList(),
+        'inputModalities': inputModalities.map((e) => e.value).toList(),
       if (modelLifecycle != null) 'modelLifecycle': modelLifecycle,
       if (modelName != null) 'modelName': modelName,
       if (outputModalities != null)
-        'outputModalities': outputModalities.map((e) => e.toValue()).toList(),
+        'outputModalities': outputModalities.map((e) => e.value).toList(),
       if (providerName != null) 'providerName': providerName,
       if (responseStreamingSupported != null)
         'responseStreamingSupported': responseStreamingSupported,
@@ -2841,8 +2711,8 @@ class GetCustomModelResponse {
           json['outputDataConfig'] as Map<String, dynamic>),
       trainingDataConfig: TrainingDataConfig.fromJson(
           json['trainingDataConfig'] as Map<String, dynamic>),
-      customizationType:
-          (json['customizationType'] as String?)?.toCustomizationType(),
+      customizationType: (json['customizationType'] as String?)
+          ?.let(CustomizationType.fromString),
       hyperParameters: (json['hyperParameters'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       jobName: json['jobName'] as String?,
@@ -2886,7 +2756,7 @@ class GetCustomModelResponse {
       'outputDataConfig': outputDataConfig,
       'trainingDataConfig': trainingDataConfig,
       if (customizationType != null)
-        'customizationType': customizationType.toValue(),
+        'customizationType': customizationType.value,
       if (hyperParameters != null) 'hyperParameters': hyperParameters,
       if (jobName != null) 'jobName': jobName,
       if (modelKmsKeyArn != null) 'modelKmsKeyArn': modelKmsKeyArn,
@@ -2968,11 +2838,11 @@ class GetEvaluationJobResponse {
           json['inferenceConfig'] as Map<String, dynamic>),
       jobArn: json['jobArn'] as String,
       jobName: json['jobName'] as String,
-      jobType: (json['jobType'] as String).toEvaluationJobType(),
+      jobType: EvaluationJobType.fromString((json['jobType'] as String)),
       outputDataConfig: EvaluationOutputDataConfig.fromJson(
           json['outputDataConfig'] as Map<String, dynamic>),
       roleArn: json['roleArn'] as String,
-      status: (json['status'] as String).toEvaluationJobStatus(),
+      status: EvaluationJobStatus.fromString((json['status'] as String)),
       customerEncryptionKeyId: json['customerEncryptionKeyId'] as String?,
       failureMessages: (json['failureMessages'] as List?)
           ?.whereNotNull()
@@ -3003,10 +2873,10 @@ class GetEvaluationJobResponse {
       'inferenceConfig': inferenceConfig,
       'jobArn': jobArn,
       'jobName': jobName,
-      'jobType': jobType.toValue(),
+      'jobType': jobType.value,
       'outputDataConfig': outputDataConfig,
       'roleArn': roleArn,
-      'status': status.toValue(),
+      'status': status.value,
       if (customerEncryptionKeyId != null)
         'customerEncryptionKeyId': customerEncryptionKeyId,
       if (failureMessages != null) 'failureMessages': failureMessages,
@@ -3124,7 +2994,7 @@ class GetGuardrailResponse {
       guardrailArn: json['guardrailArn'] as String,
       guardrailId: json['guardrailId'] as String,
       name: json['name'] as String,
-      status: (json['status'] as String).toGuardrailStatus(),
+      status: GuardrailStatus.fromString((json['status'] as String)),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       version: json['version'] as String,
       contentPolicy: json['contentPolicy'] != null
@@ -3181,7 +3051,7 @@ class GetGuardrailResponse {
       'guardrailArn': guardrailArn,
       'guardrailId': guardrailId,
       'name': name,
-      'status': status.toValue(),
+      'status': status.value,
       'updatedAt': iso8601ToJson(updatedAt),
       'version': version,
       if (contentPolicy != null) 'contentPolicy': contentPolicy,
@@ -3311,14 +3181,15 @@ class GetModelCustomizationJobResponse {
       validationDataConfig: ValidationDataConfig.fromJson(
           json['validationDataConfig'] as Map<String, dynamic>),
       clientRequestToken: json['clientRequestToken'] as String?,
-      customizationType:
-          (json['customizationType'] as String?)?.toCustomizationType(),
+      customizationType: (json['customizationType'] as String?)
+          ?.let(CustomizationType.fromString),
       endTime: timeStampFromJson(json['endTime']),
       failureMessage: json['failureMessage'] as String?,
       lastModifiedTime: timeStampFromJson(json['lastModifiedTime']),
       outputModelArn: json['outputModelArn'] as String?,
       outputModelKmsKeyArn: json['outputModelKmsKeyArn'] as String?,
-      status: (json['status'] as String?)?.toModelCustomizationJobStatus(),
+      status: (json['status'] as String?)
+          ?.let(ModelCustomizationJobStatus.fromString),
       trainingMetrics: json['trainingMetrics'] != null
           ? TrainingMetrics.fromJson(
               json['trainingMetrics'] as Map<String, dynamic>)
@@ -3368,7 +3239,7 @@ class GetModelCustomizationJobResponse {
       'validationDataConfig': validationDataConfig,
       if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
       if (customizationType != null)
-        'customizationType': customizationType.toValue(),
+        'customizationType': customizationType.value,
       if (endTime != null) 'endTime': iso8601ToJson(endTime),
       if (failureMessage != null) 'failureMessage': failureMessage,
       if (lastModifiedTime != null)
@@ -3376,7 +3247,7 @@ class GetModelCustomizationJobResponse {
       if (outputModelArn != null) 'outputModelArn': outputModelArn,
       if (outputModelKmsKeyArn != null)
         'outputModelKmsKeyArn': outputModelKmsKeyArn,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (trainingMetrics != null) 'trainingMetrics': trainingMetrics,
       if (validationMetrics != null) 'validationMetrics': validationMetrics,
       if (vpcConfig != null) 'vpcConfig': vpcConfig,
@@ -3489,9 +3360,9 @@ class GetProvisionedModelThroughputResponse {
       modelUnits: json['modelUnits'] as int,
       provisionedModelArn: json['provisionedModelArn'] as String,
       provisionedModelName: json['provisionedModelName'] as String,
-      status: (json['status'] as String).toProvisionedModelStatus(),
-      commitmentDuration:
-          (json['commitmentDuration'] as String?)?.toCommitmentDuration(),
+      status: ProvisionedModelStatus.fromString((json['status'] as String)),
+      commitmentDuration: (json['commitmentDuration'] as String?)
+          ?.let(CommitmentDuration.fromString),
       commitmentExpirationTime:
           timeStampFromJson(json['commitmentExpirationTime']),
       failureMessage: json['failureMessage'] as String?,
@@ -3522,9 +3393,9 @@ class GetProvisionedModelThroughputResponse {
       'modelUnits': modelUnits,
       'provisionedModelArn': provisionedModelArn,
       'provisionedModelName': provisionedModelName,
-      'status': status.toValue(),
+      'status': status.value,
       if (commitmentDuration != null)
-        'commitmentDuration': commitmentDuration.toValue(),
+        'commitmentDuration': commitmentDuration.value,
       if (commitmentExpirationTime != null)
         'commitmentExpirationTime': iso8601ToJson(commitmentExpirationTime),
       if (failureMessage != null) 'failureMessage': failureMessage,
@@ -3607,10 +3478,10 @@ class GuardrailContentFilter {
   factory GuardrailContentFilter.fromJson(Map<String, dynamic> json) {
     return GuardrailContentFilter(
       inputStrength:
-          (json['inputStrength'] as String).toGuardrailFilterStrength(),
-      outputStrength:
-          (json['outputStrength'] as String).toGuardrailFilterStrength(),
-      type: (json['type'] as String).toGuardrailContentFilterType(),
+          GuardrailFilterStrength.fromString((json['inputStrength'] as String)),
+      outputStrength: GuardrailFilterStrength.fromString(
+          (json['outputStrength'] as String)),
+      type: GuardrailContentFilterType.fromString((json['type'] as String)),
     );
   }
 
@@ -3619,9 +3490,9 @@ class GuardrailContentFilter {
     final outputStrength = this.outputStrength;
     final type = this.type;
     return {
-      'inputStrength': inputStrength.toValue(),
-      'outputStrength': outputStrength.toValue(),
-      'type': type.toValue(),
+      'inputStrength': inputStrength.value,
+      'outputStrength': outputStrength.value,
+      'type': type.value,
     };
   }
 }
@@ -3708,60 +3579,30 @@ class GuardrailContentFilterConfig {
     final outputStrength = this.outputStrength;
     final type = this.type;
     return {
-      'inputStrength': inputStrength.toValue(),
-      'outputStrength': outputStrength.toValue(),
-      'type': type.toValue(),
+      'inputStrength': inputStrength.value,
+      'outputStrength': outputStrength.value,
+      'type': type.value,
     };
   }
 }
 
 enum GuardrailContentFilterType {
-  sexual,
-  violence,
-  hate,
-  insults,
-  misconduct,
-  promptAttack,
-}
+  sexual('SEXUAL'),
+  violence('VIOLENCE'),
+  hate('HATE'),
+  insults('INSULTS'),
+  misconduct('MISCONDUCT'),
+  promptAttack('PROMPT_ATTACK'),
+  ;
 
-extension GuardrailContentFilterTypeValueExtension
-    on GuardrailContentFilterType {
-  String toValue() {
-    switch (this) {
-      case GuardrailContentFilterType.sexual:
-        return 'SEXUAL';
-      case GuardrailContentFilterType.violence:
-        return 'VIOLENCE';
-      case GuardrailContentFilterType.hate:
-        return 'HATE';
-      case GuardrailContentFilterType.insults:
-        return 'INSULTS';
-      case GuardrailContentFilterType.misconduct:
-        return 'MISCONDUCT';
-      case GuardrailContentFilterType.promptAttack:
-        return 'PROMPT_ATTACK';
-    }
-  }
-}
+  final String value;
 
-extension GuardrailContentFilterTypeFromString on String {
-  GuardrailContentFilterType toGuardrailContentFilterType() {
-    switch (this) {
-      case 'SEXUAL':
-        return GuardrailContentFilterType.sexual;
-      case 'VIOLENCE':
-        return GuardrailContentFilterType.violence;
-      case 'HATE':
-        return GuardrailContentFilterType.hate;
-      case 'INSULTS':
-        return GuardrailContentFilterType.insults;
-      case 'MISCONDUCT':
-        return GuardrailContentFilterType.misconduct;
-      case 'PROMPT_ATTACK':
-        return GuardrailContentFilterType.promptAttack;
-    }
-    throw Exception('$this is not known in enum GuardrailContentFilterType');
-  }
+  const GuardrailContentFilterType(this.value);
+
+  static GuardrailContentFilterType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GuardrailContentFilterType'));
 }
 
 /// Contains details about how to handle harmful content.
@@ -3836,41 +3677,20 @@ class GuardrailContentPolicyConfig {
 }
 
 enum GuardrailFilterStrength {
-  none,
-  low,
-  medium,
-  high,
-}
+  none('NONE'),
+  low('LOW'),
+  medium('MEDIUM'),
+  high('HIGH'),
+  ;
 
-extension GuardrailFilterStrengthValueExtension on GuardrailFilterStrength {
-  String toValue() {
-    switch (this) {
-      case GuardrailFilterStrength.none:
-        return 'NONE';
-      case GuardrailFilterStrength.low:
-        return 'LOW';
-      case GuardrailFilterStrength.medium:
-        return 'MEDIUM';
-      case GuardrailFilterStrength.high:
-        return 'HIGH';
-    }
-  }
-}
+  final String value;
 
-extension GuardrailFilterStrengthFromString on String {
-  GuardrailFilterStrength toGuardrailFilterStrength() {
-    switch (this) {
-      case 'NONE':
-        return GuardrailFilterStrength.none;
-      case 'LOW':
-        return GuardrailFilterStrength.low;
-      case 'MEDIUM':
-        return GuardrailFilterStrength.medium;
-      case 'HIGH':
-        return GuardrailFilterStrength.high;
-    }
-    throw Exception('$this is not known in enum GuardrailFilterStrength');
-  }
+  const GuardrailFilterStrength(this.value);
+
+  static GuardrailFilterStrength fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GuardrailFilterStrength'));
 }
 
 /// The managed word list that was configured for the guardrail. (This is a list
@@ -3886,14 +3706,14 @@ class GuardrailManagedWords {
 
   factory GuardrailManagedWords.fromJson(Map<String, dynamic> json) {
     return GuardrailManagedWords(
-      type: (json['type'] as String).toGuardrailManagedWordsType(),
+      type: GuardrailManagedWordsType.fromString((json['type'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final type = this.type;
     return {
-      'type': type.toValue(),
+      'type': type.value,
     };
   }
 }
@@ -3910,32 +3730,23 @@ class GuardrailManagedWordsConfig {
   Map<String, dynamic> toJson() {
     final type = this.type;
     return {
-      'type': type.toValue(),
+      'type': type.value,
     };
   }
 }
 
 enum GuardrailManagedWordsType {
-  profanity,
-}
+  profanity('PROFANITY'),
+  ;
 
-extension GuardrailManagedWordsTypeValueExtension on GuardrailManagedWordsType {
-  String toValue() {
-    switch (this) {
-      case GuardrailManagedWordsType.profanity:
-        return 'PROFANITY';
-    }
-  }
-}
+  final String value;
 
-extension GuardrailManagedWordsTypeFromString on String {
-  GuardrailManagedWordsType toGuardrailManagedWordsType() {
-    switch (this) {
-      case 'PROFANITY':
-        return GuardrailManagedWordsType.profanity;
-    }
-    throw Exception('$this is not known in enum GuardrailManagedWordsType');
-  }
+  const GuardrailManagedWordsType(this.value);
+
+  static GuardrailManagedWordsType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GuardrailManagedWordsType'));
 }
 
 /// The PII entity configured for the guardrail.
@@ -3953,9 +3764,9 @@ class GuardrailPiiEntity {
 
   factory GuardrailPiiEntity.fromJson(Map<String, dynamic> json) {
     return GuardrailPiiEntity(
-      action:
-          (json['action'] as String).toGuardrailSensitiveInformationAction(),
-      type: (json['type'] as String).toGuardrailPiiEntityType(),
+      action: GuardrailSensitiveInformationAction.fromString(
+          (json['action'] as String)),
+      type: GuardrailPiiEntityType.fromString((json['type'] as String)),
     );
   }
 
@@ -3963,8 +3774,8 @@ class GuardrailPiiEntity {
     final action = this.action;
     final type = this.type;
     return {
-      'action': action.toValue(),
-      'type': type.toValue(),
+      'action': action.value,
+      'type': type.value,
     };
   }
 }
@@ -3986,183 +3797,55 @@ class GuardrailPiiEntityConfig {
     final action = this.action;
     final type = this.type;
     return {
-      'action': action.toValue(),
-      'type': type.toValue(),
+      'action': action.value,
+      'type': type.value,
     };
   }
 }
 
 enum GuardrailPiiEntityType {
-  address,
-  age,
-  awsAccessKey,
-  awsSecretKey,
-  caHealthNumber,
-  caSocialInsuranceNumber,
-  creditDebitCardCvv,
-  creditDebitCardExpiry,
-  creditDebitCardNumber,
-  driverId,
-  email,
-  internationalBankAccountNumber,
-  ipAddress,
-  licensePlate,
-  macAddress,
-  name,
-  password,
-  phone,
-  pin,
-  swiftCode,
-  ukNationalHealthServiceNumber,
-  ukNationalInsuranceNumber,
-  ukUniqueTaxpayerReferenceNumber,
-  url,
-  username,
-  usBankAccountNumber,
-  usBankRoutingNumber,
-  usIndividualTaxIdentificationNumber,
-  usPassportNumber,
-  usSocialSecurityNumber,
-  vehicleIdentificationNumber,
-}
+  address('ADDRESS'),
+  age('AGE'),
+  awsAccessKey('AWS_ACCESS_KEY'),
+  awsSecretKey('AWS_SECRET_KEY'),
+  caHealthNumber('CA_HEALTH_NUMBER'),
+  caSocialInsuranceNumber('CA_SOCIAL_INSURANCE_NUMBER'),
+  creditDebitCardCvv('CREDIT_DEBIT_CARD_CVV'),
+  creditDebitCardExpiry('CREDIT_DEBIT_CARD_EXPIRY'),
+  creditDebitCardNumber('CREDIT_DEBIT_CARD_NUMBER'),
+  driverId('DRIVER_ID'),
+  email('EMAIL'),
+  internationalBankAccountNumber('INTERNATIONAL_BANK_ACCOUNT_NUMBER'),
+  ipAddress('IP_ADDRESS'),
+  licensePlate('LICENSE_PLATE'),
+  macAddress('MAC_ADDRESS'),
+  name('NAME'),
+  password('PASSWORD'),
+  phone('PHONE'),
+  pin('PIN'),
+  swiftCode('SWIFT_CODE'),
+  ukNationalHealthServiceNumber('UK_NATIONAL_HEALTH_SERVICE_NUMBER'),
+  ukNationalInsuranceNumber('UK_NATIONAL_INSURANCE_NUMBER'),
+  ukUniqueTaxpayerReferenceNumber('UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER'),
+  url('URL'),
+  username('USERNAME'),
+  usBankAccountNumber('US_BANK_ACCOUNT_NUMBER'),
+  usBankRoutingNumber('US_BANK_ROUTING_NUMBER'),
+  usIndividualTaxIdentificationNumber(
+      'US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER'),
+  usPassportNumber('US_PASSPORT_NUMBER'),
+  usSocialSecurityNumber('US_SOCIAL_SECURITY_NUMBER'),
+  vehicleIdentificationNumber('VEHICLE_IDENTIFICATION_NUMBER'),
+  ;
 
-extension GuardrailPiiEntityTypeValueExtension on GuardrailPiiEntityType {
-  String toValue() {
-    switch (this) {
-      case GuardrailPiiEntityType.address:
-        return 'ADDRESS';
-      case GuardrailPiiEntityType.age:
-        return 'AGE';
-      case GuardrailPiiEntityType.awsAccessKey:
-        return 'AWS_ACCESS_KEY';
-      case GuardrailPiiEntityType.awsSecretKey:
-        return 'AWS_SECRET_KEY';
-      case GuardrailPiiEntityType.caHealthNumber:
-        return 'CA_HEALTH_NUMBER';
-      case GuardrailPiiEntityType.caSocialInsuranceNumber:
-        return 'CA_SOCIAL_INSURANCE_NUMBER';
-      case GuardrailPiiEntityType.creditDebitCardCvv:
-        return 'CREDIT_DEBIT_CARD_CVV';
-      case GuardrailPiiEntityType.creditDebitCardExpiry:
-        return 'CREDIT_DEBIT_CARD_EXPIRY';
-      case GuardrailPiiEntityType.creditDebitCardNumber:
-        return 'CREDIT_DEBIT_CARD_NUMBER';
-      case GuardrailPiiEntityType.driverId:
-        return 'DRIVER_ID';
-      case GuardrailPiiEntityType.email:
-        return 'EMAIL';
-      case GuardrailPiiEntityType.internationalBankAccountNumber:
-        return 'INTERNATIONAL_BANK_ACCOUNT_NUMBER';
-      case GuardrailPiiEntityType.ipAddress:
-        return 'IP_ADDRESS';
-      case GuardrailPiiEntityType.licensePlate:
-        return 'LICENSE_PLATE';
-      case GuardrailPiiEntityType.macAddress:
-        return 'MAC_ADDRESS';
-      case GuardrailPiiEntityType.name:
-        return 'NAME';
-      case GuardrailPiiEntityType.password:
-        return 'PASSWORD';
-      case GuardrailPiiEntityType.phone:
-        return 'PHONE';
-      case GuardrailPiiEntityType.pin:
-        return 'PIN';
-      case GuardrailPiiEntityType.swiftCode:
-        return 'SWIFT_CODE';
-      case GuardrailPiiEntityType.ukNationalHealthServiceNumber:
-        return 'UK_NATIONAL_HEALTH_SERVICE_NUMBER';
-      case GuardrailPiiEntityType.ukNationalInsuranceNumber:
-        return 'UK_NATIONAL_INSURANCE_NUMBER';
-      case GuardrailPiiEntityType.ukUniqueTaxpayerReferenceNumber:
-        return 'UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER';
-      case GuardrailPiiEntityType.url:
-        return 'URL';
-      case GuardrailPiiEntityType.username:
-        return 'USERNAME';
-      case GuardrailPiiEntityType.usBankAccountNumber:
-        return 'US_BANK_ACCOUNT_NUMBER';
-      case GuardrailPiiEntityType.usBankRoutingNumber:
-        return 'US_BANK_ROUTING_NUMBER';
-      case GuardrailPiiEntityType.usIndividualTaxIdentificationNumber:
-        return 'US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER';
-      case GuardrailPiiEntityType.usPassportNumber:
-        return 'US_PASSPORT_NUMBER';
-      case GuardrailPiiEntityType.usSocialSecurityNumber:
-        return 'US_SOCIAL_SECURITY_NUMBER';
-      case GuardrailPiiEntityType.vehicleIdentificationNumber:
-        return 'VEHICLE_IDENTIFICATION_NUMBER';
-    }
-  }
-}
+  final String value;
 
-extension GuardrailPiiEntityTypeFromString on String {
-  GuardrailPiiEntityType toGuardrailPiiEntityType() {
-    switch (this) {
-      case 'ADDRESS':
-        return GuardrailPiiEntityType.address;
-      case 'AGE':
-        return GuardrailPiiEntityType.age;
-      case 'AWS_ACCESS_KEY':
-        return GuardrailPiiEntityType.awsAccessKey;
-      case 'AWS_SECRET_KEY':
-        return GuardrailPiiEntityType.awsSecretKey;
-      case 'CA_HEALTH_NUMBER':
-        return GuardrailPiiEntityType.caHealthNumber;
-      case 'CA_SOCIAL_INSURANCE_NUMBER':
-        return GuardrailPiiEntityType.caSocialInsuranceNumber;
-      case 'CREDIT_DEBIT_CARD_CVV':
-        return GuardrailPiiEntityType.creditDebitCardCvv;
-      case 'CREDIT_DEBIT_CARD_EXPIRY':
-        return GuardrailPiiEntityType.creditDebitCardExpiry;
-      case 'CREDIT_DEBIT_CARD_NUMBER':
-        return GuardrailPiiEntityType.creditDebitCardNumber;
-      case 'DRIVER_ID':
-        return GuardrailPiiEntityType.driverId;
-      case 'EMAIL':
-        return GuardrailPiiEntityType.email;
-      case 'INTERNATIONAL_BANK_ACCOUNT_NUMBER':
-        return GuardrailPiiEntityType.internationalBankAccountNumber;
-      case 'IP_ADDRESS':
-        return GuardrailPiiEntityType.ipAddress;
-      case 'LICENSE_PLATE':
-        return GuardrailPiiEntityType.licensePlate;
-      case 'MAC_ADDRESS':
-        return GuardrailPiiEntityType.macAddress;
-      case 'NAME':
-        return GuardrailPiiEntityType.name;
-      case 'PASSWORD':
-        return GuardrailPiiEntityType.password;
-      case 'PHONE':
-        return GuardrailPiiEntityType.phone;
-      case 'PIN':
-        return GuardrailPiiEntityType.pin;
-      case 'SWIFT_CODE':
-        return GuardrailPiiEntityType.swiftCode;
-      case 'UK_NATIONAL_HEALTH_SERVICE_NUMBER':
-        return GuardrailPiiEntityType.ukNationalHealthServiceNumber;
-      case 'UK_NATIONAL_INSURANCE_NUMBER':
-        return GuardrailPiiEntityType.ukNationalInsuranceNumber;
-      case 'UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER':
-        return GuardrailPiiEntityType.ukUniqueTaxpayerReferenceNumber;
-      case 'URL':
-        return GuardrailPiiEntityType.url;
-      case 'USERNAME':
-        return GuardrailPiiEntityType.username;
-      case 'US_BANK_ACCOUNT_NUMBER':
-        return GuardrailPiiEntityType.usBankAccountNumber;
-      case 'US_BANK_ROUTING_NUMBER':
-        return GuardrailPiiEntityType.usBankRoutingNumber;
-      case 'US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER':
-        return GuardrailPiiEntityType.usIndividualTaxIdentificationNumber;
-      case 'US_PASSPORT_NUMBER':
-        return GuardrailPiiEntityType.usPassportNumber;
-      case 'US_SOCIAL_SECURITY_NUMBER':
-        return GuardrailPiiEntityType.usSocialSecurityNumber;
-      case 'VEHICLE_IDENTIFICATION_NUMBER':
-        return GuardrailPiiEntityType.vehicleIdentificationNumber;
-    }
-    throw Exception('$this is not known in enum GuardrailPiiEntityType');
-  }
+  const GuardrailPiiEntityType(this.value);
+
+  static GuardrailPiiEntityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GuardrailPiiEntityType'));
 }
 
 /// The regular expression configured for the guardrail.
@@ -4188,8 +3871,8 @@ class GuardrailRegex {
 
   factory GuardrailRegex.fromJson(Map<String, dynamic> json) {
     return GuardrailRegex(
-      action:
-          (json['action'] as String).toGuardrailSensitiveInformationAction(),
+      action: GuardrailSensitiveInformationAction.fromString(
+          (json['action'] as String)),
       name: json['name'] as String,
       pattern: json['pattern'] as String,
       description: json['description'] as String?,
@@ -4202,7 +3885,7 @@ class GuardrailRegex {
     final pattern = this.pattern;
     final description = this.description;
     return {
-      'action': action.toValue(),
+      'action': action.value,
       'name': name,
       'pattern': pattern,
       if (description != null) 'description': description,
@@ -4238,7 +3921,7 @@ class GuardrailRegexConfig {
     final pattern = this.pattern;
     final description = this.description;
     return {
-      'action': action.toValue(),
+      'action': action.value,
       'name': name,
       'pattern': pattern,
       if (description != null) 'description': description,
@@ -4247,33 +3930,18 @@ class GuardrailRegexConfig {
 }
 
 enum GuardrailSensitiveInformationAction {
-  block,
-  anonymize,
-}
+  block('BLOCK'),
+  anonymize('ANONYMIZE'),
+  ;
 
-extension GuardrailSensitiveInformationActionValueExtension
-    on GuardrailSensitiveInformationAction {
-  String toValue() {
-    switch (this) {
-      case GuardrailSensitiveInformationAction.block:
-        return 'BLOCK';
-      case GuardrailSensitiveInformationAction.anonymize:
-        return 'ANONYMIZE';
-    }
-  }
-}
+  final String value;
 
-extension GuardrailSensitiveInformationActionFromString on String {
-  GuardrailSensitiveInformationAction toGuardrailSensitiveInformationAction() {
-    switch (this) {
-      case 'BLOCK':
-        return GuardrailSensitiveInformationAction.block;
-      case 'ANONYMIZE':
-        return GuardrailSensitiveInformationAction.anonymize;
-    }
-    throw Exception(
-        '$this is not known in enum GuardrailSensitiveInformationAction');
-  }
+  const GuardrailSensitiveInformationAction(this.value);
+
+  static GuardrailSensitiveInformationAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GuardrailSensitiveInformationAction'));
 }
 
 /// Contains details about PII entities and regular expressions configured for
@@ -4339,51 +4007,22 @@ class GuardrailSensitiveInformationPolicyConfig {
 }
 
 enum GuardrailStatus {
-  creating,
-  updating,
-  versioning,
-  ready,
-  failed,
-  deleting,
-}
+  creating('CREATING'),
+  updating('UPDATING'),
+  versioning('VERSIONING'),
+  ready('READY'),
+  failed('FAILED'),
+  deleting('DELETING'),
+  ;
 
-extension GuardrailStatusValueExtension on GuardrailStatus {
-  String toValue() {
-    switch (this) {
-      case GuardrailStatus.creating:
-        return 'CREATING';
-      case GuardrailStatus.updating:
-        return 'UPDATING';
-      case GuardrailStatus.versioning:
-        return 'VERSIONING';
-      case GuardrailStatus.ready:
-        return 'READY';
-      case GuardrailStatus.failed:
-        return 'FAILED';
-      case GuardrailStatus.deleting:
-        return 'DELETING';
-    }
-  }
-}
+  final String value;
 
-extension GuardrailStatusFromString on String {
-  GuardrailStatus toGuardrailStatus() {
-    switch (this) {
-      case 'CREATING':
-        return GuardrailStatus.creating;
-      case 'UPDATING':
-        return GuardrailStatus.updating;
-      case 'VERSIONING':
-        return GuardrailStatus.versioning;
-      case 'READY':
-        return GuardrailStatus.ready;
-      case 'FAILED':
-        return GuardrailStatus.failed;
-      case 'DELETING':
-        return GuardrailStatus.deleting;
-    }
-    throw Exception('$this is not known in enum GuardrailStatus');
-  }
+  const GuardrailStatus(this.value);
+
+  static GuardrailStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum GuardrailStatus'));
 }
 
 /// Contains details about a guardrail.
@@ -4439,7 +4078,7 @@ class GuardrailSummary {
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
       id: json['id'] as String,
       name: json['name'] as String,
-      status: (json['status'] as String).toGuardrailStatus(),
+      status: GuardrailStatus.fromString((json['status'] as String)),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       version: json['version'] as String,
       description: json['description'] as String?,
@@ -4460,7 +4099,7 @@ class GuardrailSummary {
       'createdAt': iso8601ToJson(createdAt),
       'id': id,
       'name': name,
-      'status': status.toValue(),
+      'status': status.value,
       'updatedAt': iso8601ToJson(updatedAt),
       'version': version,
       if (description != null) 'description': description,
@@ -4508,7 +4147,7 @@ class GuardrailTopic {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      type: (json['type'] as String?)?.toGuardrailTopicType(),
+      type: (json['type'] as String?)?.let(GuardrailTopicType.fromString),
     );
   }
 
@@ -4521,7 +4160,7 @@ class GuardrailTopic {
       'definition': definition,
       'name': name,
       if (examples != null) 'examples': examples,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -4571,7 +4210,7 @@ class GuardrailTopicConfig {
     return {
       'definition': definition,
       'name': name,
-      'type': type.toValue(),
+      'type': type.value,
       if (examples != null) 'examples': examples,
     };
   }
@@ -4646,26 +4285,17 @@ class GuardrailTopicPolicyConfig {
 }
 
 enum GuardrailTopicType {
-  deny,
-}
+  deny('DENY'),
+  ;
 
-extension GuardrailTopicTypeValueExtension on GuardrailTopicType {
-  String toValue() {
-    switch (this) {
-      case GuardrailTopicType.deny:
-        return 'DENY';
-    }
-  }
-}
+  final String value;
 
-extension GuardrailTopicTypeFromString on String {
-  GuardrailTopicType toGuardrailTopicType() {
-    switch (this) {
-      case 'DENY':
-        return GuardrailTopicType.deny;
-    }
-    throw Exception('$this is not known in enum GuardrailTopicType');
-  }
+  const GuardrailTopicType(this.value);
+
+  static GuardrailTopicType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum GuardrailTopicType'));
 }
 
 /// A word configured for the guardrail.
@@ -4911,31 +4541,18 @@ class HumanWorkflowConfig {
 }
 
 enum InferenceType {
-  onDemand,
-  provisioned,
-}
+  onDemand('ON_DEMAND'),
+  provisioned('PROVISIONED'),
+  ;
 
-extension InferenceTypeValueExtension on InferenceType {
-  String toValue() {
-    switch (this) {
-      case InferenceType.onDemand:
-        return 'ON_DEMAND';
-      case InferenceType.provisioned:
-        return 'PROVISIONED';
-    }
-  }
-}
+  final String value;
 
-extension InferenceTypeFromString on String {
-  InferenceType toInferenceType() {
-    switch (this) {
-      case 'ON_DEMAND':
-        return InferenceType.onDemand;
-      case 'PROVISIONED':
-        return InferenceType.provisioned;
-    }
-    throw Exception('$this is not known in enum InferenceType');
-  }
+  const InferenceType(this.value);
+
+  static InferenceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum InferenceType'));
 }
 
 class ListCustomModelsResponse {
@@ -5223,75 +4840,36 @@ class LoggingConfig {
 }
 
 enum ModelCustomization {
-  fineTuning,
-  continuedPreTraining,
-}
+  fineTuning('FINE_TUNING'),
+  continuedPreTraining('CONTINUED_PRE_TRAINING'),
+  ;
 
-extension ModelCustomizationValueExtension on ModelCustomization {
-  String toValue() {
-    switch (this) {
-      case ModelCustomization.fineTuning:
-        return 'FINE_TUNING';
-      case ModelCustomization.continuedPreTraining:
-        return 'CONTINUED_PRE_TRAINING';
-    }
-  }
-}
+  final String value;
 
-extension ModelCustomizationFromString on String {
-  ModelCustomization toModelCustomization() {
-    switch (this) {
-      case 'FINE_TUNING':
-        return ModelCustomization.fineTuning;
-      case 'CONTINUED_PRE_TRAINING':
-        return ModelCustomization.continuedPreTraining;
-    }
-    throw Exception('$this is not known in enum ModelCustomization');
-  }
+  const ModelCustomization(this.value);
+
+  static ModelCustomization fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ModelCustomization'));
 }
 
 enum ModelCustomizationJobStatus {
-  inProgress,
-  completed,
-  failed,
-  stopping,
-  stopped,
-}
+  inProgress('InProgress'),
+  completed('Completed'),
+  failed('Failed'),
+  stopping('Stopping'),
+  stopped('Stopped'),
+  ;
 
-extension ModelCustomizationJobStatusValueExtension
-    on ModelCustomizationJobStatus {
-  String toValue() {
-    switch (this) {
-      case ModelCustomizationJobStatus.inProgress:
-        return 'InProgress';
-      case ModelCustomizationJobStatus.completed:
-        return 'Completed';
-      case ModelCustomizationJobStatus.failed:
-        return 'Failed';
-      case ModelCustomizationJobStatus.stopping:
-        return 'Stopping';
-      case ModelCustomizationJobStatus.stopped:
-        return 'Stopped';
-    }
-  }
-}
+  final String value;
 
-extension ModelCustomizationJobStatusFromString on String {
-  ModelCustomizationJobStatus toModelCustomizationJobStatus() {
-    switch (this) {
-      case 'InProgress':
-        return ModelCustomizationJobStatus.inProgress;
-      case 'Completed':
-        return ModelCustomizationJobStatus.completed;
-      case 'Failed':
-        return ModelCustomizationJobStatus.failed;
-      case 'Stopping':
-        return ModelCustomizationJobStatus.stopping;
-      case 'Stopped':
-        return ModelCustomizationJobStatus.stopped;
-    }
-    throw Exception('$this is not known in enum ModelCustomizationJobStatus');
-  }
+  const ModelCustomizationJobStatus(this.value);
+
+  static ModelCustomizationJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ModelCustomizationJobStatus'));
 }
 
 /// Information about one customization job
@@ -5349,11 +4927,12 @@ class ModelCustomizationJobSummary {
           nonNullableTimeStampFromJson(json['creationTime'] as Object),
       jobArn: json['jobArn'] as String,
       jobName: json['jobName'] as String,
-      status: (json['status'] as String).toModelCustomizationJobStatus(),
+      status:
+          ModelCustomizationJobStatus.fromString((json['status'] as String)),
       customModelArn: json['customModelArn'] as String?,
       customModelName: json['customModelName'] as String?,
-      customizationType:
-          (json['customizationType'] as String?)?.toCustomizationType(),
+      customizationType: (json['customizationType'] as String?)
+          ?.let(CustomizationType.fromString),
       endTime: timeStampFromJson(json['endTime']),
       lastModifiedTime: timeStampFromJson(json['lastModifiedTime']),
     );
@@ -5375,11 +4954,11 @@ class ModelCustomizationJobSummary {
       'creationTime': iso8601ToJson(creationTime),
       'jobArn': jobArn,
       'jobName': jobName,
-      'status': status.toValue(),
+      'status': status.value,
       if (customModelArn != null) 'customModelArn': customModelArn,
       if (customModelName != null) 'customModelName': customModelName,
       if (customizationType != null)
-        'customizationType': customizationType.toValue(),
+        'customizationType': customizationType.value,
       if (endTime != null) 'endTime': iso8601ToJson(endTime),
       if (lastModifiedTime != null)
         'lastModifiedTime': iso8601ToJson(lastModifiedTime),
@@ -5388,36 +4967,19 @@ class ModelCustomizationJobSummary {
 }
 
 enum ModelModality {
-  text,
-  image,
-  embedding,
-}
+  text('TEXT'),
+  image('IMAGE'),
+  embedding('EMBEDDING'),
+  ;
 
-extension ModelModalityValueExtension on ModelModality {
-  String toValue() {
-    switch (this) {
-      case ModelModality.text:
-        return 'TEXT';
-      case ModelModality.image:
-        return 'IMAGE';
-      case ModelModality.embedding:
-        return 'EMBEDDING';
-    }
-  }
-}
+  final String value;
 
-extension ModelModalityFromString on String {
-  ModelModality toModelModality() {
-    switch (this) {
-      case 'TEXT':
-        return ModelModality.text;
-      case 'IMAGE':
-        return ModelModality.image;
-      case 'EMBEDDING':
-        return ModelModality.embedding;
-    }
-    throw Exception('$this is not known in enum ModelModality');
-  }
+  const ModelModality(this.value);
+
+  static ModelModality fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ModelModality'));
 }
 
 /// S3 Location of the output data.
@@ -5444,41 +5006,20 @@ class OutputDataConfig {
 }
 
 enum ProvisionedModelStatus {
-  creating,
-  inService,
-  updating,
-  failed,
-}
+  creating('Creating'),
+  inService('InService'),
+  updating('Updating'),
+  failed('Failed'),
+  ;
 
-extension ProvisionedModelStatusValueExtension on ProvisionedModelStatus {
-  String toValue() {
-    switch (this) {
-      case ProvisionedModelStatus.creating:
-        return 'Creating';
-      case ProvisionedModelStatus.inService:
-        return 'InService';
-      case ProvisionedModelStatus.updating:
-        return 'Updating';
-      case ProvisionedModelStatus.failed:
-        return 'Failed';
-    }
-  }
-}
+  final String value;
 
-extension ProvisionedModelStatusFromString on String {
-  ProvisionedModelStatus toProvisionedModelStatus() {
-    switch (this) {
-      case 'Creating':
-        return ProvisionedModelStatus.creating;
-      case 'InService':
-        return ProvisionedModelStatus.inService;
-      case 'Updating':
-        return ProvisionedModelStatus.updating;
-      case 'Failed':
-        return ProvisionedModelStatus.failed;
-    }
-    throw Exception('$this is not known in enum ProvisionedModelStatus');
-  }
+  const ProvisionedModelStatus(this.value);
+
+  static ProvisionedModelStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ProvisionedModelStatus'));
 }
 
 /// A summary of information about a Provisioned Throughput.
@@ -5564,9 +5105,9 @@ class ProvisionedModelSummary {
       modelUnits: json['modelUnits'] as int,
       provisionedModelArn: json['provisionedModelArn'] as String,
       provisionedModelName: json['provisionedModelName'] as String,
-      status: (json['status'] as String).toProvisionedModelStatus(),
-      commitmentDuration:
-          (json['commitmentDuration'] as String?)?.toCommitmentDuration(),
+      status: ProvisionedModelStatus.fromString((json['status'] as String)),
+      commitmentDuration: (json['commitmentDuration'] as String?)
+          ?.let(CommitmentDuration.fromString),
       commitmentExpirationTime:
           timeStampFromJson(json['commitmentExpirationTime']),
     );
@@ -5595,9 +5136,9 @@ class ProvisionedModelSummary {
       'modelUnits': modelUnits,
       'provisionedModelArn': provisionedModelArn,
       'provisionedModelName': provisionedModelName,
-      'status': status.toValue(),
+      'status': status.value,
       if (commitmentDuration != null)
-        'commitmentDuration': commitmentDuration.toValue(),
+        'commitmentDuration': commitmentDuration.value,
       if (commitmentExpirationTime != null)
         'commitmentExpirationTime': iso8601ToJson(commitmentExpirationTime),
     };
@@ -5648,100 +5189,58 @@ class S3Config {
 }
 
 enum SortByProvisionedModels {
-  creationTime,
-}
+  creationTime('CreationTime'),
+  ;
 
-extension SortByProvisionedModelsValueExtension on SortByProvisionedModels {
-  String toValue() {
-    switch (this) {
-      case SortByProvisionedModels.creationTime:
-        return 'CreationTime';
-    }
-  }
-}
+  final String value;
 
-extension SortByProvisionedModelsFromString on String {
-  SortByProvisionedModels toSortByProvisionedModels() {
-    switch (this) {
-      case 'CreationTime':
-        return SortByProvisionedModels.creationTime;
-    }
-    throw Exception('$this is not known in enum SortByProvisionedModels');
-  }
+  const SortByProvisionedModels(this.value);
+
+  static SortByProvisionedModels fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SortByProvisionedModels'));
 }
 
 enum SortJobsBy {
-  creationTime,
-}
+  creationTime('CreationTime'),
+  ;
 
-extension SortJobsByValueExtension on SortJobsBy {
-  String toValue() {
-    switch (this) {
-      case SortJobsBy.creationTime:
-        return 'CreationTime';
-    }
-  }
-}
+  final String value;
 
-extension SortJobsByFromString on String {
-  SortJobsBy toSortJobsBy() {
-    switch (this) {
-      case 'CreationTime':
-        return SortJobsBy.creationTime;
-    }
-    throw Exception('$this is not known in enum SortJobsBy');
-  }
+  const SortJobsBy(this.value);
+
+  static SortJobsBy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SortJobsBy'));
 }
 
 enum SortModelsBy {
-  creationTime,
-}
+  creationTime('CreationTime'),
+  ;
 
-extension SortModelsByValueExtension on SortModelsBy {
-  String toValue() {
-    switch (this) {
-      case SortModelsBy.creationTime:
-        return 'CreationTime';
-    }
-  }
-}
+  final String value;
 
-extension SortModelsByFromString on String {
-  SortModelsBy toSortModelsBy() {
-    switch (this) {
-      case 'CreationTime':
-        return SortModelsBy.creationTime;
-    }
-    throw Exception('$this is not known in enum SortModelsBy');
-  }
+  const SortModelsBy(this.value);
+
+  static SortModelsBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SortModelsBy'));
 }
 
 enum SortOrder {
-  ascending,
-  descending,
-}
+  ascending('Ascending'),
+  descending('Descending'),
+  ;
 
-extension SortOrderValueExtension on SortOrder {
-  String toValue() {
-    switch (this) {
-      case SortOrder.ascending:
-        return 'Ascending';
-      case SortOrder.descending:
-        return 'Descending';
-    }
-  }
-}
+  final String value;
 
-extension SortOrderFromString on String {
-  SortOrder toSortOrder() {
-    switch (this) {
-      case 'Ascending':
-        return SortOrder.ascending;
-      case 'Descending':
-        return SortOrder.descending;
-    }
-    throw Exception('$this is not known in enum SortOrder');
-  }
+  const SortOrder(this.value);
+
+  static SortOrder fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SortOrder'));
 }
 
 class StopEvaluationJobResponse {

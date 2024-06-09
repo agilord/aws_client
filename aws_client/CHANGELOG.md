@@ -1,9 +1,10 @@
 # Changelog
 
-## 0.5.1
+## 0.6.0
 
 - Expose `package:aws_client/credential_providers.dart` for advanced options to resolve the `AwsClientCredentials`
 - Internal refactoring of the query protocol
+- Internal refactor of enums serialization
 
 ## 0.5.0
 

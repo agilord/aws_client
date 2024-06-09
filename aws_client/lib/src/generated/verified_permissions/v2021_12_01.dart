@@ -2101,7 +2101,7 @@ class BatchIsAuthorizedOutputItem {
 
   factory BatchIsAuthorizedOutputItem.fromJson(Map<String, dynamic> json) {
     return BatchIsAuthorizedOutputItem(
-      decision: (json['decision'] as String).toDecision(),
+      decision: Decision.fromString((json['decision'] as String)),
       determiningPolicies: (json['determiningPolicies'] as List)
           .whereNotNull()
           .map((e) => DeterminingPolicyItem.fromJson(e as Map<String, dynamic>))
@@ -2121,7 +2121,7 @@ class BatchIsAuthorizedOutputItem {
     final errors = this.errors;
     final request = this.request;
     return {
-      'decision': decision.toValue(),
+      'decision': decision.value,
       'determiningPolicies': determiningPolicies,
       'errors': errors,
       'request': request,
@@ -2246,7 +2246,7 @@ class BatchIsAuthorizedWithTokenOutputItem {
   factory BatchIsAuthorizedWithTokenOutputItem.fromJson(
       Map<String, dynamic> json) {
     return BatchIsAuthorizedWithTokenOutputItem(
-      decision: (json['decision'] as String).toDecision(),
+      decision: Decision.fromString((json['decision'] as String)),
       determiningPolicies: (json['determiningPolicies'] as List)
           .whereNotNull()
           .map((e) => DeterminingPolicyItem.fromJson(e as Map<String, dynamic>))
@@ -2266,7 +2266,7 @@ class BatchIsAuthorizedWithTokenOutputItem {
     final errors = this.errors;
     final request = this.request;
     return {
-      'decision': decision.toValue(),
+      'decision': decision.value,
       'determiningPolicies': determiningPolicies,
       'errors': errors,
       'request': request,
@@ -2821,12 +2821,12 @@ class CreatePolicyOutput {
           nonNullableTimeStampFromJson(json['lastUpdatedDate'] as Object),
       policyId: json['policyId'] as String,
       policyStoreId: json['policyStoreId'] as String,
-      policyType: (json['policyType'] as String).toPolicyType(),
+      policyType: PolicyType.fromString((json['policyType'] as String)),
       actions: (json['actions'] as List?)
           ?.whereNotNull()
           .map((e) => ActionIdentifier.fromJson(e as Map<String, dynamic>))
           .toList(),
-      effect: (json['effect'] as String?)?.toPolicyEffect(),
+      effect: (json['effect'] as String?)?.let(PolicyEffect.fromString),
       principal: json['principal'] != null
           ? EntityIdentifier.fromJson(json['principal'] as Map<String, dynamic>)
           : null,
@@ -2851,9 +2851,9 @@ class CreatePolicyOutput {
       'lastUpdatedDate': iso8601ToJson(lastUpdatedDate),
       'policyId': policyId,
       'policyStoreId': policyStoreId,
-      'policyType': policyType.toValue(),
+      'policyType': policyType.value,
       if (actions != null) 'actions': actions,
-      if (effect != null) 'effect': effect.toValue(),
+      if (effect != null) 'effect': effect.value,
       if (principal != null) 'principal': principal,
       if (resource != null) 'resource': resource,
     };
@@ -2949,31 +2949,17 @@ class CreatePolicyTemplateOutput {
 }
 
 enum Decision {
-  allow,
-  deny,
-}
+  allow('ALLOW'),
+  deny('DENY'),
+  ;
 
-extension DecisionValueExtension on Decision {
-  String toValue() {
-    switch (this) {
-      case Decision.allow:
-        return 'ALLOW';
-      case Decision.deny:
-        return 'DENY';
-    }
-  }
-}
+  final String value;
 
-extension DecisionFromString on String {
-  Decision toDecision() {
-    switch (this) {
-      case 'ALLOW':
-        return Decision.allow;
-      case 'DENY':
-        return Decision.deny;
-    }
-    throw Exception('$this is not known in enum Decision');
-  }
+  const Decision(this.value);
+
+  static Decision fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Decision'));
 }
 
 class DeleteIdentitySourceOutput {
@@ -3370,12 +3356,12 @@ class GetPolicyOutput {
           nonNullableTimeStampFromJson(json['lastUpdatedDate'] as Object),
       policyId: json['policyId'] as String,
       policyStoreId: json['policyStoreId'] as String,
-      policyType: (json['policyType'] as String).toPolicyType(),
+      policyType: PolicyType.fromString((json['policyType'] as String)),
       actions: (json['actions'] as List?)
           ?.whereNotNull()
           .map((e) => ActionIdentifier.fromJson(e as Map<String, dynamic>))
           .toList(),
-      effect: (json['effect'] as String?)?.toPolicyEffect(),
+      effect: (json['effect'] as String?)?.let(PolicyEffect.fromString),
       principal: json['principal'] != null
           ? EntityIdentifier.fromJson(json['principal'] as Map<String, dynamic>)
           : null,
@@ -3402,9 +3388,9 @@ class GetPolicyOutput {
       'lastUpdatedDate': iso8601ToJson(lastUpdatedDate),
       'policyId': policyId,
       'policyStoreId': policyStoreId,
-      'policyType': policyType.toValue(),
+      'policyType': policyType.value,
       if (actions != null) 'actions': actions,
-      if (effect != null) 'effect': effect.toValue(),
+      if (effect != null) 'effect': effect.value,
       if (principal != null) 'principal': principal,
       if (resource != null) 'resource': resource,
     };
@@ -3630,7 +3616,8 @@ class IdentitySourceDetails {
           .map((e) => e as String)
           .toList(),
       discoveryUrl: json['discoveryUrl'] as String?,
-      openIdIssuer: (json['openIdIssuer'] as String?)?.toOpenIdIssuer(),
+      openIdIssuer:
+          (json['openIdIssuer'] as String?)?.let(OpenIdIssuer.fromString),
       userPoolArn: json['userPoolArn'] as String?,
     );
   }
@@ -3643,7 +3630,7 @@ class IdentitySourceDetails {
     return {
       if (clientIds != null) 'clientIds': clientIds,
       if (discoveryUrl != null) 'discoveryUrl': discoveryUrl,
-      if (openIdIssuer != null) 'openIdIssuer': openIdIssuer.toValue(),
+      if (openIdIssuer != null) 'openIdIssuer': openIdIssuer.value,
       if (userPoolArn != null) 'userPoolArn': userPoolArn,
     };
   }
@@ -3795,7 +3782,8 @@ class IdentitySourceItemDetails {
           .map((e) => e as String)
           .toList(),
       discoveryUrl: json['discoveryUrl'] as String?,
-      openIdIssuer: (json['openIdIssuer'] as String?)?.toOpenIdIssuer(),
+      openIdIssuer:
+          (json['openIdIssuer'] as String?)?.let(OpenIdIssuer.fromString),
       userPoolArn: json['userPoolArn'] as String?,
     );
   }
@@ -3808,7 +3796,7 @@ class IdentitySourceItemDetails {
     return {
       if (clientIds != null) 'clientIds': clientIds,
       if (discoveryUrl != null) 'discoveryUrl': discoveryUrl,
-      if (openIdIssuer != null) 'openIdIssuer': openIdIssuer.toValue(),
+      if (openIdIssuer != null) 'openIdIssuer': openIdIssuer.value,
       if (userPoolArn != null) 'userPoolArn': userPoolArn,
     };
   }
@@ -3840,7 +3828,7 @@ class IsAuthorizedOutput {
 
   factory IsAuthorizedOutput.fromJson(Map<String, dynamic> json) {
     return IsAuthorizedOutput(
-      decision: (json['decision'] as String).toDecision(),
+      decision: Decision.fromString((json['decision'] as String)),
       determiningPolicies: (json['determiningPolicies'] as List)
           .whereNotNull()
           .map((e) => DeterminingPolicyItem.fromJson(e as Map<String, dynamic>))
@@ -3857,7 +3845,7 @@ class IsAuthorizedOutput {
     final determiningPolicies = this.determiningPolicies;
     final errors = this.errors;
     return {
-      'decision': decision.toValue(),
+      'decision': decision.value,
       'determiningPolicies': determiningPolicies,
       'errors': errors,
     };
@@ -3895,7 +3883,7 @@ class IsAuthorizedWithTokenOutput {
 
   factory IsAuthorizedWithTokenOutput.fromJson(Map<String, dynamic> json) {
     return IsAuthorizedWithTokenOutput(
-      decision: (json['decision'] as String).toDecision(),
+      decision: Decision.fromString((json['decision'] as String)),
       determiningPolicies: (json['determiningPolicies'] as List)
           .whereNotNull()
           .map((e) => DeterminingPolicyItem.fromJson(e as Map<String, dynamic>))
@@ -3916,7 +3904,7 @@ class IsAuthorizedWithTokenOutput {
     final errors = this.errors;
     final principal = this.principal;
     return {
-      'decision': decision.toValue(),
+      'decision': decision.value,
       'determiningPolicies': determiningPolicies,
       'errors': errors,
       if (principal != null) 'principal': principal,
@@ -4073,26 +4061,17 @@ class ListPolicyTemplatesOutput {
 }
 
 enum OpenIdIssuer {
-  cognito,
-}
+  cognito('COGNITO'),
+  ;
 
-extension OpenIdIssuerValueExtension on OpenIdIssuer {
-  String toValue() {
-    switch (this) {
-      case OpenIdIssuer.cognito:
-        return 'COGNITO';
-    }
-  }
-}
+  final String value;
 
-extension OpenIdIssuerFromString on String {
-  OpenIdIssuer toOpenIdIssuer() {
-    switch (this) {
-      case 'COGNITO':
-        return OpenIdIssuer.cognito;
-    }
-    throw Exception('$this is not known in enum OpenIdIssuer');
-  }
+  const OpenIdIssuer(this.value);
+
+  static OpenIdIssuer fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OpenIdIssuer'));
 }
 
 /// A structure that contains the details for a Cedar policy definition. It
@@ -4222,31 +4201,18 @@ class PolicyDefinitionItem {
 }
 
 enum PolicyEffect {
-  permit,
-  forbid,
-}
+  permit('Permit'),
+  forbid('Forbid'),
+  ;
 
-extension PolicyEffectValueExtension on PolicyEffect {
-  String toValue() {
-    switch (this) {
-      case PolicyEffect.permit:
-        return 'Permit';
-      case PolicyEffect.forbid:
-        return 'Forbid';
-    }
-  }
-}
+  final String value;
 
-extension PolicyEffectFromString on String {
-  PolicyEffect toPolicyEffect() {
-    switch (this) {
-      case 'Permit':
-        return PolicyEffect.permit;
-      case 'Forbid':
-        return PolicyEffect.forbid;
-    }
-    throw Exception('$this is not known in enum PolicyEffect');
-  }
+  const PolicyEffect(this.value);
+
+  static PolicyEffect fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PolicyEffect'));
 }
 
 /// Contains information about a filter to refine policies returned in a query.
@@ -4282,7 +4248,7 @@ class PolicyFilter {
     final resource = this.resource;
     return {
       if (policyTemplateId != null) 'policyTemplateId': policyTemplateId,
-      if (policyType != null) 'policyType': policyType.toValue(),
+      if (policyType != null) 'policyType': policyType.value,
       if (principal != null) 'principal': principal,
       if (resource != null) 'resource': resource,
     };
@@ -4360,12 +4326,12 @@ class PolicyItem {
           nonNullableTimeStampFromJson(json['lastUpdatedDate'] as Object),
       policyId: json['policyId'] as String,
       policyStoreId: json['policyStoreId'] as String,
-      policyType: (json['policyType'] as String).toPolicyType(),
+      policyType: PolicyType.fromString((json['policyType'] as String)),
       actions: (json['actions'] as List?)
           ?.whereNotNull()
           .map((e) => ActionIdentifier.fromJson(e as Map<String, dynamic>))
           .toList(),
-      effect: (json['effect'] as String?)?.toPolicyEffect(),
+      effect: (json['effect'] as String?)?.let(PolicyEffect.fromString),
       principal: json['principal'] != null
           ? EntityIdentifier.fromJson(json['principal'] as Map<String, dynamic>)
           : null,
@@ -4392,9 +4358,9 @@ class PolicyItem {
       'lastUpdatedDate': iso8601ToJson(lastUpdatedDate),
       'policyId': policyId,
       'policyStoreId': policyStoreId,
-      'policyType': policyType.toValue(),
+      'policyType': policyType.value,
       if (actions != null) 'actions': actions,
-      if (effect != null) 'effect': effect.toValue(),
+      if (effect != null) 'effect': effect.value,
       if (principal != null) 'principal': principal,
       if (resource != null) 'resource': resource,
     };
@@ -4515,31 +4481,17 @@ class PolicyTemplateItem {
 }
 
 enum PolicyType {
-  static,
-  templateLinked,
-}
+  static('STATIC'),
+  templateLinked('TEMPLATE_LINKED'),
+  ;
 
-extension PolicyTypeValueExtension on PolicyType {
-  String toValue() {
-    switch (this) {
-      case PolicyType.static:
-        return 'STATIC';
-      case PolicyType.templateLinked:
-        return 'TEMPLATE_LINKED';
-    }
-  }
-}
+  final String value;
 
-extension PolicyTypeFromString on String {
-  PolicyType toPolicyType() {
-    switch (this) {
-      case 'STATIC':
-        return PolicyType.static;
-      case 'TEMPLATE_LINKED':
-        return PolicyType.templateLinked;
-    }
-    throw Exception('$this is not known in enum PolicyType');
-  }
+  const PolicyType(this.value);
+
+  static PolicyType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum PolicyType'));
 }
 
 class PutSchemaOutput {
@@ -5041,12 +4993,12 @@ class UpdatePolicyOutput {
           nonNullableTimeStampFromJson(json['lastUpdatedDate'] as Object),
       policyId: json['policyId'] as String,
       policyStoreId: json['policyStoreId'] as String,
-      policyType: (json['policyType'] as String).toPolicyType(),
+      policyType: PolicyType.fromString((json['policyType'] as String)),
       actions: (json['actions'] as List?)
           ?.whereNotNull()
           .map((e) => ActionIdentifier.fromJson(e as Map<String, dynamic>))
           .toList(),
-      effect: (json['effect'] as String?)?.toPolicyEffect(),
+      effect: (json['effect'] as String?)?.let(PolicyEffect.fromString),
       principal: json['principal'] != null
           ? EntityIdentifier.fromJson(json['principal'] as Map<String, dynamic>)
           : null,
@@ -5071,9 +5023,9 @@ class UpdatePolicyOutput {
       'lastUpdatedDate': iso8601ToJson(lastUpdatedDate),
       'policyId': policyId,
       'policyStoreId': policyStoreId,
-      'policyType': policyType.toValue(),
+      'policyType': policyType.value,
       if (actions != null) 'actions': actions,
-      if (effect != null) 'effect': effect.toValue(),
+      if (effect != null) 'effect': effect.value,
       if (principal != null) 'principal': principal,
       if (resource != null) 'resource': resource,
     };
@@ -5224,31 +5176,18 @@ class UpdateStaticPolicyDefinition {
 }
 
 enum ValidationMode {
-  off,
-  strict,
-}
+  off('OFF'),
+  strict('STRICT'),
+  ;
 
-extension ValidationModeValueExtension on ValidationMode {
-  String toValue() {
-    switch (this) {
-      case ValidationMode.off:
-        return 'OFF';
-      case ValidationMode.strict:
-        return 'STRICT';
-    }
-  }
-}
+  final String value;
 
-extension ValidationModeFromString on String {
-  ValidationMode toValidationMode() {
-    switch (this) {
-      case 'OFF':
-        return ValidationMode.off;
-      case 'STRICT':
-        return ValidationMode.strict;
-    }
-    throw Exception('$this is not known in enum ValidationMode');
-  }
+  const ValidationMode(this.value);
+
+  static ValidationMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ValidationMode'));
 }
 
 /// A structure that contains Cedar policy validation settings for the policy
@@ -5292,14 +5231,14 @@ class ValidationSettings {
 
   factory ValidationSettings.fromJson(Map<String, dynamic> json) {
     return ValidationSettings(
-      mode: (json['mode'] as String).toValidationMode(),
+      mode: ValidationMode.fromString((json['mode'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final mode = this.mode;
     return {
-      'mode': mode.toValue(),
+      'mode': mode.value,
     };
   }
 }

@@ -190,10 +190,10 @@ class CloudFormation {
       if (majorVersion != null) 'MajorVersion': majorVersion.toString(),
       if (publicTypeArn != null) 'PublicTypeArn': publicTypeArn,
       if (publisherId != null) 'PublisherId': publisherId,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
       if (typeName != null) 'TypeName': typeName,
       if (typeNameAlias != null) 'TypeNameAlias': typeNameAlias,
-      if (versionBump != null) 'VersionBump': versionBump.toValue(),
+      if (versionBump != null) 'VersionBump': versionBump.value,
     };
     final $result = await _protocol.send(
       $request,
@@ -752,8 +752,8 @@ class CloudFormation {
           'Capabilities': ''
         else
           for (var i1 = 0; i1 < capabilities.length; i1++)
-            'Capabilities.member.${i1 + 1}': capabilities[i1].toValue(),
-      if (changeSetType != null) 'ChangeSetType': changeSetType.toValue(),
+            'Capabilities.member.${i1 + 1}': capabilities[i1].value,
+      if (changeSetType != null) 'ChangeSetType': changeSetType.value,
       if (clientToken != null) 'ClientToken': clientToken,
       if (description != null) 'Description': description,
       if (importExistingResources != null)
@@ -766,7 +766,7 @@ class CloudFormation {
         else
           for (var i1 = 0; i1 < notificationARNs.length; i1++)
             'NotificationARNs.member.${i1 + 1}': notificationARNs[i1],
-      if (onStackFailure != null) 'OnStackFailure': onStackFailure.toValue(),
+      if (onStackFailure != null) 'OnStackFailure': onStackFailure.value,
       if (parameters != null)
         if (parameters.isEmpty)
           'Parameters': ''
@@ -1186,7 +1186,7 @@ class CloudFormation {
           'Capabilities': ''
         else
           for (var i1 = 0; i1 < capabilities.length; i1++)
-            'Capabilities.member.${i1 + 1}': capabilities[i1].toValue(),
+            'Capabilities.member.${i1 + 1}': capabilities[i1].value,
       if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
       if (disableRollback != null)
         'DisableRollback': disableRollback.toString(),
@@ -1198,7 +1198,7 @@ class CloudFormation {
         else
           for (var i1 = 0; i1 < notificationARNs.length; i1++)
             'NotificationARNs.member.${i1 + 1}': notificationARNs[i1],
-      if (onFailure != null) 'OnFailure': onFailure.toValue(),
+      if (onFailure != null) 'OnFailure': onFailure.value,
       if (parameters != null)
         if (parameters.isEmpty)
           'Parameters': ''
@@ -1378,7 +1378,7 @@ class CloudFormation {
         else
           for (var i1 = 0; i1 < accounts.length; i1++)
             'Accounts.member.${i1 + 1}': accounts[i1],
-      if (callAs != null) 'CallAs': callAs.toValue(),
+      if (callAs != null) 'CallAs': callAs.value,
       if (deploymentTargets != null)
         for (var e1 in deploymentTargets.toQueryMap().entries)
           'DeploymentTargets.${e1.key}': e1.value,
@@ -1667,13 +1667,13 @@ class CloudFormation {
       if (autoDeployment != null)
         for (var e1 in autoDeployment.toQueryMap().entries)
           'AutoDeployment.${e1.key}': e1.value,
-      if (callAs != null) 'CallAs': callAs.toValue(),
+      if (callAs != null) 'CallAs': callAs.value,
       if (capabilities != null)
         if (capabilities.isEmpty)
           'Capabilities': ''
         else
           for (var i1 = 0; i1 < capabilities.length; i1++)
-            'Capabilities.member.${i1 + 1}': capabilities[i1].toValue(),
+            'Capabilities.member.${i1 + 1}': capabilities[i1].value,
       'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (description != null) 'Description': description,
       if (executionRoleName != null) 'ExecutionRoleName': executionRoleName,
@@ -1687,7 +1687,7 @@ class CloudFormation {
           for (var i1 = 0; i1 < parameters.length; i1++)
             for (var e3 in parameters[i1].toQueryMap().entries)
               'Parameters.member.${i1 + 1}.${e3.key}': e3.value,
-      if (permissionModel != null) 'PermissionModel': permissionModel.toValue(),
+      if (permissionModel != null) 'PermissionModel': permissionModel.value,
       if (stackId != null) 'StackId': stackId,
       if (tags != null)
         if (tags.isEmpty)
@@ -1769,7 +1769,7 @@ class CloudFormation {
   }) async {
     final $request = <String, String>{
       if (arn != null) 'Arn': arn,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
       if (typeName != null) 'TypeName': typeName,
     };
     await _protocol.send(
@@ -1919,7 +1919,7 @@ class CloudFormation {
     final $request = <String, String>{
       'StackName': stackName,
       if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
-      if (deletionMode != null) 'DeletionMode': deletionMode.toValue(),
+      if (deletionMode != null) 'DeletionMode': deletionMode.value,
       if (retainResources != null)
         if (retainResources.isEmpty)
           'RetainResources': ''
@@ -2040,7 +2040,7 @@ class CloudFormation {
         else
           for (var i1 = 0; i1 < accounts.length; i1++)
             'Accounts.member.${i1 + 1}': accounts[i1],
-      if (callAs != null) 'CallAs': callAs.toValue(),
+      if (callAs != null) 'CallAs': callAs.value,
       if (deploymentTargets != null)
         for (var e1 in deploymentTargets.toQueryMap().entries)
           'DeploymentTargets.${e1.key}': e1.value,
@@ -2100,7 +2100,7 @@ class CloudFormation {
   }) async {
     final $request = <String, String>{
       'StackSetName': stackSetName,
-      if (callAs != null) 'CallAs': callAs.toValue(),
+      if (callAs != null) 'CallAs': callAs.value,
     };
     await _protocol.send(
       $request,
@@ -2165,7 +2165,7 @@ class CloudFormation {
   }) async {
     final $request = <String, String>{
       if (arn != null) 'Arn': arn,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
       if (typeName != null) 'TypeName': typeName,
       if (versionId != null) 'VersionId': versionId,
     };
@@ -2362,7 +2362,7 @@ class CloudFormation {
     CallAs? callAs,
   }) async {
     final $request = <String, String>{
-      if (callAs != null) 'CallAs': callAs.toValue(),
+      if (callAs != null) 'CallAs': callAs.value,
     };
     final $result = await _protocol.send(
       $request,
@@ -2589,7 +2589,7 @@ class CloudFormation {
       'StackInstanceAccount': stackInstanceAccount,
       'StackInstanceRegion': stackInstanceRegion,
       'StackSetName': stackSetName,
-      if (callAs != null) 'CallAs': callAs.toValue(),
+      if (callAs != null) 'CallAs': callAs.value,
     };
     final $result = await _protocol.send(
       $request,
@@ -2720,7 +2720,7 @@ class CloudFormation {
         else
           for (var i1 = 0; i1 < stackResourceDriftStatusFilters.length; i1++)
             'StackResourceDriftStatusFilters.member.${i1 + 1}':
-                stackResourceDriftStatusFilters[i1].toValue(),
+                stackResourceDriftStatusFilters[i1].value,
     };
     final $result = await _protocol.send(
       $request,
@@ -2854,7 +2854,7 @@ class CloudFormation {
   }) async {
     final $request = <String, String>{
       'StackSetName': stackSetName,
-      if (callAs != null) 'CallAs': callAs.toValue(),
+      if (callAs != null) 'CallAs': callAs.value,
     };
     final $result = await _protocol.send(
       $request,
@@ -2909,7 +2909,7 @@ class CloudFormation {
     final $request = <String, String>{
       'OperationId': operationId,
       'StackSetName': stackSetName,
-      if (callAs != null) 'CallAs': callAs.toValue(),
+      if (callAs != null) 'CallAs': callAs.value,
     };
     final $result = await _protocol.send(
       $request,
@@ -3044,7 +3044,7 @@ class CloudFormation {
       if (publicVersionNumber != null)
         'PublicVersionNumber': publicVersionNumber,
       if (publisherId != null) 'PublisherId': publisherId,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
       if (typeName != null) 'TypeName': typeName,
       if (versionId != null) 'VersionId': versionId,
     };
@@ -3296,7 +3296,7 @@ class CloudFormation {
   }) async {
     final $request = <String, String>{
       'StackSetName': stackSetName,
-      if (callAs != null) 'CallAs': callAs.toValue(),
+      if (callAs != null) 'CallAs': callAs.value,
       'OperationId': operationId ?? _s.generateIdempotencyToken(),
       if (operationPreferences != null)
         for (var e1 in operationPreferences.toQueryMap().entries)
@@ -3499,7 +3499,7 @@ class CloudFormation {
   }) async {
     final $request = <String, String>{
       'GeneratedTemplateName': generatedTemplateName,
-      if (format != null) 'Format': format.toValue(),
+      if (format != null) 'Format': format.value,
     };
     final $result = await _protocol.send(
       $request,
@@ -3585,7 +3585,7 @@ class CloudFormation {
     final $request = <String, String>{
       if (changeSetName != null) 'ChangeSetName': changeSetName,
       if (stackName != null) 'StackName': stackName,
-      if (templateStage != null) 'TemplateStage': templateStage.toValue(),
+      if (templateStage != null) 'TemplateStage': templateStage.value,
     };
     final $result = await _protocol.send(
       $request,
@@ -3689,7 +3689,7 @@ class CloudFormation {
     String? templateURL,
   }) async {
     final $request = <String, String>{
-      if (callAs != null) 'CallAs': callAs.toValue(),
+      if (callAs != null) 'CallAs': callAs.value,
       if (stackName != null) 'StackName': stackName,
       if (stackSetName != null) 'StackSetName': stackSetName,
       if (templateBody != null) 'TemplateBody': templateBody,
@@ -3777,7 +3777,7 @@ class CloudFormation {
   }) async {
     final $request = <String, String>{
       'StackSetName': stackSetName,
-      if (callAs != null) 'CallAs': callAs.toValue(),
+      if (callAs != null) 'CallAs': callAs.value,
       'OperationId': operationId ?? _s.generateIdempotencyToken(),
       if (operationPreferences != null)
         for (var e1 in operationPreferences.toQueryMap().entries)
@@ -4206,7 +4206,7 @@ class CloudFormation {
       'StackInstanceAccount': stackInstanceAccount,
       'StackInstanceRegion': stackInstanceRegion,
       'StackSetName': stackSetName,
-      if (callAs != null) 'CallAs': callAs.toValue(),
+      if (callAs != null) 'CallAs': callAs.value,
       if (maxResults != null) 'MaxResults': maxResults.toString(),
       if (nextToken != null) 'NextToken': nextToken,
       if (stackInstanceResourceDriftStatuses != null)
@@ -4215,7 +4215,7 @@ class CloudFormation {
         else
           for (var i1 = 0; i1 < stackInstanceResourceDriftStatuses.length; i1++)
             'StackInstanceResourceDriftStatuses.member.${i1 + 1}':
-                stackInstanceResourceDriftStatuses[i1].toValue(),
+                stackInstanceResourceDriftStatuses[i1].value,
     };
     final $result = await _protocol.send(
       $request,
@@ -4303,7 +4303,7 @@ class CloudFormation {
     );
     final $request = <String, String>{
       'StackSetName': stackSetName,
-      if (callAs != null) 'CallAs': callAs.toValue(),
+      if (callAs != null) 'CallAs': callAs.value,
       if (filters != null)
         if (filters.isEmpty)
           'Filters': ''
@@ -4428,7 +4428,7 @@ class CloudFormation {
     );
     final $request = <String, String>{
       'StackSetName': stackSetName,
-      if (callAs != null) 'CallAs': callAs.toValue(),
+      if (callAs != null) 'CallAs': callAs.value,
       if (maxResults != null) 'MaxResults': maxResults.toString(),
       if (nextToken != null) 'NextToken': nextToken,
     };
@@ -4513,7 +4513,7 @@ class CloudFormation {
     final $request = <String, String>{
       'OperationId': operationId,
       'StackSetName': stackSetName,
-      if (callAs != null) 'CallAs': callAs.toValue(),
+      if (callAs != null) 'CallAs': callAs.value,
       if (filters != null)
         if (filters.isEmpty)
           'Filters': ''
@@ -4595,7 +4595,7 @@ class CloudFormation {
     );
     final $request = <String, String>{
       'StackSetName': stackSetName,
-      if (callAs != null) 'CallAs': callAs.toValue(),
+      if (callAs != null) 'CallAs': callAs.value,
       if (maxResults != null) 'MaxResults': maxResults.toString(),
       if (nextToken != null) 'NextToken': nextToken,
     };
@@ -4689,10 +4689,10 @@ class CloudFormation {
       100,
     );
     final $request = <String, String>{
-      if (callAs != null) 'CallAs': callAs.toValue(),
+      if (callAs != null) 'CallAs': callAs.value,
       if (maxResults != null) 'MaxResults': maxResults.toString(),
       if (nextToken != null) 'NextToken': nextToken,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
     final $result = await _protocol.send(
       $request,
@@ -4732,8 +4732,7 @@ class CloudFormation {
           'StackStatusFilter': ''
         else
           for (var i1 = 0; i1 < stackStatusFilter.length; i1++)
-            'StackStatusFilter.member.${i1 + 1}':
-                stackStatusFilter[i1].toValue(),
+            'StackStatusFilter.member.${i1 + 1}': stackStatusFilter[i1].value,
     };
     final $result = await _protocol.send(
       $request,
@@ -4805,8 +4804,8 @@ class CloudFormation {
       if (maxResults != null) 'MaxResults': maxResults.toString(),
       if (nextToken != null) 'NextToken': nextToken,
       if (registrationStatusFilter != null)
-        'RegistrationStatusFilter': registrationStatusFilter.toValue(),
-      if (type != null) 'Type': type.toValue(),
+        'RegistrationStatusFilter': registrationStatusFilter.value,
+      if (type != null) 'Type': type.value,
       if (typeArn != null) 'TypeArn': typeArn,
       if (typeName != null) 'TypeName': typeName,
     };
@@ -4899,12 +4898,11 @@ class CloudFormation {
     );
     final $request = <String, String>{
       if (arn != null) 'Arn': arn,
-      if (deprecatedStatus != null)
-        'DeprecatedStatus': deprecatedStatus.toValue(),
+      if (deprecatedStatus != null) 'DeprecatedStatus': deprecatedStatus.value,
       if (maxResults != null) 'MaxResults': maxResults.toString(),
       if (nextToken != null) 'NextToken': nextToken,
       if (publisherId != null) 'PublisherId': publisherId,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
       if (typeName != null) 'TypeName': typeName,
     };
     final $result = await _protocol.send(
@@ -5034,17 +5032,15 @@ class CloudFormation {
       100,
     );
     final $request = <String, String>{
-      if (deprecatedStatus != null)
-        'DeprecatedStatus': deprecatedStatus.toValue(),
+      if (deprecatedStatus != null) 'DeprecatedStatus': deprecatedStatus.value,
       if (filters != null)
         for (var e1 in filters.toQueryMap().entries)
           'Filters.${e1.key}': e1.value,
       if (maxResults != null) 'MaxResults': maxResults.toString(),
       if (nextToken != null) 'NextToken': nextToken,
-      if (provisioningType != null)
-        'ProvisioningType': provisioningType.toValue(),
-      if (type != null) 'Type': type.toValue(),
-      if (visibility != null) 'Visibility': visibility.toValue(),
+      if (provisioningType != null) 'ProvisioningType': provisioningType.value,
+      if (type != null) 'Type': type.value,
+      if (visibility != null) 'Visibility': visibility.value,
     };
     final $result = await _protocol.send(
       $request,
@@ -5118,7 +5114,7 @@ class CloudFormation {
       if (arn != null) 'Arn': arn,
       if (publicVersionNumber != null)
         'PublicVersionNumber': publicVersionNumber,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
       if (typeName != null) 'TypeName': typeName,
     };
     final $result = await _protocol.send(
@@ -5187,11 +5183,11 @@ class CloudFormation {
   }) async {
     final $request = <String, String>{
       'BearerToken': bearerToken,
-      'OperationStatus': operationStatus.toValue(),
+      'OperationStatus': operationStatus.value,
       if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
       if (currentOperationStatus != null)
-        'CurrentOperationStatus': currentOperationStatus.toValue(),
-      if (errorCode != null) 'ErrorCode': errorCode.toValue(),
+        'CurrentOperationStatus': currentOperationStatus.value,
+      if (errorCode != null) 'ErrorCode': errorCode.value,
       if (resourceModel != null) 'ResourceModel': resourceModel,
       if (statusMessage != null) 'StatusMessage': statusMessage,
     };
@@ -5407,7 +5403,7 @@ class CloudFormation {
       if (loggingConfig != null)
         for (var e1 in loggingConfig.toQueryMap().entries)
           'LoggingConfig.${e1.key}': e1.value,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
     final $result = await _protocol.send(
       $request,
@@ -5607,7 +5603,7 @@ class CloudFormation {
     final $request = <String, String>{
       'Configuration': configuration,
       if (configurationAlias != null) 'ConfigurationAlias': configurationAlias,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
       if (typeArn != null) 'TypeArn': typeArn,
       if (typeName != null) 'TypeName': typeName,
     };
@@ -5660,7 +5656,7 @@ class CloudFormation {
   }) async {
     final $request = <String, String>{
       if (arn != null) 'Arn': arn,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
       if (typeName != null) 'TypeName': typeName,
       if (versionId != null) 'VersionId': versionId,
     };
@@ -5710,7 +5706,7 @@ class CloudFormation {
     final $request = <String, String>{
       'LogicalResourceId': logicalResourceId,
       'StackName': stackName,
-      'Status': status.toValue(),
+      'Status': status.value,
       'UniqueId': uniqueId,
     };
     await _protocol.send(
@@ -5796,7 +5792,7 @@ class CloudFormation {
     final $request = <String, String>{
       'OperationId': operationId,
       'StackSetName': stackSetName,
-      if (callAs != null) 'CallAs': callAs.toValue(),
+      if (callAs != null) 'CallAs': callAs.value,
     };
     await _protocol.send(
       $request,
@@ -5910,7 +5906,7 @@ class CloudFormation {
     final $request = <String, String>{
       if (arn != null) 'Arn': arn,
       if (logDeliveryBucket != null) 'LogDeliveryBucket': logDeliveryBucket,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
       if (typeName != null) 'TypeName': typeName,
       if (versionId != null) 'VersionId': versionId,
     };
@@ -6320,7 +6316,7 @@ class CloudFormation {
           'Capabilities': ''
         else
           for (var i1 = 0; i1 < capabilities.length; i1++)
-            'Capabilities.member.${i1 + 1}': capabilities[i1].toValue(),
+            'Capabilities.member.${i1 + 1}': capabilities[i1].value,
       if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
       if (disableRollback != null)
         'DisableRollback': disableRollback.toString(),
@@ -6541,7 +6537,7 @@ class CloudFormation {
         else
           for (var i1 = 0; i1 < accounts.length; i1++)
             'Accounts.member.${i1 + 1}': accounts[i1],
-      if (callAs != null) 'CallAs': callAs.toValue(),
+      if (callAs != null) 'CallAs': callAs.value,
       if (deploymentTargets != null)
         for (var e1 in deploymentTargets.toQueryMap().entries)
           'DeploymentTargets.${e1.key}': e1.value,
@@ -6946,13 +6942,13 @@ class CloudFormation {
       if (autoDeployment != null)
         for (var e1 in autoDeployment.toQueryMap().entries)
           'AutoDeployment.${e1.key}': e1.value,
-      if (callAs != null) 'CallAs': callAs.toValue(),
+      if (callAs != null) 'CallAs': callAs.value,
       if (capabilities != null)
         if (capabilities.isEmpty)
           'Capabilities': ''
         else
           for (var i1 = 0; i1 < capabilities.length; i1++)
-            'Capabilities.member.${i1 + 1}': capabilities[i1].toValue(),
+            'Capabilities.member.${i1 + 1}': capabilities[i1].value,
       if (deploymentTargets != null)
         for (var e1 in deploymentTargets.toQueryMap().entries)
           'DeploymentTargets.${e1.key}': e1.value,
@@ -6972,7 +6968,7 @@ class CloudFormation {
           for (var i1 = 0; i1 < parameters.length; i1++)
             for (var e3 in parameters[i1].toQueryMap().entries)
               'Parameters.member.${i1 + 1}.${e3.key}': e3.value,
-      if (permissionModel != null) 'PermissionModel': permissionModel.toValue(),
+      if (permissionModel != null) 'PermissionModel': permissionModel.value,
       if (regions != null)
         if (regions.isEmpty)
           'Regions': ''
@@ -7088,41 +7084,20 @@ class CloudFormation {
 }
 
 enum AccountFilterType {
-  none,
-  intersection,
-  difference,
-  union,
-}
+  none('NONE'),
+  intersection('INTERSECTION'),
+  difference('DIFFERENCE'),
+  union('UNION'),
+  ;
 
-extension AccountFilterTypeValueExtension on AccountFilterType {
-  String toValue() {
-    switch (this) {
-      case AccountFilterType.none:
-        return 'NONE';
-      case AccountFilterType.intersection:
-        return 'INTERSECTION';
-      case AccountFilterType.difference:
-        return 'DIFFERENCE';
-      case AccountFilterType.union:
-        return 'UNION';
-    }
-  }
-}
+  final String value;
 
-extension AccountFilterTypeFromString on String {
-  AccountFilterType toAccountFilterType() {
-    switch (this) {
-      case 'NONE':
-        return AccountFilterType.none;
-      case 'INTERSECTION':
-        return AccountFilterType.intersection;
-      case 'DIFFERENCE':
-        return AccountFilterType.difference;
-      case 'UNION':
-        return AccountFilterType.union;
-    }
-    throw Exception('$this is not known in enum AccountFilterType');
-  }
+  const AccountFilterType(this.value);
+
+  static AccountFilterType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AccountFilterType'));
 }
 
 /// Structure that contains the results of the account gate function which
@@ -7192,7 +7167,9 @@ class AccountGateResult {
   });
   factory AccountGateResult.fromXml(_s.XmlElement elem) {
     return AccountGateResult(
-      status: _s.extractXmlStringValue(elem, 'Status')?.toAccountGateStatus(),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(AccountGateStatus.fromString) /* Nullability(true, true) */,
       statusReason: _s.extractXmlStringValue(elem, 'StatusReason'),
     );
   }
@@ -7201,43 +7178,26 @@ class AccountGateResult {
     final status = this.status;
     final statusReason = this.statusReason;
     return {
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusReason != null) 'StatusReason': statusReason,
     };
   }
 }
 
 enum AccountGateStatus {
-  succeeded,
-  failed,
-  skipped,
-}
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  skipped('SKIPPED'),
+  ;
 
-extension AccountGateStatusValueExtension on AccountGateStatus {
-  String toValue() {
-    switch (this) {
-      case AccountGateStatus.succeeded:
-        return 'SUCCEEDED';
-      case AccountGateStatus.failed:
-        return 'FAILED';
-      case AccountGateStatus.skipped:
-        return 'SKIPPED';
-    }
-  }
-}
+  final String value;
 
-extension AccountGateStatusFromString on String {
-  AccountGateStatus toAccountGateStatus() {
-    switch (this) {
-      case 'SUCCEEDED':
-        return AccountGateStatus.succeeded;
-      case 'FAILED':
-        return AccountGateStatus.failed;
-      case 'SKIPPED':
-        return AccountGateStatus.skipped;
-    }
-    throw Exception('$this is not known in enum AccountGateStatus');
-  }
+  const AccountGateStatus(this.value);
+
+  static AccountGateStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AccountGateStatus'));
 }
 
 /// The AccountLimit data type.
@@ -7326,36 +7286,19 @@ class ActivateTypeOutput {
 }
 
 enum AttributeChangeType {
-  add,
-  remove,
-  modify,
-}
+  add('Add'),
+  remove('Remove'),
+  modify('Modify'),
+  ;
 
-extension AttributeChangeTypeValueExtension on AttributeChangeType {
-  String toValue() {
-    switch (this) {
-      case AttributeChangeType.add:
-        return 'Add';
-      case AttributeChangeType.remove:
-        return 'Remove';
-      case AttributeChangeType.modify:
-        return 'Modify';
-    }
-  }
-}
+  final String value;
 
-extension AttributeChangeTypeFromString on String {
-  AttributeChangeType toAttributeChangeType() {
-    switch (this) {
-      case 'Add':
-        return AttributeChangeType.add;
-      case 'Remove':
-        return AttributeChangeType.remove;
-      case 'Modify':
-        return AttributeChangeType.modify;
-    }
-    throw Exception('$this is not known in enum AttributeChangeType');
-  }
+  const AttributeChangeType(this.value);
+
+  static AttributeChangeType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AttributeChangeType'));
 }
 
 /// [Service-managed permissions] Describes whether StackSets automatically
@@ -7500,102 +7443,48 @@ class BatchDescribeTypeConfigurationsOutput {
 }
 
 enum CallAs {
-  self,
-  delegatedAdmin,
-}
+  self('SELF'),
+  delegatedAdmin('DELEGATED_ADMIN'),
+  ;
 
-extension CallAsValueExtension on CallAs {
-  String toValue() {
-    switch (this) {
-      case CallAs.self:
-        return 'SELF';
-      case CallAs.delegatedAdmin:
-        return 'DELEGATED_ADMIN';
-    }
-  }
-}
+  final String value;
 
-extension CallAsFromString on String {
-  CallAs toCallAs() {
-    switch (this) {
-      case 'SELF':
-        return CallAs.self;
-      case 'DELEGATED_ADMIN':
-        return CallAs.delegatedAdmin;
-    }
-    throw Exception('$this is not known in enum CallAs');
-  }
+  const CallAs(this.value);
+
+  static CallAs fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum CallAs'));
 }
 
 enum Capability {
-  capabilityIam,
-  capabilityNamedIam,
-  capabilityAutoExpand,
-}
+  capabilityIam('CAPABILITY_IAM'),
+  capabilityNamedIam('CAPABILITY_NAMED_IAM'),
+  capabilityAutoExpand('CAPABILITY_AUTO_EXPAND'),
+  ;
 
-extension CapabilityValueExtension on Capability {
-  String toValue() {
-    switch (this) {
-      case Capability.capabilityIam:
-        return 'CAPABILITY_IAM';
-      case Capability.capabilityNamedIam:
-        return 'CAPABILITY_NAMED_IAM';
-      case Capability.capabilityAutoExpand:
-        return 'CAPABILITY_AUTO_EXPAND';
-    }
-  }
-}
+  final String value;
 
-extension CapabilityFromString on String {
-  Capability toCapability() {
-    switch (this) {
-      case 'CAPABILITY_IAM':
-        return Capability.capabilityIam;
-      case 'CAPABILITY_NAMED_IAM':
-        return Capability.capabilityNamedIam;
-      case 'CAPABILITY_AUTO_EXPAND':
-        return Capability.capabilityAutoExpand;
-    }
-    throw Exception('$this is not known in enum Capability');
-  }
+  const Capability(this.value);
+
+  static Capability fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Capability'));
 }
 
 enum Category {
-  registered,
-  activated,
-  thirdParty,
-  awsTypes,
-}
+  registered('REGISTERED'),
+  activated('ACTIVATED'),
+  thirdParty('THIRD_PARTY'),
+  awsTypes('AWS_TYPES'),
+  ;
 
-extension CategoryValueExtension on Category {
-  String toValue() {
-    switch (this) {
-      case Category.registered:
-        return 'REGISTERED';
-      case Category.activated:
-        return 'ACTIVATED';
-      case Category.thirdParty:
-        return 'THIRD_PARTY';
-      case Category.awsTypes:
-        return 'AWS_TYPES';
-    }
-  }
-}
+  final String value;
 
-extension CategoryFromString on String {
-  Category toCategory() {
-    switch (this) {
-      case 'REGISTERED':
-        return Category.registered;
-      case 'ACTIVATED':
-        return Category.activated;
-      case 'THIRD_PARTY':
-        return Category.thirdParty;
-      case 'AWS_TYPES':
-        return Category.awsTypes;
-    }
-    throw Exception('$this is not known in enum Category');
-  }
+  const Category(this.value);
+
+  static Category fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Category'));
 }
 
 /// The <code>Change</code> structure describes the changes CloudFormation will
@@ -7629,7 +7518,9 @@ class Change {
       resourceChange: _s
           .extractXmlChild(elem, 'ResourceChange')
           ?.let(ResourceChange.fromXml),
-      type: _s.extractXmlStringValue(elem, 'Type')?.toChangeType(),
+      type: _s
+          .extractXmlStringValue(elem, 'Type')
+          ?.let(ChangeType.fromString) /* Nullability(true, true) */,
     );
   }
 
@@ -7641,52 +7532,27 @@ class Change {
       if (hookInvocationCount != null)
         'HookInvocationCount': hookInvocationCount,
       if (resourceChange != null) 'ResourceChange': resourceChange,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
 enum ChangeAction {
-  add,
-  modify,
-  remove,
-  import,
-  $dynamic,
-}
+  add('Add'),
+  modify('Modify'),
+  remove('Remove'),
+  import('Import'),
+  $dynamic('Dynamic'),
+  ;
 
-extension ChangeActionValueExtension on ChangeAction {
-  String toValue() {
-    switch (this) {
-      case ChangeAction.add:
-        return 'Add';
-      case ChangeAction.modify:
-        return 'Modify';
-      case ChangeAction.remove:
-        return 'Remove';
-      case ChangeAction.import:
-        return 'Import';
-      case ChangeAction.$dynamic:
-        return 'Dynamic';
-    }
-  }
-}
+  final String value;
 
-extension ChangeActionFromString on String {
-  ChangeAction toChangeAction() {
-    switch (this) {
-      case 'Add':
-        return ChangeAction.add;
-      case 'Modify':
-        return ChangeAction.modify;
-      case 'Remove':
-        return ChangeAction.remove;
-      case 'Import':
-        return ChangeAction.import;
-      case 'Dynamic':
-        return ChangeAction.$dynamic;
-    }
-    throw Exception('$this is not known in enum ChangeAction');
-  }
+  const ChangeAction(this.value);
+
+  static ChangeAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ChangeAction'));
 }
 
 /// Specifies the resource, the hook, and the hook version to be invoked.
@@ -7758,11 +7624,12 @@ class ChangeSetHook {
   });
   factory ChangeSetHook.fromXml(_s.XmlElement elem) {
     return ChangeSetHook(
-      failureMode:
-          _s.extractXmlStringValue(elem, 'FailureMode')?.toHookFailureMode(),
+      failureMode: _s
+          .extractXmlStringValue(elem, 'FailureMode')
+          ?.let(HookFailureMode.fromString) /* Nullability(true, true) */,
       invocationPoint: _s
           .extractXmlStringValue(elem, 'InvocationPoint')
-          ?.toHookInvocationPoint(),
+          ?.let(HookInvocationPoint.fromString) /* Nullability(true, true) */,
       targetDetails: _s
           .extractXmlChild(elem, 'TargetDetails')
           ?.let(ChangeSetHookTargetDetails.fromXml),
@@ -7781,8 +7648,8 @@ class ChangeSetHook {
     final typeName = this.typeName;
     final typeVersionId = this.typeVersionId;
     return {
-      if (failureMode != null) 'FailureMode': failureMode.toValue(),
-      if (invocationPoint != null) 'InvocationPoint': invocationPoint.toValue(),
+      if (failureMode != null) 'FailureMode': failureMode.value,
+      if (invocationPoint != null) 'InvocationPoint': invocationPoint.value,
       if (targetDetails != null) 'TargetDetails': targetDetails,
       if (typeConfigurationVersionId != null)
         'TypeConfigurationVersionId': typeConfigurationVersionId,
@@ -7811,8 +7678,9 @@ class ChangeSetHookResourceTargetDetails {
   factory ChangeSetHookResourceTargetDetails.fromXml(_s.XmlElement elem) {
     return ChangeSetHookResourceTargetDetails(
       logicalResourceId: _s.extractXmlStringValue(elem, 'LogicalResourceId'),
-      resourceAction:
-          _s.extractXmlStringValue(elem, 'ResourceAction')?.toChangeAction(),
+      resourceAction: _s
+          .extractXmlStringValue(elem, 'ResourceAction')
+          ?.let(ChangeAction.fromString) /* Nullability(true, true) */,
       resourceType: _s.extractXmlStringValue(elem, 'ResourceType'),
     );
   }
@@ -7823,7 +7691,7 @@ class ChangeSetHookResourceTargetDetails {
     final resourceType = this.resourceType;
     return {
       if (logicalResourceId != null) 'LogicalResourceId': logicalResourceId,
-      if (resourceAction != null) 'ResourceAction': resourceAction.toValue(),
+      if (resourceAction != null) 'ResourceAction': resourceAction.value,
       if (resourceType != null) 'ResourceType': resourceType,
     };
   }
@@ -7846,8 +7714,9 @@ class ChangeSetHookTargetDetails {
       resourceTargetDetails: _s
           .extractXmlChild(elem, 'ResourceTargetDetails')
           ?.let(ChangeSetHookResourceTargetDetails.fromXml),
-      targetType:
-          _s.extractXmlStringValue(elem, 'TargetType')?.toHookTargetType(),
+      targetType: _s
+          .extractXmlStringValue(elem, 'TargetType')
+          ?.let(HookTargetType.fromString) /* Nullability(true, true) */,
     );
   }
 
@@ -7857,100 +7726,46 @@ class ChangeSetHookTargetDetails {
     return {
       if (resourceTargetDetails != null)
         'ResourceTargetDetails': resourceTargetDetails,
-      if (targetType != null) 'TargetType': targetType.toValue(),
+      if (targetType != null) 'TargetType': targetType.value,
     };
   }
 }
 
 enum ChangeSetHooksStatus {
-  planning,
-  planned,
-  unavailable,
-}
+  planning('PLANNING'),
+  planned('PLANNED'),
+  unavailable('UNAVAILABLE'),
+  ;
 
-extension ChangeSetHooksStatusValueExtension on ChangeSetHooksStatus {
-  String toValue() {
-    switch (this) {
-      case ChangeSetHooksStatus.planning:
-        return 'PLANNING';
-      case ChangeSetHooksStatus.planned:
-        return 'PLANNED';
-      case ChangeSetHooksStatus.unavailable:
-        return 'UNAVAILABLE';
-    }
-  }
-}
+  final String value;
 
-extension ChangeSetHooksStatusFromString on String {
-  ChangeSetHooksStatus toChangeSetHooksStatus() {
-    switch (this) {
-      case 'PLANNING':
-        return ChangeSetHooksStatus.planning;
-      case 'PLANNED':
-        return ChangeSetHooksStatus.planned;
-      case 'UNAVAILABLE':
-        return ChangeSetHooksStatus.unavailable;
-    }
-    throw Exception('$this is not known in enum ChangeSetHooksStatus');
-  }
+  const ChangeSetHooksStatus(this.value);
+
+  static ChangeSetHooksStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ChangeSetHooksStatus'));
 }
 
 enum ChangeSetStatus {
-  createPending,
-  createInProgress,
-  createComplete,
-  deletePending,
-  deleteInProgress,
-  deleteComplete,
-  deleteFailed,
-  failed,
-}
+  createPending('CREATE_PENDING'),
+  createInProgress('CREATE_IN_PROGRESS'),
+  createComplete('CREATE_COMPLETE'),
+  deletePending('DELETE_PENDING'),
+  deleteInProgress('DELETE_IN_PROGRESS'),
+  deleteComplete('DELETE_COMPLETE'),
+  deleteFailed('DELETE_FAILED'),
+  failed('FAILED'),
+  ;
 
-extension ChangeSetStatusValueExtension on ChangeSetStatus {
-  String toValue() {
-    switch (this) {
-      case ChangeSetStatus.createPending:
-        return 'CREATE_PENDING';
-      case ChangeSetStatus.createInProgress:
-        return 'CREATE_IN_PROGRESS';
-      case ChangeSetStatus.createComplete:
-        return 'CREATE_COMPLETE';
-      case ChangeSetStatus.deletePending:
-        return 'DELETE_PENDING';
-      case ChangeSetStatus.deleteInProgress:
-        return 'DELETE_IN_PROGRESS';
-      case ChangeSetStatus.deleteComplete:
-        return 'DELETE_COMPLETE';
-      case ChangeSetStatus.deleteFailed:
-        return 'DELETE_FAILED';
-      case ChangeSetStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ChangeSetStatusFromString on String {
-  ChangeSetStatus toChangeSetStatus() {
-    switch (this) {
-      case 'CREATE_PENDING':
-        return ChangeSetStatus.createPending;
-      case 'CREATE_IN_PROGRESS':
-        return ChangeSetStatus.createInProgress;
-      case 'CREATE_COMPLETE':
-        return ChangeSetStatus.createComplete;
-      case 'DELETE_PENDING':
-        return ChangeSetStatus.deletePending;
-      case 'DELETE_IN_PROGRESS':
-        return ChangeSetStatus.deleteInProgress;
-      case 'DELETE_COMPLETE':
-        return ChangeSetStatus.deleteComplete;
-      case 'DELETE_FAILED':
-        return ChangeSetStatus.deleteFailed;
-      case 'FAILED':
-        return ChangeSetStatus.failed;
-    }
-    throw Exception('$this is not known in enum ChangeSetStatus');
-  }
+  const ChangeSetStatus(this.value);
+
+  static ChangeSetStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ChangeSetStatus'));
 }
 
 /// The <code>ChangeSetSummary</code> structure describes a change set, its
@@ -8025,7 +7840,7 @@ class ChangeSetSummary {
       description: _s.extractXmlStringValue(elem, 'Description'),
       executionStatus: _s
           .extractXmlStringValue(elem, 'ExecutionStatus')
-          ?.toExecutionStatus(),
+          ?.let(ExecutionStatus.fromString) /* Nullability(true, true) */,
       importExistingResources:
           _s.extractXmlBoolValue(elem, 'ImportExistingResources'),
       includeNestedStacks: _s.extractXmlBoolValue(elem, 'IncludeNestedStacks'),
@@ -8033,7 +7848,9 @@ class ChangeSetSummary {
       rootChangeSetId: _s.extractXmlStringValue(elem, 'RootChangeSetId'),
       stackId: _s.extractXmlStringValue(elem, 'StackId'),
       stackName: _s.extractXmlStringValue(elem, 'StackName'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.toChangeSetStatus(),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(ChangeSetStatus.fromString) /* Nullability(true, true) */,
       statusReason: _s.extractXmlStringValue(elem, 'StatusReason'),
     );
   }
@@ -8057,7 +7874,7 @@ class ChangeSetSummary {
       if (changeSetName != null) 'ChangeSetName': changeSetName,
       if (creationTime != null) 'CreationTime': iso8601ToJson(creationTime),
       if (description != null) 'Description': description,
-      if (executionStatus != null) 'ExecutionStatus': executionStatus.toValue(),
+      if (executionStatus != null) 'ExecutionStatus': executionStatus.value,
       if (importExistingResources != null)
         'ImportExistingResources': importExistingResources,
       if (includeNestedStacks != null)
@@ -8066,137 +7883,72 @@ class ChangeSetSummary {
       if (rootChangeSetId != null) 'RootChangeSetId': rootChangeSetId,
       if (stackId != null) 'StackId': stackId,
       if (stackName != null) 'StackName': stackName,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusReason != null) 'StatusReason': statusReason,
     };
   }
 }
 
 enum ChangeSetType {
-  create,
-  update,
-  import,
-}
+  create('CREATE'),
+  update('UPDATE'),
+  import('IMPORT'),
+  ;
 
-extension ChangeSetTypeValueExtension on ChangeSetType {
-  String toValue() {
-    switch (this) {
-      case ChangeSetType.create:
-        return 'CREATE';
-      case ChangeSetType.update:
-        return 'UPDATE';
-      case ChangeSetType.import:
-        return 'IMPORT';
-    }
-  }
-}
+  final String value;
 
-extension ChangeSetTypeFromString on String {
-  ChangeSetType toChangeSetType() {
-    switch (this) {
-      case 'CREATE':
-        return ChangeSetType.create;
-      case 'UPDATE':
-        return ChangeSetType.update;
-      case 'IMPORT':
-        return ChangeSetType.import;
-    }
-    throw Exception('$this is not known in enum ChangeSetType');
-  }
+  const ChangeSetType(this.value);
+
+  static ChangeSetType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ChangeSetType'));
 }
 
 enum ChangeSource {
-  resourceReference,
-  parameterReference,
-  resourceAttribute,
-  directModification,
-  automatic,
-}
+  resourceReference('ResourceReference'),
+  parameterReference('ParameterReference'),
+  resourceAttribute('ResourceAttribute'),
+  directModification('DirectModification'),
+  automatic('Automatic'),
+  ;
 
-extension ChangeSourceValueExtension on ChangeSource {
-  String toValue() {
-    switch (this) {
-      case ChangeSource.resourceReference:
-        return 'ResourceReference';
-      case ChangeSource.parameterReference:
-        return 'ParameterReference';
-      case ChangeSource.resourceAttribute:
-        return 'ResourceAttribute';
-      case ChangeSource.directModification:
-        return 'DirectModification';
-      case ChangeSource.automatic:
-        return 'Automatic';
-    }
-  }
-}
+  final String value;
 
-extension ChangeSourceFromString on String {
-  ChangeSource toChangeSource() {
-    switch (this) {
-      case 'ResourceReference':
-        return ChangeSource.resourceReference;
-      case 'ParameterReference':
-        return ChangeSource.parameterReference;
-      case 'ResourceAttribute':
-        return ChangeSource.resourceAttribute;
-      case 'DirectModification':
-        return ChangeSource.directModification;
-      case 'Automatic':
-        return ChangeSource.automatic;
-    }
-    throw Exception('$this is not known in enum ChangeSource');
-  }
+  const ChangeSource(this.value);
+
+  static ChangeSource fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ChangeSource'));
 }
 
 enum ChangeType {
-  resource,
-}
+  resource('Resource'),
+  ;
 
-extension ChangeTypeValueExtension on ChangeType {
-  String toValue() {
-    switch (this) {
-      case ChangeType.resource:
-        return 'Resource';
-    }
-  }
-}
+  final String value;
 
-extension ChangeTypeFromString on String {
-  ChangeType toChangeType() {
-    switch (this) {
-      case 'Resource':
-        return ChangeType.resource;
-    }
-    throw Exception('$this is not known in enum ChangeType');
-  }
+  const ChangeType(this.value);
+
+  static ChangeType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ChangeType'));
 }
 
 enum ConcurrencyMode {
-  strictFailureTolerance,
-  softFailureTolerance,
-}
+  strictFailureTolerance('STRICT_FAILURE_TOLERANCE'),
+  softFailureTolerance('SOFT_FAILURE_TOLERANCE'),
+  ;
 
-extension ConcurrencyModeValueExtension on ConcurrencyMode {
-  String toValue() {
-    switch (this) {
-      case ConcurrencyMode.strictFailureTolerance:
-        return 'STRICT_FAILURE_TOLERANCE';
-      case ConcurrencyMode.softFailureTolerance:
-        return 'SOFT_FAILURE_TOLERANCE';
-    }
-  }
-}
+  final String value;
 
-extension ConcurrencyModeFromString on String {
-  ConcurrencyMode toConcurrencyMode() {
-    switch (this) {
-      case 'STRICT_FAILURE_TOLERANCE':
-        return ConcurrencyMode.strictFailureTolerance;
-      case 'SOFT_FAILURE_TOLERANCE':
-        return ConcurrencyMode.softFailureTolerance;
-    }
-    throw Exception('$this is not known in enum ConcurrencyMode');
-  }
+  const ConcurrencyMode(this.value);
+
+  static ConcurrencyMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ConcurrencyMode'));
 }
 
 /// The output for a <a>ContinueUpdateRollback</a> operation.
@@ -8404,31 +8156,18 @@ class DeleteStackSetOutput {
 }
 
 enum DeletionMode {
-  standard,
-  forceDeleteStack,
-}
+  standard('STANDARD'),
+  forceDeleteStack('FORCE_DELETE_STACK'),
+  ;
 
-extension DeletionModeValueExtension on DeletionMode {
-  String toValue() {
-    switch (this) {
-      case DeletionMode.standard:
-        return 'STANDARD';
-      case DeletionMode.forceDeleteStack:
-        return 'FORCE_DELETE_STACK';
-    }
-  }
-}
+  final String value;
 
-extension DeletionModeFromString on String {
-  DeletionMode toDeletionMode() {
-    switch (this) {
-      case 'STANDARD':
-        return DeletionMode.standard;
-      case 'FORCE_DELETE_STACK':
-        return DeletionMode.forceDeleteStack;
-    }
-    throw Exception('$this is not known in enum DeletionMode');
-  }
+  const DeletionMode(this.value);
+
+  static DeletionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DeletionMode'));
 }
 
 /// [Service-managed permissions] The Organizations accounts to which StackSets
@@ -8492,7 +8231,7 @@ class DeploymentTargets {
     return DeploymentTargets(
       accountFilterType: _s
           .extractXmlStringValue(elem, 'AccountFilterType')
-          ?.toAccountFilterType(),
+          ?.let(AccountFilterType.fromString) /* Nullability(true, true) */,
       accounts: _s
           .extractXmlChild(elem, 'Accounts')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
@@ -8510,7 +8249,7 @@ class DeploymentTargets {
     final organizationalUnitIds = this.organizationalUnitIds;
     return {
       if (accountFilterType != null)
-        'AccountFilterType': accountFilterType.toValue(),
+        'AccountFilterType': accountFilterType.value,
       if (accounts != null) 'Accounts': accounts,
       if (accountsUrl != null) 'AccountsUrl': accountsUrl,
       if (organizationalUnitIds != null)
@@ -8525,7 +8264,7 @@ class DeploymentTargets {
     final organizationalUnitIds = this.organizationalUnitIds;
     return {
       if (accountFilterType != null)
-        'AccountFilterType': accountFilterType.toValue(),
+        'AccountFilterType': accountFilterType.value,
       if (accounts != null)
         if (accounts.isEmpty)
           'Accounts': ''
@@ -8544,31 +8283,18 @@ class DeploymentTargets {
 }
 
 enum DeprecatedStatus {
-  live,
-  deprecated,
-}
+  live('LIVE'),
+  deprecated('DEPRECATED'),
+  ;
 
-extension DeprecatedStatusValueExtension on DeprecatedStatus {
-  String toValue() {
-    switch (this) {
-      case DeprecatedStatus.live:
-        return 'LIVE';
-      case DeprecatedStatus.deprecated:
-        return 'DEPRECATED';
-    }
-  }
-}
+  final String value;
 
-extension DeprecatedStatusFromString on String {
-  DeprecatedStatus toDeprecatedStatus() {
-    switch (this) {
-      case 'LIVE':
-        return DeprecatedStatus.live;
-      case 'DEPRECATED':
-        return DeprecatedStatus.deprecated;
-    }
-    throw Exception('$this is not known in enum DeprecatedStatus');
-  }
+  const DeprecatedStatus(this.value);
+
+  static DeprecatedStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DeprecatedStatus'));
 }
 
 class DeregisterTypeOutput {
@@ -8656,8 +8382,9 @@ class DescribeChangeSetHooksOutput {
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
       stackId: _s.extractXmlStringValue(elem, 'StackId'),
       stackName: _s.extractXmlStringValue(elem, 'StackName'),
-      status:
-          _s.extractXmlStringValue(elem, 'Status')?.toChangeSetHooksStatus(),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(ChangeSetHooksStatus.fromString) /* Nullability(true, true) */,
     );
   }
 
@@ -8676,7 +8403,7 @@ class DescribeChangeSetHooksOutput {
       if (nextToken != null) 'NextToken': nextToken,
       if (stackId != null) 'StackId': stackId,
       if (stackName != null) 'StackName': stackName,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -8827,7 +8554,7 @@ class DescribeChangeSetOutput {
     return DescribeChangeSetOutput(
       capabilities: _s.extractXmlChild(elem, 'Capabilities')?.let((elem) => _s
           .extractXmlStringListValues(elem, 'member')
-          .map((s) => s.toCapability())
+          .map(Capability.fromString)
           .toList()),
       changeSetId: _s.extractXmlStringValue(elem, 'ChangeSetId'),
       changeSetName: _s.extractXmlStringValue(elem, 'ChangeSetName'),
@@ -8837,7 +8564,7 @@ class DescribeChangeSetOutput {
       description: _s.extractXmlStringValue(elem, 'Description'),
       executionStatus: _s
           .extractXmlStringValue(elem, 'ExecutionStatus')
-          ?.toExecutionStatus(),
+          ?.let(ExecutionStatus.fromString) /* Nullability(true, true) */,
       importExistingResources:
           _s.extractXmlBoolValue(elem, 'ImportExistingResources'),
       includeNestedStacks: _s.extractXmlBoolValue(elem, 'IncludeNestedStacks'),
@@ -8845,8 +8572,9 @@ class DescribeChangeSetOutput {
       notificationARNs: _s
           .extractXmlChild(elem, 'NotificationARNs')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      onStackFailure:
-          _s.extractXmlStringValue(elem, 'OnStackFailure')?.toOnStackFailure(),
+      onStackFailure: _s
+          .extractXmlStringValue(elem, 'OnStackFailure')
+          ?.let(OnStackFailure.fromString) /* Nullability(true, true) */,
       parameters: _s.extractXmlChild(elem, 'Parameters')?.let((elem) =>
           elem.findElements('member').map(Parameter.fromXml).toList()),
       parentChangeSetId: _s.extractXmlStringValue(elem, 'ParentChangeSetId'),
@@ -8856,7 +8584,9 @@ class DescribeChangeSetOutput {
       rootChangeSetId: _s.extractXmlStringValue(elem, 'RootChangeSetId'),
       stackId: _s.extractXmlStringValue(elem, 'StackId'),
       stackName: _s.extractXmlStringValue(elem, 'StackName'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.toChangeSetStatus(),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(ChangeSetStatus.fromString) /* Nullability(true, true) */,
       statusReason: _s.extractXmlStringValue(elem, 'StatusReason'),
       tags: _s.extractXmlChild(elem, 'Tags')?.let(
           (elem) => elem.findElements('member').map(Tag.fromXml).toList()),
@@ -8887,20 +8617,20 @@ class DescribeChangeSetOutput {
     final tags = this.tags;
     return {
       if (capabilities != null)
-        'Capabilities': capabilities.map((e) => e.toValue()).toList(),
+        'Capabilities': capabilities.map((e) => e.value).toList(),
       if (changeSetId != null) 'ChangeSetId': changeSetId,
       if (changeSetName != null) 'ChangeSetName': changeSetName,
       if (changes != null) 'Changes': changes,
       if (creationTime != null) 'CreationTime': iso8601ToJson(creationTime),
       if (description != null) 'Description': description,
-      if (executionStatus != null) 'ExecutionStatus': executionStatus.toValue(),
+      if (executionStatus != null) 'ExecutionStatus': executionStatus.value,
       if (importExistingResources != null)
         'ImportExistingResources': importExistingResources,
       if (includeNestedStacks != null)
         'IncludeNestedStacks': includeNestedStacks,
       if (nextToken != null) 'NextToken': nextToken,
       if (notificationARNs != null) 'NotificationARNs': notificationARNs,
-      if (onStackFailure != null) 'OnStackFailure': onStackFailure.toValue(),
+      if (onStackFailure != null) 'OnStackFailure': onStackFailure.value,
       if (parameters != null) 'Parameters': parameters,
       if (parentChangeSetId != null) 'ParentChangeSetId': parentChangeSetId,
       if (rollbackConfiguration != null)
@@ -8908,7 +8638,7 @@ class DescribeChangeSetOutput {
       if (rootChangeSetId != null) 'RootChangeSetId': rootChangeSetId,
       if (stackId != null) 'StackId': stackId,
       if (stackName != null) 'StackName': stackName,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusReason != null) 'StatusReason': statusReason,
       if (tags != null) 'Tags': tags,
     };
@@ -9011,8 +8741,8 @@ class DescribeGeneratedTemplateOutput {
       resources: _s.extractXmlChild(elem, 'Resources')?.let((elem) =>
           elem.findElements('member').map(ResourceDetail.fromXml).toList()),
       stackId: _s.extractXmlStringValue(elem, 'StackId'),
-      status:
-          _s.extractXmlStringValue(elem, 'Status')?.toGeneratedTemplateStatus(),
+      status: _s.extractXmlStringValue(elem, 'Status')?.let(
+          GeneratedTemplateStatus.fromString) /* Nullability(true, true) */,
       statusReason: _s.extractXmlStringValue(elem, 'StatusReason'),
       templateConfiguration: _s
           .extractXmlChild(elem, 'TemplateConfiguration')
@@ -9044,7 +8774,7 @@ class DescribeGeneratedTemplateOutput {
       if (progress != null) 'Progress': progress,
       if (resources != null) 'Resources': resources,
       if (stackId != null) 'StackId': stackId,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusReason != null) 'StatusReason': statusReason,
       if (templateConfiguration != null)
         'TemplateConfiguration': templateConfiguration,
@@ -9062,14 +8792,16 @@ class DescribeOrganizationsAccessOutput {
   });
   factory DescribeOrganizationsAccessOutput.fromXml(_s.XmlElement elem) {
     return DescribeOrganizationsAccessOutput(
-      status: _s.extractXmlStringValue(elem, 'Status')?.toOrganizationStatus(),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(OrganizationStatus.fromString) /* Nullability(true, true) */,
     );
   }
 
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -9099,12 +8831,12 @@ class DescribePublisherOutput {
     return DescribePublisherOutput(
       identityProvider: _s
           .extractXmlStringValue(elem, 'IdentityProvider')
-          ?.toIdentityProvider(),
+          ?.let(IdentityProvider.fromString) /* Nullability(true, true) */,
       publisherId: _s.extractXmlStringValue(elem, 'PublisherId'),
       publisherProfile: _s.extractXmlStringValue(elem, 'PublisherProfile'),
       publisherStatus: _s
           .extractXmlStringValue(elem, 'PublisherStatus')
-          ?.toPublisherStatus(),
+          ?.let(PublisherStatus.fromString) /* Nullability(true, true) */,
     );
   }
 
@@ -9114,11 +8846,10 @@ class DescribePublisherOutput {
     final publisherProfile = this.publisherProfile;
     final publisherStatus = this.publisherStatus;
     return {
-      if (identityProvider != null)
-        'IdentityProvider': identityProvider.toValue(),
+      if (identityProvider != null) 'IdentityProvider': identityProvider.value,
       if (publisherId != null) 'PublisherId': publisherId,
       if (publisherProfile != null) 'PublisherProfile': publisherProfile,
-      if (publisherStatus != null) 'PublisherStatus': publisherStatus.toValue(),
+      if (publisherStatus != null) 'PublisherStatus': publisherStatus.value,
     };
   }
 }
@@ -9198,7 +8929,9 @@ class DescribeResourceScanOutput {
       resourcesRead: _s.extractXmlIntValue(elem, 'ResourcesRead'),
       resourcesScanned: _s.extractXmlIntValue(elem, 'ResourcesScanned'),
       startTime: _s.extractXmlDateTimeValue(elem, 'StartTime'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.toResourceScanStatus(),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(ResourceScanStatus.fromString) /* Nullability(true, true) */,
       statusReason: _s.extractXmlStringValue(elem, 'StatusReason'),
     );
   }
@@ -9222,7 +8955,7 @@ class DescribeResourceScanOutput {
       if (resourcesRead != null) 'ResourcesRead': resourcesRead,
       if (resourcesScanned != null) 'ResourcesScanned': resourcesScanned,
       if (startTime != null) 'StartTime': iso8601ToJson(startTime),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusReason != null) 'StatusReason': statusReason,
     };
   }
@@ -9310,9 +9043,8 @@ class DescribeStackDriftDetectionStatusOutput {
   });
   factory DescribeStackDriftDetectionStatusOutput.fromXml(_s.XmlElement elem) {
     return DescribeStackDriftDetectionStatusOutput(
-      detectionStatus: _s
-          .extractXmlStringValue(elem, 'DetectionStatus')!
-          .toStackDriftDetectionStatus(),
+      detectionStatus: _s.extractXmlStringValue(elem, 'DetectionStatus')!.let(
+          StackDriftDetectionStatus.fromString) /* Nullability(true, false) */,
       stackDriftDetectionId:
           _s.extractXmlStringValue(elem, 'StackDriftDetectionId')!,
       stackId: _s.extractXmlStringValue(elem, 'StackId')!,
@@ -9323,7 +9055,7 @@ class DescribeStackDriftDetectionStatusOutput {
           _s.extractXmlIntValue(elem, 'DriftedStackResourceCount'),
       stackDriftStatus: _s
           .extractXmlStringValue(elem, 'StackDriftStatus')
-          ?.toStackDriftStatus(),
+          ?.let(StackDriftStatus.fromString) /* Nullability(true, true) */,
     );
   }
 
@@ -9336,7 +9068,7 @@ class DescribeStackDriftDetectionStatusOutput {
     final driftedStackResourceCount = this.driftedStackResourceCount;
     final stackDriftStatus = this.stackDriftStatus;
     return {
-      'DetectionStatus': detectionStatus.toValue(),
+      'DetectionStatus': detectionStatus.value,
       'StackDriftDetectionId': stackDriftDetectionId,
       'StackId': stackId,
       'Timestamp': iso8601ToJson(timestamp),
@@ -9344,8 +9076,7 @@ class DescribeStackDriftDetectionStatusOutput {
         'DetectionStatusReason': detectionStatusReason,
       if (driftedStackResourceCount != null)
         'DriftedStackResourceCount': driftedStackResourceCount,
-      if (stackDriftStatus != null)
-        'StackDriftStatus': stackDriftStatus.toValue(),
+      if (stackDriftStatus != null) 'StackDriftStatus': stackDriftStatus.value,
     };
   }
 }
@@ -9880,7 +9611,7 @@ class DescribeTypeOutput {
       defaultVersionId: _s.extractXmlStringValue(elem, 'DefaultVersionId'),
       deprecatedStatus: _s
           .extractXmlStringValue(elem, 'DeprecatedStatus')
-          ?.toDeprecatedStatus(),
+          ?.let(DeprecatedStatus.fromString) /* Nullability(true, true) */,
       description: _s.extractXmlStringValue(elem, 'Description'),
       documentationUrl: _s.extractXmlStringValue(elem, 'DocumentationUrl'),
       executionRoleArn: _s.extractXmlStringValue(elem, 'ExecutionRoleArn'),
@@ -9895,7 +9626,7 @@ class DescribeTypeOutput {
       originalTypeName: _s.extractXmlStringValue(elem, 'OriginalTypeName'),
       provisioningType: _s
           .extractXmlStringValue(elem, 'ProvisioningType')
-          ?.toProvisioningType(),
+          ?.let(ProvisioningType.fromString) /* Nullability(true, true) */,
       publicVersionNumber:
           _s.extractXmlStringValue(elem, 'PublicVersionNumber'),
       publisherId: _s.extractXmlStringValue(elem, 'PublisherId'),
@@ -9908,14 +9639,18 @@ class DescribeTypeOutput {
       schema: _s.extractXmlStringValue(elem, 'Schema'),
       sourceUrl: _s.extractXmlStringValue(elem, 'SourceUrl'),
       timeCreated: _s.extractXmlDateTimeValue(elem, 'TimeCreated'),
-      type: _s.extractXmlStringValue(elem, 'Type')?.toRegistryType(),
+      type: _s
+          .extractXmlStringValue(elem, 'Type')
+          ?.let(RegistryType.fromString) /* Nullability(true, true) */,
       typeName: _s.extractXmlStringValue(elem, 'TypeName'),
       typeTestsStatus: _s
           .extractXmlStringValue(elem, 'TypeTestsStatus')
-          ?.toTypeTestsStatus(),
+          ?.let(TypeTestsStatus.fromString) /* Nullability(true, true) */,
       typeTestsStatusDescription:
           _s.extractXmlStringValue(elem, 'TypeTestsStatusDescription'),
-      visibility: _s.extractXmlStringValue(elem, 'Visibility')?.toVisibility(),
+      visibility: _s
+          .extractXmlStringValue(elem, 'Visibility')
+          ?.let(Visibility.fromString) /* Nullability(true, true) */,
     );
   }
 
@@ -9953,8 +9688,7 @@ class DescribeTypeOutput {
       if (configurationSchema != null)
         'ConfigurationSchema': configurationSchema,
       if (defaultVersionId != null) 'DefaultVersionId': defaultVersionId,
-      if (deprecatedStatus != null)
-        'DeprecatedStatus': deprecatedStatus.toValue(),
+      if (deprecatedStatus != null) 'DeprecatedStatus': deprecatedStatus.value,
       if (description != null) 'Description': description,
       if (documentationUrl != null) 'DocumentationUrl': documentationUrl,
       if (executionRoleArn != null) 'ExecutionRoleArn': executionRoleArn,
@@ -9966,8 +9700,7 @@ class DescribeTypeOutput {
       if (loggingConfig != null) 'LoggingConfig': loggingConfig,
       if (originalTypeArn != null) 'OriginalTypeArn': originalTypeArn,
       if (originalTypeName != null) 'OriginalTypeName': originalTypeName,
-      if (provisioningType != null)
-        'ProvisioningType': provisioningType.toValue(),
+      if (provisioningType != null) 'ProvisioningType': provisioningType.value,
       if (publicVersionNumber != null)
         'PublicVersionNumber': publicVersionNumber,
       if (publisherId != null) 'PublisherId': publisherId,
@@ -9976,12 +9709,12 @@ class DescribeTypeOutput {
       if (schema != null) 'Schema': schema,
       if (sourceUrl != null) 'SourceUrl': sourceUrl,
       if (timeCreated != null) 'TimeCreated': iso8601ToJson(timeCreated),
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
       if (typeName != null) 'TypeName': typeName,
-      if (typeTestsStatus != null) 'TypeTestsStatus': typeTestsStatus.toValue(),
+      if (typeTestsStatus != null) 'TypeTestsStatus': typeTestsStatus.value,
       if (typeTestsStatusDescription != null)
         'TypeTestsStatusDescription': typeTestsStatusDescription,
-      if (visibility != null) 'Visibility': visibility.toValue(),
+      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
@@ -10017,7 +9750,7 @@ class DescribeTypeRegistrationOutput {
       description: _s.extractXmlStringValue(elem, 'Description'),
       progressStatus: _s
           .extractXmlStringValue(elem, 'ProgressStatus')
-          ?.toRegistrationStatus(),
+          ?.let(RegistrationStatus.fromString) /* Nullability(true, true) */,
       typeArn: _s.extractXmlStringValue(elem, 'TypeArn'),
       typeVersionArn: _s.extractXmlStringValue(elem, 'TypeVersionArn'),
     );
@@ -10030,7 +9763,7 @@ class DescribeTypeRegistrationOutput {
     final typeVersionArn = this.typeVersionArn;
     return {
       if (description != null) 'Description': description,
-      if (progressStatus != null) 'ProgressStatus': progressStatus.toValue(),
+      if (progressStatus != null) 'ProgressStatus': progressStatus.value,
       if (typeArn != null) 'TypeArn': typeArn,
       if (typeVersionArn != null) 'TypeVersionArn': typeVersionArn,
     };
@@ -10038,31 +9771,18 @@ class DescribeTypeRegistrationOutput {
 }
 
 enum DetailedStatus {
-  configurationComplete,
-  validationFailed,
-}
+  configurationComplete('CONFIGURATION_COMPLETE'),
+  validationFailed('VALIDATION_FAILED'),
+  ;
 
-extension DetailedStatusValueExtension on DetailedStatus {
-  String toValue() {
-    switch (this) {
-      case DetailedStatus.configurationComplete:
-        return 'CONFIGURATION_COMPLETE';
-      case DetailedStatus.validationFailed:
-        return 'VALIDATION_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension DetailedStatusFromString on String {
-  DetailedStatus toDetailedStatus() {
-    switch (this) {
-      case 'CONFIGURATION_COMPLETE':
-        return DetailedStatus.configurationComplete;
-      case 'VALIDATION_FAILED':
-        return DetailedStatus.validationFailed;
-    }
-    throw Exception('$this is not known in enum DetailedStatus');
-  }
+  const DetailedStatus(this.value);
+
+  static DetailedStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DetailedStatus'));
 }
 
 class DetectStackDriftOutput {
@@ -10140,36 +9860,19 @@ class DetectStackSetDriftOutput {
 }
 
 enum DifferenceType {
-  add,
-  remove,
-  notEqual,
-}
+  add('ADD'),
+  remove('REMOVE'),
+  notEqual('NOT_EQUAL'),
+  ;
 
-extension DifferenceTypeValueExtension on DifferenceType {
-  String toValue() {
-    switch (this) {
-      case DifferenceType.add:
-        return 'ADD';
-      case DifferenceType.remove:
-        return 'REMOVE';
-      case DifferenceType.notEqual:
-        return 'NOT_EQUAL';
-    }
-  }
-}
+  final String value;
 
-extension DifferenceTypeFromString on String {
-  DifferenceType toDifferenceType() {
-    switch (this) {
-      case 'ADD':
-        return DifferenceType.add;
-      case 'REMOVE':
-        return DifferenceType.remove;
-      case 'NOT_EQUAL':
-        return DifferenceType.notEqual;
-    }
-    throw Exception('$this is not known in enum DifferenceType');
-  }
+  const DifferenceType(this.value);
+
+  static DifferenceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DifferenceType'));
 }
 
 /// The output for a <a>EstimateTemplateCost</a> action.
@@ -10196,31 +9899,18 @@ class EstimateTemplateCostOutput {
 }
 
 enum EvaluationType {
-  static,
-  $dynamic,
-}
+  static('Static'),
+  $dynamic('Dynamic'),
+  ;
 
-extension EvaluationTypeValueExtension on EvaluationType {
-  String toValue() {
-    switch (this) {
-      case EvaluationType.static:
-        return 'Static';
-      case EvaluationType.$dynamic:
-        return 'Dynamic';
-    }
-  }
-}
+  final String value;
 
-extension EvaluationTypeFromString on String {
-  EvaluationType toEvaluationType() {
-    switch (this) {
-      case 'Static':
-        return EvaluationType.static;
-      case 'Dynamic':
-        return EvaluationType.$dynamic;
-    }
-    throw Exception('$this is not known in enum EvaluationType');
-  }
+  const EvaluationType(this.value);
+
+  static EvaluationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EvaluationType'));
 }
 
 /// The output for the <a>ExecuteChangeSet</a> action.
@@ -10238,51 +9928,22 @@ class ExecuteChangeSetOutput {
 }
 
 enum ExecutionStatus {
-  unavailable,
-  available,
-  executeInProgress,
-  executeComplete,
-  executeFailed,
-  obsolete,
-}
+  unavailable('UNAVAILABLE'),
+  available('AVAILABLE'),
+  executeInProgress('EXECUTE_IN_PROGRESS'),
+  executeComplete('EXECUTE_COMPLETE'),
+  executeFailed('EXECUTE_FAILED'),
+  obsolete('OBSOLETE'),
+  ;
 
-extension ExecutionStatusValueExtension on ExecutionStatus {
-  String toValue() {
-    switch (this) {
-      case ExecutionStatus.unavailable:
-        return 'UNAVAILABLE';
-      case ExecutionStatus.available:
-        return 'AVAILABLE';
-      case ExecutionStatus.executeInProgress:
-        return 'EXECUTE_IN_PROGRESS';
-      case ExecutionStatus.executeComplete:
-        return 'EXECUTE_COMPLETE';
-      case ExecutionStatus.executeFailed:
-        return 'EXECUTE_FAILED';
-      case ExecutionStatus.obsolete:
-        return 'OBSOLETE';
-    }
-  }
-}
+  final String value;
 
-extension ExecutionStatusFromString on String {
-  ExecutionStatus toExecutionStatus() {
-    switch (this) {
-      case 'UNAVAILABLE':
-        return ExecutionStatus.unavailable;
-      case 'AVAILABLE':
-        return ExecutionStatus.available;
-      case 'EXECUTE_IN_PROGRESS':
-        return ExecutionStatus.executeInProgress;
-      case 'EXECUTE_COMPLETE':
-        return ExecutionStatus.executeComplete;
-      case 'EXECUTE_FAILED':
-        return ExecutionStatus.executeFailed;
-      case 'OBSOLETE':
-        return ExecutionStatus.obsolete;
-    }
-    throw Exception('$this is not known in enum ExecutionStatus');
-  }
+  const ExecutionStatus(this.value);
+
+  static ExecutionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ExecutionStatus'));
 }
 
 /// The <code>Export</code> structure describes the exported output values for a
@@ -10328,162 +9989,71 @@ class Export {
 }
 
 enum GeneratedTemplateDeletionPolicy {
-  delete,
-  retain,
-}
+  delete('DELETE'),
+  retain('RETAIN'),
+  ;
 
-extension GeneratedTemplateDeletionPolicyValueExtension
-    on GeneratedTemplateDeletionPolicy {
-  String toValue() {
-    switch (this) {
-      case GeneratedTemplateDeletionPolicy.delete:
-        return 'DELETE';
-      case GeneratedTemplateDeletionPolicy.retain:
-        return 'RETAIN';
-    }
-  }
-}
+  final String value;
 
-extension GeneratedTemplateDeletionPolicyFromString on String {
-  GeneratedTemplateDeletionPolicy toGeneratedTemplateDeletionPolicy() {
-    switch (this) {
-      case 'DELETE':
-        return GeneratedTemplateDeletionPolicy.delete;
-      case 'RETAIN':
-        return GeneratedTemplateDeletionPolicy.retain;
-    }
-    throw Exception(
-        '$this is not known in enum GeneratedTemplateDeletionPolicy');
-  }
+  const GeneratedTemplateDeletionPolicy(this.value);
+
+  static GeneratedTemplateDeletionPolicy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GeneratedTemplateDeletionPolicy'));
 }
 
 enum GeneratedTemplateResourceStatus {
-  pending,
-  inProgress,
-  failed,
-  complete,
-}
+  pending('PENDING'),
+  inProgress('IN_PROGRESS'),
+  failed('FAILED'),
+  complete('COMPLETE'),
+  ;
 
-extension GeneratedTemplateResourceStatusValueExtension
-    on GeneratedTemplateResourceStatus {
-  String toValue() {
-    switch (this) {
-      case GeneratedTemplateResourceStatus.pending:
-        return 'PENDING';
-      case GeneratedTemplateResourceStatus.inProgress:
-        return 'IN_PROGRESS';
-      case GeneratedTemplateResourceStatus.failed:
-        return 'FAILED';
-      case GeneratedTemplateResourceStatus.complete:
-        return 'COMPLETE';
-    }
-  }
-}
+  final String value;
 
-extension GeneratedTemplateResourceStatusFromString on String {
-  GeneratedTemplateResourceStatus toGeneratedTemplateResourceStatus() {
-    switch (this) {
-      case 'PENDING':
-        return GeneratedTemplateResourceStatus.pending;
-      case 'IN_PROGRESS':
-        return GeneratedTemplateResourceStatus.inProgress;
-      case 'FAILED':
-        return GeneratedTemplateResourceStatus.failed;
-      case 'COMPLETE':
-        return GeneratedTemplateResourceStatus.complete;
-    }
-    throw Exception(
-        '$this is not known in enum GeneratedTemplateResourceStatus');
-  }
+  const GeneratedTemplateResourceStatus(this.value);
+
+  static GeneratedTemplateResourceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GeneratedTemplateResourceStatus'));
 }
 
 enum GeneratedTemplateStatus {
-  createPending,
-  updatePending,
-  deletePending,
-  createInProgress,
-  updateInProgress,
-  deleteInProgress,
-  failed,
-  complete,
-}
+  createPending('CREATE_PENDING'),
+  updatePending('UPDATE_PENDING'),
+  deletePending('DELETE_PENDING'),
+  createInProgress('CREATE_IN_PROGRESS'),
+  updateInProgress('UPDATE_IN_PROGRESS'),
+  deleteInProgress('DELETE_IN_PROGRESS'),
+  failed('FAILED'),
+  complete('COMPLETE'),
+  ;
 
-extension GeneratedTemplateStatusValueExtension on GeneratedTemplateStatus {
-  String toValue() {
-    switch (this) {
-      case GeneratedTemplateStatus.createPending:
-        return 'CREATE_PENDING';
-      case GeneratedTemplateStatus.updatePending:
-        return 'UPDATE_PENDING';
-      case GeneratedTemplateStatus.deletePending:
-        return 'DELETE_PENDING';
-      case GeneratedTemplateStatus.createInProgress:
-        return 'CREATE_IN_PROGRESS';
-      case GeneratedTemplateStatus.updateInProgress:
-        return 'UPDATE_IN_PROGRESS';
-      case GeneratedTemplateStatus.deleteInProgress:
-        return 'DELETE_IN_PROGRESS';
-      case GeneratedTemplateStatus.failed:
-        return 'FAILED';
-      case GeneratedTemplateStatus.complete:
-        return 'COMPLETE';
-    }
-  }
-}
+  final String value;
 
-extension GeneratedTemplateStatusFromString on String {
-  GeneratedTemplateStatus toGeneratedTemplateStatus() {
-    switch (this) {
-      case 'CREATE_PENDING':
-        return GeneratedTemplateStatus.createPending;
-      case 'UPDATE_PENDING':
-        return GeneratedTemplateStatus.updatePending;
-      case 'DELETE_PENDING':
-        return GeneratedTemplateStatus.deletePending;
-      case 'CREATE_IN_PROGRESS':
-        return GeneratedTemplateStatus.createInProgress;
-      case 'UPDATE_IN_PROGRESS':
-        return GeneratedTemplateStatus.updateInProgress;
-      case 'DELETE_IN_PROGRESS':
-        return GeneratedTemplateStatus.deleteInProgress;
-      case 'FAILED':
-        return GeneratedTemplateStatus.failed;
-      case 'COMPLETE':
-        return GeneratedTemplateStatus.complete;
-    }
-    throw Exception('$this is not known in enum GeneratedTemplateStatus');
-  }
+  const GeneratedTemplateStatus(this.value);
+
+  static GeneratedTemplateStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GeneratedTemplateStatus'));
 }
 
 enum GeneratedTemplateUpdateReplacePolicy {
-  delete,
-  retain,
-}
+  delete('DELETE'),
+  retain('RETAIN'),
+  ;
 
-extension GeneratedTemplateUpdateReplacePolicyValueExtension
-    on GeneratedTemplateUpdateReplacePolicy {
-  String toValue() {
-    switch (this) {
-      case GeneratedTemplateUpdateReplacePolicy.delete:
-        return 'DELETE';
-      case GeneratedTemplateUpdateReplacePolicy.retain:
-        return 'RETAIN';
-    }
-  }
-}
+  final String value;
 
-extension GeneratedTemplateUpdateReplacePolicyFromString on String {
-  GeneratedTemplateUpdateReplacePolicy
-      toGeneratedTemplateUpdateReplacePolicy() {
-    switch (this) {
-      case 'DELETE':
-        return GeneratedTemplateUpdateReplacePolicy.delete;
-      case 'RETAIN':
-        return GeneratedTemplateUpdateReplacePolicy.retain;
-    }
-    throw Exception(
-        '$this is not known in enum GeneratedTemplateUpdateReplacePolicy');
-  }
+  const GeneratedTemplateUpdateReplacePolicy(this.value);
+
+  static GeneratedTemplateUpdateReplacePolicy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GeneratedTemplateUpdateReplacePolicy'));
 }
 
 class GetGeneratedTemplateOutput {
@@ -10527,8 +10097,8 @@ class GetGeneratedTemplateOutput {
   });
   factory GetGeneratedTemplateOutput.fromXml(_s.XmlElement elem) {
     return GetGeneratedTemplateOutput(
-      status:
-          _s.extractXmlStringValue(elem, 'Status')?.toGeneratedTemplateStatus(),
+      status: _s.extractXmlStringValue(elem, 'Status')?.let(
+          GeneratedTemplateStatus.fromString) /* Nullability(true, true) */,
       templateBody: _s.extractXmlStringValue(elem, 'TemplateBody'),
     );
   }
@@ -10537,7 +10107,7 @@ class GetGeneratedTemplateOutput {
     final status = this.status;
     final templateBody = this.templateBody;
     return {
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (templateBody != null) 'TemplateBody': templateBody,
     };
   }
@@ -10594,7 +10164,7 @@ class GetTemplateOutput {
       stagesAvailable: _s.extractXmlChild(elem, 'StagesAvailable')?.let(
           (elem) => _s
               .extractXmlStringListValues(elem, 'member')
-              .map((s) => s.toTemplateStage())
+              .map(TemplateStage.fromString)
               .toList()),
       templateBody: _s.extractXmlStringValue(elem, 'TemplateBody'),
     );
@@ -10605,7 +10175,7 @@ class GetTemplateOutput {
     final templateBody = this.templateBody;
     return {
       if (stagesAvailable != null)
-        'StagesAvailable': stagesAvailable.map((e) => e.toValue()).toList(),
+        'StagesAvailable': stagesAvailable.map((e) => e.value).toList(),
       if (templateBody != null) 'TemplateBody': templateBody,
     };
   }
@@ -10678,7 +10248,7 @@ class GetTemplateSummaryOutput {
     return GetTemplateSummaryOutput(
       capabilities: _s.extractXmlChild(elem, 'Capabilities')?.let((elem) => _s
           .extractXmlStringListValues(elem, 'member')
-          .map((s) => s.toCapability())
+          .map(Capability.fromString)
           .toList()),
       capabilitiesReason: _s.extractXmlStringValue(elem, 'CapabilitiesReason'),
       declaredTransforms: _s
@@ -10717,7 +10287,7 @@ class GetTemplateSummaryOutput {
     final warnings = this.warnings;
     return {
       if (capabilities != null)
-        'Capabilities': capabilities.map((e) => e.toValue()).toList(),
+        'Capabilities': capabilities.map((e) => e.value).toList(),
       if (capabilitiesReason != null) 'CapabilitiesReason': capabilitiesReason,
       if (declaredTransforms != null) 'DeclaredTransforms': declaredTransforms,
       if (description != null) 'Description': description,
@@ -10733,261 +10303,110 @@ class GetTemplateSummaryOutput {
 }
 
 enum HandlerErrorCode {
-  notUpdatable,
-  invalidRequest,
-  accessDenied,
-  invalidCredentials,
-  alreadyExists,
-  notFound,
-  resourceConflict,
-  throttling,
-  serviceLimitExceeded,
-  notStabilized,
-  generalServiceException,
-  serviceInternalError,
-  networkFailure,
-  internalFailure,
-  invalidTypeConfiguration,
-  handlerInternalFailure,
-  nonCompliant,
-  unknown,
-  unsupportedTarget,
-}
+  notUpdatable('NotUpdatable'),
+  invalidRequest('InvalidRequest'),
+  accessDenied('AccessDenied'),
+  invalidCredentials('InvalidCredentials'),
+  alreadyExists('AlreadyExists'),
+  notFound('NotFound'),
+  resourceConflict('ResourceConflict'),
+  throttling('Throttling'),
+  serviceLimitExceeded('ServiceLimitExceeded'),
+  notStabilized('NotStabilized'),
+  generalServiceException('GeneralServiceException'),
+  serviceInternalError('ServiceInternalError'),
+  networkFailure('NetworkFailure'),
+  internalFailure('InternalFailure'),
+  invalidTypeConfiguration('InvalidTypeConfiguration'),
+  handlerInternalFailure('HandlerInternalFailure'),
+  nonCompliant('NonCompliant'),
+  unknown('Unknown'),
+  unsupportedTarget('UnsupportedTarget'),
+  ;
 
-extension HandlerErrorCodeValueExtension on HandlerErrorCode {
-  String toValue() {
-    switch (this) {
-      case HandlerErrorCode.notUpdatable:
-        return 'NotUpdatable';
-      case HandlerErrorCode.invalidRequest:
-        return 'InvalidRequest';
-      case HandlerErrorCode.accessDenied:
-        return 'AccessDenied';
-      case HandlerErrorCode.invalidCredentials:
-        return 'InvalidCredentials';
-      case HandlerErrorCode.alreadyExists:
-        return 'AlreadyExists';
-      case HandlerErrorCode.notFound:
-        return 'NotFound';
-      case HandlerErrorCode.resourceConflict:
-        return 'ResourceConflict';
-      case HandlerErrorCode.throttling:
-        return 'Throttling';
-      case HandlerErrorCode.serviceLimitExceeded:
-        return 'ServiceLimitExceeded';
-      case HandlerErrorCode.notStabilized:
-        return 'NotStabilized';
-      case HandlerErrorCode.generalServiceException:
-        return 'GeneralServiceException';
-      case HandlerErrorCode.serviceInternalError:
-        return 'ServiceInternalError';
-      case HandlerErrorCode.networkFailure:
-        return 'NetworkFailure';
-      case HandlerErrorCode.internalFailure:
-        return 'InternalFailure';
-      case HandlerErrorCode.invalidTypeConfiguration:
-        return 'InvalidTypeConfiguration';
-      case HandlerErrorCode.handlerInternalFailure:
-        return 'HandlerInternalFailure';
-      case HandlerErrorCode.nonCompliant:
-        return 'NonCompliant';
-      case HandlerErrorCode.unknown:
-        return 'Unknown';
-      case HandlerErrorCode.unsupportedTarget:
-        return 'UnsupportedTarget';
-    }
-  }
-}
+  final String value;
 
-extension HandlerErrorCodeFromString on String {
-  HandlerErrorCode toHandlerErrorCode() {
-    switch (this) {
-      case 'NotUpdatable':
-        return HandlerErrorCode.notUpdatable;
-      case 'InvalidRequest':
-        return HandlerErrorCode.invalidRequest;
-      case 'AccessDenied':
-        return HandlerErrorCode.accessDenied;
-      case 'InvalidCredentials':
-        return HandlerErrorCode.invalidCredentials;
-      case 'AlreadyExists':
-        return HandlerErrorCode.alreadyExists;
-      case 'NotFound':
-        return HandlerErrorCode.notFound;
-      case 'ResourceConflict':
-        return HandlerErrorCode.resourceConflict;
-      case 'Throttling':
-        return HandlerErrorCode.throttling;
-      case 'ServiceLimitExceeded':
-        return HandlerErrorCode.serviceLimitExceeded;
-      case 'NotStabilized':
-        return HandlerErrorCode.notStabilized;
-      case 'GeneralServiceException':
-        return HandlerErrorCode.generalServiceException;
-      case 'ServiceInternalError':
-        return HandlerErrorCode.serviceInternalError;
-      case 'NetworkFailure':
-        return HandlerErrorCode.networkFailure;
-      case 'InternalFailure':
-        return HandlerErrorCode.internalFailure;
-      case 'InvalidTypeConfiguration':
-        return HandlerErrorCode.invalidTypeConfiguration;
-      case 'HandlerInternalFailure':
-        return HandlerErrorCode.handlerInternalFailure;
-      case 'NonCompliant':
-        return HandlerErrorCode.nonCompliant;
-      case 'Unknown':
-        return HandlerErrorCode.unknown;
-      case 'UnsupportedTarget':
-        return HandlerErrorCode.unsupportedTarget;
-    }
-    throw Exception('$this is not known in enum HandlerErrorCode');
-  }
+  const HandlerErrorCode(this.value);
+
+  static HandlerErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum HandlerErrorCode'));
 }
 
 enum HookFailureMode {
-  fail,
-  warn,
-}
+  fail('FAIL'),
+  warn('WARN'),
+  ;
 
-extension HookFailureModeValueExtension on HookFailureMode {
-  String toValue() {
-    switch (this) {
-      case HookFailureMode.fail:
-        return 'FAIL';
-      case HookFailureMode.warn:
-        return 'WARN';
-    }
-  }
-}
+  final String value;
 
-extension HookFailureModeFromString on String {
-  HookFailureMode toHookFailureMode() {
-    switch (this) {
-      case 'FAIL':
-        return HookFailureMode.fail;
-      case 'WARN':
-        return HookFailureMode.warn;
-    }
-    throw Exception('$this is not known in enum HookFailureMode');
-  }
+  const HookFailureMode(this.value);
+
+  static HookFailureMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum HookFailureMode'));
 }
 
 enum HookInvocationPoint {
-  preProvision,
-}
+  preProvision('PRE_PROVISION'),
+  ;
 
-extension HookInvocationPointValueExtension on HookInvocationPoint {
-  String toValue() {
-    switch (this) {
-      case HookInvocationPoint.preProvision:
-        return 'PRE_PROVISION';
-    }
-  }
-}
+  final String value;
 
-extension HookInvocationPointFromString on String {
-  HookInvocationPoint toHookInvocationPoint() {
-    switch (this) {
-      case 'PRE_PROVISION':
-        return HookInvocationPoint.preProvision;
-    }
-    throw Exception('$this is not known in enum HookInvocationPoint');
-  }
+  const HookInvocationPoint(this.value);
+
+  static HookInvocationPoint fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum HookInvocationPoint'));
 }
 
 enum HookStatus {
-  hookInProgress,
-  hookCompleteSucceeded,
-  hookCompleteFailed,
-  hookFailed,
-}
+  hookInProgress('HOOK_IN_PROGRESS'),
+  hookCompleteSucceeded('HOOK_COMPLETE_SUCCEEDED'),
+  hookCompleteFailed('HOOK_COMPLETE_FAILED'),
+  hookFailed('HOOK_FAILED'),
+  ;
 
-extension HookStatusValueExtension on HookStatus {
-  String toValue() {
-    switch (this) {
-      case HookStatus.hookInProgress:
-        return 'HOOK_IN_PROGRESS';
-      case HookStatus.hookCompleteSucceeded:
-        return 'HOOK_COMPLETE_SUCCEEDED';
-      case HookStatus.hookCompleteFailed:
-        return 'HOOK_COMPLETE_FAILED';
-      case HookStatus.hookFailed:
-        return 'HOOK_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension HookStatusFromString on String {
-  HookStatus toHookStatus() {
-    switch (this) {
-      case 'HOOK_IN_PROGRESS':
-        return HookStatus.hookInProgress;
-      case 'HOOK_COMPLETE_SUCCEEDED':
-        return HookStatus.hookCompleteSucceeded;
-      case 'HOOK_COMPLETE_FAILED':
-        return HookStatus.hookCompleteFailed;
-      case 'HOOK_FAILED':
-        return HookStatus.hookFailed;
-    }
-    throw Exception('$this is not known in enum HookStatus');
-  }
+  const HookStatus(this.value);
+
+  static HookStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum HookStatus'));
 }
 
 enum HookTargetType {
-  resource,
-}
+  resource('RESOURCE'),
+  ;
 
-extension HookTargetTypeValueExtension on HookTargetType {
-  String toValue() {
-    switch (this) {
-      case HookTargetType.resource:
-        return 'RESOURCE';
-    }
-  }
-}
+  final String value;
 
-extension HookTargetTypeFromString on String {
-  HookTargetType toHookTargetType() {
-    switch (this) {
-      case 'RESOURCE':
-        return HookTargetType.resource;
-    }
-    throw Exception('$this is not known in enum HookTargetType');
-  }
+  const HookTargetType(this.value);
+
+  static HookTargetType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum HookTargetType'));
 }
 
 enum IdentityProvider {
-  awsMarketplace,
-  gitHub,
-  bitbucket,
-}
+  awsMarketplace('AWS_Marketplace'),
+  gitHub('GitHub'),
+  bitbucket('Bitbucket'),
+  ;
 
-extension IdentityProviderValueExtension on IdentityProvider {
-  String toValue() {
-    switch (this) {
-      case IdentityProvider.awsMarketplace:
-        return 'AWS_Marketplace';
-      case IdentityProvider.gitHub:
-        return 'GitHub';
-      case IdentityProvider.bitbucket:
-        return 'Bitbucket';
-    }
-  }
-}
+  final String value;
 
-extension IdentityProviderFromString on String {
-  IdentityProvider toIdentityProvider() {
-    switch (this) {
-      case 'AWS_Marketplace':
-        return IdentityProvider.awsMarketplace;
-      case 'GitHub':
-        return IdentityProvider.gitHub;
-      case 'Bitbucket':
-        return IdentityProvider.bitbucket;
-    }
-    throw Exception('$this is not known in enum IdentityProvider');
-  }
+  const IdentityProvider(this.value);
+
+  static IdentityProvider fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum IdentityProvider'));
 }
 
 class ImportStacksToStackSetOutput {
@@ -11781,69 +11200,34 @@ class ModuleInfo {
 }
 
 enum OnFailure {
-  doNothing,
-  rollback,
-  delete,
-}
+  doNothing('DO_NOTHING'),
+  rollback('ROLLBACK'),
+  delete('DELETE'),
+  ;
 
-extension OnFailureValueExtension on OnFailure {
-  String toValue() {
-    switch (this) {
-      case OnFailure.doNothing:
-        return 'DO_NOTHING';
-      case OnFailure.rollback:
-        return 'ROLLBACK';
-      case OnFailure.delete:
-        return 'DELETE';
-    }
-  }
-}
+  final String value;
 
-extension OnFailureFromString on String {
-  OnFailure toOnFailure() {
-    switch (this) {
-      case 'DO_NOTHING':
-        return OnFailure.doNothing;
-      case 'ROLLBACK':
-        return OnFailure.rollback;
-      case 'DELETE':
-        return OnFailure.delete;
-    }
-    throw Exception('$this is not known in enum OnFailure');
-  }
+  const OnFailure(this.value);
+
+  static OnFailure fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum OnFailure'));
 }
 
 enum OnStackFailure {
-  doNothing,
-  rollback,
-  delete,
-}
+  doNothing('DO_NOTHING'),
+  rollback('ROLLBACK'),
+  delete('DELETE'),
+  ;
 
-extension OnStackFailureValueExtension on OnStackFailure {
-  String toValue() {
-    switch (this) {
-      case OnStackFailure.doNothing:
-        return 'DO_NOTHING';
-      case OnStackFailure.rollback:
-        return 'ROLLBACK';
-      case OnStackFailure.delete:
-        return 'DELETE';
-    }
-  }
-}
+  final String value;
 
-extension OnStackFailureFromString on String {
-  OnStackFailure toOnStackFailure() {
-    switch (this) {
-      case 'DO_NOTHING':
-        return OnStackFailure.doNothing;
-      case 'ROLLBACK':
-        return OnStackFailure.rollback;
-      case 'DELETE':
-        return OnStackFailure.delete;
-    }
-    throw Exception('$this is not known in enum OnStackFailure');
-  }
+  const OnStackFailure(this.value);
+
+  static OnStackFailure fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OnStackFailure'));
 }
 
 /// The status that operation results are filtered by.
@@ -11863,7 +11247,7 @@ class OperationResultFilter {
     final name = this.name;
     final values = this.values;
     return {
-      if (name != null) 'Name': name.toValue(),
+      if (name != null) 'Name': name.value,
       if (values != null) 'Values': values,
     };
   }
@@ -11872,104 +11256,57 @@ class OperationResultFilter {
     final name = this.name;
     final values = this.values;
     return {
-      if (name != null) 'Name': name.toValue(),
+      if (name != null) 'Name': name.value,
       if (values != null) 'Values': values,
     };
   }
 }
 
 enum OperationResultFilterName {
-  operationResultStatus,
-}
+  operationResultStatus('OPERATION_RESULT_STATUS'),
+  ;
 
-extension OperationResultFilterNameValueExtension on OperationResultFilterName {
-  String toValue() {
-    switch (this) {
-      case OperationResultFilterName.operationResultStatus:
-        return 'OPERATION_RESULT_STATUS';
-    }
-  }
-}
+  final String value;
 
-extension OperationResultFilterNameFromString on String {
-  OperationResultFilterName toOperationResultFilterName() {
-    switch (this) {
-      case 'OPERATION_RESULT_STATUS':
-        return OperationResultFilterName.operationResultStatus;
-    }
-    throw Exception('$this is not known in enum OperationResultFilterName');
-  }
+  const OperationResultFilterName(this.value);
+
+  static OperationResultFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum OperationResultFilterName'));
 }
 
 enum OperationStatus {
-  pending,
-  inProgress,
-  success,
-  failed,
-}
+  pending('PENDING'),
+  inProgress('IN_PROGRESS'),
+  success('SUCCESS'),
+  failed('FAILED'),
+  ;
 
-extension OperationStatusValueExtension on OperationStatus {
-  String toValue() {
-    switch (this) {
-      case OperationStatus.pending:
-        return 'PENDING';
-      case OperationStatus.inProgress:
-        return 'IN_PROGRESS';
-      case OperationStatus.success:
-        return 'SUCCESS';
-      case OperationStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension OperationStatusFromString on String {
-  OperationStatus toOperationStatus() {
-    switch (this) {
-      case 'PENDING':
-        return OperationStatus.pending;
-      case 'IN_PROGRESS':
-        return OperationStatus.inProgress;
-      case 'SUCCESS':
-        return OperationStatus.success;
-      case 'FAILED':
-        return OperationStatus.failed;
-    }
-    throw Exception('$this is not known in enum OperationStatus');
-  }
+  const OperationStatus(this.value);
+
+  static OperationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OperationStatus'));
 }
 
 enum OrganizationStatus {
-  enabled,
-  disabled,
-  disabledPermanently,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  disabledPermanently('DISABLED_PERMANENTLY'),
+  ;
 
-extension OrganizationStatusValueExtension on OrganizationStatus {
-  String toValue() {
-    switch (this) {
-      case OrganizationStatus.enabled:
-        return 'ENABLED';
-      case OrganizationStatus.disabled:
-        return 'DISABLED';
-      case OrganizationStatus.disabledPermanently:
-        return 'DISABLED_PERMANENTLY';
-    }
-  }
-}
+  final String value;
 
-extension OrganizationStatusFromString on String {
-  OrganizationStatus toOrganizationStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return OrganizationStatus.enabled;
-      case 'DISABLED':
-        return OrganizationStatus.disabled;
-      case 'DISABLED_PERMANENTLY':
-        return OrganizationStatus.disabledPermanently;
-    }
-    throw Exception('$this is not known in enum OrganizationStatus');
-  }
+  const OrganizationStatus(this.value);
+
+  static OrganizationStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum OrganizationStatus'));
 }
 
 /// The Output data type.
@@ -12167,31 +11504,18 @@ class ParameterDeclaration {
 }
 
 enum PermissionModels {
-  serviceManaged,
-  selfManaged,
-}
+  serviceManaged('SERVICE_MANAGED'),
+  selfManaged('SELF_MANAGED'),
+  ;
 
-extension PermissionModelsValueExtension on PermissionModels {
-  String toValue() {
-    switch (this) {
-      case PermissionModels.serviceManaged:
-        return 'SERVICE_MANAGED';
-      case PermissionModels.selfManaged:
-        return 'SELF_MANAGED';
-    }
-  }
-}
+  final String value;
 
-extension PermissionModelsFromString on String {
-  PermissionModels toPermissionModels() {
-    switch (this) {
-      case 'SERVICE_MANAGED':
-        return PermissionModels.serviceManaged;
-      case 'SELF_MANAGED':
-        return PermissionModels.selfManaged;
-    }
-    throw Exception('$this is not known in enum PermissionModels');
-  }
+  const PermissionModels(this.value);
+
+  static PermissionModels fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PermissionModels'));
 }
 
 /// Context information that enables CloudFormation to uniquely identify a
@@ -12228,51 +11552,22 @@ class PhysicalResourceIdContextKeyValuePair {
 }
 
 enum PolicyAction {
-  delete,
-  retain,
-  snapshot,
-  replaceAndDelete,
-  replaceAndRetain,
-  replaceAndSnapshot,
-}
+  delete('Delete'),
+  retain('Retain'),
+  snapshot('Snapshot'),
+  replaceAndDelete('ReplaceAndDelete'),
+  replaceAndRetain('ReplaceAndRetain'),
+  replaceAndSnapshot('ReplaceAndSnapshot'),
+  ;
 
-extension PolicyActionValueExtension on PolicyAction {
-  String toValue() {
-    switch (this) {
-      case PolicyAction.delete:
-        return 'Delete';
-      case PolicyAction.retain:
-        return 'Retain';
-      case PolicyAction.snapshot:
-        return 'Snapshot';
-      case PolicyAction.replaceAndDelete:
-        return 'ReplaceAndDelete';
-      case PolicyAction.replaceAndRetain:
-        return 'ReplaceAndRetain';
-      case PolicyAction.replaceAndSnapshot:
-        return 'ReplaceAndSnapshot';
-    }
-  }
-}
+  final String value;
 
-extension PolicyActionFromString on String {
-  PolicyAction toPolicyAction() {
-    switch (this) {
-      case 'Delete':
-        return PolicyAction.delete;
-      case 'Retain':
-        return PolicyAction.retain;
-      case 'Snapshot':
-        return PolicyAction.snapshot;
-      case 'ReplaceAndDelete':
-        return PolicyAction.replaceAndDelete;
-      case 'ReplaceAndRetain':
-        return PolicyAction.replaceAndRetain;
-      case 'ReplaceAndSnapshot':
-        return PolicyAction.replaceAndSnapshot;
-    }
-    throw Exception('$this is not known in enum PolicyAction');
-  }
+  const PolicyAction(this.value);
+
+  static PolicyAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PolicyAction'));
 }
 
 /// Information about a resource property whose actual value differs from its
@@ -12321,8 +11616,9 @@ class PropertyDifference {
   factory PropertyDifference.fromXml(_s.XmlElement elem) {
     return PropertyDifference(
       actualValue: _s.extractXmlStringValue(elem, 'ActualValue')!,
-      differenceType:
-          _s.extractXmlStringValue(elem, 'DifferenceType')!.toDifferenceType(),
+      differenceType: _s
+          .extractXmlStringValue(elem, 'DifferenceType')!
+          .let(DifferenceType.fromString) /* Nullability(true, false) */,
       expectedValue: _s.extractXmlStringValue(elem, 'ExpectedValue')!,
       propertyPath: _s.extractXmlStringValue(elem, 'PropertyPath')!,
     );
@@ -12335,7 +11631,7 @@ class PropertyDifference {
     final propertyPath = this.propertyPath;
     return {
       'ActualValue': actualValue,
-      'DifferenceType': differenceType.toValue(),
+      'DifferenceType': differenceType.value,
       'ExpectedValue': expectedValue,
       'PropertyPath': propertyPath,
     };
@@ -12343,36 +11639,19 @@ class PropertyDifference {
 }
 
 enum ProvisioningType {
-  nonProvisionable,
-  immutable,
-  fullyMutable,
-}
+  nonProvisionable('NON_PROVISIONABLE'),
+  immutable('IMMUTABLE'),
+  fullyMutable('FULLY_MUTABLE'),
+  ;
 
-extension ProvisioningTypeValueExtension on ProvisioningType {
-  String toValue() {
-    switch (this) {
-      case ProvisioningType.nonProvisionable:
-        return 'NON_PROVISIONABLE';
-      case ProvisioningType.immutable:
-        return 'IMMUTABLE';
-      case ProvisioningType.fullyMutable:
-        return 'FULLY_MUTABLE';
-    }
-  }
-}
+  final String value;
 
-extension ProvisioningTypeFromString on String {
-  ProvisioningType toProvisioningType() {
-    switch (this) {
-      case 'NON_PROVISIONABLE':
-        return ProvisioningType.nonProvisionable;
-      case 'IMMUTABLE':
-        return ProvisioningType.immutable;
-      case 'FULLY_MUTABLE':
-        return ProvisioningType.fullyMutable;
-    }
-    throw Exception('$this is not known in enum ProvisioningType');
-  }
+  const ProvisioningType(this.value);
+
+  static ProvisioningType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ProvisioningType'));
 }
 
 class PublishTypeOutput {
@@ -12398,31 +11677,18 @@ class PublishTypeOutput {
 }
 
 enum PublisherStatus {
-  verified,
-  unverified,
-}
+  verified('VERIFIED'),
+  unverified('UNVERIFIED'),
+  ;
 
-extension PublisherStatusValueExtension on PublisherStatus {
-  String toValue() {
-    switch (this) {
-      case PublisherStatus.verified:
-        return 'VERIFIED';
-      case PublisherStatus.unverified:
-        return 'UNVERIFIED';
-    }
-  }
-}
+  final String value;
 
-extension PublisherStatusFromString on String {
-  PublisherStatus toPublisherStatus() {
-    switch (this) {
-      case 'VERIFIED':
-        return PublisherStatus.verified;
-      case 'UNVERIFIED':
-        return PublisherStatus.unverified;
-    }
-    throw Exception('$this is not known in enum PublisherStatus');
-  }
+  const PublisherStatus(this.value);
+
+  static PublisherStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PublisherStatus'));
 }
 
 class RecordHandlerProgressOutput {
@@ -12439,31 +11705,18 @@ class RecordHandlerProgressOutput {
 }
 
 enum RegionConcurrencyType {
-  sequential,
-  parallel,
-}
+  sequential('SEQUENTIAL'),
+  parallel('PARALLEL'),
+  ;
 
-extension RegionConcurrencyTypeValueExtension on RegionConcurrencyType {
-  String toValue() {
-    switch (this) {
-      case RegionConcurrencyType.sequential:
-        return 'SEQUENTIAL';
-      case RegionConcurrencyType.parallel:
-        return 'PARALLEL';
-    }
-  }
-}
+  final String value;
 
-extension RegionConcurrencyTypeFromString on String {
-  RegionConcurrencyType toRegionConcurrencyType() {
-    switch (this) {
-      case 'SEQUENTIAL':
-        return RegionConcurrencyType.sequential;
-      case 'PARALLEL':
-        return RegionConcurrencyType.parallel;
-    }
-    throw Exception('$this is not known in enum RegionConcurrencyType');
-  }
+  const RegionConcurrencyType(this.value);
+
+  static RegionConcurrencyType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RegionConcurrencyType'));
 }
 
 class RegisterPublisherOutput {
@@ -12513,102 +11766,50 @@ class RegisterTypeOutput {
 }
 
 enum RegistrationStatus {
-  complete,
-  inProgress,
-  failed,
-}
+  complete('COMPLETE'),
+  inProgress('IN_PROGRESS'),
+  failed('FAILED'),
+  ;
 
-extension RegistrationStatusValueExtension on RegistrationStatus {
-  String toValue() {
-    switch (this) {
-      case RegistrationStatus.complete:
-        return 'COMPLETE';
-      case RegistrationStatus.inProgress:
-        return 'IN_PROGRESS';
-      case RegistrationStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension RegistrationStatusFromString on String {
-  RegistrationStatus toRegistrationStatus() {
-    switch (this) {
-      case 'COMPLETE':
-        return RegistrationStatus.complete;
-      case 'IN_PROGRESS':
-        return RegistrationStatus.inProgress;
-      case 'FAILED':
-        return RegistrationStatus.failed;
-    }
-    throw Exception('$this is not known in enum RegistrationStatus');
-  }
+  const RegistrationStatus(this.value);
+
+  static RegistrationStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RegistrationStatus'));
 }
 
 enum RegistryType {
-  resource,
-  module,
-  hook,
-}
+  resource('RESOURCE'),
+  module('MODULE'),
+  hook('HOOK'),
+  ;
 
-extension RegistryTypeValueExtension on RegistryType {
-  String toValue() {
-    switch (this) {
-      case RegistryType.resource:
-        return 'RESOURCE';
-      case RegistryType.module:
-        return 'MODULE';
-      case RegistryType.hook:
-        return 'HOOK';
-    }
-  }
-}
+  final String value;
 
-extension RegistryTypeFromString on String {
-  RegistryType toRegistryType() {
-    switch (this) {
-      case 'RESOURCE':
-        return RegistryType.resource;
-      case 'MODULE':
-        return RegistryType.module;
-      case 'HOOK':
-        return RegistryType.hook;
-    }
-    throw Exception('$this is not known in enum RegistryType');
-  }
+  const RegistryType(this.value);
+
+  static RegistryType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RegistryType'));
 }
 
 enum Replacement {
-  $true,
-  $false,
-  conditional,
-}
+  $true('True'),
+  $false('False'),
+  conditional('Conditional'),
+  ;
 
-extension ReplacementValueExtension on Replacement {
-  String toValue() {
-    switch (this) {
-      case Replacement.$true:
-        return 'True';
-      case Replacement.$false:
-        return 'False';
-      case Replacement.conditional:
-        return 'Conditional';
-    }
-  }
-}
+  final String value;
 
-extension ReplacementFromString on String {
-  Replacement toReplacement() {
-    switch (this) {
-      case 'True':
-        return Replacement.$true;
-      case 'False':
-        return Replacement.$false;
-      case 'Conditional':
-        return Replacement.conditional;
-    }
-    throw Exception('$this is not known in enum Replacement');
-  }
+  const Replacement(this.value);
+
+  static Replacement fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Replacement'));
 }
 
 /// For extensions that are modules, a public third-party extension that must be
@@ -12675,89 +11876,39 @@ class RequiredActivatedType {
 }
 
 enum RequiresRecreation {
-  never,
-  conditionally,
-  always,
-}
+  never('Never'),
+  conditionally('Conditionally'),
+  always('Always'),
+  ;
 
-extension RequiresRecreationValueExtension on RequiresRecreation {
-  String toValue() {
-    switch (this) {
-      case RequiresRecreation.never:
-        return 'Never';
-      case RequiresRecreation.conditionally:
-        return 'Conditionally';
-      case RequiresRecreation.always:
-        return 'Always';
-    }
-  }
-}
+  final String value;
 
-extension RequiresRecreationFromString on String {
-  RequiresRecreation toRequiresRecreation() {
-    switch (this) {
-      case 'Never':
-        return RequiresRecreation.never;
-      case 'Conditionally':
-        return RequiresRecreation.conditionally;
-      case 'Always':
-        return RequiresRecreation.always;
-    }
-    throw Exception('$this is not known in enum RequiresRecreation');
-  }
+  const RequiresRecreation(this.value);
+
+  static RequiresRecreation fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RequiresRecreation'));
 }
 
 enum ResourceAttribute {
-  properties,
-  metadata,
-  creationPolicy,
-  updatePolicy,
-  deletionPolicy,
-  updateReplacePolicy,
-  tags,
-}
+  properties('Properties'),
+  metadata('Metadata'),
+  creationPolicy('CreationPolicy'),
+  updatePolicy('UpdatePolicy'),
+  deletionPolicy('DeletionPolicy'),
+  updateReplacePolicy('UpdateReplacePolicy'),
+  tags('Tags'),
+  ;
 
-extension ResourceAttributeValueExtension on ResourceAttribute {
-  String toValue() {
-    switch (this) {
-      case ResourceAttribute.properties:
-        return 'Properties';
-      case ResourceAttribute.metadata:
-        return 'Metadata';
-      case ResourceAttribute.creationPolicy:
-        return 'CreationPolicy';
-      case ResourceAttribute.updatePolicy:
-        return 'UpdatePolicy';
-      case ResourceAttribute.deletionPolicy:
-        return 'DeletionPolicy';
-      case ResourceAttribute.updateReplacePolicy:
-        return 'UpdateReplacePolicy';
-      case ResourceAttribute.tags:
-        return 'Tags';
-    }
-  }
-}
+  final String value;
 
-extension ResourceAttributeFromString on String {
-  ResourceAttribute toResourceAttribute() {
-    switch (this) {
-      case 'Properties':
-        return ResourceAttribute.properties;
-      case 'Metadata':
-        return ResourceAttribute.metadata;
-      case 'CreationPolicy':
-        return ResourceAttribute.creationPolicy;
-      case 'UpdatePolicy':
-        return ResourceAttribute.updatePolicy;
-      case 'DeletionPolicy':
-        return ResourceAttribute.deletionPolicy;
-      case 'UpdateReplacePolicy':
-        return ResourceAttribute.updateReplacePolicy;
-      case 'Tags':
-        return ResourceAttribute.tags;
-    }
-    throw Exception('$this is not known in enum ResourceAttribute');
-  }
+  const ResourceAttribute(this.value);
+
+  static ResourceAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResourceAttribute'));
 }
 
 /// The <code>ResourceChange</code> structure describes the resource and the
@@ -12868,7 +12019,9 @@ class ResourceChange {
   });
   factory ResourceChange.fromXml(_s.XmlElement elem) {
     return ResourceChange(
-      action: _s.extractXmlStringValue(elem, 'Action')?.toChangeAction(),
+      action: _s
+          .extractXmlStringValue(elem, 'Action')
+          ?.let(ChangeAction.fromString) /* Nullability(true, true) */,
       afterContext: _s.extractXmlStringValue(elem, 'AfterContext'),
       beforeContext: _s.extractXmlStringValue(elem, 'BeforeContext'),
       changeSetId: _s.extractXmlStringValue(elem, 'ChangeSetId'),
@@ -12880,14 +12033,16 @@ class ResourceChange {
       moduleInfo:
           _s.extractXmlChild(elem, 'ModuleInfo')?.let(ModuleInfo.fromXml),
       physicalResourceId: _s.extractXmlStringValue(elem, 'PhysicalResourceId'),
-      policyAction:
-          _s.extractXmlStringValue(elem, 'PolicyAction')?.toPolicyAction(),
-      replacement:
-          _s.extractXmlStringValue(elem, 'Replacement')?.toReplacement(),
+      policyAction: _s
+          .extractXmlStringValue(elem, 'PolicyAction')
+          ?.let(PolicyAction.fromString) /* Nullability(true, true) */,
+      replacement: _s
+          .extractXmlStringValue(elem, 'Replacement')
+          ?.let(Replacement.fromString) /* Nullability(true, true) */,
       resourceType: _s.extractXmlStringValue(elem, 'ResourceType'),
       scope: _s.extractXmlChild(elem, 'Scope')?.let((elem) => _s
           .extractXmlStringListValues(elem, 'member')
-          .map((s) => s.toResourceAttribute())
+          .map(ResourceAttribute.fromString)
           .toList()),
     );
   }
@@ -12906,7 +12061,7 @@ class ResourceChange {
     final resourceType = this.resourceType;
     final scope = this.scope;
     return {
-      if (action != null) 'Action': action.toValue(),
+      if (action != null) 'Action': action.value,
       if (afterContext != null) 'AfterContext': afterContext,
       if (beforeContext != null) 'BeforeContext': beforeContext,
       if (changeSetId != null) 'ChangeSetId': changeSetId,
@@ -12914,10 +12069,10 @@ class ResourceChange {
       if (logicalResourceId != null) 'LogicalResourceId': logicalResourceId,
       if (moduleInfo != null) 'ModuleInfo': moduleInfo,
       if (physicalResourceId != null) 'PhysicalResourceId': physicalResourceId,
-      if (policyAction != null) 'PolicyAction': policyAction.toValue(),
-      if (replacement != null) 'Replacement': replacement.toValue(),
+      if (policyAction != null) 'PolicyAction': policyAction.value,
+      if (replacement != null) 'Replacement': replacement.value,
       if (resourceType != null) 'ResourceType': resourceType,
-      if (scope != null) 'Scope': scope.map((e) => e.toValue()).toList(),
+      if (scope != null) 'Scope': scope.map((e) => e.value).toList(),
     };
   }
 }
@@ -13003,10 +12158,12 @@ class ResourceChangeDetail {
   factory ResourceChangeDetail.fromXml(_s.XmlElement elem) {
     return ResourceChangeDetail(
       causingEntity: _s.extractXmlStringValue(elem, 'CausingEntity'),
-      changeSource:
-          _s.extractXmlStringValue(elem, 'ChangeSource')?.toChangeSource(),
-      evaluation:
-          _s.extractXmlStringValue(elem, 'Evaluation')?.toEvaluationType(),
+      changeSource: _s
+          .extractXmlStringValue(elem, 'ChangeSource')
+          ?.let(ChangeSource.fromString) /* Nullability(true, true) */,
+      evaluation: _s
+          .extractXmlStringValue(elem, 'Evaluation')
+          ?.let(EvaluationType.fromString) /* Nullability(true, true) */,
       target: _s
           .extractXmlChild(elem, 'Target')
           ?.let(ResourceTargetDefinition.fromXml),
@@ -13020,8 +12177,8 @@ class ResourceChangeDetail {
     final target = this.target;
     return {
       if (causingEntity != null) 'CausingEntity': causingEntity,
-      if (changeSource != null) 'ChangeSource': changeSource.toValue(),
-      if (evaluation != null) 'Evaluation': evaluation.toValue(),
+      if (changeSource != null) 'ChangeSource': changeSource.value,
+      if (evaluation != null) 'Evaluation': evaluation.value,
       if (target != null) 'Target': target,
     };
   }
@@ -13150,9 +12307,9 @@ class ResourceDetail {
                 ) ??
             {},
       ),
-      resourceStatus: _s
-          .extractXmlStringValue(elem, 'ResourceStatus')
-          ?.toGeneratedTemplateResourceStatus(),
+      resourceStatus: _s.extractXmlStringValue(elem, 'ResourceStatus')?.let(
+          GeneratedTemplateResourceStatus
+              .fromString) /* Nullability(true, true) */,
       resourceStatusReason:
           _s.extractXmlStringValue(elem, 'ResourceStatusReason'),
       resourceType: _s.extractXmlStringValue(elem, 'ResourceType'),
@@ -13171,7 +12328,7 @@ class ResourceDetail {
     return {
       if (logicalResourceId != null) 'LogicalResourceId': logicalResourceId,
       if (resourceIdentifier != null) 'ResourceIdentifier': resourceIdentifier,
-      if (resourceStatus != null) 'ResourceStatus': resourceStatus.toValue(),
+      if (resourceStatus != null) 'ResourceStatus': resourceStatus.value,
       if (resourceStatusReason != null)
         'ResourceStatusReason': resourceStatusReason,
       if (resourceType != null) 'ResourceType': resourceType,
@@ -13228,41 +12385,20 @@ class ResourceIdentifierSummary {
 }
 
 enum ResourceScanStatus {
-  inProgress,
-  failed,
-  complete,
-  expired,
-}
+  inProgress('IN_PROGRESS'),
+  failed('FAILED'),
+  complete('COMPLETE'),
+  expired('EXPIRED'),
+  ;
 
-extension ResourceScanStatusValueExtension on ResourceScanStatus {
-  String toValue() {
-    switch (this) {
-      case ResourceScanStatus.inProgress:
-        return 'IN_PROGRESS';
-      case ResourceScanStatus.failed:
-        return 'FAILED';
-      case ResourceScanStatus.complete:
-        return 'COMPLETE';
-      case ResourceScanStatus.expired:
-        return 'EXPIRED';
-    }
-  }
-}
+  final String value;
 
-extension ResourceScanStatusFromString on String {
-  ResourceScanStatus toResourceScanStatus() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return ResourceScanStatus.inProgress;
-      case 'FAILED':
-        return ResourceScanStatus.failed;
-      case 'COMPLETE':
-        return ResourceScanStatus.complete;
-      case 'EXPIRED':
-        return ResourceScanStatus.expired;
-    }
-    throw Exception('$this is not known in enum ResourceScanStatus');
-  }
+  const ResourceScanStatus(this.value);
+
+  static ResourceScanStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ResourceScanStatus'));
 }
 
 /// A summary of the resource scan. This is returned by the
@@ -13311,7 +12447,9 @@ class ResourceScanSummary {
           _s.extractXmlDoubleValue(elem, 'PercentageCompleted'),
       resourceScanId: _s.extractXmlStringValue(elem, 'ResourceScanId'),
       startTime: _s.extractXmlDateTimeValue(elem, 'StartTime'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.toResourceScanStatus(),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(ResourceScanStatus.fromString) /* Nullability(true, true) */,
       statusReason: _s.extractXmlStringValue(elem, 'StatusReason'),
     );
   }
@@ -13329,166 +12467,60 @@ class ResourceScanSummary {
         'PercentageCompleted': percentageCompleted,
       if (resourceScanId != null) 'ResourceScanId': resourceScanId,
       if (startTime != null) 'StartTime': iso8601ToJson(startTime),
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusReason != null) 'StatusReason': statusReason,
     };
   }
 }
 
 enum ResourceSignalStatus {
-  success,
-  failure,
-}
+  success('SUCCESS'),
+  failure('FAILURE'),
+  ;
 
-extension ResourceSignalStatusValueExtension on ResourceSignalStatus {
-  String toValue() {
-    switch (this) {
-      case ResourceSignalStatus.success:
-        return 'SUCCESS';
-      case ResourceSignalStatus.failure:
-        return 'FAILURE';
-    }
-  }
-}
+  final String value;
 
-extension ResourceSignalStatusFromString on String {
-  ResourceSignalStatus toResourceSignalStatus() {
-    switch (this) {
-      case 'SUCCESS':
-        return ResourceSignalStatus.success;
-      case 'FAILURE':
-        return ResourceSignalStatus.failure;
-    }
-    throw Exception('$this is not known in enum ResourceSignalStatus');
-  }
+  const ResourceSignalStatus(this.value);
+
+  static ResourceSignalStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ResourceSignalStatus'));
 }
 
 enum ResourceStatus {
-  createInProgress,
-  createFailed,
-  createComplete,
-  deleteInProgress,
-  deleteFailed,
-  deleteComplete,
-  deleteSkipped,
-  updateInProgress,
-  updateFailed,
-  updateComplete,
-  importFailed,
-  importComplete,
-  importInProgress,
-  importRollbackInProgress,
-  importRollbackFailed,
-  importRollbackComplete,
-  updateRollbackInProgress,
-  updateRollbackComplete,
-  updateRollbackFailed,
-  rollbackInProgress,
-  rollbackComplete,
-  rollbackFailed,
-}
+  createInProgress('CREATE_IN_PROGRESS'),
+  createFailed('CREATE_FAILED'),
+  createComplete('CREATE_COMPLETE'),
+  deleteInProgress('DELETE_IN_PROGRESS'),
+  deleteFailed('DELETE_FAILED'),
+  deleteComplete('DELETE_COMPLETE'),
+  deleteSkipped('DELETE_SKIPPED'),
+  updateInProgress('UPDATE_IN_PROGRESS'),
+  updateFailed('UPDATE_FAILED'),
+  updateComplete('UPDATE_COMPLETE'),
+  importFailed('IMPORT_FAILED'),
+  importComplete('IMPORT_COMPLETE'),
+  importInProgress('IMPORT_IN_PROGRESS'),
+  importRollbackInProgress('IMPORT_ROLLBACK_IN_PROGRESS'),
+  importRollbackFailed('IMPORT_ROLLBACK_FAILED'),
+  importRollbackComplete('IMPORT_ROLLBACK_COMPLETE'),
+  updateRollbackInProgress('UPDATE_ROLLBACK_IN_PROGRESS'),
+  updateRollbackComplete('UPDATE_ROLLBACK_COMPLETE'),
+  updateRollbackFailed('UPDATE_ROLLBACK_FAILED'),
+  rollbackInProgress('ROLLBACK_IN_PROGRESS'),
+  rollbackComplete('ROLLBACK_COMPLETE'),
+  rollbackFailed('ROLLBACK_FAILED'),
+  ;
 
-extension ResourceStatusValueExtension on ResourceStatus {
-  String toValue() {
-    switch (this) {
-      case ResourceStatus.createInProgress:
-        return 'CREATE_IN_PROGRESS';
-      case ResourceStatus.createFailed:
-        return 'CREATE_FAILED';
-      case ResourceStatus.createComplete:
-        return 'CREATE_COMPLETE';
-      case ResourceStatus.deleteInProgress:
-        return 'DELETE_IN_PROGRESS';
-      case ResourceStatus.deleteFailed:
-        return 'DELETE_FAILED';
-      case ResourceStatus.deleteComplete:
-        return 'DELETE_COMPLETE';
-      case ResourceStatus.deleteSkipped:
-        return 'DELETE_SKIPPED';
-      case ResourceStatus.updateInProgress:
-        return 'UPDATE_IN_PROGRESS';
-      case ResourceStatus.updateFailed:
-        return 'UPDATE_FAILED';
-      case ResourceStatus.updateComplete:
-        return 'UPDATE_COMPLETE';
-      case ResourceStatus.importFailed:
-        return 'IMPORT_FAILED';
-      case ResourceStatus.importComplete:
-        return 'IMPORT_COMPLETE';
-      case ResourceStatus.importInProgress:
-        return 'IMPORT_IN_PROGRESS';
-      case ResourceStatus.importRollbackInProgress:
-        return 'IMPORT_ROLLBACK_IN_PROGRESS';
-      case ResourceStatus.importRollbackFailed:
-        return 'IMPORT_ROLLBACK_FAILED';
-      case ResourceStatus.importRollbackComplete:
-        return 'IMPORT_ROLLBACK_COMPLETE';
-      case ResourceStatus.updateRollbackInProgress:
-        return 'UPDATE_ROLLBACK_IN_PROGRESS';
-      case ResourceStatus.updateRollbackComplete:
-        return 'UPDATE_ROLLBACK_COMPLETE';
-      case ResourceStatus.updateRollbackFailed:
-        return 'UPDATE_ROLLBACK_FAILED';
-      case ResourceStatus.rollbackInProgress:
-        return 'ROLLBACK_IN_PROGRESS';
-      case ResourceStatus.rollbackComplete:
-        return 'ROLLBACK_COMPLETE';
-      case ResourceStatus.rollbackFailed:
-        return 'ROLLBACK_FAILED';
-    }
-  }
-}
+  final String value;
 
-extension ResourceStatusFromString on String {
-  ResourceStatus toResourceStatus() {
-    switch (this) {
-      case 'CREATE_IN_PROGRESS':
-        return ResourceStatus.createInProgress;
-      case 'CREATE_FAILED':
-        return ResourceStatus.createFailed;
-      case 'CREATE_COMPLETE':
-        return ResourceStatus.createComplete;
-      case 'DELETE_IN_PROGRESS':
-        return ResourceStatus.deleteInProgress;
-      case 'DELETE_FAILED':
-        return ResourceStatus.deleteFailed;
-      case 'DELETE_COMPLETE':
-        return ResourceStatus.deleteComplete;
-      case 'DELETE_SKIPPED':
-        return ResourceStatus.deleteSkipped;
-      case 'UPDATE_IN_PROGRESS':
-        return ResourceStatus.updateInProgress;
-      case 'UPDATE_FAILED':
-        return ResourceStatus.updateFailed;
-      case 'UPDATE_COMPLETE':
-        return ResourceStatus.updateComplete;
-      case 'IMPORT_FAILED':
-        return ResourceStatus.importFailed;
-      case 'IMPORT_COMPLETE':
-        return ResourceStatus.importComplete;
-      case 'IMPORT_IN_PROGRESS':
-        return ResourceStatus.importInProgress;
-      case 'IMPORT_ROLLBACK_IN_PROGRESS':
-        return ResourceStatus.importRollbackInProgress;
-      case 'IMPORT_ROLLBACK_FAILED':
-        return ResourceStatus.importRollbackFailed;
-      case 'IMPORT_ROLLBACK_COMPLETE':
-        return ResourceStatus.importRollbackComplete;
-      case 'UPDATE_ROLLBACK_IN_PROGRESS':
-        return ResourceStatus.updateRollbackInProgress;
-      case 'UPDATE_ROLLBACK_COMPLETE':
-        return ResourceStatus.updateRollbackComplete;
-      case 'UPDATE_ROLLBACK_FAILED':
-        return ResourceStatus.updateRollbackFailed;
-      case 'ROLLBACK_IN_PROGRESS':
-        return ResourceStatus.rollbackInProgress;
-      case 'ROLLBACK_COMPLETE':
-        return ResourceStatus.rollbackComplete;
-      case 'ROLLBACK_FAILED':
-        return ResourceStatus.rollbackFailed;
-    }
-    throw Exception('$this is not known in enum ResourceStatus');
-  }
+  const ResourceStatus(this.value);
+
+  static ResourceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResourceStatus'));
 }
 
 /// The field that CloudFormation will change, such as the name of a resource's
@@ -13550,17 +12582,18 @@ class ResourceTargetDefinition {
   factory ResourceTargetDefinition.fromXml(_s.XmlElement elem) {
     return ResourceTargetDefinition(
       afterValue: _s.extractXmlStringValue(elem, 'AfterValue'),
-      attribute:
-          _s.extractXmlStringValue(elem, 'Attribute')?.toResourceAttribute(),
+      attribute: _s
+          .extractXmlStringValue(elem, 'Attribute')
+          ?.let(ResourceAttribute.fromString) /* Nullability(true, true) */,
       attributeChangeType: _s
           .extractXmlStringValue(elem, 'AttributeChangeType')
-          ?.toAttributeChangeType(),
+          ?.let(AttributeChangeType.fromString) /* Nullability(true, true) */,
       beforeValue: _s.extractXmlStringValue(elem, 'BeforeValue'),
       name: _s.extractXmlStringValue(elem, 'Name'),
       path: _s.extractXmlStringValue(elem, 'Path'),
       requiresRecreation: _s
           .extractXmlStringValue(elem, 'RequiresRecreation')
-          ?.toRequiresRecreation(),
+          ?.let(RequiresRecreation.fromString) /* Nullability(true, true) */,
     );
   }
 
@@ -13574,14 +12607,14 @@ class ResourceTargetDefinition {
     final requiresRecreation = this.requiresRecreation;
     return {
       if (afterValue != null) 'AfterValue': afterValue,
-      if (attribute != null) 'Attribute': attribute.toValue(),
+      if (attribute != null) 'Attribute': attribute.value,
       if (attributeChangeType != null)
-        'AttributeChangeType': attributeChangeType.toValue(),
+        'AttributeChangeType': attributeChangeType.value,
       if (beforeValue != null) 'BeforeValue': beforeValue,
       if (name != null) 'Name': name,
       if (path != null) 'Path': path,
       if (requiresRecreation != null)
-        'RequiresRecreation': requiresRecreation.toValue(),
+        'RequiresRecreation': requiresRecreation.value,
     };
   }
 }
@@ -14120,19 +13153,22 @@ class Stack {
     return Stack(
       creationTime: _s.extractXmlDateTimeValue(elem, 'CreationTime')!,
       stackName: _s.extractXmlStringValue(elem, 'StackName')!,
-      stackStatus:
-          _s.extractXmlStringValue(elem, 'StackStatus')!.toStackStatus(),
+      stackStatus: _s
+          .extractXmlStringValue(elem, 'StackStatus')!
+          .let(StackStatus.fromString) /* Nullability(true, false) */,
       capabilities: _s.extractXmlChild(elem, 'Capabilities')?.let((elem) => _s
           .extractXmlStringListValues(elem, 'member')
-          .map((s) => s.toCapability())
+          .map(Capability.fromString)
           .toList()),
       changeSetId: _s.extractXmlStringValue(elem, 'ChangeSetId'),
-      deletionMode:
-          _s.extractXmlStringValue(elem, 'DeletionMode')?.toDeletionMode(),
+      deletionMode: _s
+          .extractXmlStringValue(elem, 'DeletionMode')
+          ?.let(DeletionMode.fromString) /* Nullability(true, true) */,
       deletionTime: _s.extractXmlDateTimeValue(elem, 'DeletionTime'),
       description: _s.extractXmlStringValue(elem, 'Description'),
-      detailedStatus:
-          _s.extractXmlStringValue(elem, 'DetailedStatus')?.toDetailedStatus(),
+      detailedStatus: _s
+          .extractXmlStringValue(elem, 'DetailedStatus')
+          ?.let(DetailedStatus.fromString) /* Nullability(true, true) */,
       disableRollback: _s.extractXmlBoolValue(elem, 'DisableRollback'),
       driftInformation: _s
           .extractXmlChild(elem, 'DriftInformation')
@@ -14192,14 +13228,14 @@ class Stack {
     return {
       'CreationTime': iso8601ToJson(creationTime),
       'StackName': stackName,
-      'StackStatus': stackStatus.toValue(),
+      'StackStatus': stackStatus.value,
       if (capabilities != null)
-        'Capabilities': capabilities.map((e) => e.toValue()).toList(),
+        'Capabilities': capabilities.map((e) => e.value).toList(),
       if (changeSetId != null) 'ChangeSetId': changeSetId,
-      if (deletionMode != null) 'DeletionMode': deletionMode.toValue(),
+      if (deletionMode != null) 'DeletionMode': deletionMode.value,
       if (deletionTime != null) 'DeletionTime': iso8601ToJson(deletionTime),
       if (description != null) 'Description': description,
-      if (detailedStatus != null) 'DetailedStatus': detailedStatus.toValue(),
+      if (detailedStatus != null) 'DetailedStatus': detailedStatus.value,
       if (disableRollback != null) 'DisableRollback': disableRollback,
       if (driftInformation != null) 'DriftInformation': driftInformation,
       if (enableTerminationProtection != null)
@@ -14225,36 +13261,19 @@ class Stack {
 }
 
 enum StackDriftDetectionStatus {
-  detectionInProgress,
-  detectionFailed,
-  detectionComplete,
-}
+  detectionInProgress('DETECTION_IN_PROGRESS'),
+  detectionFailed('DETECTION_FAILED'),
+  detectionComplete('DETECTION_COMPLETE'),
+  ;
 
-extension StackDriftDetectionStatusValueExtension on StackDriftDetectionStatus {
-  String toValue() {
-    switch (this) {
-      case StackDriftDetectionStatus.detectionInProgress:
-        return 'DETECTION_IN_PROGRESS';
-      case StackDriftDetectionStatus.detectionFailed:
-        return 'DETECTION_FAILED';
-      case StackDriftDetectionStatus.detectionComplete:
-        return 'DETECTION_COMPLETE';
-    }
-  }
-}
+  final String value;
 
-extension StackDriftDetectionStatusFromString on String {
-  StackDriftDetectionStatus toStackDriftDetectionStatus() {
-    switch (this) {
-      case 'DETECTION_IN_PROGRESS':
-        return StackDriftDetectionStatus.detectionInProgress;
-      case 'DETECTION_FAILED':
-        return StackDriftDetectionStatus.detectionFailed;
-      case 'DETECTION_COMPLETE':
-        return StackDriftDetectionStatus.detectionComplete;
-    }
-    throw Exception('$this is not known in enum StackDriftDetectionStatus');
-  }
+  const StackDriftDetectionStatus(this.value);
+
+  static StackDriftDetectionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum StackDriftDetectionStatus'));
 }
 
 /// Contains information about whether the stack's actual configuration differs,
@@ -14297,7 +13316,7 @@ class StackDriftInformation {
     return StackDriftInformation(
       stackDriftStatus: _s
           .extractXmlStringValue(elem, 'StackDriftStatus')!
-          .toStackDriftStatus(),
+          .let(StackDriftStatus.fromString) /* Nullability(true, false) */,
       lastCheckTimestamp:
           _s.extractXmlDateTimeValue(elem, 'LastCheckTimestamp'),
     );
@@ -14307,7 +13326,7 @@ class StackDriftInformation {
     final stackDriftStatus = this.stackDriftStatus;
     final lastCheckTimestamp = this.lastCheckTimestamp;
     return {
-      'StackDriftStatus': stackDriftStatus.toValue(),
+      'StackDriftStatus': stackDriftStatus.value,
       if (lastCheckTimestamp != null)
         'LastCheckTimestamp': iso8601ToJson(lastCheckTimestamp),
     };
@@ -14354,7 +13373,7 @@ class StackDriftInformationSummary {
     return StackDriftInformationSummary(
       stackDriftStatus: _s
           .extractXmlStringValue(elem, 'StackDriftStatus')!
-          .toStackDriftStatus(),
+          .let(StackDriftStatus.fromString) /* Nullability(true, false) */,
       lastCheckTimestamp:
           _s.extractXmlDateTimeValue(elem, 'LastCheckTimestamp'),
     );
@@ -14364,7 +13383,7 @@ class StackDriftInformationSummary {
     final stackDriftStatus = this.stackDriftStatus;
     final lastCheckTimestamp = this.lastCheckTimestamp;
     return {
-      'StackDriftStatus': stackDriftStatus.toValue(),
+      'StackDriftStatus': stackDriftStatus.value,
       if (lastCheckTimestamp != null)
         'LastCheckTimestamp': iso8601ToJson(lastCheckTimestamp),
     };
@@ -14372,41 +13391,20 @@ class StackDriftInformationSummary {
 }
 
 enum StackDriftStatus {
-  drifted,
-  inSync,
-  unknown,
-  notChecked,
-}
+  drifted('DRIFTED'),
+  inSync('IN_SYNC'),
+  unknown('UNKNOWN'),
+  notChecked('NOT_CHECKED'),
+  ;
 
-extension StackDriftStatusValueExtension on StackDriftStatus {
-  String toValue() {
-    switch (this) {
-      case StackDriftStatus.drifted:
-        return 'DRIFTED';
-      case StackDriftStatus.inSync:
-        return 'IN_SYNC';
-      case StackDriftStatus.unknown:
-        return 'UNKNOWN';
-      case StackDriftStatus.notChecked:
-        return 'NOT_CHECKED';
-    }
-  }
-}
+  final String value;
 
-extension StackDriftStatusFromString on String {
-  StackDriftStatus toStackDriftStatus() {
-    switch (this) {
-      case 'DRIFTED':
-        return StackDriftStatus.drifted;
-      case 'IN_SYNC':
-        return StackDriftStatus.inSync;
-      case 'UNKNOWN':
-        return StackDriftStatus.unknown;
-      case 'NOT_CHECKED':
-        return StackDriftStatus.notChecked;
-    }
-    throw Exception('$this is not known in enum StackDriftStatus');
-  }
+  const StackDriftStatus(this.value);
+
+  static StackDriftStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum StackDriftStatus'));
 }
 
 /// The StackEvent data type.
@@ -14535,22 +13533,26 @@ class StackEvent {
       stackName: _s.extractXmlStringValue(elem, 'StackName')!,
       timestamp: _s.extractXmlDateTimeValue(elem, 'Timestamp')!,
       clientRequestToken: _s.extractXmlStringValue(elem, 'ClientRequestToken'),
-      detailedStatus:
-          _s.extractXmlStringValue(elem, 'DetailedStatus')?.toDetailedStatus(),
+      detailedStatus: _s
+          .extractXmlStringValue(elem, 'DetailedStatus')
+          ?.let(DetailedStatus.fromString) /* Nullability(true, true) */,
       hookFailureMode: _s
           .extractXmlStringValue(elem, 'HookFailureMode')
-          ?.toHookFailureMode(),
+          ?.let(HookFailureMode.fromString) /* Nullability(true, true) */,
       hookInvocationPoint: _s
           .extractXmlStringValue(elem, 'HookInvocationPoint')
-          ?.toHookInvocationPoint(),
-      hookStatus: _s.extractXmlStringValue(elem, 'HookStatus')?.toHookStatus(),
+          ?.let(HookInvocationPoint.fromString) /* Nullability(true, true) */,
+      hookStatus: _s
+          .extractXmlStringValue(elem, 'HookStatus')
+          ?.let(HookStatus.fromString) /* Nullability(true, true) */,
       hookStatusReason: _s.extractXmlStringValue(elem, 'HookStatusReason'),
       hookType: _s.extractXmlStringValue(elem, 'HookType'),
       logicalResourceId: _s.extractXmlStringValue(elem, 'LogicalResourceId'),
       physicalResourceId: _s.extractXmlStringValue(elem, 'PhysicalResourceId'),
       resourceProperties: _s.extractXmlStringValue(elem, 'ResourceProperties'),
-      resourceStatus:
-          _s.extractXmlStringValue(elem, 'ResourceStatus')?.toResourceStatus(),
+      resourceStatus: _s
+          .extractXmlStringValue(elem, 'ResourceStatus')
+          ?.let(ResourceStatus.fromString) /* Nullability(true, true) */,
       resourceStatusReason:
           _s.extractXmlStringValue(elem, 'ResourceStatusReason'),
       resourceType: _s.extractXmlStringValue(elem, 'ResourceType'),
@@ -14581,17 +13583,17 @@ class StackEvent {
       'StackName': stackName,
       'Timestamp': iso8601ToJson(timestamp),
       if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
-      if (detailedStatus != null) 'DetailedStatus': detailedStatus.toValue(),
-      if (hookFailureMode != null) 'HookFailureMode': hookFailureMode.toValue(),
+      if (detailedStatus != null) 'DetailedStatus': detailedStatus.value,
+      if (hookFailureMode != null) 'HookFailureMode': hookFailureMode.value,
       if (hookInvocationPoint != null)
-        'HookInvocationPoint': hookInvocationPoint.toValue(),
-      if (hookStatus != null) 'HookStatus': hookStatus.toValue(),
+        'HookInvocationPoint': hookInvocationPoint.value,
+      if (hookStatus != null) 'HookStatus': hookStatus.value,
       if (hookStatusReason != null) 'HookStatusReason': hookStatusReason,
       if (hookType != null) 'HookType': hookType,
       if (logicalResourceId != null) 'LogicalResourceId': logicalResourceId,
       if (physicalResourceId != null) 'PhysicalResourceId': physicalResourceId,
       if (resourceProperties != null) 'ResourceProperties': resourceProperties,
-      if (resourceStatus != null) 'ResourceStatus': resourceStatus.toValue(),
+      if (resourceStatus != null) 'ResourceStatus': resourceStatus.value,
       if (resourceStatusReason != null)
         'ResourceStatusReason': resourceStatusReason,
       if (resourceType != null) 'ResourceType': resourceType,
@@ -14725,8 +13727,9 @@ class StackInstance {
   factory StackInstance.fromXml(_s.XmlElement elem) {
     return StackInstance(
       account: _s.extractXmlStringValue(elem, 'Account'),
-      driftStatus:
-          _s.extractXmlStringValue(elem, 'DriftStatus')?.toStackDriftStatus(),
+      driftStatus: _s
+          .extractXmlStringValue(elem, 'DriftStatus')
+          ?.let(StackDriftStatus.fromString) /* Nullability(true, true) */,
       lastDriftCheckTimestamp:
           _s.extractXmlDateTimeValue(elem, 'LastDriftCheckTimestamp'),
       lastOperationId: _s.extractXmlStringValue(elem, 'LastOperationId'),
@@ -14741,7 +13744,9 @@ class StackInstance {
           .extractXmlChild(elem, 'StackInstanceStatus')
           ?.let(StackInstanceComprehensiveStatus.fromXml),
       stackSetId: _s.extractXmlStringValue(elem, 'StackSetId'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.toStackInstanceStatus(),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(StackInstanceStatus.fromString) /* Nullability(true, true) */,
       statusReason: _s.extractXmlStringValue(elem, 'StatusReason'),
     );
   }
@@ -14761,7 +13766,7 @@ class StackInstance {
     final statusReason = this.statusReason;
     return {
       if (account != null) 'Account': account,
-      if (driftStatus != null) 'DriftStatus': driftStatus.toValue(),
+      if (driftStatus != null) 'DriftStatus': driftStatus.value,
       if (lastDriftCheckTimestamp != null)
         'LastDriftCheckTimestamp': iso8601ToJson(lastDriftCheckTimestamp),
       if (lastOperationId != null) 'LastOperationId': lastOperationId,
@@ -14773,7 +13778,7 @@ class StackInstance {
       if (stackInstanceStatus != null)
         'StackInstanceStatus': stackInstanceStatus,
       if (stackSetId != null) 'StackSetId': stackSetId,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusReason != null) 'StatusReason': statusReason,
     };
   }
@@ -14835,77 +13840,38 @@ class StackInstanceComprehensiveStatus {
   });
   factory StackInstanceComprehensiveStatus.fromXml(_s.XmlElement elem) {
     return StackInstanceComprehensiveStatus(
-      detailedStatus: _s
-          .extractXmlStringValue(elem, 'DetailedStatus')
-          ?.toStackInstanceDetailedStatus(),
+      detailedStatus: _s.extractXmlStringValue(elem, 'DetailedStatus')?.let(
+          StackInstanceDetailedStatus.fromString) /* Nullability(true, true) */,
     );
   }
 
   Map<String, dynamic> toJson() {
     final detailedStatus = this.detailedStatus;
     return {
-      if (detailedStatus != null) 'DetailedStatus': detailedStatus.toValue(),
+      if (detailedStatus != null) 'DetailedStatus': detailedStatus.value,
     };
   }
 }
 
 enum StackInstanceDetailedStatus {
-  pending,
-  running,
-  succeeded,
-  failed,
-  cancelled,
-  inoperable,
-  skippedSuspendedAccount,
-  failedImport,
-}
+  pending('PENDING'),
+  running('RUNNING'),
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  cancelled('CANCELLED'),
+  inoperable('INOPERABLE'),
+  skippedSuspendedAccount('SKIPPED_SUSPENDED_ACCOUNT'),
+  failedImport('FAILED_IMPORT'),
+  ;
 
-extension StackInstanceDetailedStatusValueExtension
-    on StackInstanceDetailedStatus {
-  String toValue() {
-    switch (this) {
-      case StackInstanceDetailedStatus.pending:
-        return 'PENDING';
-      case StackInstanceDetailedStatus.running:
-        return 'RUNNING';
-      case StackInstanceDetailedStatus.succeeded:
-        return 'SUCCEEDED';
-      case StackInstanceDetailedStatus.failed:
-        return 'FAILED';
-      case StackInstanceDetailedStatus.cancelled:
-        return 'CANCELLED';
-      case StackInstanceDetailedStatus.inoperable:
-        return 'INOPERABLE';
-      case StackInstanceDetailedStatus.skippedSuspendedAccount:
-        return 'SKIPPED_SUSPENDED_ACCOUNT';
-      case StackInstanceDetailedStatus.failedImport:
-        return 'FAILED_IMPORT';
-    }
-  }
-}
+  final String value;
 
-extension StackInstanceDetailedStatusFromString on String {
-  StackInstanceDetailedStatus toStackInstanceDetailedStatus() {
-    switch (this) {
-      case 'PENDING':
-        return StackInstanceDetailedStatus.pending;
-      case 'RUNNING':
-        return StackInstanceDetailedStatus.running;
-      case 'SUCCEEDED':
-        return StackInstanceDetailedStatus.succeeded;
-      case 'FAILED':
-        return StackInstanceDetailedStatus.failed;
-      case 'CANCELLED':
-        return StackInstanceDetailedStatus.cancelled;
-      case 'INOPERABLE':
-        return StackInstanceDetailedStatus.inoperable;
-      case 'SKIPPED_SUSPENDED_ACCOUNT':
-        return StackInstanceDetailedStatus.skippedSuspendedAccount;
-      case 'FAILED_IMPORT':
-        return StackInstanceDetailedStatus.failedImport;
-    }
-    throw Exception('$this is not known in enum StackInstanceDetailedStatus');
-  }
+  const StackInstanceDetailedStatus(this.value);
+
+  static StackInstanceDetailedStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum StackInstanceDetailedStatus'));
 }
 
 /// The filter to apply to stack instances
@@ -14925,7 +13891,7 @@ class StackInstanceFilter {
     final name = this.name;
     final values = this.values;
     return {
-      if (name != null) 'Name': name.toValue(),
+      if (name != null) 'Name': name.value,
       if (values != null) 'Values': values,
     };
   }
@@ -14934,43 +13900,26 @@ class StackInstanceFilter {
     final name = this.name;
     final values = this.values;
     return {
-      if (name != null) 'Name': name.toValue(),
+      if (name != null) 'Name': name.value,
       if (values != null) 'Values': values,
     };
   }
 }
 
 enum StackInstanceFilterName {
-  detailedStatus,
-  lastOperationId,
-  driftStatus,
-}
+  detailedStatus('DETAILED_STATUS'),
+  lastOperationId('LAST_OPERATION_ID'),
+  driftStatus('DRIFT_STATUS'),
+  ;
 
-extension StackInstanceFilterNameValueExtension on StackInstanceFilterName {
-  String toValue() {
-    switch (this) {
-      case StackInstanceFilterName.detailedStatus:
-        return 'DETAILED_STATUS';
-      case StackInstanceFilterName.lastOperationId:
-        return 'LAST_OPERATION_ID';
-      case StackInstanceFilterName.driftStatus:
-        return 'DRIFT_STATUS';
-    }
-  }
-}
+  final String value;
 
-extension StackInstanceFilterNameFromString on String {
-  StackInstanceFilterName toStackInstanceFilterName() {
-    switch (this) {
-      case 'DETAILED_STATUS':
-        return StackInstanceFilterName.detailedStatus;
-      case 'LAST_OPERATION_ID':
-        return StackInstanceFilterName.lastOperationId;
-      case 'DRIFT_STATUS':
-        return StackInstanceFilterName.driftStatus;
-    }
-    throw Exception('$this is not known in enum StackInstanceFilterName');
-  }
+  const StackInstanceFilterName(this.value);
+
+  static StackInstanceFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum StackInstanceFilterName'));
 }
 
 /// The structure containing summary information about resource drifts for a
@@ -15046,7 +13995,8 @@ class StackInstanceResourceDriftsSummary {
       stackId: _s.extractXmlStringValue(elem, 'StackId')!,
       stackResourceDriftStatus: _s
           .extractXmlStringValue(elem, 'StackResourceDriftStatus')!
-          .toStackResourceDriftStatus(),
+          .let(StackResourceDriftStatus
+              .fromString) /* Nullability(true, false) */,
       timestamp: _s.extractXmlDateTimeValue(elem, 'Timestamp')!,
       physicalResourceId: _s.extractXmlStringValue(elem, 'PhysicalResourceId'),
       physicalResourceIdContext: _s
@@ -15076,7 +14026,7 @@ class StackInstanceResourceDriftsSummary {
       'LogicalResourceId': logicalResourceId,
       'ResourceType': resourceType,
       'StackId': stackId,
-      'StackResourceDriftStatus': stackResourceDriftStatus.toValue(),
+      'StackResourceDriftStatus': stackResourceDriftStatus.value,
       'Timestamp': iso8601ToJson(timestamp),
       if (physicalResourceId != null) 'PhysicalResourceId': physicalResourceId,
       if (physicalResourceIdContext != null)
@@ -15088,36 +14038,19 @@ class StackInstanceResourceDriftsSummary {
 }
 
 enum StackInstanceStatus {
-  current,
-  outdated,
-  inoperable,
-}
+  current('CURRENT'),
+  outdated('OUTDATED'),
+  inoperable('INOPERABLE'),
+  ;
 
-extension StackInstanceStatusValueExtension on StackInstanceStatus {
-  String toValue() {
-    switch (this) {
-      case StackInstanceStatus.current:
-        return 'CURRENT';
-      case StackInstanceStatus.outdated:
-        return 'OUTDATED';
-      case StackInstanceStatus.inoperable:
-        return 'INOPERABLE';
-    }
-  }
-}
+  final String value;
 
-extension StackInstanceStatusFromString on String {
-  StackInstanceStatus toStackInstanceStatus() {
-    switch (this) {
-      case 'CURRENT':
-        return StackInstanceStatus.current;
-      case 'OUTDATED':
-        return StackInstanceStatus.outdated;
-      case 'INOPERABLE':
-        return StackInstanceStatus.inoperable;
-    }
-    throw Exception('$this is not known in enum StackInstanceStatus');
-  }
+  const StackInstanceStatus(this.value);
+
+  static StackInstanceStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum StackInstanceStatus'));
 }
 
 /// The structure that contains summary information about a stack instance.
@@ -15235,8 +14168,9 @@ class StackInstanceSummary {
   factory StackInstanceSummary.fromXml(_s.XmlElement elem) {
     return StackInstanceSummary(
       account: _s.extractXmlStringValue(elem, 'Account'),
-      driftStatus:
-          _s.extractXmlStringValue(elem, 'DriftStatus')?.toStackDriftStatus(),
+      driftStatus: _s
+          .extractXmlStringValue(elem, 'DriftStatus')
+          ?.let(StackDriftStatus.fromString) /* Nullability(true, true) */,
       lastDriftCheckTimestamp:
           _s.extractXmlDateTimeValue(elem, 'LastDriftCheckTimestamp'),
       lastOperationId: _s.extractXmlStringValue(elem, 'LastOperationId'),
@@ -15248,7 +14182,9 @@ class StackInstanceSummary {
           .extractXmlChild(elem, 'StackInstanceStatus')
           ?.let(StackInstanceComprehensiveStatus.fromXml),
       stackSetId: _s.extractXmlStringValue(elem, 'StackSetId'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.toStackInstanceStatus(),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(StackInstanceStatus.fromString) /* Nullability(true, true) */,
       statusReason: _s.extractXmlStringValue(elem, 'StatusReason'),
     );
   }
@@ -15267,7 +14203,7 @@ class StackInstanceSummary {
     final statusReason = this.statusReason;
     return {
       if (account != null) 'Account': account,
-      if (driftStatus != null) 'DriftStatus': driftStatus.toValue(),
+      if (driftStatus != null) 'DriftStatus': driftStatus.value,
       if (lastDriftCheckTimestamp != null)
         'LastDriftCheckTimestamp': iso8601ToJson(lastDriftCheckTimestamp),
       if (lastOperationId != null) 'LastOperationId': lastOperationId,
@@ -15278,7 +14214,7 @@ class StackInstanceSummary {
       if (stackInstanceStatus != null)
         'StackInstanceStatus': stackInstanceStatus,
       if (stackSetId != null) 'StackSetId': stackSetId,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusReason != null) 'StatusReason': statusReason,
     };
   }
@@ -15345,8 +14281,9 @@ class StackResource {
   factory StackResource.fromXml(_s.XmlElement elem) {
     return StackResource(
       logicalResourceId: _s.extractXmlStringValue(elem, 'LogicalResourceId')!,
-      resourceStatus:
-          _s.extractXmlStringValue(elem, 'ResourceStatus')!.toResourceStatus(),
+      resourceStatus: _s
+          .extractXmlStringValue(elem, 'ResourceStatus')!
+          .let(ResourceStatus.fromString) /* Nullability(true, false) */,
       resourceType: _s.extractXmlStringValue(elem, 'ResourceType')!,
       timestamp: _s.extractXmlDateTimeValue(elem, 'Timestamp')!,
       description: _s.extractXmlStringValue(elem, 'Description'),
@@ -15377,7 +14314,7 @@ class StackResource {
     final stackName = this.stackName;
     return {
       'LogicalResourceId': logicalResourceId,
-      'ResourceStatus': resourceStatus.toValue(),
+      'ResourceStatus': resourceStatus.value,
       'ResourceType': resourceType,
       'Timestamp': iso8601ToJson(timestamp),
       if (description != null) 'Description': description,
@@ -15462,8 +14399,9 @@ class StackResourceDetail {
       lastUpdatedTimestamp:
           _s.extractXmlDateTimeValue(elem, 'LastUpdatedTimestamp')!,
       logicalResourceId: _s.extractXmlStringValue(elem, 'LogicalResourceId')!,
-      resourceStatus:
-          _s.extractXmlStringValue(elem, 'ResourceStatus')!.toResourceStatus(),
+      resourceStatus: _s
+          .extractXmlStringValue(elem, 'ResourceStatus')!
+          .let(ResourceStatus.fromString) /* Nullability(true, false) */,
       resourceType: _s.extractXmlStringValue(elem, 'ResourceType')!,
       description: _s.extractXmlStringValue(elem, 'Description'),
       driftInformation: _s
@@ -15496,7 +14434,7 @@ class StackResourceDetail {
     return {
       'LastUpdatedTimestamp': iso8601ToJson(lastUpdatedTimestamp),
       'LogicalResourceId': logicalResourceId,
-      'ResourceStatus': resourceStatus.toValue(),
+      'ResourceStatus': resourceStatus.value,
       'ResourceType': resourceType,
       if (description != null) 'Description': description,
       if (driftInformation != null) 'DriftInformation': driftInformation,
@@ -15620,7 +14558,8 @@ class StackResourceDrift {
       stackId: _s.extractXmlStringValue(elem, 'StackId')!,
       stackResourceDriftStatus: _s
           .extractXmlStringValue(elem, 'StackResourceDriftStatus')!
-          .toStackResourceDriftStatus(),
+          .let(StackResourceDriftStatus
+              .fromString) /* Nullability(true, false) */,
       timestamp: _s.extractXmlDateTimeValue(elem, 'Timestamp')!,
       actualProperties: _s.extractXmlStringValue(elem, 'ActualProperties'),
       expectedProperties: _s.extractXmlStringValue(elem, 'ExpectedProperties'),
@@ -15657,7 +14596,7 @@ class StackResourceDrift {
       'LogicalResourceId': logicalResourceId,
       'ResourceType': resourceType,
       'StackId': stackId,
-      'StackResourceDriftStatus': stackResourceDriftStatus.toValue(),
+      'StackResourceDriftStatus': stackResourceDriftStatus.value,
       'Timestamp': iso8601ToJson(timestamp),
       if (actualProperties != null) 'ActualProperties': actualProperties,
       if (expectedProperties != null) 'ExpectedProperties': expectedProperties,
@@ -15713,7 +14652,8 @@ class StackResourceDriftInformation {
     return StackResourceDriftInformation(
       stackResourceDriftStatus: _s
           .extractXmlStringValue(elem, 'StackResourceDriftStatus')!
-          .toStackResourceDriftStatus(),
+          .let(StackResourceDriftStatus
+              .fromString) /* Nullability(true, false) */,
       lastCheckTimestamp:
           _s.extractXmlDateTimeValue(elem, 'LastCheckTimestamp'),
     );
@@ -15723,7 +14663,7 @@ class StackResourceDriftInformation {
     final stackResourceDriftStatus = this.stackResourceDriftStatus;
     final lastCheckTimestamp = this.lastCheckTimestamp;
     return {
-      'StackResourceDriftStatus': stackResourceDriftStatus.toValue(),
+      'StackResourceDriftStatus': stackResourceDriftStatus.value,
       if (lastCheckTimestamp != null)
         'LastCheckTimestamp': iso8601ToJson(lastCheckTimestamp),
     };
@@ -15778,7 +14718,8 @@ class StackResourceDriftInformationSummary {
     return StackResourceDriftInformationSummary(
       stackResourceDriftStatus: _s
           .extractXmlStringValue(elem, 'StackResourceDriftStatus')!
-          .toStackResourceDriftStatus(),
+          .let(StackResourceDriftStatus
+              .fromString) /* Nullability(true, false) */,
       lastCheckTimestamp:
           _s.extractXmlDateTimeValue(elem, 'LastCheckTimestamp'),
     );
@@ -15788,7 +14729,7 @@ class StackResourceDriftInformationSummary {
     final stackResourceDriftStatus = this.stackResourceDriftStatus;
     final lastCheckTimestamp = this.lastCheckTimestamp;
     return {
-      'StackResourceDriftStatus': stackResourceDriftStatus.toValue(),
+      'StackResourceDriftStatus': stackResourceDriftStatus.value,
       if (lastCheckTimestamp != null)
         'LastCheckTimestamp': iso8601ToJson(lastCheckTimestamp),
     };
@@ -15796,41 +14737,20 @@ class StackResourceDriftInformationSummary {
 }
 
 enum StackResourceDriftStatus {
-  inSync,
-  modified,
-  deleted,
-  notChecked,
-}
+  inSync('IN_SYNC'),
+  modified('MODIFIED'),
+  deleted('DELETED'),
+  notChecked('NOT_CHECKED'),
+  ;
 
-extension StackResourceDriftStatusValueExtension on StackResourceDriftStatus {
-  String toValue() {
-    switch (this) {
-      case StackResourceDriftStatus.inSync:
-        return 'IN_SYNC';
-      case StackResourceDriftStatus.modified:
-        return 'MODIFIED';
-      case StackResourceDriftStatus.deleted:
-        return 'DELETED';
-      case StackResourceDriftStatus.notChecked:
-        return 'NOT_CHECKED';
-    }
-  }
-}
+  final String value;
 
-extension StackResourceDriftStatusFromString on String {
-  StackResourceDriftStatus toStackResourceDriftStatus() {
-    switch (this) {
-      case 'IN_SYNC':
-        return StackResourceDriftStatus.inSync;
-      case 'MODIFIED':
-        return StackResourceDriftStatus.modified;
-      case 'DELETED':
-        return StackResourceDriftStatus.deleted;
-      case 'NOT_CHECKED':
-        return StackResourceDriftStatus.notChecked;
-    }
-    throw Exception('$this is not known in enum StackResourceDriftStatus');
-  }
+  const StackResourceDriftStatus(this.value);
+
+  static StackResourceDriftStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum StackResourceDriftStatus'));
 }
 
 /// Contains high-level information about the specified stack resource.
@@ -15884,8 +14804,9 @@ class StackResourceSummary {
       lastUpdatedTimestamp:
           _s.extractXmlDateTimeValue(elem, 'LastUpdatedTimestamp')!,
       logicalResourceId: _s.extractXmlStringValue(elem, 'LogicalResourceId')!,
-      resourceStatus:
-          _s.extractXmlStringValue(elem, 'ResourceStatus')!.toResourceStatus(),
+      resourceStatus: _s
+          .extractXmlStringValue(elem, 'ResourceStatus')!
+          .let(ResourceStatus.fromString) /* Nullability(true, false) */,
       resourceType: _s.extractXmlStringValue(elem, 'ResourceType')!,
       driftInformation: _s
           .extractXmlChild(elem, 'DriftInformation')
@@ -15910,7 +14831,7 @@ class StackResourceSummary {
     return {
       'LastUpdatedTimestamp': iso8601ToJson(lastUpdatedTimestamp),
       'LogicalResourceId': logicalResourceId,
-      'ResourceStatus': resourceStatus.toValue(),
+      'ResourceStatus': resourceStatus.value,
       'ResourceType': resourceType,
       if (driftInformation != null) 'DriftInformation': driftInformation,
       if (moduleInfo != null) 'ModuleInfo': moduleInfo,
@@ -16053,7 +14974,7 @@ class StackSet {
           ?.let(AutoDeployment.fromXml),
       capabilities: _s.extractXmlChild(elem, 'Capabilities')?.let((elem) => _s
           .extractXmlStringListValues(elem, 'member')
-          .map((s) => s.toCapability())
+          .map(Capability.fromString)
           .toList()),
       description: _s.extractXmlStringValue(elem, 'Description'),
       executionRoleName: _s.extractXmlStringValue(elem, 'ExecutionRoleName'),
@@ -16067,7 +14988,7 @@ class StackSet {
           elem.findElements('member').map(Parameter.fromXml).toList()),
       permissionModel: _s
           .extractXmlStringValue(elem, 'PermissionModel')
-          ?.toPermissionModels(),
+          ?.let(PermissionModels.fromString) /* Nullability(true, true) */,
       regions: _s
           .extractXmlChild(elem, 'Regions')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
@@ -16077,7 +14998,9 @@ class StackSet {
           ?.let(StackSetDriftDetectionDetails.fromXml),
       stackSetId: _s.extractXmlStringValue(elem, 'StackSetId'),
       stackSetName: _s.extractXmlStringValue(elem, 'StackSetName'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.toStackSetStatus(),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(StackSetStatus.fromString) /* Nullability(true, true) */,
       tags: _s.extractXmlChild(elem, 'Tags')?.let(
           (elem) => elem.findElements('member').map(Tag.fromXml).toList()),
       templateBody: _s.extractXmlStringValue(elem, 'TemplateBody'),
@@ -16107,21 +15030,21 @@ class StackSet {
         'AdministrationRoleARN': administrationRoleARN,
       if (autoDeployment != null) 'AutoDeployment': autoDeployment,
       if (capabilities != null)
-        'Capabilities': capabilities.map((e) => e.toValue()).toList(),
+        'Capabilities': capabilities.map((e) => e.value).toList(),
       if (description != null) 'Description': description,
       if (executionRoleName != null) 'ExecutionRoleName': executionRoleName,
       if (managedExecution != null) 'ManagedExecution': managedExecution,
       if (organizationalUnitIds != null)
         'OrganizationalUnitIds': organizationalUnitIds,
       if (parameters != null) 'Parameters': parameters,
-      if (permissionModel != null) 'PermissionModel': permissionModel.toValue(),
+      if (permissionModel != null) 'PermissionModel': permissionModel.value,
       if (regions != null) 'Regions': regions,
       if (stackSetARN != null) 'StackSetARN': stackSetARN,
       if (stackSetDriftDetectionDetails != null)
         'StackSetDriftDetectionDetails': stackSetDriftDetectionDetails,
       if (stackSetId != null) 'StackSetId': stackSetId,
       if (stackSetName != null) 'StackSetName': stackSetName,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (tags != null) 'Tags': tags,
       if (templateBody != null) 'TemplateBody': templateBody,
     };
@@ -16281,10 +15204,11 @@ class StackSetDriftDetectionDetails {
     return StackSetDriftDetectionDetails(
       driftDetectionStatus: _s
           .extractXmlStringValue(elem, 'DriftDetectionStatus')
-          ?.toStackSetDriftDetectionStatus(),
+          ?.let(StackSetDriftDetectionStatus
+              .fromString) /* Nullability(true, true) */,
       driftStatus: _s
           .extractXmlStringValue(elem, 'DriftStatus')
-          ?.toStackSetDriftStatus(),
+          ?.let(StackSetDriftStatus.fromString) /* Nullability(true, true) */,
       driftedStackInstancesCount:
           _s.extractXmlIntValue(elem, 'DriftedStackInstancesCount'),
       failedStackInstancesCount:
@@ -16311,8 +15235,8 @@ class StackSetDriftDetectionDetails {
     final totalStackInstancesCount = this.totalStackInstancesCount;
     return {
       if (driftDetectionStatus != null)
-        'DriftDetectionStatus': driftDetectionStatus.toValue(),
-      if (driftStatus != null) 'DriftStatus': driftStatus.toValue(),
+        'DriftDetectionStatus': driftDetectionStatus.value,
+      if (driftStatus != null) 'DriftStatus': driftStatus.value,
       if (driftedStackInstancesCount != null)
         'DriftedStackInstancesCount': driftedStackInstancesCount,
       if (failedStackInstancesCount != null)
@@ -16330,80 +15254,37 @@ class StackSetDriftDetectionDetails {
 }
 
 enum StackSetDriftDetectionStatus {
-  completed,
-  failed,
-  partialSuccess,
-  inProgress,
-  stopped,
-}
+  completed('COMPLETED'),
+  failed('FAILED'),
+  partialSuccess('PARTIAL_SUCCESS'),
+  inProgress('IN_PROGRESS'),
+  stopped('STOPPED'),
+  ;
 
-extension StackSetDriftDetectionStatusValueExtension
-    on StackSetDriftDetectionStatus {
-  String toValue() {
-    switch (this) {
-      case StackSetDriftDetectionStatus.completed:
-        return 'COMPLETED';
-      case StackSetDriftDetectionStatus.failed:
-        return 'FAILED';
-      case StackSetDriftDetectionStatus.partialSuccess:
-        return 'PARTIAL_SUCCESS';
-      case StackSetDriftDetectionStatus.inProgress:
-        return 'IN_PROGRESS';
-      case StackSetDriftDetectionStatus.stopped:
-        return 'STOPPED';
-    }
-  }
-}
+  final String value;
 
-extension StackSetDriftDetectionStatusFromString on String {
-  StackSetDriftDetectionStatus toStackSetDriftDetectionStatus() {
-    switch (this) {
-      case 'COMPLETED':
-        return StackSetDriftDetectionStatus.completed;
-      case 'FAILED':
-        return StackSetDriftDetectionStatus.failed;
-      case 'PARTIAL_SUCCESS':
-        return StackSetDriftDetectionStatus.partialSuccess;
-      case 'IN_PROGRESS':
-        return StackSetDriftDetectionStatus.inProgress;
-      case 'STOPPED':
-        return StackSetDriftDetectionStatus.stopped;
-    }
-    throw Exception('$this is not known in enum StackSetDriftDetectionStatus');
-  }
+  const StackSetDriftDetectionStatus(this.value);
+
+  static StackSetDriftDetectionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum StackSetDriftDetectionStatus'));
 }
 
 enum StackSetDriftStatus {
-  drifted,
-  inSync,
-  notChecked,
-}
+  drifted('DRIFTED'),
+  inSync('IN_SYNC'),
+  notChecked('NOT_CHECKED'),
+  ;
 
-extension StackSetDriftStatusValueExtension on StackSetDriftStatus {
-  String toValue() {
-    switch (this) {
-      case StackSetDriftStatus.drifted:
-        return 'DRIFTED';
-      case StackSetDriftStatus.inSync:
-        return 'IN_SYNC';
-      case StackSetDriftStatus.notChecked:
-        return 'NOT_CHECKED';
-    }
-  }
-}
+  final String value;
 
-extension StackSetDriftStatusFromString on String {
-  StackSetDriftStatus toStackSetDriftStatus() {
-    switch (this) {
-      case 'DRIFTED':
-        return StackSetDriftStatus.drifted;
-      case 'IN_SYNC':
-        return StackSetDriftStatus.inSync;
-      case 'NOT_CHECKED':
-        return StackSetDriftStatus.notChecked;
-    }
-    throw Exception('$this is not known in enum StackSetDriftStatus');
-  }
+  const StackSetDriftStatus(this.value);
+
+  static StackSetDriftStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum StackSetDriftStatus'));
 }
 
 /// The structure that contains information about a stack set operation.
@@ -16535,8 +15416,8 @@ class StackSetOperation {
   });
   factory StackSetOperation.fromXml(_s.XmlElement elem) {
     return StackSetOperation(
-      action:
-          _s.extractXmlStringValue(elem, 'Action')?.toStackSetOperationAction(),
+      action: _s.extractXmlStringValue(elem, 'Action')?.let(
+          StackSetOperationAction.fromString) /* Nullability(true, true) */,
       administrationRoleARN:
           _s.extractXmlStringValue(elem, 'AdministrationRoleARN'),
       creationTimestamp: _s.extractXmlDateTimeValue(elem, 'CreationTimestamp'),
@@ -16554,8 +15435,8 @@ class StackSetOperation {
           .extractXmlChild(elem, 'StackSetDriftDetectionDetails')
           ?.let(StackSetDriftDetectionDetails.fromXml),
       stackSetId: _s.extractXmlStringValue(elem, 'StackSetId'),
-      status:
-          _s.extractXmlStringValue(elem, 'Status')?.toStackSetOperationStatus(),
+      status: _s.extractXmlStringValue(elem, 'Status')?.let(
+          StackSetOperationStatus.fromString) /* Nullability(true, true) */,
       statusDetails: _s
           .extractXmlChild(elem, 'StatusDetails')
           ?.let(StackSetOperationStatusDetails.fromXml),
@@ -16579,7 +15460,7 @@ class StackSetOperation {
     final statusDetails = this.statusDetails;
     final statusReason = this.statusReason;
     return {
-      if (action != null) 'Action': action.toValue(),
+      if (action != null) 'Action': action.value,
       if (administrationRoleARN != null)
         'AdministrationRoleARN': administrationRoleARN,
       if (creationTimestamp != null)
@@ -16594,7 +15475,7 @@ class StackSetOperation {
       if (stackSetDriftDetectionDetails != null)
         'StackSetDriftDetectionDetails': stackSetDriftDetectionDetails,
       if (stackSetId != null) 'StackSetId': stackSetId,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusDetails != null) 'StatusDetails': statusDetails,
       if (statusReason != null) 'StatusReason': statusReason,
     };
@@ -16602,41 +15483,20 @@ class StackSetOperation {
 }
 
 enum StackSetOperationAction {
-  create,
-  update,
-  delete,
-  detectDrift,
-}
+  create('CREATE'),
+  update('UPDATE'),
+  delete('DELETE'),
+  detectDrift('DETECT_DRIFT'),
+  ;
 
-extension StackSetOperationActionValueExtension on StackSetOperationAction {
-  String toValue() {
-    switch (this) {
-      case StackSetOperationAction.create:
-        return 'CREATE';
-      case StackSetOperationAction.update:
-        return 'UPDATE';
-      case StackSetOperationAction.delete:
-        return 'DELETE';
-      case StackSetOperationAction.detectDrift:
-        return 'DETECT_DRIFT';
-    }
-  }
-}
+  final String value;
 
-extension StackSetOperationActionFromString on String {
-  StackSetOperationAction toStackSetOperationAction() {
-    switch (this) {
-      case 'CREATE':
-        return StackSetOperationAction.create;
-      case 'UPDATE':
-        return StackSetOperationAction.update;
-      case 'DELETE':
-        return StackSetOperationAction.delete;
-      case 'DETECT_DRIFT':
-        return StackSetOperationAction.detectDrift;
-    }
-    throw Exception('$this is not known in enum StackSetOperationAction');
-  }
+  const StackSetOperationAction(this.value);
+
+  static StackSetOperationAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum StackSetOperationAction'));
 }
 
 /// The user-specified preferences for how CloudFormation performs a stack set
@@ -16757,7 +15617,7 @@ class StackSetOperationPreferences {
     return StackSetOperationPreferences(
       concurrencyMode: _s
           .extractXmlStringValue(elem, 'ConcurrencyMode')
-          ?.toConcurrencyMode(),
+          ?.let(ConcurrencyMode.fromString) /* Nullability(true, true) */,
       failureToleranceCount:
           _s.extractXmlIntValue(elem, 'FailureToleranceCount'),
       failureTolerancePercentage:
@@ -16767,7 +15627,7 @@ class StackSetOperationPreferences {
           _s.extractXmlIntValue(elem, 'MaxConcurrentPercentage'),
       regionConcurrencyType: _s
           .extractXmlStringValue(elem, 'RegionConcurrencyType')
-          ?.toRegionConcurrencyType(),
+          ?.let(RegionConcurrencyType.fromString) /* Nullability(true, true) */,
       regionOrder: _s
           .extractXmlChild(elem, 'RegionOrder')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
@@ -16783,7 +15643,7 @@ class StackSetOperationPreferences {
     final regionConcurrencyType = this.regionConcurrencyType;
     final regionOrder = this.regionOrder;
     return {
-      if (concurrencyMode != null) 'ConcurrencyMode': concurrencyMode.toValue(),
+      if (concurrencyMode != null) 'ConcurrencyMode': concurrencyMode.value,
       if (failureToleranceCount != null)
         'FailureToleranceCount': failureToleranceCount,
       if (failureTolerancePercentage != null)
@@ -16792,7 +15652,7 @@ class StackSetOperationPreferences {
       if (maxConcurrentPercentage != null)
         'MaxConcurrentPercentage': maxConcurrentPercentage,
       if (regionConcurrencyType != null)
-        'RegionConcurrencyType': regionConcurrencyType.toValue(),
+        'RegionConcurrencyType': regionConcurrencyType.value,
       if (regionOrder != null) 'RegionOrder': regionOrder,
     };
   }
@@ -16806,7 +15666,7 @@ class StackSetOperationPreferences {
     final regionConcurrencyType = this.regionConcurrencyType;
     final regionOrder = this.regionOrder;
     return {
-      if (concurrencyMode != null) 'ConcurrencyMode': concurrencyMode.toValue(),
+      if (concurrencyMode != null) 'ConcurrencyMode': concurrencyMode.value,
       if (failureToleranceCount != null)
         'FailureToleranceCount': failureToleranceCount.toString(),
       if (failureTolerancePercentage != null)
@@ -16816,7 +15676,7 @@ class StackSetOperationPreferences {
       if (maxConcurrentPercentage != null)
         'MaxConcurrentPercentage': maxConcurrentPercentage.toString(),
       if (regionConcurrencyType != null)
-        'RegionConcurrencyType': regionConcurrencyType.toValue(),
+        'RegionConcurrencyType': regionConcurrencyType.value,
       if (regionOrder != null)
         if (regionOrder.isEmpty)
           'RegionOrder': ''
@@ -16828,47 +15688,21 @@ class StackSetOperationPreferences {
 }
 
 enum StackSetOperationResultStatus {
-  pending,
-  running,
-  succeeded,
-  failed,
-  cancelled,
-}
+  pending('PENDING'),
+  running('RUNNING'),
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  cancelled('CANCELLED'),
+  ;
 
-extension StackSetOperationResultStatusValueExtension
-    on StackSetOperationResultStatus {
-  String toValue() {
-    switch (this) {
-      case StackSetOperationResultStatus.pending:
-        return 'PENDING';
-      case StackSetOperationResultStatus.running:
-        return 'RUNNING';
-      case StackSetOperationResultStatus.succeeded:
-        return 'SUCCEEDED';
-      case StackSetOperationResultStatus.failed:
-        return 'FAILED';
-      case StackSetOperationResultStatus.cancelled:
-        return 'CANCELLED';
-    }
-  }
-}
+  final String value;
 
-extension StackSetOperationResultStatusFromString on String {
-  StackSetOperationResultStatus toStackSetOperationResultStatus() {
-    switch (this) {
-      case 'PENDING':
-        return StackSetOperationResultStatus.pending;
-      case 'RUNNING':
-        return StackSetOperationResultStatus.running;
-      case 'SUCCEEDED':
-        return StackSetOperationResultStatus.succeeded;
-      case 'FAILED':
-        return StackSetOperationResultStatus.failed;
-      case 'CANCELLED':
-        return StackSetOperationResultStatus.cancelled;
-    }
-    throw Exception('$this is not known in enum StackSetOperationResultStatus');
-  }
+  const StackSetOperationResultStatus(this.value);
+
+  static StackSetOperationResultStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum StackSetOperationResultStatus'));
 }
 
 /// The structure that contains information about a specified operation's
@@ -16942,9 +15776,9 @@ class StackSetOperationResultSummary {
       organizationalUnitId:
           _s.extractXmlStringValue(elem, 'OrganizationalUnitId'),
       region: _s.extractXmlStringValue(elem, 'Region'),
-      status: _s
-          .extractXmlStringValue(elem, 'Status')
-          ?.toStackSetOperationResultStatus(),
+      status: _s.extractXmlStringValue(elem, 'Status')?.let(
+          StackSetOperationResultStatus
+              .fromString) /* Nullability(true, true) */,
       statusReason: _s.extractXmlStringValue(elem, 'StatusReason'),
     );
   }
@@ -16962,58 +15796,29 @@ class StackSetOperationResultSummary {
       if (organizationalUnitId != null)
         'OrganizationalUnitId': organizationalUnitId,
       if (region != null) 'Region': region,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusReason != null) 'StatusReason': statusReason,
     };
   }
 }
 
 enum StackSetOperationStatus {
-  running,
-  succeeded,
-  failed,
-  stopping,
-  stopped,
-  queued,
-}
+  running('RUNNING'),
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  stopping('STOPPING'),
+  stopped('STOPPED'),
+  queued('QUEUED'),
+  ;
 
-extension StackSetOperationStatusValueExtension on StackSetOperationStatus {
-  String toValue() {
-    switch (this) {
-      case StackSetOperationStatus.running:
-        return 'RUNNING';
-      case StackSetOperationStatus.succeeded:
-        return 'SUCCEEDED';
-      case StackSetOperationStatus.failed:
-        return 'FAILED';
-      case StackSetOperationStatus.stopping:
-        return 'STOPPING';
-      case StackSetOperationStatus.stopped:
-        return 'STOPPED';
-      case StackSetOperationStatus.queued:
-        return 'QUEUED';
-    }
-  }
-}
+  final String value;
 
-extension StackSetOperationStatusFromString on String {
-  StackSetOperationStatus toStackSetOperationStatus() {
-    switch (this) {
-      case 'RUNNING':
-        return StackSetOperationStatus.running;
-      case 'SUCCEEDED':
-        return StackSetOperationStatus.succeeded;
-      case 'FAILED':
-        return StackSetOperationStatus.failed;
-      case 'STOPPING':
-        return StackSetOperationStatus.stopping;
-      case 'STOPPED':
-        return StackSetOperationStatus.stopped;
-      case 'QUEUED':
-        return StackSetOperationStatus.queued;
-    }
-    throw Exception('$this is not known in enum StackSetOperationStatus');
-  }
+  const StackSetOperationStatus(this.value);
+
+  static StackSetOperationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum StackSetOperationStatus'));
 }
 
 /// Detailed information about the StackSet operation.
@@ -17128,16 +15933,16 @@ class StackSetOperationSummary {
   });
   factory StackSetOperationSummary.fromXml(_s.XmlElement elem) {
     return StackSetOperationSummary(
-      action:
-          _s.extractXmlStringValue(elem, 'Action')?.toStackSetOperationAction(),
+      action: _s.extractXmlStringValue(elem, 'Action')?.let(
+          StackSetOperationAction.fromString) /* Nullability(true, true) */,
       creationTimestamp: _s.extractXmlDateTimeValue(elem, 'CreationTimestamp'),
       endTimestamp: _s.extractXmlDateTimeValue(elem, 'EndTimestamp'),
       operationId: _s.extractXmlStringValue(elem, 'OperationId'),
       operationPreferences: _s
           .extractXmlChild(elem, 'OperationPreferences')
           ?.let(StackSetOperationPreferences.fromXml),
-      status:
-          _s.extractXmlStringValue(elem, 'Status')?.toStackSetOperationStatus(),
+      status: _s.extractXmlStringValue(elem, 'Status')?.let(
+          StackSetOperationStatus.fromString) /* Nullability(true, true) */,
       statusDetails: _s
           .extractXmlChild(elem, 'StatusDetails')
           ?.let(StackSetOperationStatusDetails.fromXml),
@@ -17155,14 +15960,14 @@ class StackSetOperationSummary {
     final statusDetails = this.statusDetails;
     final statusReason = this.statusReason;
     return {
-      if (action != null) 'Action': action.toValue(),
+      if (action != null) 'Action': action.value,
       if (creationTimestamp != null)
         'CreationTimestamp': iso8601ToJson(creationTimestamp),
       if (endTimestamp != null) 'EndTimestamp': iso8601ToJson(endTimestamp),
       if (operationId != null) 'OperationId': operationId,
       if (operationPreferences != null)
         'OperationPreferences': operationPreferences,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusDetails != null) 'StatusDetails': statusDetails,
       if (statusReason != null) 'StatusReason': statusReason,
     };
@@ -17170,31 +15975,18 @@ class StackSetOperationSummary {
 }
 
 enum StackSetStatus {
-  active,
-  deleted,
-}
+  active('ACTIVE'),
+  deleted('DELETED'),
+  ;
 
-extension StackSetStatusValueExtension on StackSetStatus {
-  String toValue() {
-    switch (this) {
-      case StackSetStatus.active:
-        return 'ACTIVE';
-      case StackSetStatus.deleted:
-        return 'DELETED';
-    }
-  }
-}
+  final String value;
 
-extension StackSetStatusFromString on String {
-  StackSetStatus toStackSetStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return StackSetStatus.active;
-      case 'DELETED':
-        return StackSetStatus.deleted;
-    }
-    throw Exception('$this is not known in enum StackSetStatus');
-  }
+  const StackSetStatus(this.value);
+
+  static StackSetStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum StackSetStatus'));
 }
 
 /// The structures that contain summary information about the specified stack
@@ -17290,8 +16082,9 @@ class StackSetSummary {
           .extractXmlChild(elem, 'AutoDeployment')
           ?.let(AutoDeployment.fromXml),
       description: _s.extractXmlStringValue(elem, 'Description'),
-      driftStatus:
-          _s.extractXmlStringValue(elem, 'DriftStatus')?.toStackDriftStatus(),
+      driftStatus: _s
+          .extractXmlStringValue(elem, 'DriftStatus')
+          ?.let(StackDriftStatus.fromString) /* Nullability(true, true) */,
       lastDriftCheckTimestamp:
           _s.extractXmlDateTimeValue(elem, 'LastDriftCheckTimestamp'),
       managedExecution: _s
@@ -17299,10 +16092,12 @@ class StackSetSummary {
           ?.let(ManagedExecution.fromXml),
       permissionModel: _s
           .extractXmlStringValue(elem, 'PermissionModel')
-          ?.toPermissionModels(),
+          ?.let(PermissionModels.fromString) /* Nullability(true, true) */,
       stackSetId: _s.extractXmlStringValue(elem, 'StackSetId'),
       stackSetName: _s.extractXmlStringValue(elem, 'StackSetName'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.toStackSetStatus(),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(StackSetStatus.fromString) /* Nullability(true, true) */,
     );
   }
 
@@ -17319,149 +16114,52 @@ class StackSetSummary {
     return {
       if (autoDeployment != null) 'AutoDeployment': autoDeployment,
       if (description != null) 'Description': description,
-      if (driftStatus != null) 'DriftStatus': driftStatus.toValue(),
+      if (driftStatus != null) 'DriftStatus': driftStatus.value,
       if (lastDriftCheckTimestamp != null)
         'LastDriftCheckTimestamp': iso8601ToJson(lastDriftCheckTimestamp),
       if (managedExecution != null) 'ManagedExecution': managedExecution,
-      if (permissionModel != null) 'PermissionModel': permissionModel.toValue(),
+      if (permissionModel != null) 'PermissionModel': permissionModel.value,
       if (stackSetId != null) 'StackSetId': stackSetId,
       if (stackSetName != null) 'StackSetName': stackSetName,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
 
 enum StackStatus {
-  createInProgress,
-  createFailed,
-  createComplete,
-  rollbackInProgress,
-  rollbackFailed,
-  rollbackComplete,
-  deleteInProgress,
-  deleteFailed,
-  deleteComplete,
-  updateInProgress,
-  updateCompleteCleanupInProgress,
-  updateComplete,
-  updateFailed,
-  updateRollbackInProgress,
-  updateRollbackFailed,
-  updateRollbackCompleteCleanupInProgress,
-  updateRollbackComplete,
-  reviewInProgress,
-  importInProgress,
-  importComplete,
-  importRollbackInProgress,
-  importRollbackFailed,
-  importRollbackComplete,
-}
+  createInProgress('CREATE_IN_PROGRESS'),
+  createFailed('CREATE_FAILED'),
+  createComplete('CREATE_COMPLETE'),
+  rollbackInProgress('ROLLBACK_IN_PROGRESS'),
+  rollbackFailed('ROLLBACK_FAILED'),
+  rollbackComplete('ROLLBACK_COMPLETE'),
+  deleteInProgress('DELETE_IN_PROGRESS'),
+  deleteFailed('DELETE_FAILED'),
+  deleteComplete('DELETE_COMPLETE'),
+  updateInProgress('UPDATE_IN_PROGRESS'),
+  updateCompleteCleanupInProgress('UPDATE_COMPLETE_CLEANUP_IN_PROGRESS'),
+  updateComplete('UPDATE_COMPLETE'),
+  updateFailed('UPDATE_FAILED'),
+  updateRollbackInProgress('UPDATE_ROLLBACK_IN_PROGRESS'),
+  updateRollbackFailed('UPDATE_ROLLBACK_FAILED'),
+  updateRollbackCompleteCleanupInProgress(
+      'UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS'),
+  updateRollbackComplete('UPDATE_ROLLBACK_COMPLETE'),
+  reviewInProgress('REVIEW_IN_PROGRESS'),
+  importInProgress('IMPORT_IN_PROGRESS'),
+  importComplete('IMPORT_COMPLETE'),
+  importRollbackInProgress('IMPORT_ROLLBACK_IN_PROGRESS'),
+  importRollbackFailed('IMPORT_ROLLBACK_FAILED'),
+  importRollbackComplete('IMPORT_ROLLBACK_COMPLETE'),
+  ;
 
-extension StackStatusValueExtension on StackStatus {
-  String toValue() {
-    switch (this) {
-      case StackStatus.createInProgress:
-        return 'CREATE_IN_PROGRESS';
-      case StackStatus.createFailed:
-        return 'CREATE_FAILED';
-      case StackStatus.createComplete:
-        return 'CREATE_COMPLETE';
-      case StackStatus.rollbackInProgress:
-        return 'ROLLBACK_IN_PROGRESS';
-      case StackStatus.rollbackFailed:
-        return 'ROLLBACK_FAILED';
-      case StackStatus.rollbackComplete:
-        return 'ROLLBACK_COMPLETE';
-      case StackStatus.deleteInProgress:
-        return 'DELETE_IN_PROGRESS';
-      case StackStatus.deleteFailed:
-        return 'DELETE_FAILED';
-      case StackStatus.deleteComplete:
-        return 'DELETE_COMPLETE';
-      case StackStatus.updateInProgress:
-        return 'UPDATE_IN_PROGRESS';
-      case StackStatus.updateCompleteCleanupInProgress:
-        return 'UPDATE_COMPLETE_CLEANUP_IN_PROGRESS';
-      case StackStatus.updateComplete:
-        return 'UPDATE_COMPLETE';
-      case StackStatus.updateFailed:
-        return 'UPDATE_FAILED';
-      case StackStatus.updateRollbackInProgress:
-        return 'UPDATE_ROLLBACK_IN_PROGRESS';
-      case StackStatus.updateRollbackFailed:
-        return 'UPDATE_ROLLBACK_FAILED';
-      case StackStatus.updateRollbackCompleteCleanupInProgress:
-        return 'UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS';
-      case StackStatus.updateRollbackComplete:
-        return 'UPDATE_ROLLBACK_COMPLETE';
-      case StackStatus.reviewInProgress:
-        return 'REVIEW_IN_PROGRESS';
-      case StackStatus.importInProgress:
-        return 'IMPORT_IN_PROGRESS';
-      case StackStatus.importComplete:
-        return 'IMPORT_COMPLETE';
-      case StackStatus.importRollbackInProgress:
-        return 'IMPORT_ROLLBACK_IN_PROGRESS';
-      case StackStatus.importRollbackFailed:
-        return 'IMPORT_ROLLBACK_FAILED';
-      case StackStatus.importRollbackComplete:
-        return 'IMPORT_ROLLBACK_COMPLETE';
-    }
-  }
-}
+  final String value;
 
-extension StackStatusFromString on String {
-  StackStatus toStackStatus() {
-    switch (this) {
-      case 'CREATE_IN_PROGRESS':
-        return StackStatus.createInProgress;
-      case 'CREATE_FAILED':
-        return StackStatus.createFailed;
-      case 'CREATE_COMPLETE':
-        return StackStatus.createComplete;
-      case 'ROLLBACK_IN_PROGRESS':
-        return StackStatus.rollbackInProgress;
-      case 'ROLLBACK_FAILED':
-        return StackStatus.rollbackFailed;
-      case 'ROLLBACK_COMPLETE':
-        return StackStatus.rollbackComplete;
-      case 'DELETE_IN_PROGRESS':
-        return StackStatus.deleteInProgress;
-      case 'DELETE_FAILED':
-        return StackStatus.deleteFailed;
-      case 'DELETE_COMPLETE':
-        return StackStatus.deleteComplete;
-      case 'UPDATE_IN_PROGRESS':
-        return StackStatus.updateInProgress;
-      case 'UPDATE_COMPLETE_CLEANUP_IN_PROGRESS':
-        return StackStatus.updateCompleteCleanupInProgress;
-      case 'UPDATE_COMPLETE':
-        return StackStatus.updateComplete;
-      case 'UPDATE_FAILED':
-        return StackStatus.updateFailed;
-      case 'UPDATE_ROLLBACK_IN_PROGRESS':
-        return StackStatus.updateRollbackInProgress;
-      case 'UPDATE_ROLLBACK_FAILED':
-        return StackStatus.updateRollbackFailed;
-      case 'UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS':
-        return StackStatus.updateRollbackCompleteCleanupInProgress;
-      case 'UPDATE_ROLLBACK_COMPLETE':
-        return StackStatus.updateRollbackComplete;
-      case 'REVIEW_IN_PROGRESS':
-        return StackStatus.reviewInProgress;
-      case 'IMPORT_IN_PROGRESS':
-        return StackStatus.importInProgress;
-      case 'IMPORT_COMPLETE':
-        return StackStatus.importComplete;
-      case 'IMPORT_ROLLBACK_IN_PROGRESS':
-        return StackStatus.importRollbackInProgress;
-      case 'IMPORT_ROLLBACK_FAILED':
-        return StackStatus.importRollbackFailed;
-      case 'IMPORT_ROLLBACK_COMPLETE':
-        return StackStatus.importRollbackComplete;
-    }
-    throw Exception('$this is not known in enum StackStatus');
-  }
+  const StackStatus(this.value);
+
+  static StackStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum StackStatus'));
 }
 
 /// The StackSummary Data Type
@@ -17533,8 +16231,9 @@ class StackSummary {
     return StackSummary(
       creationTime: _s.extractXmlDateTimeValue(elem, 'CreationTime')!,
       stackName: _s.extractXmlStringValue(elem, 'StackName')!,
-      stackStatus:
-          _s.extractXmlStringValue(elem, 'StackStatus')!.toStackStatus(),
+      stackStatus: _s
+          .extractXmlStringValue(elem, 'StackStatus')!
+          .let(StackStatus.fromString) /* Nullability(true, false) */,
       deletionTime: _s.extractXmlDateTimeValue(elem, 'DeletionTime'),
       driftInformation: _s
           .extractXmlChild(elem, 'DriftInformation')
@@ -17564,7 +16263,7 @@ class StackSummary {
     return {
       'CreationTime': iso8601ToJson(creationTime),
       'StackName': stackName,
-      'StackStatus': stackStatus.toValue(),
+      'StackStatus': stackStatus.value,
       if (deletionTime != null) 'DeletionTime': iso8601ToJson(deletionTime),
       if (driftInformation != null) 'DriftInformation': driftInformation,
       if (lastUpdatedTime != null)
@@ -17701,12 +16400,13 @@ class TemplateConfiguration {
   });
   factory TemplateConfiguration.fromXml(_s.XmlElement elem) {
     return TemplateConfiguration(
-      deletionPolicy: _s
-          .extractXmlStringValue(elem, 'DeletionPolicy')
-          ?.toGeneratedTemplateDeletionPolicy(),
+      deletionPolicy: _s.extractXmlStringValue(elem, 'DeletionPolicy')?.let(
+          GeneratedTemplateDeletionPolicy
+              .fromString) /* Nullability(true, true) */,
       updateReplacePolicy: _s
           .extractXmlStringValue(elem, 'UpdateReplacePolicy')
-          ?.toGeneratedTemplateUpdateReplacePolicy(),
+          ?.let(GeneratedTemplateUpdateReplacePolicy
+              .fromString) /* Nullability(true, true) */,
     );
   }
 
@@ -17714,9 +16414,9 @@ class TemplateConfiguration {
     final deletionPolicy = this.deletionPolicy;
     final updateReplacePolicy = this.updateReplacePolicy;
     return {
-      if (deletionPolicy != null) 'DeletionPolicy': deletionPolicy.toValue(),
+      if (deletionPolicy != null) 'DeletionPolicy': deletionPolicy.value,
       if (updateReplacePolicy != null)
-        'UpdateReplacePolicy': updateReplacePolicy.toValue(),
+        'UpdateReplacePolicy': updateReplacePolicy.value,
     };
   }
 
@@ -17724,39 +16424,26 @@ class TemplateConfiguration {
     final deletionPolicy = this.deletionPolicy;
     final updateReplacePolicy = this.updateReplacePolicy;
     return {
-      if (deletionPolicy != null) 'DeletionPolicy': deletionPolicy.toValue(),
+      if (deletionPolicy != null) 'DeletionPolicy': deletionPolicy.value,
       if (updateReplacePolicy != null)
-        'UpdateReplacePolicy': updateReplacePolicy.toValue(),
+        'UpdateReplacePolicy': updateReplacePolicy.value,
     };
   }
 }
 
 enum TemplateFormat {
-  json,
-  yaml,
-}
+  json('JSON'),
+  yaml('YAML'),
+  ;
 
-extension TemplateFormatValueExtension on TemplateFormat {
-  String toValue() {
-    switch (this) {
-      case TemplateFormat.json:
-        return 'JSON';
-      case TemplateFormat.yaml:
-        return 'YAML';
-    }
-  }
-}
+  final String value;
 
-extension TemplateFormatFromString on String {
-  TemplateFormat toTemplateFormat() {
-    switch (this) {
-      case 'JSON':
-        return TemplateFormat.json;
-      case 'YAML':
-        return TemplateFormat.yaml;
-    }
-    throw Exception('$this is not known in enum TemplateFormat');
-  }
+  const TemplateFormat(this.value);
+
+  static TemplateFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TemplateFormat'));
 }
 
 /// The TemplateParameter data type.
@@ -17848,31 +16535,18 @@ class TemplateProgress {
 }
 
 enum TemplateStage {
-  original,
-  processed,
-}
+  original('Original'),
+  processed('Processed'),
+  ;
 
-extension TemplateStageValueExtension on TemplateStage {
-  String toValue() {
-    switch (this) {
-      case TemplateStage.original:
-        return 'Original';
-      case TemplateStage.processed:
-        return 'Processed';
-    }
-  }
-}
+  final String value;
 
-extension TemplateStageFromString on String {
-  TemplateStage toTemplateStage() {
-    switch (this) {
-      case 'Original':
-        return TemplateStage.original;
-      case 'Processed':
-        return TemplateStage.processed;
-    }
-    throw Exception('$this is not known in enum TemplateStage');
-  }
+  const TemplateStage(this.value);
+
+  static TemplateStage fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TemplateStage'));
 }
 
 /// The summary of a generated template.
@@ -17949,8 +16623,8 @@ class TemplateSummary {
           _s.extractXmlStringValue(elem, 'GeneratedTemplateName'),
       lastUpdatedTime: _s.extractXmlDateTimeValue(elem, 'LastUpdatedTime'),
       numberOfResources: _s.extractXmlIntValue(elem, 'NumberOfResources'),
-      status:
-          _s.extractXmlStringValue(elem, 'Status')?.toGeneratedTemplateStatus(),
+      status: _s.extractXmlStringValue(elem, 'Status')?.let(
+          GeneratedTemplateStatus.fromString) /* Nullability(true, true) */,
       statusReason: _s.extractXmlStringValue(elem, 'StatusReason'),
     );
   }
@@ -17972,7 +16646,7 @@ class TemplateSummary {
       if (lastUpdatedTime != null)
         'LastUpdatedTime': iso8601ToJson(lastUpdatedTime),
       if (numberOfResources != null) 'NumberOfResources': numberOfResources,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (statusReason != null) 'StatusReason': statusReason,
     };
   }
@@ -18032,36 +16706,19 @@ class TestTypeOutput {
 }
 
 enum ThirdPartyType {
-  resource,
-  module,
-  hook,
-}
+  resource('RESOURCE'),
+  module('MODULE'),
+  hook('HOOK'),
+  ;
 
-extension ThirdPartyTypeValueExtension on ThirdPartyType {
-  String toValue() {
-    switch (this) {
-      case ThirdPartyType.resource:
-        return 'RESOURCE';
-      case ThirdPartyType.module:
-        return 'MODULE';
-      case ThirdPartyType.hook:
-        return 'HOOK';
-    }
-  }
-}
+  final String value;
 
-extension ThirdPartyTypeFromString on String {
-  ThirdPartyType toThirdPartyType() {
-    switch (this) {
-      case 'RESOURCE':
-        return ThirdPartyType.resource;
-      case 'MODULE':
-        return ThirdPartyType.module;
-      case 'HOOK':
-        return ThirdPartyType.hook;
-    }
-    throw Exception('$this is not known in enum ThirdPartyType');
-  }
+  const ThirdPartyType(this.value);
+
+  static ThirdPartyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ThirdPartyType'));
 }
 
 /// Detailed information concerning the specification of a CloudFormation
@@ -18189,7 +16846,9 @@ class TypeConfigurationIdentifier {
   });
   factory TypeConfigurationIdentifier.fromXml(_s.XmlElement elem) {
     return TypeConfigurationIdentifier(
-      type: _s.extractXmlStringValue(elem, 'Type')?.toThirdPartyType(),
+      type: _s
+          .extractXmlStringValue(elem, 'Type')
+          ?.let(ThirdPartyType.fromString) /* Nullability(true, true) */,
       typeArn: _s.extractXmlStringValue(elem, 'TypeArn'),
       typeConfigurationAlias:
           _s.extractXmlStringValue(elem, 'TypeConfigurationAlias'),
@@ -18206,7 +16865,7 @@ class TypeConfigurationIdentifier {
     final typeConfigurationArn = this.typeConfigurationArn;
     final typeName = this.typeName;
     return {
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
       if (typeArn != null) 'TypeArn': typeArn,
       if (typeConfigurationAlias != null)
         'TypeConfigurationAlias': typeConfigurationAlias,
@@ -18223,7 +16882,7 @@ class TypeConfigurationIdentifier {
     final typeConfigurationArn = this.typeConfigurationArn;
     final typeName = this.typeName;
     return {
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
       if (typeArn != null) 'TypeArn': typeArn,
       if (typeConfigurationAlias != null)
         'TypeConfigurationAlias': typeConfigurationAlias,
@@ -18287,7 +16946,7 @@ class TypeFilters {
     final publisherId = this.publisherId;
     final typeNamePrefix = this.typeNamePrefix;
     return {
-      if (category != null) 'Category': category.toValue(),
+      if (category != null) 'Category': category.value,
       if (publisherId != null) 'PublisherId': publisherId,
       if (typeNamePrefix != null) 'TypeNamePrefix': typeNamePrefix,
     };
@@ -18298,7 +16957,7 @@ class TypeFilters {
     final publisherId = this.publisherId;
     final typeNamePrefix = this.typeNamePrefix;
     return {
-      if (category != null) 'Category': category.toValue(),
+      if (category != null) 'Category': category.value,
       if (publisherId != null) 'PublisherId': publisherId,
       if (typeNamePrefix != null) 'TypeNamePrefix': typeNamePrefix,
     };
@@ -18443,9 +17102,11 @@ class TypeSummary {
       publisherId: _s.extractXmlStringValue(elem, 'PublisherId'),
       publisherIdentity: _s
           .extractXmlStringValue(elem, 'PublisherIdentity')
-          ?.toIdentityProvider(),
+          ?.let(IdentityProvider.fromString) /* Nullability(true, true) */,
       publisherName: _s.extractXmlStringValue(elem, 'PublisherName'),
-      type: _s.extractXmlStringValue(elem, 'Type')?.toRegistryType(),
+      type: _s
+          .extractXmlStringValue(elem, 'Type')
+          ?.let(RegistryType.fromString) /* Nullability(true, true) */,
       typeArn: _s.extractXmlStringValue(elem, 'TypeArn'),
       typeName: _s.extractXmlStringValue(elem, 'TypeName'),
     );
@@ -18477,9 +17138,9 @@ class TypeSummary {
         'PublicVersionNumber': publicVersionNumber,
       if (publisherId != null) 'PublisherId': publisherId,
       if (publisherIdentity != null)
-        'PublisherIdentity': publisherIdentity.toValue(),
+        'PublisherIdentity': publisherIdentity.value,
       if (publisherName != null) 'PublisherName': publisherName,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
       if (typeArn != null) 'TypeArn': typeArn,
       if (typeName != null) 'TypeName': typeName,
     };
@@ -18487,41 +17148,20 @@ class TypeSummary {
 }
 
 enum TypeTestsStatus {
-  passed,
-  failed,
-  inProgress,
-  notTested,
-}
+  passed('PASSED'),
+  failed('FAILED'),
+  inProgress('IN_PROGRESS'),
+  notTested('NOT_TESTED'),
+  ;
 
-extension TypeTestsStatusValueExtension on TypeTestsStatus {
-  String toValue() {
-    switch (this) {
-      case TypeTestsStatus.passed:
-        return 'PASSED';
-      case TypeTestsStatus.failed:
-        return 'FAILED';
-      case TypeTestsStatus.inProgress:
-        return 'IN_PROGRESS';
-      case TypeTestsStatus.notTested:
-        return 'NOT_TESTED';
-    }
-  }
-}
+  final String value;
 
-extension TypeTestsStatusFromString on String {
-  TypeTestsStatus toTypeTestsStatus() {
-    switch (this) {
-      case 'PASSED':
-        return TypeTestsStatus.passed;
-      case 'FAILED':
-        return TypeTestsStatus.failed;
-      case 'IN_PROGRESS':
-        return TypeTestsStatus.inProgress;
-      case 'NOT_TESTED':
-        return TypeTestsStatus.notTested;
-    }
-    throw Exception('$this is not known in enum TypeTestsStatus');
-  }
+  const TypeTestsStatus(this.value);
+
+  static TypeTestsStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TypeTestsStatus'));
 }
 
 /// Contains summary information about a specific version of a CloudFormation
@@ -18586,7 +17226,9 @@ class TypeVersionSummary {
       publicVersionNumber:
           _s.extractXmlStringValue(elem, 'PublicVersionNumber'),
       timeCreated: _s.extractXmlDateTimeValue(elem, 'TimeCreated'),
-      type: _s.extractXmlStringValue(elem, 'Type')?.toRegistryType(),
+      type: _s
+          .extractXmlStringValue(elem, 'Type')
+          ?.let(RegistryType.fromString) /* Nullability(true, true) */,
       typeName: _s.extractXmlStringValue(elem, 'TypeName'),
       versionId: _s.extractXmlStringValue(elem, 'VersionId'),
     );
@@ -18608,7 +17250,7 @@ class TypeVersionSummary {
       if (publicVersionNumber != null)
         'PublicVersionNumber': publicVersionNumber,
       if (timeCreated != null) 'TimeCreated': iso8601ToJson(timeCreated),
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
       if (typeName != null) 'TypeName': typeName,
       if (versionId != null) 'VersionId': versionId,
     };
@@ -18764,7 +17406,7 @@ class ValidateTemplateOutput {
     return ValidateTemplateOutput(
       capabilities: _s.extractXmlChild(elem, 'Capabilities')?.let((elem) => _s
           .extractXmlStringListValues(elem, 'member')
-          .map((s) => s.toCapability())
+          .map(Capability.fromString)
           .toList()),
       capabilitiesReason: _s.extractXmlStringValue(elem, 'CapabilitiesReason'),
       declaredTransforms: _s
@@ -18784,7 +17426,7 @@ class ValidateTemplateOutput {
     final parameters = this.parameters;
     return {
       if (capabilities != null)
-        'Capabilities': capabilities.map((e) => e.toValue()).toList(),
+        'Capabilities': capabilities.map((e) => e.value).toList(),
       if (capabilitiesReason != null) 'CapabilitiesReason': capabilitiesReason,
       if (declaredTransforms != null) 'DeclaredTransforms': declaredTransforms,
       if (description != null) 'Description': description,
@@ -18794,59 +17436,31 @@ class ValidateTemplateOutput {
 }
 
 enum VersionBump {
-  major,
-  minor,
-}
+  major('MAJOR'),
+  minor('MINOR'),
+  ;
 
-extension VersionBumpValueExtension on VersionBump {
-  String toValue() {
-    switch (this) {
-      case VersionBump.major:
-        return 'MAJOR';
-      case VersionBump.minor:
-        return 'MINOR';
-    }
-  }
-}
+  final String value;
 
-extension VersionBumpFromString on String {
-  VersionBump toVersionBump() {
-    switch (this) {
-      case 'MAJOR':
-        return VersionBump.major;
-      case 'MINOR':
-        return VersionBump.minor;
-    }
-    throw Exception('$this is not known in enum VersionBump');
-  }
+  const VersionBump(this.value);
+
+  static VersionBump fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum VersionBump'));
 }
 
 enum Visibility {
-  public,
-  private,
-}
+  public('PUBLIC'),
+  private('PRIVATE'),
+  ;
 
-extension VisibilityValueExtension on Visibility {
-  String toValue() {
-    switch (this) {
-      case Visibility.public:
-        return 'PUBLIC';
-      case Visibility.private:
-        return 'PRIVATE';
-    }
-  }
-}
+  final String value;
 
-extension VisibilityFromString on String {
-  Visibility toVisibility() {
-    switch (this) {
-      case 'PUBLIC':
-        return Visibility.public;
-      case 'PRIVATE':
-        return Visibility.private;
-    }
-    throw Exception('$this is not known in enum Visibility');
-  }
+  const Visibility(this.value);
+
+  static Visibility fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Visibility'));
 }
 
 /// The warnings generated for a specific resource for this generated template.
@@ -18894,7 +17508,9 @@ class WarningDetail {
     return WarningDetail(
       properties: _s.extractXmlChild(elem, 'Properties')?.let((elem) =>
           elem.findElements('member').map(WarningProperty.fromXml).toList()),
-      type: _s.extractXmlStringValue(elem, 'Type')?.toWarningType(),
+      type: _s
+          .extractXmlStringValue(elem, 'Type')
+          ?.let(WarningType.fromString) /* Nullability(true, true) */,
     );
   }
 
@@ -18903,7 +17519,7 @@ class WarningDetail {
     final type = this.type;
     return {
       if (properties != null) 'Properties': properties,
-      if (type != null) 'Type': type.toValue(),
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -18947,36 +17563,18 @@ class WarningProperty {
 }
 
 enum WarningType {
-  mutuallyExclusiveProperties,
-  unsupportedProperties,
-  mutuallyExclusiveTypes,
-}
+  mutuallyExclusiveProperties('MUTUALLY_EXCLUSIVE_PROPERTIES'),
+  unsupportedProperties('UNSUPPORTED_PROPERTIES'),
+  mutuallyExclusiveTypes('MUTUALLY_EXCLUSIVE_TYPES'),
+  ;
 
-extension WarningTypeValueExtension on WarningType {
-  String toValue() {
-    switch (this) {
-      case WarningType.mutuallyExclusiveProperties:
-        return 'MUTUALLY_EXCLUSIVE_PROPERTIES';
-      case WarningType.unsupportedProperties:
-        return 'UNSUPPORTED_PROPERTIES';
-      case WarningType.mutuallyExclusiveTypes:
-        return 'MUTUALLY_EXCLUSIVE_TYPES';
-    }
-  }
-}
+  final String value;
 
-extension WarningTypeFromString on String {
-  WarningType toWarningType() {
-    switch (this) {
-      case 'MUTUALLY_EXCLUSIVE_PROPERTIES':
-        return WarningType.mutuallyExclusiveProperties;
-      case 'UNSUPPORTED_PROPERTIES':
-        return WarningType.unsupportedProperties;
-      case 'MUTUALLY_EXCLUSIVE_TYPES':
-        return WarningType.mutuallyExclusiveTypes;
-    }
-    throw Exception('$this is not known in enum WarningType');
-  }
+  const WarningType(this.value);
+
+  static WarningType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum WarningType'));
 }
 
 /// Contains any warnings returned by the <code>GetTemplateSummary</code> API

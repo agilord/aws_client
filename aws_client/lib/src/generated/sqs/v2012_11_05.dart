@@ -823,7 +823,7 @@ class Sqs {
       payload: {
         'QueueName': queueName,
         if (attributes != null)
-          'Attributes': attributes.map((k, e) => MapEntry(k.toValue(), e)),
+          'Attributes': attributes.map((k, e) => MapEntry(k.value, e)),
         if (tags != null) 'tags': tags,
       },
     );
@@ -1269,7 +1269,7 @@ class Sqs {
       payload: {
         'QueueUrl': queueUrl,
         if (attributeNames != null)
-          'AttributeNames': attributeNames.map((e) => e.toValue()).toList(),
+          'AttributeNames': attributeNames.map((e) => e.value).toList(),
       },
     );
 
@@ -1945,14 +1945,14 @@ class Sqs {
       payload: {
         'QueueUrl': queueUrl,
         if (attributeNames != null)
-          'AttributeNames': attributeNames.map((e) => e.toValue()).toList(),
+          'AttributeNames': attributeNames.map((e) => e.value).toList(),
         if (maxNumberOfMessages != null)
           'MaxNumberOfMessages': maxNumberOfMessages,
         if (messageAttributeNames != null)
           'MessageAttributeNames': messageAttributeNames,
         if (messageSystemAttributeNames != null)
           'MessageSystemAttributeNames':
-              messageSystemAttributeNames.map((e) => e.toValue()).toList(),
+              messageSystemAttributeNames.map((e) => e.value).toList(),
         if (receiveRequestAttemptId != null)
           'ReceiveRequestAttemptId': receiveRequestAttemptId,
         if (visibilityTimeout != null) 'VisibilityTimeout': visibilityTimeout,
@@ -2237,7 +2237,7 @@ class Sqs {
         if (messageGroupId != null) 'MessageGroupId': messageGroupId,
         if (messageSystemAttributes != null)
           'MessageSystemAttributes':
-              messageSystemAttributes.map((k, e) => MapEntry(k.toValue(), e)),
+              messageSystemAttributes.map((k, e) => MapEntry(k.value, e)),
       },
     );
 
@@ -2620,7 +2620,7 @@ class Sqs {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Attributes': attributes.map((k, e) => MapEntry(k.toValue(), e)),
+        'Attributes': attributes.map((k, e) => MapEntry(k.value, e)),
         'QueueUrl': queueUrl,
       },
     );
@@ -3115,8 +3115,8 @@ class GetQueueAttributesResult {
 
   factory GetQueueAttributesResult.fromJson(Map<String, dynamic> json) {
     return GetQueueAttributesResult(
-      attributes: (json['Attributes'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k.toQueueAttributeName(), e as String)),
+      attributes: (json['Attributes'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(QueueAttributeName.fromString(k), e as String)),
     );
   }
 
@@ -3124,7 +3124,7 @@ class GetQueueAttributesResult {
     final attributes = this.attributes;
     return {
       if (attributes != null)
-        'Attributes': attributes.map((k, e) => MapEntry(k.toValue(), e)),
+        'Attributes': attributes.map((k, e) => MapEntry(k.value, e)),
     };
   }
 }
@@ -3449,8 +3449,8 @@ class Message {
 
   factory Message.fromJson(Map<String, dynamic> json) {
     return Message(
-      attributes: (json['Attributes'] as Map<String, dynamic>?)?.map(
-          (k, e) => MapEntry(k.toMessageSystemAttributeName(), e as String)),
+      attributes: (json['Attributes'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(MessageSystemAttributeName.fromString(k), e as String)),
       body: json['Body'] as String?,
       mD5OfBody: json['MD5OfBody'] as String?,
       mD5OfMessageAttributes: json['MD5OfMessageAttributes'] as String?,
@@ -3472,7 +3472,7 @@ class Message {
     final receiptHandle = this.receiptHandle;
     return {
       if (attributes != null)
-        'Attributes': attributes.map((k, e) => MapEntry(k.toValue(), e)),
+        'Attributes': attributes.map((k, e) => MapEntry(k.value, e)),
       if (body != null) 'Body': body,
       if (mD5OfBody != null) 'MD5OfBody': mD5OfBody,
       if (mD5OfMessageAttributes != null)
@@ -3560,97 +3560,40 @@ class MessageAttributeValue {
 }
 
 enum MessageSystemAttributeName {
-  all,
-  senderId,
-  sentTimestamp,
-  approximateReceiveCount,
-  approximateFirstReceiveTimestamp,
-  sequenceNumber,
-  messageDeduplicationId,
-  messageGroupId,
-  awsTraceHeader,
-  deadLetterQueueSourceArn,
-}
+  all('All'),
+  senderId('SenderId'),
+  sentTimestamp('SentTimestamp'),
+  approximateReceiveCount('ApproximateReceiveCount'),
+  approximateFirstReceiveTimestamp('ApproximateFirstReceiveTimestamp'),
+  sequenceNumber('SequenceNumber'),
+  messageDeduplicationId('MessageDeduplicationId'),
+  messageGroupId('MessageGroupId'),
+  awsTraceHeader('AWSTraceHeader'),
+  deadLetterQueueSourceArn('DeadLetterQueueSourceArn'),
+  ;
 
-extension MessageSystemAttributeNameValueExtension
-    on MessageSystemAttributeName {
-  String toValue() {
-    switch (this) {
-      case MessageSystemAttributeName.all:
-        return 'All';
-      case MessageSystemAttributeName.senderId:
-        return 'SenderId';
-      case MessageSystemAttributeName.sentTimestamp:
-        return 'SentTimestamp';
-      case MessageSystemAttributeName.approximateReceiveCount:
-        return 'ApproximateReceiveCount';
-      case MessageSystemAttributeName.approximateFirstReceiveTimestamp:
-        return 'ApproximateFirstReceiveTimestamp';
-      case MessageSystemAttributeName.sequenceNumber:
-        return 'SequenceNumber';
-      case MessageSystemAttributeName.messageDeduplicationId:
-        return 'MessageDeduplicationId';
-      case MessageSystemAttributeName.messageGroupId:
-        return 'MessageGroupId';
-      case MessageSystemAttributeName.awsTraceHeader:
-        return 'AWSTraceHeader';
-      case MessageSystemAttributeName.deadLetterQueueSourceArn:
-        return 'DeadLetterQueueSourceArn';
-    }
-  }
-}
+  final String value;
 
-extension MessageSystemAttributeNameFromString on String {
-  MessageSystemAttributeName toMessageSystemAttributeName() {
-    switch (this) {
-      case 'All':
-        return MessageSystemAttributeName.all;
-      case 'SenderId':
-        return MessageSystemAttributeName.senderId;
-      case 'SentTimestamp':
-        return MessageSystemAttributeName.sentTimestamp;
-      case 'ApproximateReceiveCount':
-        return MessageSystemAttributeName.approximateReceiveCount;
-      case 'ApproximateFirstReceiveTimestamp':
-        return MessageSystemAttributeName.approximateFirstReceiveTimestamp;
-      case 'SequenceNumber':
-        return MessageSystemAttributeName.sequenceNumber;
-      case 'MessageDeduplicationId':
-        return MessageSystemAttributeName.messageDeduplicationId;
-      case 'MessageGroupId':
-        return MessageSystemAttributeName.messageGroupId;
-      case 'AWSTraceHeader':
-        return MessageSystemAttributeName.awsTraceHeader;
-      case 'DeadLetterQueueSourceArn':
-        return MessageSystemAttributeName.deadLetterQueueSourceArn;
-    }
-    throw Exception('$this is not known in enum MessageSystemAttributeName');
-  }
+  const MessageSystemAttributeName(this.value);
+
+  static MessageSystemAttributeName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MessageSystemAttributeName'));
 }
 
 enum MessageSystemAttributeNameForSends {
-  awsTraceHeader,
-}
+  awsTraceHeader('AWSTraceHeader'),
+  ;
 
-extension MessageSystemAttributeNameForSendsValueExtension
-    on MessageSystemAttributeNameForSends {
-  String toValue() {
-    switch (this) {
-      case MessageSystemAttributeNameForSends.awsTraceHeader:
-        return 'AWSTraceHeader';
-    }
-  }
-}
+  final String value;
 
-extension MessageSystemAttributeNameForSendsFromString on String {
-  MessageSystemAttributeNameForSends toMessageSystemAttributeNameForSends() {
-    switch (this) {
-      case 'AWSTraceHeader':
-        return MessageSystemAttributeNameForSends.awsTraceHeader;
-    }
-    throw Exception(
-        '$this is not known in enum MessageSystemAttributeNameForSends');
-  }
+  const MessageSystemAttributeNameForSends(this.value);
+
+  static MessageSystemAttributeNameForSends fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MessageSystemAttributeNameForSends'));
 }
 
 /// The user-specified message system attribute value. For string data types,
@@ -3712,131 +3655,39 @@ class MessageSystemAttributeValue {
 }
 
 enum QueueAttributeName {
-  all,
-  policy,
-  visibilityTimeout,
-  maximumMessageSize,
-  messageRetentionPeriod,
-  approximateNumberOfMessages,
-  approximateNumberOfMessagesNotVisible,
-  createdTimestamp,
-  lastModifiedTimestamp,
-  queueArn,
-  approximateNumberOfMessagesDelayed,
-  delaySeconds,
-  receiveMessageWaitTimeSeconds,
-  redrivePolicy,
-  fifoQueue,
-  contentBasedDeduplication,
-  kmsMasterKeyId,
-  kmsDataKeyReusePeriodSeconds,
-  deduplicationScope,
-  fifoThroughputLimit,
-  redriveAllowPolicy,
-  sqsManagedSseEnabled,
-}
+  all('All'),
+  policy('Policy'),
+  visibilityTimeout('VisibilityTimeout'),
+  maximumMessageSize('MaximumMessageSize'),
+  messageRetentionPeriod('MessageRetentionPeriod'),
+  approximateNumberOfMessages('ApproximateNumberOfMessages'),
+  approximateNumberOfMessagesNotVisible(
+      'ApproximateNumberOfMessagesNotVisible'),
+  createdTimestamp('CreatedTimestamp'),
+  lastModifiedTimestamp('LastModifiedTimestamp'),
+  queueArn('QueueArn'),
+  approximateNumberOfMessagesDelayed('ApproximateNumberOfMessagesDelayed'),
+  delaySeconds('DelaySeconds'),
+  receiveMessageWaitTimeSeconds('ReceiveMessageWaitTimeSeconds'),
+  redrivePolicy('RedrivePolicy'),
+  fifoQueue('FifoQueue'),
+  contentBasedDeduplication('ContentBasedDeduplication'),
+  kmsMasterKeyId('KmsMasterKeyId'),
+  kmsDataKeyReusePeriodSeconds('KmsDataKeyReusePeriodSeconds'),
+  deduplicationScope('DeduplicationScope'),
+  fifoThroughputLimit('FifoThroughputLimit'),
+  redriveAllowPolicy('RedriveAllowPolicy'),
+  sqsManagedSseEnabled('SqsManagedSseEnabled'),
+  ;
 
-extension QueueAttributeNameValueExtension on QueueAttributeName {
-  String toValue() {
-    switch (this) {
-      case QueueAttributeName.all:
-        return 'All';
-      case QueueAttributeName.policy:
-        return 'Policy';
-      case QueueAttributeName.visibilityTimeout:
-        return 'VisibilityTimeout';
-      case QueueAttributeName.maximumMessageSize:
-        return 'MaximumMessageSize';
-      case QueueAttributeName.messageRetentionPeriod:
-        return 'MessageRetentionPeriod';
-      case QueueAttributeName.approximateNumberOfMessages:
-        return 'ApproximateNumberOfMessages';
-      case QueueAttributeName.approximateNumberOfMessagesNotVisible:
-        return 'ApproximateNumberOfMessagesNotVisible';
-      case QueueAttributeName.createdTimestamp:
-        return 'CreatedTimestamp';
-      case QueueAttributeName.lastModifiedTimestamp:
-        return 'LastModifiedTimestamp';
-      case QueueAttributeName.queueArn:
-        return 'QueueArn';
-      case QueueAttributeName.approximateNumberOfMessagesDelayed:
-        return 'ApproximateNumberOfMessagesDelayed';
-      case QueueAttributeName.delaySeconds:
-        return 'DelaySeconds';
-      case QueueAttributeName.receiveMessageWaitTimeSeconds:
-        return 'ReceiveMessageWaitTimeSeconds';
-      case QueueAttributeName.redrivePolicy:
-        return 'RedrivePolicy';
-      case QueueAttributeName.fifoQueue:
-        return 'FifoQueue';
-      case QueueAttributeName.contentBasedDeduplication:
-        return 'ContentBasedDeduplication';
-      case QueueAttributeName.kmsMasterKeyId:
-        return 'KmsMasterKeyId';
-      case QueueAttributeName.kmsDataKeyReusePeriodSeconds:
-        return 'KmsDataKeyReusePeriodSeconds';
-      case QueueAttributeName.deduplicationScope:
-        return 'DeduplicationScope';
-      case QueueAttributeName.fifoThroughputLimit:
-        return 'FifoThroughputLimit';
-      case QueueAttributeName.redriveAllowPolicy:
-        return 'RedriveAllowPolicy';
-      case QueueAttributeName.sqsManagedSseEnabled:
-        return 'SqsManagedSseEnabled';
-    }
-  }
-}
+  final String value;
 
-extension QueueAttributeNameFromString on String {
-  QueueAttributeName toQueueAttributeName() {
-    switch (this) {
-      case 'All':
-        return QueueAttributeName.all;
-      case 'Policy':
-        return QueueAttributeName.policy;
-      case 'VisibilityTimeout':
-        return QueueAttributeName.visibilityTimeout;
-      case 'MaximumMessageSize':
-        return QueueAttributeName.maximumMessageSize;
-      case 'MessageRetentionPeriod':
-        return QueueAttributeName.messageRetentionPeriod;
-      case 'ApproximateNumberOfMessages':
-        return QueueAttributeName.approximateNumberOfMessages;
-      case 'ApproximateNumberOfMessagesNotVisible':
-        return QueueAttributeName.approximateNumberOfMessagesNotVisible;
-      case 'CreatedTimestamp':
-        return QueueAttributeName.createdTimestamp;
-      case 'LastModifiedTimestamp':
-        return QueueAttributeName.lastModifiedTimestamp;
-      case 'QueueArn':
-        return QueueAttributeName.queueArn;
-      case 'ApproximateNumberOfMessagesDelayed':
-        return QueueAttributeName.approximateNumberOfMessagesDelayed;
-      case 'DelaySeconds':
-        return QueueAttributeName.delaySeconds;
-      case 'ReceiveMessageWaitTimeSeconds':
-        return QueueAttributeName.receiveMessageWaitTimeSeconds;
-      case 'RedrivePolicy':
-        return QueueAttributeName.redrivePolicy;
-      case 'FifoQueue':
-        return QueueAttributeName.fifoQueue;
-      case 'ContentBasedDeduplication':
-        return QueueAttributeName.contentBasedDeduplication;
-      case 'KmsMasterKeyId':
-        return QueueAttributeName.kmsMasterKeyId;
-      case 'KmsDataKeyReusePeriodSeconds':
-        return QueueAttributeName.kmsDataKeyReusePeriodSeconds;
-      case 'DeduplicationScope':
-        return QueueAttributeName.deduplicationScope;
-      case 'FifoThroughputLimit':
-        return QueueAttributeName.fifoThroughputLimit;
-      case 'RedriveAllowPolicy':
-        return QueueAttributeName.redriveAllowPolicy;
-      case 'SqsManagedSseEnabled':
-        return QueueAttributeName.sqsManagedSseEnabled;
-    }
-    throw Exception('$this is not known in enum QueueAttributeName');
-  }
+  const QueueAttributeName(this.value);
+
+  static QueueAttributeName fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum QueueAttributeName'));
 }
 
 /// A list of received messages.
@@ -4045,7 +3896,7 @@ class SendMessageBatchRequestEntry {
       if (messageGroupId != null) 'MessageGroupId': messageGroupId,
       if (messageSystemAttributes != null)
         'MessageSystemAttributes':
-            messageSystemAttributes.map((k, e) => MapEntry(k.toValue(), e)),
+            messageSystemAttributes.map((k, e) => MapEntry(k.value, e)),
     };
   }
 }

@@ -707,7 +707,7 @@ class Kinesis {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ShardLevelMetrics': shardLevelMetrics.map((e) => e.toValue()).toList(),
+        'ShardLevelMetrics': shardLevelMetrics.map((e) => e.value).toList(),
         if (streamARN != null) 'StreamARN': streamARN,
         if (streamName != null) 'StreamName': streamName,
       },
@@ -787,7 +787,7 @@ class Kinesis {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ShardLevelMetrics': shardLevelMetrics.map((e) => e.toValue()).toList(),
+        'ShardLevelMetrics': shardLevelMetrics.map((e) => e.value).toList(),
         if (streamARN != null) 'StreamARN': streamARN,
         if (streamName != null) 'StreamName': streamName,
       },
@@ -1093,7 +1093,7 @@ class Kinesis {
       headers: headers,
       payload: {
         'ShardId': shardId,
-        'ShardIteratorType': shardIteratorType.toValue(),
+        'ShardIteratorType': shardIteratorType.value,
         if (startingSequenceNumber != null)
           'StartingSequenceNumber': startingSequenceNumber,
         if (streamARN != null) 'StreamARN': streamARN,
@@ -2274,7 +2274,7 @@ class Kinesis {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EncryptionType': encryptionType.toValue(),
+        'EncryptionType': encryptionType.value,
         'KeyId': keyId,
         if (streamARN != null) 'StreamARN': streamARN,
         if (streamName != null) 'StreamName': streamName,
@@ -2366,7 +2366,7 @@ class Kinesis {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EncryptionType': encryptionType.toValue(),
+        'EncryptionType': encryptionType.value,
         'KeyId': keyId,
         if (streamARN != null) 'StreamARN': streamARN,
         if (streamName != null) 'StreamName': streamName,
@@ -2497,7 +2497,7 @@ class Kinesis {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ScalingType': scalingType.toValue(),
+        'ScalingType': scalingType.value,
         'TargetShardCount': targetShardCount,
         if (streamARN != null) 'StreamARN': streamARN,
         if (streamName != null) 'StreamName': streamName,
@@ -2613,7 +2613,8 @@ class Consumer {
       consumerCreationTimestamp: nonNullableTimeStampFromJson(
           json['ConsumerCreationTimestamp'] as Object),
       consumerName: json['ConsumerName'] as String,
-      consumerStatus: (json['ConsumerStatus'] as String).toConsumerStatus(),
+      consumerStatus:
+          ConsumerStatus.fromString((json['ConsumerStatus'] as String)),
     );
   }
 }
@@ -2658,43 +2659,27 @@ class ConsumerDescription {
       consumerCreationTimestamp: nonNullableTimeStampFromJson(
           json['ConsumerCreationTimestamp'] as Object),
       consumerName: json['ConsumerName'] as String,
-      consumerStatus: (json['ConsumerStatus'] as String).toConsumerStatus(),
+      consumerStatus:
+          ConsumerStatus.fromString((json['ConsumerStatus'] as String)),
       streamARN: json['StreamARN'] as String,
     );
   }
 }
 
 enum ConsumerStatus {
-  creating,
-  deleting,
-  active,
-}
+  creating('CREATING'),
+  deleting('DELETING'),
+  active('ACTIVE'),
+  ;
 
-extension ConsumerStatusValueExtension on ConsumerStatus {
-  String toValue() {
-    switch (this) {
-      case ConsumerStatus.creating:
-        return 'CREATING';
-      case ConsumerStatus.deleting:
-        return 'DELETING';
-      case ConsumerStatus.active:
-        return 'ACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension ConsumerStatusFromString on String {
-  ConsumerStatus toConsumerStatus() {
-    switch (this) {
-      case 'CREATING':
-        return ConsumerStatus.creating;
-      case 'DELETING':
-        return ConsumerStatus.deleting;
-      case 'ACTIVE':
-        return ConsumerStatus.active;
-    }
-    throw Exception('$this is not known in enum ConsumerStatus');
-  }
+  const ConsumerStatus(this.value);
+
+  static ConsumerStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ConsumerStatus'));
 }
 
 class DescribeLimitsOutput {
@@ -2779,31 +2764,18 @@ class DescribeStreamSummaryOutput {
 }
 
 enum EncryptionType {
-  none,
-  kms,
-}
+  none('NONE'),
+  kms('KMS'),
+  ;
 
-extension EncryptionTypeValueExtension on EncryptionType {
-  String toValue() {
-    switch (this) {
-      case EncryptionType.none:
-        return 'NONE';
-      case EncryptionType.kms:
-        return 'KMS';
-    }
-  }
-}
+  final String value;
 
-extension EncryptionTypeFromString on String {
-  EncryptionType toEncryptionType() {
-    switch (this) {
-      case 'NONE':
-        return EncryptionType.none;
-      case 'KMS':
-        return EncryptionType.kms;
-    }
-    throw Exception('$this is not known in enum EncryptionType');
-  }
+  const EncryptionType(this.value);
+
+  static EncryptionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EncryptionType'));
 }
 
 /// Represents enhanced metrics types.
@@ -2853,7 +2825,7 @@ class EnhancedMetrics {
     return EnhancedMetrics(
       shardLevelMetrics: (json['ShardLevelMetrics'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toMetricsName())
+          .map((e) => MetricsName.fromString((e as String)))
           .toList(),
     );
   }
@@ -2887,11 +2859,11 @@ class EnhancedMonitoringOutput {
     return EnhancedMonitoringOutput(
       currentShardLevelMetrics: (json['CurrentShardLevelMetrics'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toMetricsName())
+          .map((e) => MetricsName.fromString((e as String)))
           .toList(),
       desiredShardLevelMetrics: (json['DesiredShardLevelMetrics'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toMetricsName())
+          .map((e) => MetricsName.fromString((e as String)))
           .toList(),
       streamARN: json['StreamARN'] as String?,
       streamName: json['StreamName'] as String?,
@@ -3144,61 +3116,23 @@ class ListTagsForStreamOutput {
 }
 
 enum MetricsName {
-  incomingBytes,
-  incomingRecords,
-  outgoingBytes,
-  outgoingRecords,
-  writeProvisionedThroughputExceeded,
-  readProvisionedThroughputExceeded,
-  iteratorAgeMilliseconds,
-  all,
-}
+  incomingBytes('IncomingBytes'),
+  incomingRecords('IncomingRecords'),
+  outgoingBytes('OutgoingBytes'),
+  outgoingRecords('OutgoingRecords'),
+  writeProvisionedThroughputExceeded('WriteProvisionedThroughputExceeded'),
+  readProvisionedThroughputExceeded('ReadProvisionedThroughputExceeded'),
+  iteratorAgeMilliseconds('IteratorAgeMilliseconds'),
+  all('ALL'),
+  ;
 
-extension MetricsNameValueExtension on MetricsName {
-  String toValue() {
-    switch (this) {
-      case MetricsName.incomingBytes:
-        return 'IncomingBytes';
-      case MetricsName.incomingRecords:
-        return 'IncomingRecords';
-      case MetricsName.outgoingBytes:
-        return 'OutgoingBytes';
-      case MetricsName.outgoingRecords:
-        return 'OutgoingRecords';
-      case MetricsName.writeProvisionedThroughputExceeded:
-        return 'WriteProvisionedThroughputExceeded';
-      case MetricsName.readProvisionedThroughputExceeded:
-        return 'ReadProvisionedThroughputExceeded';
-      case MetricsName.iteratorAgeMilliseconds:
-        return 'IteratorAgeMilliseconds';
-      case MetricsName.all:
-        return 'ALL';
-    }
-  }
-}
+  final String value;
 
-extension MetricsNameFromString on String {
-  MetricsName toMetricsName() {
-    switch (this) {
-      case 'IncomingBytes':
-        return MetricsName.incomingBytes;
-      case 'IncomingRecords':
-        return MetricsName.incomingRecords;
-      case 'OutgoingBytes':
-        return MetricsName.outgoingBytes;
-      case 'OutgoingRecords':
-        return MetricsName.outgoingRecords;
-      case 'WriteProvisionedThroughputExceeded':
-        return MetricsName.writeProvisionedThroughputExceeded;
-      case 'ReadProvisionedThroughputExceeded':
-        return MetricsName.readProvisionedThroughputExceeded;
-      case 'IteratorAgeMilliseconds':
-        return MetricsName.iteratorAgeMilliseconds;
-      case 'ALL':
-        return MetricsName.all;
-    }
-    throw Exception('$this is not known in enum MetricsName');
-  }
+  const MetricsName(this.value);
+
+  static MetricsName fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum MetricsName'));
 }
 
 /// Represents the output for <code>PutRecord</code>.
@@ -3236,7 +3170,8 @@ class PutRecordOutput {
     return PutRecordOutput(
       sequenceNumber: json['SequenceNumber'] as String,
       shardId: json['ShardId'] as String,
-      encryptionType: (json['EncryptionType'] as String?)?.toEncryptionType(),
+      encryptionType:
+          (json['EncryptionType'] as String?)?.let(EncryptionType.fromString),
     );
   }
 }
@@ -3280,7 +3215,8 @@ class PutRecordsOutput {
           .whereNotNull()
           .map((e) => PutRecordsResultEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
-      encryptionType: (json['EncryptionType'] as String?)?.toEncryptionType(),
+      encryptionType:
+          (json['EncryptionType'] as String?)?.let(EncryptionType.fromString),
       failedRecordCount: json['FailedRecordCount'] as int?,
     );
   }
@@ -3415,7 +3351,8 @@ class Record {
       sequenceNumber: json['SequenceNumber'] as String,
       approximateArrivalTimestamp:
           timeStampFromJson(json['ApproximateArrivalTimestamp']),
-      encryptionType: (json['EncryptionType'] as String?)?.toEncryptionType(),
+      encryptionType:
+          (json['EncryptionType'] as String?)?.let(EncryptionType.fromString),
     );
   }
 }
@@ -3438,26 +3375,16 @@ class RegisterStreamConsumerOutput {
 }
 
 enum ScalingType {
-  uniformScaling,
-}
+  uniformScaling('UNIFORM_SCALING'),
+  ;
 
-extension ScalingTypeValueExtension on ScalingType {
-  String toValue() {
-    switch (this) {
-      case ScalingType.uniformScaling:
-        return 'UNIFORM_SCALING';
-    }
-  }
-}
+  final String value;
 
-extension ScalingTypeFromString on String {
-  ScalingType toScalingType() {
-    switch (this) {
-      case 'UNIFORM_SCALING':
-        return ScalingType.uniformScaling;
-    }
-    throw Exception('$this is not known in enum ScalingType');
-  }
+  const ScalingType(this.value);
+
+  static ScalingType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ScalingType'));
 }
 
 /// The range of possible sequence numbers for the shard.
@@ -3585,7 +3512,7 @@ class ShardFilter {
     final shardId = this.shardId;
     final timestamp = this.timestamp;
     return {
-      'Type': type.toValue(),
+      'Type': type.value,
       if (shardId != null) 'ShardId': shardId,
       if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
     };
@@ -3593,94 +3520,40 @@ class ShardFilter {
 }
 
 enum ShardFilterType {
-  afterShardId,
-  atTrimHorizon,
-  fromTrimHorizon,
-  atLatest,
-  atTimestamp,
-  fromTimestamp,
-}
+  afterShardId('AFTER_SHARD_ID'),
+  atTrimHorizon('AT_TRIM_HORIZON'),
+  fromTrimHorizon('FROM_TRIM_HORIZON'),
+  atLatest('AT_LATEST'),
+  atTimestamp('AT_TIMESTAMP'),
+  fromTimestamp('FROM_TIMESTAMP'),
+  ;
 
-extension ShardFilterTypeValueExtension on ShardFilterType {
-  String toValue() {
-    switch (this) {
-      case ShardFilterType.afterShardId:
-        return 'AFTER_SHARD_ID';
-      case ShardFilterType.atTrimHorizon:
-        return 'AT_TRIM_HORIZON';
-      case ShardFilterType.fromTrimHorizon:
-        return 'FROM_TRIM_HORIZON';
-      case ShardFilterType.atLatest:
-        return 'AT_LATEST';
-      case ShardFilterType.atTimestamp:
-        return 'AT_TIMESTAMP';
-      case ShardFilterType.fromTimestamp:
-        return 'FROM_TIMESTAMP';
-    }
-  }
-}
+  final String value;
 
-extension ShardFilterTypeFromString on String {
-  ShardFilterType toShardFilterType() {
-    switch (this) {
-      case 'AFTER_SHARD_ID':
-        return ShardFilterType.afterShardId;
-      case 'AT_TRIM_HORIZON':
-        return ShardFilterType.atTrimHorizon;
-      case 'FROM_TRIM_HORIZON':
-        return ShardFilterType.fromTrimHorizon;
-      case 'AT_LATEST':
-        return ShardFilterType.atLatest;
-      case 'AT_TIMESTAMP':
-        return ShardFilterType.atTimestamp;
-      case 'FROM_TIMESTAMP':
-        return ShardFilterType.fromTimestamp;
-    }
-    throw Exception('$this is not known in enum ShardFilterType');
-  }
+  const ShardFilterType(this.value);
+
+  static ShardFilterType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ShardFilterType'));
 }
 
 enum ShardIteratorType {
-  atSequenceNumber,
-  afterSequenceNumber,
-  trimHorizon,
-  latest,
-  atTimestamp,
-}
+  atSequenceNumber('AT_SEQUENCE_NUMBER'),
+  afterSequenceNumber('AFTER_SEQUENCE_NUMBER'),
+  trimHorizon('TRIM_HORIZON'),
+  latest('LATEST'),
+  atTimestamp('AT_TIMESTAMP'),
+  ;
 
-extension ShardIteratorTypeValueExtension on ShardIteratorType {
-  String toValue() {
-    switch (this) {
-      case ShardIteratorType.atSequenceNumber:
-        return 'AT_SEQUENCE_NUMBER';
-      case ShardIteratorType.afterSequenceNumber:
-        return 'AFTER_SEQUENCE_NUMBER';
-      case ShardIteratorType.trimHorizon:
-        return 'TRIM_HORIZON';
-      case ShardIteratorType.latest:
-        return 'LATEST';
-      case ShardIteratorType.atTimestamp:
-        return 'AT_TIMESTAMP';
-    }
-  }
-}
+  final String value;
 
-extension ShardIteratorTypeFromString on String {
-  ShardIteratorType toShardIteratorType() {
-    switch (this) {
-      case 'AT_SEQUENCE_NUMBER':
-        return ShardIteratorType.atSequenceNumber;
-      case 'AFTER_SEQUENCE_NUMBER':
-        return ShardIteratorType.afterSequenceNumber;
-      case 'TRIM_HORIZON':
-        return ShardIteratorType.trimHorizon;
-      case 'LATEST':
-        return ShardIteratorType.latest;
-      case 'AT_TIMESTAMP':
-        return ShardIteratorType.atTimestamp;
-    }
-    throw Exception('$this is not known in enum ShardIteratorType');
-  }
+  const ShardIteratorType(this.value);
+
+  static ShardIteratorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ShardIteratorType'));
 }
 
 /// Represents the output for <a>DescribeStream</a>.
@@ -3813,8 +3686,9 @@ class StreamDescription {
       streamCreationTimestamp: nonNullableTimeStampFromJson(
           json['StreamCreationTimestamp'] as Object),
       streamName: json['StreamName'] as String,
-      streamStatus: (json['StreamStatus'] as String).toStreamStatus(),
-      encryptionType: (json['EncryptionType'] as String?)?.toEncryptionType(),
+      streamStatus: StreamStatus.fromString((json['StreamStatus'] as String)),
+      encryptionType:
+          (json['EncryptionType'] as String?)?.let(EncryptionType.fromString),
       keyId: json['KeyId'] as String?,
       streamModeDetails: json['StreamModeDetails'] != null
           ? StreamModeDetails.fromJson(
@@ -3946,9 +3820,10 @@ class StreamDescriptionSummary {
       streamCreationTimestamp: nonNullableTimeStampFromJson(
           json['StreamCreationTimestamp'] as Object),
       streamName: json['StreamName'] as String,
-      streamStatus: (json['StreamStatus'] as String).toStreamStatus(),
+      streamStatus: StreamStatus.fromString((json['StreamStatus'] as String)),
       consumerCount: json['ConsumerCount'] as int?,
-      encryptionType: (json['EncryptionType'] as String?)?.toEncryptionType(),
+      encryptionType:
+          (json['EncryptionType'] as String?)?.let(EncryptionType.fromString),
       keyId: json['KeyId'] as String?,
       streamModeDetails: json['StreamModeDetails'] != null
           ? StreamModeDetails.fromJson(
@@ -3959,31 +3834,17 @@ class StreamDescriptionSummary {
 }
 
 enum StreamMode {
-  provisioned,
-  onDemand,
-}
+  provisioned('PROVISIONED'),
+  onDemand('ON_DEMAND'),
+  ;
 
-extension StreamModeValueExtension on StreamMode {
-  String toValue() {
-    switch (this) {
-      case StreamMode.provisioned:
-        return 'PROVISIONED';
-      case StreamMode.onDemand:
-        return 'ON_DEMAND';
-    }
-  }
-}
+  final String value;
 
-extension StreamModeFromString on String {
-  StreamMode toStreamMode() {
-    switch (this) {
-      case 'PROVISIONED':
-        return StreamMode.provisioned;
-      case 'ON_DEMAND':
-        return StreamMode.onDemand;
-    }
-    throw Exception('$this is not known in enum StreamMode');
-  }
+  const StreamMode(this.value);
+
+  static StreamMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum StreamMode'));
 }
 
 /// Specifies the capacity mode to which you want to set your data stream.
@@ -4003,54 +3864,33 @@ class StreamModeDetails {
 
   factory StreamModeDetails.fromJson(Map<String, dynamic> json) {
     return StreamModeDetails(
-      streamMode: (json['StreamMode'] as String).toStreamMode(),
+      streamMode: StreamMode.fromString((json['StreamMode'] as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final streamMode = this.streamMode;
     return {
-      'StreamMode': streamMode.toValue(),
+      'StreamMode': streamMode.value,
     };
   }
 }
 
 enum StreamStatus {
-  creating,
-  deleting,
-  active,
-  updating,
-}
+  creating('CREATING'),
+  deleting('DELETING'),
+  active('ACTIVE'),
+  updating('UPDATING'),
+  ;
 
-extension StreamStatusValueExtension on StreamStatus {
-  String toValue() {
-    switch (this) {
-      case StreamStatus.creating:
-        return 'CREATING';
-      case StreamStatus.deleting:
-        return 'DELETING';
-      case StreamStatus.active:
-        return 'ACTIVE';
-      case StreamStatus.updating:
-        return 'UPDATING';
-    }
-  }
-}
+  final String value;
 
-extension StreamStatusFromString on String {
-  StreamStatus toStreamStatus() {
-    switch (this) {
-      case 'CREATING':
-        return StreamStatus.creating;
-      case 'DELETING':
-        return StreamStatus.deleting;
-      case 'ACTIVE':
-        return StreamStatus.active;
-      case 'UPDATING':
-        return StreamStatus.updating;
-    }
-    throw Exception('$this is not known in enum StreamStatus');
-  }
+  const StreamStatus(this.value);
+
+  static StreamStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum StreamStatus'));
 }
 
 /// The summary of a stream.
@@ -4080,7 +3920,7 @@ class StreamSummary {
     return StreamSummary(
       streamARN: json['StreamARN'] as String,
       streamName: json['StreamName'] as String,
-      streamStatus: (json['StreamStatus'] as String).toStreamStatus(),
+      streamStatus: StreamStatus.fromString((json['StreamStatus'] as String)),
       streamCreationTimestamp:
           timeStampFromJson(json['StreamCreationTimestamp']),
       streamModeDetails: json['StreamModeDetails'] != null

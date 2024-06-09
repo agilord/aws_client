@@ -239,7 +239,7 @@ class AppFabric {
   }) async {
     final $payload = <String, dynamic>{
       'app': app,
-      'authType': authType.toValue(),
+      'authType': authType.value,
       'credential': credential,
       'tenant': tenant,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
@@ -398,7 +398,7 @@ class AppFabric {
   }) async {
     final $payload = <String, dynamic>{
       'app': app,
-      'ingestionType': ingestionType.toValue(),
+      'ingestionType': ingestionType.value,
       'tenantId': tenantId,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (tags != null) 'tags': tags,
@@ -1289,13 +1289,13 @@ class AppAuthorization {
       app: json['app'] as String,
       appAuthorizationArn: json['appAuthorizationArn'] as String,
       appBundleArn: json['appBundleArn'] as String,
-      authType: (json['authType'] as String).toAuthType(),
+      authType: AuthType.fromString((json['authType'] as String)),
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      status: (json['status'] as String).toAppAuthorizationStatus(),
+      status: AppAuthorizationStatus.fromString((json['status'] as String)),
       tenant: Tenant.fromJson(json['tenant'] as Map<String, dynamic>),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
       authUrl: json['authUrl'] as String?,
-      persona: (json['persona'] as String?)?.toPersona(),
+      persona: (json['persona'] as String?)?.let(Persona.fromString),
     );
   }
 
@@ -1314,53 +1314,32 @@ class AppAuthorization {
       'app': app,
       'appAuthorizationArn': appAuthorizationArn,
       'appBundleArn': appBundleArn,
-      'authType': authType.toValue(),
+      'authType': authType.value,
       'createdAt': iso8601ToJson(createdAt),
-      'status': status.toValue(),
+      'status': status.value,
       'tenant': tenant,
       'updatedAt': iso8601ToJson(updatedAt),
       if (authUrl != null) 'authUrl': authUrl,
-      if (persona != null) 'persona': persona.toValue(),
+      if (persona != null) 'persona': persona.value,
     };
   }
 }
 
 enum AppAuthorizationStatus {
-  pendingConnect,
-  connected,
-  connectionValidationFailed,
-  tokenAutoRotationFailed,
-}
+  pendingConnect('PendingConnect'),
+  connected('Connected'),
+  connectionValidationFailed('ConnectionValidationFailed'),
+  tokenAutoRotationFailed('TokenAutoRotationFailed'),
+  ;
 
-extension AppAuthorizationStatusValueExtension on AppAuthorizationStatus {
-  String toValue() {
-    switch (this) {
-      case AppAuthorizationStatus.pendingConnect:
-        return 'PendingConnect';
-      case AppAuthorizationStatus.connected:
-        return 'Connected';
-      case AppAuthorizationStatus.connectionValidationFailed:
-        return 'ConnectionValidationFailed';
-      case AppAuthorizationStatus.tokenAutoRotationFailed:
-        return 'TokenAutoRotationFailed';
-    }
-  }
-}
+  final String value;
 
-extension AppAuthorizationStatusFromString on String {
-  AppAuthorizationStatus toAppAuthorizationStatus() {
-    switch (this) {
-      case 'PendingConnect':
-        return AppAuthorizationStatus.pendingConnect;
-      case 'Connected':
-        return AppAuthorizationStatus.connected;
-      case 'ConnectionValidationFailed':
-        return AppAuthorizationStatus.connectionValidationFailed;
-      case 'TokenAutoRotationFailed':
-        return AppAuthorizationStatus.tokenAutoRotationFailed;
-    }
-    throw Exception('$this is not known in enum AppAuthorizationStatus');
-  }
+  const AppAuthorizationStatus(this.value);
+
+  static AppAuthorizationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AppAuthorizationStatus'));
 }
 
 /// Contains a summary of an app authorization.
@@ -1422,7 +1401,7 @@ class AppAuthorizationSummary {
       app: json['app'] as String,
       appAuthorizationArn: json['appAuthorizationArn'] as String,
       appBundleArn: json['appBundleArn'] as String,
-      status: (json['status'] as String).toAppAuthorizationStatus(),
+      status: AppAuthorizationStatus.fromString((json['status'] as String)),
       tenant: Tenant.fromJson(json['tenant'] as Map<String, dynamic>),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
     );
@@ -1439,7 +1418,7 @@ class AppAuthorizationSummary {
       'app': app,
       'appAuthorizationArn': appAuthorizationArn,
       'appBundleArn': appBundleArn,
-      'status': status.toValue(),
+      'status': status.value,
       'tenant': tenant,
       'updatedAt': iso8601ToJson(updatedAt),
     };
@@ -1540,8 +1519,8 @@ class AuditLogProcessingConfiguration {
 
   factory AuditLogProcessingConfiguration.fromJson(Map<String, dynamic> json) {
     return AuditLogProcessingConfiguration(
-      format: (json['format'] as String).toFormat(),
-      schema: (json['schema'] as String).toSchema(),
+      format: Format.fromString((json['format'] as String)),
+      schema: Schema.fromString((json['schema'] as String)),
     );
   }
 
@@ -1549,8 +1528,8 @@ class AuditLogProcessingConfiguration {
     final format = this.format;
     final schema = this.schema;
     return {
-      'format': format.toValue(),
-      'schema': schema.toValue(),
+      'format': format.value,
+      'schema': schema.value,
     };
   }
 }
@@ -1582,31 +1561,17 @@ class AuthRequest {
 }
 
 enum AuthType {
-  oauth2,
-  apiKey,
-}
+  oauth2('oauth2'),
+  apiKey('apiKey'),
+  ;
 
-extension AuthTypeValueExtension on AuthType {
-  String toValue() {
-    switch (this) {
-      case AuthType.oauth2:
-        return 'oauth2';
-      case AuthType.apiKey:
-        return 'apiKey';
-    }
-  }
-}
+  final String value;
 
-extension AuthTypeFromString on String {
-  AuthType toAuthType() {
-    switch (this) {
-      case 'oauth2':
-        return AuthType.oauth2;
-      case 'apiKey':
-        return AuthType.apiKey;
-    }
-    throw Exception('$this is not known in enum AuthType');
-  }
+  const AuthType(this.value);
+
+  static AuthType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AuthType'));
 }
 
 class BatchGetUserAccessTasksResponse {
@@ -1905,31 +1870,17 @@ class FirehoseStream {
 }
 
 enum Format {
-  json,
-  parquet,
-}
+  json('json'),
+  parquet('parquet'),
+  ;
 
-extension FormatValueExtension on Format {
-  String toValue() {
-    switch (this) {
-      case Format.json:
-        return 'json';
-      case Format.parquet:
-        return 'parquet';
-    }
-  }
-}
+  final String value;
 
-extension FormatFromString on String {
-  Format toFormat() {
-    switch (this) {
-      case 'json':
-        return Format.json;
-      case 'parquet':
-        return Format.parquet;
-    }
-    throw Exception('$this is not known in enum Format');
-  }
+  const Format(this.value);
+
+  static Format fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Format'));
 }
 
 class GetAppAuthorizationResponse {
@@ -2065,8 +2016,9 @@ class Ingestion {
       appBundleArn: json['appBundleArn'] as String,
       arn: json['arn'] as String,
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      ingestionType: (json['ingestionType'] as String).toIngestionType(),
-      state: (json['state'] as String).toIngestionState(),
+      ingestionType:
+          IngestionType.fromString((json['ingestionType'] as String)),
+      state: IngestionState.fromString((json['state'] as String)),
       tenantId: json['tenantId'] as String,
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
     );
@@ -2086,8 +2038,8 @@ class Ingestion {
       'appBundleArn': appBundleArn,
       'arn': arn,
       'createdAt': iso8601ToJson(createdAt),
-      'ingestionType': ingestionType.toValue(),
-      'state': state.toValue(),
+      'ingestionType': ingestionType.value,
+      'state': state.value,
       'tenantId': tenantId,
       'updatedAt': iso8601ToJson(updatedAt),
     };
@@ -2157,7 +2109,8 @@ class IngestionDestination {
       processingConfiguration: ProcessingConfiguration.fromJson(
           json['processingConfiguration'] as Map<String, dynamic>),
       createdAt: timeStampFromJson(json['createdAt']),
-      status: (json['status'] as String?)?.toIngestionDestinationStatus(),
+      status: (json['status'] as String?)
+          ?.let(IngestionDestinationStatus.fromString),
       statusReason: json['statusReason'] as String?,
       updatedAt: timeStampFromJson(json['updatedAt']),
     );
@@ -2178,7 +2131,7 @@ class IngestionDestination {
       'ingestionArn': ingestionArn,
       'processingConfiguration': processingConfiguration,
       if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
       if (statusReason != null) 'statusReason': statusReason,
       if (updatedAt != null) 'updatedAt': iso8601ToJson(updatedAt),
     };
@@ -2186,32 +2139,18 @@ class IngestionDestination {
 }
 
 enum IngestionDestinationStatus {
-  active,
-  failed,
-}
+  active('Active'),
+  failed('Failed'),
+  ;
 
-extension IngestionDestinationStatusValueExtension
-    on IngestionDestinationStatus {
-  String toValue() {
-    switch (this) {
-      case IngestionDestinationStatus.active:
-        return 'Active';
-      case IngestionDestinationStatus.failed:
-        return 'Failed';
-    }
-  }
-}
+  final String value;
 
-extension IngestionDestinationStatusFromString on String {
-  IngestionDestinationStatus toIngestionDestinationStatus() {
-    switch (this) {
-      case 'Active':
-        return IngestionDestinationStatus.active;
-      case 'Failed':
-        return IngestionDestinationStatus.failed;
-    }
-    throw Exception('$this is not known in enum IngestionDestinationStatus');
-  }
+  const IngestionDestinationStatus(this.value);
+
+  static IngestionDestinationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum IngestionDestinationStatus'));
 }
 
 /// Contains a summary of an ingestion destination.
@@ -2238,31 +2177,18 @@ class IngestionDestinationSummary {
 }
 
 enum IngestionState {
-  enabled,
-  disabled,
-}
+  enabled('enabled'),
+  disabled('disabled'),
+  ;
 
-extension IngestionStateValueExtension on IngestionState {
-  String toValue() {
-    switch (this) {
-      case IngestionState.enabled:
-        return 'enabled';
-      case IngestionState.disabled:
-        return 'disabled';
-    }
-  }
-}
+  final String value;
 
-extension IngestionStateFromString on String {
-  IngestionState toIngestionState() {
-    switch (this) {
-      case 'enabled':
-        return IngestionState.enabled;
-      case 'disabled':
-        return IngestionState.disabled;
-    }
-    throw Exception('$this is not known in enum IngestionState');
-  }
+  const IngestionState(this.value);
+
+  static IngestionState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum IngestionState'));
 }
 
 /// Contains a summary of an ingestion.
@@ -2290,7 +2216,7 @@ class IngestionSummary {
     return IngestionSummary(
       app: json['app'] as String,
       arn: json['arn'] as String,
-      state: (json['state'] as String).toIngestionState(),
+      state: IngestionState.fromString((json['state'] as String)),
       tenantId: json['tenantId'] as String,
     );
   }
@@ -2303,33 +2229,24 @@ class IngestionSummary {
     return {
       'app': app,
       'arn': arn,
-      'state': state.toValue(),
+      'state': state.value,
       'tenantId': tenantId,
     };
   }
 }
 
 enum IngestionType {
-  auditLog,
-}
+  auditLog('auditLog'),
+  ;
 
-extension IngestionTypeValueExtension on IngestionType {
-  String toValue() {
-    switch (this) {
-      case IngestionType.auditLog:
-        return 'auditLog';
-    }
-  }
-}
+  final String value;
 
-extension IngestionTypeFromString on String {
-  IngestionType toIngestionType() {
-    switch (this) {
-      case 'auditLog':
-        return IngestionType.auditLog;
-    }
-    throw Exception('$this is not known in enum IngestionType');
-  }
+  const IngestionType(this.value);
+
+  static IngestionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum IngestionType'));
 }
 
 class ListAppAuthorizationsResponse {
@@ -2533,31 +2450,17 @@ class Oauth2Credential {
 }
 
 enum Persona {
-  admin,
-  endUser,
-}
+  admin('admin'),
+  endUser('endUser'),
+  ;
 
-extension PersonaValueExtension on Persona {
-  String toValue() {
-    switch (this) {
-      case Persona.admin:
-        return 'admin';
-      case Persona.endUser:
-        return 'endUser';
-    }
-  }
-}
+  final String value;
 
-extension PersonaFromString on String {
-  Persona toPersona() {
-    switch (this) {
-      case 'admin':
-        return Persona.admin;
-      case 'endUser':
-        return Persona.endUser;
-    }
-    throw Exception('$this is not known in enum Persona');
-  }
+  const Persona(this.value);
+
+  static Persona fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Persona'));
 }
 
 /// Contains information about how ingested data is processed.
@@ -2587,41 +2490,20 @@ class ProcessingConfiguration {
 }
 
 enum ResultStatus {
-  inProgress,
-  completed,
-  failed,
-  expired,
-}
+  inProgress('IN_PROGRESS'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  expired('EXPIRED'),
+  ;
 
-extension ResultStatusValueExtension on ResultStatus {
-  String toValue() {
-    switch (this) {
-      case ResultStatus.inProgress:
-        return 'IN_PROGRESS';
-      case ResultStatus.completed:
-        return 'COMPLETED';
-      case ResultStatus.failed:
-        return 'FAILED';
-      case ResultStatus.expired:
-        return 'EXPIRED';
-    }
-  }
-}
+  final String value;
 
-extension ResultStatusFromString on String {
-  ResultStatus toResultStatus() {
-    switch (this) {
-      case 'IN_PROGRESS':
-        return ResultStatus.inProgress;
-      case 'COMPLETED':
-        return ResultStatus.completed;
-      case 'FAILED':
-        return ResultStatus.failed;
-      case 'EXPIRED':
-        return ResultStatus.expired;
-    }
-    throw Exception('$this is not known in enum ResultStatus');
-  }
+  const ResultStatus(this.value);
+
+  static ResultStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResultStatus'));
 }
 
 /// Contains information about an Amazon S3 bucket.
@@ -2655,31 +2537,17 @@ class S3Bucket {
 }
 
 enum Schema {
-  ocsf,
-  raw,
-}
+  ocsf('ocsf'),
+  raw('raw'),
+  ;
 
-extension SchemaValueExtension on Schema {
-  String toValue() {
-    switch (this) {
-      case Schema.ocsf:
-        return 'ocsf';
-      case Schema.raw:
-        return 'raw';
-    }
-  }
-}
+  final String value;
 
-extension SchemaFromString on String {
-  Schema toSchema() {
-    switch (this) {
-      case 'ocsf':
-        return Schema.ocsf;
-      case 'raw':
-        return Schema.raw;
-    }
-    throw Exception('$this is not known in enum Schema');
-  }
+  const Schema(this.value);
+
+  static Schema fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Schema'));
 }
 
 class StartIngestionResponse {
@@ -2968,7 +2836,8 @@ class UserAccessResultItem {
     return UserAccessResultItem(
       app: json['app'] as String?,
       email: json['email'] as String?,
-      resultStatus: (json['resultStatus'] as String?)?.toResultStatus(),
+      resultStatus:
+          (json['resultStatus'] as String?)?.let(ResultStatus.fromString),
       taskError: json['taskError'] != null
           ? TaskError.fromJson(json['taskError'] as Map<String, dynamic>)
           : null,
@@ -2999,7 +2868,7 @@ class UserAccessResultItem {
     return {
       if (app != null) 'app': app,
       if (email != null) 'email': email,
-      if (resultStatus != null) 'resultStatus': resultStatus.toValue(),
+      if (resultStatus != null) 'resultStatus': resultStatus.value,
       if (taskError != null) 'taskError': taskError,
       if (taskId != null) 'taskId': taskId,
       if (tenantDisplayName != null) 'tenantDisplayName': tenantDisplayName,

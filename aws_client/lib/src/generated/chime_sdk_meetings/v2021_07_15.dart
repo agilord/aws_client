@@ -1170,9 +1170,9 @@ class AttendeeCapabilities {
 
   factory AttendeeCapabilities.fromJson(Map<String, dynamic> json) {
     return AttendeeCapabilities(
-      audio: (json['Audio'] as String).toMediaCapabilities(),
-      content: (json['Content'] as String).toMediaCapabilities(),
-      video: (json['Video'] as String).toMediaCapabilities(),
+      audio: MediaCapabilities.fromString((json['Audio'] as String)),
+      content: MediaCapabilities.fromString((json['Content'] as String)),
+      video: MediaCapabilities.fromString((json['Video'] as String)),
     );
   }
 
@@ -1181,9 +1181,9 @@ class AttendeeCapabilities {
     final content = this.content;
     final video = this.video;
     return {
-      'Audio': audio.toValue(),
-      'Content': content.toValue(),
-      'Video': video.toValue(),
+      'Audio': audio.value,
+      'Content': content.value,
+      'Video': video.value,
     };
   }
 }
@@ -1247,15 +1247,15 @@ class AudioFeatures {
 
   factory AudioFeatures.fromJson(Map<String, dynamic> json) {
     return AudioFeatures(
-      echoReduction:
-          (json['EchoReduction'] as String?)?.toMeetingFeatureStatus(),
+      echoReduction: (json['EchoReduction'] as String?)
+          ?.let(MeetingFeatureStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final echoReduction = this.echoReduction;
     return {
-      if (echoReduction != null) 'EchoReduction': echoReduction.toValue(),
+      if (echoReduction != null) 'EchoReduction': echoReduction.value,
     };
   }
 }
@@ -1320,49 +1320,33 @@ class ContentFeatures {
 
   factory ContentFeatures.fromJson(Map<String, dynamic> json) {
     return ContentFeatures(
-      maxResolution: (json['MaxResolution'] as String?)?.toContentResolution(),
+      maxResolution:
+          (json['MaxResolution'] as String?)?.let(ContentResolution.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final maxResolution = this.maxResolution;
     return {
-      if (maxResolution != null) 'MaxResolution': maxResolution.toValue(),
+      if (maxResolution != null) 'MaxResolution': maxResolution.value,
     };
   }
 }
 
 enum ContentResolution {
-  none,
-  fhd,
-  uhd,
-}
+  none('None'),
+  fhd('FHD'),
+  uhd('UHD'),
+  ;
 
-extension ContentResolutionValueExtension on ContentResolution {
-  String toValue() {
-    switch (this) {
-      case ContentResolution.none:
-        return 'None';
-      case ContentResolution.fhd:
-        return 'FHD';
-      case ContentResolution.uhd:
-        return 'UHD';
-    }
-  }
-}
+  final String value;
 
-extension ContentResolutionFromString on String {
-  ContentResolution toContentResolution() {
-    switch (this) {
-      case 'None':
-        return ContentResolution.none;
-      case 'FHD':
-        return ContentResolution.fhd;
-      case 'UHD':
-        return ContentResolution.uhd;
-    }
-    throw Exception('$this is not known in enum ContentResolution');
-  }
+  const ContentResolution(this.value);
+
+  static ContentResolution fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ContentResolution'));
 }
 
 /// The list of errors returned when errors are encountered during the
@@ -1575,12 +1559,12 @@ class EngineTranscribeMedicalSettings {
     final region = this.region;
     final vocabularyName = this.vocabularyName;
     return {
-      'LanguageCode': languageCode.toValue(),
-      'Specialty': specialty.toValue(),
-      'Type': type.toValue(),
+      'LanguageCode': languageCode.value,
+      'Specialty': specialty.value,
+      'Type': type.value,
       if (contentIdentificationType != null)
-        'ContentIdentificationType': contentIdentificationType.toValue(),
-      if (region != null) 'Region': region.toValue(),
+        'ContentIdentificationType': contentIdentificationType.value,
+      if (region != null) 'Region': region.value,
       if (vocabularyName != null) 'VocabularyName': vocabularyName,
     };
   }
@@ -1809,23 +1793,23 @@ class EngineTranscribeSettings {
     final vocabularyNames = this.vocabularyNames;
     return {
       if (contentIdentificationType != null)
-        'ContentIdentificationType': contentIdentificationType.toValue(),
+        'ContentIdentificationType': contentIdentificationType.value,
       if (contentRedactionType != null)
-        'ContentRedactionType': contentRedactionType.toValue(),
+        'ContentRedactionType': contentRedactionType.value,
       if (enablePartialResultsStabilization != null)
         'EnablePartialResultsStabilization': enablePartialResultsStabilization,
       if (identifyLanguage != null) 'IdentifyLanguage': identifyLanguage,
-      if (languageCode != null) 'LanguageCode': languageCode.toValue(),
+      if (languageCode != null) 'LanguageCode': languageCode.value,
       if (languageModelName != null) 'LanguageModelName': languageModelName,
       if (languageOptions != null) 'LanguageOptions': languageOptions,
       if (partialResultsStability != null)
-        'PartialResultsStability': partialResultsStability.toValue(),
+        'PartialResultsStability': partialResultsStability.value,
       if (piiEntityTypes != null) 'PiiEntityTypes': piiEntityTypes,
       if (preferredLanguage != null)
-        'PreferredLanguage': preferredLanguage.toValue(),
-      if (region != null) 'Region': region.toValue(),
+        'PreferredLanguage': preferredLanguage.value,
+      if (region != null) 'Region': region.value,
       if (vocabularyFilterMethod != null)
-        'VocabularyFilterMethod': vocabularyFilterMethod.toValue(),
+        'VocabularyFilterMethod': vocabularyFilterMethod.value,
       if (vocabularyFilterName != null)
         'VocabularyFilterName': vocabularyFilterName,
       if (vocabularyFilterNames != null)
@@ -1942,41 +1926,20 @@ class ListTagsForResourceResponse {
 }
 
 enum MediaCapabilities {
-  sendReceive,
-  send,
-  receive,
-  none,
-}
+  sendReceive('SendReceive'),
+  send('Send'),
+  receive('Receive'),
+  none('None'),
+  ;
 
-extension MediaCapabilitiesValueExtension on MediaCapabilities {
-  String toValue() {
-    switch (this) {
-      case MediaCapabilities.sendReceive:
-        return 'SendReceive';
-      case MediaCapabilities.send:
-        return 'Send';
-      case MediaCapabilities.receive:
-        return 'Receive';
-      case MediaCapabilities.none:
-        return 'None';
-    }
-  }
-}
+  final String value;
 
-extension MediaCapabilitiesFromString on String {
-  MediaCapabilities toMediaCapabilities() {
-    switch (this) {
-      case 'SendReceive':
-        return MediaCapabilities.sendReceive;
-      case 'Send':
-        return MediaCapabilities.send;
-      case 'Receive':
-        return MediaCapabilities.receive;
-      case 'None':
-        return MediaCapabilities.none;
-    }
-    throw Exception('$this is not known in enum MediaCapabilities');
-  }
+  const MediaCapabilities(this.value);
+
+  static MediaCapabilities fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MediaCapabilities'));
 }
 
 /// A set of endpoints used by clients to connect to the media service group for
@@ -2174,31 +2137,18 @@ class Meeting {
 }
 
 enum MeetingFeatureStatus {
-  available,
-  unavailable,
-}
+  available('AVAILABLE'),
+  unavailable('UNAVAILABLE'),
+  ;
 
-extension MeetingFeatureStatusValueExtension on MeetingFeatureStatus {
-  String toValue() {
-    switch (this) {
-      case MeetingFeatureStatus.available:
-        return 'AVAILABLE';
-      case MeetingFeatureStatus.unavailable:
-        return 'UNAVAILABLE';
-    }
-  }
-}
+  final String value;
 
-extension MeetingFeatureStatusFromString on String {
-  MeetingFeatureStatus toMeetingFeatureStatus() {
-    switch (this) {
-      case 'AVAILABLE':
-        return MeetingFeatureStatus.available;
-      case 'UNAVAILABLE':
-        return MeetingFeatureStatus.unavailable;
-    }
-    throw Exception('$this is not known in enum MeetingFeatureStatus');
-  }
+  const MeetingFeatureStatus(this.value);
+
+  static MeetingFeatureStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum MeetingFeatureStatus'));
 }
 
 /// The configuration settings of the features available to a meeting.
@@ -2327,474 +2277,198 @@ class TagResourceResponse {
 }
 
 enum TranscribeContentIdentificationType {
-  pii,
-}
+  pii('PII'),
+  ;
 
-extension TranscribeContentIdentificationTypeValueExtension
-    on TranscribeContentIdentificationType {
-  String toValue() {
-    switch (this) {
-      case TranscribeContentIdentificationType.pii:
-        return 'PII';
-    }
-  }
-}
+  final String value;
 
-extension TranscribeContentIdentificationTypeFromString on String {
-  TranscribeContentIdentificationType toTranscribeContentIdentificationType() {
-    switch (this) {
-      case 'PII':
-        return TranscribeContentIdentificationType.pii;
-    }
-    throw Exception(
-        '$this is not known in enum TranscribeContentIdentificationType');
-  }
+  const TranscribeContentIdentificationType(this.value);
+
+  static TranscribeContentIdentificationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TranscribeContentIdentificationType'));
 }
 
 enum TranscribeContentRedactionType {
-  pii,
-}
+  pii('PII'),
+  ;
 
-extension TranscribeContentRedactionTypeValueExtension
-    on TranscribeContentRedactionType {
-  String toValue() {
-    switch (this) {
-      case TranscribeContentRedactionType.pii:
-        return 'PII';
-    }
-  }
-}
+  final String value;
 
-extension TranscribeContentRedactionTypeFromString on String {
-  TranscribeContentRedactionType toTranscribeContentRedactionType() {
-    switch (this) {
-      case 'PII':
-        return TranscribeContentRedactionType.pii;
-    }
-    throw Exception(
-        '$this is not known in enum TranscribeContentRedactionType');
-  }
+  const TranscribeContentRedactionType(this.value);
+
+  static TranscribeContentRedactionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TranscribeContentRedactionType'));
 }
 
 enum TranscribeLanguageCode {
-  enUs,
-  enGb,
-  esUs,
-  frCa,
-  frFr,
-  enAu,
-  itIt,
-  deDe,
-  ptBr,
-  jaJp,
-  koKr,
-  zhCn,
-  thTh,
-  hiIn,
-}
+  enUs('en-US'),
+  enGb('en-GB'),
+  esUs('es-US'),
+  frCa('fr-CA'),
+  frFr('fr-FR'),
+  enAu('en-AU'),
+  itIt('it-IT'),
+  deDe('de-DE'),
+  ptBr('pt-BR'),
+  jaJp('ja-JP'),
+  koKr('ko-KR'),
+  zhCn('zh-CN'),
+  thTh('th-TH'),
+  hiIn('hi-IN'),
+  ;
 
-extension TranscribeLanguageCodeValueExtension on TranscribeLanguageCode {
-  String toValue() {
-    switch (this) {
-      case TranscribeLanguageCode.enUs:
-        return 'en-US';
-      case TranscribeLanguageCode.enGb:
-        return 'en-GB';
-      case TranscribeLanguageCode.esUs:
-        return 'es-US';
-      case TranscribeLanguageCode.frCa:
-        return 'fr-CA';
-      case TranscribeLanguageCode.frFr:
-        return 'fr-FR';
-      case TranscribeLanguageCode.enAu:
-        return 'en-AU';
-      case TranscribeLanguageCode.itIt:
-        return 'it-IT';
-      case TranscribeLanguageCode.deDe:
-        return 'de-DE';
-      case TranscribeLanguageCode.ptBr:
-        return 'pt-BR';
-      case TranscribeLanguageCode.jaJp:
-        return 'ja-JP';
-      case TranscribeLanguageCode.koKr:
-        return 'ko-KR';
-      case TranscribeLanguageCode.zhCn:
-        return 'zh-CN';
-      case TranscribeLanguageCode.thTh:
-        return 'th-TH';
-      case TranscribeLanguageCode.hiIn:
-        return 'hi-IN';
-    }
-  }
-}
+  final String value;
 
-extension TranscribeLanguageCodeFromString on String {
-  TranscribeLanguageCode toTranscribeLanguageCode() {
-    switch (this) {
-      case 'en-US':
-        return TranscribeLanguageCode.enUs;
-      case 'en-GB':
-        return TranscribeLanguageCode.enGb;
-      case 'es-US':
-        return TranscribeLanguageCode.esUs;
-      case 'fr-CA':
-        return TranscribeLanguageCode.frCa;
-      case 'fr-FR':
-        return TranscribeLanguageCode.frFr;
-      case 'en-AU':
-        return TranscribeLanguageCode.enAu;
-      case 'it-IT':
-        return TranscribeLanguageCode.itIt;
-      case 'de-DE':
-        return TranscribeLanguageCode.deDe;
-      case 'pt-BR':
-        return TranscribeLanguageCode.ptBr;
-      case 'ja-JP':
-        return TranscribeLanguageCode.jaJp;
-      case 'ko-KR':
-        return TranscribeLanguageCode.koKr;
-      case 'zh-CN':
-        return TranscribeLanguageCode.zhCn;
-      case 'th-TH':
-        return TranscribeLanguageCode.thTh;
-      case 'hi-IN':
-        return TranscribeLanguageCode.hiIn;
-    }
-    throw Exception('$this is not known in enum TranscribeLanguageCode');
-  }
+  const TranscribeLanguageCode(this.value);
+
+  static TranscribeLanguageCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TranscribeLanguageCode'));
 }
 
 enum TranscribeMedicalContentIdentificationType {
-  phi,
-}
+  phi('PHI'),
+  ;
 
-extension TranscribeMedicalContentIdentificationTypeValueExtension
-    on TranscribeMedicalContentIdentificationType {
-  String toValue() {
-    switch (this) {
-      case TranscribeMedicalContentIdentificationType.phi:
-        return 'PHI';
-    }
-  }
-}
+  final String value;
 
-extension TranscribeMedicalContentIdentificationTypeFromString on String {
-  TranscribeMedicalContentIdentificationType
-      toTranscribeMedicalContentIdentificationType() {
-    switch (this) {
-      case 'PHI':
-        return TranscribeMedicalContentIdentificationType.phi;
-    }
-    throw Exception(
-        '$this is not known in enum TranscribeMedicalContentIdentificationType');
-  }
+  const TranscribeMedicalContentIdentificationType(this.value);
+
+  static TranscribeMedicalContentIdentificationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TranscribeMedicalContentIdentificationType'));
 }
 
 enum TranscribeMedicalLanguageCode {
-  enUs,
-}
+  enUs('en-US'),
+  ;
 
-extension TranscribeMedicalLanguageCodeValueExtension
-    on TranscribeMedicalLanguageCode {
-  String toValue() {
-    switch (this) {
-      case TranscribeMedicalLanguageCode.enUs:
-        return 'en-US';
-    }
-  }
-}
+  final String value;
 
-extension TranscribeMedicalLanguageCodeFromString on String {
-  TranscribeMedicalLanguageCode toTranscribeMedicalLanguageCode() {
-    switch (this) {
-      case 'en-US':
-        return TranscribeMedicalLanguageCode.enUs;
-    }
-    throw Exception('$this is not known in enum TranscribeMedicalLanguageCode');
-  }
+  const TranscribeMedicalLanguageCode(this.value);
+
+  static TranscribeMedicalLanguageCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TranscribeMedicalLanguageCode'));
 }
 
 enum TranscribeMedicalRegion {
-  usEast_1,
-  usEast_2,
-  usWest_2,
-  apSoutheast_2,
-  caCentral_1,
-  euWest_1,
-  auto,
-}
+  usEast_1('us-east-1'),
+  usEast_2('us-east-2'),
+  usWest_2('us-west-2'),
+  apSoutheast_2('ap-southeast-2'),
+  caCentral_1('ca-central-1'),
+  euWest_1('eu-west-1'),
+  auto('auto'),
+  ;
 
-extension TranscribeMedicalRegionValueExtension on TranscribeMedicalRegion {
-  String toValue() {
-    switch (this) {
-      case TranscribeMedicalRegion.usEast_1:
-        return 'us-east-1';
-      case TranscribeMedicalRegion.usEast_2:
-        return 'us-east-2';
-      case TranscribeMedicalRegion.usWest_2:
-        return 'us-west-2';
-      case TranscribeMedicalRegion.apSoutheast_2:
-        return 'ap-southeast-2';
-      case TranscribeMedicalRegion.caCentral_1:
-        return 'ca-central-1';
-      case TranscribeMedicalRegion.euWest_1:
-        return 'eu-west-1';
-      case TranscribeMedicalRegion.auto:
-        return 'auto';
-    }
-  }
-}
+  final String value;
 
-extension TranscribeMedicalRegionFromString on String {
-  TranscribeMedicalRegion toTranscribeMedicalRegion() {
-    switch (this) {
-      case 'us-east-1':
-        return TranscribeMedicalRegion.usEast_1;
-      case 'us-east-2':
-        return TranscribeMedicalRegion.usEast_2;
-      case 'us-west-2':
-        return TranscribeMedicalRegion.usWest_2;
-      case 'ap-southeast-2':
-        return TranscribeMedicalRegion.apSoutheast_2;
-      case 'ca-central-1':
-        return TranscribeMedicalRegion.caCentral_1;
-      case 'eu-west-1':
-        return TranscribeMedicalRegion.euWest_1;
-      case 'auto':
-        return TranscribeMedicalRegion.auto;
-    }
-    throw Exception('$this is not known in enum TranscribeMedicalRegion');
-  }
+  const TranscribeMedicalRegion(this.value);
+
+  static TranscribeMedicalRegion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TranscribeMedicalRegion'));
 }
 
 enum TranscribeMedicalSpecialty {
-  primarycare,
-  cardiology,
-  neurology,
-  oncology,
-  radiology,
-  urology,
-}
+  primarycare('PRIMARYCARE'),
+  cardiology('CARDIOLOGY'),
+  neurology('NEUROLOGY'),
+  oncology('ONCOLOGY'),
+  radiology('RADIOLOGY'),
+  urology('UROLOGY'),
+  ;
 
-extension TranscribeMedicalSpecialtyValueExtension
-    on TranscribeMedicalSpecialty {
-  String toValue() {
-    switch (this) {
-      case TranscribeMedicalSpecialty.primarycare:
-        return 'PRIMARYCARE';
-      case TranscribeMedicalSpecialty.cardiology:
-        return 'CARDIOLOGY';
-      case TranscribeMedicalSpecialty.neurology:
-        return 'NEUROLOGY';
-      case TranscribeMedicalSpecialty.oncology:
-        return 'ONCOLOGY';
-      case TranscribeMedicalSpecialty.radiology:
-        return 'RADIOLOGY';
-      case TranscribeMedicalSpecialty.urology:
-        return 'UROLOGY';
-    }
-  }
-}
+  final String value;
 
-extension TranscribeMedicalSpecialtyFromString on String {
-  TranscribeMedicalSpecialty toTranscribeMedicalSpecialty() {
-    switch (this) {
-      case 'PRIMARYCARE':
-        return TranscribeMedicalSpecialty.primarycare;
-      case 'CARDIOLOGY':
-        return TranscribeMedicalSpecialty.cardiology;
-      case 'NEUROLOGY':
-        return TranscribeMedicalSpecialty.neurology;
-      case 'ONCOLOGY':
-        return TranscribeMedicalSpecialty.oncology;
-      case 'RADIOLOGY':
-        return TranscribeMedicalSpecialty.radiology;
-      case 'UROLOGY':
-        return TranscribeMedicalSpecialty.urology;
-    }
-    throw Exception('$this is not known in enum TranscribeMedicalSpecialty');
-  }
+  const TranscribeMedicalSpecialty(this.value);
+
+  static TranscribeMedicalSpecialty fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TranscribeMedicalSpecialty'));
 }
 
 enum TranscribeMedicalType {
-  conversation,
-  dictation,
-}
+  conversation('CONVERSATION'),
+  dictation('DICTATION'),
+  ;
 
-extension TranscribeMedicalTypeValueExtension on TranscribeMedicalType {
-  String toValue() {
-    switch (this) {
-      case TranscribeMedicalType.conversation:
-        return 'CONVERSATION';
-      case TranscribeMedicalType.dictation:
-        return 'DICTATION';
-    }
-  }
-}
+  final String value;
 
-extension TranscribeMedicalTypeFromString on String {
-  TranscribeMedicalType toTranscribeMedicalType() {
-    switch (this) {
-      case 'CONVERSATION':
-        return TranscribeMedicalType.conversation;
-      case 'DICTATION':
-        return TranscribeMedicalType.dictation;
-    }
-    throw Exception('$this is not known in enum TranscribeMedicalType');
-  }
+  const TranscribeMedicalType(this.value);
+
+  static TranscribeMedicalType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TranscribeMedicalType'));
 }
 
 enum TranscribePartialResultsStability {
-  low,
-  medium,
-  high,
-}
+  low('low'),
+  medium('medium'),
+  high('high'),
+  ;
 
-extension TranscribePartialResultsStabilityValueExtension
-    on TranscribePartialResultsStability {
-  String toValue() {
-    switch (this) {
-      case TranscribePartialResultsStability.low:
-        return 'low';
-      case TranscribePartialResultsStability.medium:
-        return 'medium';
-      case TranscribePartialResultsStability.high:
-        return 'high';
-    }
-  }
-}
+  final String value;
 
-extension TranscribePartialResultsStabilityFromString on String {
-  TranscribePartialResultsStability toTranscribePartialResultsStability() {
-    switch (this) {
-      case 'low':
-        return TranscribePartialResultsStability.low;
-      case 'medium':
-        return TranscribePartialResultsStability.medium;
-      case 'high':
-        return TranscribePartialResultsStability.high;
-    }
-    throw Exception(
-        '$this is not known in enum TranscribePartialResultsStability');
-  }
+  const TranscribePartialResultsStability(this.value);
+
+  static TranscribePartialResultsStability fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TranscribePartialResultsStability'));
 }
 
 enum TranscribeRegion {
-  usEast_2,
-  usEast_1,
-  usWest_2,
-  apNortheast_2,
-  apSoutheast_2,
-  apNortheast_1,
-  caCentral_1,
-  euCentral_1,
-  euWest_1,
-  euWest_2,
-  saEast_1,
-  auto,
-  usGovWest_1,
-}
+  usEast_2('us-east-2'),
+  usEast_1('us-east-1'),
+  usWest_2('us-west-2'),
+  apNortheast_2('ap-northeast-2'),
+  apSoutheast_2('ap-southeast-2'),
+  apNortheast_1('ap-northeast-1'),
+  caCentral_1('ca-central-1'),
+  euCentral_1('eu-central-1'),
+  euWest_1('eu-west-1'),
+  euWest_2('eu-west-2'),
+  saEast_1('sa-east-1'),
+  auto('auto'),
+  usGovWest_1('us-gov-west-1'),
+  ;
 
-extension TranscribeRegionValueExtension on TranscribeRegion {
-  String toValue() {
-    switch (this) {
-      case TranscribeRegion.usEast_2:
-        return 'us-east-2';
-      case TranscribeRegion.usEast_1:
-        return 'us-east-1';
-      case TranscribeRegion.usWest_2:
-        return 'us-west-2';
-      case TranscribeRegion.apNortheast_2:
-        return 'ap-northeast-2';
-      case TranscribeRegion.apSoutheast_2:
-        return 'ap-southeast-2';
-      case TranscribeRegion.apNortheast_1:
-        return 'ap-northeast-1';
-      case TranscribeRegion.caCentral_1:
-        return 'ca-central-1';
-      case TranscribeRegion.euCentral_1:
-        return 'eu-central-1';
-      case TranscribeRegion.euWest_1:
-        return 'eu-west-1';
-      case TranscribeRegion.euWest_2:
-        return 'eu-west-2';
-      case TranscribeRegion.saEast_1:
-        return 'sa-east-1';
-      case TranscribeRegion.auto:
-        return 'auto';
-      case TranscribeRegion.usGovWest_1:
-        return 'us-gov-west-1';
-    }
-  }
-}
+  final String value;
 
-extension TranscribeRegionFromString on String {
-  TranscribeRegion toTranscribeRegion() {
-    switch (this) {
-      case 'us-east-2':
-        return TranscribeRegion.usEast_2;
-      case 'us-east-1':
-        return TranscribeRegion.usEast_1;
-      case 'us-west-2':
-        return TranscribeRegion.usWest_2;
-      case 'ap-northeast-2':
-        return TranscribeRegion.apNortheast_2;
-      case 'ap-southeast-2':
-        return TranscribeRegion.apSoutheast_2;
-      case 'ap-northeast-1':
-        return TranscribeRegion.apNortheast_1;
-      case 'ca-central-1':
-        return TranscribeRegion.caCentral_1;
-      case 'eu-central-1':
-        return TranscribeRegion.euCentral_1;
-      case 'eu-west-1':
-        return TranscribeRegion.euWest_1;
-      case 'eu-west-2':
-        return TranscribeRegion.euWest_2;
-      case 'sa-east-1':
-        return TranscribeRegion.saEast_1;
-      case 'auto':
-        return TranscribeRegion.auto;
-      case 'us-gov-west-1':
-        return TranscribeRegion.usGovWest_1;
-    }
-    throw Exception('$this is not known in enum TranscribeRegion');
-  }
+  const TranscribeRegion(this.value);
+
+  static TranscribeRegion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TranscribeRegion'));
 }
 
 enum TranscribeVocabularyFilterMethod {
-  remove,
-  mask,
-  tag,
-}
+  remove('remove'),
+  mask('mask'),
+  tag('tag'),
+  ;
 
-extension TranscribeVocabularyFilterMethodValueExtension
-    on TranscribeVocabularyFilterMethod {
-  String toValue() {
-    switch (this) {
-      case TranscribeVocabularyFilterMethod.remove:
-        return 'remove';
-      case TranscribeVocabularyFilterMethod.mask:
-        return 'mask';
-      case TranscribeVocabularyFilterMethod.tag:
-        return 'tag';
-    }
-  }
-}
+  final String value;
 
-extension TranscribeVocabularyFilterMethodFromString on String {
-  TranscribeVocabularyFilterMethod toTranscribeVocabularyFilterMethod() {
-    switch (this) {
-      case 'remove':
-        return TranscribeVocabularyFilterMethod.remove;
-      case 'mask':
-        return TranscribeVocabularyFilterMethod.mask;
-      case 'tag':
-        return TranscribeVocabularyFilterMethod.tag;
-    }
-    throw Exception(
-        '$this is not known in enum TranscribeVocabularyFilterMethod');
-  }
+  const TranscribeVocabularyFilterMethod(this.value);
+
+  static TranscribeVocabularyFilterMethod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TranscribeVocabularyFilterMethod'));
 }
 
 /// The configuration for the current transcription operation. Must contain
@@ -2886,49 +2560,33 @@ class VideoFeatures {
 
   factory VideoFeatures.fromJson(Map<String, dynamic> json) {
     return VideoFeatures(
-      maxResolution: (json['MaxResolution'] as String?)?.toVideoResolution(),
+      maxResolution:
+          (json['MaxResolution'] as String?)?.let(VideoResolution.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final maxResolution = this.maxResolution;
     return {
-      if (maxResolution != null) 'MaxResolution': maxResolution.toValue(),
+      if (maxResolution != null) 'MaxResolution': maxResolution.value,
     };
   }
 }
 
 enum VideoResolution {
-  none,
-  hd,
-  fhd,
-}
+  none('None'),
+  hd('HD'),
+  fhd('FHD'),
+  ;
 
-extension VideoResolutionValueExtension on VideoResolution {
-  String toValue() {
-    switch (this) {
-      case VideoResolution.none:
-        return 'None';
-      case VideoResolution.hd:
-        return 'HD';
-      case VideoResolution.fhd:
-        return 'FHD';
-    }
-  }
-}
+  final String value;
 
-extension VideoResolutionFromString on String {
-  VideoResolution toVideoResolution() {
-    switch (this) {
-      case 'None':
-        return VideoResolution.none;
-      case 'HD':
-        return VideoResolution.hd;
-      case 'FHD':
-        return VideoResolution.fhd;
-    }
-    throw Exception('$this is not known in enum VideoResolution');
-  }
+  const VideoResolution(this.value);
+
+  static VideoResolution fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum VideoResolution'));
 }
 
 class BadRequestException extends _s.GenericAwsException {

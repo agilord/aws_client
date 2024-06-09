@@ -402,7 +402,7 @@ class Health {
       // TODO queryParams
       headers: headers,
       payload: {
-        'aggregateField': aggregateField.toValue(),
+        'aggregateField': aggregateField.value,
         if (filter != null) 'filter': filter,
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
@@ -923,7 +923,7 @@ class AccountEntityAggregate {
       accountId: json['accountId'] as String?,
       count: json['count'] as int?,
       statuses: (json['statuses'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k.toEntityStatusCode(), e as int)),
+          ?.map((k, e) => MapEntry(EntityStatusCode.fromString(k), e as int)),
     );
   }
 
@@ -935,7 +935,7 @@ class AccountEntityAggregate {
       if (accountId != null) 'accountId': accountId,
       if (count != null) 'count': count,
       if (statuses != null)
-        'statuses': statuses.map((k, e) => MapEntry(k.toValue(), e)),
+        'statuses': statuses.map((k, e) => MapEntry(k.value, e)),
     };
   }
 }
@@ -1000,7 +1000,8 @@ class AffectedEntity {
       entityValue: json['entityValue'] as String?,
       eventArn: json['eventArn'] as String?,
       lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
-      statusCode: (json['statusCode'] as String?)?.toEntityStatusCode(),
+      statusCode:
+          (json['statusCode'] as String?)?.let(EntityStatusCode.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -1023,7 +1024,7 @@ class AffectedEntity {
       if (eventArn != null) 'eventArn': eventArn,
       if (lastUpdatedTime != null)
         'lastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
-      if (statusCode != null) 'statusCode': statusCode.toValue(),
+      if (statusCode != null) 'statusCode': statusCode.value,
       if (tags != null) 'tags': tags,
     };
   }
@@ -1111,7 +1112,8 @@ class DescribeAffectedAccountsForOrganizationResponse {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      eventScopeCode: (json['eventScopeCode'] as String?)?.toEventScopeCode(),
+      eventScopeCode:
+          (json['eventScopeCode'] as String?)?.let(EventScopeCode.fromString),
       nextToken: json['nextToken'] as String?,
     );
   }
@@ -1122,7 +1124,7 @@ class DescribeAffectedAccountsForOrganizationResponse {
     final nextToken = this.nextToken;
     return {
       if (affectedAccounts != null) 'affectedAccounts': affectedAccounts,
-      if (eventScopeCode != null) 'eventScopeCode': eventScopeCode.toValue(),
+      if (eventScopeCode != null) 'eventScopeCode': eventScopeCode.value,
       if (nextToken != null) 'nextToken': nextToken,
     };
   }
@@ -1559,7 +1561,7 @@ class EntityAccountFilter {
       'eventArn': eventArn,
       if (awsAccountId != null) 'awsAccountId': awsAccountId,
       if (statusCodes != null)
-        'statusCodes': statusCodes.map((e) => e.toValue()).toList(),
+        'statusCodes': statusCodes.map((e) => e.value).toList(),
     };
   }
 }
@@ -1595,7 +1597,7 @@ class EntityAggregate {
       count: json['count'] as int?,
       eventArn: json['eventArn'] as String?,
       statuses: (json['statuses'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k.toEntityStatusCode(), e as int)),
+          ?.map((k, e) => MapEntry(EntityStatusCode.fromString(k), e as int)),
     );
   }
 
@@ -1607,7 +1609,7 @@ class EntityAggregate {
       if (count != null) 'count': count,
       if (eventArn != null) 'eventArn': eventArn,
       if (statuses != null)
-        'statuses': statuses.map((k, e) => MapEntry(k.toValue(), e)),
+        'statuses': statuses.map((k, e) => MapEntry(k.value, e)),
     };
   }
 }
@@ -1662,7 +1664,7 @@ class EntityFilter {
       if (entityValues != null) 'entityValues': entityValues,
       if (lastUpdatedTimes != null) 'lastUpdatedTimes': lastUpdatedTimes,
       if (statusCodes != null)
-        'statusCodes': statusCodes.map((e) => e.toValue()).toList(),
+        'statusCodes': statusCodes.map((e) => e.value).toList(),
       if (tags != null) 'tags': tags,
     };
   }
@@ -1778,15 +1780,17 @@ class Event {
       arn: json['arn'] as String?,
       availabilityZone: json['availabilityZone'] as String?,
       endTime: timeStampFromJson(json['endTime']),
-      eventScopeCode: (json['eventScopeCode'] as String?)?.toEventScopeCode(),
-      eventTypeCategory:
-          (json['eventTypeCategory'] as String?)?.toEventTypeCategory(),
+      eventScopeCode:
+          (json['eventScopeCode'] as String?)?.let(EventScopeCode.fromString),
+      eventTypeCategory: (json['eventTypeCategory'] as String?)
+          ?.let(EventTypeCategory.fromString),
       eventTypeCode: json['eventTypeCode'] as String?,
       lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
       region: json['region'] as String?,
       service: json['service'] as String?,
       startTime: timeStampFromJson(json['startTime']),
-      statusCode: (json['statusCode'] as String?)?.toEventStatusCode(),
+      statusCode:
+          (json['statusCode'] as String?)?.let(EventStatusCode.fromString),
     );
   }
 
@@ -1806,16 +1810,16 @@ class Event {
       if (arn != null) 'arn': arn,
       if (availabilityZone != null) 'availabilityZone': availabilityZone,
       if (endTime != null) 'endTime': unixTimestampToJson(endTime),
-      if (eventScopeCode != null) 'eventScopeCode': eventScopeCode.toValue(),
+      if (eventScopeCode != null) 'eventScopeCode': eventScopeCode.value,
       if (eventTypeCategory != null)
-        'eventTypeCategory': eventTypeCategory.toValue(),
+        'eventTypeCategory': eventTypeCategory.value,
       if (eventTypeCode != null) 'eventTypeCode': eventTypeCode,
       if (lastUpdatedTime != null)
         'lastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       if (region != null) 'region': region,
       if (service != null) 'service': service,
       if (startTime != null) 'startTime': unixTimestampToJson(startTime),
-      if (statusCode != null) 'statusCode': statusCode.toValue(),
+      if (statusCode != null) 'statusCode': statusCode.value,
     };
   }
 }
@@ -2099,10 +2103,9 @@ class EventFilter {
       if (entityValues != null) 'entityValues': entityValues,
       if (eventArns != null) 'eventArns': eventArns,
       if (eventStatusCodes != null)
-        'eventStatusCodes': eventStatusCodes.map((e) => e.toValue()).toList(),
+        'eventStatusCodes': eventStatusCodes.map((e) => e.value).toList(),
       if (eventTypeCategories != null)
-        'eventTypeCategories':
-            eventTypeCategories.map((e) => e.toValue()).toList(),
+        'eventTypeCategories': eventTypeCategories.map((e) => e.value).toList(),
       if (eventTypeCodes != null) 'eventTypeCodes': eventTypeCodes,
       if (lastUpdatedTimes != null) 'lastUpdatedTimes': lastUpdatedTimes,
       if (regions != null) 'regions': regions,
@@ -2153,7 +2156,8 @@ class EventType {
 
   factory EventType.fromJson(Map<String, dynamic> json) {
     return EventType(
-      category: (json['category'] as String?)?.toEventTypeCategory(),
+      category:
+          (json['category'] as String?)?.let(EventTypeCategory.fromString),
       code: json['code'] as String?,
       service: json['service'] as String?,
     );
@@ -2164,7 +2168,7 @@ class EventType {
     final code = this.code;
     final service = this.service;
     return {
-      if (category != null) 'category': category.toValue(),
+      if (category != null) 'category': category.value,
       if (code != null) 'code': code,
       if (service != null) 'service': service,
     };
@@ -2200,8 +2204,7 @@ class EventTypeFilter {
     final services = this.services;
     return {
       if (eventTypeCategories != null)
-        'eventTypeCategories':
-            eventTypeCategories.map((e) => e.toValue()).toList(),
+        'eventTypeCategories': eventTypeCategories.map((e) => e.value).toList(),
       if (eventTypeCodes != null) 'eventTypeCodes': eventTypeCodes,
       if (services != null) 'services': services,
     };
@@ -2308,7 +2311,7 @@ class OrganizationEntityAggregate {
       count: json['count'] as int?,
       eventArn: json['eventArn'] as String?,
       statuses: (json['statuses'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k.toEntityStatusCode(), e as int)),
+          ?.map((k, e) => MapEntry(EntityStatusCode.fromString(k), e as int)),
     );
   }
 
@@ -2322,7 +2325,7 @@ class OrganizationEntityAggregate {
       if (count != null) 'count': count,
       if (eventArn != null) 'eventArn': eventArn,
       if (statuses != null)
-        'statuses': statuses.map((k, e) => MapEntry(k.toValue(), e)),
+        'statuses': statuses.map((k, e) => MapEntry(k.value, e)),
     };
   }
 }
@@ -2411,15 +2414,17 @@ class OrganizationEvent {
     return OrganizationEvent(
       arn: json['arn'] as String?,
       endTime: timeStampFromJson(json['endTime']),
-      eventScopeCode: (json['eventScopeCode'] as String?)?.toEventScopeCode(),
-      eventTypeCategory:
-          (json['eventTypeCategory'] as String?)?.toEventTypeCategory(),
+      eventScopeCode:
+          (json['eventScopeCode'] as String?)?.let(EventScopeCode.fromString),
+      eventTypeCategory: (json['eventTypeCategory'] as String?)
+          ?.let(EventTypeCategory.fromString),
       eventTypeCode: json['eventTypeCode'] as String?,
       lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
       region: json['region'] as String?,
       service: json['service'] as String?,
       startTime: timeStampFromJson(json['startTime']),
-      statusCode: (json['statusCode'] as String?)?.toEventStatusCode(),
+      statusCode:
+          (json['statusCode'] as String?)?.let(EventStatusCode.fromString),
     );
   }
 
@@ -2437,16 +2442,16 @@ class OrganizationEvent {
     return {
       if (arn != null) 'arn': arn,
       if (endTime != null) 'endTime': unixTimestampToJson(endTime),
-      if (eventScopeCode != null) 'eventScopeCode': eventScopeCode.toValue(),
+      if (eventScopeCode != null) 'eventScopeCode': eventScopeCode.value,
       if (eventTypeCategory != null)
-        'eventTypeCategory': eventTypeCategory.toValue(),
+        'eventTypeCategory': eventTypeCategory.value,
       if (eventTypeCode != null) 'eventTypeCode': eventTypeCode,
       if (lastUpdatedTime != null)
         'lastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       if (region != null) 'region': region,
       if (service != null) 'service': service,
       if (startTime != null) 'startTime': unixTimestampToJson(startTime),
-      if (statusCode != null) 'statusCode': statusCode.toValue(),
+      if (statusCode != null) 'statusCode': statusCode.value,
     };
   }
 }
@@ -2651,10 +2656,9 @@ class OrganizationEventFilter {
       if (entityArns != null) 'entityArns': entityArns,
       if (entityValues != null) 'entityValues': entityValues,
       if (eventStatusCodes != null)
-        'eventStatusCodes': eventStatusCodes.map((e) => e.toValue()).toList(),
+        'eventStatusCodes': eventStatusCodes.map((e) => e.value).toList(),
       if (eventTypeCategories != null)
-        'eventTypeCategories':
-            eventTypeCategories.map((e) => e.toValue()).toList(),
+        'eventTypeCategories': eventTypeCategories.map((e) => e.value).toList(),
       if (eventTypeCodes != null) 'eventTypeCodes': eventTypeCodes,
       if (lastUpdatedTime != null) 'lastUpdatedTime': lastUpdatedTime,
       if (regions != null) 'regions': regions,
@@ -2665,173 +2669,84 @@ class OrganizationEventFilter {
 }
 
 enum EntityStatusCode {
-  impaired,
-  unimpaired,
-  unknown,
-  pending,
-  resolved,
-}
+  impaired('IMPAIRED'),
+  unimpaired('UNIMPAIRED'),
+  unknown('UNKNOWN'),
+  pending('PENDING'),
+  resolved('RESOLVED'),
+  ;
 
-extension EntityStatusCodeValueExtension on EntityStatusCode {
-  String toValue() {
-    switch (this) {
-      case EntityStatusCode.impaired:
-        return 'IMPAIRED';
-      case EntityStatusCode.unimpaired:
-        return 'UNIMPAIRED';
-      case EntityStatusCode.unknown:
-        return 'UNKNOWN';
-      case EntityStatusCode.pending:
-        return 'PENDING';
-      case EntityStatusCode.resolved:
-        return 'RESOLVED';
-    }
-  }
-}
+  final String value;
 
-extension EntityStatusCodeFromString on String {
-  EntityStatusCode toEntityStatusCode() {
-    switch (this) {
-      case 'IMPAIRED':
-        return EntityStatusCode.impaired;
-      case 'UNIMPAIRED':
-        return EntityStatusCode.unimpaired;
-      case 'UNKNOWN':
-        return EntityStatusCode.unknown;
-      case 'PENDING':
-        return EntityStatusCode.pending;
-      case 'RESOLVED':
-        return EntityStatusCode.resolved;
-    }
-    throw Exception('$this is not known in enum EntityStatusCode');
-  }
+  const EntityStatusCode(this.value);
+
+  static EntityStatusCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EntityStatusCode'));
 }
 
 enum EventAggregateField {
-  eventTypeCategory,
-}
+  eventTypeCategory('eventTypeCategory'),
+  ;
 
-extension EventAggregateFieldValueExtension on EventAggregateField {
-  String toValue() {
-    switch (this) {
-      case EventAggregateField.eventTypeCategory:
-        return 'eventTypeCategory';
-    }
-  }
-}
+  final String value;
 
-extension EventAggregateFieldFromString on String {
-  EventAggregateField toEventAggregateField() {
-    switch (this) {
-      case 'eventTypeCategory':
-        return EventAggregateField.eventTypeCategory;
-    }
-    throw Exception('$this is not known in enum EventAggregateField');
-  }
+  const EventAggregateField(this.value);
+
+  static EventAggregateField fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum EventAggregateField'));
 }
 
 enum EventScopeCode {
-  public,
-  accountSpecific,
-  none,
-}
+  public('PUBLIC'),
+  accountSpecific('ACCOUNT_SPECIFIC'),
+  none('NONE'),
+  ;
 
-extension EventScopeCodeValueExtension on EventScopeCode {
-  String toValue() {
-    switch (this) {
-      case EventScopeCode.public:
-        return 'PUBLIC';
-      case EventScopeCode.accountSpecific:
-        return 'ACCOUNT_SPECIFIC';
-      case EventScopeCode.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension EventScopeCodeFromString on String {
-  EventScopeCode toEventScopeCode() {
-    switch (this) {
-      case 'PUBLIC':
-        return EventScopeCode.public;
-      case 'ACCOUNT_SPECIFIC':
-        return EventScopeCode.accountSpecific;
-      case 'NONE':
-        return EventScopeCode.none;
-    }
-    throw Exception('$this is not known in enum EventScopeCode');
-  }
+  const EventScopeCode(this.value);
+
+  static EventScopeCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EventScopeCode'));
 }
 
 enum EventStatusCode {
-  open,
-  closed,
-  upcoming,
-}
+  open('open'),
+  closed('closed'),
+  upcoming('upcoming'),
+  ;
 
-extension EventStatusCodeValueExtension on EventStatusCode {
-  String toValue() {
-    switch (this) {
-      case EventStatusCode.open:
-        return 'open';
-      case EventStatusCode.closed:
-        return 'closed';
-      case EventStatusCode.upcoming:
-        return 'upcoming';
-    }
-  }
-}
+  final String value;
 
-extension EventStatusCodeFromString on String {
-  EventStatusCode toEventStatusCode() {
-    switch (this) {
-      case 'open':
-        return EventStatusCode.open;
-      case 'closed':
-        return EventStatusCode.closed;
-      case 'upcoming':
-        return EventStatusCode.upcoming;
-    }
-    throw Exception('$this is not known in enum EventStatusCode');
-  }
+  const EventStatusCode(this.value);
+
+  static EventStatusCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EventStatusCode'));
 }
 
 enum EventTypeCategory {
-  issue,
-  accountNotification,
-  scheduledChange,
-  investigation,
-}
+  issue('issue'),
+  accountNotification('accountNotification'),
+  scheduledChange('scheduledChange'),
+  investigation('investigation'),
+  ;
 
-extension EventTypeCategoryValueExtension on EventTypeCategory {
-  String toValue() {
-    switch (this) {
-      case EventTypeCategory.issue:
-        return 'issue';
-      case EventTypeCategory.accountNotification:
-        return 'accountNotification';
-      case EventTypeCategory.scheduledChange:
-        return 'scheduledChange';
-      case EventTypeCategory.investigation:
-        return 'investigation';
-    }
-  }
-}
+  final String value;
 
-extension EventTypeCategoryFromString on String {
-  EventTypeCategory toEventTypeCategory() {
-    switch (this) {
-      case 'issue':
-        return EventTypeCategory.issue;
-      case 'accountNotification':
-        return EventTypeCategory.accountNotification;
-      case 'scheduledChange':
-        return EventTypeCategory.scheduledChange;
-      case 'investigation':
-        return EventTypeCategory.investigation;
-    }
-    throw Exception('$this is not known in enum EventTypeCategory');
-  }
+  const EventTypeCategory(this.value);
+
+  static EventTypeCategory fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EventTypeCategory'));
 }
 
 class ConcurrentModificationException extends _s.GenericAwsException {

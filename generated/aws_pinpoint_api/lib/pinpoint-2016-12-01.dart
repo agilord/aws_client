@@ -5151,7 +5151,7 @@ class ADMMessage {
     final title = this.title;
     final url = this.url;
     return {
-      if (action != null) 'Action': action.toValue(),
+      if (action != null) 'Action': action.value,
       if (body != null) 'Body': body,
       if (consolidationKey != null) 'ConsolidationKey': consolidationKey,
       if (data != null) 'Data': data,
@@ -5548,7 +5548,7 @@ class APNSMessage {
     final url = this.url;
     return {
       if (aPNSPushType != null) 'APNSPushType': aPNSPushType,
-      if (action != null) 'Action': action.toValue(),
+      if (action != null) 'Action': action.value,
       if (badge != null) 'Badge': badge,
       if (body != null) 'Body': body,
       if (category != null) 'Category': category,
@@ -5635,7 +5635,7 @@ class APNSPushNotificationTemplate {
 
   factory APNSPushNotificationTemplate.fromJson(Map<String, dynamic> json) {
     return APNSPushNotificationTemplate(
-      action: (json['Action'] as String?)?.toAction(),
+      action: (json['Action'] as String?)?.let(Action.fromString),
       body: json['Body'] as String?,
       mediaUrl: json['MediaUrl'] as String?,
       rawContent: json['RawContent'] as String?,
@@ -5654,7 +5654,7 @@ class APNSPushNotificationTemplate {
     final title = this.title;
     final url = this.url;
     return {
-      if (action != null) 'Action': action.toValue(),
+      if (action != null) 'Action': action.value,
       if (body != null) 'Body': body,
       if (mediaUrl != null) 'MediaUrl': mediaUrl,
       if (rawContent != null) 'RawContent': rawContent,
@@ -6111,36 +6111,18 @@ class APNSVoipSandboxChannelResponse {
 }
 
 enum Action {
-  openApp,
-  deepLink,
-  url,
-}
+  openApp('OPEN_APP'),
+  deepLink('DEEP_LINK'),
+  url('URL'),
+  ;
 
-extension ActionValueExtension on Action {
-  String toValue() {
-    switch (this) {
-      case Action.openApp:
-        return 'OPEN_APP';
-      case Action.deepLink:
-        return 'DEEP_LINK';
-      case Action.url:
-        return 'URL';
-    }
-  }
-}
+  final String value;
 
-extension ActionFromString on String {
-  Action toAction() {
-    switch (this) {
-      case 'OPEN_APP':
-        return Action.openApp;
-      case 'DEEP_LINK':
-        return Action.deepLink;
-      case 'URL':
-        return Action.url;
-    }
-    throw Exception('$this is not known in enum Action');
-  }
+  const Action(this.value);
+
+  static Action fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Action'));
 }
 
 /// Provides information about the activities that were performed by a campaign.
@@ -6445,7 +6427,7 @@ class AddressConfiguration {
     final titleOverride = this.titleOverride;
     return {
       if (bodyOverride != null) 'BodyOverride': bodyOverride,
-      if (channelType != null) 'ChannelType': channelType.toValue(),
+      if (channelType != null) 'ChannelType': channelType.value,
       if (context != null) 'Context': context,
       if (rawContent != null) 'RawContent': rawContent,
       if (substitutions != null) 'Substitutions': substitutions,
@@ -6455,36 +6437,18 @@ class AddressConfiguration {
 }
 
 enum Alignment {
-  left,
-  center,
-  right,
-}
+  left('LEFT'),
+  center('CENTER'),
+  right('RIGHT'),
+  ;
 
-extension AlignmentValueExtension on Alignment {
-  String toValue() {
-    switch (this) {
-      case Alignment.left:
-        return 'LEFT';
-      case Alignment.center:
-        return 'CENTER';
-      case Alignment.right:
-        return 'RIGHT';
-    }
-  }
-}
+  final String value;
 
-extension AlignmentFromString on String {
-  Alignment toAlignment() {
-    switch (this) {
-      case 'LEFT':
-        return Alignment.left;
-      case 'CENTER':
-        return Alignment.center;
-      case 'RIGHT':
-        return Alignment.right;
-    }
-    throw Exception('$this is not known in enum Alignment');
-  }
+  const Alignment(this.value);
+
+  static Alignment fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Alignment'));
 }
 
 /// Specifies channel-specific content and settings for a message template that
@@ -6562,7 +6526,7 @@ class AndroidPushNotificationTemplate {
 
   factory AndroidPushNotificationTemplate.fromJson(Map<String, dynamic> json) {
     return AndroidPushNotificationTemplate(
-      action: (json['Action'] as String?)?.toAction(),
+      action: (json['Action'] as String?)?.let(Action.fromString),
       body: json['Body'] as String?,
       imageIconUrl: json['ImageIconUrl'] as String?,
       imageUrl: json['ImageUrl'] as String?,
@@ -6585,7 +6549,7 @@ class AndroidPushNotificationTemplate {
     final title = this.title;
     final url = this.url;
     return {
-      if (action != null) 'Action': action.toValue(),
+      if (action != null) 'Action': action.value,
       if (body != null) 'Body': body,
       if (imageIconUrl != null) 'ImageIconUrl': imageIconUrl,
       if (imageUrl != null) 'ImageUrl': imageUrl,
@@ -6880,7 +6844,8 @@ class AttributeDimension {
           .whereNotNull()
           .map((e) => e as String)
           .toList(),
-      attributeType: (json['AttributeType'] as String?)?.toAttributeType(),
+      attributeType:
+          (json['AttributeType'] as String?)?.let(AttributeType.fromString),
     );
   }
 
@@ -6889,62 +6854,29 @@ class AttributeDimension {
     final attributeType = this.attributeType;
     return {
       'Values': values,
-      if (attributeType != null) 'AttributeType': attributeType.toValue(),
+      if (attributeType != null) 'AttributeType': attributeType.value,
     };
   }
 }
 
 enum AttributeType {
-  inclusive,
-  exclusive,
-  contains,
-  before,
-  after,
-  on,
-  between,
-}
+  inclusive('INCLUSIVE'),
+  exclusive('EXCLUSIVE'),
+  contains('CONTAINS'),
+  before('BEFORE'),
+  after('AFTER'),
+  on('ON'),
+  between('BETWEEN'),
+  ;
 
-extension AttributeTypeValueExtension on AttributeType {
-  String toValue() {
-    switch (this) {
-      case AttributeType.inclusive:
-        return 'INCLUSIVE';
-      case AttributeType.exclusive:
-        return 'EXCLUSIVE';
-      case AttributeType.contains:
-        return 'CONTAINS';
-      case AttributeType.before:
-        return 'BEFORE';
-      case AttributeType.after:
-        return 'AFTER';
-      case AttributeType.on:
-        return 'ON';
-      case AttributeType.between:
-        return 'BETWEEN';
-    }
-  }
-}
+  final String value;
 
-extension AttributeTypeFromString on String {
-  AttributeType toAttributeType() {
-    switch (this) {
-      case 'INCLUSIVE':
-        return AttributeType.inclusive;
-      case 'EXCLUSIVE':
-        return AttributeType.exclusive;
-      case 'CONTAINS':
-        return AttributeType.contains;
-      case 'BEFORE':
-        return AttributeType.before;
-      case 'AFTER':
-        return AttributeType.after;
-      case 'ON':
-        return AttributeType.on;
-      case 'BETWEEN':
-        return AttributeType.between;
-    }
-    throw Exception('$this is not known in enum AttributeType');
-  }
+  const AttributeType(this.value);
+
+  static AttributeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AttributeType'));
 }
 
 /// Provides information about the type and the names of attributes that were
@@ -7205,7 +7137,7 @@ class BaiduMessage {
     final title = this.title;
     final url = this.url;
     return {
-      if (action != null) 'Action': action.toValue(),
+      if (action != null) 'Action': action.value,
       if (body != null) 'Body': body,
       if (data != null) 'Data': data,
       if (iconReference != null) 'IconReference': iconReference,
@@ -7246,36 +7178,19 @@ class BaseKpiResult {
 }
 
 enum ButtonAction {
-  link,
-  deepLink,
-  close,
-}
+  link('LINK'),
+  deepLink('DEEP_LINK'),
+  close('CLOSE'),
+  ;
 
-extension ButtonActionValueExtension on ButtonAction {
-  String toValue() {
-    switch (this) {
-      case ButtonAction.link:
-        return 'LINK';
-      case ButtonAction.deepLink:
-        return 'DEEP_LINK';
-      case ButtonAction.close:
-        return 'CLOSE';
-    }
-  }
-}
+  final String value;
 
-extension ButtonActionFromString on String {
-  ButtonAction toButtonAction() {
-    switch (this) {
-      case 'LINK':
-        return ButtonAction.link;
-      case 'DEEP_LINK':
-        return ButtonAction.deepLink;
-      case 'CLOSE':
-        return ButtonAction.close;
-    }
-    throw Exception('$this is not known in enum ButtonAction');
-  }
+  const ButtonAction(this.value);
+
+  static ButtonAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ButtonAction'));
 }
 
 /// Specifies the contents of a message that's sent through a custom channel to
@@ -7443,7 +7358,7 @@ class CampaignEventFilter {
     return CampaignEventFilter(
       dimensions:
           EventDimensions.fromJson(json['Dimensions'] as Map<String, dynamic>),
-      filterType: (json['FilterType'] as String).toFilterType(),
+      filterType: FilterType.fromString((json['FilterType'] as String)),
     );
   }
 
@@ -7452,7 +7367,7 @@ class CampaignEventFilter {
     final filterType = this.filterType;
     return {
       'Dimensions': dimensions,
-      'FilterType': filterType.toValue(),
+      'FilterType': filterType.value,
     };
   }
 }
@@ -7495,7 +7410,7 @@ class CampaignHook {
   factory CampaignHook.fromJson(Map<String, dynamic> json) {
     return CampaignHook(
       lambdaFunctionName: json['LambdaFunctionName'] as String?,
-      mode: (json['Mode'] as String?)?.toMode(),
+      mode: (json['Mode'] as String?)?.let(Mode.fromString),
       webUrl: json['WebUrl'] as String?,
     );
   }
@@ -7506,7 +7421,7 @@ class CampaignHook {
     final webUrl = this.webUrl;
     return {
       if (lambdaFunctionName != null) 'LambdaFunctionName': lambdaFunctionName,
-      if (mode != null) 'Mode': mode.toValue(),
+      if (mode != null) 'Mode': mode.value,
       if (webUrl != null) 'WebUrl': webUrl,
     };
   }
@@ -7542,7 +7457,7 @@ class CampaignInAppMessage {
           .toList(),
       customConfig: (json['CustomConfig'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
-      layout: (json['Layout'] as String?)?.toLayout(),
+      layout: (json['Layout'] as String?)?.let(Layout.fromString),
     );
   }
 
@@ -7555,7 +7470,7 @@ class CampaignInAppMessage {
       if (body != null) 'Body': body,
       if (content != null) 'Content': content,
       if (customConfig != null) 'CustomConfig': customConfig,
-      if (layout != null) 'Layout': layout.toValue(),
+      if (layout != null) 'Layout': layout.value,
     };
   }
 }
@@ -7841,7 +7756,8 @@ class CampaignSmsMessage {
     return CampaignSmsMessage(
       body: json['Body'] as String?,
       entityId: json['EntityId'] as String?,
-      messageType: (json['MessageType'] as String?)?.toMessageType(),
+      messageType:
+          (json['MessageType'] as String?)?.let(MessageType.fromString),
       originationNumber: json['OriginationNumber'] as String?,
       senderId: json['SenderId'] as String?,
       templateId: json['TemplateId'] as String?,
@@ -7858,7 +7774,7 @@ class CampaignSmsMessage {
     return {
       if (body != null) 'Body': body,
       if (entityId != null) 'EntityId': entityId,
-      if (messageType != null) 'MessageType': messageType.toValue(),
+      if (messageType != null) 'MessageType': messageType.value,
       if (originationNumber != null) 'OriginationNumber': originationNumber,
       if (senderId != null) 'SenderId': senderId,
       if (templateId != null) 'TemplateId': templateId,
@@ -7883,62 +7799,30 @@ class CampaignState {
 
   factory CampaignState.fromJson(Map<String, dynamic> json) {
     return CampaignState(
-      campaignStatus: (json['CampaignStatus'] as String?)?.toCampaignStatus(),
+      campaignStatus:
+          (json['CampaignStatus'] as String?)?.let(CampaignStatus.fromString),
     );
   }
 }
 
 enum CampaignStatus {
-  scheduled,
-  executing,
-  pendingNextRun,
-  completed,
-  paused,
-  deleted,
-  invalid,
-}
+  scheduled('SCHEDULED'),
+  executing('EXECUTING'),
+  pendingNextRun('PENDING_NEXT_RUN'),
+  completed('COMPLETED'),
+  paused('PAUSED'),
+  deleted('DELETED'),
+  invalid('INVALID'),
+  ;
 
-extension CampaignStatusValueExtension on CampaignStatus {
-  String toValue() {
-    switch (this) {
-      case CampaignStatus.scheduled:
-        return 'SCHEDULED';
-      case CampaignStatus.executing:
-        return 'EXECUTING';
-      case CampaignStatus.pendingNextRun:
-        return 'PENDING_NEXT_RUN';
-      case CampaignStatus.completed:
-        return 'COMPLETED';
-      case CampaignStatus.paused:
-        return 'PAUSED';
-      case CampaignStatus.deleted:
-        return 'DELETED';
-      case CampaignStatus.invalid:
-        return 'INVALID';
-    }
-  }
-}
+  final String value;
 
-extension CampaignStatusFromString on String {
-  CampaignStatus toCampaignStatus() {
-    switch (this) {
-      case 'SCHEDULED':
-        return CampaignStatus.scheduled;
-      case 'EXECUTING':
-        return CampaignStatus.executing;
-      case 'PENDING_NEXT_RUN':
-        return CampaignStatus.pendingNextRun;
-      case 'COMPLETED':
-        return CampaignStatus.completed;
-      case 'PAUSED':
-        return CampaignStatus.paused;
-      case 'DELETED':
-        return CampaignStatus.deleted;
-      case 'INVALID':
-        return CampaignStatus.invalid;
-    }
-    throw Exception('$this is not known in enum CampaignStatus');
-  }
+  const CampaignStatus(this.value);
+
+  static CampaignStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CampaignStatus'));
 }
 
 /// Provides information about the configuration and other settings for all the
@@ -8027,86 +7911,28 @@ class ChannelResponse {
 }
 
 enum ChannelType {
-  push,
-  gcm,
-  apns,
-  apnsSandbox,
-  apnsVoip,
-  apnsVoipSandbox,
-  adm,
-  sms,
-  voice,
-  email,
-  baidu,
-  custom,
-  inApp,
-}
+  push('PUSH'),
+  gcm('GCM'),
+  apns('APNS'),
+  apnsSandbox('APNS_SANDBOX'),
+  apnsVoip('APNS_VOIP'),
+  apnsVoipSandbox('APNS_VOIP_SANDBOX'),
+  adm('ADM'),
+  sms('SMS'),
+  voice('VOICE'),
+  email('EMAIL'),
+  baidu('BAIDU'),
+  custom('CUSTOM'),
+  inApp('IN_APP'),
+  ;
 
-extension ChannelTypeValueExtension on ChannelType {
-  String toValue() {
-    switch (this) {
-      case ChannelType.push:
-        return 'PUSH';
-      case ChannelType.gcm:
-        return 'GCM';
-      case ChannelType.apns:
-        return 'APNS';
-      case ChannelType.apnsSandbox:
-        return 'APNS_SANDBOX';
-      case ChannelType.apnsVoip:
-        return 'APNS_VOIP';
-      case ChannelType.apnsVoipSandbox:
-        return 'APNS_VOIP_SANDBOX';
-      case ChannelType.adm:
-        return 'ADM';
-      case ChannelType.sms:
-        return 'SMS';
-      case ChannelType.voice:
-        return 'VOICE';
-      case ChannelType.email:
-        return 'EMAIL';
-      case ChannelType.baidu:
-        return 'BAIDU';
-      case ChannelType.custom:
-        return 'CUSTOM';
-      case ChannelType.inApp:
-        return 'IN_APP';
-    }
-  }
-}
+  final String value;
 
-extension ChannelTypeFromString on String {
-  ChannelType toChannelType() {
-    switch (this) {
-      case 'PUSH':
-        return ChannelType.push;
-      case 'GCM':
-        return ChannelType.gcm;
-      case 'APNS':
-        return ChannelType.apns;
-      case 'APNS_SANDBOX':
-        return ChannelType.apnsSandbox;
-      case 'APNS_VOIP':
-        return ChannelType.apnsVoip;
-      case 'APNS_VOIP_SANDBOX':
-        return ChannelType.apnsVoipSandbox;
-      case 'ADM':
-        return ChannelType.adm;
-      case 'SMS':
-        return ChannelType.sms;
-      case 'VOICE':
-        return ChannelType.voice;
-      case 'EMAIL':
-        return ChannelType.email;
-      case 'BAIDU':
-        return ChannelType.baidu;
-      case 'CUSTOM':
-        return ChannelType.custom;
-      case 'IN_APP':
-        return ChannelType.inApp;
-    }
-    throw Exception('$this is not known in enum ChannelType');
-  }
+  const ChannelType(this.value);
+
+  static ChannelType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ChannelType'));
 }
 
 /// Provides information about the general settings and status of all channels
@@ -8151,7 +7977,7 @@ class Condition {
           ?.whereNotNull()
           .map((e) => SimpleCondition.fromJson(e as Map<String, dynamic>))
           .toList(),
-      operator: (json['Operator'] as String?)?.toOperator(),
+      operator: (json['Operator'] as String?)?.let(Operator.fromString),
     );
   }
 
@@ -8160,7 +7986,7 @@ class Condition {
     final operator = this.operator;
     return {
       if (conditions != null) 'Conditions': conditions,
-      if (operator != null) 'Operator': operator.toValue(),
+      if (operator != null) 'Operator': operator.value,
     };
   }
 }
@@ -8581,7 +8407,7 @@ class CustomDeliveryConfiguration {
       deliveryUri: json['DeliveryUri'] as String,
       endpointTypes: (json['EndpointTypes'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toEndpointTypesElement())
+          .map((e) => EndpointTypesElement.fromString((e as String)))
           .toList(),
     );
   }
@@ -8592,7 +8418,7 @@ class CustomDeliveryConfiguration {
     return {
       'DeliveryUri': deliveryUri,
       if (endpointTypes != null)
-        'EndpointTypes': endpointTypes.map((e) => e.toValue()).toList(),
+        'EndpointTypes': endpointTypes.map((e) => e.value).toList(),
     };
   }
 }
@@ -8660,7 +8486,7 @@ class CustomMessageActivity {
       deliveryUri: json['DeliveryUri'] as String?,
       endpointTypes: (json['EndpointTypes'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toEndpointTypesElement())
+          .map((e) => EndpointTypesElement.fromString((e as String)))
           .toList(),
       messageConfig: json['MessageConfig'] != null
           ? JourneyCustomMessage.fromJson(
@@ -8682,7 +8508,7 @@ class CustomMessageActivity {
     return {
       if (deliveryUri != null) 'DeliveryUri': deliveryUri,
       if (endpointTypes != null)
-        'EndpointTypes': endpointTypes.map((e) => e.toValue()).toList(),
+        'EndpointTypes': endpointTypes.map((e) => e.value).toList(),
       if (messageConfig != null) 'MessageConfig': messageConfig,
       if (nextActivity != null) 'NextActivity': nextActivity,
       if (templateName != null) 'TemplateName': templateName,
@@ -8722,7 +8548,7 @@ class DefaultButtonConfiguration {
 
   factory DefaultButtonConfiguration.fromJson(Map<String, dynamic> json) {
     return DefaultButtonConfiguration(
-      buttonAction: (json['ButtonAction'] as String).toButtonAction(),
+      buttonAction: ButtonAction.fromString((json['ButtonAction'] as String)),
       text: json['Text'] as String,
       backgroundColor: json['BackgroundColor'] as String?,
       borderRadius: json['BorderRadius'] as int?,
@@ -8739,7 +8565,7 @@ class DefaultButtonConfiguration {
     final link = this.link;
     final textColor = this.textColor;
     return {
-      'ButtonAction': buttonAction.toValue(),
+      'ButtonAction': buttonAction.value,
       'Text': text,
       if (backgroundColor != null) 'BackgroundColor': backgroundColor,
       if (borderRadius != null) 'BorderRadius': borderRadius,
@@ -8842,7 +8668,7 @@ class DefaultPushNotificationMessage {
     final title = this.title;
     final url = this.url;
     return {
-      if (action != null) 'Action': action.toValue(),
+      if (action != null) 'Action': action.value,
       if (body != null) 'Body': body,
       if (data != null) 'Data': data,
       if (silentPush != null) 'SilentPush': silentPush,
@@ -8911,7 +8737,7 @@ class DefaultPushNotificationTemplate {
 
   factory DefaultPushNotificationTemplate.fromJson(Map<String, dynamic> json) {
     return DefaultPushNotificationTemplate(
-      action: (json['Action'] as String?)?.toAction(),
+      action: (json['Action'] as String?)?.let(Action.fromString),
       body: json['Body'] as String?,
       sound: json['Sound'] as String?,
       title: json['Title'] as String?,
@@ -8926,7 +8752,7 @@ class DefaultPushNotificationTemplate {
     final title = this.title;
     final url = this.url;
     return {
-      if (action != null) 'Action': action.toValue(),
+      if (action != null) 'Action': action.value,
       if (body != null) 'Body': body,
       if (sound != null) 'Sound': sound,
       if (title != null) 'Title': title,
@@ -9120,84 +8946,38 @@ class DeleteVoiceTemplateResponse {
 }
 
 enum DeliveryStatus {
-  successful,
-  throttled,
-  temporaryFailure,
-  permanentFailure,
-  unknownFailure,
-  optOut,
-  duplicate,
-}
+  successful('SUCCESSFUL'),
+  throttled('THROTTLED'),
+  temporaryFailure('TEMPORARY_FAILURE'),
+  permanentFailure('PERMANENT_FAILURE'),
+  unknownFailure('UNKNOWN_FAILURE'),
+  optOut('OPT_OUT'),
+  duplicate('DUPLICATE'),
+  ;
 
-extension DeliveryStatusValueExtension on DeliveryStatus {
-  String toValue() {
-    switch (this) {
-      case DeliveryStatus.successful:
-        return 'SUCCESSFUL';
-      case DeliveryStatus.throttled:
-        return 'THROTTLED';
-      case DeliveryStatus.temporaryFailure:
-        return 'TEMPORARY_FAILURE';
-      case DeliveryStatus.permanentFailure:
-        return 'PERMANENT_FAILURE';
-      case DeliveryStatus.unknownFailure:
-        return 'UNKNOWN_FAILURE';
-      case DeliveryStatus.optOut:
-        return 'OPT_OUT';
-      case DeliveryStatus.duplicate:
-        return 'DUPLICATE';
-    }
-  }
-}
+  final String value;
 
-extension DeliveryStatusFromString on String {
-  DeliveryStatus toDeliveryStatus() {
-    switch (this) {
-      case 'SUCCESSFUL':
-        return DeliveryStatus.successful;
-      case 'THROTTLED':
-        return DeliveryStatus.throttled;
-      case 'TEMPORARY_FAILURE':
-        return DeliveryStatus.temporaryFailure;
-      case 'PERMANENT_FAILURE':
-        return DeliveryStatus.permanentFailure;
-      case 'UNKNOWN_FAILURE':
-        return DeliveryStatus.unknownFailure;
-      case 'OPT_OUT':
-        return DeliveryStatus.optOut;
-      case 'DUPLICATE':
-        return DeliveryStatus.duplicate;
-    }
-    throw Exception('$this is not known in enum DeliveryStatus');
-  }
+  const DeliveryStatus(this.value);
+
+  static DeliveryStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DeliveryStatus'));
 }
 
 enum DimensionType {
-  inclusive,
-  exclusive,
-}
+  inclusive('INCLUSIVE'),
+  exclusive('EXCLUSIVE'),
+  ;
 
-extension DimensionTypeValueExtension on DimensionType {
-  String toValue() {
-    switch (this) {
-      case DimensionType.inclusive:
-        return 'INCLUSIVE';
-      case DimensionType.exclusive:
-        return 'EXCLUSIVE';
-    }
-  }
-}
+  final String value;
 
-extension DimensionTypeFromString on String {
-  DimensionType toDimensionType() {
-    switch (this) {
-      case 'INCLUSIVE':
-        return DimensionType.inclusive;
-      case 'EXCLUSIVE':
-        return DimensionType.exclusive;
-    }
-    throw Exception('$this is not known in enum DimensionType');
-  }
+  const DimensionType(this.value);
+
+  static DimensionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DimensionType'));
 }
 
 /// Specifies the settings and content for the default message and any default
@@ -9280,41 +9060,19 @@ class DirectMessageConfiguration {
 }
 
 enum Duration {
-  hr_24,
-  day_7,
-  day_14,
-  day_30,
-}
+  hr_24('HR_24'),
+  day_7('DAY_7'),
+  day_14('DAY_14'),
+  day_30('DAY_30'),
+  ;
 
-extension DurationValueExtension on Duration {
-  String toValue() {
-    switch (this) {
-      case Duration.hr_24:
-        return 'HR_24';
-      case Duration.day_7:
-        return 'DAY_7';
-      case Duration.day_14:
-        return 'DAY_14';
-      case Duration.day_30:
-        return 'DAY_30';
-    }
-  }
-}
+  final String value;
 
-extension DurationFromString on String {
-  Duration toDuration() {
-    switch (this) {
-      case 'HR_24':
-        return Duration.hr_24;
-      case 'DAY_7':
-        return Duration.day_7;
-      case 'DAY_14':
-        return Duration.day_14;
-      case 'DAY_30':
-        return Duration.day_30;
-    }
-    throw Exception('$this is not known in enum Duration');
-  }
+  const Duration(this.value);
+
+  static Duration fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Duration'));
 }
 
 /// Specifies the status and settings of the email channel for an application.
@@ -9774,7 +9532,7 @@ class EmailTemplateResponse {
       creationDate: json['CreationDate'] as String,
       lastModifiedDate: json['LastModifiedDate'] as String,
       templateName: json['TemplateName'] as String,
-      templateType: (json['TemplateType'] as String).toTemplateType(),
+      templateType: TemplateType.fromString((json['TemplateType'] as String)),
       arn: json['Arn'] as String?,
       defaultSubstitutions: json['DefaultSubstitutions'] as String?,
       headers: (json['Headers'] as List?)
@@ -9896,7 +9654,7 @@ class EndpointBatchItem {
     return {
       if (address != null) 'Address': address,
       if (attributes != null) 'Attributes': attributes,
-      if (channelType != null) 'ChannelType': channelType.toValue(),
+      if (channelType != null) 'ChannelType': channelType.value,
       if (demographic != null) 'Demographic': demographic,
       if (effectiveDate != null) 'EffectiveDate': effectiveDate,
       if (endpointStatus != null) 'EndpointStatus': endpointStatus,
@@ -10156,7 +9914,8 @@ class EndpointMessageResult {
 
   factory EndpointMessageResult.fromJson(Map<String, dynamic> json) {
     return EndpointMessageResult(
-      deliveryStatus: (json['DeliveryStatus'] as String).toDeliveryStatus(),
+      deliveryStatus:
+          DeliveryStatus.fromString((json['DeliveryStatus'] as String)),
       statusCode: json['StatusCode'] as int,
       address: json['Address'] as String?,
       messageId: json['MessageId'] as String?,
@@ -10262,7 +10021,7 @@ class EndpointRequest {
     return {
       if (address != null) 'Address': address,
       if (attributes != null) 'Attributes': attributes,
-      if (channelType != null) 'ChannelType': channelType.toValue(),
+      if (channelType != null) 'ChannelType': channelType.value,
       if (demographic != null) 'Demographic': demographic,
       if (effectiveDate != null) 'EffectiveDate': effectiveDate,
       if (endpointStatus != null) 'EndpointStatus': endpointStatus,
@@ -10379,7 +10138,8 @@ class EndpointResponse {
       attributes: (json['Attributes'] as Map<String, dynamic>?)?.map((k, e) =>
           MapEntry(
               k, (e as List).whereNotNull().map((e) => e as String).toList())),
-      channelType: (json['ChannelType'] as String?)?.toChannelType(),
+      channelType:
+          (json['ChannelType'] as String?)?.let(ChannelType.fromString),
       cohortId: json['CohortId'] as String?,
       creationDate: json['CreationDate'] as String?,
       demographic: json['Demographic'] != null
@@ -10700,7 +10460,7 @@ class EventFilter {
     return EventFilter(
       dimensions:
           EventDimensions.fromJson(json['Dimensions'] as Map<String, dynamic>),
-      filterType: (json['FilterType'] as String).toFilterType(),
+      filterType: FilterType.fromString((json['FilterType'] as String)),
     );
   }
 
@@ -10709,7 +10469,7 @@ class EventFilter {
     final filterType = this.filterType;
     return {
       'Dimensions': dimensions,
-      'FilterType': filterType.toValue(),
+      'FilterType': filterType.value,
     };
   }
 }
@@ -11050,7 +10810,7 @@ class ExportJobResponse {
       definition: ExportJobResource.fromJson(
           json['Definition'] as Map<String, dynamic>),
       id: json['Id'] as String,
-      jobStatus: (json['JobStatus'] as String).toJobStatus(),
+      jobStatus: JobStatus.fromString((json['JobStatus'] as String)),
       type: json['Type'] as String,
       completedPieces: json['CompletedPieces'] as int?,
       completionDate: json['CompletionDate'] as String?,
@@ -11096,112 +10856,50 @@ class ExportJobsResponse {
 }
 
 enum FilterType {
-  system,
-  endpoint,
-}
+  system('SYSTEM'),
+  endpoint('ENDPOINT'),
+  ;
 
-extension FilterTypeValueExtension on FilterType {
-  String toValue() {
-    switch (this) {
-      case FilterType.system:
-        return 'SYSTEM';
-      case FilterType.endpoint:
-        return 'ENDPOINT';
-    }
-  }
-}
+  final String value;
 
-extension FilterTypeFromString on String {
-  FilterType toFilterType() {
-    switch (this) {
-      case 'SYSTEM':
-        return FilterType.system;
-      case 'ENDPOINT':
-        return FilterType.endpoint;
-    }
-    throw Exception('$this is not known in enum FilterType');
-  }
+  const FilterType(this.value);
+
+  static FilterType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum FilterType'));
 }
 
 enum Format {
-  csv,
-  json,
-}
+  csv('CSV'),
+  json('JSON'),
+  ;
 
-extension FormatValueExtension on Format {
-  String toValue() {
-    switch (this) {
-      case Format.csv:
-        return 'CSV';
-      case Format.json:
-        return 'JSON';
-    }
-  }
-}
+  final String value;
 
-extension FormatFromString on String {
-  Format toFormat() {
-    switch (this) {
-      case 'CSV':
-        return Format.csv;
-      case 'JSON':
-        return Format.json;
-    }
-    throw Exception('$this is not known in enum Format');
-  }
+  const Format(this.value);
+
+  static Format fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Format'));
 }
 
 enum Frequency {
-  once,
-  hourly,
-  daily,
-  weekly,
-  monthly,
-  event,
-  inAppEvent,
-}
+  once('ONCE'),
+  hourly('HOURLY'),
+  daily('DAILY'),
+  weekly('WEEKLY'),
+  monthly('MONTHLY'),
+  event('EVENT'),
+  inAppEvent('IN_APP_EVENT'),
+  ;
 
-extension FrequencyValueExtension on Frequency {
-  String toValue() {
-    switch (this) {
-      case Frequency.once:
-        return 'ONCE';
-      case Frequency.hourly:
-        return 'HOURLY';
-      case Frequency.daily:
-        return 'DAILY';
-      case Frequency.weekly:
-        return 'WEEKLY';
-      case Frequency.monthly:
-        return 'MONTHLY';
-      case Frequency.event:
-        return 'EVENT';
-      case Frequency.inAppEvent:
-        return 'IN_APP_EVENT';
-    }
-  }
-}
+  final String value;
 
-extension FrequencyFromString on String {
-  Frequency toFrequency() {
-    switch (this) {
-      case 'ONCE':
-        return Frequency.once;
-      case 'HOURLY':
-        return Frequency.hourly;
-      case 'DAILY':
-        return Frequency.daily;
-      case 'WEEKLY':
-        return Frequency.weekly;
-      case 'MONTHLY':
-        return Frequency.monthly;
-      case 'EVENT':
-        return Frequency.event;
-      case 'IN_APP_EVENT':
-        return Frequency.inAppEvent;
-    }
-    throw Exception('$this is not known in enum Frequency');
-  }
+  const Frequency(this.value);
+
+  static Frequency fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Frequency'));
 }
 
 /// Specifies the status and settings of the GCM channel for an application.
@@ -11493,7 +11191,7 @@ class GCMMessage {
     final title = this.title;
     final url = this.url;
     return {
-      if (action != null) 'Action': action.toValue(),
+      if (action != null) 'Action': action.value,
       if (body != null) 'Body': body,
       if (collapseKey != null) 'CollapseKey': collapseKey,
       if (data != null) 'Data': data,
@@ -12082,7 +11780,7 @@ class ImportJobRequest {
     final segmentId = this.segmentId;
     final segmentName = this.segmentName;
     return {
-      'Format': format.toValue(),
+      'Format': format.value,
       'RoleArn': roleArn,
       'S3Url': s3Url,
       if (defineSegment != null) 'DefineSegment': defineSegment,
@@ -12161,7 +11859,7 @@ class ImportJobResource {
 
   factory ImportJobResource.fromJson(Map<String, dynamic> json) {
     return ImportJobResource(
-      format: (json['Format'] as String).toFormat(),
+      format: Format.fromString((json['Format'] as String)),
       roleArn: json['RoleArn'] as String,
       s3Url: json['S3Url'] as String,
       defineSegment: json['DefineSegment'] as bool?,
@@ -12250,7 +11948,7 @@ class ImportJobResponse {
       definition: ImportJobResource.fromJson(
           json['Definition'] as Map<String, dynamic>),
       id: json['Id'] as String,
-      jobStatus: (json['JobStatus'] as String).toJobStatus(),
+      jobStatus: JobStatus.fromString((json['JobStatus'] as String)),
       type: json['Type'] as String,
       completedPieces: json['CompletedPieces'] as int?,
       completionDate: json['CompletionDate'] as String?,
@@ -12353,7 +12051,7 @@ class InAppMessage {
           .toList(),
       customConfig: (json['CustomConfig'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
-      layout: (json['Layout'] as String?)?.toLayout(),
+      layout: (json['Layout'] as String?)?.let(Layout.fromString),
     );
   }
 }
@@ -12377,7 +12075,7 @@ class InAppMessageBodyConfig {
 
   factory InAppMessageBodyConfig.fromJson(Map<String, dynamic> json) {
     return InAppMessageBodyConfig(
-      alignment: (json['Alignment'] as String).toAlignment(),
+      alignment: Alignment.fromString((json['Alignment'] as String)),
       body: json['Body'] as String,
       textColor: json['TextColor'] as String,
     );
@@ -12388,7 +12086,7 @@ class InAppMessageBodyConfig {
     final body = this.body;
     final textColor = this.textColor;
     return {
-      'Alignment': alignment.toValue(),
+      'Alignment': alignment.value,
       'Body': body,
       'TextColor': textColor,
     };
@@ -12600,7 +12298,7 @@ class InAppMessageHeaderConfig {
 
   factory InAppMessageHeaderConfig.fromJson(Map<String, dynamic> json) {
     return InAppMessageHeaderConfig(
-      alignment: (json['Alignment'] as String).toAlignment(),
+      alignment: Alignment.fromString((json['Alignment'] as String)),
       header: json['Header'] as String,
       textColor: json['TextColor'] as String,
     );
@@ -12611,7 +12309,7 @@ class InAppMessageHeaderConfig {
     final header = this.header;
     final textColor = this.textColor;
     return {
-      'Alignment': alignment.toValue(),
+      'Alignment': alignment.value,
       'Header': header,
       'TextColor': textColor,
     };
@@ -12686,7 +12384,7 @@ class InAppTemplateRequest {
     return {
       if (content != null) 'Content': content,
       if (customConfig != null) 'CustomConfig': customConfig,
-      if (layout != null) 'Layout': layout.toValue(),
+      if (layout != null) 'Layout': layout.value,
       if (templateDescription != null)
         'TemplateDescription': templateDescription,
       if (tags != null) 'tags': tags,
@@ -12752,7 +12450,7 @@ class InAppTemplateResponse {
       creationDate: json['CreationDate'] as String,
       lastModifiedDate: json['LastModifiedDate'] as String,
       templateName: json['TemplateName'] as String,
-      templateType: (json['TemplateType'] as String).toTemplateType(),
+      templateType: TemplateType.fromString((json['TemplateType'] as String)),
       arn: json['Arn'] as String?,
       content: (json['Content'] as List?)
           ?.whereNotNull()
@@ -12760,7 +12458,7 @@ class InAppTemplateResponse {
           .toList(),
       customConfig: (json['CustomConfig'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
-      layout: (json['Layout'] as String?)?.toLayout(),
+      layout: (json['Layout'] as String?)?.let(Layout.fromString),
       templateDescription: json['TemplateDescription'] as String?,
       version: json['Version'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -12770,36 +12468,18 @@ class InAppTemplateResponse {
 }
 
 enum Include {
-  all,
-  any,
-  none,
-}
+  all('ALL'),
+  any('ANY'),
+  none('NONE'),
+  ;
 
-extension IncludeValueExtension on Include {
-  String toValue() {
-    switch (this) {
-      case Include.all:
-        return 'ALL';
-      case Include.any:
-        return 'ANY';
-      case Include.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension IncludeFromString on String {
-  Include toInclude() {
-    switch (this) {
-      case 'ALL':
-        return Include.all;
-      case 'ANY':
-        return Include.any;
-      case 'NONE':
-        return Include.none;
-    }
-    throw Exception('$this is not known in enum Include');
-  }
+  const Include(this.value);
+
+  static Include fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Include'));
 }
 
 /// Provides information about the results of a request to create or update an
@@ -12832,66 +12512,24 @@ class ItemResponse {
 }
 
 enum JobStatus {
-  created,
-  preparingForInitialization,
-  initializing,
-  processing,
-  pendingJob,
-  completing,
-  completed,
-  failing,
-  failed,
-}
+  created('CREATED'),
+  preparingForInitialization('PREPARING_FOR_INITIALIZATION'),
+  initializing('INITIALIZING'),
+  processing('PROCESSING'),
+  pendingJob('PENDING_JOB'),
+  completing('COMPLETING'),
+  completed('COMPLETED'),
+  failing('FAILING'),
+  failed('FAILED'),
+  ;
 
-extension JobStatusValueExtension on JobStatus {
-  String toValue() {
-    switch (this) {
-      case JobStatus.created:
-        return 'CREATED';
-      case JobStatus.preparingForInitialization:
-        return 'PREPARING_FOR_INITIALIZATION';
-      case JobStatus.initializing:
-        return 'INITIALIZING';
-      case JobStatus.processing:
-        return 'PROCESSING';
-      case JobStatus.pendingJob:
-        return 'PENDING_JOB';
-      case JobStatus.completing:
-        return 'COMPLETING';
-      case JobStatus.completed:
-        return 'COMPLETED';
-      case JobStatus.failing:
-        return 'FAILING';
-      case JobStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension JobStatusFromString on String {
-  JobStatus toJobStatus() {
-    switch (this) {
-      case 'CREATED':
-        return JobStatus.created;
-      case 'PREPARING_FOR_INITIALIZATION':
-        return JobStatus.preparingForInitialization;
-      case 'INITIALIZING':
-        return JobStatus.initializing;
-      case 'PROCESSING':
-        return JobStatus.processing;
-      case 'PENDING_JOB':
-        return JobStatus.pendingJob;
-      case 'COMPLETING':
-        return JobStatus.completing;
-      case 'COMPLETED':
-        return JobStatus.completed;
-      case 'FAILING':
-        return JobStatus.failing;
-      case 'FAILED':
-        return JobStatus.failed;
-    }
-    throw Exception('$this is not known in enum JobStatus');
-  }
+  const JobStatus(this.value);
+
+  static JobStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum JobStatus'));
 }
 
 /// Specifies the message content for a custom channel message that's sent to
@@ -13467,10 +13105,11 @@ class JourneyResponse {
           ? StartCondition.fromJson(
               json['StartCondition'] as Map<String, dynamic>)
           : null,
-      state: (json['State'] as String?)?.toState(),
+      state: (json['State'] as String?)?.let(State.fromString),
       timezoneEstimationMethods: (json['TimezoneEstimationMethods'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toTimezoneEstimationMethodsElement())
+          .map(
+              (e) => TimezoneEstimationMethodsElement.fromString((e as String)))
           .toList(),
       waitForQuietTime: json['WaitForQuietTime'] as bool?,
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -13636,7 +13275,7 @@ class JourneyRunResponse {
       creationTime: json['CreationTime'] as String,
       lastUpdateTime: json['LastUpdateTime'] as String,
       runId: json['RunId'] as String,
-      status: (json['Status'] as String).toJourneyRunStatus(),
+      status: JourneyRunStatus.fromString((json['Status'] as String)),
     );
   }
 }
@@ -13667,41 +13306,20 @@ class JourneyRunsResponse {
 }
 
 enum JourneyRunStatus {
-  scheduled,
-  running,
-  completed,
-  cancelled,
-}
+  scheduled('SCHEDULED'),
+  running('RUNNING'),
+  completed('COMPLETED'),
+  cancelled('CANCELLED'),
+  ;
 
-extension JourneyRunStatusValueExtension on JourneyRunStatus {
-  String toValue() {
-    switch (this) {
-      case JourneyRunStatus.scheduled:
-        return 'SCHEDULED';
-      case JourneyRunStatus.running:
-        return 'RUNNING';
-      case JourneyRunStatus.completed:
-        return 'COMPLETED';
-      case JourneyRunStatus.cancelled:
-        return 'CANCELLED';
-    }
-  }
-}
+  final String value;
 
-extension JourneyRunStatusFromString on String {
-  JourneyRunStatus toJourneyRunStatus() {
-    switch (this) {
-      case 'SCHEDULED':
-        return JourneyRunStatus.scheduled;
-      case 'RUNNING':
-        return JourneyRunStatus.running;
-      case 'COMPLETED':
-        return JourneyRunStatus.completed;
-      case 'CANCELLED':
-        return JourneyRunStatus.cancelled;
-    }
-    throw Exception('$this is not known in enum JourneyRunStatus');
-  }
+  const JourneyRunStatus(this.value);
+
+  static JourneyRunStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum JourneyRunStatus'));
 }
 
 /// Specifies the sender ID and message type for an SMS message that's sent to
@@ -13746,7 +13364,8 @@ class JourneySMSMessage {
   factory JourneySMSMessage.fromJson(Map<String, dynamic> json) {
     return JourneySMSMessage(
       entityId: json['EntityId'] as String?,
-      messageType: (json['MessageType'] as String?)?.toMessageType(),
+      messageType:
+          (json['MessageType'] as String?)?.let(MessageType.fromString),
       originationNumber: json['OriginationNumber'] as String?,
       senderId: json['SenderId'] as String?,
       templateId: json['TemplateId'] as String?,
@@ -13761,7 +13380,7 @@ class JourneySMSMessage {
     final templateId = this.templateId;
     return {
       if (entityId != null) 'EntityId': entityId,
-      if (messageType != null) 'MessageType': messageType.toValue(),
+      if (messageType != null) 'MessageType': messageType.value,
       if (originationNumber != null) 'OriginationNumber': originationNumber,
       if (senderId != null) 'SenderId': senderId,
       if (templateId != null) 'TemplateId': templateId,
@@ -13844,7 +13463,7 @@ class JourneyStateRequest {
   Map<String, dynamic> toJson() {
     final state = this.state;
     return {
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
     };
   }
 }
@@ -13911,51 +13530,21 @@ class JourneysResponse {
 }
 
 enum Layout {
-  bottomBanner,
-  topBanner,
-  overlays,
-  mobileFeed,
-  middleBanner,
-  carousel,
-}
+  bottomBanner('BOTTOM_BANNER'),
+  topBanner('TOP_BANNER'),
+  overlays('OVERLAYS'),
+  mobileFeed('MOBILE_FEED'),
+  middleBanner('MIDDLE_BANNER'),
+  carousel('CAROUSEL'),
+  ;
 
-extension LayoutValueExtension on Layout {
-  String toValue() {
-    switch (this) {
-      case Layout.bottomBanner:
-        return 'BOTTOM_BANNER';
-      case Layout.topBanner:
-        return 'TOP_BANNER';
-      case Layout.overlays:
-        return 'OVERLAYS';
-      case Layout.mobileFeed:
-        return 'MOBILE_FEED';
-      case Layout.middleBanner:
-        return 'MIDDLE_BANNER';
-      case Layout.carousel:
-        return 'CAROUSEL';
-    }
-  }
-}
+  final String value;
 
-extension LayoutFromString on String {
-  Layout toLayout() {
-    switch (this) {
-      case 'BOTTOM_BANNER':
-        return Layout.bottomBanner;
-      case 'TOP_BANNER':
-        return Layout.topBanner;
-      case 'OVERLAYS':
-        return Layout.overlays;
-      case 'MOBILE_FEED':
-        return Layout.mobileFeed;
-      case 'MIDDLE_BANNER':
-        return Layout.middleBanner;
-      case 'CAROUSEL':
-        return Layout.carousel;
-    }
-    throw Exception('$this is not known in enum Layout');
-  }
+  const Layout(this.value);
+
+  static Layout fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Layout'));
 }
 
 class ListJourneysResponse {
@@ -14109,7 +13698,7 @@ class Message {
 
   factory Message.fromJson(Map<String, dynamic> json) {
     return Message(
-      action: (json['Action'] as String?)?.toAction(),
+      action: (json['Action'] as String?)?.let(Action.fromString),
       body: json['Body'] as String?,
       imageIconUrl: json['ImageIconUrl'] as String?,
       imageSmallIconUrl: json['ImageSmallIconUrl'] as String?,
@@ -14138,7 +13727,7 @@ class Message {
     final title = this.title;
     final url = this.url;
     return {
-      if (action != null) 'Action': action.toValue(),
+      if (action != null) 'Action': action.value,
       if (body != null) 'Body': body,
       if (imageIconUrl != null) 'ImageIconUrl': imageIconUrl,
       if (imageSmallIconUrl != null) 'ImageSmallIconUrl': imageSmallIconUrl,
@@ -14454,7 +14043,8 @@ class MessageResult {
 
   factory MessageResult.fromJson(Map<String, dynamic> json) {
     return MessageResult(
-      deliveryStatus: (json['DeliveryStatus'] as String).toDeliveryStatus(),
+      deliveryStatus:
+          DeliveryStatus.fromString((json['DeliveryStatus'] as String)),
       statusCode: json['StatusCode'] as int,
       messageId: json['MessageId'] as String?,
       statusMessage: json['StatusMessage'] as String?,
@@ -14464,31 +14054,17 @@ class MessageResult {
 }
 
 enum MessageType {
-  transactional,
-  promotional,
-}
+  transactional('TRANSACTIONAL'),
+  promotional('PROMOTIONAL'),
+  ;
 
-extension MessageTypeValueExtension on MessageType {
-  String toValue() {
-    switch (this) {
-      case MessageType.transactional:
-        return 'TRANSACTIONAL';
-      case MessageType.promotional:
-        return 'PROMOTIONAL';
-    }
-  }
-}
+  final String value;
 
-extension MessageTypeFromString on String {
-  MessageType toMessageType() {
-    switch (this) {
-      case 'TRANSACTIONAL':
-        return MessageType.transactional;
-      case 'PROMOTIONAL':
-        return MessageType.promotional;
-    }
-    throw Exception('$this is not known in enum MessageType');
-  }
+  const MessageType(this.value);
+
+  static MessageType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum MessageType'));
 }
 
 /// Specifies metric-based criteria for including or excluding endpoints from a
@@ -14526,31 +14102,17 @@ class MetricDimension {
 }
 
 enum Mode {
-  delivery,
-  filter,
-}
+  delivery('DELIVERY'),
+  filter('FILTER'),
+  ;
 
-extension ModeValueExtension on Mode {
-  String toValue() {
-    switch (this) {
-      case Mode.delivery:
-        return 'DELIVERY';
-      case Mode.filter:
-        return 'FILTER';
-    }
-  }
-}
+  final String value;
 
-extension ModeFromString on String {
-  Mode toMode() {
-    switch (this) {
-      case 'DELIVERY':
-        return Mode.delivery;
-      case 'FILTER':
-        return Mode.filter;
-    }
-    throw Exception('$this is not known in enum Mode');
-  }
+  const Mode(this.value);
+
+  static Mode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Mode'));
 }
 
 /// Specifies a condition to evaluate for an activity path in a journey.
@@ -14767,31 +14329,17 @@ class NumberValidateResponse {
 }
 
 enum Operator {
-  all,
-  any,
-}
+  all('ALL'),
+  any('ANY'),
+  ;
 
-extension OperatorValueExtension on Operator {
-  String toValue() {
-    switch (this) {
-      case Operator.all:
-        return 'ALL';
-      case Operator.any:
-        return 'ANY';
-    }
-  }
-}
+  final String value;
 
-extension OperatorFromString on String {
-  Operator toOperator() {
-    switch (this) {
-      case 'ALL':
-        return Operator.all;
-      case 'ANY':
-        return Operator.any;
-    }
-    throw Exception('$this is not known in enum Operator');
-  }
+  const Operator(this.value);
+
+  static Operator fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Operator'));
 }
 
 /// Override button configuration.
@@ -14809,7 +14357,7 @@ class OverrideButtonConfiguration {
 
   factory OverrideButtonConfiguration.fromJson(Map<String, dynamic> json) {
     return OverrideButtonConfiguration(
-      buttonAction: (json['ButtonAction'] as String).toButtonAction(),
+      buttonAction: ButtonAction.fromString((json['ButtonAction'] as String)),
       link: json['Link'] as String?,
     );
   }
@@ -14818,7 +14366,7 @@ class OverrideButtonConfiguration {
     final buttonAction = this.buttonAction;
     final link = this.link;
     return {
-      'ButtonAction': buttonAction.toValue(),
+      'ButtonAction': buttonAction.value,
       if (link != null) 'Link': link,
     };
   }
@@ -14915,7 +14463,7 @@ class PublicEndpoint {
     return {
       if (address != null) 'Address': address,
       if (attributes != null) 'Attributes': attributes,
-      if (channelType != null) 'ChannelType': channelType.toValue(),
+      if (channelType != null) 'ChannelType': channelType.value,
       if (demographic != null) 'Demographic': demographic,
       if (effectiveDate != null) 'EffectiveDate': effectiveDate,
       if (endpointStatus != null) 'EndpointStatus': endpointStatus,
@@ -15179,7 +14727,7 @@ class PushNotificationTemplateResponse {
       creationDate: json['CreationDate'] as String,
       lastModifiedDate: json['LastModifiedDate'] as String,
       templateName: json['TemplateName'] as String,
-      templateType: (json['TemplateType'] as String).toTemplateType(),
+      templateType: TemplateType.fromString((json['TemplateType'] as String)),
       adm: json['ADM'] != null
           ? AndroidPushNotificationTemplate.fromJson(
               json['ADM'] as Map<String, dynamic>)
@@ -15368,8 +14916,8 @@ class RecencyDimension {
 
   factory RecencyDimension.fromJson(Map<String, dynamic> json) {
     return RecencyDimension(
-      duration: (json['Duration'] as String).toDuration(),
-      recencyType: (json['RecencyType'] as String).toRecencyType(),
+      duration: Duration.fromString((json['Duration'] as String)),
+      recencyType: RecencyType.fromString((json['RecencyType'] as String)),
     );
   }
 
@@ -15377,38 +14925,24 @@ class RecencyDimension {
     final duration = this.duration;
     final recencyType = this.recencyType;
     return {
-      'Duration': duration.toValue(),
-      'RecencyType': recencyType.toValue(),
+      'Duration': duration.value,
+      'RecencyType': recencyType.value,
     };
   }
 }
 
 enum RecencyType {
-  active,
-  inactive,
-}
+  active('ACTIVE'),
+  inactive('INACTIVE'),
+  ;
 
-extension RecencyTypeValueExtension on RecencyType {
-  String toValue() {
-    switch (this) {
-      case RecencyType.active:
-        return 'ACTIVE';
-      case RecencyType.inactive:
-        return 'INACTIVE';
-    }
-  }
-}
+  final String value;
 
-extension RecencyTypeFromString on String {
-  RecencyType toRecencyType() {
-    switch (this) {
-      case 'ACTIVE':
-        return RecencyType.active;
-      case 'INACTIVE':
-        return RecencyType.inactive;
-    }
-    throw Exception('$this is not known in enum RecencyType');
-  }
+  const RecencyType(this.value);
+
+  static RecencyType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum RecencyType'));
 }
 
 /// Provides information about Amazon Pinpoint configuration settings for
@@ -15793,7 +15327,7 @@ class SMSMessage {
       if (entityId != null) 'EntityId': entityId,
       if (keyword != null) 'Keyword': keyword,
       if (mediaUrl != null) 'MediaUrl': mediaUrl,
-      if (messageType != null) 'MessageType': messageType.toValue(),
+      if (messageType != null) 'MessageType': messageType.value,
       if (originationNumber != null) 'OriginationNumber': originationNumber,
       if (senderId != null) 'SenderId': senderId,
       if (substitutions != null) 'Substitutions': substitutions,
@@ -15996,7 +15530,7 @@ class SMSTemplateResponse {
       creationDate: json['CreationDate'] as String,
       lastModifiedDate: json['LastModifiedDate'] as String,
       templateName: json['TemplateName'] as String,
-      templateType: (json['TemplateType'] as String).toTemplateType(),
+      templateType: TemplateType.fromString((json['TemplateType'] as String)),
       arn: json['Arn'] as String?,
       body: json['Body'] as String?,
       defaultSubstitutions: json['DefaultSubstitutions'] as String?,
@@ -16081,7 +15615,7 @@ class Schedule {
           ? CampaignEventFilter.fromJson(
               json['EventFilter'] as Map<String, dynamic>)
           : null,
-      frequency: (json['Frequency'] as String?)?.toFrequency(),
+      frequency: (json['Frequency'] as String?)?.let(Frequency.fromString),
       isLocalTime: json['IsLocalTime'] as bool?,
       quietTime: json['QuietTime'] != null
           ? QuietTime.fromJson(json['QuietTime'] as Map<String, dynamic>)
@@ -16102,7 +15636,7 @@ class Schedule {
       'StartTime': startTime,
       if (endTime != null) 'EndTime': endTime,
       if (eventFilter != null) 'EventFilter': eventFilter,
-      if (frequency != null) 'Frequency': frequency.toValue(),
+      if (frequency != null) 'Frequency': frequency.value,
       if (isLocalTime != null) 'IsLocalTime': isLocalTime,
       if (quietTime != null) 'QuietTime': quietTime,
       if (timezone != null) 'Timezone': timezone,
@@ -16347,8 +15881,8 @@ class SegmentGroup {
           ?.whereNotNull()
           .map((e) => SegmentReference.fromJson(e as Map<String, dynamic>))
           .toList(),
-      sourceType: (json['SourceType'] as String?)?.toSourceType(),
-      type: (json['Type'] as String?)?.toType(),
+      sourceType: (json['SourceType'] as String?)?.let(SourceType.fromString),
+      type: (json['Type'] as String?)?.let(Type.fromString),
     );
   }
 
@@ -16360,8 +15894,8 @@ class SegmentGroup {
     return {
       if (dimensions != null) 'Dimensions': dimensions,
       if (sourceSegments != null) 'SourceSegments': sourceSegments,
-      if (sourceType != null) 'SourceType': sourceType.toValue(),
-      if (type != null) 'Type': type.toValue(),
+      if (sourceType != null) 'SourceType': sourceType.value,
+      if (type != null) 'Type': type.value,
     };
   }
 }
@@ -16390,7 +15924,7 @@ class SegmentGroupList {
           ?.whereNotNull()
           .map((e) => SegmentGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
-      include: (json['Include'] as String?)?.toInclude(),
+      include: (json['Include'] as String?)?.let(Include.fromString),
     );
   }
 
@@ -16399,7 +15933,7 @@ class SegmentGroupList {
     final include = this.include;
     return {
       if (groups != null) 'Groups': groups,
-      if (include != null) 'Include': include.toValue(),
+      if (include != null) 'Include': include.value,
     };
   }
 }
@@ -16448,7 +15982,7 @@ class SegmentImportResource {
   factory SegmentImportResource.fromJson(Map<String, dynamic> json) {
     return SegmentImportResource(
       externalId: json['ExternalId'] as String,
-      format: (json['Format'] as String).toFormat(),
+      format: Format.fromString((json['Format'] as String)),
       roleArn: json['RoleArn'] as String,
       s3Url: json['S3Url'] as String,
       size: json['Size'] as int,
@@ -16600,7 +16134,7 @@ class SegmentResponse {
       arn: json['Arn'] as String,
       creationDate: json['CreationDate'] as String,
       id: json['Id'] as String,
-      segmentType: (json['SegmentType'] as String).toSegmentType(),
+      segmentType: SegmentType.fromString((json['SegmentType'] as String)),
       dimensions: json['Dimensions'] != null
           ? SegmentDimensions.fromJson(
               json['Dimensions'] as Map<String, dynamic>)
@@ -16623,31 +16157,17 @@ class SegmentResponse {
 }
 
 enum SegmentType {
-  dimensional,
-  import,
-}
+  dimensional('DIMENSIONAL'),
+  import('IMPORT'),
+  ;
 
-extension SegmentTypeValueExtension on SegmentType {
-  String toValue() {
-    switch (this) {
-      case SegmentType.dimensional:
-        return 'DIMENSIONAL';
-      case SegmentType.import:
-        return 'IMPORT';
-    }
-  }
-}
+  final String value;
 
-extension SegmentTypeFromString on String {
-  SegmentType toSegmentType() {
-    switch (this) {
-      case 'DIMENSIONAL':
-        return SegmentType.dimensional;
-      case 'IMPORT':
-        return SegmentType.import;
-    }
-    throw Exception('$this is not known in enum SegmentType');
-  }
+  const SegmentType(this.value);
+
+  static SegmentType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SegmentType'));
 }
 
 /// Provides information about all the segments that are associated with an
@@ -16925,7 +16445,8 @@ class SetDimension {
           .whereNotNull()
           .map((e) => e as String)
           .toList(),
-      dimensionType: (json['DimensionType'] as String?)?.toDimensionType(),
+      dimensionType:
+          (json['DimensionType'] as String?)?.let(DimensionType.fromString),
     );
   }
 
@@ -16934,7 +16455,7 @@ class SetDimension {
     final dimensionType = this.dimensionType;
     return {
       'Values': values,
-      if (dimensionType != null) 'DimensionType': dimensionType.toValue(),
+      if (dimensionType != null) 'DimensionType': dimensionType.value,
     };
   }
 }
@@ -17086,36 +16607,18 @@ class SimpleEmailPart {
 }
 
 enum SourceType {
-  all,
-  any,
-  none,
-}
+  all('ALL'),
+  any('ANY'),
+  none('NONE'),
+  ;
 
-extension SourceTypeValueExtension on SourceType {
-  String toValue() {
-    switch (this) {
-      case SourceType.all:
-        return 'ALL';
-      case SourceType.any:
-        return 'ANY';
-      case SourceType.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension SourceTypeFromString on String {
-  SourceType toSourceType() {
-    switch (this) {
-      case 'ALL':
-        return SourceType.all;
-      case 'ANY':
-        return SourceType.any;
-      case 'NONE':
-        return SourceType.none;
-    }
-    throw Exception('$this is not known in enum SourceType');
-  }
+  const SourceType(this.value);
+
+  static SourceType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SourceType'));
 }
 
 /// Specifies the conditions for the first activity in a journey. This activity
@@ -17164,51 +16667,21 @@ class StartCondition {
 }
 
 enum State {
-  draft,
-  active,
-  completed,
-  cancelled,
-  closed,
-  paused,
-}
+  draft('DRAFT'),
+  active('ACTIVE'),
+  completed('COMPLETED'),
+  cancelled('CANCELLED'),
+  closed('CLOSED'),
+  paused('PAUSED'),
+  ;
 
-extension StateValueExtension on State {
-  String toValue() {
-    switch (this) {
-      case State.draft:
-        return 'DRAFT';
-      case State.active:
-        return 'ACTIVE';
-      case State.completed:
-        return 'COMPLETED';
-      case State.cancelled:
-        return 'CANCELLED';
-      case State.closed:
-        return 'CLOSED';
-      case State.paused:
-        return 'PAUSED';
-    }
-  }
-}
+  final String value;
 
-extension StateFromString on String {
-  State toState() {
-    switch (this) {
-      case 'DRAFT':
-        return State.draft;
-      case 'ACTIVE':
-        return State.active;
-      case 'COMPLETED':
-        return State.completed;
-      case 'CANCELLED':
-        return State.cancelled;
-      case 'CLOSED':
-        return State.closed;
-      case 'PAUSED':
-        return State.paused;
-    }
-    throw Exception('$this is not known in enum State');
-  }
+  const State(this.value);
+
+  static State fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum State'));
 }
 
 /// Specifies the tags (keys and values) for an application, campaign, message
@@ -17467,7 +16940,7 @@ class TemplateResponse {
       creationDate: json['CreationDate'] as String,
       lastModifiedDate: json['LastModifiedDate'] as String,
       templateName: json['TemplateName'] as String,
-      templateType: (json['TemplateType'] as String).toTemplateType(),
+      templateType: TemplateType.fromString((json['TemplateType'] as String)),
       arn: json['Arn'] as String?,
       defaultSubstitutions: json['DefaultSubstitutions'] as String?,
       templateDescription: json['TemplateDescription'] as String?,
@@ -17479,46 +16952,21 @@ class TemplateResponse {
 }
 
 enum TemplateType {
-  email,
-  sms,
-  voice,
-  push,
-  inapp,
-}
+  email('EMAIL'),
+  sms('SMS'),
+  voice('VOICE'),
+  push('PUSH'),
+  inapp('INAPP'),
+  ;
 
-extension TemplateTypeValueExtension on TemplateType {
-  String toValue() {
-    switch (this) {
-      case TemplateType.email:
-        return 'EMAIL';
-      case TemplateType.sms:
-        return 'SMS';
-      case TemplateType.voice:
-        return 'VOICE';
-      case TemplateType.push:
-        return 'PUSH';
-      case TemplateType.inapp:
-        return 'INAPP';
-    }
-  }
-}
+  final String value;
 
-extension TemplateTypeFromString on String {
-  TemplateType toTemplateType() {
-    switch (this) {
-      case 'EMAIL':
-        return TemplateType.email;
-      case 'SMS':
-        return TemplateType.sms;
-      case 'VOICE':
-        return TemplateType.voice;
-      case 'PUSH':
-        return TemplateType.push;
-      case 'INAPP':
-        return TemplateType.inapp;
-    }
-    throw Exception('$this is not known in enum TemplateType');
-  }
+  const TemplateType(this.value);
+
+  static TemplateType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TemplateType'));
 }
 
 /// Provides information about a specific version of a message template.
@@ -17715,36 +17163,18 @@ class TreatmentResource {
 }
 
 enum Type {
-  all,
-  any,
-  none,
-}
+  all('ALL'),
+  any('ANY'),
+  none('NONE'),
+  ;
 
-extension TypeValueExtension on Type {
-  String toValue() {
-    switch (this) {
-      case Type.all:
-        return 'ALL';
-      case Type.any:
-        return 'ANY';
-      case Type.none:
-        return 'NONE';
-    }
-  }
-}
+  final String value;
 
-extension TypeFromString on String {
-  Type toType() {
-    switch (this) {
-      case 'ALL':
-        return Type.all;
-      case 'ANY':
-        return Type.any;
-      case 'NONE':
-        return Type.none;
-    }
-    throw Exception('$this is not known in enum Type');
-  }
+  const Type(this.value);
+
+  static Type fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Type'));
 }
 
 class UpdateAdmChannelResponse {
@@ -18443,7 +17873,7 @@ class VoiceTemplateResponse {
       creationDate: json['CreationDate'] as String,
       lastModifiedDate: json['LastModifiedDate'] as String,
       templateName: json['TemplateName'] as String,
-      templateType: (json['TemplateType'] as String).toTemplateType(),
+      templateType: TemplateType.fromString((json['TemplateType'] as String)),
       arn: json['Arn'] as String?,
       body: json['Body'] as String?,
       defaultSubstitutions: json['DefaultSubstitutions'] as String?,
@@ -18988,10 +18418,10 @@ class WriteJourneyRequest {
       if (sendingSchedule != null) 'SendingSchedule': sendingSchedule,
       if (startActivity != null) 'StartActivity': startActivity,
       if (startCondition != null) 'StartCondition': startCondition,
-      if (state != null) 'State': state.toValue(),
+      if (state != null) 'State': state.value,
       if (timezoneEstimationMethods != null)
         'TimezoneEstimationMethods':
-            timezoneEstimationMethods.map((e) => e.toValue()).toList(),
+            timezoneEstimationMethods.map((e) => e.value).toList(),
       if (waitForQuietTime != null) 'WaitForQuietTime': waitForQuietTime,
     };
   }
@@ -19111,169 +18541,63 @@ class WriteTreatmentResource {
 }
 
 enum EndpointTypesElement {
-  push,
-  gcm,
-  apns,
-  apnsSandbox,
-  apnsVoip,
-  apnsVoipSandbox,
-  adm,
-  sms,
-  voice,
-  email,
-  baidu,
-  custom,
-  inApp,
-}
+  push('PUSH'),
+  gcm('GCM'),
+  apns('APNS'),
+  apnsSandbox('APNS_SANDBOX'),
+  apnsVoip('APNS_VOIP'),
+  apnsVoipSandbox('APNS_VOIP_SANDBOX'),
+  adm('ADM'),
+  sms('SMS'),
+  voice('VOICE'),
+  email('EMAIL'),
+  baidu('BAIDU'),
+  custom('CUSTOM'),
+  inApp('IN_APP'),
+  ;
 
-extension EndpointTypesElementValueExtension on EndpointTypesElement {
-  String toValue() {
-    switch (this) {
-      case EndpointTypesElement.push:
-        return 'PUSH';
-      case EndpointTypesElement.gcm:
-        return 'GCM';
-      case EndpointTypesElement.apns:
-        return 'APNS';
-      case EndpointTypesElement.apnsSandbox:
-        return 'APNS_SANDBOX';
-      case EndpointTypesElement.apnsVoip:
-        return 'APNS_VOIP';
-      case EndpointTypesElement.apnsVoipSandbox:
-        return 'APNS_VOIP_SANDBOX';
-      case EndpointTypesElement.adm:
-        return 'ADM';
-      case EndpointTypesElement.sms:
-        return 'SMS';
-      case EndpointTypesElement.voice:
-        return 'VOICE';
-      case EndpointTypesElement.email:
-        return 'EMAIL';
-      case EndpointTypesElement.baidu:
-        return 'BAIDU';
-      case EndpointTypesElement.custom:
-        return 'CUSTOM';
-      case EndpointTypesElement.inApp:
-        return 'IN_APP';
-    }
-  }
-}
+  final String value;
 
-extension EndpointTypesElementFromString on String {
-  EndpointTypesElement toEndpointTypesElement() {
-    switch (this) {
-      case 'PUSH':
-        return EndpointTypesElement.push;
-      case 'GCM':
-        return EndpointTypesElement.gcm;
-      case 'APNS':
-        return EndpointTypesElement.apns;
-      case 'APNS_SANDBOX':
-        return EndpointTypesElement.apnsSandbox;
-      case 'APNS_VOIP':
-        return EndpointTypesElement.apnsVoip;
-      case 'APNS_VOIP_SANDBOX':
-        return EndpointTypesElement.apnsVoipSandbox;
-      case 'ADM':
-        return EndpointTypesElement.adm;
-      case 'SMS':
-        return EndpointTypesElement.sms;
-      case 'VOICE':
-        return EndpointTypesElement.voice;
-      case 'EMAIL':
-        return EndpointTypesElement.email;
-      case 'BAIDU':
-        return EndpointTypesElement.baidu;
-      case 'CUSTOM':
-        return EndpointTypesElement.custom;
-      case 'IN_APP':
-        return EndpointTypesElement.inApp;
-    }
-    throw Exception('$this is not known in enum EndpointTypesElement');
-  }
+  const EndpointTypesElement(this.value);
+
+  static EndpointTypesElement fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum EndpointTypesElement'));
 }
 
 enum TimezoneEstimationMethodsElement {
-  phoneNumber,
-  postalCode,
-}
+  phoneNumber('PHONE_NUMBER'),
+  postalCode('POSTAL_CODE'),
+  ;
 
-extension TimezoneEstimationMethodsElementValueExtension
-    on TimezoneEstimationMethodsElement {
-  String toValue() {
-    switch (this) {
-      case TimezoneEstimationMethodsElement.phoneNumber:
-        return 'PHONE_NUMBER';
-      case TimezoneEstimationMethodsElement.postalCode:
-        return 'POSTAL_CODE';
-    }
-  }
-}
+  final String value;
 
-extension TimezoneEstimationMethodsElementFromString on String {
-  TimezoneEstimationMethodsElement toTimezoneEstimationMethodsElement() {
-    switch (this) {
-      case 'PHONE_NUMBER':
-        return TimezoneEstimationMethodsElement.phoneNumber;
-      case 'POSTAL_CODE':
-        return TimezoneEstimationMethodsElement.postalCode;
-    }
-    throw Exception(
-        '$this is not known in enum TimezoneEstimationMethodsElement');
-  }
+  const TimezoneEstimationMethodsElement(this.value);
+
+  static TimezoneEstimationMethodsElement fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TimezoneEstimationMethodsElement'));
 }
 
 enum DayOfWeek {
-  monday,
-  tuesday,
-  wednesday,
-  thursday,
-  friday,
-  saturday,
-  sunday,
-}
+  monday('MONDAY'),
+  tuesday('TUESDAY'),
+  wednesday('WEDNESDAY'),
+  thursday('THURSDAY'),
+  friday('FRIDAY'),
+  saturday('SATURDAY'),
+  sunday('SUNDAY'),
+  ;
 
-extension DayOfWeekValueExtension on DayOfWeek {
-  String toValue() {
-    switch (this) {
-      case DayOfWeek.monday:
-        return 'MONDAY';
-      case DayOfWeek.tuesday:
-        return 'TUESDAY';
-      case DayOfWeek.wednesday:
-        return 'WEDNESDAY';
-      case DayOfWeek.thursday:
-        return 'THURSDAY';
-      case DayOfWeek.friday:
-        return 'FRIDAY';
-      case DayOfWeek.saturday:
-        return 'SATURDAY';
-      case DayOfWeek.sunday:
-        return 'SUNDAY';
-    }
-  }
-}
+  final String value;
 
-extension DayOfWeekFromString on String {
-  DayOfWeek toDayOfWeek() {
-    switch (this) {
-      case 'MONDAY':
-        return DayOfWeek.monday;
-      case 'TUESDAY':
-        return DayOfWeek.tuesday;
-      case 'WEDNESDAY':
-        return DayOfWeek.wednesday;
-      case 'THURSDAY':
-        return DayOfWeek.thursday;
-      case 'FRIDAY':
-        return DayOfWeek.friday;
-      case 'SATURDAY':
-        return DayOfWeek.saturday;
-      case 'SUNDAY':
-        return DayOfWeek.sunday;
-    }
-    throw Exception('$this is not known in enum DayOfWeek');
-  }
+  const DayOfWeek(this.value);
+
+  static DayOfWeek fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum DayOfWeek'));
 }
 
 /// Specifies the start and end time for OpenHours.
@@ -19336,31 +18660,31 @@ class OpenHours {
   factory OpenHours.fromJson(Map<String, dynamic> json) {
     return OpenHours(
       custom: (json['CUSTOM'] as Map<String, dynamic>?)?.map((k, e) => MapEntry(
-          k.toDayOfWeek(),
+          DayOfWeek.fromString(k),
           (e as List)
               .whereNotNull()
               .map((e) => OpenHoursRule.fromJson(e as Map<String, dynamic>))
               .toList())),
       email: (json['EMAIL'] as Map<String, dynamic>?)?.map((k, e) => MapEntry(
-          k.toDayOfWeek(),
+          DayOfWeek.fromString(k),
           (e as List)
               .whereNotNull()
               .map((e) => OpenHoursRule.fromJson(e as Map<String, dynamic>))
               .toList())),
       push: (json['PUSH'] as Map<String, dynamic>?)?.map((k, e) => MapEntry(
-          k.toDayOfWeek(),
+          DayOfWeek.fromString(k),
           (e as List)
               .whereNotNull()
               .map((e) => OpenHoursRule.fromJson(e as Map<String, dynamic>))
               .toList())),
       sms: (json['SMS'] as Map<String, dynamic>?)?.map((k, e) => MapEntry(
-          k.toDayOfWeek(),
+          DayOfWeek.fromString(k),
           (e as List)
               .whereNotNull()
               .map((e) => OpenHoursRule.fromJson(e as Map<String, dynamic>))
               .toList())),
       voice: (json['VOICE'] as Map<String, dynamic>?)?.map((k, e) => MapEntry(
-          k.toDayOfWeek(),
+          DayOfWeek.fromString(k),
           (e as List)
               .whereNotNull()
               .map((e) => OpenHoursRule.fromJson(e as Map<String, dynamic>))
@@ -19375,12 +18699,11 @@ class OpenHours {
     final sms = this.sms;
     final voice = this.voice;
     return {
-      if (custom != null)
-        'CUSTOM': custom.map((k, e) => MapEntry(k.toValue(), e)),
-      if (email != null) 'EMAIL': email.map((k, e) => MapEntry(k.toValue(), e)),
-      if (push != null) 'PUSH': push.map((k, e) => MapEntry(k.toValue(), e)),
-      if (sms != null) 'SMS': sms.map((k, e) => MapEntry(k.toValue(), e)),
-      if (voice != null) 'VOICE': voice.map((k, e) => MapEntry(k.toValue(), e)),
+      if (custom != null) 'CUSTOM': custom.map((k, e) => MapEntry(k.value, e)),
+      if (email != null) 'EMAIL': email.map((k, e) => MapEntry(k.value, e)),
+      if (push != null) 'PUSH': push.map((k, e) => MapEntry(k.value, e)),
+      if (sms != null) 'SMS': sms.map((k, e) => MapEntry(k.value, e)),
+      if (voice != null) 'VOICE': voice.map((k, e) => MapEntry(k.value, e)),
     };
   }
 }

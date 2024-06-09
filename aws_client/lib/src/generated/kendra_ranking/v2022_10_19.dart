@@ -575,7 +575,8 @@ class DescribeRescoreExecutionPlanResponse {
       errorMessage: json['ErrorMessage'] as String?,
       id: json['Id'] as String?,
       name: json['Name'] as String?,
-      status: (json['Status'] as String?)?.toRescoreExecutionPlanStatus(),
+      status: (json['Status'] as String?)
+          ?.let(RescoreExecutionPlanStatus.fromString),
       updatedAt: timeStampFromJson(json['UpdatedAt']),
     );
   }
@@ -598,7 +599,7 @@ class DescribeRescoreExecutionPlanResponse {
       if (errorMessage != null) 'ErrorMessage': errorMessage,
       if (id != null) 'Id': id,
       if (name != null) 'Name': name,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
     };
   }
@@ -729,47 +730,21 @@ class ListTagsForResourceResponse {
 }
 
 enum RescoreExecutionPlanStatus {
-  creating,
-  updating,
-  active,
-  deleting,
-  failed,
-}
+  creating('CREATING'),
+  updating('UPDATING'),
+  active('ACTIVE'),
+  deleting('DELETING'),
+  failed('FAILED'),
+  ;
 
-extension RescoreExecutionPlanStatusValueExtension
-    on RescoreExecutionPlanStatus {
-  String toValue() {
-    switch (this) {
-      case RescoreExecutionPlanStatus.creating:
-        return 'CREATING';
-      case RescoreExecutionPlanStatus.updating:
-        return 'UPDATING';
-      case RescoreExecutionPlanStatus.active:
-        return 'ACTIVE';
-      case RescoreExecutionPlanStatus.deleting:
-        return 'DELETING';
-      case RescoreExecutionPlanStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension RescoreExecutionPlanStatusFromString on String {
-  RescoreExecutionPlanStatus toRescoreExecutionPlanStatus() {
-    switch (this) {
-      case 'CREATING':
-        return RescoreExecutionPlanStatus.creating;
-      case 'UPDATING':
-        return RescoreExecutionPlanStatus.updating;
-      case 'ACTIVE':
-        return RescoreExecutionPlanStatus.active;
-      case 'DELETING':
-        return RescoreExecutionPlanStatus.deleting;
-      case 'FAILED':
-        return RescoreExecutionPlanStatus.failed;
-    }
-    throw Exception('$this is not known in enum RescoreExecutionPlanStatus');
-  }
+  const RescoreExecutionPlanStatus(this.value);
+
+  static RescoreExecutionPlanStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RescoreExecutionPlanStatus'));
 }
 
 /// Summary information for a rescore execution plan. A rescore execution plan
@@ -805,7 +780,8 @@ class RescoreExecutionPlanSummary {
       createdAt: timeStampFromJson(json['CreatedAt']),
       id: json['Id'] as String?,
       name: json['Name'] as String?,
-      status: (json['Status'] as String?)?.toRescoreExecutionPlanStatus(),
+      status: (json['Status'] as String?)
+          ?.let(RescoreExecutionPlanStatus.fromString),
       updatedAt: timeStampFromJson(json['UpdatedAt']),
     );
   }
@@ -820,7 +796,7 @@ class RescoreExecutionPlanSummary {
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
       if (id != null) 'Id': id,
       if (name != null) 'Name': name,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
       if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
     };
   }

@@ -330,11 +330,11 @@ class Batch {
   }) async {
     final $payload = <String, dynamic>{
       'computeEnvironmentName': computeEnvironmentName,
-      'type': type.toValue(),
+      'type': type.value,
       if (computeResources != null) 'computeResources': computeResources,
       if (eksConfiguration != null) 'eksConfiguration': eksConfiguration,
       if (serviceRole != null) 'serviceRole': serviceRole,
-      if (state != null) 'state': state.toValue(),
+      if (state != null) 'state': state.value,
       if (tags != null) 'tags': tags,
       if (unmanagedvCpus != null) 'unmanagedvCpus': unmanagedvCpus,
     };
@@ -436,7 +436,7 @@ class Batch {
         'jobStateTimeLimitActions': jobStateTimeLimitActions,
       if (schedulingPolicyArn != null)
         'schedulingPolicyArn': schedulingPolicyArn,
-      if (state != null) 'state': state.toValue(),
+      if (state != null) 'state': state.value,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -973,7 +973,7 @@ class Batch {
       if (arrayJobId != null) 'arrayJobId': arrayJobId,
       if (filters != null) 'filters': filters,
       if (jobQueue != null) 'jobQueue': jobQueue,
-      if (jobStatus != null) 'jobStatus': jobStatus.toValue(),
+      if (jobStatus != null) 'jobStatus': jobStatus.value,
       if (maxResults != null) 'maxResults': maxResults,
       if (multiNodeJobId != null) 'multiNodeJobId': multiNodeJobId,
       if (nextToken != null) 'nextToken': nextToken,
@@ -1196,7 +1196,7 @@ class Batch {
   }) async {
     final $payload = <String, dynamic>{
       'jobDefinitionName': jobDefinitionName,
-      'type': type.toValue(),
+      'type': type.value,
       if (containerProperties != null)
         'containerProperties': containerProperties,
       if (ecsProperties != null) 'ecsProperties': ecsProperties,
@@ -1205,7 +1205,7 @@ class Batch {
       if (parameters != null) 'parameters': parameters,
       if (platformCapabilities != null)
         'platformCapabilities':
-            platformCapabilities.map((e) => e.toValue()).toList(),
+            platformCapabilities.map((e) => e.value).toList(),
       if (propagateTags != null) 'propagateTags': propagateTags,
       if (retryStrategy != null) 'retryStrategy': retryStrategy,
       if (schedulingPriority != null) 'schedulingPriority': schedulingPriority,
@@ -1605,7 +1605,7 @@ class Batch {
       'computeEnvironment': computeEnvironment,
       if (computeResources != null) 'computeResources': computeResources,
       if (serviceRole != null) 'serviceRole': serviceRole,
-      if (state != null) 'state': state.toValue(),
+      if (state != null) 'state': state.value,
       if (unmanagedvCpus != null) 'unmanagedvCpus': unmanagedvCpus,
       if (updatePolicy != null) 'updatePolicy': updatePolicy,
     };
@@ -1687,7 +1687,7 @@ class Batch {
       if (priority != null) 'priority': priority,
       if (schedulingPolicyArn != null)
         'schedulingPolicyArn': schedulingPolicyArn,
-      if (state != null) 'state': state.toValue(),
+      if (state != null) 'state': state.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1726,31 +1726,18 @@ class Batch {
 }
 
 enum ArrayJobDependency {
-  nToN,
-  sequential,
-}
+  nToN('N_TO_N'),
+  sequential('SEQUENTIAL'),
+  ;
 
-extension ArrayJobDependencyValueExtension on ArrayJobDependency {
-  String toValue() {
-    switch (this) {
-      case ArrayJobDependency.nToN:
-        return 'N_TO_N';
-      case ArrayJobDependency.sequential:
-        return 'SEQUENTIAL';
-    }
-  }
-}
+  final String value;
 
-extension ArrayJobDependencyFromString on String {
-  ArrayJobDependency toArrayJobDependency() {
-    switch (this) {
-      case 'N_TO_N':
-        return ArrayJobDependency.nToN;
-      case 'SEQUENTIAL':
-        return ArrayJobDependency.sequential;
-    }
-    throw Exception('$this is not known in enum ArrayJobDependency');
-  }
+  const ArrayJobDependency(this.value);
+
+  static ArrayJobDependency fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ArrayJobDependency'));
 }
 
 /// An object that represents an Batch array job.
@@ -1822,31 +1809,18 @@ class ArrayPropertiesSummary {
 }
 
 enum AssignPublicIp {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension AssignPublicIpValueExtension on AssignPublicIp {
-  String toValue() {
-    switch (this) {
-      case AssignPublicIp.enabled:
-        return 'ENABLED';
-      case AssignPublicIp.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension AssignPublicIpFromString on String {
-  AssignPublicIp toAssignPublicIp() {
-    switch (this) {
-      case 'ENABLED':
-        return AssignPublicIp.enabled;
-      case 'DISABLED':
-        return AssignPublicIp.disabled;
-    }
-    throw Exception('$this is not known in enum AssignPublicIp');
-  }
+  const AssignPublicIp(this.value);
+
+  static AssignPublicIp fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AssignPublicIp'));
 }
 
 /// An object that represents the details of a container that's part of a job
@@ -2028,217 +2002,98 @@ class AttemptTaskContainerDetails {
 }
 
 enum CEState {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension CEStateValueExtension on CEState {
-  String toValue() {
-    switch (this) {
-      case CEState.enabled:
-        return 'ENABLED';
-      case CEState.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension CEStateFromString on String {
-  CEState toCEState() {
-    switch (this) {
-      case 'ENABLED':
-        return CEState.enabled;
-      case 'DISABLED':
-        return CEState.disabled;
-    }
-    throw Exception('$this is not known in enum CEState');
-  }
+  const CEState(this.value);
+
+  static CEState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum CEState'));
 }
 
 enum CEStatus {
-  creating,
-  updating,
-  deleting,
-  deleted,
-  valid,
-  invalid,
-}
+  creating('CREATING'),
+  updating('UPDATING'),
+  deleting('DELETING'),
+  deleted('DELETED'),
+  valid('VALID'),
+  invalid('INVALID'),
+  ;
 
-extension CEStatusValueExtension on CEStatus {
-  String toValue() {
-    switch (this) {
-      case CEStatus.creating:
-        return 'CREATING';
-      case CEStatus.updating:
-        return 'UPDATING';
-      case CEStatus.deleting:
-        return 'DELETING';
-      case CEStatus.deleted:
-        return 'DELETED';
-      case CEStatus.valid:
-        return 'VALID';
-      case CEStatus.invalid:
-        return 'INVALID';
-    }
-  }
-}
+  final String value;
 
-extension CEStatusFromString on String {
-  CEStatus toCEStatus() {
-    switch (this) {
-      case 'CREATING':
-        return CEStatus.creating;
-      case 'UPDATING':
-        return CEStatus.updating;
-      case 'DELETING':
-        return CEStatus.deleting;
-      case 'DELETED':
-        return CEStatus.deleted;
-      case 'VALID':
-        return CEStatus.valid;
-      case 'INVALID':
-        return CEStatus.invalid;
-    }
-    throw Exception('$this is not known in enum CEStatus');
-  }
+  const CEStatus(this.value);
+
+  static CEStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum CEStatus'));
 }
 
 enum CEType {
-  managed,
-  unmanaged,
-}
+  managed('MANAGED'),
+  unmanaged('UNMANAGED'),
+  ;
 
-extension CETypeValueExtension on CEType {
-  String toValue() {
-    switch (this) {
-      case CEType.managed:
-        return 'MANAGED';
-      case CEType.unmanaged:
-        return 'UNMANAGED';
-    }
-  }
-}
+  final String value;
 
-extension CETypeFromString on String {
-  CEType toCEType() {
-    switch (this) {
-      case 'MANAGED':
-        return CEType.managed;
-      case 'UNMANAGED':
-        return CEType.unmanaged;
-    }
-    throw Exception('$this is not known in enum CEType');
-  }
+  const CEType(this.value);
+
+  static CEType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum CEType'));
 }
 
 enum CRAllocationStrategy {
-  bestFit,
-  bestFitProgressive,
-  spotCapacityOptimized,
-  spotPriceCapacityOptimized,
-}
+  bestFit('BEST_FIT'),
+  bestFitProgressive('BEST_FIT_PROGRESSIVE'),
+  spotCapacityOptimized('SPOT_CAPACITY_OPTIMIZED'),
+  spotPriceCapacityOptimized('SPOT_PRICE_CAPACITY_OPTIMIZED'),
+  ;
 
-extension CRAllocationStrategyValueExtension on CRAllocationStrategy {
-  String toValue() {
-    switch (this) {
-      case CRAllocationStrategy.bestFit:
-        return 'BEST_FIT';
-      case CRAllocationStrategy.bestFitProgressive:
-        return 'BEST_FIT_PROGRESSIVE';
-      case CRAllocationStrategy.spotCapacityOptimized:
-        return 'SPOT_CAPACITY_OPTIMIZED';
-      case CRAllocationStrategy.spotPriceCapacityOptimized:
-        return 'SPOT_PRICE_CAPACITY_OPTIMIZED';
-    }
-  }
-}
+  final String value;
 
-extension CRAllocationStrategyFromString on String {
-  CRAllocationStrategy toCRAllocationStrategy() {
-    switch (this) {
-      case 'BEST_FIT':
-        return CRAllocationStrategy.bestFit;
-      case 'BEST_FIT_PROGRESSIVE':
-        return CRAllocationStrategy.bestFitProgressive;
-      case 'SPOT_CAPACITY_OPTIMIZED':
-        return CRAllocationStrategy.spotCapacityOptimized;
-      case 'SPOT_PRICE_CAPACITY_OPTIMIZED':
-        return CRAllocationStrategy.spotPriceCapacityOptimized;
-    }
-    throw Exception('$this is not known in enum CRAllocationStrategy');
-  }
+  const CRAllocationStrategy(this.value);
+
+  static CRAllocationStrategy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum CRAllocationStrategy'));
 }
 
 enum CRType {
-  ec2,
-  spot,
-  fargate,
-  fargateSpot,
-}
+  ec2('EC2'),
+  spot('SPOT'),
+  fargate('FARGATE'),
+  fargateSpot('FARGATE_SPOT'),
+  ;
 
-extension CRTypeValueExtension on CRType {
-  String toValue() {
-    switch (this) {
-      case CRType.ec2:
-        return 'EC2';
-      case CRType.spot:
-        return 'SPOT';
-      case CRType.fargate:
-        return 'FARGATE';
-      case CRType.fargateSpot:
-        return 'FARGATE_SPOT';
-    }
-  }
-}
+  final String value;
 
-extension CRTypeFromString on String {
-  CRType toCRType() {
-    switch (this) {
-      case 'EC2':
-        return CRType.ec2;
-      case 'SPOT':
-        return CRType.spot;
-      case 'FARGATE':
-        return CRType.fargate;
-      case 'FARGATE_SPOT':
-        return CRType.fargateSpot;
-    }
-    throw Exception('$this is not known in enum CRType');
-  }
+  const CRType(this.value);
+
+  static CRType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum CRType'));
 }
 
 enum CRUpdateAllocationStrategy {
-  bestFitProgressive,
-  spotCapacityOptimized,
-  spotPriceCapacityOptimized,
-}
+  bestFitProgressive('BEST_FIT_PROGRESSIVE'),
+  spotCapacityOptimized('SPOT_CAPACITY_OPTIMIZED'),
+  spotPriceCapacityOptimized('SPOT_PRICE_CAPACITY_OPTIMIZED'),
+  ;
 
-extension CRUpdateAllocationStrategyValueExtension
-    on CRUpdateAllocationStrategy {
-  String toValue() {
-    switch (this) {
-      case CRUpdateAllocationStrategy.bestFitProgressive:
-        return 'BEST_FIT_PROGRESSIVE';
-      case CRUpdateAllocationStrategy.spotCapacityOptimized:
-        return 'SPOT_CAPACITY_OPTIMIZED';
-      case CRUpdateAllocationStrategy.spotPriceCapacityOptimized:
-        return 'SPOT_PRICE_CAPACITY_OPTIMIZED';
-    }
-  }
-}
+  final String value;
 
-extension CRUpdateAllocationStrategyFromString on String {
-  CRUpdateAllocationStrategy toCRUpdateAllocationStrategy() {
-    switch (this) {
-      case 'BEST_FIT_PROGRESSIVE':
-        return CRUpdateAllocationStrategy.bestFitProgressive;
-      case 'SPOT_CAPACITY_OPTIMIZED':
-        return CRUpdateAllocationStrategy.spotCapacityOptimized;
-      case 'SPOT_PRICE_CAPACITY_OPTIMIZED':
-        return CRUpdateAllocationStrategy.spotPriceCapacityOptimized;
-    }
-    throw Exception('$this is not known in enum CRUpdateAllocationStrategy');
-  }
+  const CRUpdateAllocationStrategy(this.value);
+
+  static CRUpdateAllocationStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CRUpdateAllocationStrategy'));
 }
 
 class CancelJobResponse {
@@ -2371,19 +2226,19 @@ class ComputeEnvironmentDetail {
           : null,
       containerOrchestrationType:
           (json['containerOrchestrationType'] as String?)
-              ?.toOrchestrationType(),
+              ?.let(OrchestrationType.fromString),
       ecsClusterArn: json['ecsClusterArn'] as String?,
       eksConfiguration: json['eksConfiguration'] != null
           ? EksConfiguration.fromJson(
               json['eksConfiguration'] as Map<String, dynamic>)
           : null,
       serviceRole: json['serviceRole'] as String?,
-      state: (json['state'] as String?)?.toCEState(),
-      status: (json['status'] as String?)?.toCEStatus(),
+      state: (json['state'] as String?)?.let(CEState.fromString),
+      status: (json['status'] as String?)?.let(CEStatus.fromString),
       statusReason: json['statusReason'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
-      type: (json['type'] as String?)?.toCEType(),
+      type: (json['type'] as String?)?.let(CEType.fromString),
       unmanagedvCpus: json['unmanagedvCpus'] as int?,
       updatePolicy: json['updatePolicy'] != null
           ? UpdatePolicy.fromJson(json['updatePolicy'] as Map<String, dynamic>)
@@ -2745,9 +2600,9 @@ class ComputeResource {
           .whereNotNull()
           .map((e) => e as String)
           .toList(),
-      type: (json['type'] as String).toCRType(),
-      allocationStrategy:
-          (json['allocationStrategy'] as String?)?.toCRAllocationStrategy(),
+      type: CRType.fromString((json['type'] as String)),
+      allocationStrategy: (json['allocationStrategy'] as String?)
+          ?.let(CRAllocationStrategy.fromString),
       bidPercentage: json['bidPercentage'] as int?,
       desiredvCpus: json['desiredvCpus'] as int?,
       ec2Configuration: (json['ec2Configuration'] as List?)
@@ -2798,9 +2653,9 @@ class ComputeResource {
     return {
       'maxvCpus': maxvCpus,
       'subnets': subnets,
-      'type': type.toValue(),
+      'type': type.value,
       if (allocationStrategy != null)
-        'allocationStrategy': allocationStrategy.toValue(),
+        'allocationStrategy': allocationStrategy.value,
       if (bidPercentage != null) 'bidPercentage': bidPercentage,
       if (desiredvCpus != null) 'desiredvCpus': desiredvCpus,
       if (ec2Configuration != null) 'ec2Configuration': ec2Configuration,
@@ -3217,7 +3072,7 @@ class ComputeResourceUpdate {
     final updateToLatestImageVersion = this.updateToLatestImageVersion;
     return {
       if (allocationStrategy != null)
-        'allocationStrategy': allocationStrategy.toValue(),
+        'allocationStrategy': allocationStrategy.value,
       if (bidPercentage != null) 'bidPercentage': bidPercentage,
       if (desiredvCpus != null) 'desiredvCpus': desiredvCpus,
       if (ec2Configuration != null) 'ec2Configuration': ec2Configuration,
@@ -3232,7 +3087,7 @@ class ComputeResourceUpdate {
       if (securityGroupIds != null) 'securityGroupIds': securityGroupIds,
       if (subnets != null) 'subnets': subnets,
       if (tags != null) 'tags': tags,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
       if (updateToLatestImageVersion != null)
         'updateToLatestImageVersion': updateToLatestImageVersion,
     };
@@ -4337,7 +4192,7 @@ class Device {
       containerPath: json['containerPath'] as String?,
       permissions: (json['permissions'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toDeviceCgroupPermission())
+          .map((e) => DeviceCgroupPermission.fromString((e as String)))
           .toList(),
     );
   }
@@ -4350,42 +4205,25 @@ class Device {
       'hostPath': hostPath,
       if (containerPath != null) 'containerPath': containerPath,
       if (permissions != null)
-        'permissions': permissions.map((e) => e.toValue()).toList(),
+        'permissions': permissions.map((e) => e.value).toList(),
     };
   }
 }
 
 enum DeviceCgroupPermission {
-  read,
-  write,
-  mknod,
-}
+  read('READ'),
+  write('WRITE'),
+  mknod('MKNOD'),
+  ;
 
-extension DeviceCgroupPermissionValueExtension on DeviceCgroupPermission {
-  String toValue() {
-    switch (this) {
-      case DeviceCgroupPermission.read:
-        return 'READ';
-      case DeviceCgroupPermission.write:
-        return 'WRITE';
-      case DeviceCgroupPermission.mknod:
-        return 'MKNOD';
-    }
-  }
-}
+  final String value;
 
-extension DeviceCgroupPermissionFromString on String {
-  DeviceCgroupPermission toDeviceCgroupPermission() {
-    switch (this) {
-      case 'READ':
-        return DeviceCgroupPermission.read;
-      case 'WRITE':
-        return DeviceCgroupPermission.write;
-      case 'MKNOD':
-        return DeviceCgroupPermission.mknod;
-    }
-    throw Exception('$this is not known in enum DeviceCgroupPermission');
-  }
+  const DeviceCgroupPermission(this.value);
+
+  static DeviceCgroupPermission fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DeviceCgroupPermission'));
 }
 
 /// The authorization configuration details for the Amazon EFS file system.
@@ -4420,7 +4258,7 @@ class EFSAuthorizationConfig {
   factory EFSAuthorizationConfig.fromJson(Map<String, dynamic> json) {
     return EFSAuthorizationConfig(
       accessPointId: json['accessPointId'] as String?,
-      iam: (json['iam'] as String?)?.toEFSAuthorizationConfigIAM(),
+      iam: (json['iam'] as String?)?.let(EFSAuthorizationConfigIAM.fromString),
     );
   }
 
@@ -4429,65 +4267,39 @@ class EFSAuthorizationConfig {
     final iam = this.iam;
     return {
       if (accessPointId != null) 'accessPointId': accessPointId,
-      if (iam != null) 'iam': iam.toValue(),
+      if (iam != null) 'iam': iam.value,
     };
   }
 }
 
 enum EFSAuthorizationConfigIAM {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension EFSAuthorizationConfigIAMValueExtension on EFSAuthorizationConfigIAM {
-  String toValue() {
-    switch (this) {
-      case EFSAuthorizationConfigIAM.enabled:
-        return 'ENABLED';
-      case EFSAuthorizationConfigIAM.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension EFSAuthorizationConfigIAMFromString on String {
-  EFSAuthorizationConfigIAM toEFSAuthorizationConfigIAM() {
-    switch (this) {
-      case 'ENABLED':
-        return EFSAuthorizationConfigIAM.enabled;
-      case 'DISABLED':
-        return EFSAuthorizationConfigIAM.disabled;
-    }
-    throw Exception('$this is not known in enum EFSAuthorizationConfigIAM');
-  }
+  const EFSAuthorizationConfigIAM(this.value);
+
+  static EFSAuthorizationConfigIAM fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum EFSAuthorizationConfigIAM'));
 }
 
 enum EFSTransitEncryption {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension EFSTransitEncryptionValueExtension on EFSTransitEncryption {
-  String toValue() {
-    switch (this) {
-      case EFSTransitEncryption.enabled:
-        return 'ENABLED';
-      case EFSTransitEncryption.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension EFSTransitEncryptionFromString on String {
-  EFSTransitEncryption toEFSTransitEncryption() {
-    switch (this) {
-      case 'ENABLED':
-        return EFSTransitEncryption.enabled;
-      case 'DISABLED':
-        return EFSTransitEncryption.disabled;
-    }
-    throw Exception('$this is not known in enum EFSTransitEncryption');
-  }
+  const EFSTransitEncryption(this.value);
+
+  static EFSTransitEncryption fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum EFSTransitEncryption'));
 }
 
 /// This is used when you're using an Amazon Elastic File System file system for
@@ -4545,8 +4357,8 @@ class EFSVolumeConfiguration {
               json['authorizationConfig'] as Map<String, dynamic>)
           : null,
       rootDirectory: json['rootDirectory'] as String?,
-      transitEncryption:
-          (json['transitEncryption'] as String?)?.toEFSTransitEncryption(),
+      transitEncryption: (json['transitEncryption'] as String?)
+          ?.let(EFSTransitEncryption.fromString),
       transitEncryptionPort: json['transitEncryptionPort'] as int?,
     );
   }
@@ -4563,7 +4375,7 @@ class EFSVolumeConfiguration {
         'authorizationConfig': authorizationConfig,
       if (rootDirectory != null) 'rootDirectory': rootDirectory,
       if (transitEncryption != null)
-        'transitEncryption': transitEncryption.toValue(),
+        'transitEncryption': transitEncryption.value,
       if (transitEncryptionPort != null)
         'transitEncryptionPort': transitEncryptionPort,
     };
@@ -6417,7 +6229,7 @@ class EvaluateOnExit {
 
   factory EvaluateOnExit.fromJson(Map<String, dynamic> json) {
     return EvaluateOnExit(
-      action: (json['action'] as String).toRetryAction(),
+      action: RetryAction.fromString((json['action'] as String)),
       onExitCode: json['onExitCode'] as String?,
       onReason: json['onReason'] as String?,
       onStatusReason: json['onStatusReason'] as String?,
@@ -6430,7 +6242,7 @@ class EvaluateOnExit {
     final onReason = this.onReason;
     final onStatusReason = this.onStatusReason;
     return {
-      'action': action.toValue(),
+      'action': action.value,
       if (onExitCode != null) 'onExitCode': onExitCode,
       if (onReason != null) 'onReason': onReason,
       if (onStatusReason != null) 'onStatusReason': onStatusReason,
@@ -6671,79 +6483,35 @@ class ImagePullSecret {
 }
 
 enum JQState {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension JQStateValueExtension on JQState {
-  String toValue() {
-    switch (this) {
-      case JQState.enabled:
-        return 'ENABLED';
-      case JQState.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension JQStateFromString on String {
-  JQState toJQState() {
-    switch (this) {
-      case 'ENABLED':
-        return JQState.enabled;
-      case 'DISABLED':
-        return JQState.disabled;
-    }
-    throw Exception('$this is not known in enum JQState');
-  }
+  const JQState(this.value);
+
+  static JQState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum JQState'));
 }
 
 enum JQStatus {
-  creating,
-  updating,
-  deleting,
-  deleted,
-  valid,
-  invalid,
-}
+  creating('CREATING'),
+  updating('UPDATING'),
+  deleting('DELETING'),
+  deleted('DELETED'),
+  valid('VALID'),
+  invalid('INVALID'),
+  ;
 
-extension JQStatusValueExtension on JQStatus {
-  String toValue() {
-    switch (this) {
-      case JQStatus.creating:
-        return 'CREATING';
-      case JQStatus.updating:
-        return 'UPDATING';
-      case JQStatus.deleting:
-        return 'DELETING';
-      case JQStatus.deleted:
-        return 'DELETED';
-      case JQStatus.valid:
-        return 'VALID';
-      case JQStatus.invalid:
-        return 'INVALID';
-    }
-  }
-}
+  final String value;
 
-extension JQStatusFromString on String {
-  JQStatus toJQStatus() {
-    switch (this) {
-      case 'CREATING':
-        return JQStatus.creating;
-      case 'UPDATING':
-        return JQStatus.updating;
-      case 'DELETING':
-        return JQStatus.deleting;
-      case 'DELETED':
-        return JQStatus.deleted;
-      case 'VALID':
-        return JQStatus.valid;
-      case 'INVALID':
-        return JQStatus.invalid;
-    }
-    throw Exception('$this is not known in enum JQStatus');
-  }
+  const JQStatus(this.value);
+
+  static JQStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum JQStatus'));
 }
 
 /// An object that represents an Batch job definition.
@@ -6867,7 +6635,7 @@ class JobDefinition {
       type: json['type'] as String,
       containerOrchestrationType:
           (json['containerOrchestrationType'] as String?)
-              ?.toOrchestrationType(),
+              ?.let(OrchestrationType.fromString),
       containerProperties: json['containerProperties'] != null
           ? ContainerProperties.fromJson(
               json['containerProperties'] as Map<String, dynamic>)
@@ -6888,7 +6656,7 @@ class JobDefinition {
           ?.map((k, e) => MapEntry(k, e as String)),
       platformCapabilities: (json['platformCapabilities'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toPlatformCapability())
+          .map((e) => PlatformCapability.fromString((e as String)))
           .toList(),
       propagateTags: json['propagateTags'] as bool?,
       retryStrategy: json['retryStrategy'] != null
@@ -6907,31 +6675,18 @@ class JobDefinition {
 }
 
 enum JobDefinitionType {
-  container,
-  multinode,
-}
+  container('container'),
+  multinode('multinode'),
+  ;
 
-extension JobDefinitionTypeValueExtension on JobDefinitionType {
-  String toValue() {
-    switch (this) {
-      case JobDefinitionType.container:
-        return 'container';
-      case JobDefinitionType.multinode:
-        return 'multinode';
-    }
-  }
-}
+  final String value;
 
-extension JobDefinitionTypeFromString on String {
-  JobDefinitionType toJobDefinitionType() {
-    switch (this) {
-      case 'container':
-        return JobDefinitionType.container;
-      case 'multinode':
-        return JobDefinitionType.multinode;
-    }
-    throw Exception('$this is not known in enum JobDefinitionType');
-  }
+  const JobDefinitionType(this.value);
+
+  static JobDefinitionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum JobDefinitionType'));
 }
 
 /// An object that represents an Batch job dependency.
@@ -6950,7 +6705,7 @@ class JobDependency {
   factory JobDependency.fromJson(Map<String, dynamic> json) {
     return JobDependency(
       jobId: json['jobId'] as String?,
-      type: (json['type'] as String?)?.toArrayJobDependency(),
+      type: (json['type'] as String?)?.let(ArrayJobDependency.fromString),
     );
   }
 
@@ -6959,7 +6714,7 @@ class JobDependency {
     final type = this.type;
     return {
       if (jobId != null) 'jobId': jobId,
-      if (type != null) 'type': type.toValue(),
+      if (type != null) 'type': type.value,
     };
   }
 }
@@ -7148,7 +6903,7 @@ class JobDetail {
       jobName: json['jobName'] as String,
       jobQueue: json['jobQueue'] as String,
       startedAt: json['startedAt'] as int,
-      status: (json['status'] as String).toJobStatus(),
+      status: JobStatus.fromString((json['status'] as String)),
       arrayProperties: json['arrayProperties'] != null
           ? ArrayPropertiesDetail.fromJson(
               json['arrayProperties'] as Map<String, dynamic>)
@@ -7191,7 +6946,7 @@ class JobDetail {
           ?.map((k, e) => MapEntry(k, e as String)),
       platformCapabilities: (json['platformCapabilities'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toPlatformCapability())
+          .map((e) => PlatformCapability.fromString((e as String)))
           .toList(),
       propagateTags: json['propagateTags'] as bool?,
       retryStrategy: json['retryStrategy'] != null
@@ -7288,14 +7043,14 @@ class JobQueueDetail {
       jobQueueArn: json['jobQueueArn'] as String,
       jobQueueName: json['jobQueueName'] as String,
       priority: json['priority'] as int,
-      state: (json['state'] as String).toJQState(),
+      state: JQState.fromString((json['state'] as String)),
       jobStateTimeLimitActions: (json['jobStateTimeLimitActions'] as List?)
           ?.whereNotNull()
           .map((e) =>
               JobStateTimeLimitAction.fromJson(e as Map<String, dynamic>))
           .toList(),
       schedulingPolicyArn: json['schedulingPolicyArn'] as String?,
-      status: (json['status'] as String?)?.toJQStatus(),
+      status: (json['status'] as String?)?.let(JQStatus.fromString),
       statusReason: json['statusReason'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -7332,10 +7087,12 @@ class JobStateTimeLimitAction {
 
   factory JobStateTimeLimitAction.fromJson(Map<String, dynamic> json) {
     return JobStateTimeLimitAction(
-      action: (json['action'] as String).toJobStateTimeLimitActionsAction(),
+      action:
+          JobStateTimeLimitActionsAction.fromString((json['action'] as String)),
       maxTimeSeconds: json['maxTimeSeconds'] as int,
       reason: json['reason'] as String,
-      state: (json['state'] as String).toJobStateTimeLimitActionsState(),
+      state:
+          JobStateTimeLimitActionsState.fromString((json['state'] as String)),
     );
   }
 
@@ -7345,114 +7102,59 @@ class JobStateTimeLimitAction {
     final reason = this.reason;
     final state = this.state;
     return {
-      'action': action.toValue(),
+      'action': action.value,
       'maxTimeSeconds': maxTimeSeconds,
       'reason': reason,
-      'state': state.toValue(),
+      'state': state.value,
     };
   }
 }
 
 enum JobStateTimeLimitActionsAction {
-  cancel,
-}
+  cancel('CANCEL'),
+  ;
 
-extension JobStateTimeLimitActionsActionValueExtension
-    on JobStateTimeLimitActionsAction {
-  String toValue() {
-    switch (this) {
-      case JobStateTimeLimitActionsAction.cancel:
-        return 'CANCEL';
-    }
-  }
-}
+  final String value;
 
-extension JobStateTimeLimitActionsActionFromString on String {
-  JobStateTimeLimitActionsAction toJobStateTimeLimitActionsAction() {
-    switch (this) {
-      case 'CANCEL':
-        return JobStateTimeLimitActionsAction.cancel;
-    }
-    throw Exception(
-        '$this is not known in enum JobStateTimeLimitActionsAction');
-  }
+  const JobStateTimeLimitActionsAction(this.value);
+
+  static JobStateTimeLimitActionsAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum JobStateTimeLimitActionsAction'));
 }
 
 enum JobStateTimeLimitActionsState {
-  runnable,
-}
+  runnable('RUNNABLE'),
+  ;
 
-extension JobStateTimeLimitActionsStateValueExtension
-    on JobStateTimeLimitActionsState {
-  String toValue() {
-    switch (this) {
-      case JobStateTimeLimitActionsState.runnable:
-        return 'RUNNABLE';
-    }
-  }
-}
+  final String value;
 
-extension JobStateTimeLimitActionsStateFromString on String {
-  JobStateTimeLimitActionsState toJobStateTimeLimitActionsState() {
-    switch (this) {
-      case 'RUNNABLE':
-        return JobStateTimeLimitActionsState.runnable;
-    }
-    throw Exception('$this is not known in enum JobStateTimeLimitActionsState');
-  }
+  const JobStateTimeLimitActionsState(this.value);
+
+  static JobStateTimeLimitActionsState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum JobStateTimeLimitActionsState'));
 }
 
 enum JobStatus {
-  submitted,
-  pending,
-  runnable,
-  starting,
-  running,
-  succeeded,
-  failed,
-}
+  submitted('SUBMITTED'),
+  pending('PENDING'),
+  runnable('RUNNABLE'),
+  starting('STARTING'),
+  running('RUNNING'),
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  ;
 
-extension JobStatusValueExtension on JobStatus {
-  String toValue() {
-    switch (this) {
-      case JobStatus.submitted:
-        return 'SUBMITTED';
-      case JobStatus.pending:
-        return 'PENDING';
-      case JobStatus.runnable:
-        return 'RUNNABLE';
-      case JobStatus.starting:
-        return 'STARTING';
-      case JobStatus.running:
-        return 'RUNNING';
-      case JobStatus.succeeded:
-        return 'SUCCEEDED';
-      case JobStatus.failed:
-        return 'FAILED';
-    }
-  }
-}
+  final String value;
 
-extension JobStatusFromString on String {
-  JobStatus toJobStatus() {
-    switch (this) {
-      case 'SUBMITTED':
-        return JobStatus.submitted;
-      case 'PENDING':
-        return JobStatus.pending;
-      case 'RUNNABLE':
-        return JobStatus.runnable;
-      case 'STARTING':
-        return JobStatus.starting;
-      case 'RUNNING':
-        return JobStatus.running;
-      case 'SUCCEEDED':
-        return JobStatus.succeeded;
-      case 'FAILED':
-        return JobStatus.failed;
-    }
-    throw Exception('$this is not known in enum JobStatus');
-  }
+  const JobStatus(this.value);
+
+  static JobStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum JobStatus'));
 }
 
 /// An object that represents summary details of a job.
@@ -7541,7 +7243,7 @@ class JobSummary {
               json['nodeProperties'] as Map<String, dynamic>)
           : null,
       startedAt: json['startedAt'] as int?,
-      status: (json['status'] as String?)?.toJobStatus(),
+      status: (json['status'] as String?)?.let(JobStatus.fromString),
       statusReason: json['statusReason'] as String?,
       stoppedAt: json['stoppedAt'] as int?,
     );
@@ -8015,7 +7717,7 @@ class LogConfiguration {
 
   factory LogConfiguration.fromJson(Map<String, dynamic> json) {
     return LogConfiguration(
-      logDriver: (json['logDriver'] as String).toLogDriver(),
+      logDriver: LogDriver.fromString((json['logDriver'] as String)),
       options: (json['options'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       secretOptions: (json['secretOptions'] as List?)
@@ -8030,7 +7732,7 @@ class LogConfiguration {
     final options = this.options;
     final secretOptions = this.secretOptions;
     return {
-      'logDriver': logDriver.toValue(),
+      'logDriver': logDriver.value,
       if (options != null) 'options': options,
       if (secretOptions != null) 'secretOptions': secretOptions,
     };
@@ -8038,56 +7740,22 @@ class LogConfiguration {
 }
 
 enum LogDriver {
-  jsonFile,
-  syslog,
-  journald,
-  gelf,
-  fluentd,
-  awslogs,
-  splunk,
-}
+  jsonFile('json-file'),
+  syslog('syslog'),
+  journald('journald'),
+  gelf('gelf'),
+  fluentd('fluentd'),
+  awslogs('awslogs'),
+  splunk('splunk'),
+  ;
 
-extension LogDriverValueExtension on LogDriver {
-  String toValue() {
-    switch (this) {
-      case LogDriver.jsonFile:
-        return 'json-file';
-      case LogDriver.syslog:
-        return 'syslog';
-      case LogDriver.journald:
-        return 'journald';
-      case LogDriver.gelf:
-        return 'gelf';
-      case LogDriver.fluentd:
-        return 'fluentd';
-      case LogDriver.awslogs:
-        return 'awslogs';
-      case LogDriver.splunk:
-        return 'splunk';
-    }
-  }
-}
+  final String value;
 
-extension LogDriverFromString on String {
-  LogDriver toLogDriver() {
-    switch (this) {
-      case 'json-file':
-        return LogDriver.jsonFile;
-      case 'syslog':
-        return LogDriver.syslog;
-      case 'journald':
-        return LogDriver.journald;
-      case 'gelf':
-        return LogDriver.gelf;
-      case 'fluentd':
-        return LogDriver.fluentd;
-      case 'awslogs':
-        return LogDriver.awslogs;
-      case 'splunk':
-        return LogDriver.splunk;
-    }
-    throw Exception('$this is not known in enum LogDriver');
-  }
+  const LogDriver(this.value);
+
+  static LogDriver fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum LogDriver'));
 }
 
 /// Details for a Docker volume mount point that's used in a job's container
@@ -8153,14 +7821,15 @@ class NetworkConfiguration {
 
   factory NetworkConfiguration.fromJson(Map<String, dynamic> json) {
     return NetworkConfiguration(
-      assignPublicIp: (json['assignPublicIp'] as String?)?.toAssignPublicIp(),
+      assignPublicIp:
+          (json['assignPublicIp'] as String?)?.let(AssignPublicIp.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final assignPublicIp = this.assignPublicIp;
     return {
-      if (assignPublicIp != null) 'assignPublicIp': assignPublicIp.toValue(),
+      if (assignPublicIp != null) 'assignPublicIp': assignPublicIp.value,
     };
   }
 }
@@ -8457,59 +8126,33 @@ class NodeRangeProperty {
 }
 
 enum OrchestrationType {
-  ecs,
-  eks,
-}
+  ecs('ECS'),
+  eks('EKS'),
+  ;
 
-extension OrchestrationTypeValueExtension on OrchestrationType {
-  String toValue() {
-    switch (this) {
-      case OrchestrationType.ecs:
-        return 'ECS';
-      case OrchestrationType.eks:
-        return 'EKS';
-    }
-  }
-}
+  final String value;
 
-extension OrchestrationTypeFromString on String {
-  OrchestrationType toOrchestrationType() {
-    switch (this) {
-      case 'ECS':
-        return OrchestrationType.ecs;
-      case 'EKS':
-        return OrchestrationType.eks;
-    }
-    throw Exception('$this is not known in enum OrchestrationType');
-  }
+  const OrchestrationType(this.value);
+
+  static OrchestrationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OrchestrationType'));
 }
 
 enum PlatformCapability {
-  ec2,
-  fargate,
-}
+  ec2('EC2'),
+  fargate('FARGATE'),
+  ;
 
-extension PlatformCapabilityValueExtension on PlatformCapability {
-  String toValue() {
-    switch (this) {
-      case PlatformCapability.ec2:
-        return 'EC2';
-      case PlatformCapability.fargate:
-        return 'FARGATE';
-    }
-  }
-}
+  final String value;
 
-extension PlatformCapabilityFromString on String {
-  PlatformCapability toPlatformCapability() {
-    switch (this) {
-      case 'EC2':
-        return PlatformCapability.ec2;
-      case 'FARGATE':
-        return PlatformCapability.fargate;
-    }
-    throw Exception('$this is not known in enum PlatformCapability');
-  }
+  const PlatformCapability(this.value);
+
+  static PlatformCapability fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum PlatformCapability'));
 }
 
 class RegisterJobDefinitionResponse {
@@ -8688,7 +8331,7 @@ class ResourceRequirement {
 
   factory ResourceRequirement.fromJson(Map<String, dynamic> json) {
     return ResourceRequirement(
-      type: (json['type'] as String).toResourceType(),
+      type: ResourceType.fromString((json['type'] as String)),
       value: json['value'] as String,
     );
   }
@@ -8697,71 +8340,40 @@ class ResourceRequirement {
     final type = this.type;
     final value = this.value;
     return {
-      'type': type.toValue(),
+      'type': type.value,
       'value': value,
     };
   }
 }
 
 enum ResourceType {
-  gpu,
-  vcpu,
-  memory,
-}
+  gpu('GPU'),
+  vcpu('VCPU'),
+  memory('MEMORY'),
+  ;
 
-extension ResourceTypeValueExtension on ResourceType {
-  String toValue() {
-    switch (this) {
-      case ResourceType.gpu:
-        return 'GPU';
-      case ResourceType.vcpu:
-        return 'VCPU';
-      case ResourceType.memory:
-        return 'MEMORY';
-    }
-  }
-}
+  final String value;
 
-extension ResourceTypeFromString on String {
-  ResourceType toResourceType() {
-    switch (this) {
-      case 'GPU':
-        return ResourceType.gpu;
-      case 'VCPU':
-        return ResourceType.vcpu;
-      case 'MEMORY':
-        return ResourceType.memory;
-    }
-    throw Exception('$this is not known in enum ResourceType');
-  }
+  const ResourceType(this.value);
+
+  static ResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResourceType'));
 }
 
 enum RetryAction {
-  retry,
-  exit,
-}
+  retry('RETRY'),
+  exit('EXIT'),
+  ;
 
-extension RetryActionValueExtension on RetryAction {
-  String toValue() {
-    switch (this) {
-      case RetryAction.retry:
-        return 'RETRY';
-      case RetryAction.exit:
-        return 'EXIT';
-    }
-  }
-}
+  final String value;
 
-extension RetryActionFromString on String {
-  RetryAction toRetryAction() {
-    switch (this) {
-      case 'RETRY':
-        return RetryAction.retry;
-      case 'EXIT':
-        return RetryAction.exit;
-    }
-    throw Exception('$this is not known in enum RetryAction');
-  }
+  const RetryAction(this.value);
+
+  static RetryAction fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum RetryAction'));
 }
 
 /// The retry strategy that's associated with a job. For more information, see

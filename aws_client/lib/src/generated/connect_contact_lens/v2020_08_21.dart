@@ -341,36 +341,19 @@ class RealtimeContactAnalysisSegment {
 }
 
 enum SentimentValue {
-  positive,
-  neutral,
-  negative,
-}
+  positive('POSITIVE'),
+  neutral('NEUTRAL'),
+  negative('NEGATIVE'),
+  ;
 
-extension SentimentValueValueExtension on SentimentValue {
-  String toValue() {
-    switch (this) {
-      case SentimentValue.positive:
-        return 'POSITIVE';
-      case SentimentValue.neutral:
-        return 'NEUTRAL';
-      case SentimentValue.negative:
-        return 'NEGATIVE';
-    }
-  }
-}
+  final String value;
 
-extension SentimentValueFromString on String {
-  SentimentValue toSentimentValue() {
-    switch (this) {
-      case 'POSITIVE':
-        return SentimentValue.positive;
-      case 'NEUTRAL':
-        return SentimentValue.neutral;
-      case 'NEGATIVE':
-        return SentimentValue.negative;
-    }
-    throw Exception('$this is not known in enum SentimentValue');
-  }
+  const SentimentValue(this.value);
+
+  static SentimentValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SentimentValue'));
 }
 
 /// A list of messages in the session.
@@ -418,7 +401,7 @@ class Transcript {
       id: json['Id'] as String,
       participantId: json['ParticipantId'] as String,
       participantRole: json['ParticipantRole'] as String,
-      sentiment: (json['Sentiment'] as String).toSentimentValue(),
+      sentiment: SentimentValue.fromString((json['Sentiment'] as String)),
       issuesDetected: (json['IssuesDetected'] as List?)
           ?.whereNotNull()
           .map((e) => IssueDetected.fromJson(e as Map<String, dynamic>))
@@ -442,7 +425,7 @@ class Transcript {
       'Id': id,
       'ParticipantId': participantId,
       'ParticipantRole': participantRole,
-      'Sentiment': sentiment.toValue(),
+      'Sentiment': sentiment.value,
       if (issuesDetected != null) 'IssuesDetected': issuesDetected,
     };
   }

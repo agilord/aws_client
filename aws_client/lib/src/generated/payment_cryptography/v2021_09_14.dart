@@ -289,7 +289,7 @@ class PaymentCryptographyControlPlane {
         'KeyAttributes': keyAttributes,
         if (enabled != null) 'Enabled': enabled,
         if (keyCheckValueAlgorithm != null)
-          'KeyCheckValueAlgorithm': keyCheckValueAlgorithm.toValue(),
+          'KeyCheckValueAlgorithm': keyCheckValueAlgorithm.value,
         if (tags != null) 'Tags': tags,
       },
     );
@@ -866,8 +866,8 @@ class PaymentCryptographyControlPlane {
       // TODO queryParams
       headers: headers,
       payload: {
-        'KeyMaterialType': keyMaterialType.toValue(),
-        'SigningKeyAlgorithm': signingKeyAlgorithm.toValue(),
+        'KeyMaterialType': keyMaterialType.value,
+        'SigningKeyAlgorithm': signingKeyAlgorithm.value,
       },
     );
 
@@ -941,8 +941,8 @@ class PaymentCryptographyControlPlane {
       // TODO queryParams
       headers: headers,
       payload: {
-        'KeyMaterialType': keyMaterialType.toValue(),
-        'WrappingKeyAlgorithm': wrappingKeyAlgorithm.toValue(),
+        'KeyMaterialType': keyMaterialType.value,
+        'WrappingKeyAlgorithm': wrappingKeyAlgorithm.value,
       },
     );
 
@@ -1266,7 +1266,7 @@ class PaymentCryptographyControlPlane {
         'KeyMaterial': keyMaterial,
         if (enabled != null) 'Enabled': enabled,
         if (keyCheckValueAlgorithm != null)
-          'KeyCheckValueAlgorithm': keyCheckValueAlgorithm.toValue(),
+          'KeyCheckValueAlgorithm': keyCheckValueAlgorithm.value,
         if (tags != null) 'Tags': tags,
       },
     );
@@ -1434,7 +1434,7 @@ class PaymentCryptographyControlPlane {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (keyState != null) 'KeyState': keyState.toValue(),
+        if (keyState != null) 'KeyState': keyState.value,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -2041,7 +2041,7 @@ class ExportAttributes {
       if (exportDukptInitialKey != null)
         'ExportDukptInitialKey': exportDukptInitialKey,
       if (keyCheckValueAlgorithm != null)
-        'KeyCheckValueAlgorithm': keyCheckValueAlgorithm.toValue(),
+        'KeyCheckValueAlgorithm': keyCheckValueAlgorithm.value,
     };
   }
 }
@@ -2097,7 +2097,7 @@ class ExportKeyCryptogram {
       'CertificateAuthorityPublicKeyIdentifier':
           certificateAuthorityPublicKeyIdentifier,
       'WrappingKeyCertificate': wrappingKeyCertificate,
-      if (wrappingSpec != null) 'WrappingSpec': wrappingSpec.toValue(),
+      if (wrappingSpec != null) 'WrappingSpec': wrappingSpec.value,
     };
   }
 }
@@ -2240,7 +2240,7 @@ class ExportTr34KeyBlock {
       'CertificateAuthorityPublicKeyIdentifier':
           certificateAuthorityPublicKeyIdentifier,
       'ExportToken': exportToken,
-      'KeyBlockFormat': keyBlockFormat.toValue(),
+      'KeyBlockFormat': keyBlockFormat.value,
       'WrappingKeyCertificate': wrappingKeyCertificate,
       if (keyBlockHeaders != null) 'KeyBlockHeaders': keyBlockHeaders,
       if (randomNonce != null) 'RandomNonce': randomNonce,
@@ -2328,7 +2328,7 @@ class GetParametersForExportOutput {
       parametersValidUntilTimestamp: nonNullableTimeStampFromJson(
           json['ParametersValidUntilTimestamp'] as Object),
       signingKeyAlgorithm:
-          (json['SigningKeyAlgorithm'] as String).toKeyAlgorithm(),
+          KeyAlgorithm.fromString((json['SigningKeyAlgorithm'] as String)),
       signingKeyCertificate: json['SigningKeyCertificate'] as String,
       signingKeyCertificateChain: json['SigningKeyCertificateChain'] as String,
     );
@@ -2344,7 +2344,7 @@ class GetParametersForExportOutput {
       'ExportToken': exportToken,
       'ParametersValidUntilTimestamp':
           unixTimestampToJson(parametersValidUntilTimestamp),
-      'SigningKeyAlgorithm': signingKeyAlgorithm.toValue(),
+      'SigningKeyAlgorithm': signingKeyAlgorithm.value,
       'SigningKeyCertificate': signingKeyCertificate,
       'SigningKeyCertificateChain': signingKeyCertificateChain,
     };
@@ -2386,7 +2386,7 @@ class GetParametersForImportOutput {
       parametersValidUntilTimestamp: nonNullableTimeStampFromJson(
           json['ParametersValidUntilTimestamp'] as Object),
       wrappingKeyAlgorithm:
-          (json['WrappingKeyAlgorithm'] as String).toKeyAlgorithm(),
+          KeyAlgorithm.fromString((json['WrappingKeyAlgorithm'] as String)),
       wrappingKeyCertificate: json['WrappingKeyCertificate'] as String,
       wrappingKeyCertificateChain:
           json['WrappingKeyCertificateChain'] as String,
@@ -2403,7 +2403,7 @@ class GetParametersForImportOutput {
       'ImportToken': importToken,
       'ParametersValidUntilTimestamp':
           unixTimestampToJson(parametersValidUntilTimestamp),
-      'WrappingKeyAlgorithm': wrappingKeyAlgorithm.toValue(),
+      'WrappingKeyAlgorithm': wrappingKeyAlgorithm.value,
       'WrappingKeyCertificate': wrappingKeyCertificate,
       'WrappingKeyCertificateChain': wrappingKeyCertificateChain,
     };
@@ -2480,7 +2480,7 @@ class ImportKeyCryptogram {
       'ImportToken': importToken,
       'KeyAttributes': keyAttributes,
       'WrappedKeyCryptogram': wrappedKeyCryptogram,
-      if (wrappingSpec != null) 'WrappingSpec': wrappingSpec.toValue(),
+      if (wrappingSpec != null) 'WrappingSpec': wrappingSpec.value,
     };
   }
 }
@@ -2631,7 +2631,7 @@ class ImportTr34KeyBlock {
       'CertificateAuthorityPublicKeyIdentifier':
           certificateAuthorityPublicKeyIdentifier,
       'ImportToken': importToken,
-      'KeyBlockFormat': keyBlockFormat.toValue(),
+      'KeyBlockFormat': keyBlockFormat.value,
       'SigningKeyCertificate': signingKeyCertificate,
       'WrappedKeyBlock': wrappedKeyBlock,
       if (randomNonce != null) 'RandomNonce': randomNonce,
@@ -2728,10 +2728,10 @@ class Key {
       keyAttributes:
           KeyAttributes.fromJson(json['KeyAttributes'] as Map<String, dynamic>),
       keyCheckValue: json['KeyCheckValue'] as String,
-      keyCheckValueAlgorithm:
-          (json['KeyCheckValueAlgorithm'] as String).toKeyCheckValueAlgorithm(),
-      keyOrigin: (json['KeyOrigin'] as String).toKeyOrigin(),
-      keyState: (json['KeyState'] as String).toKeyState(),
+      keyCheckValueAlgorithm: KeyCheckValueAlgorithm.fromString(
+          (json['KeyCheckValueAlgorithm'] as String)),
+      keyOrigin: KeyOrigin.fromString((json['KeyOrigin'] as String)),
+      keyState: KeyState.fromString((json['KeyState'] as String)),
       deletePendingTimestamp: timeStampFromJson(json['DeletePendingTimestamp']),
       deleteTimestamp: timeStampFromJson(json['DeleteTimestamp']),
       usageStartTimestamp: timeStampFromJson(json['UsageStartTimestamp']),
@@ -2760,9 +2760,9 @@ class Key {
       'KeyArn': keyArn,
       'KeyAttributes': keyAttributes,
       'KeyCheckValue': keyCheckValue,
-      'KeyCheckValueAlgorithm': keyCheckValueAlgorithm.toValue(),
-      'KeyOrigin': keyOrigin.toValue(),
-      'KeyState': keyState.toValue(),
+      'KeyCheckValueAlgorithm': keyCheckValueAlgorithm.value,
+      'KeyOrigin': keyOrigin.value,
+      'KeyState': keyState.value,
       if (deletePendingTimestamp != null)
         'DeletePendingTimestamp': unixTimestampToJson(deletePendingTimestamp),
       if (deleteTimestamp != null)
@@ -2776,61 +2776,24 @@ class Key {
 }
 
 enum KeyAlgorithm {
-  tdes_2key,
-  tdes_3key,
-  aes_128,
-  aes_192,
-  aes_256,
-  rsa_2048,
-  rsa_3072,
-  rsa_4096,
-}
+  tdes_2key('TDES_2KEY'),
+  tdes_3key('TDES_3KEY'),
+  aes_128('AES_128'),
+  aes_192('AES_192'),
+  aes_256('AES_256'),
+  rsa_2048('RSA_2048'),
+  rsa_3072('RSA_3072'),
+  rsa_4096('RSA_4096'),
+  ;
 
-extension KeyAlgorithmValueExtension on KeyAlgorithm {
-  String toValue() {
-    switch (this) {
-      case KeyAlgorithm.tdes_2key:
-        return 'TDES_2KEY';
-      case KeyAlgorithm.tdes_3key:
-        return 'TDES_3KEY';
-      case KeyAlgorithm.aes_128:
-        return 'AES_128';
-      case KeyAlgorithm.aes_192:
-        return 'AES_192';
-      case KeyAlgorithm.aes_256:
-        return 'AES_256';
-      case KeyAlgorithm.rsa_2048:
-        return 'RSA_2048';
-      case KeyAlgorithm.rsa_3072:
-        return 'RSA_3072';
-      case KeyAlgorithm.rsa_4096:
-        return 'RSA_4096';
-    }
-  }
-}
+  final String value;
 
-extension KeyAlgorithmFromString on String {
-  KeyAlgorithm toKeyAlgorithm() {
-    switch (this) {
-      case 'TDES_2KEY':
-        return KeyAlgorithm.tdes_2key;
-      case 'TDES_3KEY':
-        return KeyAlgorithm.tdes_3key;
-      case 'AES_128':
-        return KeyAlgorithm.aes_128;
-      case 'AES_192':
-        return KeyAlgorithm.aes_192;
-      case 'AES_256':
-        return KeyAlgorithm.aes_256;
-      case 'RSA_2048':
-        return KeyAlgorithm.rsa_2048;
-      case 'RSA_3072':
-        return KeyAlgorithm.rsa_3072;
-      case 'RSA_4096':
-        return KeyAlgorithm.rsa_4096;
-    }
-    throw Exception('$this is not known in enum KeyAlgorithm');
-  }
+  const KeyAlgorithm(this.value);
+
+  static KeyAlgorithm fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum KeyAlgorithm'));
 }
 
 /// The role of the key, the algorithm it supports, and the cryptographic
@@ -2868,11 +2831,11 @@ class KeyAttributes {
 
   factory KeyAttributes.fromJson(Map<String, dynamic> json) {
     return KeyAttributes(
-      keyAlgorithm: (json['KeyAlgorithm'] as String).toKeyAlgorithm(),
-      keyClass: (json['KeyClass'] as String).toKeyClass(),
+      keyAlgorithm: KeyAlgorithm.fromString((json['KeyAlgorithm'] as String)),
+      keyClass: KeyClass.fromString((json['KeyClass'] as String)),
       keyModesOfUse:
           KeyModesOfUse.fromJson(json['KeyModesOfUse'] as Map<String, dynamic>),
-      keyUsage: (json['KeyUsage'] as String).toKeyUsage(),
+      keyUsage: KeyUsage.fromString((json['KeyUsage'] as String)),
     );
   }
 
@@ -2882,10 +2845,10 @@ class KeyAttributes {
     final keyModesOfUse = this.keyModesOfUse;
     final keyUsage = this.keyUsage;
     return {
-      'KeyAlgorithm': keyAlgorithm.toValue(),
-      'KeyClass': keyClass.toValue(),
+      'KeyAlgorithm': keyAlgorithm.value,
+      'KeyClass': keyClass.value,
       'KeyModesOfUse': keyModesOfUse,
-      'KeyUsage': keyUsage.toValue(),
+      'KeyUsage': keyUsage.value,
     };
   }
 }
@@ -2938,8 +2901,7 @@ class KeyBlockHeaders {
     final keyVersion = this.keyVersion;
     final optionalBlocks = this.optionalBlocks;
     return {
-      if (keyExportability != null)
-        'KeyExportability': keyExportability.toValue(),
+      if (keyExportability != null) 'KeyExportability': keyExportability.value,
       if (keyModesOfUse != null) 'KeyModesOfUse': keyModesOfUse,
       if (keyVersion != null) 'KeyVersion': keyVersion,
       if (optionalBlocks != null) 'OptionalBlocks': optionalBlocks,
@@ -2948,145 +2910,68 @@ class KeyBlockHeaders {
 }
 
 enum KeyCheckValueAlgorithm {
-  cmac,
-  ansiX9_24,
-}
+  cmac('CMAC'),
+  ansiX9_24('ANSI_X9_24'),
+  ;
 
-extension KeyCheckValueAlgorithmValueExtension on KeyCheckValueAlgorithm {
-  String toValue() {
-    switch (this) {
-      case KeyCheckValueAlgorithm.cmac:
-        return 'CMAC';
-      case KeyCheckValueAlgorithm.ansiX9_24:
-        return 'ANSI_X9_24';
-    }
-  }
-}
+  final String value;
 
-extension KeyCheckValueAlgorithmFromString on String {
-  KeyCheckValueAlgorithm toKeyCheckValueAlgorithm() {
-    switch (this) {
-      case 'CMAC':
-        return KeyCheckValueAlgorithm.cmac;
-      case 'ANSI_X9_24':
-        return KeyCheckValueAlgorithm.ansiX9_24;
-    }
-    throw Exception('$this is not known in enum KeyCheckValueAlgorithm');
-  }
+  const KeyCheckValueAlgorithm(this.value);
+
+  static KeyCheckValueAlgorithm fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum KeyCheckValueAlgorithm'));
 }
 
 enum KeyClass {
-  symmetricKey,
-  asymmetricKeyPair,
-  privateKey,
-  publicKey,
-}
+  symmetricKey('SYMMETRIC_KEY'),
+  asymmetricKeyPair('ASYMMETRIC_KEY_PAIR'),
+  privateKey('PRIVATE_KEY'),
+  publicKey('PUBLIC_KEY'),
+  ;
 
-extension KeyClassValueExtension on KeyClass {
-  String toValue() {
-    switch (this) {
-      case KeyClass.symmetricKey:
-        return 'SYMMETRIC_KEY';
-      case KeyClass.asymmetricKeyPair:
-        return 'ASYMMETRIC_KEY_PAIR';
-      case KeyClass.privateKey:
-        return 'PRIVATE_KEY';
-      case KeyClass.publicKey:
-        return 'PUBLIC_KEY';
-    }
-  }
-}
+  final String value;
 
-extension KeyClassFromString on String {
-  KeyClass toKeyClass() {
-    switch (this) {
-      case 'SYMMETRIC_KEY':
-        return KeyClass.symmetricKey;
-      case 'ASYMMETRIC_KEY_PAIR':
-        return KeyClass.asymmetricKeyPair;
-      case 'PRIVATE_KEY':
-        return KeyClass.privateKey;
-      case 'PUBLIC_KEY':
-        return KeyClass.publicKey;
-    }
-    throw Exception('$this is not known in enum KeyClass');
-  }
+  const KeyClass(this.value);
+
+  static KeyClass fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum KeyClass'));
 }
 
 enum KeyExportability {
-  exportable,
-  nonExportable,
-  sensitive,
-}
+  exportable('EXPORTABLE'),
+  nonExportable('NON_EXPORTABLE'),
+  sensitive('SENSITIVE'),
+  ;
 
-extension KeyExportabilityValueExtension on KeyExportability {
-  String toValue() {
-    switch (this) {
-      case KeyExportability.exportable:
-        return 'EXPORTABLE';
-      case KeyExportability.nonExportable:
-        return 'NON_EXPORTABLE';
-      case KeyExportability.sensitive:
-        return 'SENSITIVE';
-    }
-  }
-}
+  final String value;
 
-extension KeyExportabilityFromString on String {
-  KeyExportability toKeyExportability() {
-    switch (this) {
-      case 'EXPORTABLE':
-        return KeyExportability.exportable;
-      case 'NON_EXPORTABLE':
-        return KeyExportability.nonExportable;
-      case 'SENSITIVE':
-        return KeyExportability.sensitive;
-    }
-    throw Exception('$this is not known in enum KeyExportability');
-  }
+  const KeyExportability(this.value);
+
+  static KeyExportability fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum KeyExportability'));
 }
 
 enum KeyMaterialType {
-  tr34KeyBlock,
-  tr31KeyBlock,
-  rootPublicKeyCertificate,
-  trustedPublicKeyCertificate,
-  keyCryptogram,
-}
+  tr34KeyBlock('TR34_KEY_BLOCK'),
+  tr31KeyBlock('TR31_KEY_BLOCK'),
+  rootPublicKeyCertificate('ROOT_PUBLIC_KEY_CERTIFICATE'),
+  trustedPublicKeyCertificate('TRUSTED_PUBLIC_KEY_CERTIFICATE'),
+  keyCryptogram('KEY_CRYPTOGRAM'),
+  ;
 
-extension KeyMaterialTypeValueExtension on KeyMaterialType {
-  String toValue() {
-    switch (this) {
-      case KeyMaterialType.tr34KeyBlock:
-        return 'TR34_KEY_BLOCK';
-      case KeyMaterialType.tr31KeyBlock:
-        return 'TR31_KEY_BLOCK';
-      case KeyMaterialType.rootPublicKeyCertificate:
-        return 'ROOT_PUBLIC_KEY_CERTIFICATE';
-      case KeyMaterialType.trustedPublicKeyCertificate:
-        return 'TRUSTED_PUBLIC_KEY_CERTIFICATE';
-      case KeyMaterialType.keyCryptogram:
-        return 'KEY_CRYPTOGRAM';
-    }
-  }
-}
+  final String value;
 
-extension KeyMaterialTypeFromString on String {
-  KeyMaterialType toKeyMaterialType() {
-    switch (this) {
-      case 'TR34_KEY_BLOCK':
-        return KeyMaterialType.tr34KeyBlock;
-      case 'TR31_KEY_BLOCK':
-        return KeyMaterialType.tr31KeyBlock;
-      case 'ROOT_PUBLIC_KEY_CERTIFICATE':
-        return KeyMaterialType.rootPublicKeyCertificate;
-      case 'TRUSTED_PUBLIC_KEY_CERTIFICATE':
-        return KeyMaterialType.trustedPublicKeyCertificate;
-      case 'KEY_CRYPTOGRAM':
-        return KeyMaterialType.keyCryptogram;
-    }
-    throw Exception('$this is not known in enum KeyMaterialType');
-  }
+  const KeyMaterialType(this.value);
+
+  static KeyMaterialType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum KeyMaterialType'));
 }
 
 /// The list of cryptographic operations that you can perform using the key. The
@@ -3181,70 +3066,34 @@ class KeyModesOfUse {
 
 /// Defines the source of a key
 enum KeyOrigin {
-  external,
-  awsPaymentCryptography,
-}
+  external('EXTERNAL'),
+  awsPaymentCryptography('AWS_PAYMENT_CRYPTOGRAPHY'),
+  ;
 
-extension KeyOriginValueExtension on KeyOrigin {
-  String toValue() {
-    switch (this) {
-      case KeyOrigin.external:
-        return 'EXTERNAL';
-      case KeyOrigin.awsPaymentCryptography:
-        return 'AWS_PAYMENT_CRYPTOGRAPHY';
-    }
-  }
-}
+  final String value;
 
-extension KeyOriginFromString on String {
-  KeyOrigin toKeyOrigin() {
-    switch (this) {
-      case 'EXTERNAL':
-        return KeyOrigin.external;
-      case 'AWS_PAYMENT_CRYPTOGRAPHY':
-        return KeyOrigin.awsPaymentCryptography;
-    }
-    throw Exception('$this is not known in enum KeyOrigin');
-  }
+  const KeyOrigin(this.value);
+
+  static KeyOrigin fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum KeyOrigin'));
 }
 
 /// Defines the state of a key
 enum KeyState {
-  createInProgress,
-  createComplete,
-  deletePending,
-  deleteComplete,
-}
+  createInProgress('CREATE_IN_PROGRESS'),
+  createComplete('CREATE_COMPLETE'),
+  deletePending('DELETE_PENDING'),
+  deleteComplete('DELETE_COMPLETE'),
+  ;
 
-extension KeyStateValueExtension on KeyState {
-  String toValue() {
-    switch (this) {
-      case KeyState.createInProgress:
-        return 'CREATE_IN_PROGRESS';
-      case KeyState.createComplete:
-        return 'CREATE_COMPLETE';
-      case KeyState.deletePending:
-        return 'DELETE_PENDING';
-      case KeyState.deleteComplete:
-        return 'DELETE_COMPLETE';
-    }
-  }
-}
+  final String value;
 
-extension KeyStateFromString on String {
-  KeyState toKeyState() {
-    switch (this) {
-      case 'CREATE_IN_PROGRESS':
-        return KeyState.createInProgress;
-      case 'CREATE_COMPLETE':
-        return KeyState.createComplete;
-      case 'DELETE_PENDING':
-        return KeyState.deletePending;
-      case 'DELETE_COMPLETE':
-        return KeyState.deleteComplete;
-    }
-    throw Exception('$this is not known in enum KeyState');
-  }
+  const KeyState(this.value);
+
+  static KeyState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum KeyState'));
 }
 
 /// Metadata about an Amazon Web Services Payment Cryptography key.
@@ -3289,7 +3138,7 @@ class KeySummary {
       keyAttributes:
           KeyAttributes.fromJson(json['KeyAttributes'] as Map<String, dynamic>),
       keyCheckValue: json['KeyCheckValue'] as String,
-      keyState: (json['KeyState'] as String).toKeyState(),
+      keyState: KeyState.fromString((json['KeyState'] as String)),
     );
   }
 
@@ -3306,142 +3155,47 @@ class KeySummary {
       'KeyArn': keyArn,
       'KeyAttributes': keyAttributes,
       'KeyCheckValue': keyCheckValue,
-      'KeyState': keyState.toValue(),
+      'KeyState': keyState.value,
     };
   }
 }
 
 enum KeyUsage {
-  tr31B0BaseDerivationKey,
-  tr31C0CardVerificationKey,
-  tr31D0SymmetricDataEncryptionKey,
-  tr31D1AsymmetricKeyForDataEncryption,
-  tr31E0EmvMkeyAppCryptograms,
-  tr31E1EmvMkeyConfidentiality,
-  tr31E2EmvMkeyIntegrity,
-  tr31E4EmvMkeyDynamicNumbers,
-  tr31E5EmvMkeyCardPersonalization,
-  tr31E6EmvMkeyOther,
-  tr31K0KeyEncryptionKey,
-  tr31K1KeyBlockProtectionKey,
-  tr31K3AsymmetricKeyForKeyAgreement,
-  tr31M3Iso_9797_3MacKey,
-  tr31M1Iso_9797_1MacKey,
-  tr31M6Iso_9797_5CmacKey,
-  tr31M7HmacKey,
-  tr31P0PinEncryptionKey,
-  tr31P1PinGenerationKey,
-  tr31S0AsymmetricKeyForDigitalSignature,
-  tr31V1Ibm3624PinVerificationKey,
-  tr31V2VisaPinVerificationKey,
-  tr31K2Tr34AsymmetricKey,
-}
+  tr31B0BaseDerivationKey('TR31_B0_BASE_DERIVATION_KEY'),
+  tr31C0CardVerificationKey('TR31_C0_CARD_VERIFICATION_KEY'),
+  tr31D0SymmetricDataEncryptionKey('TR31_D0_SYMMETRIC_DATA_ENCRYPTION_KEY'),
+  tr31D1AsymmetricKeyForDataEncryption(
+      'TR31_D1_ASYMMETRIC_KEY_FOR_DATA_ENCRYPTION'),
+  tr31E0EmvMkeyAppCryptograms('TR31_E0_EMV_MKEY_APP_CRYPTOGRAMS'),
+  tr31E1EmvMkeyConfidentiality('TR31_E1_EMV_MKEY_CONFIDENTIALITY'),
+  tr31E2EmvMkeyIntegrity('TR31_E2_EMV_MKEY_INTEGRITY'),
+  tr31E4EmvMkeyDynamicNumbers('TR31_E4_EMV_MKEY_DYNAMIC_NUMBERS'),
+  tr31E5EmvMkeyCardPersonalization('TR31_E5_EMV_MKEY_CARD_PERSONALIZATION'),
+  tr31E6EmvMkeyOther('TR31_E6_EMV_MKEY_OTHER'),
+  tr31K0KeyEncryptionKey('TR31_K0_KEY_ENCRYPTION_KEY'),
+  tr31K1KeyBlockProtectionKey('TR31_K1_KEY_BLOCK_PROTECTION_KEY'),
+  tr31K3AsymmetricKeyForKeyAgreement(
+      'TR31_K3_ASYMMETRIC_KEY_FOR_KEY_AGREEMENT'),
+  tr31M3Iso_9797_3MacKey('TR31_M3_ISO_9797_3_MAC_KEY'),
+  tr31M1Iso_9797_1MacKey('TR31_M1_ISO_9797_1_MAC_KEY'),
+  tr31M6Iso_9797_5CmacKey('TR31_M6_ISO_9797_5_CMAC_KEY'),
+  tr31M7HmacKey('TR31_M7_HMAC_KEY'),
+  tr31P0PinEncryptionKey('TR31_P0_PIN_ENCRYPTION_KEY'),
+  tr31P1PinGenerationKey('TR31_P1_PIN_GENERATION_KEY'),
+  tr31S0AsymmetricKeyForDigitalSignature(
+      'TR31_S0_ASYMMETRIC_KEY_FOR_DIGITAL_SIGNATURE'),
+  tr31V1Ibm3624PinVerificationKey('TR31_V1_IBM3624_PIN_VERIFICATION_KEY'),
+  tr31V2VisaPinVerificationKey('TR31_V2_VISA_PIN_VERIFICATION_KEY'),
+  tr31K2Tr34AsymmetricKey('TR31_K2_TR34_ASYMMETRIC_KEY'),
+  ;
 
-extension KeyUsageValueExtension on KeyUsage {
-  String toValue() {
-    switch (this) {
-      case KeyUsage.tr31B0BaseDerivationKey:
-        return 'TR31_B0_BASE_DERIVATION_KEY';
-      case KeyUsage.tr31C0CardVerificationKey:
-        return 'TR31_C0_CARD_VERIFICATION_KEY';
-      case KeyUsage.tr31D0SymmetricDataEncryptionKey:
-        return 'TR31_D0_SYMMETRIC_DATA_ENCRYPTION_KEY';
-      case KeyUsage.tr31D1AsymmetricKeyForDataEncryption:
-        return 'TR31_D1_ASYMMETRIC_KEY_FOR_DATA_ENCRYPTION';
-      case KeyUsage.tr31E0EmvMkeyAppCryptograms:
-        return 'TR31_E0_EMV_MKEY_APP_CRYPTOGRAMS';
-      case KeyUsage.tr31E1EmvMkeyConfidentiality:
-        return 'TR31_E1_EMV_MKEY_CONFIDENTIALITY';
-      case KeyUsage.tr31E2EmvMkeyIntegrity:
-        return 'TR31_E2_EMV_MKEY_INTEGRITY';
-      case KeyUsage.tr31E4EmvMkeyDynamicNumbers:
-        return 'TR31_E4_EMV_MKEY_DYNAMIC_NUMBERS';
-      case KeyUsage.tr31E5EmvMkeyCardPersonalization:
-        return 'TR31_E5_EMV_MKEY_CARD_PERSONALIZATION';
-      case KeyUsage.tr31E6EmvMkeyOther:
-        return 'TR31_E6_EMV_MKEY_OTHER';
-      case KeyUsage.tr31K0KeyEncryptionKey:
-        return 'TR31_K0_KEY_ENCRYPTION_KEY';
-      case KeyUsage.tr31K1KeyBlockProtectionKey:
-        return 'TR31_K1_KEY_BLOCK_PROTECTION_KEY';
-      case KeyUsage.tr31K3AsymmetricKeyForKeyAgreement:
-        return 'TR31_K3_ASYMMETRIC_KEY_FOR_KEY_AGREEMENT';
-      case KeyUsage.tr31M3Iso_9797_3MacKey:
-        return 'TR31_M3_ISO_9797_3_MAC_KEY';
-      case KeyUsage.tr31M1Iso_9797_1MacKey:
-        return 'TR31_M1_ISO_9797_1_MAC_KEY';
-      case KeyUsage.tr31M6Iso_9797_5CmacKey:
-        return 'TR31_M6_ISO_9797_5_CMAC_KEY';
-      case KeyUsage.tr31M7HmacKey:
-        return 'TR31_M7_HMAC_KEY';
-      case KeyUsage.tr31P0PinEncryptionKey:
-        return 'TR31_P0_PIN_ENCRYPTION_KEY';
-      case KeyUsage.tr31P1PinGenerationKey:
-        return 'TR31_P1_PIN_GENERATION_KEY';
-      case KeyUsage.tr31S0AsymmetricKeyForDigitalSignature:
-        return 'TR31_S0_ASYMMETRIC_KEY_FOR_DIGITAL_SIGNATURE';
-      case KeyUsage.tr31V1Ibm3624PinVerificationKey:
-        return 'TR31_V1_IBM3624_PIN_VERIFICATION_KEY';
-      case KeyUsage.tr31V2VisaPinVerificationKey:
-        return 'TR31_V2_VISA_PIN_VERIFICATION_KEY';
-      case KeyUsage.tr31K2Tr34AsymmetricKey:
-        return 'TR31_K2_TR34_ASYMMETRIC_KEY';
-    }
-  }
-}
+  final String value;
 
-extension KeyUsageFromString on String {
-  KeyUsage toKeyUsage() {
-    switch (this) {
-      case 'TR31_B0_BASE_DERIVATION_KEY':
-        return KeyUsage.tr31B0BaseDerivationKey;
-      case 'TR31_C0_CARD_VERIFICATION_KEY':
-        return KeyUsage.tr31C0CardVerificationKey;
-      case 'TR31_D0_SYMMETRIC_DATA_ENCRYPTION_KEY':
-        return KeyUsage.tr31D0SymmetricDataEncryptionKey;
-      case 'TR31_D1_ASYMMETRIC_KEY_FOR_DATA_ENCRYPTION':
-        return KeyUsage.tr31D1AsymmetricKeyForDataEncryption;
-      case 'TR31_E0_EMV_MKEY_APP_CRYPTOGRAMS':
-        return KeyUsage.tr31E0EmvMkeyAppCryptograms;
-      case 'TR31_E1_EMV_MKEY_CONFIDENTIALITY':
-        return KeyUsage.tr31E1EmvMkeyConfidentiality;
-      case 'TR31_E2_EMV_MKEY_INTEGRITY':
-        return KeyUsage.tr31E2EmvMkeyIntegrity;
-      case 'TR31_E4_EMV_MKEY_DYNAMIC_NUMBERS':
-        return KeyUsage.tr31E4EmvMkeyDynamicNumbers;
-      case 'TR31_E5_EMV_MKEY_CARD_PERSONALIZATION':
-        return KeyUsage.tr31E5EmvMkeyCardPersonalization;
-      case 'TR31_E6_EMV_MKEY_OTHER':
-        return KeyUsage.tr31E6EmvMkeyOther;
-      case 'TR31_K0_KEY_ENCRYPTION_KEY':
-        return KeyUsage.tr31K0KeyEncryptionKey;
-      case 'TR31_K1_KEY_BLOCK_PROTECTION_KEY':
-        return KeyUsage.tr31K1KeyBlockProtectionKey;
-      case 'TR31_K3_ASYMMETRIC_KEY_FOR_KEY_AGREEMENT':
-        return KeyUsage.tr31K3AsymmetricKeyForKeyAgreement;
-      case 'TR31_M3_ISO_9797_3_MAC_KEY':
-        return KeyUsage.tr31M3Iso_9797_3MacKey;
-      case 'TR31_M1_ISO_9797_1_MAC_KEY':
-        return KeyUsage.tr31M1Iso_9797_1MacKey;
-      case 'TR31_M6_ISO_9797_5_CMAC_KEY':
-        return KeyUsage.tr31M6Iso_9797_5CmacKey;
-      case 'TR31_M7_HMAC_KEY':
-        return KeyUsage.tr31M7HmacKey;
-      case 'TR31_P0_PIN_ENCRYPTION_KEY':
-        return KeyUsage.tr31P0PinEncryptionKey;
-      case 'TR31_P1_PIN_GENERATION_KEY':
-        return KeyUsage.tr31P1PinGenerationKey;
-      case 'TR31_S0_ASYMMETRIC_KEY_FOR_DIGITAL_SIGNATURE':
-        return KeyUsage.tr31S0AsymmetricKeyForDigitalSignature;
-      case 'TR31_V1_IBM3624_PIN_VERIFICATION_KEY':
-        return KeyUsage.tr31V1Ibm3624PinVerificationKey;
-      case 'TR31_V2_VISA_PIN_VERIFICATION_KEY':
-        return KeyUsage.tr31V2VisaPinVerificationKey;
-      case 'TR31_K2_TR34_ASYMMETRIC_KEY':
-        return KeyUsage.tr31K2Tr34AsymmetricKey;
-    }
-    throw Exception('$this is not known in enum KeyUsage');
-  }
+  const KeyUsage(this.value);
+
+  static KeyUsage fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum KeyUsage'));
 }
 
 class ListAliasesOutput {
@@ -3683,26 +3437,17 @@ class TagResourceOutput {
 }
 
 enum Tr34KeyBlockFormat {
-  x9Tr34_2012,
-}
+  x9Tr34_2012('X9_TR34_2012'),
+  ;
 
-extension Tr34KeyBlockFormatValueExtension on Tr34KeyBlockFormat {
-  String toValue() {
-    switch (this) {
-      case Tr34KeyBlockFormat.x9Tr34_2012:
-        return 'X9_TR34_2012';
-    }
-  }
-}
+  final String value;
 
-extension Tr34KeyBlockFormatFromString on String {
-  Tr34KeyBlockFormat toTr34KeyBlockFormat() {
-    switch (this) {
-      case 'X9_TR34_2012':
-        return Tr34KeyBlockFormat.x9Tr34_2012;
-    }
-    throw Exception('$this is not known in enum Tr34KeyBlockFormat');
-  }
+  const Tr34KeyBlockFormat(this.value);
+
+  static Tr34KeyBlockFormat fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum Tr34KeyBlockFormat'));
 }
 
 /// Parameter information for trusted public key certificate import.
@@ -3811,12 +3556,12 @@ class WrappedKey {
   factory WrappedKey.fromJson(Map<String, dynamic> json) {
     return WrappedKey(
       keyMaterial: json['KeyMaterial'] as String,
-      wrappedKeyMaterialFormat: (json['WrappedKeyMaterialFormat'] as String)
-          .toWrappedKeyMaterialFormat(),
+      wrappedKeyMaterialFormat: WrappedKeyMaterialFormat.fromString(
+          (json['WrappedKeyMaterialFormat'] as String)),
       wrappingKeyArn: json['WrappingKeyArn'] as String,
       keyCheckValue: json['KeyCheckValue'] as String?,
       keyCheckValueAlgorithm: (json['KeyCheckValueAlgorithm'] as String?)
-          ?.toKeyCheckValueAlgorithm(),
+          ?.let(KeyCheckValueAlgorithm.fromString),
     );
   }
 
@@ -3828,74 +3573,44 @@ class WrappedKey {
     final keyCheckValueAlgorithm = this.keyCheckValueAlgorithm;
     return {
       'KeyMaterial': keyMaterial,
-      'WrappedKeyMaterialFormat': wrappedKeyMaterialFormat.toValue(),
+      'WrappedKeyMaterialFormat': wrappedKeyMaterialFormat.value,
       'WrappingKeyArn': wrappingKeyArn,
       if (keyCheckValue != null) 'KeyCheckValue': keyCheckValue,
       if (keyCheckValueAlgorithm != null)
-        'KeyCheckValueAlgorithm': keyCheckValueAlgorithm.toValue(),
+        'KeyCheckValueAlgorithm': keyCheckValueAlgorithm.value,
     };
   }
 }
 
 enum WrappedKeyMaterialFormat {
-  keyCryptogram,
-  tr31KeyBlock,
-  tr34KeyBlock,
-}
+  keyCryptogram('KEY_CRYPTOGRAM'),
+  tr31KeyBlock('TR31_KEY_BLOCK'),
+  tr34KeyBlock('TR34_KEY_BLOCK'),
+  ;
 
-extension WrappedKeyMaterialFormatValueExtension on WrappedKeyMaterialFormat {
-  String toValue() {
-    switch (this) {
-      case WrappedKeyMaterialFormat.keyCryptogram:
-        return 'KEY_CRYPTOGRAM';
-      case WrappedKeyMaterialFormat.tr31KeyBlock:
-        return 'TR31_KEY_BLOCK';
-      case WrappedKeyMaterialFormat.tr34KeyBlock:
-        return 'TR34_KEY_BLOCK';
-    }
-  }
-}
+  final String value;
 
-extension WrappedKeyMaterialFormatFromString on String {
-  WrappedKeyMaterialFormat toWrappedKeyMaterialFormat() {
-    switch (this) {
-      case 'KEY_CRYPTOGRAM':
-        return WrappedKeyMaterialFormat.keyCryptogram;
-      case 'TR31_KEY_BLOCK':
-        return WrappedKeyMaterialFormat.tr31KeyBlock;
-      case 'TR34_KEY_BLOCK':
-        return WrappedKeyMaterialFormat.tr34KeyBlock;
-    }
-    throw Exception('$this is not known in enum WrappedKeyMaterialFormat');
-  }
+  const WrappedKeyMaterialFormat(this.value);
+
+  static WrappedKeyMaterialFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum WrappedKeyMaterialFormat'));
 }
 
 enum WrappingKeySpec {
-  rsaOaepSha_256,
-  rsaOaepSha_512,
-}
+  rsaOaepSha_256('RSA_OAEP_SHA_256'),
+  rsaOaepSha_512('RSA_OAEP_SHA_512'),
+  ;
 
-extension WrappingKeySpecValueExtension on WrappingKeySpec {
-  String toValue() {
-    switch (this) {
-      case WrappingKeySpec.rsaOaepSha_256:
-        return 'RSA_OAEP_SHA_256';
-      case WrappingKeySpec.rsaOaepSha_512:
-        return 'RSA_OAEP_SHA_512';
-    }
-  }
-}
+  final String value;
 
-extension WrappingKeySpecFromString on String {
-  WrappingKeySpec toWrappingKeySpec() {
-    switch (this) {
-      case 'RSA_OAEP_SHA_256':
-        return WrappingKeySpec.rsaOaepSha_256;
-      case 'RSA_OAEP_SHA_512':
-        return WrappingKeySpec.rsaOaepSha_512;
-    }
-    throw Exception('$this is not known in enum WrappingKeySpec');
-  }
+  const WrappingKeySpec(this.value);
+
+  static WrappingKeySpec fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum WrappingKeySpec'));
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

@@ -129,7 +129,7 @@ class Fms {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ThirdPartyFirewall': thirdPartyFirewall.toValue(),
+        'ThirdPartyFirewall': thirdPartyFirewall.value,
       },
     );
 
@@ -451,7 +451,7 @@ class Fms {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ThirdPartyFirewall': thirdPartyFirewall.toValue(),
+        'ThirdPartyFirewall': thirdPartyFirewall.value,
       },
     );
 
@@ -818,7 +818,7 @@ class Fms {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ThirdPartyFirewall': thirdPartyFirewall.toValue(),
+        'ThirdPartyFirewall': thirdPartyFirewall.value,
       },
     );
 
@@ -1536,7 +1536,7 @@ class Fms {
       headers: headers,
       payload: {
         'MaxResults': maxResults,
-        'ThirdPartyFirewall': thirdPartyFirewall.toValue(),
+        'ThirdPartyFirewall': thirdPartyFirewall.value,
         if (nextToken != null) 'NextToken': nextToken,
       },
     );
@@ -1931,46 +1931,21 @@ class Fms {
 }
 
 enum AccountRoleStatus {
-  ready,
-  creating,
-  pendingDeletion,
-  deleting,
-  deleted,
-}
+  ready('READY'),
+  creating('CREATING'),
+  pendingDeletion('PENDING_DELETION'),
+  deleting('DELETING'),
+  deleted('DELETED'),
+  ;
 
-extension AccountRoleStatusValueExtension on AccountRoleStatus {
-  String toValue() {
-    switch (this) {
-      case AccountRoleStatus.ready:
-        return 'READY';
-      case AccountRoleStatus.creating:
-        return 'CREATING';
-      case AccountRoleStatus.pendingDeletion:
-        return 'PENDING_DELETION';
-      case AccountRoleStatus.deleting:
-        return 'DELETING';
-      case AccountRoleStatus.deleted:
-        return 'DELETED';
-    }
-  }
-}
+  final String value;
 
-extension AccountRoleStatusFromString on String {
-  AccountRoleStatus toAccountRoleStatus() {
-    switch (this) {
-      case 'READY':
-        return AccountRoleStatus.ready;
-      case 'CREATING':
-        return AccountRoleStatus.creating;
-      case 'PENDING_DELETION':
-        return AccountRoleStatus.pendingDeletion;
-      case 'DELETING':
-        return AccountRoleStatus.deleting;
-      case 'DELETED':
-        return AccountRoleStatus.deleted;
-    }
-    throw Exception('$this is not known in enum AccountRoleStatus');
-  }
+  const AccountRoleStatus(this.value);
+
+  static AccountRoleStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AccountRoleStatus'));
 }
 
 /// Configures the accounts within the administrator's Organizations
@@ -2118,7 +2093,7 @@ class AdminAccountSummary {
     return AdminAccountSummary(
       adminAccount: json['AdminAccount'] as String?,
       defaultAdmin: json['DefaultAdmin'] as bool?,
-      status: (json['Status'] as String?)?.toOrganizationStatus(),
+      status: (json['Status'] as String?)?.let(OrganizationStatus.fromString),
     );
   }
 
@@ -2129,7 +2104,7 @@ class AdminAccountSummary {
     return {
       if (adminAccount != null) 'AdminAccount': adminAccount,
       if (defaultAdmin != null) 'DefaultAdmin': defaultAdmin,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -2403,7 +2378,7 @@ class AssociateThirdPartyFirewallResponse {
       Map<String, dynamic> json) {
     return AssociateThirdPartyFirewallResponse(
       thirdPartyFirewallStatus: (json['ThirdPartyFirewallStatus'] as String?)
-          ?.toThirdPartyFirewallAssociationStatus(),
+          ?.let(ThirdPartyFirewallAssociationStatus.fromString),
     );
   }
 
@@ -2411,7 +2386,7 @@ class AssociateThirdPartyFirewallResponse {
     final thirdPartyFirewallStatus = this.thirdPartyFirewallStatus;
     return {
       if (thirdPartyFirewallStatus != null)
-        'ThirdPartyFirewallStatus': thirdPartyFirewallStatus.toValue(),
+        'ThirdPartyFirewallStatus': thirdPartyFirewallStatus.value,
     };
   }
 }
@@ -2648,7 +2623,7 @@ class ComplianceViolator {
       resourceId: json['ResourceId'] as String?,
       resourceType: json['ResourceType'] as String?,
       violationReason:
-          (json['ViolationReason'] as String?)?.toViolationReason(),
+          (json['ViolationReason'] as String?)?.let(ViolationReason.fromString),
     );
   }
 
@@ -2661,7 +2636,7 @@ class ComplianceViolator {
       if (metadata != null) 'Metadata': metadata,
       if (resourceId != null) 'ResourceId': resourceId,
       if (resourceType != null) 'ResourceType': resourceType,
-      if (violationReason != null) 'ViolationReason': violationReason.toValue(),
+      if (violationReason != null) 'ViolationReason': violationReason.value,
     };
   }
 }
@@ -2765,59 +2740,33 @@ class CreateNetworkAclEntriesAction {
 }
 
 enum CustomerPolicyScopeIdType {
-  account,
-  orgUnit,
-}
+  account('ACCOUNT'),
+  orgUnit('ORG_UNIT'),
+  ;
 
-extension CustomerPolicyScopeIdTypeValueExtension on CustomerPolicyScopeIdType {
-  String toValue() {
-    switch (this) {
-      case CustomerPolicyScopeIdType.account:
-        return 'ACCOUNT';
-      case CustomerPolicyScopeIdType.orgUnit:
-        return 'ORG_UNIT';
-    }
-  }
-}
+  final String value;
 
-extension CustomerPolicyScopeIdTypeFromString on String {
-  CustomerPolicyScopeIdType toCustomerPolicyScopeIdType() {
-    switch (this) {
-      case 'ACCOUNT':
-        return CustomerPolicyScopeIdType.account;
-      case 'ORG_UNIT':
-        return CustomerPolicyScopeIdType.orgUnit;
-    }
-    throw Exception('$this is not known in enum CustomerPolicyScopeIdType');
-  }
+  const CustomerPolicyScopeIdType(this.value);
+
+  static CustomerPolicyScopeIdType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CustomerPolicyScopeIdType'));
 }
 
 enum CustomerPolicyStatus {
-  active,
-  outOfAdminScope,
-}
+  active('ACTIVE'),
+  outOfAdminScope('OUT_OF_ADMIN_SCOPE'),
+  ;
 
-extension CustomerPolicyStatusValueExtension on CustomerPolicyStatus {
-  String toValue() {
-    switch (this) {
-      case CustomerPolicyStatus.active:
-        return 'ACTIVE';
-      case CustomerPolicyStatus.outOfAdminScope:
-        return 'OUT_OF_ADMIN_SCOPE';
-    }
-  }
-}
+  final String value;
 
-extension CustomerPolicyStatusFromString on String {
-  CustomerPolicyStatus toCustomerPolicyStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return CustomerPolicyStatus.active;
-      case 'OUT_OF_ADMIN_SCOPE':
-        return CustomerPolicyStatus.outOfAdminScope;
-    }
-    throw Exception('$this is not known in enum CustomerPolicyStatus');
-  }
+  const CustomerPolicyStatus(this.value);
+
+  static CustomerPolicyStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum CustomerPolicyStatus'));
 }
 
 /// Information about the <code>DeleteNetworkAclEntries</code> action in Amazon
@@ -2876,74 +2825,36 @@ class DeleteNetworkAclEntriesAction {
 }
 
 enum DependentServiceName {
-  awsconfig,
-  awswaf,
-  awsshieldAdvanced,
-  awsvpc,
-}
+  awsconfig('AWSCONFIG'),
+  awswaf('AWSWAF'),
+  awsshieldAdvanced('AWSSHIELD_ADVANCED'),
+  awsvpc('AWSVPC'),
+  ;
 
-extension DependentServiceNameValueExtension on DependentServiceName {
-  String toValue() {
-    switch (this) {
-      case DependentServiceName.awsconfig:
-        return 'AWSCONFIG';
-      case DependentServiceName.awswaf:
-        return 'AWSWAF';
-      case DependentServiceName.awsshieldAdvanced:
-        return 'AWSSHIELD_ADVANCED';
-      case DependentServiceName.awsvpc:
-        return 'AWSVPC';
-    }
-  }
-}
+  final String value;
 
-extension DependentServiceNameFromString on String {
-  DependentServiceName toDependentServiceName() {
-    switch (this) {
-      case 'AWSCONFIG':
-        return DependentServiceName.awsconfig;
-      case 'AWSWAF':
-        return DependentServiceName.awswaf;
-      case 'AWSSHIELD_ADVANCED':
-        return DependentServiceName.awsshieldAdvanced;
-      case 'AWSVPC':
-        return DependentServiceName.awsvpc;
-    }
-    throw Exception('$this is not known in enum DependentServiceName');
-  }
+  const DependentServiceName(this.value);
+
+  static DependentServiceName fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DependentServiceName'));
 }
 
 enum DestinationType {
-  ipv4,
-  ipv6,
-  prefixList,
-}
+  ipv4('IPV4'),
+  ipv6('IPV6'),
+  prefixList('PREFIX_LIST'),
+  ;
 
-extension DestinationTypeValueExtension on DestinationType {
-  String toValue() {
-    switch (this) {
-      case DestinationType.ipv4:
-        return 'IPV4';
-      case DestinationType.ipv6:
-        return 'IPV6';
-      case DestinationType.prefixList:
-        return 'PREFIX_LIST';
-    }
-  }
-}
+  final String value;
 
-extension DestinationTypeFromString on String {
-  DestinationType toDestinationType() {
-    switch (this) {
-      case 'IPV4':
-        return DestinationType.ipv4;
-      case 'IPV6':
-        return DestinationType.ipv6;
-      case 'PREFIX_LIST':
-        return DestinationType.prefixList;
-    }
-    throw Exception('$this is not known in enum DestinationType');
-  }
+  const DestinationType(this.value);
+
+  static DestinationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DestinationType'));
 }
 
 class DisassociateThirdPartyFirewallResponse {
@@ -2959,7 +2870,7 @@ class DisassociateThirdPartyFirewallResponse {
       Map<String, dynamic> json) {
     return DisassociateThirdPartyFirewallResponse(
       thirdPartyFirewallStatus: (json['ThirdPartyFirewallStatus'] as String?)
-          ?.toThirdPartyFirewallAssociationStatus(),
+          ?.let(ThirdPartyFirewallAssociationStatus.fromString),
     );
   }
 
@@ -2967,7 +2878,7 @@ class DisassociateThirdPartyFirewallResponse {
     final thirdPartyFirewallStatus = this.thirdPartyFirewallStatus;
     return {
       if (thirdPartyFirewallStatus != null)
-        'ThirdPartyFirewallStatus': thirdPartyFirewallStatus.toValue(),
+        'ThirdPartyFirewallStatus': thirdPartyFirewallStatus.value,
     };
   }
 }
@@ -3567,7 +3478,7 @@ class EntryDescription {
               json['EntryDetail'] as Map<String, dynamic>)
           : null,
       entryRuleNumber: json['EntryRuleNumber'] as int?,
-      entryType: (json['EntryType'] as String?)?.toEntryType(),
+      entryType: (json['EntryType'] as String?)?.let(EntryType.fromString),
     );
   }
 
@@ -3578,42 +3489,24 @@ class EntryDescription {
     return {
       if (entryDetail != null) 'EntryDetail': entryDetail,
       if (entryRuleNumber != null) 'EntryRuleNumber': entryRuleNumber,
-      if (entryType != null) 'EntryType': entryType.toValue(),
+      if (entryType != null) 'EntryType': entryType.value,
     };
   }
 }
 
 enum EntryType {
-  fmsManagedFirstEntry,
-  fmsManagedLastEntry,
-  customEntry,
-}
+  fmsManagedFirstEntry('FMS_MANAGED_FIRST_ENTRY'),
+  fmsManagedLastEntry('FMS_MANAGED_LAST_ENTRY'),
+  customEntry('CUSTOM_ENTRY'),
+  ;
 
-extension EntryTypeValueExtension on EntryType {
-  String toValue() {
-    switch (this) {
-      case EntryType.fmsManagedFirstEntry:
-        return 'FMS_MANAGED_FIRST_ENTRY';
-      case EntryType.fmsManagedLastEntry:
-        return 'FMS_MANAGED_LAST_ENTRY';
-      case EntryType.customEntry:
-        return 'CUSTOM_ENTRY';
-    }
-  }
-}
+  final String value;
 
-extension EntryTypeFromString on String {
-  EntryType toEntryType() {
-    switch (this) {
-      case 'FMS_MANAGED_FIRST_ENTRY':
-        return EntryType.fmsManagedFirstEntry;
-      case 'FMS_MANAGED_LAST_ENTRY':
-        return EntryType.fmsManagedLastEntry;
-      case 'CUSTOM_ENTRY':
-        return EntryType.customEntry;
-    }
-    throw Exception('$this is not known in enum EntryType');
-  }
+  const EntryType(this.value);
+
+  static EntryType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum EntryType'));
 }
 
 /// Detailed information about an entry violation in a network ACL. The
@@ -3668,7 +3561,7 @@ class EntryViolation {
           : null,
       entryViolationReasons: (json['EntryViolationReasons'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toEntryViolationReason())
+          .map((e) => EntryViolationReason.fromString((e as String)))
           .toList(),
       expectedEntry: json['ExpectedEntry'] != null
           ? EntryDescription.fromJson(
@@ -3694,7 +3587,7 @@ class EntryViolation {
         'EntryAtExpectedEvaluationOrder': entryAtExpectedEvaluationOrder,
       if (entryViolationReasons != null)
         'EntryViolationReasons':
-            entryViolationReasons.map((e) => e.toValue()).toList(),
+            entryViolationReasons.map((e) => e.value).toList(),
       if (expectedEntry != null) 'ExpectedEntry': expectedEntry,
       if (expectedEvaluationOrder != null)
         'ExpectedEvaluationOrder': expectedEvaluationOrder,
@@ -3703,36 +3596,19 @@ class EntryViolation {
 }
 
 enum EntryViolationReason {
-  missingExpectedEntry,
-  incorrectEntryOrder,
-  entryConflict,
-}
+  missingExpectedEntry('MISSING_EXPECTED_ENTRY'),
+  incorrectEntryOrder('INCORRECT_ENTRY_ORDER'),
+  entryConflict('ENTRY_CONFLICT'),
+  ;
 
-extension EntryViolationReasonValueExtension on EntryViolationReason {
-  String toValue() {
-    switch (this) {
-      case EntryViolationReason.missingExpectedEntry:
-        return 'MISSING_EXPECTED_ENTRY';
-      case EntryViolationReason.incorrectEntryOrder:
-        return 'INCORRECT_ENTRY_ORDER';
-      case EntryViolationReason.entryConflict:
-        return 'ENTRY_CONFLICT';
-    }
-  }
-}
+  final String value;
 
-extension EntryViolationReasonFromString on String {
-  EntryViolationReason toEntryViolationReason() {
-    switch (this) {
-      case 'MISSING_EXPECTED_ENTRY':
-        return EntryViolationReason.missingExpectedEntry;
-      case 'INCORRECT_ENTRY_ORDER':
-        return EntryViolationReason.incorrectEntryOrder;
-      case 'ENTRY_CONFLICT':
-        return EntryViolationReason.entryConflict;
-    }
-    throw Exception('$this is not known in enum EntryViolationReason');
-  }
+  const EntryViolationReason(this.value);
+
+  static EntryViolationReason fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum EntryViolationReason'));
 }
 
 /// Describes the compliance status for the account. An account is considered
@@ -3762,8 +3638,8 @@ class EvaluationResult {
 
   factory EvaluationResult.fromJson(Map<String, dynamic> json) {
     return EvaluationResult(
-      complianceStatus:
-          (json['ComplianceStatus'] as String?)?.toPolicyComplianceStatusType(),
+      complianceStatus: (json['ComplianceStatus'] as String?)
+          ?.let(PolicyComplianceStatusType.fromString),
       evaluationLimitExceeded: json['EvaluationLimitExceeded'] as bool?,
       violatorCount: json['ViolatorCount'] as int?,
     );
@@ -3774,8 +3650,7 @@ class EvaluationResult {
     final evaluationLimitExceeded = this.evaluationLimitExceeded;
     final violatorCount = this.violatorCount;
     return {
-      if (complianceStatus != null)
-        'ComplianceStatus': complianceStatus.toValue(),
+      if (complianceStatus != null) 'ComplianceStatus': complianceStatus.value,
       if (evaluationLimitExceeded != null)
         'EvaluationLimitExceeded': evaluationLimitExceeded,
       if (violatorCount != null) 'ViolatorCount': violatorCount,
@@ -3903,7 +3778,7 @@ class FailedItem {
 
   factory FailedItem.fromJson(Map<String, dynamic> json) {
     return FailedItem(
-      reason: (json['Reason'] as String?)?.toFailedItemReason(),
+      reason: (json['Reason'] as String?)?.let(FailedItemReason.fromString),
       uri: json['URI'] as String?,
     );
   }
@@ -3912,86 +3787,44 @@ class FailedItem {
     final reason = this.reason;
     final uri = this.uri;
     return {
-      if (reason != null) 'Reason': reason.toValue(),
+      if (reason != null) 'Reason': reason.value,
       if (uri != null) 'URI': uri,
     };
   }
 }
 
 enum FailedItemReason {
-  notValidArn,
-  notValidPartition,
-  notValidRegion,
-  notValidService,
-  notValidResourceType,
-  notValidAccountId,
-}
+  notValidArn('NOT_VALID_ARN'),
+  notValidPartition('NOT_VALID_PARTITION'),
+  notValidRegion('NOT_VALID_REGION'),
+  notValidService('NOT_VALID_SERVICE'),
+  notValidResourceType('NOT_VALID_RESOURCE_TYPE'),
+  notValidAccountId('NOT_VALID_ACCOUNT_ID'),
+  ;
 
-extension FailedItemReasonValueExtension on FailedItemReason {
-  String toValue() {
-    switch (this) {
-      case FailedItemReason.notValidArn:
-        return 'NOT_VALID_ARN';
-      case FailedItemReason.notValidPartition:
-        return 'NOT_VALID_PARTITION';
-      case FailedItemReason.notValidRegion:
-        return 'NOT_VALID_REGION';
-      case FailedItemReason.notValidService:
-        return 'NOT_VALID_SERVICE';
-      case FailedItemReason.notValidResourceType:
-        return 'NOT_VALID_RESOURCE_TYPE';
-      case FailedItemReason.notValidAccountId:
-        return 'NOT_VALID_ACCOUNT_ID';
-    }
-  }
-}
+  final String value;
 
-extension FailedItemReasonFromString on String {
-  FailedItemReason toFailedItemReason() {
-    switch (this) {
-      case 'NOT_VALID_ARN':
-        return FailedItemReason.notValidArn;
-      case 'NOT_VALID_PARTITION':
-        return FailedItemReason.notValidPartition;
-      case 'NOT_VALID_REGION':
-        return FailedItemReason.notValidRegion;
-      case 'NOT_VALID_SERVICE':
-        return FailedItemReason.notValidService;
-      case 'NOT_VALID_RESOURCE_TYPE':
-        return FailedItemReason.notValidResourceType;
-      case 'NOT_VALID_ACCOUNT_ID':
-        return FailedItemReason.notValidAccountId;
-    }
-    throw Exception('$this is not known in enum FailedItemReason');
-  }
+  const FailedItemReason(this.value);
+
+  static FailedItemReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FailedItemReason'));
 }
 
 enum FirewallDeploymentModel {
-  centralized,
-  distributed,
-}
+  centralized('CENTRALIZED'),
+  distributed('DISTRIBUTED'),
+  ;
 
-extension FirewallDeploymentModelValueExtension on FirewallDeploymentModel {
-  String toValue() {
-    switch (this) {
-      case FirewallDeploymentModel.centralized:
-        return 'CENTRALIZED';
-      case FirewallDeploymentModel.distributed:
-        return 'DISTRIBUTED';
-    }
-  }
-}
+  final String value;
 
-extension FirewallDeploymentModelFromString on String {
-  FirewallDeploymentModel toFirewallDeploymentModel() {
-    switch (this) {
-      case 'CENTRALIZED':
-        return FirewallDeploymentModel.centralized;
-      case 'DISTRIBUTED':
-        return FirewallDeploymentModel.distributed;
-    }
-    throw Exception('$this is not known in enum FirewallDeploymentModel');
-  }
+  const FirewallDeploymentModel(this.value);
+
+  static FirewallDeploymentModel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum FirewallDeploymentModel'));
 }
 
 /// Contains details about the firewall subnet that violates the policy scope.
@@ -4113,7 +3946,8 @@ class GetAdminAccountResponse {
   factory GetAdminAccountResponse.fromJson(Map<String, dynamic> json) {
     return GetAdminAccountResponse(
       adminAccount: json['AdminAccount'] as String?,
-      roleStatus: (json['RoleStatus'] as String?)?.toAccountRoleStatus(),
+      roleStatus:
+          (json['RoleStatus'] as String?)?.let(AccountRoleStatus.fromString),
     );
   }
 
@@ -4122,7 +3956,7 @@ class GetAdminAccountResponse {
     final roleStatus = this.roleStatus;
     return {
       if (adminAccount != null) 'AdminAccount': adminAccount,
-      if (roleStatus != null) 'RoleStatus': roleStatus.toValue(),
+      if (roleStatus != null) 'RoleStatus': roleStatus.value,
     };
   }
 }
@@ -4165,7 +3999,7 @@ class GetAdminScopeResponse {
       adminScope: json['AdminScope'] != null
           ? AdminScope.fromJson(json['AdminScope'] as Map<String, dynamic>)
           : null,
-      status: (json['Status'] as String?)?.toOrganizationStatus(),
+      status: (json['Status'] as String?)?.let(OrganizationStatus.fromString),
     );
   }
 
@@ -4174,7 +4008,7 @@ class GetAdminScopeResponse {
     final status = this.status;
     return {
       if (adminScope != null) 'AdminScope': adminScope,
-      if (status != null) 'Status': status.toValue(),
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -4353,7 +4187,8 @@ class GetProtectionStatusResponse {
       adminAccountId: json['AdminAccountId'] as String?,
       data: json['Data'] as String?,
       nextToken: json['NextToken'] as String?,
-      serviceType: (json['ServiceType'] as String?)?.toSecurityServiceType(),
+      serviceType:
+          (json['ServiceType'] as String?)?.let(SecurityServiceType.fromString),
     );
   }
 
@@ -4366,7 +4201,7 @@ class GetProtectionStatusResponse {
       if (adminAccountId != null) 'AdminAccountId': adminAccountId,
       if (data != null) 'Data': data,
       if (nextToken != null) 'NextToken': nextToken,
-      if (serviceType != null) 'ServiceType': serviceType.toValue(),
+      if (serviceType != null) 'ServiceType': serviceType.value,
     };
   }
 }
@@ -4493,9 +4328,9 @@ class GetThirdPartyFirewallAssociationStatusResponse {
     return GetThirdPartyFirewallAssociationStatusResponse(
       marketplaceOnboardingStatus:
           (json['MarketplaceOnboardingStatus'] as String?)
-              ?.toMarketplaceSubscriptionOnboardingStatus(),
+              ?.let(MarketplaceSubscriptionOnboardingStatus.fromString),
       thirdPartyFirewallStatus: (json['ThirdPartyFirewallStatus'] as String?)
-          ?.toThirdPartyFirewallAssociationStatus(),
+          ?.let(ThirdPartyFirewallAssociationStatus.fromString),
     );
   }
 
@@ -4504,9 +4339,9 @@ class GetThirdPartyFirewallAssociationStatusResponse {
     final thirdPartyFirewallStatus = this.thirdPartyFirewallStatus;
     return {
       if (marketplaceOnboardingStatus != null)
-        'MarketplaceOnboardingStatus': marketplaceOnboardingStatus.toValue(),
+        'MarketplaceOnboardingStatus': marketplaceOnboardingStatus.value,
       if (thirdPartyFirewallStatus != null)
-        'ThirdPartyFirewallStatus': thirdPartyFirewallStatus.toValue(),
+        'ThirdPartyFirewallStatus': thirdPartyFirewallStatus.value,
     };
   }
 }
@@ -5034,39 +4869,19 @@ class ListThirdPartyFirewallFirewallPoliciesResponse {
 }
 
 enum MarketplaceSubscriptionOnboardingStatus {
-  noSubscription,
-  notComplete,
-  complete,
-}
+  noSubscription('NO_SUBSCRIPTION'),
+  notComplete('NOT_COMPLETE'),
+  complete('COMPLETE'),
+  ;
 
-extension MarketplaceSubscriptionOnboardingStatusValueExtension
-    on MarketplaceSubscriptionOnboardingStatus {
-  String toValue() {
-    switch (this) {
-      case MarketplaceSubscriptionOnboardingStatus.noSubscription:
-        return 'NO_SUBSCRIPTION';
-      case MarketplaceSubscriptionOnboardingStatus.notComplete:
-        return 'NOT_COMPLETE';
-      case MarketplaceSubscriptionOnboardingStatus.complete:
-        return 'COMPLETE';
-    }
-  }
-}
+  final String value;
 
-extension MarketplaceSubscriptionOnboardingStatusFromString on String {
-  MarketplaceSubscriptionOnboardingStatus
-      toMarketplaceSubscriptionOnboardingStatus() {
-    switch (this) {
-      case 'NO_SUBSCRIPTION':
-        return MarketplaceSubscriptionOnboardingStatus.noSubscription;
-      case 'NOT_COMPLETE':
-        return MarketplaceSubscriptionOnboardingStatus.notComplete;
-      case 'COMPLETE':
-        return MarketplaceSubscriptionOnboardingStatus.complete;
-    }
-    throw Exception(
-        '$this is not known in enum MarketplaceSubscriptionOnboardingStatus');
-  }
+  const MarketplaceSubscriptionOnboardingStatus(this.value);
+
+  static MarketplaceSubscriptionOnboardingStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MarketplaceSubscriptionOnboardingStatus'));
 }
 
 /// Defines a Firewall Manager network ACL policy. This is used in the
@@ -5153,7 +4968,8 @@ class NetworkAclEntry {
     return NetworkAclEntry(
       egress: json['Egress'] as bool,
       protocol: json['Protocol'] as String,
-      ruleAction: (json['RuleAction'] as String).toNetworkAclRuleAction(),
+      ruleAction:
+          NetworkAclRuleAction.fromString((json['RuleAction'] as String)),
       cidrBlock: json['CidrBlock'] as String?,
       icmpTypeCode: json['IcmpTypeCode'] != null
           ? NetworkAclIcmpTypeCode.fromJson(
@@ -5178,7 +4994,7 @@ class NetworkAclEntry {
     return {
       'Egress': egress,
       'Protocol': protocol,
-      'RuleAction': ruleAction.toValue(),
+      'RuleAction': ruleAction.value,
       if (cidrBlock != null) 'CidrBlock': cidrBlock,
       if (icmpTypeCode != null) 'IcmpTypeCode': icmpTypeCode,
       if (ipv6CidrBlock != null) 'Ipv6CidrBlock': ipv6CidrBlock,
@@ -5333,31 +5149,18 @@ class NetworkAclPortRange {
 }
 
 enum NetworkAclRuleAction {
-  allow,
-  deny,
-}
+  allow('allow'),
+  deny('deny'),
+  ;
 
-extension NetworkAclRuleActionValueExtension on NetworkAclRuleAction {
-  String toValue() {
-    switch (this) {
-      case NetworkAclRuleAction.allow:
-        return 'allow';
-      case NetworkAclRuleAction.deny:
-        return 'deny';
-    }
-  }
-}
+  final String value;
 
-extension NetworkAclRuleActionFromString on String {
-  NetworkAclRuleAction toNetworkAclRuleAction() {
-    switch (this) {
-      case 'allow':
-        return NetworkAclRuleAction.allow;
-      case 'deny':
-        return NetworkAclRuleAction.deny;
-    }
-    throw Exception('$this is not known in enum NetworkAclRuleAction');
-  }
+  const NetworkAclRuleAction(this.value);
+
+  static NetworkAclRuleAction fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum NetworkAclRuleAction'));
 }
 
 /// Violation detail for an internet gateway route with an inactive state in the
@@ -5924,27 +5727,17 @@ class NetworkFirewallMissingSubnetViolation {
 }
 
 enum NetworkFirewallOverrideAction {
-  dropToAlert,
-}
+  dropToAlert('DROP_TO_ALERT'),
+  ;
 
-extension NetworkFirewallOverrideActionValueExtension
-    on NetworkFirewallOverrideAction {
-  String toValue() {
-    switch (this) {
-      case NetworkFirewallOverrideAction.dropToAlert:
-        return 'DROP_TO_ALERT';
-    }
-  }
-}
+  final String value;
 
-extension NetworkFirewallOverrideActionFromString on String {
-  NetworkFirewallOverrideAction toNetworkFirewallOverrideAction() {
-    switch (this) {
-      case 'DROP_TO_ALERT':
-        return NetworkFirewallOverrideAction.dropToAlert;
-    }
-    throw Exception('$this is not known in enum NetworkFirewallOverrideAction');
-  }
+  const NetworkFirewallOverrideAction(this.value);
+
+  static NetworkFirewallOverrideAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum NetworkFirewallOverrideAction'));
 }
 
 /// Configures the firewall policy deployment model of Network Firewall. For
@@ -5966,7 +5759,7 @@ class NetworkFirewallPolicy {
   factory NetworkFirewallPolicy.fromJson(Map<String, dynamic> json) {
     return NetworkFirewallPolicy(
       firewallDeploymentModel: (json['FirewallDeploymentModel'] as String?)
-          ?.toFirewallDeploymentModel(),
+          ?.let(FirewallDeploymentModel.fromString),
     );
   }
 
@@ -5974,7 +5767,7 @@ class NetworkFirewallPolicy {
     final firewallDeploymentModel = this.firewallDeploymentModel;
     return {
       if (firewallDeploymentModel != null)
-        'FirewallDeploymentModel': firewallDeploymentModel.toValue(),
+        'FirewallDeploymentModel': firewallDeploymentModel.value,
     };
   }
 }
@@ -6162,14 +5955,15 @@ class NetworkFirewallStatefulRuleGroupOverride {
   factory NetworkFirewallStatefulRuleGroupOverride.fromJson(
       Map<String, dynamic> json) {
     return NetworkFirewallStatefulRuleGroupOverride(
-      action: (json['Action'] as String?)?.toNetworkFirewallOverrideAction(),
+      action: (json['Action'] as String?)
+          ?.let(NetworkFirewallOverrideAction.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final action = this.action;
     return {
-      if (action != null) 'Action': action.toValue(),
+      if (action != null) 'Action': action.value,
     };
   }
 }
@@ -6279,41 +6073,20 @@ class NetworkFirewallUnexpectedGatewayRoutesViolation {
 }
 
 enum OrganizationStatus {
-  onboarding,
-  onboardingComplete,
-  offboarding,
-  offboardingComplete,
-}
+  onboarding('ONBOARDING'),
+  onboardingComplete('ONBOARDING_COMPLETE'),
+  offboarding('OFFBOARDING'),
+  offboardingComplete('OFFBOARDING_COMPLETE'),
+  ;
 
-extension OrganizationStatusValueExtension on OrganizationStatus {
-  String toValue() {
-    switch (this) {
-      case OrganizationStatus.onboarding:
-        return 'ONBOARDING';
-      case OrganizationStatus.onboardingComplete:
-        return 'ONBOARDING_COMPLETE';
-      case OrganizationStatus.offboarding:
-        return 'OFFBOARDING';
-      case OrganizationStatus.offboardingComplete:
-        return 'OFFBOARDING_COMPLETE';
-    }
-  }
-}
+  final String value;
 
-extension OrganizationStatusFromString on String {
-  OrganizationStatus toOrganizationStatus() {
-    switch (this) {
-      case 'ONBOARDING':
-        return OrganizationStatus.onboarding;
-      case 'ONBOARDING_COMPLETE':
-        return OrganizationStatus.onboardingComplete;
-      case 'OFFBOARDING':
-        return OrganizationStatus.offboarding;
-      case 'OFFBOARDING_COMPLETE':
-        return OrganizationStatus.offboardingComplete;
-    }
-    throw Exception('$this is not known in enum OrganizationStatus');
-  }
+  const OrganizationStatus(this.value);
+
+  static OrganizationStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum OrganizationStatus'));
 }
 
 /// Defines the Organizations organizational units (OUs) that the specified
@@ -6635,14 +6408,15 @@ class Policy {
       deleteUnusedFMManagedResources:
           json['DeleteUnusedFMManagedResources'] as bool?,
       excludeMap: (json['ExcludeMap'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(k.toCustomerPolicyScopeIdType(),
+          MapEntry(CustomerPolicyScopeIdType.fromString(k),
               (e as List).whereNotNull().map((e) => e as String).toList())),
       includeMap: (json['IncludeMap'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(k.toCustomerPolicyScopeIdType(),
+          MapEntry(CustomerPolicyScopeIdType.fromString(k),
               (e as List).whereNotNull().map((e) => e as String).toList())),
       policyDescription: json['PolicyDescription'] as String?,
       policyId: json['PolicyId'] as String?,
-      policyStatus: (json['PolicyStatus'] as String?)?.toCustomerPolicyStatus(),
+      policyStatus: (json['PolicyStatus'] as String?)
+          ?.let(CustomerPolicyStatus.fromString),
       policyUpdateToken: json['PolicyUpdateToken'] as String?,
       resourceSetIds: (json['ResourceSetIds'] as List?)
           ?.whereNotNull()
@@ -6684,12 +6458,12 @@ class Policy {
       if (deleteUnusedFMManagedResources != null)
         'DeleteUnusedFMManagedResources': deleteUnusedFMManagedResources,
       if (excludeMap != null)
-        'ExcludeMap': excludeMap.map((k, e) => MapEntry(k.toValue(), e)),
+        'ExcludeMap': excludeMap.map((k, e) => MapEntry(k.value, e)),
       if (includeMap != null)
-        'IncludeMap': includeMap.map((k, e) => MapEntry(k.toValue(), e)),
+        'IncludeMap': includeMap.map((k, e) => MapEntry(k.value, e)),
       if (policyDescription != null) 'PolicyDescription': policyDescription,
       if (policyId != null) 'PolicyId': policyId,
-      if (policyStatus != null) 'PolicyStatus': policyStatus.toValue(),
+      if (policyStatus != null) 'PolicyStatus': policyStatus.value,
       if (policyUpdateToken != null) 'PolicyUpdateToken': policyUpdateToken,
       if (resourceSetIds != null) 'ResourceSetIds': resourceSetIds,
       if (resourceTags != null) 'ResourceTags': resourceTags,
@@ -6742,8 +6516,8 @@ class PolicyComplianceDetail {
     return PolicyComplianceDetail(
       evaluationLimitExceeded: json['EvaluationLimitExceeded'] as bool?,
       expiredAt: timeStampFromJson(json['ExpiredAt']),
-      issueInfoMap: (json['IssueInfoMap'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k.toDependentServiceName(), e as String)),
+      issueInfoMap: (json['IssueInfoMap'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(DependentServiceName.fromString(k), e as String)),
       memberAccount: json['MemberAccount'] as String?,
       policyId: json['PolicyId'] as String?,
       policyOwner: json['PolicyOwner'] as String?,
@@ -6767,7 +6541,7 @@ class PolicyComplianceDetail {
         'EvaluationLimitExceeded': evaluationLimitExceeded,
       if (expiredAt != null) 'ExpiredAt': unixTimestampToJson(expiredAt),
       if (issueInfoMap != null)
-        'IssueInfoMap': issueInfoMap.map((k, e) => MapEntry(k.toValue(), e)),
+        'IssueInfoMap': issueInfoMap.map((k, e) => MapEntry(k.value, e)),
       if (memberAccount != null) 'MemberAccount': memberAccount,
       if (policyId != null) 'PolicyId': policyId,
       if (policyOwner != null) 'PolicyOwner': policyOwner,
@@ -6819,8 +6593,8 @@ class PolicyComplianceStatus {
           ?.whereNotNull()
           .map((e) => EvaluationResult.fromJson(e as Map<String, dynamic>))
           .toList(),
-      issueInfoMap: (json['IssueInfoMap'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k.toDependentServiceName(), e as String)),
+      issueInfoMap: (json['IssueInfoMap'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(DependentServiceName.fromString(k), e as String)),
       lastUpdated: timeStampFromJson(json['LastUpdated']),
       memberAccount: json['MemberAccount'] as String?,
       policyId: json['PolicyId'] as String?,
@@ -6840,7 +6614,7 @@ class PolicyComplianceStatus {
     return {
       if (evaluationResults != null) 'EvaluationResults': evaluationResults,
       if (issueInfoMap != null)
-        'IssueInfoMap': issueInfoMap.map((k, e) => MapEntry(k.toValue(), e)),
+        'IssueInfoMap': issueInfoMap.map((k, e) => MapEntry(k.value, e)),
       if (lastUpdated != null) 'LastUpdated': unixTimestampToJson(lastUpdated),
       if (memberAccount != null) 'MemberAccount': memberAccount,
       if (policyId != null) 'PolicyId': policyId,
@@ -6851,32 +6625,18 @@ class PolicyComplianceStatus {
 }
 
 enum PolicyComplianceStatusType {
-  compliant,
-  nonCompliant,
-}
+  compliant('COMPLIANT'),
+  nonCompliant('NON_COMPLIANT'),
+  ;
 
-extension PolicyComplianceStatusTypeValueExtension
-    on PolicyComplianceStatusType {
-  String toValue() {
-    switch (this) {
-      case PolicyComplianceStatusType.compliant:
-        return 'COMPLIANT';
-      case PolicyComplianceStatusType.nonCompliant:
-        return 'NON_COMPLIANT';
-    }
-  }
-}
+  final String value;
 
-extension PolicyComplianceStatusTypeFromString on String {
-  PolicyComplianceStatusType toPolicyComplianceStatusType() {
-    switch (this) {
-      case 'COMPLIANT':
-        return PolicyComplianceStatusType.compliant;
-      case 'NON_COMPLIANT':
-        return PolicyComplianceStatusType.nonCompliant;
-    }
-    throw Exception('$this is not known in enum PolicyComplianceStatusType');
-  }
+  const PolicyComplianceStatusType(this.value);
+
+  static PolicyComplianceStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PolicyComplianceStatusType'));
 }
 
 /// Contains the settings to configure a network ACL policy, a Network Firewall
@@ -7001,11 +6761,12 @@ class PolicySummary {
       policyArn: json['PolicyArn'] as String?,
       policyId: json['PolicyId'] as String?,
       policyName: json['PolicyName'] as String?,
-      policyStatus: (json['PolicyStatus'] as String?)?.toCustomerPolicyStatus(),
+      policyStatus: (json['PolicyStatus'] as String?)
+          ?.let(CustomerPolicyStatus.fromString),
       remediationEnabled: json['RemediationEnabled'] as bool?,
       resourceType: json['ResourceType'] as String?,
-      securityServiceType:
-          (json['SecurityServiceType'] as String?)?.toSecurityServiceType(),
+      securityServiceType: (json['SecurityServiceType'] as String?)
+          ?.let(SecurityServiceType.fromString),
     );
   }
 
@@ -7024,11 +6785,11 @@ class PolicySummary {
       if (policyArn != null) 'PolicyArn': policyArn,
       if (policyId != null) 'PolicyId': policyId,
       if (policyName != null) 'PolicyName': policyName,
-      if (policyStatus != null) 'PolicyStatus': policyStatus.toValue(),
+      if (policyStatus != null) 'PolicyStatus': policyStatus.value,
       if (remediationEnabled != null) 'RemediationEnabled': remediationEnabled,
       if (resourceType != null) 'ResourceType': resourceType,
       if (securityServiceType != null)
-        'SecurityServiceType': securityServiceType.toValue(),
+        'SecurityServiceType': securityServiceType.value,
     };
   }
 }
@@ -7056,7 +6817,7 @@ class PolicyTypeScope {
       allPolicyTypesEnabled: json['AllPolicyTypesEnabled'] as bool?,
       policyTypes: (json['PolicyTypes'] as List?)
           ?.whereNotNull()
-          .map((e) => (e as String).toSecurityServiceType())
+          .map((e) => SecurityServiceType.fromString((e as String)))
           .toList(),
     );
   }
@@ -7068,7 +6829,7 @@ class PolicyTypeScope {
       if (allPolicyTypesEnabled != null)
         'AllPolicyTypesEnabled': allPolicyTypesEnabled,
       if (policyTypes != null)
-        'PolicyTypes': policyTypes.map((e) => e.toValue()).toList(),
+        'PolicyTypes': policyTypes.map((e) => e.value).toList(),
     };
   }
 }
@@ -7608,31 +7369,18 @@ class RemediationAction {
 }
 
 enum RemediationActionType {
-  remove,
-  modify,
-}
+  remove('REMOVE'),
+  modify('MODIFY'),
+  ;
 
-extension RemediationActionTypeValueExtension on RemediationActionType {
-  String toValue() {
-    switch (this) {
-      case RemediationActionType.remove:
-        return 'REMOVE';
-      case RemediationActionType.modify:
-        return 'MODIFY';
-    }
-  }
-}
+  final String value;
 
-extension RemediationActionTypeFromString on String {
-  RemediationActionType toRemediationActionType() {
-    switch (this) {
-      case 'REMOVE':
-        return RemediationActionType.remove;
-      case 'MODIFY':
-        return RemediationActionType.modify;
-    }
-    throw Exception('$this is not known in enum RemediationActionType');
-  }
+  const RemediationActionType(this.value);
+
+  static RemediationActionType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RemediationActionType'));
 }
 
 /// An ordered list of actions you can take to remediate a violation.
@@ -7829,8 +7577,8 @@ class ResourceSet {
       description: json['Description'] as String?,
       id: json['Id'] as String?,
       lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
-      resourceSetStatus:
-          (json['ResourceSetStatus'] as String?)?.toResourceSetStatus(),
+      resourceSetStatus: (json['ResourceSetStatus'] as String?)
+          ?.let(ResourceSetStatus.fromString),
       updateToken: json['UpdateToken'] as String?,
     );
   }
@@ -7851,38 +7599,25 @@ class ResourceSet {
       if (lastUpdateTime != null)
         'LastUpdateTime': unixTimestampToJson(lastUpdateTime),
       if (resourceSetStatus != null)
-        'ResourceSetStatus': resourceSetStatus.toValue(),
+        'ResourceSetStatus': resourceSetStatus.value,
       if (updateToken != null) 'UpdateToken': updateToken,
     };
   }
 }
 
 enum ResourceSetStatus {
-  active,
-  outOfAdminScope,
-}
+  active('ACTIVE'),
+  outOfAdminScope('OUT_OF_ADMIN_SCOPE'),
+  ;
 
-extension ResourceSetStatusValueExtension on ResourceSetStatus {
-  String toValue() {
-    switch (this) {
-      case ResourceSetStatus.active:
-        return 'ACTIVE';
-      case ResourceSetStatus.outOfAdminScope:
-        return 'OUT_OF_ADMIN_SCOPE';
-    }
-  }
-}
+  final String value;
 
-extension ResourceSetStatusFromString on String {
-  ResourceSetStatus toResourceSetStatus() {
-    switch (this) {
-      case 'ACTIVE':
-        return ResourceSetStatus.active;
-      case 'OUT_OF_ADMIN_SCOPE':
-        return ResourceSetStatus.outOfAdminScope;
-    }
-    throw Exception('$this is not known in enum ResourceSetStatus');
-  }
+  const ResourceSetStatus(this.value);
+
+  static ResourceSetStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResourceSetStatus'));
 }
 
 /// Summarizes the resource sets used in a policy.
@@ -7932,8 +7667,8 @@ class ResourceSetSummary {
       id: json['Id'] as String?,
       lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
       name: json['Name'] as String?,
-      resourceSetStatus:
-          (json['ResourceSetStatus'] as String?)?.toResourceSetStatus(),
+      resourceSetStatus: (json['ResourceSetStatus'] as String?)
+          ?.let(ResourceSetStatus.fromString),
     );
   }
 
@@ -7950,7 +7685,7 @@ class ResourceSetSummary {
         'LastUpdateTime': unixTimestampToJson(lastUpdateTime),
       if (name != null) 'Name': name,
       if (resourceSetStatus != null)
-        'ResourceSetStatus': resourceSetStatus.toValue(),
+        'ResourceSetStatus': resourceSetStatus.value,
     };
   }
 }
@@ -8420,9 +8155,9 @@ class Route {
     return Route(
       destination: json['Destination'] as String?,
       destinationType:
-          (json['DestinationType'] as String?)?.toDestinationType(),
+          (json['DestinationType'] as String?)?.let(DestinationType.fromString),
       target: json['Target'] as String?,
-      targetType: (json['TargetType'] as String?)?.toTargetType(),
+      targetType: (json['TargetType'] as String?)?.let(TargetType.fromString),
     );
   }
 
@@ -8433,9 +8168,9 @@ class Route {
     final targetType = this.targetType;
     return {
       if (destination != null) 'Destination': destination,
-      if (destinationType != null) 'DestinationType': destinationType.toValue(),
+      if (destinationType != null) 'DestinationType': destinationType.value,
       if (target != null) 'Target': target,
-      if (targetType != null) 'TargetType': targetType.toValue(),
+      if (targetType != null) 'TargetType': targetType.value,
     };
   }
 }
@@ -8562,31 +8297,17 @@ class RouteHasOutOfScopeEndpointViolation {
 }
 
 enum RuleOrder {
-  strictOrder,
-  defaultActionOrder,
-}
+  strictOrder('STRICT_ORDER'),
+  defaultActionOrder('DEFAULT_ACTION_ORDER'),
+  ;
 
-extension RuleOrderValueExtension on RuleOrder {
-  String toValue() {
-    switch (this) {
-      case RuleOrder.strictOrder:
-        return 'STRICT_ORDER';
-      case RuleOrder.defaultActionOrder:
-        return 'DEFAULT_ACTION_ORDER';
-    }
-  }
-}
+  final String value;
 
-extension RuleOrderFromString on String {
-  RuleOrder toRuleOrder() {
-    switch (this) {
-      case 'STRICT_ORDER':
-        return RuleOrder.strictOrder;
-      case 'DEFAULT_ACTION_ORDER':
-        return RuleOrder.defaultActionOrder;
-    }
-    throw Exception('$this is not known in enum RuleOrder');
-  }
+  const RuleOrder(this.value);
+
+  static RuleOrder fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum RuleOrder'));
 }
 
 /// Remediation option for the rule specified in the
@@ -8616,8 +8337,8 @@ class SecurityGroupRemediationAction {
     return SecurityGroupRemediationAction(
       description: json['Description'] as String?,
       isDefaultAction: json['IsDefaultAction'] as bool?,
-      remediationActionType:
-          (json['RemediationActionType'] as String?)?.toRemediationActionType(),
+      remediationActionType: (json['RemediationActionType'] as String?)
+          ?.let(RemediationActionType.fromString),
       remediationResult: json['RemediationResult'] != null
           ? SecurityGroupRuleDescription.fromJson(
               json['RemediationResult'] as Map<String, dynamic>)
@@ -8634,7 +8355,7 @@ class SecurityGroupRemediationAction {
       if (description != null) 'Description': description,
       if (isDefaultAction != null) 'IsDefaultAction': isDefaultAction,
       if (remediationActionType != null)
-        'RemediationActionType': remediationActionType.toValue(),
+        'RemediationActionType': remediationActionType.value,
       if (remediationResult != null) 'RemediationResult': remediationResult,
     };
   }
@@ -9071,7 +8792,7 @@ class SecurityServicePolicyData {
 
   factory SecurityServicePolicyData.fromJson(Map<String, dynamic> json) {
     return SecurityServicePolicyData(
-      type: (json['Type'] as String).toSecurityServiceType(),
+      type: SecurityServiceType.fromString((json['Type'] as String)),
       managedServiceData: json['ManagedServiceData'] as String?,
       policyOption: json['PolicyOption'] != null
           ? PolicyOption.fromJson(json['PolicyOption'] as Map<String, dynamic>)
@@ -9084,7 +8805,7 @@ class SecurityServicePolicyData {
     final managedServiceData = this.managedServiceData;
     final policyOption = this.policyOption;
     return {
-      'Type': type.toValue(),
+      'Type': type.value,
       if (managedServiceData != null) 'ManagedServiceData': managedServiceData,
       if (policyOption != null) 'PolicyOption': policyOption,
     };
@@ -9092,76 +8813,27 @@ class SecurityServicePolicyData {
 }
 
 enum SecurityServiceType {
-  waf,
-  wafv2,
-  shieldAdvanced,
-  securityGroupsCommon,
-  securityGroupsContentAudit,
-  securityGroupsUsageAudit,
-  networkFirewall,
-  dnsFirewall,
-  thirdPartyFirewall,
-  importNetworkFirewall,
-  networkAclCommon,
-}
+  waf('WAF'),
+  wafv2('WAFV2'),
+  shieldAdvanced('SHIELD_ADVANCED'),
+  securityGroupsCommon('SECURITY_GROUPS_COMMON'),
+  securityGroupsContentAudit('SECURITY_GROUPS_CONTENT_AUDIT'),
+  securityGroupsUsageAudit('SECURITY_GROUPS_USAGE_AUDIT'),
+  networkFirewall('NETWORK_FIREWALL'),
+  dnsFirewall('DNS_FIREWALL'),
+  thirdPartyFirewall('THIRD_PARTY_FIREWALL'),
+  importNetworkFirewall('IMPORT_NETWORK_FIREWALL'),
+  networkAclCommon('NETWORK_ACL_COMMON'),
+  ;
 
-extension SecurityServiceTypeValueExtension on SecurityServiceType {
-  String toValue() {
-    switch (this) {
-      case SecurityServiceType.waf:
-        return 'WAF';
-      case SecurityServiceType.wafv2:
-        return 'WAFV2';
-      case SecurityServiceType.shieldAdvanced:
-        return 'SHIELD_ADVANCED';
-      case SecurityServiceType.securityGroupsCommon:
-        return 'SECURITY_GROUPS_COMMON';
-      case SecurityServiceType.securityGroupsContentAudit:
-        return 'SECURITY_GROUPS_CONTENT_AUDIT';
-      case SecurityServiceType.securityGroupsUsageAudit:
-        return 'SECURITY_GROUPS_USAGE_AUDIT';
-      case SecurityServiceType.networkFirewall:
-        return 'NETWORK_FIREWALL';
-      case SecurityServiceType.dnsFirewall:
-        return 'DNS_FIREWALL';
-      case SecurityServiceType.thirdPartyFirewall:
-        return 'THIRD_PARTY_FIREWALL';
-      case SecurityServiceType.importNetworkFirewall:
-        return 'IMPORT_NETWORK_FIREWALL';
-      case SecurityServiceType.networkAclCommon:
-        return 'NETWORK_ACL_COMMON';
-    }
-  }
-}
+  final String value;
 
-extension SecurityServiceTypeFromString on String {
-  SecurityServiceType toSecurityServiceType() {
-    switch (this) {
-      case 'WAF':
-        return SecurityServiceType.waf;
-      case 'WAFV2':
-        return SecurityServiceType.wafv2;
-      case 'SHIELD_ADVANCED':
-        return SecurityServiceType.shieldAdvanced;
-      case 'SECURITY_GROUPS_COMMON':
-        return SecurityServiceType.securityGroupsCommon;
-      case 'SECURITY_GROUPS_CONTENT_AUDIT':
-        return SecurityServiceType.securityGroupsContentAudit;
-      case 'SECURITY_GROUPS_USAGE_AUDIT':
-        return SecurityServiceType.securityGroupsUsageAudit;
-      case 'NETWORK_FIREWALL':
-        return SecurityServiceType.networkFirewall;
-      case 'DNS_FIREWALL':
-        return SecurityServiceType.dnsFirewall;
-      case 'THIRD_PARTY_FIREWALL':
-        return SecurityServiceType.thirdPartyFirewall;
-      case 'IMPORT_NETWORK_FIREWALL':
-        return SecurityServiceType.importNetworkFirewall;
-      case 'NETWORK_ACL_COMMON':
-        return SecurityServiceType.networkAclCommon;
-    }
-    throw Exception('$this is not known in enum SecurityServiceType');
-  }
+  const SecurityServiceType(this.value);
+
+  static SecurityServiceType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SecurityServiceType'));
 }
 
 /// Configuration settings for the handling of the stateful rule groups in a
@@ -9225,9 +8897,9 @@ class StatefulEngineOptions {
 
   factory StatefulEngineOptions.fromJson(Map<String, dynamic> json) {
     return StatefulEngineOptions(
-      ruleOrder: (json['RuleOrder'] as String?)?.toRuleOrder(),
-      streamExceptionPolicy:
-          (json['StreamExceptionPolicy'] as String?)?.toStreamExceptionPolicy(),
+      ruleOrder: (json['RuleOrder'] as String?)?.let(RuleOrder.fromString),
+      streamExceptionPolicy: (json['StreamExceptionPolicy'] as String?)
+          ?.let(StreamExceptionPolicy.fromString),
     );
   }
 
@@ -9235,9 +8907,9 @@ class StatefulEngineOptions {
     final ruleOrder = this.ruleOrder;
     final streamExceptionPolicy = this.streamExceptionPolicy;
     return {
-      if (ruleOrder != null) 'RuleOrder': ruleOrder.toValue(),
+      if (ruleOrder != null) 'RuleOrder': ruleOrder.value,
       if (streamExceptionPolicy != null)
-        'StreamExceptionPolicy': streamExceptionPolicy.toValue(),
+        'StreamExceptionPolicy': streamExceptionPolicy.value,
     };
   }
 }
@@ -9342,41 +9014,20 @@ class StatelessRuleGroup {
 }
 
 enum StreamExceptionPolicy {
-  drop,
-  $continue,
-  reject,
-  fmsIgnore,
-}
+  drop('DROP'),
+  $continue('CONTINUE'),
+  reject('REJECT'),
+  fmsIgnore('FMS_IGNORE'),
+  ;
 
-extension StreamExceptionPolicyValueExtension on StreamExceptionPolicy {
-  String toValue() {
-    switch (this) {
-      case StreamExceptionPolicy.drop:
-        return 'DROP';
-      case StreamExceptionPolicy.$continue:
-        return 'CONTINUE';
-      case StreamExceptionPolicy.reject:
-        return 'REJECT';
-      case StreamExceptionPolicy.fmsIgnore:
-        return 'FMS_IGNORE';
-    }
-  }
-}
+  final String value;
 
-extension StreamExceptionPolicyFromString on String {
-  StreamExceptionPolicy toStreamExceptionPolicy() {
-    switch (this) {
-      case 'DROP':
-        return StreamExceptionPolicy.drop;
-      case 'CONTINUE':
-        return StreamExceptionPolicy.$continue;
-      case 'REJECT':
-        return StreamExceptionPolicy.reject;
-      case 'FMS_IGNORE':
-        return StreamExceptionPolicy.fmsIgnore;
-    }
-    throw Exception('$this is not known in enum StreamExceptionPolicy');
-  }
+  const StreamExceptionPolicy(this.value);
+
+  static StreamExceptionPolicy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum StreamExceptionPolicy'));
 }
 
 /// A collection of key:value pairs associated with an Amazon Web Services
@@ -9431,144 +9082,58 @@ class TagResourceResponse {
 }
 
 enum TargetType {
-  gateway,
-  carrierGateway,
-  instance,
-  localGateway,
-  natGateway,
-  networkInterface,
-  vpcEndpoint,
-  vpcPeeringConnection,
-  egressOnlyInternetGateway,
-  transitGateway,
-}
+  gateway('GATEWAY'),
+  carrierGateway('CARRIER_GATEWAY'),
+  instance('INSTANCE'),
+  localGateway('LOCAL_GATEWAY'),
+  natGateway('NAT_GATEWAY'),
+  networkInterface('NETWORK_INTERFACE'),
+  vpcEndpoint('VPC_ENDPOINT'),
+  vpcPeeringConnection('VPC_PEERING_CONNECTION'),
+  egressOnlyInternetGateway('EGRESS_ONLY_INTERNET_GATEWAY'),
+  transitGateway('TRANSIT_GATEWAY'),
+  ;
 
-extension TargetTypeValueExtension on TargetType {
-  String toValue() {
-    switch (this) {
-      case TargetType.gateway:
-        return 'GATEWAY';
-      case TargetType.carrierGateway:
-        return 'CARRIER_GATEWAY';
-      case TargetType.instance:
-        return 'INSTANCE';
-      case TargetType.localGateway:
-        return 'LOCAL_GATEWAY';
-      case TargetType.natGateway:
-        return 'NAT_GATEWAY';
-      case TargetType.networkInterface:
-        return 'NETWORK_INTERFACE';
-      case TargetType.vpcEndpoint:
-        return 'VPC_ENDPOINT';
-      case TargetType.vpcPeeringConnection:
-        return 'VPC_PEERING_CONNECTION';
-      case TargetType.egressOnlyInternetGateway:
-        return 'EGRESS_ONLY_INTERNET_GATEWAY';
-      case TargetType.transitGateway:
-        return 'TRANSIT_GATEWAY';
-    }
-  }
-}
+  final String value;
 
-extension TargetTypeFromString on String {
-  TargetType toTargetType() {
-    switch (this) {
-      case 'GATEWAY':
-        return TargetType.gateway;
-      case 'CARRIER_GATEWAY':
-        return TargetType.carrierGateway;
-      case 'INSTANCE':
-        return TargetType.instance;
-      case 'LOCAL_GATEWAY':
-        return TargetType.localGateway;
-      case 'NAT_GATEWAY':
-        return TargetType.natGateway;
-      case 'NETWORK_INTERFACE':
-        return TargetType.networkInterface;
-      case 'VPC_ENDPOINT':
-        return TargetType.vpcEndpoint;
-      case 'VPC_PEERING_CONNECTION':
-        return TargetType.vpcPeeringConnection;
-      case 'EGRESS_ONLY_INTERNET_GATEWAY':
-        return TargetType.egressOnlyInternetGateway;
-      case 'TRANSIT_GATEWAY':
-        return TargetType.transitGateway;
-    }
-    throw Exception('$this is not known in enum TargetType');
-  }
+  const TargetType(this.value);
+
+  static TargetType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum TargetType'));
 }
 
 enum ThirdPartyFirewall {
-  paloAltoNetworksCloudNgfw,
-  fortigateCloudNativeFirewall,
-}
+  paloAltoNetworksCloudNgfw('PALO_ALTO_NETWORKS_CLOUD_NGFW'),
+  fortigateCloudNativeFirewall('FORTIGATE_CLOUD_NATIVE_FIREWALL'),
+  ;
 
-extension ThirdPartyFirewallValueExtension on ThirdPartyFirewall {
-  String toValue() {
-    switch (this) {
-      case ThirdPartyFirewall.paloAltoNetworksCloudNgfw:
-        return 'PALO_ALTO_NETWORKS_CLOUD_NGFW';
-      case ThirdPartyFirewall.fortigateCloudNativeFirewall:
-        return 'FORTIGATE_CLOUD_NATIVE_FIREWALL';
-    }
-  }
-}
+  final String value;
 
-extension ThirdPartyFirewallFromString on String {
-  ThirdPartyFirewall toThirdPartyFirewall() {
-    switch (this) {
-      case 'PALO_ALTO_NETWORKS_CLOUD_NGFW':
-        return ThirdPartyFirewall.paloAltoNetworksCloudNgfw;
-      case 'FORTIGATE_CLOUD_NATIVE_FIREWALL':
-        return ThirdPartyFirewall.fortigateCloudNativeFirewall;
-    }
-    throw Exception('$this is not known in enum ThirdPartyFirewall');
-  }
+  const ThirdPartyFirewall(this.value);
+
+  static ThirdPartyFirewall fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ThirdPartyFirewall'));
 }
 
 enum ThirdPartyFirewallAssociationStatus {
-  onboarding,
-  onboardComplete,
-  offboarding,
-  offboardComplete,
-  notExist,
-}
+  onboarding('ONBOARDING'),
+  onboardComplete('ONBOARD_COMPLETE'),
+  offboarding('OFFBOARDING'),
+  offboardComplete('OFFBOARD_COMPLETE'),
+  notExist('NOT_EXIST'),
+  ;
 
-extension ThirdPartyFirewallAssociationStatusValueExtension
-    on ThirdPartyFirewallAssociationStatus {
-  String toValue() {
-    switch (this) {
-      case ThirdPartyFirewallAssociationStatus.onboarding:
-        return 'ONBOARDING';
-      case ThirdPartyFirewallAssociationStatus.onboardComplete:
-        return 'ONBOARD_COMPLETE';
-      case ThirdPartyFirewallAssociationStatus.offboarding:
-        return 'OFFBOARDING';
-      case ThirdPartyFirewallAssociationStatus.offboardComplete:
-        return 'OFFBOARD_COMPLETE';
-      case ThirdPartyFirewallAssociationStatus.notExist:
-        return 'NOT_EXIST';
-    }
-  }
-}
+  final String value;
 
-extension ThirdPartyFirewallAssociationStatusFromString on String {
-  ThirdPartyFirewallAssociationStatus toThirdPartyFirewallAssociationStatus() {
-    switch (this) {
-      case 'ONBOARDING':
-        return ThirdPartyFirewallAssociationStatus.onboarding;
-      case 'ONBOARD_COMPLETE':
-        return ThirdPartyFirewallAssociationStatus.onboardComplete;
-      case 'OFFBOARDING':
-        return ThirdPartyFirewallAssociationStatus.offboarding;
-      case 'OFFBOARD_COMPLETE':
-        return ThirdPartyFirewallAssociationStatus.offboardComplete;
-      case 'NOT_EXIST':
-        return ThirdPartyFirewallAssociationStatus.notExist;
-    }
-    throw Exception(
-        '$this is not known in enum ThirdPartyFirewallAssociationStatus');
-  }
+  const ThirdPartyFirewallAssociationStatus(this.value);
+
+  static ThirdPartyFirewallAssociationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ThirdPartyFirewallAssociationStatus'));
 }
 
 /// Configures the third-party firewall's firewall policy.
@@ -9767,7 +9332,7 @@ class ThirdPartyFirewallPolicy {
   factory ThirdPartyFirewallPolicy.fromJson(Map<String, dynamic> json) {
     return ThirdPartyFirewallPolicy(
       firewallDeploymentModel: (json['FirewallDeploymentModel'] as String?)
-          ?.toFirewallDeploymentModel(),
+          ?.let(FirewallDeploymentModel.fromString),
     );
   }
 
@@ -9775,7 +9340,7 @@ class ThirdPartyFirewallPolicy {
     final firewallDeploymentModel = this.firewallDeploymentModel;
     return {
       if (firewallDeploymentModel != null)
-        'FirewallDeploymentModel': firewallDeploymentModel.toValue(),
+        'FirewallDeploymentModel': firewallDeploymentModel.value,
     };
   }
 }
@@ -9868,166 +9433,48 @@ class ViolationDetail {
 }
 
 enum ViolationReason {
-  webAclMissingRuleGroup,
-  resourceMissingWebAcl,
-  resourceIncorrectWebAcl,
-  resourceMissingShieldProtection,
-  resourceMissingWebAclOrShieldProtection,
-  resourceMissingSecurityGroup,
-  resourceViolatesAuditSecurityGroup,
-  securityGroupUnused,
-  securityGroupRedundant,
-  fmsCreatedSecurityGroupEdited,
-  missingFirewall,
-  missingFirewallSubnetInAz,
-  missingExpectedRouteTable,
-  networkFirewallPolicyModified,
-  firewallSubnetIsOutOfScope,
-  internetGatewayMissingExpectedRoute,
-  firewallSubnetMissingExpectedRoute,
-  unexpectedFirewallRoutes,
-  unexpectedTargetGatewayRoutes,
-  trafficInspectionCrossesAzBoundary,
-  invalidRouteConfiguration,
-  missingTargetGateway,
-  internetTrafficNotInspected,
-  blackHoleRouteDetected,
-  blackHoleRouteDetectedInFirewallSubnet,
-  resourceMissingDnsFirewall,
-  routeHasOutOfScopeEndpoint,
-  firewallSubnetMissingVpceEndpoint,
-  invalidNetworkAclEntry,
-}
+  webAclMissingRuleGroup('WEB_ACL_MISSING_RULE_GROUP'),
+  resourceMissingWebAcl('RESOURCE_MISSING_WEB_ACL'),
+  resourceIncorrectWebAcl('RESOURCE_INCORRECT_WEB_ACL'),
+  resourceMissingShieldProtection('RESOURCE_MISSING_SHIELD_PROTECTION'),
+  resourceMissingWebAclOrShieldProtection(
+      'RESOURCE_MISSING_WEB_ACL_OR_SHIELD_PROTECTION'),
+  resourceMissingSecurityGroup('RESOURCE_MISSING_SECURITY_GROUP'),
+  resourceViolatesAuditSecurityGroup('RESOURCE_VIOLATES_AUDIT_SECURITY_GROUP'),
+  securityGroupUnused('SECURITY_GROUP_UNUSED'),
+  securityGroupRedundant('SECURITY_GROUP_REDUNDANT'),
+  fmsCreatedSecurityGroupEdited('FMS_CREATED_SECURITY_GROUP_EDITED'),
+  missingFirewall('MISSING_FIREWALL'),
+  missingFirewallSubnetInAz('MISSING_FIREWALL_SUBNET_IN_AZ'),
+  missingExpectedRouteTable('MISSING_EXPECTED_ROUTE_TABLE'),
+  networkFirewallPolicyModified('NETWORK_FIREWALL_POLICY_MODIFIED'),
+  firewallSubnetIsOutOfScope('FIREWALL_SUBNET_IS_OUT_OF_SCOPE'),
+  internetGatewayMissingExpectedRoute(
+      'INTERNET_GATEWAY_MISSING_EXPECTED_ROUTE'),
+  firewallSubnetMissingExpectedRoute('FIREWALL_SUBNET_MISSING_EXPECTED_ROUTE'),
+  unexpectedFirewallRoutes('UNEXPECTED_FIREWALL_ROUTES'),
+  unexpectedTargetGatewayRoutes('UNEXPECTED_TARGET_GATEWAY_ROUTES'),
+  trafficInspectionCrossesAzBoundary('TRAFFIC_INSPECTION_CROSSES_AZ_BOUNDARY'),
+  invalidRouteConfiguration('INVALID_ROUTE_CONFIGURATION'),
+  missingTargetGateway('MISSING_TARGET_GATEWAY'),
+  internetTrafficNotInspected('INTERNET_TRAFFIC_NOT_INSPECTED'),
+  blackHoleRouteDetected('BLACK_HOLE_ROUTE_DETECTED'),
+  blackHoleRouteDetectedInFirewallSubnet(
+      'BLACK_HOLE_ROUTE_DETECTED_IN_FIREWALL_SUBNET'),
+  resourceMissingDnsFirewall('RESOURCE_MISSING_DNS_FIREWALL'),
+  routeHasOutOfScopeEndpoint('ROUTE_HAS_OUT_OF_SCOPE_ENDPOINT'),
+  firewallSubnetMissingVpceEndpoint('FIREWALL_SUBNET_MISSING_VPCE_ENDPOINT'),
+  invalidNetworkAclEntry('INVALID_NETWORK_ACL_ENTRY'),
+  ;
 
-extension ViolationReasonValueExtension on ViolationReason {
-  String toValue() {
-    switch (this) {
-      case ViolationReason.webAclMissingRuleGroup:
-        return 'WEB_ACL_MISSING_RULE_GROUP';
-      case ViolationReason.resourceMissingWebAcl:
-        return 'RESOURCE_MISSING_WEB_ACL';
-      case ViolationReason.resourceIncorrectWebAcl:
-        return 'RESOURCE_INCORRECT_WEB_ACL';
-      case ViolationReason.resourceMissingShieldProtection:
-        return 'RESOURCE_MISSING_SHIELD_PROTECTION';
-      case ViolationReason.resourceMissingWebAclOrShieldProtection:
-        return 'RESOURCE_MISSING_WEB_ACL_OR_SHIELD_PROTECTION';
-      case ViolationReason.resourceMissingSecurityGroup:
-        return 'RESOURCE_MISSING_SECURITY_GROUP';
-      case ViolationReason.resourceViolatesAuditSecurityGroup:
-        return 'RESOURCE_VIOLATES_AUDIT_SECURITY_GROUP';
-      case ViolationReason.securityGroupUnused:
-        return 'SECURITY_GROUP_UNUSED';
-      case ViolationReason.securityGroupRedundant:
-        return 'SECURITY_GROUP_REDUNDANT';
-      case ViolationReason.fmsCreatedSecurityGroupEdited:
-        return 'FMS_CREATED_SECURITY_GROUP_EDITED';
-      case ViolationReason.missingFirewall:
-        return 'MISSING_FIREWALL';
-      case ViolationReason.missingFirewallSubnetInAz:
-        return 'MISSING_FIREWALL_SUBNET_IN_AZ';
-      case ViolationReason.missingExpectedRouteTable:
-        return 'MISSING_EXPECTED_ROUTE_TABLE';
-      case ViolationReason.networkFirewallPolicyModified:
-        return 'NETWORK_FIREWALL_POLICY_MODIFIED';
-      case ViolationReason.firewallSubnetIsOutOfScope:
-        return 'FIREWALL_SUBNET_IS_OUT_OF_SCOPE';
-      case ViolationReason.internetGatewayMissingExpectedRoute:
-        return 'INTERNET_GATEWAY_MISSING_EXPECTED_ROUTE';
-      case ViolationReason.firewallSubnetMissingExpectedRoute:
-        return 'FIREWALL_SUBNET_MISSING_EXPECTED_ROUTE';
-      case ViolationReason.unexpectedFirewallRoutes:
-        return 'UNEXPECTED_FIREWALL_ROUTES';
-      case ViolationReason.unexpectedTargetGatewayRoutes:
-        return 'UNEXPECTED_TARGET_GATEWAY_ROUTES';
-      case ViolationReason.trafficInspectionCrossesAzBoundary:
-        return 'TRAFFIC_INSPECTION_CROSSES_AZ_BOUNDARY';
-      case ViolationReason.invalidRouteConfiguration:
-        return 'INVALID_ROUTE_CONFIGURATION';
-      case ViolationReason.missingTargetGateway:
-        return 'MISSING_TARGET_GATEWAY';
-      case ViolationReason.internetTrafficNotInspected:
-        return 'INTERNET_TRAFFIC_NOT_INSPECTED';
-      case ViolationReason.blackHoleRouteDetected:
-        return 'BLACK_HOLE_ROUTE_DETECTED';
-      case ViolationReason.blackHoleRouteDetectedInFirewallSubnet:
-        return 'BLACK_HOLE_ROUTE_DETECTED_IN_FIREWALL_SUBNET';
-      case ViolationReason.resourceMissingDnsFirewall:
-        return 'RESOURCE_MISSING_DNS_FIREWALL';
-      case ViolationReason.routeHasOutOfScopeEndpoint:
-        return 'ROUTE_HAS_OUT_OF_SCOPE_ENDPOINT';
-      case ViolationReason.firewallSubnetMissingVpceEndpoint:
-        return 'FIREWALL_SUBNET_MISSING_VPCE_ENDPOINT';
-      case ViolationReason.invalidNetworkAclEntry:
-        return 'INVALID_NETWORK_ACL_ENTRY';
-    }
-  }
-}
+  final String value;
 
-extension ViolationReasonFromString on String {
-  ViolationReason toViolationReason() {
-    switch (this) {
-      case 'WEB_ACL_MISSING_RULE_GROUP':
-        return ViolationReason.webAclMissingRuleGroup;
-      case 'RESOURCE_MISSING_WEB_ACL':
-        return ViolationReason.resourceMissingWebAcl;
-      case 'RESOURCE_INCORRECT_WEB_ACL':
-        return ViolationReason.resourceIncorrectWebAcl;
-      case 'RESOURCE_MISSING_SHIELD_PROTECTION':
-        return ViolationReason.resourceMissingShieldProtection;
-      case 'RESOURCE_MISSING_WEB_ACL_OR_SHIELD_PROTECTION':
-        return ViolationReason.resourceMissingWebAclOrShieldProtection;
-      case 'RESOURCE_MISSING_SECURITY_GROUP':
-        return ViolationReason.resourceMissingSecurityGroup;
-      case 'RESOURCE_VIOLATES_AUDIT_SECURITY_GROUP':
-        return ViolationReason.resourceViolatesAuditSecurityGroup;
-      case 'SECURITY_GROUP_UNUSED':
-        return ViolationReason.securityGroupUnused;
-      case 'SECURITY_GROUP_REDUNDANT':
-        return ViolationReason.securityGroupRedundant;
-      case 'FMS_CREATED_SECURITY_GROUP_EDITED':
-        return ViolationReason.fmsCreatedSecurityGroupEdited;
-      case 'MISSING_FIREWALL':
-        return ViolationReason.missingFirewall;
-      case 'MISSING_FIREWALL_SUBNET_IN_AZ':
-        return ViolationReason.missingFirewallSubnetInAz;
-      case 'MISSING_EXPECTED_ROUTE_TABLE':
-        return ViolationReason.missingExpectedRouteTable;
-      case 'NETWORK_FIREWALL_POLICY_MODIFIED':
-        return ViolationReason.networkFirewallPolicyModified;
-      case 'FIREWALL_SUBNET_IS_OUT_OF_SCOPE':
-        return ViolationReason.firewallSubnetIsOutOfScope;
-      case 'INTERNET_GATEWAY_MISSING_EXPECTED_ROUTE':
-        return ViolationReason.internetGatewayMissingExpectedRoute;
-      case 'FIREWALL_SUBNET_MISSING_EXPECTED_ROUTE':
-        return ViolationReason.firewallSubnetMissingExpectedRoute;
-      case 'UNEXPECTED_FIREWALL_ROUTES':
-        return ViolationReason.unexpectedFirewallRoutes;
-      case 'UNEXPECTED_TARGET_GATEWAY_ROUTES':
-        return ViolationReason.unexpectedTargetGatewayRoutes;
-      case 'TRAFFIC_INSPECTION_CROSSES_AZ_BOUNDARY':
-        return ViolationReason.trafficInspectionCrossesAzBoundary;
-      case 'INVALID_ROUTE_CONFIGURATION':
-        return ViolationReason.invalidRouteConfiguration;
-      case 'MISSING_TARGET_GATEWAY':
-        return ViolationReason.missingTargetGateway;
-      case 'INTERNET_TRAFFIC_NOT_INSPECTED':
-        return ViolationReason.internetTrafficNotInspected;
-      case 'BLACK_HOLE_ROUTE_DETECTED':
-        return ViolationReason.blackHoleRouteDetected;
-      case 'BLACK_HOLE_ROUTE_DETECTED_IN_FIREWALL_SUBNET':
-        return ViolationReason.blackHoleRouteDetectedInFirewallSubnet;
-      case 'RESOURCE_MISSING_DNS_FIREWALL':
-        return ViolationReason.resourceMissingDnsFirewall;
-      case 'ROUTE_HAS_OUT_OF_SCOPE_ENDPOINT':
-        return ViolationReason.routeHasOutOfScopeEndpoint;
-      case 'FIREWALL_SUBNET_MISSING_VPCE_ENDPOINT':
-        return ViolationReason.firewallSubnetMissingVpceEndpoint;
-      case 'INVALID_NETWORK_ACL_ENTRY':
-        return ViolationReason.invalidNetworkAclEntry;
-    }
-    throw Exception('$this is not known in enum ViolationReason');
-  }
+  const ViolationReason(this.value);
+
+  static ViolationReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ViolationReason'));
 }
 
 class InternalErrorException extends _s.GenericAwsException {

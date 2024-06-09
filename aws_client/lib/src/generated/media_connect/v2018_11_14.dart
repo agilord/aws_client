@@ -1566,7 +1566,7 @@ class MediaConnect {
     required DesiredState desiredState,
   }) async {
     final $payload = <String, dynamic>{
-      'desiredState': desiredState.toValue(),
+      'desiredState': desiredState.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1655,7 +1655,7 @@ class MediaConnect {
       if (description != null) 'description': description,
       if (encryption != null) 'encryption': encryption,
       if (entitlementStatus != null)
-        'entitlementStatus': entitlementStatus.toValue(),
+        'entitlementStatus': entitlementStatus.value,
       if (subscribers != null) 'subscribers': subscribers,
     };
     final response = await _protocol.send(
@@ -1712,7 +1712,7 @@ class MediaConnect {
       if (attributes != null) 'attributes': attributes,
       if (clockRate != null) 'clockRate': clockRate,
       if (description != null) 'description': description,
-      if (mediaStreamType != null) 'mediaStreamType': mediaStreamType.toValue(),
+      if (mediaStreamType != null) 'mediaStreamType': mediaStreamType.value,
       if (videoFormat != null) 'videoFormat': videoFormat,
     };
     final response = await _protocol.send(
@@ -1828,7 +1828,7 @@ class MediaConnect {
         'mediaStreamOutputConfigurations': mediaStreamOutputConfigurations,
       if (minLatency != null) 'minLatency': minLatency,
       if (port != null) 'port': port,
-      if (protocol != null) 'protocol': protocol.toValue(),
+      if (protocol != null) 'protocol': protocol.value,
       if (remoteId != null) 'remoteId': remoteId,
       if (senderControlPort != null) 'senderControlPort': senderControlPort,
       if (senderIpAddress != null) 'senderIpAddress': senderIpAddress,
@@ -1967,7 +1967,7 @@ class MediaConnect {
       if (mediaStreamSourceConfigurations != null)
         'mediaStreamSourceConfigurations': mediaStreamSourceConfigurations,
       if (minLatency != null) 'minLatency': minLatency,
-      if (protocol != null) 'protocol': protocol.toValue(),
+      if (protocol != null) 'protocol': protocol.value,
       if (senderControlPort != null) 'senderControlPort': senderControlPort,
       if (senderIpAddress != null) 'senderIpAddress': senderIpAddress,
       if (sourceListenerAddress != null)
@@ -2010,7 +2010,7 @@ class MediaConnect {
     BridgePlacement? bridgePlacement,
   }) async {
     final $payload = <String, dynamic>{
-      if (bridgePlacement != null) 'bridgePlacement': bridgePlacement.toValue(),
+      if (bridgePlacement != null) 'bridgePlacement': bridgePlacement.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2097,7 +2097,7 @@ class AddBridgeNetworkOutputRequest {
       'name': name,
       'networkName': networkName,
       'port': port,
-      'protocol': protocol.toValue(),
+      'protocol': protocol.value,
       'ttl': ttl,
     };
   }
@@ -2140,7 +2140,7 @@ class AddBridgeNetworkSourceRequest {
       'name': name,
       'networkName': networkName,
       'port': port,
-      'protocol': protocol.toValue(),
+      'protocol': protocol.value,
     };
   }
 }
@@ -2430,7 +2430,7 @@ class AddMaintenance {
     final maintenanceDay = this.maintenanceDay;
     final maintenanceStartHour = this.maintenanceStartHour;
     return {
-      'maintenanceDay': maintenanceDay.toValue(),
+      'maintenanceDay': maintenanceDay.value,
       'maintenanceStartHour': maintenanceStartHour,
     };
   }
@@ -2483,7 +2483,7 @@ class AddMediaStreamRequest {
     return {
       'mediaStreamId': mediaStreamId,
       'mediaStreamName': mediaStreamName,
-      'mediaStreamType': mediaStreamType.toValue(),
+      'mediaStreamType': mediaStreamType.value,
       if (attributes != null) 'attributes': attributes,
       if (clockRate != null) 'clockRate': clockRate,
       if (description != null) 'description': description,
@@ -2589,7 +2589,7 @@ class AddOutputRequest {
     final streamId = this.streamId;
     final vpcInterfaceAttachment = this.vpcInterfaceAttachment;
     return {
-      'protocol': protocol.toValue(),
+      'protocol': protocol.value,
       if (cidrAllowList != null) 'cidrAllowList': cidrAllowList,
       if (description != null) 'description': description,
       if (destination != null) 'destination': destination,
@@ -2611,36 +2611,18 @@ class AddOutputRequest {
 }
 
 enum Algorithm {
-  aes128,
-  aes192,
-  aes256,
-}
+  aes128('aes128'),
+  aes192('aes192'),
+  aes256('aes256'),
+  ;
 
-extension AlgorithmValueExtension on Algorithm {
-  String toValue() {
-    switch (this) {
-      case Algorithm.aes128:
-        return 'aes128';
-      case Algorithm.aes192:
-        return 'aes192';
-      case Algorithm.aes256:
-        return 'aes256';
-    }
-  }
-}
+  final String value;
 
-extension AlgorithmFromString on String {
-  Algorithm toAlgorithm() {
-    switch (this) {
-      case 'aes128':
-        return Algorithm.aes128;
-      case 'aes192':
-        return Algorithm.aes192;
-      case 'aes256':
-        return Algorithm.aes256;
-    }
-    throw Exception('$this is not known in enum Algorithm');
-  }
+  const Algorithm(this.value);
+
+  static Algorithm fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Algorithm'));
 }
 
 /// A Bridge is the connection between your datacenter's Instances and the AWS
@@ -2683,7 +2665,7 @@ class Bridge {
   factory Bridge.fromJson(Map<String, dynamic> json) {
     return Bridge(
       bridgeArn: json['bridgeArn'] as String,
-      bridgeState: (json['bridgeState'] as String).toBridgeState(),
+      bridgeState: BridgeState.fromString((json['bridgeState'] as String)),
       name: json['name'] as String,
       placementArn: json['placementArn'] as String,
       bridgeMessages: (json['bridgeMessages'] as List?)
@@ -2726,7 +2708,7 @@ class Bridge {
     final sources = this.sources;
     return {
       'bridgeArn': bridgeArn,
-      'bridgeState': bridgeState.toValue(),
+      'bridgeState': bridgeState.value,
       'name': name,
       'placementArn': placementArn,
       if (bridgeMessages != null) 'bridgeMessages': bridgeMessages,
@@ -2863,7 +2845,7 @@ class BridgeNetworkOutput {
       name: json['name'] as String,
       networkName: json['networkName'] as String,
       port: json['port'] as int,
-      protocol: (json['protocol'] as String).toProtocol(),
+      protocol: Protocol.fromString((json['protocol'] as String)),
       ttl: json['ttl'] as int,
     );
   }
@@ -2880,7 +2862,7 @@ class BridgeNetworkOutput {
       'name': name,
       'networkName': networkName,
       'port': port,
-      'protocol': protocol.toValue(),
+      'protocol': protocol.value,
       'ttl': ttl,
     };
   }
@@ -2917,7 +2899,7 @@ class BridgeNetworkSource {
       name: json['name'] as String,
       networkName: json['networkName'] as String,
       port: json['port'] as int,
-      protocol: (json['protocol'] as String).toProtocol(),
+      protocol: Protocol.fromString((json['protocol'] as String)),
     );
   }
 
@@ -2932,7 +2914,7 @@ class BridgeNetworkSource {
       'name': name,
       'networkName': networkName,
       'port': port,
-      'protocol': protocol.toValue(),
+      'protocol': protocol.value,
     };
   }
 }
@@ -2971,31 +2953,18 @@ class BridgeOutput {
 }
 
 enum BridgePlacement {
-  available,
-  locked,
-}
+  available('AVAILABLE'),
+  locked('LOCKED'),
+  ;
 
-extension BridgePlacementValueExtension on BridgePlacement {
-  String toValue() {
-    switch (this) {
-      case BridgePlacement.available:
-        return 'AVAILABLE';
-      case BridgePlacement.locked:
-        return 'LOCKED';
-    }
-  }
-}
+  final String value;
 
-extension BridgePlacementFromString on String {
-  BridgePlacement toBridgePlacement() {
-    switch (this) {
-      case 'AVAILABLE':
-        return BridgePlacement.available;
-      case 'LOCKED':
-        return BridgePlacement.locked;
-    }
-    throw Exception('$this is not known in enum BridgePlacement');
-  }
+  const BridgePlacement(this.value);
+
+  static BridgePlacement fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum BridgePlacement'));
 }
 
 /// The bridge's source.
@@ -3032,162 +3001,61 @@ class BridgeSource {
 }
 
 enum BridgeState {
-  creating,
-  standby,
-  starting,
-  deploying,
-  active,
-  stopping,
-  deleting,
-  deleted,
-  startFailed,
-  startPending,
-  stopFailed,
-  updating,
-}
+  creating('CREATING'),
+  standby('STANDBY'),
+  starting('STARTING'),
+  deploying('DEPLOYING'),
+  active('ACTIVE'),
+  stopping('STOPPING'),
+  deleting('DELETING'),
+  deleted('DELETED'),
+  startFailed('START_FAILED'),
+  startPending('START_PENDING'),
+  stopFailed('STOP_FAILED'),
+  updating('UPDATING'),
+  ;
 
-extension BridgeStateValueExtension on BridgeState {
-  String toValue() {
-    switch (this) {
-      case BridgeState.creating:
-        return 'CREATING';
-      case BridgeState.standby:
-        return 'STANDBY';
-      case BridgeState.starting:
-        return 'STARTING';
-      case BridgeState.deploying:
-        return 'DEPLOYING';
-      case BridgeState.active:
-        return 'ACTIVE';
-      case BridgeState.stopping:
-        return 'STOPPING';
-      case BridgeState.deleting:
-        return 'DELETING';
-      case BridgeState.deleted:
-        return 'DELETED';
-      case BridgeState.startFailed:
-        return 'START_FAILED';
-      case BridgeState.startPending:
-        return 'START_PENDING';
-      case BridgeState.stopFailed:
-        return 'STOP_FAILED';
-      case BridgeState.updating:
-        return 'UPDATING';
-    }
-  }
-}
+  final String value;
 
-extension BridgeStateFromString on String {
-  BridgeState toBridgeState() {
-    switch (this) {
-      case 'CREATING':
-        return BridgeState.creating;
-      case 'STANDBY':
-        return BridgeState.standby;
-      case 'STARTING':
-        return BridgeState.starting;
-      case 'DEPLOYING':
-        return BridgeState.deploying;
-      case 'ACTIVE':
-        return BridgeState.active;
-      case 'STOPPING':
-        return BridgeState.stopping;
-      case 'DELETING':
-        return BridgeState.deleting;
-      case 'DELETED':
-        return BridgeState.deleted;
-      case 'START_FAILED':
-        return BridgeState.startFailed;
-      case 'START_PENDING':
-        return BridgeState.startPending;
-      case 'STOP_FAILED':
-        return BridgeState.stopFailed;
-      case 'UPDATING':
-        return BridgeState.updating;
-    }
-    throw Exception('$this is not known in enum BridgeState');
-  }
+  const BridgeState(this.value);
+
+  static BridgeState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum BridgeState'));
 }
 
 enum Colorimetry {
-  bt601,
-  bt709,
-  bt2020,
-  bt2100,
-  st2065_1,
-  st2065_3,
-  xyz,
-}
+  bt601('BT601'),
+  bt709('BT709'),
+  bt2020('BT2020'),
+  bt2100('BT2100'),
+  st2065_1('ST2065-1'),
+  st2065_3('ST2065-3'),
+  xyz('XYZ'),
+  ;
 
-extension ColorimetryValueExtension on Colorimetry {
-  String toValue() {
-    switch (this) {
-      case Colorimetry.bt601:
-        return 'BT601';
-      case Colorimetry.bt709:
-        return 'BT709';
-      case Colorimetry.bt2020:
-        return 'BT2020';
-      case Colorimetry.bt2100:
-        return 'BT2100';
-      case Colorimetry.st2065_1:
-        return 'ST2065-1';
-      case Colorimetry.st2065_3:
-        return 'ST2065-3';
-      case Colorimetry.xyz:
-        return 'XYZ';
-    }
-  }
-}
+  final String value;
 
-extension ColorimetryFromString on String {
-  Colorimetry toColorimetry() {
-    switch (this) {
-      case 'BT601':
-        return Colorimetry.bt601;
-      case 'BT709':
-        return Colorimetry.bt709;
-      case 'BT2020':
-        return Colorimetry.bt2020;
-      case 'BT2100':
-        return Colorimetry.bt2100;
-      case 'ST2065-1':
-        return Colorimetry.st2065_1;
-      case 'ST2065-3':
-        return Colorimetry.st2065_3;
-      case 'XYZ':
-        return Colorimetry.xyz;
-    }
-    throw Exception('$this is not known in enum Colorimetry');
-  }
+  const Colorimetry(this.value);
+
+  static Colorimetry fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Colorimetry'));
 }
 
 enum ConnectionStatus {
-  connected,
-  disconnected,
-}
+  connected('CONNECTED'),
+  disconnected('DISCONNECTED'),
+  ;
 
-extension ConnectionStatusValueExtension on ConnectionStatus {
-  String toValue() {
-    switch (this) {
-      case ConnectionStatus.connected:
-        return 'CONNECTED';
-      case ConnectionStatus.disconnected:
-        return 'DISCONNECTED';
-    }
-  }
-}
+  final String value;
 
-extension ConnectionStatusFromString on String {
-  ConnectionStatus toConnectionStatus() {
-    switch (this) {
-      case 'CONNECTED':
-        return ConnectionStatus.connected;
-      case 'DISCONNECTED':
-        return ConnectionStatus.disconnected;
-    }
-    throw Exception('$this is not known in enum ConnectionStatus');
-  }
+  const ConnectionStatus(this.value);
+
+  static ConnectionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ConnectionStatus'));
 }
 
 class CreateBridgeResponse {
@@ -3296,7 +3164,7 @@ class DeleteFlowResponse {
   factory DeleteFlowResponse.fromJson(Map<String, dynamic> json) {
     return DeleteFlowResponse(
       flowArn: json['flowArn'] as String?,
-      status: (json['status'] as String?)?.toStatus(),
+      status: (json['status'] as String?)?.let(Status.fromString),
     );
   }
 
@@ -3305,7 +3173,7 @@ class DeleteFlowResponse {
     final status = this.status;
     return {
       if (flowArn != null) 'flowArn': flowArn,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -3348,7 +3216,8 @@ class DeregisterGatewayInstanceResponse {
       Map<String, dynamic> json) {
     return DeregisterGatewayInstanceResponse(
       gatewayInstanceArn: json['gatewayInstanceArn'] as String?,
-      instanceState: (json['instanceState'] as String?)?.toInstanceState(),
+      instanceState:
+          (json['instanceState'] as String?)?.let(InstanceState.fromString),
     );
   }
 
@@ -3357,7 +3226,7 @@ class DeregisterGatewayInstanceResponse {
     final instanceState = this.instanceState;
     return {
       if (gatewayInstanceArn != null) 'gatewayInstanceArn': gatewayInstanceArn,
-      if (instanceState != null) 'instanceState': instanceState.toValue(),
+      if (instanceState != null) 'instanceState': instanceState.value,
     };
   }
 }
@@ -3558,36 +3427,19 @@ class DescribeReservationResponse {
 }
 
 enum DesiredState {
-  active,
-  standby,
-  deleted,
-}
+  active('ACTIVE'),
+  standby('STANDBY'),
+  deleted('DELETED'),
+  ;
 
-extension DesiredStateValueExtension on DesiredState {
-  String toValue() {
-    switch (this) {
-      case DesiredState.active:
-        return 'ACTIVE';
-      case DesiredState.standby:
-        return 'STANDBY';
-      case DesiredState.deleted:
-        return 'DELETED';
-    }
-  }
-}
+  final String value;
 
-extension DesiredStateFromString on String {
-  DesiredState toDesiredState() {
-    switch (this) {
-      case 'ACTIVE':
-        return DesiredState.active;
-      case 'STANDBY':
-        return DesiredState.standby;
-      case 'DELETED':
-        return DesiredState.deleted;
-    }
-    throw Exception('$this is not known in enum DesiredState');
-  }
+  const DesiredState(this.value);
+
+  static DesiredState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DesiredState'));
 }
 
 /// The transport parameters that are associated with an outbound media stream.
@@ -3673,26 +3525,17 @@ class DestinationConfigurationRequest {
 }
 
 enum DurationUnits {
-  months,
-}
+  months('MONTHS'),
+  ;
 
-extension DurationUnitsValueExtension on DurationUnits {
-  String toValue() {
-    switch (this) {
-      case DurationUnits.months:
-        return 'MONTHS';
-    }
-  }
-}
+  final String value;
 
-extension DurationUnitsFromString on String {
-  DurationUnits toDurationUnits() {
-    switch (this) {
-      case 'MONTHS':
-        return DurationUnits.months;
-    }
-    throw Exception('$this is not known in enum DurationUnits');
-  }
+  const DurationUnits(this.value);
+
+  static DurationUnits fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DurationUnits'));
 }
 
 class EgressGatewayBridge {
@@ -3725,69 +3568,35 @@ class EgressGatewayBridge {
 }
 
 enum EncoderProfile {
-  main,
-  high,
-}
+  main('main'),
+  high('high'),
+  ;
 
-extension EncoderProfileValueExtension on EncoderProfile {
-  String toValue() {
-    switch (this) {
-      case EncoderProfile.main:
-        return 'main';
-      case EncoderProfile.high:
-        return 'high';
-    }
-  }
-}
+  final String value;
 
-extension EncoderProfileFromString on String {
-  EncoderProfile toEncoderProfile() {
-    switch (this) {
-      case 'main':
-        return EncoderProfile.main;
-      case 'high':
-        return EncoderProfile.high;
-    }
-    throw Exception('$this is not known in enum EncoderProfile');
-  }
+  const EncoderProfile(this.value);
+
+  static EncoderProfile fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EncoderProfile'));
 }
 
 enum EncodingName {
-  jxsv,
-  raw,
-  smpte291,
-  pcm,
-}
+  jxsv('jxsv'),
+  raw('raw'),
+  smpte291('smpte291'),
+  pcm('pcm'),
+  ;
 
-extension EncodingNameValueExtension on EncodingName {
-  String toValue() {
-    switch (this) {
-      case EncodingName.jxsv:
-        return 'jxsv';
-      case EncodingName.raw:
-        return 'raw';
-      case EncodingName.smpte291:
-        return 'smpte291';
-      case EncodingName.pcm:
-        return 'pcm';
-    }
-  }
-}
+  final String value;
 
-extension EncodingNameFromString on String {
-  EncodingName toEncodingName() {
-    switch (this) {
-      case 'jxsv':
-        return EncodingName.jxsv;
-      case 'raw':
-        return EncodingName.raw;
-      case 'smpte291':
-        return EncodingName.smpte291;
-      case 'pcm':
-        return EncodingName.pcm;
-    }
-    throw Exception('$this is not known in enum EncodingName');
-  }
+  const EncodingName(this.value);
+
+  static EncodingName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EncodingName'));
 }
 
 /// A collection of parameters that determine how MediaConnect will convert the
@@ -3814,7 +3623,8 @@ class EncodingParameters {
   factory EncodingParameters.fromJson(Map<String, dynamic> json) {
     return EncodingParameters(
       compressionFactor: json['compressionFactor'] as double,
-      encoderProfile: (json['encoderProfile'] as String).toEncoderProfile(),
+      encoderProfile:
+          EncoderProfile.fromString((json['encoderProfile'] as String)),
     );
   }
 
@@ -3823,7 +3633,7 @@ class EncodingParameters {
     final encoderProfile = this.encoderProfile;
     return {
       'compressionFactor': compressionFactor,
-      'encoderProfile': encoderProfile.toValue(),
+      'encoderProfile': encoderProfile.value,
     };
   }
 }
@@ -3855,7 +3665,7 @@ class EncodingParametersRequest {
     final encoderProfile = this.encoderProfile;
     return {
       'compressionFactor': compressionFactor,
-      'encoderProfile': encoderProfile.toValue(),
+      'encoderProfile': encoderProfile.value,
     };
   }
 }
@@ -3920,11 +3730,11 @@ class Encryption {
   factory Encryption.fromJson(Map<String, dynamic> json) {
     return Encryption(
       roleArn: json['roleArn'] as String,
-      algorithm: (json['algorithm'] as String?)?.toAlgorithm(),
+      algorithm: (json['algorithm'] as String?)?.let(Algorithm.fromString),
       constantInitializationVector:
           json['constantInitializationVector'] as String?,
       deviceId: json['deviceId'] as String?,
-      keyType: (json['keyType'] as String?)?.toKeyType(),
+      keyType: (json['keyType'] as String?)?.let(KeyType.fromString),
       region: json['region'] as String?,
       resourceId: json['resourceId'] as String?,
       secretArn: json['secretArn'] as String?,
@@ -3944,11 +3754,11 @@ class Encryption {
     final url = this.url;
     return {
       'roleArn': roleArn,
-      if (algorithm != null) 'algorithm': algorithm.toValue(),
+      if (algorithm != null) 'algorithm': algorithm.value,
       if (constantInitializationVector != null)
         'constantInitializationVector': constantInitializationVector,
       if (deviceId != null) 'deviceId': deviceId,
-      if (keyType != null) 'keyType': keyType.toValue(),
+      if (keyType != null) 'keyType': keyType.value,
       if (region != null) 'region': region,
       if (resourceId != null) 'resourceId': resourceId,
       if (secretArn != null) 'secretArn': secretArn,
@@ -4008,8 +3818,8 @@ class Entitlement {
       encryption: json['encryption'] != null
           ? Encryption.fromJson(json['encryption'] as Map<String, dynamic>)
           : null,
-      entitlementStatus:
-          (json['entitlementStatus'] as String?)?.toEntitlementStatus(),
+      entitlementStatus: (json['entitlementStatus'] as String?)
+          ?.let(EntitlementStatus.fromString),
     );
   }
 
@@ -4031,37 +3841,24 @@ class Entitlement {
       if (description != null) 'description': description,
       if (encryption != null) 'encryption': encryption,
       if (entitlementStatus != null)
-        'entitlementStatus': entitlementStatus.toValue(),
+        'entitlementStatus': entitlementStatus.value,
     };
   }
 }
 
 enum EntitlementStatus {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension EntitlementStatusValueExtension on EntitlementStatus {
-  String toValue() {
-    switch (this) {
-      case EntitlementStatus.enabled:
-        return 'ENABLED';
-      case EntitlementStatus.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension EntitlementStatusFromString on String {
-  EntitlementStatus toEntitlementStatus() {
-    switch (this) {
-      case 'ENABLED':
-        return EntitlementStatus.enabled;
-      case 'DISABLED':
-        return EntitlementStatus.disabled;
-    }
-    throw Exception('$this is not known in enum EntitlementStatus');
-  }
+  const EntitlementStatus(this.value);
+
+  static EntitlementStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EntitlementStatus'));
 }
 
 /// The settings for source failover.
@@ -4088,13 +3885,14 @@ class FailoverConfig {
 
   factory FailoverConfig.fromJson(Map<String, dynamic> json) {
     return FailoverConfig(
-      failoverMode: (json['failoverMode'] as String?)?.toFailoverMode(),
+      failoverMode:
+          (json['failoverMode'] as String?)?.let(FailoverMode.fromString),
       recoveryWindow: json['recoveryWindow'] as int?,
       sourcePriority: json['sourcePriority'] != null
           ? SourcePriority.fromJson(
               json['sourcePriority'] as Map<String, dynamic>)
           : null,
-      state: (json['state'] as String?)?.toState(),
+      state: (json['state'] as String?)?.let(State.fromString),
     );
   }
 
@@ -4104,40 +3902,27 @@ class FailoverConfig {
     final sourcePriority = this.sourcePriority;
     final state = this.state;
     return {
-      if (failoverMode != null) 'failoverMode': failoverMode.toValue(),
+      if (failoverMode != null) 'failoverMode': failoverMode.value,
       if (recoveryWindow != null) 'recoveryWindow': recoveryWindow,
       if (sourcePriority != null) 'sourcePriority': sourcePriority,
-      if (state != null) 'state': state.toValue(),
+      if (state != null) 'state': state.value,
     };
   }
 }
 
 enum FailoverMode {
-  merge,
-  failover,
-}
+  merge('MERGE'),
+  failover('FAILOVER'),
+  ;
 
-extension FailoverModeValueExtension on FailoverMode {
-  String toValue() {
-    switch (this) {
-      case FailoverMode.merge:
-        return 'MERGE';
-      case FailoverMode.failover:
-        return 'FAILOVER';
-    }
-  }
-}
+  final String value;
 
-extension FailoverModeFromString on String {
-  FailoverMode toFailoverMode() {
-    switch (this) {
-      case 'MERGE':
-        return FailoverMode.merge;
-      case 'FAILOVER':
-        return FailoverMode.failover;
-    }
-    throw Exception('$this is not known in enum FailoverMode');
-  }
+  const FailoverMode(this.value);
+
+  static FailoverMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FailoverMode'));
 }
 
 /// The settings for a flow, including its source, outputs, and entitlements.
@@ -4211,7 +3996,7 @@ class Flow {
           .map((e) => Output.fromJson(e as Map<String, dynamic>))
           .toList(),
       source: Source.fromJson(json['source'] as Map<String, dynamic>),
-      status: (json['status'] as String).toStatus(),
+      status: Status.fromString((json['status'] as String)),
       description: json['description'] as String?,
       egressIp: json['egressIp'] as String?,
       maintenance: json['maintenance'] != null
@@ -4258,7 +4043,7 @@ class Flow {
       'name': name,
       'outputs': outputs,
       'source': source,
-      'status': status.toValue(),
+      'status': status.value,
       if (description != null) 'description': description,
       if (egressIp != null) 'egressIp': egressIp,
       if (maintenance != null) 'maintenance': maintenance,
@@ -4310,12 +4095,13 @@ class Fmtp {
   factory Fmtp.fromJson(Map<String, dynamic> json) {
     return Fmtp(
       channelOrder: json['channelOrder'] as String?,
-      colorimetry: (json['colorimetry'] as String?)?.toColorimetry(),
+      colorimetry:
+          (json['colorimetry'] as String?)?.let(Colorimetry.fromString),
       exactFramerate: json['exactFramerate'] as String?,
       par: json['par'] as String?,
-      range: (json['range'] as String?)?.toRange(),
-      scanMode: (json['scanMode'] as String?)?.toScanMode(),
-      tcs: (json['tcs'] as String?)?.toTcs(),
+      range: (json['range'] as String?)?.let(Range.fromString),
+      scanMode: (json['scanMode'] as String?)?.let(ScanMode.fromString),
+      tcs: (json['tcs'] as String?)?.let(Tcs.fromString),
     );
   }
 
@@ -4329,12 +4115,12 @@ class Fmtp {
     final tcs = this.tcs;
     return {
       if (channelOrder != null) 'channelOrder': channelOrder,
-      if (colorimetry != null) 'colorimetry': colorimetry.toValue(),
+      if (colorimetry != null) 'colorimetry': colorimetry.value,
       if (exactFramerate != null) 'exactFramerate': exactFramerate,
       if (par != null) 'par': par,
-      if (range != null) 'range': range.toValue(),
-      if (scanMode != null) 'scanMode': scanMode.toValue(),
-      if (tcs != null) 'tcs': tcs.toValue(),
+      if (range != null) 'range': range.value,
+      if (scanMode != null) 'scanMode': scanMode.value,
+      if (tcs != null) 'tcs': tcs.value,
     };
   }
 }
@@ -4385,12 +4171,12 @@ class FmtpRequest {
     final tcs = this.tcs;
     return {
       if (channelOrder != null) 'channelOrder': channelOrder,
-      if (colorimetry != null) 'colorimetry': colorimetry.toValue(),
+      if (colorimetry != null) 'colorimetry': colorimetry.value,
       if (exactFramerate != null) 'exactFramerate': exactFramerate,
       if (par != null) 'par': par,
-      if (range != null) 'range': range.toValue(),
-      if (scanMode != null) 'scanMode': scanMode.toValue(),
-      if (tcs != null) 'tcs': tcs.toValue(),
+      if (range != null) 'range': range.value,
+      if (scanMode != null) 'scanMode': scanMode.value,
+      if (tcs != null) 'tcs': tcs.value,
     };
   }
 }
@@ -4472,7 +4258,8 @@ class Gateway {
           ?.whereNotNull()
           .map((e) => MessageDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
-      gatewayState: (json['gatewayState'] as String?)?.toGatewayState(),
+      gatewayState:
+          (json['gatewayState'] as String?)?.let(GatewayState.fromString),
     );
   }
 
@@ -4489,7 +4276,7 @@ class Gateway {
       'name': name,
       'networks': networks,
       if (gatewayMessages != null) 'gatewayMessages': gatewayMessages,
-      if (gatewayState != null) 'gatewayState': gatewayState.toValue(),
+      if (gatewayState != null) 'gatewayState': gatewayState.value,
     };
   }
 }
@@ -4569,13 +4356,15 @@ class GatewayInstance {
 
   factory GatewayInstance.fromJson(Map<String, dynamic> json) {
     return GatewayInstance(
-      bridgePlacement: (json['bridgePlacement'] as String).toBridgePlacement(),
+      bridgePlacement:
+          BridgePlacement.fromString((json['bridgePlacement'] as String)),
       connectionStatus:
-          (json['connectionStatus'] as String).toConnectionStatus(),
+          ConnectionStatus.fromString((json['connectionStatus'] as String)),
       gatewayArn: json['gatewayArn'] as String,
       gatewayInstanceArn: json['gatewayInstanceArn'] as String,
       instanceId: json['instanceId'] as String,
-      instanceState: (json['instanceState'] as String).toInstanceState(),
+      instanceState:
+          InstanceState.fromString((json['instanceState'] as String)),
       runningBridgeCount: json['runningBridgeCount'] as int,
       instanceMessages: (json['instanceMessages'] as List?)
           ?.whereNotNull()
@@ -4594,12 +4383,12 @@ class GatewayInstance {
     final runningBridgeCount = this.runningBridgeCount;
     final instanceMessages = this.instanceMessages;
     return {
-      'bridgePlacement': bridgePlacement.toValue(),
-      'connectionStatus': connectionStatus.toValue(),
+      'bridgePlacement': bridgePlacement.value,
+      'connectionStatus': connectionStatus.value,
       'gatewayArn': gatewayArn,
       'gatewayInstanceArn': gatewayInstanceArn,
       'instanceId': instanceId,
-      'instanceState': instanceState.toValue(),
+      'instanceState': instanceState.value,
       'runningBridgeCount': runningBridgeCount,
       if (instanceMessages != null) 'instanceMessages': instanceMessages,
     };
@@ -4640,51 +4429,22 @@ class GatewayNetwork {
 }
 
 enum GatewayState {
-  creating,
-  active,
-  updating,
-  error,
-  deleting,
-  deleted,
-}
+  creating('CREATING'),
+  active('ACTIVE'),
+  updating('UPDATING'),
+  error('ERROR'),
+  deleting('DELETING'),
+  deleted('DELETED'),
+  ;
 
-extension GatewayStateValueExtension on GatewayState {
-  String toValue() {
-    switch (this) {
-      case GatewayState.creating:
-        return 'CREATING';
-      case GatewayState.active:
-        return 'ACTIVE';
-      case GatewayState.updating:
-        return 'UPDATING';
-      case GatewayState.error:
-        return 'ERROR';
-      case GatewayState.deleting:
-        return 'DELETING';
-      case GatewayState.deleted:
-        return 'DELETED';
-    }
-  }
-}
+  final String value;
 
-extension GatewayStateFromString on String {
-  GatewayState toGatewayState() {
-    switch (this) {
-      case 'CREATING':
-        return GatewayState.creating;
-      case 'ACTIVE':
-        return GatewayState.active;
-      case 'UPDATING':
-        return GatewayState.updating;
-      case 'ERROR':
-        return GatewayState.error;
-      case 'DELETING':
-        return GatewayState.deleting;
-      case 'DELETED':
-        return GatewayState.deleted;
-    }
-    throw Exception('$this is not known in enum GatewayState');
-  }
+  const GatewayState(this.value);
+
+  static GatewayState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum GatewayState'));
 }
 
 /// The entitlements that you want to grant on a flow.
@@ -4740,7 +4500,7 @@ class GrantEntitlementRequest {
       if (description != null) 'description': description,
       if (encryption != null) 'encryption': encryption,
       if (entitlementStatus != null)
-        'entitlementStatus': entitlementStatus.toValue(),
+        'entitlementStatus': entitlementStatus.value,
       if (name != null) 'name': name,
     };
   }
@@ -4877,51 +4637,22 @@ class InputConfigurationRequest {
 }
 
 enum InstanceState {
-  registering,
-  active,
-  deregistering,
-  deregistered,
-  registrationError,
-  deregistrationError,
-}
+  registering('REGISTERING'),
+  active('ACTIVE'),
+  deregistering('DEREGISTERING'),
+  deregistered('DEREGISTERED'),
+  registrationError('REGISTRATION_ERROR'),
+  deregistrationError('DEREGISTRATION_ERROR'),
+  ;
 
-extension InstanceStateValueExtension on InstanceState {
-  String toValue() {
-    switch (this) {
-      case InstanceState.registering:
-        return 'REGISTERING';
-      case InstanceState.active:
-        return 'ACTIVE';
-      case InstanceState.deregistering:
-        return 'DEREGISTERING';
-      case InstanceState.deregistered:
-        return 'DEREGISTERED';
-      case InstanceState.registrationError:
-        return 'REGISTRATION_ERROR';
-      case InstanceState.deregistrationError:
-        return 'DEREGISTRATION_ERROR';
-    }
-  }
-}
+  final String value;
 
-extension InstanceStateFromString on String {
-  InstanceState toInstanceState() {
-    switch (this) {
-      case 'REGISTERING':
-        return InstanceState.registering;
-      case 'ACTIVE':
-        return InstanceState.active;
-      case 'DEREGISTERING':
-        return InstanceState.deregistering;
-      case 'DEREGISTERED':
-        return InstanceState.deregistered;
-      case 'REGISTRATION_ERROR':
-        return InstanceState.registrationError;
-      case 'DEREGISTRATION_ERROR':
-        return InstanceState.deregistrationError;
-    }
-    throw Exception('$this is not known in enum InstanceState');
-  }
+  const InstanceState(this.value);
+
+  static InstanceState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum InstanceState'));
 }
 
 /// The VPC interface that is used for the media stream associated with the
@@ -4967,36 +4698,18 @@ class InterfaceRequest {
 }
 
 enum KeyType {
-  speke,
-  staticKey,
-  srtPassword,
-}
+  speke('speke'),
+  staticKey('static-key'),
+  srtPassword('srt-password'),
+  ;
 
-extension KeyTypeValueExtension on KeyType {
-  String toValue() {
-    switch (this) {
-      case KeyType.speke:
-        return 'speke';
-      case KeyType.staticKey:
-        return 'static-key';
-      case KeyType.srtPassword:
-        return 'srt-password';
-    }
-  }
-}
+  final String value;
 
-extension KeyTypeFromString on String {
-  KeyType toKeyType() {
-    switch (this) {
-      case 'speke':
-        return KeyType.speke;
-      case 'static-key':
-        return KeyType.staticKey;
-      case 'srt-password':
-        return KeyType.srtPassword;
-    }
-    throw Exception('$this is not known in enum KeyType');
-  }
+  const KeyType(this.value);
+
+  static KeyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum KeyType'));
 }
 
 class ListBridgesResponse {
@@ -5305,7 +5018,7 @@ class ListedBridge {
   factory ListedBridge.fromJson(Map<String, dynamic> json) {
     return ListedBridge(
       bridgeArn: json['bridgeArn'] as String,
-      bridgeState: (json['bridgeState'] as String).toBridgeState(),
+      bridgeState: BridgeState.fromString((json['bridgeState'] as String)),
       bridgeType: json['bridgeType'] as String,
       name: json['name'] as String,
       placementArn: json['placementArn'] as String,
@@ -5320,7 +5033,7 @@ class ListedBridge {
     final placementArn = this.placementArn;
     return {
       'bridgeArn': bridgeArn,
-      'bridgeState': bridgeState.toValue(),
+      'bridgeState': bridgeState.value,
       'bridgeType': bridgeType,
       'name': name,
       'placementArn': placementArn,
@@ -5410,8 +5123,8 @@ class ListedFlow {
       description: json['description'] as String,
       flowArn: json['flowArn'] as String,
       name: json['name'] as String,
-      sourceType: (json['sourceType'] as String).toSourceType(),
-      status: (json['status'] as String).toStatus(),
+      sourceType: SourceType.fromString((json['sourceType'] as String)),
+      status: Status.fromString((json['status'] as String)),
       maintenance: json['maintenance'] != null
           ? Maintenance.fromJson(json['maintenance'] as Map<String, dynamic>)
           : null,
@@ -5431,8 +5144,8 @@ class ListedFlow {
       'description': description,
       'flowArn': flowArn,
       'name': name,
-      'sourceType': sourceType.toValue(),
-      'status': status.toValue(),
+      'sourceType': sourceType.value,
+      'status': status.value,
       if (maintenance != null) 'maintenance': maintenance,
     };
   }
@@ -5456,7 +5169,7 @@ class ListedGateway {
   factory ListedGateway.fromJson(Map<String, dynamic> json) {
     return ListedGateway(
       gatewayArn: json['gatewayArn'] as String,
-      gatewayState: (json['gatewayState'] as String).toGatewayState(),
+      gatewayState: GatewayState.fromString((json['gatewayState'] as String)),
       name: json['name'] as String,
     );
   }
@@ -5467,7 +5180,7 @@ class ListedGateway {
     final name = this.name;
     return {
       'gatewayArn': gatewayArn,
-      'gatewayState': gatewayState.toValue(),
+      'gatewayState': gatewayState.value,
       'name': name,
     };
   }
@@ -5500,7 +5213,8 @@ class ListedGatewayInstance {
       gatewayArn: json['gatewayArn'] as String,
       gatewayInstanceArn: json['gatewayInstanceArn'] as String,
       instanceId: json['instanceId'] as String,
-      instanceState: (json['instanceState'] as String?)?.toInstanceState(),
+      instanceState:
+          (json['instanceState'] as String?)?.let(InstanceState.fromString),
     );
   }
 
@@ -5513,7 +5227,7 @@ class ListedGatewayInstance {
       'gatewayArn': gatewayArn,
       'gatewayInstanceArn': gatewayInstanceArn,
       'instanceId': instanceId,
-      if (instanceState != null) 'instanceState': instanceState.toValue(),
+      if (instanceState != null) 'instanceState': instanceState.value,
     };
   }
 }
@@ -5545,7 +5259,8 @@ class Maintenance {
 
   factory Maintenance.fromJson(Map<String, dynamic> json) {
     return Maintenance(
-      maintenanceDay: (json['maintenanceDay'] as String?)?.toMaintenanceDay(),
+      maintenanceDay:
+          (json['maintenanceDay'] as String?)?.let(MaintenanceDay.fromString),
       maintenanceDeadline: json['maintenanceDeadline'] as String?,
       maintenanceScheduledDate: json['maintenanceScheduledDate'] as String?,
       maintenanceStartHour: json['maintenanceStartHour'] as String?,
@@ -5558,7 +5273,7 @@ class Maintenance {
     final maintenanceScheduledDate = this.maintenanceScheduledDate;
     final maintenanceStartHour = this.maintenanceStartHour;
     return {
-      if (maintenanceDay != null) 'maintenanceDay': maintenanceDay.toValue(),
+      if (maintenanceDay != null) 'maintenanceDay': maintenanceDay.value,
       if (maintenanceDeadline != null)
         'maintenanceDeadline': maintenanceDeadline,
       if (maintenanceScheduledDate != null)
@@ -5570,56 +5285,23 @@ class Maintenance {
 }
 
 enum MaintenanceDay {
-  monday,
-  tuesday,
-  wednesday,
-  thursday,
-  friday,
-  saturday,
-  sunday,
-}
+  monday('Monday'),
+  tuesday('Tuesday'),
+  wednesday('Wednesday'),
+  thursday('Thursday'),
+  friday('Friday'),
+  saturday('Saturday'),
+  sunday('Sunday'),
+  ;
 
-extension MaintenanceDayValueExtension on MaintenanceDay {
-  String toValue() {
-    switch (this) {
-      case MaintenanceDay.monday:
-        return 'Monday';
-      case MaintenanceDay.tuesday:
-        return 'Tuesday';
-      case MaintenanceDay.wednesday:
-        return 'Wednesday';
-      case MaintenanceDay.thursday:
-        return 'Thursday';
-      case MaintenanceDay.friday:
-        return 'Friday';
-      case MaintenanceDay.saturday:
-        return 'Saturday';
-      case MaintenanceDay.sunday:
-        return 'Sunday';
-    }
-  }
-}
+  final String value;
 
-extension MaintenanceDayFromString on String {
-  MaintenanceDay toMaintenanceDay() {
-    switch (this) {
-      case 'Monday':
-        return MaintenanceDay.monday;
-      case 'Tuesday':
-        return MaintenanceDay.tuesday;
-      case 'Wednesday':
-        return MaintenanceDay.wednesday;
-      case 'Thursday':
-        return MaintenanceDay.thursday;
-      case 'Friday':
-        return MaintenanceDay.friday;
-      case 'Saturday':
-        return MaintenanceDay.saturday;
-      case 'Sunday':
-        return MaintenanceDay.sunday;
-    }
-    throw Exception('$this is not known in enum MaintenanceDay');
-  }
+  const MaintenanceDay(this.value);
+
+  static MaintenanceDay fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MaintenanceDay'));
 }
 
 /// A single track or stream of media that contains video, audio, or ancillary
@@ -5671,7 +5353,8 @@ class MediaStream {
       fmt: json['fmt'] as int,
       mediaStreamId: json['mediaStreamId'] as int,
       mediaStreamName: json['mediaStreamName'] as String,
-      mediaStreamType: (json['mediaStreamType'] as String).toMediaStreamType(),
+      mediaStreamType:
+          MediaStreamType.fromString((json['mediaStreamType'] as String)),
       attributes: json['attributes'] != null
           ? MediaStreamAttributes.fromJson(
               json['attributes'] as Map<String, dynamic>)
@@ -5695,7 +5378,7 @@ class MediaStream {
       'fmt': fmt,
       'mediaStreamId': mediaStreamId,
       'mediaStreamName': mediaStreamName,
-      'mediaStreamType': mediaStreamType.toValue(),
+      'mediaStreamType': mediaStreamType.value,
       if (attributes != null) 'attributes': attributes,
       if (clockRate != null) 'clockRate': clockRate,
       if (description != null) 'description': description,
@@ -5785,7 +5468,7 @@ class MediaStreamOutputConfiguration {
 
   factory MediaStreamOutputConfiguration.fromJson(Map<String, dynamic> json) {
     return MediaStreamOutputConfiguration(
-      encodingName: (json['encodingName'] as String).toEncodingName(),
+      encodingName: EncodingName.fromString((json['encodingName'] as String)),
       mediaStreamName: json['mediaStreamName'] as String,
       destinationConfigurations: (json['destinationConfigurations'] as List?)
           ?.whereNotNull()
@@ -5805,7 +5488,7 @@ class MediaStreamOutputConfiguration {
     final destinationConfigurations = this.destinationConfigurations;
     final encodingParameters = this.encodingParameters;
     return {
-      'encodingName': encodingName.toValue(),
+      'encodingName': encodingName.value,
       'mediaStreamName': mediaStreamName,
       if (destinationConfigurations != null)
         'destinationConfigurations': destinationConfigurations,
@@ -5846,7 +5529,7 @@ class MediaStreamOutputConfigurationRequest {
     final destinationConfigurations = this.destinationConfigurations;
     final encodingParameters = this.encodingParameters;
     return {
-      'encodingName': encodingName.toValue(),
+      'encodingName': encodingName.value,
       'mediaStreamName': mediaStreamName,
       if (destinationConfigurations != null)
         'destinationConfigurations': destinationConfigurations,
@@ -5878,7 +5561,7 @@ class MediaStreamSourceConfiguration {
 
   factory MediaStreamSourceConfiguration.fromJson(Map<String, dynamic> json) {
     return MediaStreamSourceConfiguration(
-      encodingName: (json['encodingName'] as String).toEncodingName(),
+      encodingName: EncodingName.fromString((json['encodingName'] as String)),
       mediaStreamName: json['mediaStreamName'] as String,
       inputConfigurations: (json['inputConfigurations'] as List?)
           ?.whereNotNull()
@@ -5892,7 +5575,7 @@ class MediaStreamSourceConfiguration {
     final mediaStreamName = this.mediaStreamName;
     final inputConfigurations = this.inputConfigurations;
     return {
-      'encodingName': encodingName.toValue(),
+      'encodingName': encodingName.value,
       'mediaStreamName': mediaStreamName,
       if (inputConfigurations != null)
         'inputConfigurations': inputConfigurations,
@@ -5925,7 +5608,7 @@ class MediaStreamSourceConfigurationRequest {
     final mediaStreamName = this.mediaStreamName;
     final inputConfigurations = this.inputConfigurations;
     return {
-      'encodingName': encodingName.toValue(),
+      'encodingName': encodingName.value,
       'mediaStreamName': mediaStreamName,
       if (inputConfigurations != null)
         'inputConfigurations': inputConfigurations,
@@ -5934,36 +5617,19 @@ class MediaStreamSourceConfigurationRequest {
 }
 
 enum MediaStreamType {
-  video,
-  audio,
-  ancillaryData,
-}
+  video('video'),
+  audio('audio'),
+  ancillaryData('ancillary-data'),
+  ;
 
-extension MediaStreamTypeValueExtension on MediaStreamType {
-  String toValue() {
-    switch (this) {
-      case MediaStreamType.video:
-        return 'video';
-      case MediaStreamType.audio:
-        return 'audio';
-      case MediaStreamType.ancillaryData:
-        return 'ancillary-data';
-    }
-  }
-}
+  final String value;
 
-extension MediaStreamTypeFromString on String {
-  MediaStreamType toMediaStreamType() {
-    switch (this) {
-      case 'video':
-        return MediaStreamType.video;
-      case 'audio':
-        return MediaStreamType.audio;
-      case 'ancillary-data':
-        return MediaStreamType.ancillaryData;
-    }
-    throw Exception('$this is not known in enum MediaStreamType');
-  }
+  const MediaStreamType(this.value);
+
+  static MediaStreamType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum MediaStreamType'));
 }
 
 class MessageDetail {
@@ -6030,31 +5696,18 @@ class Messages {
 }
 
 enum NetworkInterfaceType {
-  ena,
-  efa,
-}
+  ena('ena'),
+  efa('efa'),
+  ;
 
-extension NetworkInterfaceTypeValueExtension on NetworkInterfaceType {
-  String toValue() {
-    switch (this) {
-      case NetworkInterfaceType.ena:
-        return 'ena';
-      case NetworkInterfaceType.efa:
-        return 'efa';
-    }
-  }
-}
+  final String value;
 
-extension NetworkInterfaceTypeFromString on String {
-  NetworkInterfaceType toNetworkInterfaceType() {
-    switch (this) {
-      case 'ena':
-        return NetworkInterfaceType.ena;
-      case 'efa':
-        return NetworkInterfaceType.efa;
-    }
-    throw Exception('$this is not known in enum NetworkInterfaceType');
-  }
+  const NetworkInterfaceType(this.value);
+
+  static NetworkInterfaceType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum NetworkInterfaceType'));
 }
 
 /// A savings plan that reserves a certain amount of outbound bandwidth usage at
@@ -6103,11 +5756,12 @@ class Offering {
     return Offering(
       currencyCode: json['currencyCode'] as String,
       duration: json['duration'] as int,
-      durationUnits: (json['durationUnits'] as String).toDurationUnits(),
+      durationUnits:
+          DurationUnits.fromString((json['durationUnits'] as String)),
       offeringArn: json['offeringArn'] as String,
       offeringDescription: json['offeringDescription'] as String,
       pricePerUnit: json['pricePerUnit'] as String,
-      priceUnits: (json['priceUnits'] as String).toPriceUnits(),
+      priceUnits: PriceUnits.fromString((json['priceUnits'] as String)),
       resourceSpecification: ResourceSpecification.fromJson(
           json['resourceSpecification'] as Map<String, dynamic>),
     );
@@ -6125,11 +5779,11 @@ class Offering {
     return {
       'currencyCode': currencyCode,
       'duration': duration,
-      'durationUnits': durationUnits.toValue(),
+      'durationUnits': durationUnits.value,
       'offeringArn': offeringArn,
       'offeringDescription': offeringDescription,
       'pricePerUnit': pricePerUnit,
-      'priceUnits': priceUnits.toValue(),
+      'priceUnits': priceUnits.value,
       'resourceSpecification': resourceSpecification,
     };
   }
@@ -6287,99 +5941,39 @@ class Output {
 }
 
 enum PriceUnits {
-  hourly,
-}
+  hourly('HOURLY'),
+  ;
 
-extension PriceUnitsValueExtension on PriceUnits {
-  String toValue() {
-    switch (this) {
-      case PriceUnits.hourly:
-        return 'HOURLY';
-    }
-  }
-}
+  final String value;
 
-extension PriceUnitsFromString on String {
-  PriceUnits toPriceUnits() {
-    switch (this) {
-      case 'HOURLY':
-        return PriceUnits.hourly;
-    }
-    throw Exception('$this is not known in enum PriceUnits');
-  }
+  const PriceUnits(this.value);
+
+  static PriceUnits fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum PriceUnits'));
 }
 
 enum Protocol {
-  zixiPush,
-  rtpFec,
-  rtp,
-  zixiPull,
-  rist,
-  st2110Jpegxs,
-  cdi,
-  srtListener,
-  srtCaller,
-  fujitsuQos,
-  udp,
-}
+  zixiPush('zixi-push'),
+  rtpFec('rtp-fec'),
+  rtp('rtp'),
+  zixiPull('zixi-pull'),
+  rist('rist'),
+  st2110Jpegxs('st2110-jpegxs'),
+  cdi('cdi'),
+  srtListener('srt-listener'),
+  srtCaller('srt-caller'),
+  fujitsuQos('fujitsu-qos'),
+  udp('udp'),
+  ;
 
-extension ProtocolValueExtension on Protocol {
-  String toValue() {
-    switch (this) {
-      case Protocol.zixiPush:
-        return 'zixi-push';
-      case Protocol.rtpFec:
-        return 'rtp-fec';
-      case Protocol.rtp:
-        return 'rtp';
-      case Protocol.zixiPull:
-        return 'zixi-pull';
-      case Protocol.rist:
-        return 'rist';
-      case Protocol.st2110Jpegxs:
-        return 'st2110-jpegxs';
-      case Protocol.cdi:
-        return 'cdi';
-      case Protocol.srtListener:
-        return 'srt-listener';
-      case Protocol.srtCaller:
-        return 'srt-caller';
-      case Protocol.fujitsuQos:
-        return 'fujitsu-qos';
-      case Protocol.udp:
-        return 'udp';
-    }
-  }
-}
+  final String value;
 
-extension ProtocolFromString on String {
-  Protocol toProtocol() {
-    switch (this) {
-      case 'zixi-push':
-        return Protocol.zixiPush;
-      case 'rtp-fec':
-        return Protocol.rtpFec;
-      case 'rtp':
-        return Protocol.rtp;
-      case 'zixi-pull':
-        return Protocol.zixiPull;
-      case 'rist':
-        return Protocol.rist;
-      case 'st2110-jpegxs':
-        return Protocol.st2110Jpegxs;
-      case 'cdi':
-        return Protocol.cdi;
-      case 'srt-listener':
-        return Protocol.srtListener;
-      case 'srt-caller':
-        return Protocol.srtCaller;
-      case 'fujitsu-qos':
-        return Protocol.fujitsuQos;
-      case 'udp':
-        return Protocol.udp;
-    }
-    throw Exception('$this is not known in enum Protocol');
-  }
+  const Protocol(this.value);
+
+  static Protocol fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Protocol'));
 }
 
 class PurchaseOfferingResponse {
@@ -6406,36 +6000,18 @@ class PurchaseOfferingResponse {
 }
 
 enum Range {
-  narrow,
-  full,
-  fullprotect,
-}
+  narrow('NARROW'),
+  full('FULL'),
+  fullprotect('FULLPROTECT'),
+  ;
 
-extension RangeValueExtension on Range {
-  String toValue() {
-    switch (this) {
-      case Range.narrow:
-        return 'NARROW';
-      case Range.full:
-        return 'FULL';
-      case Range.fullprotect:
-        return 'FULLPROTECT';
-    }
-  }
-}
+  final String value;
 
-extension RangeFromString on String {
-  Range toRange() {
-    switch (this) {
-      case 'NARROW':
-        return Range.narrow;
-      case 'FULL':
-        return Range.full;
-      case 'FULLPROTECT':
-        return Range.fullprotect;
-    }
-    throw Exception('$this is not known in enum Range');
-  }
+  const Range(this.value);
+
+  static Range fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Range'));
 }
 
 class RemoveBridgeOutputResponse {
@@ -6699,16 +6275,17 @@ class Reservation {
     return Reservation(
       currencyCode: json['currencyCode'] as String,
       duration: json['duration'] as int,
-      durationUnits: (json['durationUnits'] as String).toDurationUnits(),
+      durationUnits:
+          DurationUnits.fromString((json['durationUnits'] as String)),
       end: json['end'] as String,
       offeringArn: json['offeringArn'] as String,
       offeringDescription: json['offeringDescription'] as String,
       pricePerUnit: json['pricePerUnit'] as String,
-      priceUnits: (json['priceUnits'] as String).toPriceUnits(),
+      priceUnits: PriceUnits.fromString((json['priceUnits'] as String)),
       reservationArn: json['reservationArn'] as String,
       reservationName: json['reservationName'] as String,
       reservationState:
-          (json['reservationState'] as String).toReservationState(),
+          ReservationState.fromString((json['reservationState'] as String)),
       resourceSpecification: ResourceSpecification.fromJson(
           json['resourceSpecification'] as Map<String, dynamic>),
       start: json['start'] as String,
@@ -6732,15 +6309,15 @@ class Reservation {
     return {
       'currencyCode': currencyCode,
       'duration': duration,
-      'durationUnits': durationUnits.toValue(),
+      'durationUnits': durationUnits.value,
       'end': end,
       'offeringArn': offeringArn,
       'offeringDescription': offeringDescription,
       'pricePerUnit': pricePerUnit,
-      'priceUnits': priceUnits.toValue(),
+      'priceUnits': priceUnits.value,
       'reservationArn': reservationArn,
       'reservationName': reservationName,
-      'reservationState': reservationState.toValue(),
+      'reservationState': reservationState.value,
       'resourceSpecification': resourceSpecification,
       'start': start,
     };
@@ -6748,41 +6325,20 @@ class Reservation {
 }
 
 enum ReservationState {
-  active,
-  expired,
-  processing,
-  canceled,
-}
+  active('ACTIVE'),
+  expired('EXPIRED'),
+  processing('PROCESSING'),
+  canceled('CANCELED'),
+  ;
 
-extension ReservationStateValueExtension on ReservationState {
-  String toValue() {
-    switch (this) {
-      case ReservationState.active:
-        return 'ACTIVE';
-      case ReservationState.expired:
-        return 'EXPIRED';
-      case ReservationState.processing:
-        return 'PROCESSING';
-      case ReservationState.canceled:
-        return 'CANCELED';
-    }
-  }
-}
+  final String value;
 
-extension ReservationStateFromString on String {
-  ReservationState toReservationState() {
-    switch (this) {
-      case 'ACTIVE':
-        return ReservationState.active;
-      case 'EXPIRED':
-        return ReservationState.expired;
-      case 'PROCESSING':
-        return ReservationState.processing;
-      case 'CANCELED':
-        return ReservationState.canceled;
-    }
-    throw Exception('$this is not known in enum ReservationState');
-  }
+  const ReservationState(this.value);
+
+  static ReservationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ReservationState'));
 }
 
 /// A definition of what is being billed for, including the type and amount.
@@ -6800,7 +6356,7 @@ class ResourceSpecification {
 
   factory ResourceSpecification.fromJson(Map<String, dynamic> json) {
     return ResourceSpecification(
-      resourceType: (json['resourceType'] as String).toResourceType(),
+      resourceType: ResourceType.fromString((json['resourceType'] as String)),
       reservedBitrate: json['reservedBitrate'] as int?,
     );
   }
@@ -6809,33 +6365,24 @@ class ResourceSpecification {
     final resourceType = this.resourceType;
     final reservedBitrate = this.reservedBitrate;
     return {
-      'resourceType': resourceType.toValue(),
+      'resourceType': resourceType.value,
       if (reservedBitrate != null) 'reservedBitrate': reservedBitrate,
     };
   }
 }
 
 enum ResourceType {
-  mbpsOutboundBandwidth,
-}
+  mbpsOutboundBandwidth('Mbps_Outbound_Bandwidth'),
+  ;
 
-extension ResourceTypeValueExtension on ResourceType {
-  String toValue() {
-    switch (this) {
-      case ResourceType.mbpsOutboundBandwidth:
-        return 'Mbps_Outbound_Bandwidth';
-    }
-  }
-}
+  final String value;
 
-extension ResourceTypeFromString on String {
-  ResourceType toResourceType() {
-    switch (this) {
-      case 'Mbps_Outbound_Bandwidth':
-        return ResourceType.mbpsOutboundBandwidth;
-    }
-    throw Exception('$this is not known in enum ResourceType');
-  }
+  const ResourceType(this.value);
+
+  static ResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResourceType'));
 }
 
 class RevokeFlowEntitlementResponse {
@@ -6868,36 +6415,18 @@ class RevokeFlowEntitlementResponse {
 }
 
 enum ScanMode {
-  progressive,
-  interlace,
-  progressiveSegmentedFrame,
-}
+  progressive('progressive'),
+  interlace('interlace'),
+  progressiveSegmentedFrame('progressive-segmented-frame'),
+  ;
 
-extension ScanModeValueExtension on ScanMode {
-  String toValue() {
-    switch (this) {
-      case ScanMode.progressive:
-        return 'progressive';
-      case ScanMode.interlace:
-        return 'interlace';
-      case ScanMode.progressiveSegmentedFrame:
-        return 'progressive-segmented-frame';
-    }
-  }
-}
+  final String value;
 
-extension ScanModeFromString on String {
-  ScanMode toScanMode() {
-    switch (this) {
-      case 'progressive':
-        return ScanMode.progressive;
-      case 'interlace':
-        return ScanMode.interlace;
-      case 'progressive-segmented-frame':
-        return ScanMode.progressiveSegmentedFrame;
-    }
-    throw Exception('$this is not known in enum ScanMode');
-  }
+  const ScanMode(this.value);
+
+  static ScanMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ScanMode'));
 }
 
 /// The source configuration for cloud flows receiving a stream from a bridge.
@@ -7057,7 +6586,7 @@ class SetSourceRequest {
         'mediaStreamSourceConfigurations': mediaStreamSourceConfigurations,
       if (minLatency != null) 'minLatency': minLatency,
       if (name != null) 'name': name,
-      if (protocol != null) 'protocol': protocol.toValue(),
+      if (protocol != null) 'protocol': protocol.value,
       if (senderControlPort != null) 'senderControlPort': senderControlPort,
       if (senderIpAddress != null) 'senderIpAddress': senderIpAddress,
       if (sourceListenerAddress != null)
@@ -7244,31 +6773,17 @@ class SourcePriority {
 }
 
 enum SourceType {
-  owned,
-  entitled,
-}
+  owned('OWNED'),
+  entitled('ENTITLED'),
+  ;
 
-extension SourceTypeValueExtension on SourceType {
-  String toValue() {
-    switch (this) {
-      case SourceType.owned:
-        return 'OWNED';
-      case SourceType.entitled:
-        return 'ENTITLED';
-    }
-  }
-}
+  final String value;
 
-extension SourceTypeFromString on String {
-  SourceType toSourceType() {
-    switch (this) {
-      case 'OWNED':
-        return SourceType.owned;
-      case 'ENTITLED':
-        return SourceType.entitled;
-    }
-    throw Exception('$this is not known in enum SourceType');
-  }
+  const SourceType(this.value);
+
+  static SourceType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SourceType'));
 }
 
 class StartFlowResponse {
@@ -7286,7 +6801,7 @@ class StartFlowResponse {
   factory StartFlowResponse.fromJson(Map<String, dynamic> json) {
     return StartFlowResponse(
       flowArn: json['flowArn'] as String?,
-      status: (json['status'] as String?)?.toStatus(),
+      status: (json['status'] as String?)?.let(Status.fromString),
     );
   }
 
@@ -7295,90 +6810,42 @@ class StartFlowResponse {
     final status = this.status;
     return {
       if (flowArn != null) 'flowArn': flowArn,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
 
 enum State {
-  enabled,
-  disabled,
-}
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
 
-extension StateValueExtension on State {
-  String toValue() {
-    switch (this) {
-      case State.enabled:
-        return 'ENABLED';
-      case State.disabled:
-        return 'DISABLED';
-    }
-  }
-}
+  final String value;
 
-extension StateFromString on String {
-  State toState() {
-    switch (this) {
-      case 'ENABLED':
-        return State.enabled;
-      case 'DISABLED':
-        return State.disabled;
-    }
-    throw Exception('$this is not known in enum State');
-  }
+  const State(this.value);
+
+  static State fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum State'));
 }
 
 enum Status {
-  standby,
-  active,
-  updating,
-  deleting,
-  starting,
-  stopping,
-  error,
-}
+  standby('STANDBY'),
+  active('ACTIVE'),
+  updating('UPDATING'),
+  deleting('DELETING'),
+  starting('STARTING'),
+  stopping('STOPPING'),
+  error('ERROR'),
+  ;
 
-extension StatusValueExtension on Status {
-  String toValue() {
-    switch (this) {
-      case Status.standby:
-        return 'STANDBY';
-      case Status.active:
-        return 'ACTIVE';
-      case Status.updating:
-        return 'UPDATING';
-      case Status.deleting:
-        return 'DELETING';
-      case Status.starting:
-        return 'STARTING';
-      case Status.stopping:
-        return 'STOPPING';
-      case Status.error:
-        return 'ERROR';
-    }
-  }
-}
+  final String value;
 
-extension StatusFromString on String {
-  Status toStatus() {
-    switch (this) {
-      case 'STANDBY':
-        return Status.standby;
-      case 'ACTIVE':
-        return Status.active;
-      case 'UPDATING':
-        return Status.updating;
-      case 'DELETING':
-        return Status.deleting;
-      case 'STARTING':
-        return Status.starting;
-      case 'STOPPING':
-        return Status.stopping;
-      case 'ERROR':
-        return Status.error;
-    }
-    throw Exception('$this is not known in enum Status');
-  }
+  const Status(this.value);
+
+  static Status fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Status'));
 }
 
 class StopFlowResponse {
@@ -7396,7 +6863,7 @@ class StopFlowResponse {
   factory StopFlowResponse.fromJson(Map<String, dynamic> json) {
     return StopFlowResponse(
       flowArn: json['flowArn'] as String?,
-      status: (json['status'] as String?)?.toStatus(),
+      status: (json['status'] as String?)?.let(Status.fromString),
     );
   }
 
@@ -7405,72 +6872,30 @@ class StopFlowResponse {
     final status = this.status;
     return {
       if (flowArn != null) 'flowArn': flowArn,
-      if (status != null) 'status': status.toValue(),
+      if (status != null) 'status': status.value,
     };
   }
 }
 
 enum Tcs {
-  sdr,
-  pq,
-  hlg,
-  linear,
-  bt2100linpq,
-  bt2100linhlg,
-  st2065_1,
-  st428_1,
-  density,
-}
+  sdr('SDR'),
+  pq('PQ'),
+  hlg('HLG'),
+  linear('LINEAR'),
+  bt2100linpq('BT2100LINPQ'),
+  bt2100linhlg('BT2100LINHLG'),
+  st2065_1('ST2065-1'),
+  st428_1('ST428-1'),
+  density('DENSITY'),
+  ;
 
-extension TcsValueExtension on Tcs {
-  String toValue() {
-    switch (this) {
-      case Tcs.sdr:
-        return 'SDR';
-      case Tcs.pq:
-        return 'PQ';
-      case Tcs.hlg:
-        return 'HLG';
-      case Tcs.linear:
-        return 'LINEAR';
-      case Tcs.bt2100linpq:
-        return 'BT2100LINPQ';
-      case Tcs.bt2100linhlg:
-        return 'BT2100LINHLG';
-      case Tcs.st2065_1:
-        return 'ST2065-1';
-      case Tcs.st428_1:
-        return 'ST428-1';
-      case Tcs.density:
-        return 'DENSITY';
-    }
-  }
-}
+  final String value;
 
-extension TcsFromString on String {
-  Tcs toTcs() {
-    switch (this) {
-      case 'SDR':
-        return Tcs.sdr;
-      case 'PQ':
-        return Tcs.pq;
-      case 'HLG':
-        return Tcs.hlg;
-      case 'LINEAR':
-        return Tcs.linear;
-      case 'BT2100LINPQ':
-        return Tcs.bt2100linpq;
-      case 'BT2100LINHLG':
-        return Tcs.bt2100linhlg;
-      case 'ST2065-1':
-        return Tcs.st2065_1;
-      case 'ST428-1':
-        return Tcs.st428_1;
-      case 'DENSITY':
-        return Tcs.density;
-    }
-    throw Exception('$this is not known in enum Tcs');
-  }
+  const Tcs(this.value);
+
+  static Tcs fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Tcs'));
 }
 
 /// Attributes related to the transport stream that are used in a source or
@@ -7544,7 +6969,7 @@ class Transport {
 
   factory Transport.fromJson(Map<String, dynamic> json) {
     return Transport(
-      protocol: (json['protocol'] as String).toProtocol(),
+      protocol: Protocol.fromString((json['protocol'] as String)),
       cidrAllowList: (json['cidrAllowList'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -7578,7 +7003,7 @@ class Transport {
     final sourceListenerPort = this.sourceListenerPort;
     final streamId = this.streamId;
     return {
-      'protocol': protocol.toValue(),
+      'protocol': protocol.value,
       if (cidrAllowList != null) 'cidrAllowList': cidrAllowList,
       if (maxBitrate != null) 'maxBitrate': maxBitrate,
       if (maxLatency != null) 'maxLatency': maxLatency,
@@ -7812,7 +7237,7 @@ class UpdateBridgeNetworkOutputRequest {
       if (ipAddress != null) 'ipAddress': ipAddress,
       if (networkName != null) 'networkName': networkName,
       if (port != null) 'port': port,
-      if (protocol != null) 'protocol': protocol.toValue(),
+      if (protocol != null) 'protocol': protocol.value,
       if (ttl != null) 'ttl': ttl,
     };
   }
@@ -7848,7 +7273,7 @@ class UpdateBridgeNetworkSourceRequest {
       if (multicastIp != null) 'multicastIp': multicastIp,
       if (networkName != null) 'networkName': networkName,
       if (port != null) 'port': port,
-      if (protocol != null) 'protocol': protocol.toValue(),
+      if (protocol != null) 'protocol': protocol.value,
     };
   }
 }
@@ -7951,7 +7376,8 @@ class UpdateBridgeStateResponse {
   factory UpdateBridgeStateResponse.fromJson(Map<String, dynamic> json) {
     return UpdateBridgeStateResponse(
       bridgeArn: json['bridgeArn'] as String?,
-      desiredState: (json['desiredState'] as String?)?.toDesiredState(),
+      desiredState:
+          (json['desiredState'] as String?)?.let(DesiredState.fromString),
     );
   }
 
@@ -7960,7 +7386,7 @@ class UpdateBridgeStateResponse {
     final desiredState = this.desiredState;
     return {
       if (bridgeArn != null) 'bridgeArn': bridgeArn,
-      if (desiredState != null) 'desiredState': desiredState.toValue(),
+      if (desiredState != null) 'desiredState': desiredState.value,
     };
   }
 }
@@ -8049,11 +7475,11 @@ class UpdateEncryption {
     final secretArn = this.secretArn;
     final url = this.url;
     return {
-      if (algorithm != null) 'algorithm': algorithm.toValue(),
+      if (algorithm != null) 'algorithm': algorithm.value,
       if (constantInitializationVector != null)
         'constantInitializationVector': constantInitializationVector,
       if (deviceId != null) 'deviceId': deviceId,
-      if (keyType != null) 'keyType': keyType.toValue(),
+      if (keyType != null) 'keyType': keyType.value,
       if (region != null) 'region': region,
       if (resourceId != null) 'resourceId': resourceId,
       if (roleArn != null) 'roleArn': roleArn,
@@ -8091,10 +7517,10 @@ class UpdateFailoverConfig {
     final sourcePriority = this.sourcePriority;
     final state = this.state;
     return {
-      if (failoverMode != null) 'failoverMode': failoverMode.toValue(),
+      if (failoverMode != null) 'failoverMode': failoverMode.value,
       if (recoveryWindow != null) 'recoveryWindow': recoveryWindow,
       if (sourcePriority != null) 'sourcePriority': sourcePriority,
-      if (state != null) 'state': state.toValue(),
+      if (state != null) 'state': state.value,
     };
   }
 }
@@ -8289,7 +7715,7 @@ class UpdateGatewayInstanceResponse {
   factory UpdateGatewayInstanceResponse.fromJson(Map<String, dynamic> json) {
     return UpdateGatewayInstanceResponse(
       bridgePlacement:
-          (json['bridgePlacement'] as String?)?.toBridgePlacement(),
+          (json['bridgePlacement'] as String?)?.let(BridgePlacement.fromString),
       gatewayInstanceArn: json['gatewayInstanceArn'] as String?,
     );
   }
@@ -8298,7 +7724,7 @@ class UpdateGatewayInstanceResponse {
     final bridgePlacement = this.bridgePlacement;
     final gatewayInstanceArn = this.gatewayInstanceArn;
     return {
-      if (bridgePlacement != null) 'bridgePlacement': bridgePlacement.toValue(),
+      if (bridgePlacement != null) 'bridgePlacement': bridgePlacement.value,
       if (gatewayInstanceArn != null) 'gatewayInstanceArn': gatewayInstanceArn,
     };
   }
@@ -8351,7 +7777,7 @@ class UpdateMaintenance {
     final maintenanceScheduledDate = this.maintenanceScheduledDate;
     final maintenanceStartHour = this.maintenanceStartHour;
     return {
-      if (maintenanceDay != null) 'maintenanceDay': maintenanceDay.toValue(),
+      if (maintenanceDay != null) 'maintenanceDay': maintenanceDay.value,
       if (maintenanceScheduledDate != null)
         'maintenanceScheduledDate': maintenanceScheduledDate,
       if (maintenanceStartHour != null)
@@ -8396,8 +7822,8 @@ class VpcInterface {
           .whereNotNull()
           .map((e) => e as String)
           .toList(),
-      networkInterfaceType:
-          (json['networkInterfaceType'] as String).toNetworkInterfaceType(),
+      networkInterfaceType: NetworkInterfaceType.fromString(
+          (json['networkInterfaceType'] as String)),
       roleArn: json['roleArn'] as String,
       securityGroupIds: (json['securityGroupIds'] as List)
           .whereNotNull()
@@ -8417,7 +7843,7 @@ class VpcInterface {
     return {
       'name': name,
       'networkInterfaceIds': networkInterfaceIds,
-      'networkInterfaceType': networkInterfaceType.toValue(),
+      'networkInterfaceType': networkInterfaceType.value,
       'roleArn': roleArn,
       'securityGroupIds': securityGroupIds,
       'subnetId': subnetId,
@@ -8487,7 +7913,7 @@ class VpcInterfaceRequest {
       'securityGroupIds': securityGroupIds,
       'subnetId': subnetId,
       if (networkInterfaceType != null)
-        'networkInterfaceType': networkInterfaceType.toValue(),
+        'networkInterfaceType': networkInterfaceType.value,
     };
   }
 }
